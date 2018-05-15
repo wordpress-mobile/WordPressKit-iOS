@@ -14,7 +14,7 @@ Pod::Spec.new do |s|
   s.platform      = :ios, "10.0"
   s.swift_version = '4.0'
   s.source        = { :git => "https://github.com/wordpress-mobile/WordPressKit-iOS.git", :tag => s.version.to_s }
-  s.source_files  = 'WordPressKit/**/*.{h,m,swift}'
+  s.source_files  = 'WordPressKit/*.{h,m,swift}'
   s.requires_arc  = true
   s.header_dir    = 'WordPressKit'
 
