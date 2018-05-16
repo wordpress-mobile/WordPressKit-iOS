@@ -358,7 +358,6 @@
 		9F4E52002088E38200424676 /* ObjectValidation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F4E51FF2088E38200424676 /* ObjectValidation.swift */; };
 		9FCDD09720A5EF75004F0BF7 /* ReaderTopicServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDD09620A5EF75004F0BF7 /* ReaderTopicServiceError.swift */; };
 		A0EEB8CB04BEA5F9083EBACE /* Pods_WordPressKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFF80A6E6EE37118CB1DA158 /* Pods_WordPressKit.framework */; };
-		B5969E1B20A49AC4005E9DF1 /* UIAlertController+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5969E1820A49AC4005E9DF1 /* UIAlertController+Helpers.swift */; };
 		B5969E1C20A49AC4005E9DF1 /* NSString+MD5.h in Headers */ = {isa = PBXBuildFile; fileRef = B5969E1920A49AC4005E9DF1 /* NSString+MD5.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B5969E1D20A49AC4005E9DF1 /* NSString+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = B5969E1A20A49AC4005E9DF1 /* NSString+MD5.m */; };
 		B5A4822820AC6BA9009D95F6 /* WPKitLoggingPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = B5A4822620AC6BA8009D95F6 /* WPKitLoggingPrivate.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -757,7 +756,6 @@
 		9F4E51FF2088E38200424676 /* ObjectValidation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectValidation.swift; sourceTree = "<group>"; };
 		9FCDD09620A5EF75004F0BF7 /* ReaderTopicServiceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderTopicServiceError.swift; sourceTree = "<group>"; };
 		B56D96B0202C9B7500485233 /* WordPressUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = WordPressUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		B5969E1820A49AC4005E9DF1 /* UIAlertController+Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIAlertController+Helpers.swift"; sourceTree = "<group>"; };
 		B5969E1920A49AC4005E9DF1 /* NSString+MD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+MD5.h"; sourceTree = "<group>"; };
 		B5969E1A20A49AC4005E9DF1 /* NSString+MD5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+MD5.m"; sourceTree = "<group>"; };
 		B5A4822620AC6BA8009D95F6 /* WPKitLoggingPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WPKitLoggingPrivate.h; sourceTree = "<group>"; };
@@ -1420,7 +1418,6 @@
 				93C674EF1EE8351E00BFAF05 /* NSMutableDictionary+Helpers.h */,
 				93C674F01EE8351E00BFAF05 /* NSMutableDictionary+Helpers.m */,
 				9F4E51FF2088E38200424676 /* ObjectValidation.swift */,
-				B5969E1820A49AC4005E9DF1 /* UIAlertController+Helpers.swift */,
 			);
 			name = Utility;
 			sourceTree = "<group>";
@@ -1964,7 +1961,6 @@
 				74D67F081F15BEB70010C5ED /* RemotePerson.swift in Sources */,
 				40AB1ADA200FED25009B533D /* PluginDirectoryFeedPage.swift in Sources */,
 				74A44DCB1F13C533006CD8F4 /* NotificationSettingsServiceRemote.swift in Sources */,
-				B5969E1B20A49AC4005E9DF1 /* UIAlertController+Helpers.swift in Sources */,
 				E182BF6A1FD961810001D850 /* Endpoint.swift in Sources */,
 				74BA04F41F06DC0A00ED5CD8 /* CommentServiceRemoteREST.m in Sources */,
 				74C473AC1EF2F75E009918F2 /* SiteManagementServiceRemote.swift in Sources */,
