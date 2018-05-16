@@ -13,9 +13,20 @@ open class WordPressOrgXMLRPCApi: NSObject {
     fileprivate var backgroundSessionIdentifier: String
     @objc open static let defaultBackgroundSessionIdentifier = "org.wordpress.wporgxmlrpcapi"
 
+    /// onChallenge's Callback Closure Signature. Host Apps should call this method, whenever a proper AuthChallengeDisposition has been
+    /// picked up (optionally with URLCredentials!).
+    ///
+    public typealias AuthenticationHandler = (URLSession.AuthChallengeDisposition, URLCredential?) -> Void
+
+    /// Closure to be executed whenever we receive a URLSession Authentication Challenge.
+    ///
+    open static var onChallenge: ((URLAuthenticationChallenge, AuthenticationHandler) -> Void)?
+
+
     /// Minimum WordPress.org Supported Version.
     ///
     @objc open static let minimumSupportedVersion = "4.0"
+
 
     fileprivate lazy var sessionManager: Alamofire.SessionManager = {
         let sessionConfiguration = URLSessionConfiguration.default
@@ -298,23 +309,31 @@ extension WordPressOrgXMLRPCApi {
     @objc public func urlSession(_ session: URLSession,
                            didReceive challenge: URLAuthenticationChallenge,
                            completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
+
         switch challenge.protectionSpace.authenticationMethod {
         case NSURLAuthenticationMethodServerTrust:
             if let credential = URLCredentialStorage.shared.defaultCredential(for: challenge.protectionSpace), challenge.previousFailureCount == 0 {
                 completionHandler(.useCredential, credential)
                 return
             }
-            var result = SecTrustResultType.invalid
-            if let serverTrust = challenge.protectionSpace.serverTrust {
-                let certificateStatus = SecTrustEvaluate(serverTrust, &result)
-                if certificateStatus == 0 && result == SecTrustResultType.recoverableTrustFailure {
-                    DispatchQueue.main.async(execute: { () in
-                        HTTPAuthenticationAlertController.presentWithChallenge(challenge, handler: completionHandler)
-                    })
-                } else {
-                    completionHandler(.performDefaultHandling, nil)
-                }
+
+            guard let serverTrust = challenge.protectionSpace.serverTrust else {
+                completionHandler(.performDefaultHandling, nil)
+                return
             }
+
+            var result = SecTrustResultType.invalid
+            let certificateStatus = SecTrustEvaluate(serverTrust, &result)
+
+            guard let hostAppHandler = WordPressOrgXMLRPCApi.onChallenge, certificateStatus == 0, result == .recoverableTrustFailure else {
+                completionHandler(.performDefaultHandling, nil)
+                return
+            }
+
+            DispatchQueue.main.async {
+                hostAppHandler(challenge, completionHandler)
+            }
+
         default:
             completionHandler(.performDefaultHandling, nil)
         }
@@ -323,30 +342,36 @@ extension WordPressOrgXMLRPCApi {
     @objc public func urlSession(_ session: URLSession,
                            task: URLSessionTask,
                            didReceive challenge: URLAuthenticationChallenge,
-                                       completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
+                           completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
+
         switch challenge.protectionSpace.authenticationMethod {
         case NSURLAuthenticationMethodHTTPBasic:
             if let credential = URLCredentialStorage.shared.defaultCredential(for: challenge.protectionSpace), challenge.previousFailureCount == 0 {
                 completionHandler(.useCredential, credential)
-            } else {
-                DispatchQueue.main.async(execute: { () in
-                    HTTPAuthenticationAlertController.presentWithChallenge(challenge, handler: completionHandler)
-                })
+                return
             }
+
+            guard let hostAppHandler = WordPressOrgXMLRPCApi.onChallenge else {
+                completionHandler(.performDefaultHandling, nil)
+                return
+            }
+
+            DispatchQueue.main.async {
+                hostAppHandler(challenge, completionHandler)
+            }
+
         default:
             completionHandler(.performDefaultHandling, nil)
         }
     }
-
-
 }
 
-/**
- Error constants for the WordPress XMLRPC API
- - RequestSerializationFailed:     The serialization of the request failed
- - ResponseSerializationFailed:     The serialization of the response failed
- - Unknown:                        Unknow error happen
- */
+
+/// Error constants for the WordPress XMLRPC API
+///     - RequestSerializationFailed:     The serialization of the request failed
+///     - ResponseSerializationFailed:     The serialization of the response failed
+///     - Unknown:                        Unknow error happen
+///
 @objc public enum WordPressOrgXMLRPCApiError: Int, Error {
     case httpErrorStatusCode
     case requestSerializationFailed
