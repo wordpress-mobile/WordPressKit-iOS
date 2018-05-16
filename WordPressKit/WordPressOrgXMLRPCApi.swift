@@ -20,7 +20,7 @@ open class WordPressOrgXMLRPCApi: NSObject {
 
     /// Closure to be executed whenever we receive a URLSession Authentication Challenge.
     ///
-    open static var onChallenge: ((URLAuthenticationChallenge, AuthenticationHandler) -> Void)?
+    open static var onChallenge: ((URLAuthenticationChallenge, @escaping AuthenticationHandler) -> Void)?
 
 
     /// Minimum WordPress.org Supported Version.
