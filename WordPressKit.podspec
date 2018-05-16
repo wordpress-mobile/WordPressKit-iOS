@@ -18,7 +18,6 @@ Pod::Spec.new do |s|
   s.private_header_files = "WordPressKit/Private/*.h"
   s.requires_arc  = true
   s.header_dir    = 'WordPressKit'
-  s.pod_target_xcconfig = { 'GCC_PREPROCESSOR_DEFINITIONS' => 'MYLIBRARY_APP_EXTENSIONS=1' }
 
   s.dependency 'AFNetworking', '3.2.1'
   s.dependency 'Alamofire', '4.7.2'
