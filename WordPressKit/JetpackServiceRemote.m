@@ -2,7 +2,7 @@
 
 #import <AFNetworking/AFNetworking.h>
 #import <WordPressKit/WordPressKit-Swift.h>
-#import "Logging.h"
+#import "WPKitLoggingPrivate.h"
 @import CocoaLumberjack;
 @import NSObject_SafeExpectations;
 

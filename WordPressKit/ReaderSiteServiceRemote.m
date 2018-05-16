@@ -2,7 +2,7 @@
 #import "RemoteReaderSite.h"
 #import <AFNetworking/AFNetworking.h>
 #import <WordPressKit/WordPressKit-Swift.h>
-#import "Logging.h"
+#import "WPKitLoggingPrivate.h"
 @import NSObject_SafeExpectations;
 @import WordPressShared;
 

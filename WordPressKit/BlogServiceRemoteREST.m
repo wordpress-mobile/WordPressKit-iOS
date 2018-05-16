@@ -2,7 +2,7 @@
 #import "BlogServiceRemoteREST.h"
 #import "NSMutableDictionary+Helpers.h"
 #import "RemotePostType.h"
-#import "Logging.h"
+#import "WPKitLoggingPrivate.h"
 #import <WordPressKit/WordPressKit-Swift.h>
 @import NSObject_SafeExpectations;
 @import WordPressShared;

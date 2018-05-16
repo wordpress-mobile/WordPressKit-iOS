@@ -4,7 +4,7 @@
 #import "StatsStreak.h"
 #import "StatsStreakItem.h"
 #import "StatsStringUtilities.h"
-#import "Logging.h"
+#import "WPKitLoggingPrivate.h"
 #import <WordPressShared/NSString+XMLExtensions.h>
 #import <WordPressShared/WPAnalytics.h>
 @import NSObject_SafeExpectations;

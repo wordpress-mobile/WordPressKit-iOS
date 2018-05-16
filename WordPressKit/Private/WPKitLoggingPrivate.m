@@ -1,2 +1,2 @@
-#import "Logging.h"
+#import "WPKitLoggingPrivate.h"
 int ddLogLevel = DDLogLevelWarning;
