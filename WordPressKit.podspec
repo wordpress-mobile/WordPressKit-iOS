@@ -4,8 +4,8 @@ Pod::Spec.new do |s|
   s.summary       = "WordPressKit offers a clean and simple WordPress.com and WordPress.org API."
 
   s.description   = <<-DESC
-                    This framework encapsulates all of the networking calls and entity parsers required
-                    to interact with WordPress.com and WordPress.org websites.
+                    This framework encapsulates all of the networking calls and entity parsers required to interact
+                    with WordPress.com and WordPress.org websites.
                     DESC
 
   s.homepage      = "http://apps.wordpress.com"
