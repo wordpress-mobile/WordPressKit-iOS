@@ -1,28 +1,28 @@
 import Foundation
 
 
+/// URLAuthenticationChallenge Handler: It's up to the Host App to actually use this, whenever `WordPressOrgXMLRPCApi.onChallenge` is hit!
+///
 open class HTTPAuthenticationAlertController {
 
     public typealias AuthenticationHandler = (URLSession.AuthChallengeDisposition, URLCredential?) -> Void
 
     fileprivate static var onGoingChallenges = [URLProtectionSpace: [AuthenticationHandler]]()
 
-    static open func presentWithChallenge(_ challenge: URLAuthenticationChallenge, handler: @escaping AuthenticationHandler) {
+    static open func controller(for challenge: URLAuthenticationChallenge, handler: @escaping AuthenticationHandler) -> UIAlertController? {
         if var handlers = onGoingChallenges[challenge.protectionSpace] {
             handlers.append(handler)
             onGoingChallenges[challenge.protectionSpace] = handlers
-            return
+            return nil
         }
         onGoingChallenges[challenge.protectionSpace] = [handler]
 
-        let  controller: UIAlertController
-        if challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodServerTrust {
-            controller = controllerForServerTrustChallenge(challenge)
-        } else {
-            controller = controllerForUserAuthenticationChallenge(challenge)
+        switch challenge.protectionSpace.authenticationMethod {
+        case NSURLAuthenticationMethodServerTrust:
+            return controllerForServerTrustChallenge(challenge)
+        default:
+            return controllerForUserAuthenticationChallenge(challenge)
         }
-
-        controller.presentFromRootViewController()
     }
 
     static func executeHandlerForChallenge(_ challenge: URLAuthenticationChallenge, disposition: URLSession.AuthChallengeDisposition, credential: URLCredential?) {
