@@ -190,10 +190,9 @@ const NSInteger WPRestErrorCodeMediaNew = 10;
     NSString *apiPath = [NSString stringWithFormat:@"sites/%@/media/new", self.siteID];
     NSString *requestUrl = [self pathForEndpoint:apiPath
                                      withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
-    NSMutableDictionary *parameters = [NSMutableDictionary dictionaryWithDictionary:@{}];
-    if (media.postID != nil && [media.postID compare:@(0)] == NSOrderedDescending) {
-        parameters[@"attrs[0][parent_id]"] = media.postID;
-    }
+
+    NSDictionary *parameters = [self parametersForUploadMedia:media];
+
     if (media.localURL == nil || filename == nil || type == nil) {
         if (failure) {
             NSError *error = [NSError errorWithDomain:NSURLErrorDomain
@@ -386,6 +385,20 @@ const NSInteger WPRestErrorCodeMediaNew = 10;
     
     if (remoteMedia.alt != nil) {
         parameters[@"alt"] = remoteMedia.alt;
+    }
+
+    return [NSDictionary dictionaryWithDictionary:parameters];
+}
+
+- (NSDictionary *)parametersForUploadMedia:(RemoteMedia *)media
+{
+    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
+
+    if (media.caption != nil) {
+        parameters[@"attrs[0][caption]"] = media.caption;
+    }
+    if (media.postID != nil && [media.postID compare:@(0)] == NSOrderedDescending) {
+        parameters[@"attrs[0][parent_id]"] = media.postID;
     }
 
     return [NSDictionary dictionaryWithDictionary:parameters];
