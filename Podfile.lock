@@ -24,7 +24,7 @@ PODS:
   - FormatterKit/Resources (1.8.2)
   - FormatterKit/TimeIntervalFormatter (1.8.2):
     - FormatterKit/Resources
-  - NSObject-SafeExpectations (0.0.2)
+  - NSObject-SafeExpectations (0.0.3)
   - OCMock (3.4.1)
   - OHHTTPStubs (6.1.0):
     - OHHTTPStubs/Default (= 6.1.0)
@@ -42,25 +42,27 @@ PODS:
   - OHHTTPStubs/Swift (6.1.0):
     - OHHTTPStubs/Default
   - UIDeviceIdentifier (0.5.0)
-  - WordPressShared (1.0.1):
+  - WordPressKit (1.0.4):
+    - AFNetworking (= 3.2.1)
+    - Alamofire (= 4.7.2)
+    - CocoaLumberjack (= 3.4.2)
+    - NSObject-SafeExpectations (= 0.0.3)
+    - UIDeviceIdentifier (~> 0.4)
+    - WordPressShared (= 1.0.3)
+    - wpxmlrpc (= 0.8.3)
+  - WordPressShared (1.0.3):
     - CocoaLumberjack (~> 3.4)
     - FormatterKit/TimeIntervalFormatter (= 1.8.2)
-    - NSObject-SafeExpectations (= 0.0.2)
   - wpxmlrpc (0.8.3)
 
 DEPENDENCIES:
-  - AFNetworking (= 3.2.1)
-  - Alamofire (= 4.7.2)
-  - CocoaLumberjack (= 3.4.2)
   - OCMock (~> 3.4)
   - OHHTTPStubs (= 6.1.0)
   - OHHTTPStubs/Swift (= 6.1.0)
-  - UIDeviceIdentifier (~> 0.4)
-  - WordPressShared (= 1.0.1)
-  - wpxmlrpc (= 0.8.3)
+  - WordPressKit (from `./`)
 
 SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
+  https://github.com/cocoapods/specs.git:
     - AFNetworking
     - Alamofire
     - CocoaLumberjack
@@ -72,18 +74,23 @@ SPEC REPOS:
     - WordPressShared
     - wpxmlrpc
 
+EXTERNAL SOURCES:
+  WordPressKit:
+    :path: "./"
+
 SPEC CHECKSUMS:
   AFNetworking: b6f891fdfaed196b46c7a83cf209e09697b94057
   Alamofire: e4fa87002c137ba2d8d634d2c51fabcda0d5c223
   CocoaLumberjack: db7cc9e464771f12054c22ff6947c5a58d43a0fd
   FormatterKit: 4b8f29acc9b872d5d12a63efb560661e8f2e1b98
-  NSObject-SafeExpectations: 7d7f48df90df4e11da7cfe86b64f45eff7a7f521
+  NSObject-SafeExpectations: b989b68a8a9b7b9f2b264a8b52ba9d7aab8f3129
   OCMock: 2cd0716969bab32a2283ff3a46fd26a8c8b4c5e3
   OHHTTPStubs: 1e21c7d2c084b8153fc53d48400d8919d2d432d0
   UIDeviceIdentifier: a959a6d4f51036b4180dd31fb26483a820f1cc46
-  WordPressShared: 13a743d923796382419e03521e47491e9322087e
+  WordPressKit: ac75c51b09fb78b6bda986b6f1c1841c9b2f910f
+  WordPressShared: b8e910d8133a54e9452ab7bd9d8e27e78dc2f5ba
   wpxmlrpc: bfc572f62ce7ee897f6f38b098d2ba08732ecef4
 
-PODFILE CHECKSUM: bc62fe902255dcf953eed4b6b1bb4322fe517f89
+PODFILE CHECKSUM: f9a8f48eb9684c55a8f317e05d210f8dca50da7f
 
-COCOAPODS: 1.5.0
+COCOAPODS: 1.5.2
