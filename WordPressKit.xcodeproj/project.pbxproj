@@ -386,6 +386,7 @@
 		E6C1E8491EF21FC100D139D9 /* is-passwordless-account-no-account-found.json in Resources */ = {isa = PBXBuildFile; fileRef = E6C1E8471EF21FC100D139D9 /* is-passwordless-account-no-account-found.json */; };
 		E6C1E84A1EF21FC100D139D9 /* is-passwordless-account-success.json in Resources */ = {isa = PBXBuildFile; fileRef = E6C1E8481EF21FC100D139D9 /* is-passwordless-account-success.json */; };
 		E6D0EE621F7EF9CE0064D3FC /* AccountServiceRemoteREST+SocialService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6D0EE611F7EF9CE0064D3FC /* AccountServiceRemoteREST+SocialService.swift */; };
+		FF20AD2220B8471A00082398 /* WordPressKit.podspec in Resources */ = {isa = PBXBuildFile; fileRef = FF20AD2120B8471A00082398 /* WordPressKit.podspec */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -792,6 +793,7 @@
 		E6D0EE611F7EF9CE0064D3FC /* AccountServiceRemoteREST+SocialService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AccountServiceRemoteREST+SocialService.swift"; sourceTree = "<group>"; };
 		ED05C8FF3E61D93CE5BA527E /* Pods_WordPressKitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WordPressKitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFF80A6E6EE37118CB1DA158 /* Pods_WordPressKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WordPressKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FF20AD2120B8471A00082398 /* WordPressKit.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = WordPressKit.podspec; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1017,6 +1019,7 @@
 		9368C7711EC5EF1B0092CE8E = {
 			isa = PBXGroup;
 			children = (
+				FF20AD2120B8471A00082398 /* WordPressKit.podspec */,
 				9368C77D1EC5EF1B0092CE8E /* WordPressKit */,
 				9368C7881EC5EF1B0092CE8E /* WordPressKitTests */,
 				9368C77C1EC5EF1B0092CE8E /* Products */,
@@ -1635,6 +1638,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FF20AD2220B8471A00082398 /* WordPressKit.podspec in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1859,6 +1863,7 @@
 				"${BUILT_PRODUCTS_DIR}/FormatterKit/FormatterKit.framework",
 				"${BUILT_PRODUCTS_DIR}/NSObject-SafeExpectations/NSObject_SafeExpectations.framework",
 				"${BUILT_PRODUCTS_DIR}/UIDeviceIdentifier/UIDeviceIdentifier.framework",
+				"${BUILT_PRODUCTS_DIR}/WordPressKit/WordPressKit.framework",
 				"${BUILT_PRODUCTS_DIR}/WordPressShared/WordPressShared.framework",
 				"${BUILT_PRODUCTS_DIR}/wpxmlrpc/wpxmlrpc.framework",
 			);
@@ -1872,6 +1877,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FormatterKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NSObject_SafeExpectations.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/UIDeviceIdentifier.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/WordPressKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/WordPressShared.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/wpxmlrpc.framework",
 			);
