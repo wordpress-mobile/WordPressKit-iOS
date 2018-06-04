@@ -1,5 +1,4 @@
 import Foundation
-import AFNetworking
 
 /// SiteManagementServiceRemote handles REST API calls for managing a WordPress.com site.
 ///

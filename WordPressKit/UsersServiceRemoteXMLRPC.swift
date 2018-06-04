@@ -1,5 +1,4 @@
 import Foundation
-import AFNetworking
 
 public enum UsersServiceRemoteError: Int, Error {
     case UnexpectedResponseData
