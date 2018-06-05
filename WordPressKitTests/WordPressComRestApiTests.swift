@@ -83,8 +83,8 @@ class WordPressComRestApiTests: XCTestCase {
             XCTFail("This call should fail")
             }, failure: { (error, httpResponse) in
                 expect.fulfill()
-                XCTAssert(error.domain == "NSCocoaErrorDomain", "The error domain should be NSCocoaErrorDomain")
-                XCTAssert(error.code == Int(3840), "The code should be invalid token")
+                XCTAssert(error.domain == WordPressComRestApiErrorDomain, "The error domain should be WordPressComRestApiErrorDomain")
+                XCTAssert(error.code == Int(WordPressComRestApiError.responseSerializationFailed.rawValue), "The code should be invalid response serialization")
         })
         self.waitForExpectations(timeout: 2, handler: nil)
     }
