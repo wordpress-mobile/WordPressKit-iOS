@@ -341,18 +341,10 @@ extension WordPressComRestApi {
         var userInfo: [String: Any] = originalNSError.userInfo
 
         guard let responseObject = try? JSONSerialization.jsonObject(with: data, options: .allowFragments),
-            let responseDictionary = responseObject as? [String:AnyObject] else {
-                // This endpoint is throttled, so check if we've sent too many requests and fill that error in as
-                // when too many requests occur the API just spits out an html page.
+            let responseDictionary = responseObject as? [String: AnyObject] else {
 
-            if let responseString = String(data:data, encoding:.utf8),
-                responseString.contains("Limit reached") {
-                userInfo[WordPressComRestApi.ErrorKeyErrorMessage] = NSLocalizedString("Limit reached. You can try again in 1 minute. Trying again before that will only increase the time you have to wait before the ban is lifted. If you think this is in error, contact support.", comment: "Message to show when a request for a WP.com API endpoint is throttled")
-                userInfo[WordPressComRestApi.ErrorKeyErrorCode] = "too_many_requests"
-                userInfo[NSLocalizedDescriptionKey] = userInfo[WordPressComRestApi.ErrorKeyErrorMessage]
-                let nsError = WordPressComRestApiError.tooManyRequests as NSError
-                let errorWithLocalizedMessage = NSError(domain: nsError.domain, code: nsError.code, userInfo:userInfo)
-                return errorWithLocalizedMessage
+            if let error = checkForThrottleErrorIn(data: data) {
+                return error;
             }
             return WordPressComRestApiError.unknown as NSError
         }
@@ -378,13 +370,29 @@ extension WordPressComRestApi {
         let mappedError = errorsMap[errorCode] ?? WordPressComRestApiError.unknown
         userInfo[WordPressComRestApi.ErrorKeyErrorCode] = errorCode
         userInfo[WordPressComRestApi.ErrorKeyErrorMessage] = errorDescription
-        let nserror = mappedError as NSError
         userInfo[NSLocalizedDescriptionKey] =  errorDescription
+        let nserror = mappedError as NSError
         let resultError = NSError(domain: nserror.domain,
                                code: nserror.code,
                                userInfo: userInfo
             )
         return resultError
+    }
+
+    func checkForThrottleErrorIn(data: Data) -> NSError? {
+        // This endpoint is throttled, so check if we've sent too many requests and fill that error in as
+        // when too many requests occur the API just spits out an html page.
+        guard let responseString = String(data:data, encoding:.utf8),
+            responseString.contains("Limit reached") else {
+                return nil
+        }
+        var userInfo =  [String: Any]()
+        userInfo[WordPressComRestApi.ErrorKeyErrorCode] = "too_many_requests"
+        userInfo[WordPressComRestApi.ErrorKeyErrorMessage] = NSLocalizedString("Limit reached. You can try again in 1 minute. Trying again before that will only increase the time you have to wait before the ban is lifted. If you think this is in error, contact support.", comment: "Message to show when a request for a WP.com API endpoint is throttled")
+        userInfo[NSLocalizedDescriptionKey] = userInfo[WordPressComRestApi.ErrorKeyErrorMessage]
+        let nsError = WordPressComRestApiError.tooManyRequests as NSError
+        let errorWithLocalizedMessage = NSError(domain: nsError.domain, code: nsError.code, userInfo:userInfo)
+        return errorWithLocalizedMessage
     }
 }
 
