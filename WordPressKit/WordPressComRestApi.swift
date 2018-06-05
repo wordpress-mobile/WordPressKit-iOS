@@ -272,8 +272,7 @@ open class WordPressComRestApi: NSObject {
                 if let taskIdentifier = upload.task?.taskIdentifier {
                     requestEnqueued?(NSNumber(value: taskIdentifier))
                 }
-                let dataRequest = upload.responseJSON(completionHandler: { response in
-                    debugPrint(response)
+                let dataRequest = upload.responseJSON(completionHandler: { response in                    
                     switch response.result {
                     case .success(let responseObject):
                         progress.completedUnitCount = progress.totalUnitCount
@@ -288,7 +287,6 @@ open class WordPressComRestApi: NSObject {
                     dataRequest.cancel()
                 }
             case .failure(let encodingError):
-                print(encodingError)
                 failure(encodingError as NSError, nil)
             }
         })
@@ -346,7 +344,7 @@ public final class FilePart: NSObject {
 
 extension WordPressComRestApi {
 
-    /// A custom error processor to handle JSON error responses when status codes are betwen 400 and 500
+    /// A custom error processor to handle error responses when status codes are betwen 400 and 500
     func processError(response: DataResponse<Any>, originalError: Error) -> NSError {
 
         let originalNSError = originalError as NSError
