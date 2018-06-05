@@ -128,6 +128,46 @@ open class WordPressComRestApi: NSObject {
 
     // MARK: - Network requests
 
+    private func request(method: HTTPMethod,
+                         urlString: String,
+                         parameters: [String: AnyObject]?,
+                         encoding: ParameterEncoding,
+                         success: @escaping SuccessResponseBlock,
+                         failure: @escaping FailureReponseBlock) -> Progress? {
+
+        guard let URLString = buildRequestURLFor(path: urlString) else {
+            let error = NSError(domain: String(describing: WordPressComRestApiError.self),
+                                code: WordPressComRestApiError.requestSerializationFailed.rawValue,
+                                userInfo: [NSLocalizedDescriptionKey: NSLocalizedString("Failed to serialize request to the REST API.", comment: "Error message to show when wrong URL format is used to access the REST API")])
+            failure(error, nil)
+            return nil
+        }
+
+        let progress = Progress(totalUnitCount: 1)
+        let progressUpdater = {(taskProgress: Progress) in
+            progress.totalUnitCount = taskProgress.totalUnitCount
+            progress.completedUnitCount = taskProgress.completedUnitCount
+        }
+
+        let dataRequest = sessionManager.request(URLString, method: method, parameters: parameters, encoding:encoding)
+            .validate()
+            .responseJSON(completionHandler: { (response) in
+            switch response.result {
+            case .success(let responseObject):
+                progress.completedUnitCount = progress.totalUnitCount
+                success(responseObject as AnyObject, response.response)
+            case .failure(let error):
+                let nserror = self.processError(response: response, originalError: error)
+                failure(nserror, response.response)
+            }
+
+        }).downloadProgress(closure: progressUpdater)
+
+        progress.cancellationHandler = {
+            dataRequest.cancel()
+        }
+        return progress
+    }
     /**
      Executes a GET request to the specified endpoint defined on URLString
 
@@ -145,36 +185,7 @@ open class WordPressComRestApi: NSObject {
                      success: @escaping SuccessResponseBlock,
                      failure: @escaping FailureReponseBlock) -> Progress? {
 
-        guard let URLString = buildRequestURLFor(path: URLString) else {
-            let error = NSError(domain: String(describing: WordPressComRestApiError.self),
-                                code: WordPressComRestApiError.requestSerializationFailed.rawValue,
-                                userInfo: [NSLocalizedDescriptionKey: NSLocalizedString("Failed to serialize request to the REST API.", comment: "Error message to show when wrong URL format is used to access the REST API")])
-            failure(error, nil)
-            return nil
-        }
-
-        let progress = Progress(totalUnitCount: 1)
-        let progressUpdater = {(taskProgress: Progress) in
-            progress.totalUnitCount = taskProgress.totalUnitCount
-            progress.completedUnitCount = taskProgress.completedUnitCount
-        }
-
-        let dataRequest = sessionManager.request(URLString, method: .get, parameters: parameters).validate().responseJSON(completionHandler: { (response) in
-                switch response.result {
-                case .success(let responseObject):
-                    progress.completedUnitCount = progress.totalUnitCount
-                    success(responseObject as AnyObject, response.response)
-                case .failure(let error):
-                    let nserror = self.processError(response: response, originalError: error)
-                    failure(nserror, response.response)
-                }
-
-        }).downloadProgress(closure: progressUpdater)
-
-        progress.cancellationHandler = {
-            dataRequest.cancel()
-        }
-        return progress
+        return request(method: .get, urlString: URLString, parameters: parameters, encoding: URLEncoding.default, success: success, failure: failure)
     }
 
     /**
@@ -193,36 +204,8 @@ open class WordPressComRestApi: NSObject {
                      parameters: [String: AnyObject]?,
                      success: @escaping SuccessResponseBlock,
                      failure: @escaping FailureReponseBlock) -> Progress? {
-        guard let URLString = buildRequestURLFor(path: URLString) else {
-            let error = NSError(domain: String(describing: WordPressComRestApiError.self),
-                                code: WordPressComRestApiError.requestSerializationFailed.rawValue,
-                                userInfo: [NSLocalizedDescriptionKey: NSLocalizedString("Failed to serialize request to the REST API.", comment: "Error message to show when wrong URL format is used to access the REST API")])
-            failure(error, nil)
-            return nil
-        }
 
-        let progress = Progress(totalUnitCount: 1)
-        let progressUpdater = {(taskProgress: Progress) in
-            progress.totalUnitCount = taskProgress.totalUnitCount
-            progress.completedUnitCount = taskProgress.completedUnitCount
-        }
-
-        let dataRequest = sessionManager.request(URLString, method: .post, parameters: parameters, encoding: JSONEncoding.default).validate().responseJSON(completionHandler: { (response) in
-            switch response.result {
-            case .success(let responseObject):
-                progress.completedUnitCount = progress.totalUnitCount
-                success(responseObject as AnyObject, response.response)
-            case .failure(let error):
-                let nserror = self.processError(response: response, originalError: error)
-                failure(nserror, response.response)
-            }
-
-        }).downloadProgress(closure: progressUpdater)
-
-        progress.cancellationHandler = {
-            dataRequest.cancel()
-        }
-        return progress
+        return request(method: .post, urlString: URLString, parameters: parameters, encoding: JSONEncoding.default, success: success, failure: failure)
     }
 
     /**
