@@ -206,7 +206,7 @@ static NSString * const DeliveryMethodNotificationKey = @"notification";
     if (isFeed) {
         NSString *path = [NSString stringWithFormat:@"read/feed/%@", siteID];
         requestUrl = [self pathForEndpoint:path
-                               withVersion:ServiceRemoteWordPressComRESTApiVersion_1_2];
+                               withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
     } else {
         NSString *path = [NSString stringWithFormat:@"read/sites/%@", siteID];
         requestUrl = [self pathForEndpoint:path
