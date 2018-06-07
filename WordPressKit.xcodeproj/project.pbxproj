@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		170589D520C9923500774C6F /* reader-site-search-blog-id-fallback.json in Resources */ = {isa = PBXBuildFile; fileRef = 170589D320C9923500774C6F /* reader-site-search-blog-id-fallback.json */; };
+		170589D620C9923500774C6F /* reader-site-search-no-blog-or-feed-id.json in Resources */ = {isa = PBXBuildFile; fileRef = 170589D420C9923500774C6F /* reader-site-search-no-blog-or-feed-id.json */; };
 		17BF9A6C20C7DC3300BF57D2 /* reader-site-search-success.json in Resources */ = {isa = PBXBuildFile; fileRef = 17BF9A6B20C7DC3300BF57D2 /* reader-site-search-success.json */; };
 		17BF9A7220C7E18200BF57D2 /* reader-site-search-success-hasmore.json in Resources */ = {isa = PBXBuildFile; fileRef = 17BF9A6D20C7E18100BF57D2 /* reader-site-search-success-hasmore.json */; };
 		17BF9A7320C7E18200BF57D2 /* reader-site-search-failure.json in Resources */ = {isa = PBXBuildFile; fileRef = 17BF9A6E20C7E18200BF57D2 /* reader-site-search-failure.json */; };
@@ -408,6 +410,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		170589D320C9923500774C6F /* reader-site-search-blog-id-fallback.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "reader-site-search-blog-id-fallback.json"; sourceTree = "<group>"; };
+		170589D420C9923500774C6F /* reader-site-search-no-blog-or-feed-id.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "reader-site-search-no-blog-or-feed-id.json"; sourceTree = "<group>"; };
 		17BF9A6B20C7DC3300BF57D2 /* reader-site-search-success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "reader-site-search-success.json"; sourceTree = "<group>"; };
 		17BF9A6D20C7E18100BF57D2 /* reader-site-search-success-hasmore.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "reader-site-search-success-hasmore.json"; sourceTree = "<group>"; };
 		17BF9A6E20C7E18200BF57D2 /* reader-site-search-failure.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "reader-site-search-failure.json"; sourceTree = "<group>"; };
@@ -1418,6 +1422,8 @@
 				17BF9A6D20C7E18100BF57D2 /* reader-site-search-success-hasmore.json */,
 				17BF9A7120C7E18200BF57D2 /* reader-site-search-success-no-data.json */,
 				17BF9A7020C7E18200BF57D2 /* reader-site-search-success-no-icon.json */,
+				170589D320C9923500774C6F /* reader-site-search-blog-id-fallback.json */,
+				170589D420C9923500774C6F /* reader-site-search-no-blog-or-feed-id.json */,
 			);
 			path = "Mock Data";
 			sourceTree = "<group>";
@@ -1723,6 +1729,7 @@
 				40E4698B2017C2840030DB5F /* plugin-directory-popular.json in Resources */,
 				93AC8ED01ED32FD000900F5A /* stats-v1.1-post-details.json in Resources */,
 				74C473B91EF325F6009918F2 /* site-delete-missing-status-failure.json in Resources */,
+				170589D620C9923500774C6F /* reader-site-search-no-blog-or-feed-id.json in Resources */,
 				7403A2FD1EF06FEB00DED7DC /* me-settings-change-primary-site-success.json in Resources */,
 				93AC8ED41ED32FD000900F5A /* stats-v1.1-summary.json in Resources */,
 				74C473B71EF3229B009918F2 /* site-delete-unexpected-json-failure.json in Resources */,
@@ -1784,6 +1791,7 @@
 				7403A3001EF06FEB00DED7DC /* me-settings-success.json in Resources */,
 				74B335EA1F06F76B0053A184 /* xmlrpc-response-getpost.xml in Resources */,
 				740B23E91F17FB4200067A2A /* xmlrpc-wp-getpost-invalid-id-failure.xml in Resources */,
+				170589D520C9923500774C6F /* reader-site-search-blog-id-fallback.json in Resources */,
 				93AC8EC81ED32FD000900F5A /* stats-v1.1-clicks-month-large.json in Resources */,
 				930999561F16598A00F006A1 /* get-multiple-themes-v1.2.json in Resources */,
 				93AC8EC41ED32FD000900F5A /* emptyarray.json in Resources */,
