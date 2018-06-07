@@ -238,5 +238,4 @@ class WordPressComOAuthTests: XCTestCase {
         self.waitForExpectations(timeout: 2, handler: nil)
     }
 
-
 }

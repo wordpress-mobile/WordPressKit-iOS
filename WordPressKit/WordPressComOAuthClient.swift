@@ -120,7 +120,10 @@ public final class WordPressComOAuthClient: NSObject {
                     DDLogVerbose("Received OAuth2 response: \(self.cleanedUpResponseForLogging(responseObject as AnyObject? ?? "nil" as AnyObject))")
                     guard let responseDictionary = responseObject as? [String: AnyObject],
                         let authToken = responseDictionary["access_token"] as? String else {
-                            success(nil)
+                            let defaultError = NSError(domain: WordPressComOAuthClient.WordPressComOAuthErrorDomain,
+                                                       code: WordPressComOAuthError.unknown.rawValue,
+                                                       userInfo: nil)
+                            failure(defaultError)
                             return
                     }
                     success(authToken)
