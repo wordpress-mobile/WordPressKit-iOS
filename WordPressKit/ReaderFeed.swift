@@ -70,6 +70,6 @@ public struct ReaderFeed: Decodable {
 
 extension ReaderFeed: CustomStringConvertible {
     public var description: String {
-        return "<Feed | URL: \(url), title: \(title), feedID: \(feedID), blogID: \(blogID)>"
+        return "<Feed | URL: \(url), title: \(title), feedID: \(String(describing: feedID)), blogID: \(String(describing: blogID))>"
     }
 }
