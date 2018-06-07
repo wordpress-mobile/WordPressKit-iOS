@@ -1,6 +1,5 @@
 #import "ReaderSiteServiceRemote.h"
 #import "RemoteReaderSite.h"
-#import <AFNetworking/AFNetworking.h>
 #import <WordPressKit/WordPressKit-Swift.h>
 #import "WPKitLoggingPrivate.h"
 @import NSObject_SafeExpectations;
@@ -187,17 +186,32 @@ NSString * const ReaderSiteServiceRemoteErrorDomain = @"ReaderSiteServiceRemoteE
 
 - (void)checkSiteExistsAtURL:(NSURL *)siteURL success:(void (^)(void))success failure:(void(^)(NSError *error))failure
 {
-    // Just ping the URL and make sure we don't get back a 40x error.
-    AFHTTPSessionManager *mgr = [[AFHTTPSessionManager alloc] init];
-    [mgr HEAD:[siteURL absoluteString] parameters:nil success:^(NSURLSessionDataTask *task) {
+    NSURLSession *session = NSURLSession.sharedSession;
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:siteURL cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:5];
+    request.HTTPMethod = @"HEAD";
+    NSURLSessionTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        if (error) {
+            if (failure) {
+                failure(error);
+            }
+            return;
+        }
+        if([response isKindOfClass:[NSHTTPURLResponse class]]) {
+            NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+            NSIndexSet *acceptableStatus = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(200, 99)];
+            if (![acceptableStatus containsIndex:httpResponse.statusCode]) {
+                if (failure) {
+                    NSError *statusError = [NSError errorWithDomain:(NSString *)kCFErrorDomainCFNetwork code:kCFFTPErrorUnexpectedStatusCode userInfo:nil];
+                    failure(statusError);
+                }
+                return;
+            }
+        }
         if (success) {
             success();
         }
-    } failure:^(NSURLSessionDataTask *task, NSError * _Nonnull error) {
-        if (failure) {
-            failure(error);
-        }
     }];
+    [task resume];
 }
 
 - (void)checkSubscribedToSiteByID:(NSUInteger)siteID success:(void (^)(BOOL follows))success failure:(void(^)(NSError *error))failure
