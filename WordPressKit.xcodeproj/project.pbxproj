@@ -404,6 +404,8 @@
 		FFE247B420C891E6002DF3A2 /* WordPressComOAuthSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = FFE247AD20C891E5002DF3A2 /* WordPressComOAuthSuccess.json */; };
 		FFE247B520C891E6002DF3A2 /* WordPressComAuthenticateWithIDTokenExistingUserNeedsConnection.json in Resources */ = {isa = PBXBuildFile; fileRef = FFE247AE20C891E6002DF3A2 /* WordPressComAuthenticateWithIDTokenExistingUserNeedsConnection.json */; };
 		FFE247BD20C9C88B002DF3A2 /* empty.json in Resources */ = {isa = PBXBuildFile; fileRef = FFE247BC20C9C88B002DF3A2 /* empty.json */; };
+		FFE247C220C9D749002DF3A2 /* reader-site-search-no-blog-or-feed-id.json in Resources */ = {isa = PBXBuildFile; fileRef = FFE247C020C9D748002DF3A2 /* reader-site-search-no-blog-or-feed-id.json */; };
+		FFE247C320C9D749002DF3A2 /* reader-site-search-blog-id-fallback.json in Resources */ = {isa = PBXBuildFile; fileRef = FFE247C120C9D749002DF3A2 /* reader-site-search-blog-id-fallback.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -828,6 +830,8 @@
 		FFE247AD20C891E5002DF3A2 /* WordPressComOAuthSuccess.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = WordPressComOAuthSuccess.json; sourceTree = "<group>"; };
 		FFE247AE20C891E6002DF3A2 /* WordPressComAuthenticateWithIDTokenExistingUserNeedsConnection.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = WordPressComAuthenticateWithIDTokenExistingUserNeedsConnection.json; sourceTree = "<group>"; };
 		FFE247BC20C9C88B002DF3A2 /* empty.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = empty.json; sourceTree = "<group>"; };
+		FFE247C020C9D748002DF3A2 /* reader-site-search-no-blog-or-feed-id.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "reader-site-search-no-blog-or-feed-id.json"; sourceTree = "<group>"; };
+		FFE247C120C9D749002DF3A2 /* reader-site-search-blog-id-fallback.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "reader-site-search-blog-id-fallback.json"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1298,7 +1302,6 @@
 		93BD27421EE73384002BB00B /* Mock Data */ = {
 			isa = PBXGroup;
 			children = (
-				FFE247BC20C9C88B002DF3A2 /* empty.json */,
 				826016F61F9FAF6300533B6C /* activity-log-auth-failure.json */,
 				826016F81F9FAF6300533B6C /* activity-log-bad-json-failure.json */,
 				826016F51F9FAF6300533B6C /* activity-log-success-1.json */,
@@ -1319,6 +1322,7 @@
 				74585B931F0D53B800E7E667 /* domain-service-all-domain-types.json */,
 				74585B9E1F0D6E7500E7E667 /* domain-service-bad-json.json */,
 				74585BA01F0D6F5300E7E667 /* domain-service-empty.json */,
+				FFE247BC20C9C88B002DF3A2 /* empty.json */,
 				930999531F16598A00F006A1 /* get-multiple-themes-v1.2.json */,
 				930999541F16598A00F006A1 /* get-purchased-themes-v1.1.json */,
 				930999551F16598A00F006A1 /* get-single-theme-v1.1.json */,
@@ -1366,7 +1370,9 @@
 				40E4698C2017D2E30030DB5F /* plugin-directory-new.json */,
 				40E4698A2017C2840030DB5F /* plugin-directory-popular.json */,
 				E1E89C651FD6B291006E7A33 /* plugin-directory-rename-xml-rpc.json */,
+				FFE247C120C9D749002DF3A2 /* reader-site-search-blog-id-fallback.json */,
 				17BF9A6E20C7E18200BF57D2 /* reader-site-search-failure.json */,
+				FFE247C020C9D748002DF3A2 /* reader-site-search-no-blog-or-feed-id.json */,
 				17BF9A6D20C7E18100BF57D2 /* reader-site-search-success-hasmore.json */,
 				17BF9A7120C7E18200BF57D2 /* reader-site-search-success-no-data.json */,
 				17BF9A7020C7E18200BF57D2 /* reader-site-search-success-no-icon.json */,
@@ -1780,6 +1786,7 @@
 				E13EE1491F332B8500C15787 /* site-plugins-success.json in Resources */,
 				93BD27581EE73442002BB00B /* auth-send-login-email-success.json in Resources */,
 				74B335E01F06F6290053A184 /* WordPressComRestApiFailInvalidInput.json in Resources */,
+				FFE247C320C9D749002DF3A2 /* reader-site-search-blog-id-fallback.json in Resources */,
 				93BD27651EE73442002BB00B /* me-sites-visibility-success.json in Resources */,
 				93AC8ED61ED32FD000900F5A /* stats-v1.1-top-posts-day-exception.json in Resources */,
 				7433BC0A1EFC4598002D9E92 /* plans-feature-bad-json-failure.json in Resources */,
@@ -1831,6 +1838,7 @@
 				740B23E31F17FB4200067A2A /* xmlrpc-metaweblog-editpost-change-type-failure.xml in Resources */,
 				74D67F311F15C3740010C5ED /* site-followers-delete-failure.json in Resources */,
 				74B335E81F06F7200053A184 /* WordPressComRestApiFailUnauthorized.json in Resources */,
+				FFE247C220C9D749002DF3A2 /* reader-site-search-no-blog-or-feed-id.json in Resources */,
 				740B23E51F17FB4200067A2A /* xmlrpc-metaweblog-newpost-bad-xml-failure.xml in Resources */,
 				74C473C91EF335B8009918F2 /* site-active-purchases-empty-response.json in Resources */,
 				93AC8ECC1ED32FD000900F5A /* stats-v1.1-followers-wpcom-day.json in Resources */,

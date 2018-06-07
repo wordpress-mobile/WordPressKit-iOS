@@ -60,7 +60,10 @@ private extension ReaderSiteSearchServiceRemote {
             let decoder = JSONDecoder()
             let data = try JSONSerialization.data(withJSONObject: response, options: [])
             let envelope = try decoder.decode(ReaderFeedEnvelope.self, from: data)
-            return (envelope.feeds, envelope.total)
+
+            // Filter out any feeds that don't have either a feed ID or a blog ID
+            let feeds = envelope.feeds.filter({ $0.feedID != nil || $0.blogID != nil })
+            return (feeds, envelope.total)
         } catch {
             DDLogError("\(error)")
             DDLogDebug("Full response: \(response)")
