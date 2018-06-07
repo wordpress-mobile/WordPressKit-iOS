@@ -1,8 +1,8 @@
 {
   "feeds": [
     {
+      "URL": "https://dailypost.wordpress.com",
       "subscribe_URL": "http://dailypost.wordpress.com",
-      "blog_ID": "489937",
       "title": "The Daily Post",
       "railcar": {
         "railcar": "*dPbMa8*fdh#",
