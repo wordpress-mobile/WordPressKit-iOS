@@ -8,7 +8,6 @@
 #import <WordPressShared/NSString+XMLExtensions.h>
 #import <WordPressShared/WPAnalytics.h>
 @import NSObject_SafeExpectations;
-@import AFNetworking;
 
 static NSString *const WordPressComApiClientEndpointURL = @"https://public-api.wordpress.com/rest/v1.1";
 static NSInteger const NumberOfDays = 12;
