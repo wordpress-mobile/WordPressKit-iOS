@@ -1593,27 +1593,37 @@ typedef void (^TaskUpdateHandler)(NSURLSessionTask *, NSArray<NSURLSessionTask*>
     task = [self.session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         [weakSelf updateTaskProgress:weakSelf.session task:task error:error];
         if (error) {
-            failure(task, error);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                failure(task, error);
+            });
             return;
         }
         if (![response isKindOfClass:NSHTTPURLResponse.class]){
-            failure(task, error);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                failure(task, error);
+            });
             return;
         }
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
         NSIndexSet *acceptableStatusCode = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(200, 100)];
         if (![acceptableStatusCode containsIndex:httpResponse.statusCode]) {
             NSError *statusError = [NSError errorWithDomain:(NSString *)kCFErrorDomainCFNetwork code:kCFFTPErrorUnexpectedStatusCode userInfo:nil];
-            failure(task, statusError);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                failure(task, statusError);
+            });
             return;
         }
         NSError *parseError = nil;
         id responseObject = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&parseError];
         if (responseObject == nil || parseError != nil) {
-            failure(task, error);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                failure(task, error);
+            });
             return;
         }
-        success(task, responseObject);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            success(task, responseObject);
+        });
     }];
     [task resume];
     return task;
