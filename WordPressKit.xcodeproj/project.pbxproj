@@ -406,6 +406,7 @@
 		FFE247BD20C9C88B002DF3A2 /* empty.json in Resources */ = {isa = PBXBuildFile; fileRef = FFE247BC20C9C88B002DF3A2 /* empty.json */; };
 		FFE247C220C9D749002DF3A2 /* reader-site-search-no-blog-or-feed-id.json in Resources */ = {isa = PBXBuildFile; fileRef = FFE247C020C9D748002DF3A2 /* reader-site-search-no-blog-or-feed-id.json */; };
 		FFE247C320C9D749002DF3A2 /* reader-site-search-blog-id-fallback.json in Resources */ = {isa = PBXBuildFile; fileRef = FFE247C120C9D749002DF3A2 /* reader-site-search-blog-id-fallback.json */; };
+		FFE247CE20CB1245002DF3A2 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = FFE247CD20CB1245002DF3A2 /* LICENSE */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -832,6 +833,8 @@
 		FFE247BC20C9C88B002DF3A2 /* empty.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = empty.json; sourceTree = "<group>"; };
 		FFE247C020C9D748002DF3A2 /* reader-site-search-no-blog-or-feed-id.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "reader-site-search-no-blog-or-feed-id.json"; sourceTree = "<group>"; };
 		FFE247C120C9D749002DF3A2 /* reader-site-search-blog-id-fallback.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "reader-site-search-blog-id-fallback.json"; sourceTree = "<group>"; };
+		FFE247CC20CB118A002DF3A2 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		FFE247CD20CB1245002DF3A2 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1059,6 +1062,8 @@
 		9368C7711EC5EF1B0092CE8E = {
 			isa = PBXGroup;
 			children = (
+				FFE247CD20CB1245002DF3A2 /* LICENSE */,
+				FFE247CC20CB118A002DF3A2 /* README.md */,
 				FF20AD2120B8471A00082398 /* WordPressKit.podspec */,
 				9368C77D1EC5EF1B0092CE8E /* WordPressKit */,
 				9368C7881EC5EF1B0092CE8E /* WordPressKitTests */,
@@ -1695,6 +1700,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FFE247CE20CB1245002DF3A2 /* LICENSE in Resources */,
 				FF20AD2220B8471A00082398 /* WordPressKit.podspec in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
