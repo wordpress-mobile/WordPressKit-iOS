@@ -88,8 +88,7 @@ typedef void (^TaskUpdateHandler)(NSURLSessionTask *, NSArray<NSURLSessionTask*>
     }
 }
 
-- (void)updateTaskProgress:(NSURLSession *)session
-                      task:(NSURLSessionTask *)task
+- (void)updateProgressForTask:(NSURLSessionTask *)task
                      error:(NSError *)error {
     @synchronized (_tasksTrackingMutex) {
         [self.onGoingTasks enumerateKeysAndObjectsUsingBlock:^(NSArray *key, TaskUpdateHandler updateBlock, BOOL * stop) {
@@ -1570,11 +1569,14 @@ typedef void (^TaskUpdateHandler)(NSURLSessionTask *, NSArray<NSURLSessionTask*>
                                                  failure:(void (^)(NSURLSessionDataTask *task, NSError *error))failure
 {
     __block NSURLSessionDataTask *task = nil;
+    __weak __typeof__(self) weakSelf = self;
     NSProgress *progress = [self.restAPI GET:url parameters:parameters success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
+        [weakSelf updateProgressForTask:task error:nil];
         dispatch_async(dispatch_get_main_queue(), ^{
             success(task, responseObject);
         });
     } failure:^(NSError * error, NSHTTPURLResponse * httpResponse) {
+        [weakSelf updateProgressForTask:task error:error];
         dispatch_async(dispatch_get_main_queue(), ^{
             failure(task, error);
         });
