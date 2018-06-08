@@ -26,6 +26,7 @@ import Alamofire
 open class WordPressComRestApi: NSObject {    
     @objc open static let ErrorKeyErrorCode: String = "WordPressComRestApiErrorCodeKey"
     @objc open static let ErrorKeyErrorMessage: String = "WordPressComRestApiErrorMessageKey"
+    @objc open static let SessionTaskKey: String = "WordPressComRestAPI.sessionTask"
 
     public typealias RequestEnqueuedBlock = (_ taskID : NSNumber) -> Void
     public typealias SuccessResponseBlock = (_ responseObject: AnyObject, _ httpResponse: HTTPURLResponse?) -> ()
@@ -437,11 +438,15 @@ extension WordPressComRestApi {
 
     @objc var sessionTask: URLSessionTask? {
         get {
-            return userInfo[ProgressUserInfoKey(rawValue: "WordPressComRestAPI.sessionTask")] as? URLSessionTask
+            return userInfo[.sessionTaskKey] as? URLSessionTask
         }
 
         set {
-            self.setUserInfoObject(newValue, forKey: ProgressUserInfoKey(rawValue: "WordPressComRestAPI.sessionTask"))
+            self.setUserInfoObject(newValue, forKey: .sessionTaskKey)
         }
     }
+}
+
+extension ProgressUserInfoKey {
+    public static let sessionTaskKey = ProgressUserInfoKey(rawValue: WordPressComRestApi.SessionTaskKey)
 }

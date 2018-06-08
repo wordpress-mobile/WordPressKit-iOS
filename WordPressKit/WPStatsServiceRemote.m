@@ -1581,7 +1581,7 @@ typedef void (^TaskUpdateHandler)(NSURLSessionTask *, NSArray<NSURLSessionTask*>
             failure(task, error);
         });
     }];
-    task = progress.userInfo[@"WordPressComRestAPI.sessionTask"];
+    task = progress.userInfo[WordPressComRestApi.SessionTaskKey];
     return task;
 }
 
