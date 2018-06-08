@@ -24,7 +24,7 @@ typedef void (^TaskUpdateHandler)(NSURLSessionTask *, NSArray<NSURLSessionTask*>
 @property (nonatomic, strong) NSDateFormatter *deviceDateFormatter;
 @property (nonatomic, strong) NSDateFormatter *rfc3339DateFormatter;
 @property (nonatomic, strong) NSNumberFormatter *deviceNumberFormatter;
-@property (nonatomic, strong) AFHTTPSessionManager *manager;
+@property (nonatomic, strong) NSURLSession *session;
 @property (nonatomic, strong) StatsStringUtilities *stringUtilities;
 @property (nonatomic, strong) NSObject *tasksTrackingMutex;
 @property (nonatomic, strong) NSMutableDictionary *onGoingTasks;
@@ -62,12 +62,8 @@ typedef void (^TaskUpdateHandler)(NSURLSessionTask *, NSArray<NSURLSessionTask*>
         NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
         sessionConfiguration.HTTPShouldUsePipelining = YES;
         sessionConfiguration.HTTPAdditionalHeaders = @{@"Authorization":[NSString stringWithFormat:@"Bearer %@", _oauth2Token]};
-        _manager = [[AFHTTPSessionManager alloc] initWithSessionConfiguration:sessionConfiguration];
-        __weak __typeof__(self) weakSelf = self;
-        [_manager setTaskDidCompleteBlock:^(NSURLSession * _Nonnull session, NSURLSessionTask * _Nonnull task, NSError * _Nullable error) {
-            [weakSelf updateTaskProgress:session task:task error:error];
-        }];
-        _manager.responseSerializer = [AFJSONResponseSerializer serializer];
+        _session = [NSURLSession sessionWithConfiguration:sessionConfiguration];
+
         _tasksTrackingMutex = [NSObject new];
         _onGoingTasks = [NSMutableDictionary new];
 
@@ -1575,7 +1571,51 @@ typedef void (^TaskUpdateHandler)(NSURLSessionTask *, NSArray<NSURLSessionTask*>
                                                  success:(void (^)(NSURLSessionDataTask *task, id responseObject))success
                                                  failure:(void (^)(NSURLSessionDataTask *task, NSError *error))failure
 {
-    NSURLSessionDataTask *task = [self.manager GET:url parameters:parameters progress:nil success:success failure:failure];
+    NSURL *baseURL = [NSURL URLWithString:url];
+    NSURLComponents *urlComponents = [NSURLComponents componentsWithURL:baseURL resolvingAgainstBaseURL:NO];
+    NSMutableArray<NSURLQueryItem *>*fullQueryItems = [NSMutableArray arrayWithArray:urlComponents.queryItems];
+    [parameters enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+        NSString *value = @"";
+        if ([obj isKindOfClass:NSNumber.class]) {
+            value = [obj stringValue];
+        }
+        if ([obj isKindOfClass:NSString.class]) {
+            value = obj;
+        }
+        [fullQueryItems addObject:[NSURLQueryItem queryItemWithName:key value:value]];
+    }];
+    urlComponents.queryItems = fullQueryItems;
+    NSURL *fullURL = [urlComponents URL];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:fullURL];
+    request.HTTPMethod = @"GET";
+    __block NSURLSessionDataTask *task = nil;
+    __weak __typeof__(self) weakSelf = self;
+    task = [self.session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        [weakSelf updateTaskProgress:weakSelf.session task:task error:error];
+        if (error) {
+            failure(task, error);
+            return;
+        }
+        if (![response isKindOfClass:NSHTTPURLResponse.class]){
+            failure(task, error);
+            return;
+        }
+        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+        NSIndexSet *acceptableStatusCode = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(200, 100)];
+        if (![acceptableStatusCode containsIndex:httpResponse.statusCode]) {
+            NSError *statusError = [NSError errorWithDomain:(NSString *)kCFErrorDomainCFNetwork code:kCFFTPErrorUnexpectedStatusCode userInfo:nil];
+            failure(task, statusError);
+            return;
+        }
+        NSError *parseError = nil;
+        id responseObject = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&parseError];
+        if (responseObject == nil || parseError != nil) {
+            failure(task, error);
+            return;
+        }
+        success(task, responseObject);
+    }];
+    [task resume];
     return task;
 }
 
@@ -1903,12 +1943,12 @@ typedef void (^TaskUpdateHandler)(NSURLSessionTask *, NSArray<NSURLSessionTask*>
 
 - (void)cancelAllRemoteOperations
 {
-    if (self.manager.operationQueue.operationCount == 0) {
-        return;
-    }
-
-    DDLogVerbose(@"Canceling %@ operations...", @(self.manager.operationQueue.operationCount));
-    [self.manager.operationQueue cancelAllOperations];
+    [self.session getAllTasksWithCompletionHandler:^(NSArray<__kindof NSURLSessionTask *> * tasks) {
+        DDLogVerbose(@"Canceling %@ operations...", @(tasks.count));
+        for (NSURLSessionTask *task in tasks) {
+            [task cancel];
+        }
+    }];
 }
 
 
