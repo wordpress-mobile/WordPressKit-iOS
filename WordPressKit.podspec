@@ -19,7 +19,6 @@ Pod::Spec.new do |s|
   s.requires_arc  = true
   s.header_dir    = 'WordPressKit'
 
-  s.dependency 'AFNetworking', '3.2.1'
   s.dependency 'Alamofire', '~> 4.7'
   s.dependency 'CocoaLumberjack', '3.4.2'
   s.dependency 'WordPressShared', '~> 1.0.3'
