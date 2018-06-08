@@ -8,13 +8,15 @@ public struct ReaderFeed: Decodable {
     public let url: URL
     public let title: String
     public let feedDescription: String?
-    public let feedID: String
+    public let feedID: String?
+    public let blogID: String?
     public let blavatarURL: URL?
 
     private enum CodingKeys: String, CodingKey {
         case url = "URL"
         case title = "title"
         case feedID = "feed_ID"
+        case blogID = "blog_ID"
         case meta = "meta"
     }
 
@@ -40,12 +42,12 @@ public struct ReaderFeed: Decodable {
         // - Some feeds have no `icon` dictionary
         // - Some feeds have no `data` dictionary
         // - We want to decode whatever we can get, and not fail if neither of those exist
-
         let rootContainer = try decoder.container(keyedBy: CodingKeys.self)
 
         url = try rootContainer.decode(URL.self, forKey: .url)
         title = try rootContainer.decode(String.self, forKey: .title)
-        feedID = try rootContainer.decode(String.self, forKey: .feedID)
+        feedID = try? rootContainer.decode(String.self, forKey: .feedID)
+        blogID = try? rootContainer.decode(String.self, forKey: .blogID)
 
         var feedDescription: String? = nil
         var blavatarURL: URL? = nil
@@ -68,6 +70,6 @@ public struct ReaderFeed: Decodable {
 
 extension ReaderFeed: CustomStringConvertible {
     public var description: String {
-        return "<Feed | URL: \(url), title: \(title), feedID: \(feedID)>"
+        return "<Feed | URL: \(url), title: \(title), feedID: \(String(describing: feedID)), blogID: \(String(describing: blogID))>"
     }
 }

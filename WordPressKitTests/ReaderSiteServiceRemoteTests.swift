@@ -1,4 +1,5 @@
 import XCTest
+import OHHTTPStubs
 @testable import WordPressKit
 
 class ReaderSiteServiceRemoteTests: XCTestCase {
@@ -286,5 +287,61 @@ class ReaderSiteServiceRemoteTests: XCTestCase {
         })
         mockRemoteApi.successBlockPassedIn?(response as AnyObject, HTTPURLResponse())
         XCTAssertTrue(failure)
+    }
+
+    func testCheckSiteExistsAtURLSuccess() {
+        let testURLString = "http://www.wordpress.com"
+        let testURL = URL(string: testURLString)!
+        stub(condition:{request in request.url?.absoluteString == testURLString}) { request in
+            let stubPath = OHPathForFile("empty.json", type(of: self))
+            return fixture(filePath: stubPath!, headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
+        }
+
+        let expect = self.expectation(description: "One callback should be invoked")
+        readerSiteServiceRemote.checkSiteExists(at: testURL, success: {
+            expect.fulfill()
+            XCTAssertTrue(true)
+        },failure: { (error) in
+            expect.fulfill()
+            XCTFail("This call should be successfull")
+        })
+        self.waitForExpectations(timeout: 2, handler: nil)
+    }
+
+    func testCheckSiteExistsAtURLFailure() {
+        let testURLString = "http://www.wordpress.com"
+        let testURL = URL(string: testURLString)!
+        stub(condition:{request in request.url?.absoluteString == testURLString}) { request in
+            let stubPath = OHPathForFile("empty.json", type(of: self))
+            return fixture(filePath: stubPath!, status:400, headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
+        }
+
+        let expect = self.expectation(description: "One callback should be invoked")
+        readerSiteServiceRemote.checkSiteExists(at: testURL, success: {
+            expect.fulfill()
+            XCTAssertTrue(false, "This call should be unsuccessfull")
+        },failure: { (error) in
+            expect.fulfill()
+            XCTAssertTrue(true)
+        })
+        self.waitForExpectations(timeout: 2, handler: nil)
+    }
+
+    func testCheckSiteExistsAtURLFailureNetworkError() {
+        let testURLString = "http://www.wordpress.com"
+        let testURL = URL(string: testURLString)!
+        stub(condition:{request in request.url?.absoluteString == testURLString}) { request in
+            return OHHTTPStubsResponse(error: NSError(domain: NSURLErrorDomain, code: NSURLErrorUnknown, userInfo: nil))
+        }
+
+        let expect = self.expectation(description: "One callback should be invoked")
+        readerSiteServiceRemote.checkSiteExists(at: testURL, success: {
+            expect.fulfill()
+            XCTAssertTrue(false, "This call should be unsuccessfull")
+        },failure: { (error) in
+            expect.fulfill()
+            XCTAssertTrue(true)
+        })
+        self.waitForExpectations(timeout: 2, handler: nil)
     }
 }
