@@ -8,6 +8,7 @@
 #import <WordPressShared/NSString+XMLExtensions.h>
 #import <WordPressShared/WPAnalytics.h>
 @import NSObject_SafeExpectations;
+#import <WordPressKit/WordPressKit-Swift.h>
 
 static NSString *const WordPressComApiClientEndpointURL = @"https://public-api.wordpress.com/rest/v1.1";
 static NSInteger const NumberOfDays = 12;
@@ -24,7 +25,7 @@ typedef void (^TaskUpdateHandler)(NSURLSessionTask *, NSArray<NSURLSessionTask*>
 @property (nonatomic, strong) NSDateFormatter *deviceDateFormatter;
 @property (nonatomic, strong) NSDateFormatter *rfc3339DateFormatter;
 @property (nonatomic, strong) NSNumberFormatter *deviceNumberFormatter;
-@property (nonatomic, strong) NSURLSession *session;
+@property (nonatomic, strong) WordPressComRestApi *restAPI;
 @property (nonatomic, strong) StatsStringUtilities *stringUtilities;
 @property (nonatomic, strong) NSObject *tasksTrackingMutex;
 @property (nonatomic, strong) NSMutableDictionary *onGoingTasks;
@@ -59,11 +60,8 @@ typedef void (^TaskUpdateHandler)(NSURLSessionTask *, NSArray<NSURLSessionTask*>
         _rfc3339DateFormatter.dateFormat = @"yyyy'-'MM'-'dd'T'HH':'mm':'ssZ";
         _rfc3339DateFormatter.timeZone = [NSTimeZone timeZoneForSecondsFromGMT:0];
 
-        NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
-        sessionConfiguration.HTTPShouldUsePipelining = YES;
-        sessionConfiguration.HTTPAdditionalHeaders = @{@"Authorization":[NSString stringWithFormat:@"Bearer %@", _oauth2Token]};
-        _session = [NSURLSession sessionWithConfiguration:sessionConfiguration];
-
+        _restAPI = [[WordPressComRestApi alloc] initWithOAuthToken:_oauth2Token userAgent:nil];
+        _restAPI.appendsPreferredLanguageLocale = NO;
         _tasksTrackingMutex = [NSObject new];
         _onGoingTasks = [NSMutableDictionary new];
 
@@ -1571,69 +1569,19 @@ typedef void (^TaskUpdateHandler)(NSURLSessionTask *, NSArray<NSURLSessionTask*>
                                                  success:(void (^)(NSURLSessionDataTask *task, id responseObject))success
                                                  failure:(void (^)(NSURLSessionDataTask *task, NSError *error))failure
 {
-    NSURLRequest *request = [self makeRequestFromURL:url withParameters:parameters];
     __block NSURLSessionDataTask *task = nil;
-    __weak __typeof__(self) weakSelf = self;
-    task = [self.session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        [weakSelf updateTaskProgress:weakSelf.session task:task error:error];
-        if (error) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                failure(task, error);
-            });
-            return;
-        }
-        if (![response isKindOfClass:NSHTTPURLResponse.class]){
-            dispatch_async(dispatch_get_main_queue(), ^{
-                failure(task, error);
-            });
-            return;
-        }
-        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-        NSIndexSet *acceptableStatusCode = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(200, 100)];
-        if (![acceptableStatusCode containsIndex:httpResponse.statusCode]) {
-            NSError *statusError = [NSError errorWithDomain:(NSString *)kCFErrorDomainCFNetwork code:kCFFTPErrorUnexpectedStatusCode userInfo:nil];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                failure(task, statusError);
-            });
-            return;
-        }
-        NSError *parseError = nil;
-        id responseObject = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&parseError];
-        if (responseObject == nil || parseError != nil) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                failure(task, error);
-            });
-            return;
-        }
+    NSProgress *progress = [self.restAPI GET:url parameters:parameters success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
         dispatch_async(dispatch_get_main_queue(), ^{
             success(task, responseObject);
         });
+    } failure:^(NSError * error, NSHTTPURLResponse * httpResponse) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            failure(task, error);
+        });
     }];
-    [task resume];
+    task = progress.userInfo[@"WordPressComRestAPI.sessionTask"];
     return task;
 }
-
-- (NSURLRequest *)makeRequestFromURL:(NSString *)url withParameters:(NSDictionary *)parameters {
-    NSURL *baseURL = [NSURL URLWithString:url];
-    NSURLComponents *urlComponents = [NSURLComponents componentsWithURL:baseURL resolvingAgainstBaseURL:NO];
-    NSMutableArray<NSURLQueryItem *>*fullQueryItems = [NSMutableArray arrayWithArray:urlComponents.queryItems];
-    [parameters enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-        NSString *value = @"";
-        if ([obj isKindOfClass:NSNumber.class]) {
-            value = [obj stringValue];
-        }
-        if ([obj isKindOfClass:NSString.class]) {
-            value = obj;
-        }
-        [fullQueryItems addObject:[NSURLQueryItem queryItemWithName:key value:value]];
-    }];
-    urlComponents.queryItems = fullQueryItems;
-    NSURL *fullURL = [urlComponents URL];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:fullURL];
-    request.HTTPMethod = @"GET";
-    return request;
-}
-
 
 - (void(^)(NSURLSessionDataTask *task, NSError *error))failureForCompletionHandler:(StatsRemoteItemsCompletion)completionHandler
 {
@@ -1958,12 +1906,11 @@ typedef void (^TaskUpdateHandler)(NSURLSessionTask *, NSArray<NSURLSessionTask*>
 
 - (void)cancelAllRemoteOperations
 {
-    [self.session getAllTasksWithCompletionHandler:^(NSArray<__kindof NSURLSessionTask *> * tasks) {
-        DDLogVerbose(@"Canceling %@ operations...", @(tasks.count));
-        for (NSURLSessionTask *task in tasks) {
-            [task cancel];
-        }
-    }];
+    NSArray *allTasks = self.restAPI.allTasks;
+    DDLogVerbose(@"Canceling %@ operations...", @(allTasks.count));
+    for (NSURLSessionTask *task in allTasks) {
+        [task cancel];
+    }
 }
 
 

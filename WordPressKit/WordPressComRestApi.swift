@@ -57,6 +57,14 @@ open class WordPressComRestApi: NSObject {
         return sessionManager
     }()
 
+    @objc public var allTasks: [URLSessionTask] {
+        var result = [URLSessionTask]()
+        sessionManager.session.getAllTasks { (tasks) in
+            result = tasks
+        }
+        return result
+    }
+
     fileprivate lazy var uploadSessionManager: Alamofire.SessionManager = {
         if self.backgroundUploads {
             let sessionConfiguration = URLSessionConfiguration.background(withIdentifier: self.backgroundSessionIdentifier)
@@ -162,7 +170,7 @@ open class WordPressComRestApi: NSObject {
             }
 
         }).downloadProgress(closure: progressUpdater)
-
+        progress.sessionTask = dataRequest.task
         progress.cancellationHandler = {
             dataRequest.cancel()
         }
@@ -423,4 +431,17 @@ extension WordPressComRestApi {
         return "\(path)\(separator)\(localeKey)=\(preferredLanguageIdentifier)"
     }
 
+}
+
+@objc extension Progress {
+
+    @objc var sessionTask: URLSessionTask? {
+        get {
+            return userInfo[ProgressUserInfoKey(rawValue: "WordPressComRestAPI.sessionTask")] as? URLSessionTask
+        }
+
+        set {
+            self.setUserInfoObject(newValue, forKey: ProgressUserInfoKey(rawValue: "WordPressComRestAPI.sessionTask"))
+        }
+    }
 }
