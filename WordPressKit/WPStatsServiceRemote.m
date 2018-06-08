@@ -1571,23 +1571,7 @@ typedef void (^TaskUpdateHandler)(NSURLSessionTask *, NSArray<NSURLSessionTask*>
                                                  success:(void (^)(NSURLSessionDataTask *task, id responseObject))success
                                                  failure:(void (^)(NSURLSessionDataTask *task, NSError *error))failure
 {
-    NSURL *baseURL = [NSURL URLWithString:url];
-    NSURLComponents *urlComponents = [NSURLComponents componentsWithURL:baseURL resolvingAgainstBaseURL:NO];
-    NSMutableArray<NSURLQueryItem *>*fullQueryItems = [NSMutableArray arrayWithArray:urlComponents.queryItems];
-    [parameters enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-        NSString *value = @"";
-        if ([obj isKindOfClass:NSNumber.class]) {
-            value = [obj stringValue];
-        }
-        if ([obj isKindOfClass:NSString.class]) {
-            value = obj;
-        }
-        [fullQueryItems addObject:[NSURLQueryItem queryItemWithName:key value:value]];
-    }];
-    urlComponents.queryItems = fullQueryItems;
-    NSURL *fullURL = [urlComponents URL];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:fullURL];
-    request.HTTPMethod = @"GET";
+    NSURLRequest *request = [self makeRequestFromURL:url withParameters:parameters];
     __block NSURLSessionDataTask *task = nil;
     __weak __typeof__(self) weakSelf = self;
     task = [self.session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
@@ -1627,6 +1611,27 @@ typedef void (^TaskUpdateHandler)(NSURLSessionTask *, NSArray<NSURLSessionTask*>
     }];
     [task resume];
     return task;
+}
+
+- (NSURLRequest *)makeRequestFromURL:(NSString *)url withParameters:(NSDictionary *)parameters {
+    NSURL *baseURL = [NSURL URLWithString:url];
+    NSURLComponents *urlComponents = [NSURLComponents componentsWithURL:baseURL resolvingAgainstBaseURL:NO];
+    NSMutableArray<NSURLQueryItem *>*fullQueryItems = [NSMutableArray arrayWithArray:urlComponents.queryItems];
+    [parameters enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+        NSString *value = @"";
+        if ([obj isKindOfClass:NSNumber.class]) {
+            value = [obj stringValue];
+        }
+        if ([obj isKindOfClass:NSString.class]) {
+            value = obj;
+        }
+        [fullQueryItems addObject:[NSURLQueryItem queryItemWithName:key value:value]];
+    }];
+    urlComponents.queryItems = fullQueryItems;
+    NSURL *fullURL = [urlComponents URL];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:fullURL];
+    request.HTTPMethod = @"GET";
+    return request;
 }
 
 
