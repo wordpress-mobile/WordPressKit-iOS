@@ -8,7 +8,7 @@
 #import <WordPressShared/NSString+XMLExtensions.h>
 #import <WordPressShared/WPAnalytics.h>
 @import NSObject_SafeExpectations;
-@import AFNetworking;
+#import <WordPressKit/WordPressKit-Swift.h>
 
 static NSString *const WordPressComApiClientEndpointURL = @"https://public-api.wordpress.com/rest/v1.1";
 static NSInteger const NumberOfDays = 12;
@@ -25,7 +25,7 @@ typedef void (^TaskUpdateHandler)(NSURLSessionTask *, NSArray<NSURLSessionTask*>
 @property (nonatomic, strong) NSDateFormatter *deviceDateFormatter;
 @property (nonatomic, strong) NSDateFormatter *rfc3339DateFormatter;
 @property (nonatomic, strong) NSNumberFormatter *deviceNumberFormatter;
-@property (nonatomic, strong) AFHTTPSessionManager *manager;
+@property (nonatomic, strong) WordPressComRestApi *restAPI;
 @property (nonatomic, strong) StatsStringUtilities *stringUtilities;
 @property (nonatomic, strong) NSObject *tasksTrackingMutex;
 @property (nonatomic, strong) NSMutableDictionary *onGoingTasks;
@@ -60,15 +60,8 @@ typedef void (^TaskUpdateHandler)(NSURLSessionTask *, NSArray<NSURLSessionTask*>
         _rfc3339DateFormatter.dateFormat = @"yyyy'-'MM'-'dd'T'HH':'mm':'ssZ";
         _rfc3339DateFormatter.timeZone = [NSTimeZone timeZoneForSecondsFromGMT:0];
 
-        NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
-        sessionConfiguration.HTTPShouldUsePipelining = YES;
-        sessionConfiguration.HTTPAdditionalHeaders = @{@"Authorization":[NSString stringWithFormat:@"Bearer %@", _oauth2Token]};
-        _manager = [[AFHTTPSessionManager alloc] initWithSessionConfiguration:sessionConfiguration];
-        __weak __typeof__(self) weakSelf = self;
-        [_manager setTaskDidCompleteBlock:^(NSURLSession * _Nonnull session, NSURLSessionTask * _Nonnull task, NSError * _Nullable error) {
-            [weakSelf updateTaskProgress:session task:task error:error];
-        }];
-        _manager.responseSerializer = [AFJSONResponseSerializer serializer];
+        _restAPI = [[WordPressComRestApi alloc] initWithOAuthToken:_oauth2Token userAgent:nil];
+        _restAPI.appendsPreferredLanguageLocale = NO;
         _tasksTrackingMutex = [NSObject new];
         _onGoingTasks = [NSMutableDictionary new];
 
@@ -95,8 +88,7 @@ typedef void (^TaskUpdateHandler)(NSURLSessionTask *, NSArray<NSURLSessionTask*>
     }
 }
 
-- (void)updateTaskProgress:(NSURLSession *)session
-                      task:(NSURLSessionTask *)task
+- (void)updateProgressForTask:(NSURLSessionTask *)task
                      error:(NSError *)error {
     @synchronized (_tasksTrackingMutex) {
         [self.onGoingTasks enumerateKeysAndObjectsUsingBlock:^(NSArray *key, TaskUpdateHandler updateBlock, BOOL * stop) {
@@ -1576,10 +1568,22 @@ typedef void (^TaskUpdateHandler)(NSURLSessionTask *, NSArray<NSURLSessionTask*>
                                                  success:(void (^)(NSURLSessionDataTask *task, id responseObject))success
                                                  failure:(void (^)(NSURLSessionDataTask *task, NSError *error))failure
 {
-    NSURLSessionDataTask *task = [self.manager GET:url parameters:parameters progress:nil success:success failure:failure];
+    __block NSURLSessionDataTask *task = nil;
+    __weak __typeof__(self) weakSelf = self;
+    NSProgress *progress = [self.restAPI GET:url parameters:parameters success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
+        [weakSelf updateProgressForTask:task error:nil];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            success(task, responseObject);
+        });
+    } failure:^(NSError * error, NSHTTPURLResponse * httpResponse) {
+        [weakSelf updateProgressForTask:task error:error];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            failure(task, error);
+        });
+    }];
+    task = progress.userInfo[WordPressComRestApi.SessionTaskKey];
     return task;
 }
-
 
 - (void(^)(NSURLSessionDataTask *task, NSError *error))failureForCompletionHandler:(StatsRemoteItemsCompletion)completionHandler
 {
@@ -1904,12 +1908,11 @@ typedef void (^TaskUpdateHandler)(NSURLSessionTask *, NSArray<NSURLSessionTask*>
 
 - (void)cancelAllRemoteOperations
 {
-    if (self.manager.operationQueue.operationCount == 0) {
-        return;
+    NSArray *allTasks = self.restAPI.allTasks;
+    DDLogVerbose(@"Canceling %@ operations...", @(allTasks.count));
+    for (NSURLSessionTask *task in allTasks) {
+        [task cancel];
     }
-
-    DDLogVerbose(@"Canceling %@ operations...", @(self.manager.operationQueue.operationCount));
-    [self.manager.operationQueue cancelAllOperations];
 }
 
 

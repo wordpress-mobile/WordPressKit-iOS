@@ -219,21 +219,6 @@
         userInfo[WordPressComRestApi.ErrorKeyErrorMessage] = localizedErrorMessage;
         userInfo[NSLocalizedDescriptionKey] = localizedErrorMessage;
         errorWithLocalizedMessage = [[NSError alloc] initWithDomain:error.domain code:error.code userInfo:userInfo];
-    } else {
-        // This endpoint is throttled, so check if we've sent too many requests and fill that error in as
-        // when too many requests occur the API just spits out an html page.
-        NSData *data = error.userInfo[WordPressComRestApi.ErrorKeyResponseData];
-        NSString *responseString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-        if (responseString != nil &&
-            [responseString rangeOfString:@"Limit reached"].location != NSNotFound) {
-            NSMutableDictionary *userInfo = [[NSMutableDictionary alloc] initWithDictionary:error.userInfo];
-            userInfo[WordPressComRestApi.ErrorKeyErrorMessage] = NSLocalizedString(@"Limit reached. You can try again in 1 minute. Trying again before that will only increase the time you have to wait before the ban is lifted. If you think this is in error, contact support.", @"");
-            userInfo[WordPressComRestApi.ErrorKeyErrorCode] = @"too_many_requests";
-            userInfo[NSLocalizedDescriptionKey] = userInfo[WordPressComRestApi.ErrorKeyErrorMessage];
-            errorWithLocalizedMessage = [[NSError alloc] initWithDomain:WordPressComRestApiErrorDomain
-                                                                   code:WordPressComRestApiErrorTooManyRequests
-                                                               userInfo:userInfo];
-        }
     }
     return errorWithLocalizedMessage;
 }

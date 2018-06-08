@@ -1,5 +1,4 @@
 import Foundation
-import AFNetworking
 import WordPressShared
 
 /// This ServiceRemote encapsulates all of the interaction with the Gravatar endpoint.
@@ -30,19 +29,24 @@ open class GravatarServiceRemote {
 
         let session = URLSession.shared
         let task = session.dataTask(with: targetURL) { (data: Data?, response: URLResponse?, error: Error?) in
-            DispatchQueue.main.async {
-                let errPointer: NSErrorPointer = nil
-                if  let response = AFJSONResponseSerializer().responseObject(for: response, data: data, error: errPointer) as? [String: Array<Any>],
-                    let entry = response["entry"],
+            guard error == nil, let data = data else {
+                failure(error)
+                return
+            }
+            do {
+                let jsonData = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
+                if let jsonDictionary = jsonData as? [String: Array<Any>],
+                    let entry = jsonDictionary["entry"],
                     let profileData = entry.first as? NSDictionary {
-
                     let profile = RemoteGravatarProfile(dictionary: profileData)
-                    success(profile)
+                    DispatchQueue.main.async {
+                        success(profile)
+                    }
                     return
                 }
-
-                let err = errPointer?.pointee ?? error
-                failure(err)
+            } catch {
+                failure (error)
+                return
             }
         }
 
