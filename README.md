@@ -1,5 +1,7 @@
 #  WordPressKit for iOS
 
+[![BuddyBuild](https://dashboard.buddybuild.com/api/statusImage?appID=5afc8fa8fb450e000197be06&branch=develop&build=latest)](https://dashboard.buddybuild.com/apps/5afc8fa8fb450e000197be06/build/latest?branch=develop)
+
 ## About
 
 WordPressKit offers a clean and simple WordPress.com and WordPress.org API.
