@@ -26,6 +26,7 @@ import Alamofire
 open class WordPressComRestApi: NSObject {    
     @objc open static let ErrorKeyErrorCode: String = "WordPressComRestApiErrorCodeKey"
     @objc open static let ErrorKeyErrorMessage: String = "WordPressComRestApiErrorMessageKey"
+    @objc open static let SessionTaskKey: String = "WordPressComRestAPI.sessionTask"
 
     public typealias RequestEnqueuedBlock = (_ taskID : NSNumber) -> Void
     public typealias SuccessResponseBlock = (_ responseObject: AnyObject, _ httpResponse: HTTPURLResponse?) -> ()
@@ -56,6 +57,14 @@ open class WordPressComRestApi: NSObject {
         let sessionManager = self.makeSessionManager(configuration: sessionConfiguration)
         return sessionManager
     }()
+
+    @objc public var allTasks: [URLSessionTask] {
+        var result = [URLSessionTask]()
+        sessionManager.session.getAllTasks { (tasks) in
+            result = tasks
+        }
+        return result
+    }
 
     fileprivate lazy var uploadSessionManager: Alamofire.SessionManager = {
         if self.backgroundUploads {
@@ -162,7 +171,7 @@ open class WordPressComRestApi: NSObject {
             }
 
         }).downloadProgress(closure: progressUpdater)
-
+        progress.sessionTask = dataRequest.task
         progress.cancellationHandler = {
             dataRequest.cancel()
         }
@@ -423,4 +432,21 @@ extension WordPressComRestApi {
         return "\(path)\(separator)\(localeKey)=\(preferredLanguageIdentifier)"
     }
 
+}
+
+@objc extension Progress {
+
+    @objc var sessionTask: URLSessionTask? {
+        get {
+            return userInfo[.sessionTaskKey] as? URLSessionTask
+        }
+
+        set {
+            self.setUserInfoObject(newValue, forKey: .sessionTaskKey)
+        }
+    }
+}
+
+extension ProgressUserInfoKey {
+    public static let sessionTaskKey = ProgressUserInfoKey(rawValue: WordPressComRestApi.SessionTaskKey)
 }
