@@ -139,12 +139,11 @@ class FormattableContentFormatter {
         self.styles = styles
     }
 
-    func render<ParentType: FormattableContentParent>(content: FormattableContent<ParentType>) -> NSAttributedString {
+    func render(content: FormattableContent) -> NSAttributedString {
         return text(from: content, with: styles)
     }
 
-
-    private func text<ParentType: FormattableContentParent>(from content: FormattableContent<ParentType>, with styles: FormattableContentStyles) -> NSAttributedString {
+    private func text(from content: FormattableContent, with styles: FormattableContentStyles) -> NSAttributedString {
 
         guard let text = content.text else {
             return NSAttributedString()

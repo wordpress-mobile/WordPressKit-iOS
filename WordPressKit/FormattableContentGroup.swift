@@ -4,10 +4,10 @@ import Foundation
 
 // MARK: - FormattableContentGroup: Adapter to match 1 View <> 1 BlockGroup
 //
-class FormattableContentGroup<ParentType: FormattableContentParent> {
+class FormattableContentGroup {
     /// Grouped Blocks
     ///
-    let blocks: [FormattableContent<ParentType>]
+    let blocks: [FormattableContent]
 
     /// Kind of the current Group
     ///
@@ -15,7 +15,7 @@ class FormattableContentGroup<ParentType: FormattableContentParent> {
 
     /// Designated Initializer
     ///
-    init(blocks: [FormattableContent<ParentType>], kind: Kind) {
+    init(blocks: [FormattableContent], kind: Kind) {
         self.blocks = blocks
         self.kind = kind
     }
@@ -28,13 +28,13 @@ class FormattableContentGroup<ParentType: FormattableContentParent> {
 extension FormattableContentGroup {
     /// Returns the First Block of a specified kind
     ///
-    func blockOfKind(_ kind: FormattableContent<ParentType>.Kind) -> FormattableContent<ParentType>? {
+    func blockOfKind(_ kind: FormattableContent.Kind) -> FormattableContent? {
         return type(of: self).blockOfKind(kind, from: blocks)
     }
 
     /// Extracts all of the imageUrl's for the blocks of the specified kinds
     ///
-    func imageUrlsFromBlocksInKindSet(_ kindSet: Set<FormattableContent<ParentType>.Kind>) -> Set<URL> {
+    func imageUrlsFromBlocksInKindSet(_ kindSet: Set<FormattableContent.Kind>) -> Set<URL> {
         let filtered = blocks.filter { kindSet.contains($0.kind) }
         let imageUrls = filtered.flatMap { $0.imageUrls }
         return Set(imageUrls) as Set<URL>
@@ -48,22 +48,22 @@ extension FormattableContentGroup {
 extension FormattableContentGroup {
     /// Subject: Contains a User + Text Block
     ///
-    class func groupFromSubject(_ subject: [[String: AnyObject]], parent: ParentType) -> FormattableContentGroup {
-        let blocks = FormattableContent<ParentType>.blocksFromArray(subject, parent: parent)
+    class func groupFromSubject(_ subject: [[String: AnyObject]], parent: FormattableContentParent) -> FormattableContentGroup {
+        let blocks = FormattableContent.blocksFromArray(subject, parent: parent)
         return FormattableContentGroup(blocks: blocks, kind: .subject)
     }
 
     /// Header: Contains a User + Text Block
     ///
-    class func groupFromHeader(_ header: [[String: AnyObject]], parent: ParentType) -> FormattableContentGroup {
-        let blocks = FormattableContent<ParentType>.blocksFromArray(header, parent: parent)
+    class func groupFromHeader(_ header: [[String: AnyObject]], parent: FormattableContentParent) -> FormattableContentGroup {
+        let blocks = FormattableContent.blocksFromArray(header, parent: parent)
         return FormattableContentGroup(blocks: blocks, kind: .header)
     }
 
     /// Body: May contain different kinds of Groups!
     ///
-    class func groupsFromBody(_ body: [[String: AnyObject]], parent: ParentType) -> [FormattableContentGroup] {
-        let blocks = FormattableContent<ParentType>.blocksFromArray(body, parent: parent)
+    class func groupsFromBody(_ body: [[String: AnyObject]], parent: FormattableContentParent) -> [FormattableContentGroup] {
+        let blocks = FormattableContent.blocksFromArray(body, parent: parent)
 
         switch parent.kind {
         case .Comment:
@@ -85,7 +85,7 @@ private extension FormattableContentGroup {
     ///     -   Whenever we detect such a block, we'll map the FormattableContent into a .Footer group.
     ///     -   Footers are visually represented as `View All Followers` / `View All Likers`
     ///
-    class func groupsForNonCommentBodyBlocks(_ blocks: [FormattableContent<ParentType>], parent: ParentType) -> [FormattableContentGroup] {
+    class func groupsForNonCommentBodyBlocks(_ blocks: [FormattableContent], parent: FormattableContentParent) -> [FormattableContentGroup] {
         let parentKindsWithFooters: [ParentKind] = [.Follow, .Like, .CommentLike]
         let parentMayContainFooter = parentKindsWithFooters.contains(parent.kind)
 
@@ -100,7 +100,7 @@ private extension FormattableContentGroup {
     ///     -   Required to always render the Actions at the very bottom.
     ///     -   Adapter: a single FormattableContentGroup can be easily mapped against a single UI entity.
     ///
-    class func groupsForCommentBodyBlocks(_ blocks: [FormattableContent<ParentType>], parent: ParentType) -> [FormattableContentGroup] {
+    class func groupsForCommentBodyBlocks(_ blocks: [FormattableContent], parent: FormattableContentParent) -> [FormattableContentGroup] {
         guard let comment = blockOfKind(.comment, from: blocks), let user = blockOfKind(.user, from: blocks) else {
             return []
         }
@@ -142,7 +142,7 @@ private extension FormattableContentGroup {
 
     /// Returns the First Block of a specified kind.
     ///
-    class func blockOfKind(_ kind: FormattableContent<ParentType>.Kind, from blocks: [FormattableContent<ParentType>]) -> FormattableContent<ParentType>? {
+    class func blockOfKind(_ kind: FormattableContent.Kind, from blocks: [FormattableContent]) -> FormattableContent? {
         for block in blocks where block.kind == kind {
             return block
         }
@@ -168,7 +168,7 @@ private extension FormattableContentGroup {
             FormattableContentRange(kind: .Link, range: textRange, url: url)
         ]
 
-        let block = FormattableContent<ParentType>(text: text, ranges: ranges)
+        let block = FormattableContent(text: text, ranges: ranges)
         return FormattableContentGroup(blocks: [block], kind: .footer)
     }
 }
@@ -189,7 +189,7 @@ extension FormattableContentGroup {
         case header
         case footer
 
-        static func fromBlockKind(_ blockKind: FormattableContent<ParentType>.Kind) -> Kind {
+        static func fromBlockKind(_ blockKind: FormattableContent.Kind) -> Kind {
             switch blockKind {
             case .text:     return .text
             case .image:    return .image

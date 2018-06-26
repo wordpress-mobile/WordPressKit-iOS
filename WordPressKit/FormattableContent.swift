@@ -16,19 +16,20 @@ enum ParentKind: String {
     }
 }
 
-protocol FormattableContentParent: AnyObject, Equatable {
+protocol FormattableContentParent: AnyObject {
     var metaCommentID: NSNumber? { get }
     var objectID: String? { get }
     var kind: ParentKind { get }
     var metaReplyID: NSNumber? { get }
     var isPingback: Bool { get }
     func didChangeOverrides()
+    func isEqual(to other: FormattableContentParent) -> Bool
 }
 
 
 // MARK: - FormattableContent Implementation
 //
-class FormattableContent<ParentType: FormattableContentParent>: Equatable {
+class FormattableContent: Equatable {
     /// Parsed Media Entities.
     ///
     let media: [FormattableMediaContent]
@@ -71,7 +72,7 @@ class FormattableContent<ParentType: FormattableContentParent>: Equatable {
 
     /// Associated Notification
     ///
-    fileprivate weak var parent: ParentType?
+    fileprivate weak var parent: FormattableContentParent?
 
     /// Raw Type, expressed as a string.
     ///
@@ -80,7 +81,7 @@ class FormattableContent<ParentType: FormattableContentParent>: Equatable {
 
     /// Designated Initializer.
     ///
-    init(dictionary: [String: AnyObject], parent note: ParentType) {
+    init(dictionary: [String: AnyObject], parent note: FormattableContentParent) {
         let rawMedia    = dictionary[Constants.BlockKeys.Media] as? [[String: AnyObject]]
         let rawRanges   = dictionary[Constants.BlockKeys.Ranges] as? [[String: AnyObject]]
 
@@ -296,7 +297,7 @@ extension FormattableContent {
 extension FormattableContent {
     /// Parses a collection of Block Definitions into FormattableContent instances.
     ///
-    class func blocksFromArray(_ blocks: [[String: AnyObject]], parent: ParentType) -> [FormattableContent] {
+    class func blocksFromArray(_ blocks: [[String: AnyObject]], parent: FormattableContentParent) -> [FormattableContent] {
         return blocks.compactMap {
             return FormattableContent(dictionary: $0, parent: parent)
         }
@@ -358,11 +359,20 @@ private enum Constants {
 //// MARK: - FormattableContent Equatable Implementation
 
 extension FormattableContent {
-    static func == (lhs: FormattableContent<ParentType>, rhs: FormattableContent<ParentType>) -> Bool {
-        return lhs.kind == rhs.kind &&
-            lhs.text == rhs.text &&
-            lhs.parent == rhs.parent &&
-            lhs.ranges.count == rhs.ranges.count &&
-            lhs.media.count == rhs.media.count
+    static func == (lhs: FormattableContent, rhs: FormattableContent) -> Bool {
+        if lhs.parent == nil && rhs.parent == nil {
+            return lhs.isEqual(to: rhs)
+        }
+        guard let lhsParent = lhs.parent, let rhsParent = rhs.parent else {
+            return false
+        }
+        return lhs.isEqual(to: rhs) && lhsParent.isEqual(to: rhsParent)
+    }
+
+    private func isEqual(to other: FormattableContent) -> Bool {
+        return kind == other.kind &&
+            text == other.text &&
+            ranges.count == other.ranges.count &&
+            media.count == other.media.count
     }
 }

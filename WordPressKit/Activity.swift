@@ -1,6 +1,13 @@
 import Foundation
 
 extension Activity: FormattableContentParent {
+    func isEqual(to other: FormattableContentParent) -> Bool {
+        guard let otherActivity = other as? Activity else {
+            return false
+        }
+        return self == otherActivity
+    }
+
     var metaCommentID: NSNumber? {
         return 0
     }
@@ -48,7 +55,7 @@ public class Activity {
     public let items: [ActivityObject]?
 
     public let content: AnyObject?
-    var cachedContentGroup: FormattableContentGroup<Activity>? = nil
+    var cachedContentGroup: FormattableContentGroup? = nil
     let formatter = FormattableContentFormatter(styles: ActivityFormattableContentStyles())
 
     private let rewindable: Bool
@@ -125,7 +132,7 @@ public class Activity {
         return rewindID != nil && rewindable
     }()
 
-    var contentGroup: FormattableContentGroup<Activity>? {
+    var contentGroup: FormattableContentGroup? {
         if let group = cachedContentGroup {
             return group
         }
@@ -134,7 +141,7 @@ public class Activity {
             return nil
         }
 
-        cachedContentGroup = FormattableContentGroup<Activity>.groupFromSubject([content], parent: self)
+        cachedContentGroup = FormattableContentGroup.groupFromSubject([content], parent: self)
         return cachedContentGroup
     }
 
