@@ -56,7 +56,6 @@ public class Activity {
 
     public let content: AnyObject?
     var cachedContentGroup: FormattableContentGroup? = nil
-    let formatter = FormattableContentFormatter(styles: ActivityFormattableContentStyles())
 
     private let rewindable: Bool
 
@@ -145,8 +144,8 @@ public class Activity {
         return cachedContentGroup
     }
 
-    public var formattedContent: NSAttributedString {
-        guard let textBlock = contentGroup?.blockOfKind(.text) else {
+    public func formattedContent(ofKind kind: FormattableContent.Kind, using formatter: FormattableContentFormatter) -> NSAttributedString {
+        guard let textBlock = contentGroup?.blockOfKind(kind) else {
             return NSAttributedString()
         }
         return formatter.render(content: textBlock)

@@ -219,6 +219,7 @@
 		7E3ADCD420E1505E0008400A /* FormattableContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3ADCD020E1505E0008400A /* FormattableContent.swift */; };
 		7E3ADCD520E1505E0008400A /* FormattableContentGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3ADCD120E1505E0008400A /* FormattableContentGroup.swift */; };
 		7E3ADCDA20E290680008400A /* FormattableContentFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3ADCD920E290680008400A /* FormattableContentFormatter.swift */; };
+		7E3ADCDD20E2AE3D0008400A /* FormattableContentStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3ADCDC20E2AE3D0008400A /* FormattableContentStyles.swift */; };
 		8236EB4D2024B9F8007C7CF9 /* RemoteBlogJetpackModulesSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8236EB4C2024B9F8007C7CF9 /* RemoteBlogJetpackModulesSettings.swift */; };
 		826016F11F9FA13A00533B6C /* ActivityServiceRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826016F01F9FA13A00533B6C /* ActivityServiceRemote.swift */; };
 		826016F31F9FA17B00533B6C /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826016F21F9FA17B00533B6C /* Activity.swift */; };
@@ -639,6 +640,7 @@
 		7E3ADCD020E1505E0008400A /* FormattableContent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormattableContent.swift; sourceTree = "<group>"; };
 		7E3ADCD120E1505E0008400A /* FormattableContentGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormattableContentGroup.swift; sourceTree = "<group>"; };
 		7E3ADCD920E290680008400A /* FormattableContentFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormattableContentFormatter.swift; sourceTree = "<group>"; };
+		7E3ADCDC20E2AE3D0008400A /* FormattableContentStyles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormattableContentStyles.swift; sourceTree = "<group>"; };
 		8236EB4C2024B9F8007C7CF9 /* RemoteBlogJetpackModulesSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteBlogJetpackModulesSettings.swift; sourceTree = "<group>"; };
 		826016F01F9FA13A00533B6C /* ActivityServiceRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityServiceRemote.swift; sourceTree = "<group>"; };
 		826016F21F9FA17B00533B6C /* Activity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Activity.swift; sourceTree = "<group>"; };
@@ -1121,6 +1123,7 @@
 			isa = PBXGroup;
 			children = (
 				7E3ADCD920E290680008400A /* FormattableContentFormatter.swift */,
+				7E3ADCDC20E2AE3D0008400A /* FormattableContentStyles.swift */,
 				7E3ADCD020E1505E0008400A /* FormattableContent.swift */,
 				E6D0EE611F7EF9CE0064D3FC /* AccountServiceRemoteREST+SocialService.swift */,
 				7E3ADCD120E1505E0008400A /* FormattableContentGroup.swift */,
@@ -2045,6 +2048,7 @@
 				7E3ADCD320E1505E0008400A /* FormattableContentRange.swift in Sources */,
 				93BD27831EE73944002BB00B /* WordPressRSDParser.swift in Sources */,
 				826016F31F9FA17B00533B6C /* Activity.swift in Sources */,
+				7E3ADCDD20E2AE3D0008400A /* FormattableContentStyles.swift in Sources */,
 				742362E31F1025B400BD0A7F /* RemoteMenuLocation.m in Sources */,
 				82FFBF561F460DD400F4573F /* BlogJetpackSettingsServiceRemote.swift in Sources */,
 				9368C7B81EC630270092CE8E /* StatsStreakItem.m in Sources */,

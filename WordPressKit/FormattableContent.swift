@@ -29,7 +29,7 @@ protocol FormattableContentParent: AnyObject {
 
 // MARK: - FormattableContent Implementation
 //
-class FormattableContent: Equatable {
+public class FormattableContent: Equatable {
     /// Parsed Media Entities.
     ///
     let media: [FormattableMediaContent]
@@ -307,10 +307,10 @@ extension FormattableContent {
 
 // MARK: - FormattableContent Types
 //
-extension FormattableContent {
+public extension FormattableContent {
     /// Known kinds of Blocks
     ///
-    enum Kind {
+    public enum Kind {
         case text
         case image      // Includes Badges and Images
         case user
@@ -319,7 +319,7 @@ extension FormattableContent {
 
     /// Known kinds of Actions
     ///
-    enum Action: String {
+    public enum Action: String {
         case Approve            = "approve-comment"
         case Follow             = "follow"
         case Like               = "like-comment"
@@ -359,7 +359,7 @@ private enum Constants {
 //// MARK: - FormattableContent Equatable Implementation
 
 extension FormattableContent {
-    static func == (lhs: FormattableContent, rhs: FormattableContent) -> Bool {
+    public static func == (lhs: FormattableContent, rhs: FormattableContent) -> Bool {
         if lhs.parent == nil && rhs.parent == nil {
             return lhs.isEqual(to: rhs)
         }
