@@ -34,7 +34,7 @@ PODS:
     - UIDeviceIdentifier (~> 0.4)
     - WordPressShared (~> 1.0.3)
     - wpxmlrpc (= 0.8.3)
-  - WordPressShared (1.0.3):
+  - WordPressShared (1.0.7):
     - CocoaLumberjack (~> 3.4)
     - FormatterKit/TimeIntervalFormatter (= 1.8.2)
   - wpxmlrpc (0.8.3)
@@ -70,9 +70,9 @@ SPEC CHECKSUMS:
   OHHTTPStubs: 1e21c7d2c084b8153fc53d48400d8919d2d432d0
   UIDeviceIdentifier: a959a6d4f51036b4180dd31fb26483a820f1cc46
   WordPressKit: 287c06f0ea165d030f1d39bb3b9a9d1aedcace42
-  WordPressShared: b8e910d8133a54e9452ab7bd9d8e27e78dc2f5ba
+  WordPressShared: db964b81e02ff9be1ea2ff65ca9a4d57c49e82ba
   wpxmlrpc: bfc572f62ce7ee897f6f38b098d2ba08732ecef4
 
 PODFILE CHECKSUM: f9a8f48eb9684c55a8f317e05d210f8dca50da7f
 
-COCOAPODS: 1.5.2
+COCOAPODS: 1.5.3

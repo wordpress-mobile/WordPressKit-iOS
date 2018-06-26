@@ -1,5 +1,37 @@
 import Foundation
 
+extension Activity: FormattableContentParent {
+    var metaCommentID: NSNumber? {
+        return 0
+    }
+
+    var objectID: String? {
+        return activityID
+    }
+
+    var kind: ParentKind {
+        return .Unknown
+    }
+
+    var metaReplyID: NSNumber? {
+        return 0
+    }
+
+    var isPingback: Bool {
+        return false
+    }
+
+    func didChangeOverrides() {
+
+    }
+
+    public static func == (lhs: Activity, rhs: Activity) -> Bool {
+        return lhs.activityID == rhs.activityID
+    }
+
+
+}
+
 public class Activity {
     public let activityID: String
     public let summary: String
@@ -14,6 +46,10 @@ public class Activity {
     public let object: ActivityObject?
     public let target: ActivityObject?
     public let items: [ActivityObject]?
+
+    public let content: AnyObject?
+
+    var cachedContentGroup: FormattableContentGroup<Activity>? = nil
 
     private let rewindable: Bool
 
@@ -66,6 +102,11 @@ public class Activity {
         } else {
             items = nil
         }
+
+        content = dictionary["content"]
+        if let nonNilContent = content {
+            print(nonNilContent)
+        }
     }
 
     public lazy var isRewindComplete: Bool = {
@@ -84,6 +125,22 @@ public class Activity {
         return rewindID != nil && rewindable
     }()
 
+    var contentGroup: FormattableContentGroup<Activity>? {
+        if let group = cachedContentGroup {
+            return group
+        }
+
+        guard let content = content as? [String: AnyObject], content.isEmpty == false else {
+            return nil
+        }
+
+        cachedContentGroup = FormattableContentGroup<Activity>.groupFromSubject([content], parent: self)
+        return cachedContentGroup
+    }
+
+    public var formattedContent: NSAttributedString {
+        return contentGroup?.blockOfKind(.text)?.render() ?? NSAttributedString()
+    }
 }
 
 private extension Activity {
