@@ -4,7 +4,7 @@ import Foundation
 
 // MARK: - FormattableContentRange Entity
 //
-class FormattableContentRange {
+public class FormattableContentRange {
     /// Kind of the current Range
     ///
     let kind: Kind
@@ -149,10 +149,10 @@ extension FormattableContentRange {
 
 // MARK: - FormattableContentRange Types
 //
-extension FormattableContentRange {
+public extension FormattableContentRange {
     /// Known kinds of Range
     ///
-    enum Kind: String {
+    public enum Kind: String {
         case User = "user"
         case Post = "post"
         case Comment = "comment"

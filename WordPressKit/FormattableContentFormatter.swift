@@ -5,7 +5,7 @@ public class FormattableContentFormatter {
 
     let styles: FormattableContentStyles
 
-    init(styles: FormattableContentStyles) {
+    public init(styles: FormattableContentStyles) {
         self.styles = styles
     }
 
