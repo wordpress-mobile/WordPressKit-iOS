@@ -1,42 +1,40 @@
 import Foundation
 
 extension Activity: FormattableContentParent {
-    func isEqual(to other: FormattableContentParent) -> Bool {
+    public func isEqual(to other: FormattableContentParent) -> Bool {
         guard let otherActivity = other as? Activity else {
             return false
         }
         return self == otherActivity
     }
 
-    var metaCommentID: NSNumber? {
+    public var metaCommentID: NSNumber? {
         return 0
     }
 
-    var objectID: String? {
+    public var uniqueID: String? {
         return activityID
     }
 
-    var kind: ParentKind {
+    public var kind: ParentKind {
         return .Unknown
     }
 
-    var metaReplyID: NSNumber? {
+    public var metaReplyID: NSNumber? {
         return 0
     }
 
-    var isPingback: Bool {
+    public var isPingback: Bool {
         return false
     }
 
-    func didChangeOverrides() {
+    public func didChangeOverrides() {
 
     }
 
     public static func == (lhs: Activity, rhs: Activity) -> Bool {
         return lhs.activityID == rhs.activityID
     }
-
-
 }
 
 public class Activity {
@@ -76,6 +74,7 @@ public class Activity {
         guard let publishedDate = Date.dateWithISO8601WithMillisecondsString(publishedString) else {
             throw Error.incorrectPusblishedDateFormat
         }
+        
         activityID = id
         summary = summaryText
         text = contentText

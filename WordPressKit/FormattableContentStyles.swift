@@ -4,4 +4,5 @@ public protocol FormattableContentStyles {
     var quoteStyles: [NSAttributedStringKey: Any]? { get }
     var rangeStylesMap: [FormattableContentRange.Kind: [NSAttributedStringKey: Any]]? { get }
     var linksColor: UIColor? { get }
+    var key: String { get }
 }

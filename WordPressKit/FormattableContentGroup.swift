@@ -4,10 +4,10 @@ import Foundation
 
 // MARK: - FormattableContentGroup: Adapter to match 1 View <> 1 BlockGroup
 //
-class FormattableContentGroup {
+open class FormattableContentGroup {
     /// Grouped Blocks
     ///
-    let blocks: [FormattableContent]
+    public let blocks: [FormattableContent]
 
     /// Kind of the current Group
     ///
@@ -15,7 +15,7 @@ class FormattableContentGroup {
 
     /// Designated Initializer
     ///
-    init(blocks: [FormattableContent], kind: Kind) {
+    public init(blocks: [FormattableContent], kind: Kind) {
         self.blocks = blocks
         self.kind = kind
     }
@@ -28,7 +28,7 @@ class FormattableContentGroup {
 extension FormattableContentGroup {
     /// Returns the First Block of a specified kind
     ///
-    func blockOfKind(_ kind: FormattableContent.Kind) -> FormattableContent? {
+    public func blockOfKind(_ kind: FormattableContent.Kind) -> FormattableContent? {
         return type(of: self).blockOfKind(kind, from: blocks)
     }
 
@@ -179,7 +179,7 @@ private extension FormattableContentGroup {
 extension FormattableContentGroup {
     /// Known Kinds of Block Groups
     ///
-    enum Kind {
+    public enum Kind {
         case text
         case image
         case user

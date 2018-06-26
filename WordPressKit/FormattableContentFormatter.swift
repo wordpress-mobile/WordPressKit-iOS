@@ -5,12 +5,61 @@ public class FormattableContentFormatter {
 
     let styles: FormattableContentStyles
 
+    /// Helper used by the +Interface Extension.
+    ///
+    fileprivate var dynamicAttributesCache = [String: AnyObject]()
+
     public init(styles: FormattableContentStyles) {
         self.styles = styles
     }
 
-    func render(content: FormattableContent) -> NSAttributedString {
-        return text(from: content, with: styles)
+    public func render(content: FormattableContent) -> NSAttributedString {
+        let attributedText = memoize {
+            let snippet = self.text(from: content, with: self.styles)
+
+            return snippet.trimNewlines()
+        }
+
+        return attributedText(styles.key)
+    }
+
+
+    /// This method is meant to aid cache-implementation into all of the AttriutedString getters introduced
+    /// in this extension.
+    ///
+    /// - Parameter fn: A Closure that, on execution, returns an attributed string.
+    ///
+    /// - Returns: A new Closure that on execution will either hit the cache, or execute the closure `fn`
+    ///            and store its return value in the cache.
+    ///
+    fileprivate func memoize(_ fn: @escaping () -> NSAttributedString) -> (String) -> NSAttributedString {
+        return { cacheKey in
+
+            if let cachedSubject = self.cacheValueForKey(cacheKey) as? NSAttributedString {
+                return cachedSubject
+            }
+
+            let newValue = fn()
+            self.setCacheValue(newValue, forKey: cacheKey)
+            return newValue
+        }
+    }
+
+    // Dynamic Attribute Cache: Used internally by the Interface Extension, as an optimization.
+    ///
+    func cacheValueForKey(_ key: String) -> AnyObject? {
+        return dynamicAttributesCache[key]
+    }
+
+    /// Stores a specified value within the Dynamic Attributes Cache.
+    ///
+    func setCacheValue(_ value: AnyObject?, forKey key: String) {
+        guard let value = value else {
+            dynamicAttributesCache.removeValue(forKey: key)
+            return
+        }
+
+        dynamicAttributesCache[key] = value
     }
 
     private func text(from content: FormattableContent, with styles: FormattableContentStyles) -> NSAttributedString {
@@ -95,6 +144,37 @@ extension NSMutableAttributedString {
             }
 
         }
+    }
+}
+
+extension NSAttributedString {
+    /// This helper method returns a new NSAttributedString instance, with all of the the leading / trailing newLines
+    /// characters removed.
+    ///
+    @objc func trimNewlines() -> NSAttributedString {
+        guard let trimmed = mutableCopy() as? NSMutableAttributedString else {
+            return self
+        }
+
+        let characterSet = CharacterSet.newlines
+
+        // Trim: Leading
+        var range = (trimmed.string as NSString).rangeOfCharacter(from: characterSet)
+
+        while range.length != 0 && range.location == 0 {
+            trimmed.replaceCharacters(in: range, with: String())
+            range = (trimmed.string as NSString).rangeOfCharacter(from: characterSet)
+        }
+
+        // Trim Trailing
+        range = (trimmed.string as NSString).rangeOfCharacter(from: characterSet, options: .backwards)
+
+        while range.length != 0 && NSMaxRange(range) == trimmed.length {
+            trimmed.replaceCharacters(in: range, with: String())
+            range = (trimmed.string as NSString).rangeOfCharacter(from: characterSet, options: .backwards)
+        }
+
+        return trimmed
     }
 }
 

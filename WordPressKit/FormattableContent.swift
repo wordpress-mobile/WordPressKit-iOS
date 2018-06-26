@@ -1,6 +1,6 @@
 import Foundation
 
-enum ParentKind: String {
+public enum ParentKind: String {
     case Comment        = "comment"
     case CommentLike    = "comment_like"
     case Follow         = "follow"
@@ -16,9 +16,9 @@ enum ParentKind: String {
     }
 }
 
-protocol FormattableContentParent: AnyObject {
+public protocol FormattableContentParent: AnyObject {
     var metaCommentID: NSNumber? { get }
-    var objectID: String? { get }
+    var uniqueID: String? { get }
     var kind: ParentKind { get }
     var metaReplyID: NSNumber? { get }
     var isPingback: Bool { get }
@@ -186,7 +186,7 @@ extension FormattableContent {
     /// Parent Notification ID
     ///
     var parentID: String? {
-        return parent?.objectID
+        return parent?.uniqueID
     }
 
     /// Returns the Meta ID's collection, if any.
@@ -297,7 +297,7 @@ extension FormattableContent {
 extension FormattableContent {
     /// Parses a collection of Block Definitions into FormattableContent instances.
     ///
-    class func blocksFromArray(_ blocks: [[String: AnyObject]], parent: FormattableContentParent) -> [FormattableContent] {
+    public class func blocksFromArray(_ blocks: [[String: AnyObject]], parent: FormattableContentParent) -> [FormattableContent] {
         return blocks.compactMap {
             return FormattableContent(dictionary: $0, parent: parent)
         }
