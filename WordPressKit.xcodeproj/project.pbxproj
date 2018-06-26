@@ -218,6 +218,7 @@
 		7E3ADCD320E1505E0008400A /* FormattableContentRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3ADCCF20E1505D0008400A /* FormattableContentRange.swift */; };
 		7E3ADCD420E1505E0008400A /* FormattableContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3ADCD020E1505E0008400A /* FormattableContent.swift */; };
 		7E3ADCD520E1505E0008400A /* FormattableContentGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3ADCD120E1505E0008400A /* FormattableContentGroup.swift */; };
+		7E3ADCDA20E290680008400A /* FormattableContentFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3ADCD920E290680008400A /* FormattableContentFormatter.swift */; };
 		8236EB4D2024B9F8007C7CF9 /* RemoteBlogJetpackModulesSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8236EB4C2024B9F8007C7CF9 /* RemoteBlogJetpackModulesSettings.swift */; };
 		826016F11F9FA13A00533B6C /* ActivityServiceRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826016F01F9FA13A00533B6C /* ActivityServiceRemote.swift */; };
 		826016F31F9FA17B00533B6C /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826016F21F9FA17B00533B6C /* Activity.swift */; };
@@ -637,6 +638,7 @@
 		7E3ADCCF20E1505D0008400A /* FormattableContentRange.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormattableContentRange.swift; sourceTree = "<group>"; };
 		7E3ADCD020E1505E0008400A /* FormattableContent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormattableContent.swift; sourceTree = "<group>"; };
 		7E3ADCD120E1505E0008400A /* FormattableContentGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormattableContentGroup.swift; sourceTree = "<group>"; };
+		7E3ADCD920E290680008400A /* FormattableContentFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormattableContentFormatter.swift; sourceTree = "<group>"; };
 		8236EB4C2024B9F8007C7CF9 /* RemoteBlogJetpackModulesSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteBlogJetpackModulesSettings.swift; sourceTree = "<group>"; };
 		826016F01F9FA13A00533B6C /* ActivityServiceRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityServiceRemote.swift; sourceTree = "<group>"; };
 		826016F21F9FA17B00533B6C /* Activity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Activity.swift; sourceTree = "<group>"; };
@@ -1118,14 +1120,15 @@
 		9368C79B1EC62EB70092CE8E /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				7E3ADCD920E290680008400A /* FormattableContentFormatter.swift */,
 				7E3ADCD020E1505E0008400A /* FormattableContent.swift */,
+				E6D0EE611F7EF9CE0064D3FC /* AccountServiceRemoteREST+SocialService.swift */,
 				7E3ADCD120E1505E0008400A /* FormattableContentGroup.swift */,
 				7E3ADCCF20E1505D0008400A /* FormattableContentRange.swift */,
 				7E3ADCCE20E1505D0008400A /* FormattableMediaContent.swift */,
 				93BD27381EE73282002BB00B /* AccountServiceRemote.h */,
 				93BD27391EE73282002BB00B /* AccountServiceRemoteREST.h */,
 				93BD273A1EE73282002BB00B /* AccountServiceRemoteREST.m */,
-				E6D0EE611F7EF9CE0064D3FC /* AccountServiceRemoteREST+SocialService.swift */,
 				7403A2E31EF06ED500DED7DC /* AccountSettingsRemote.swift */,
 				826016F01F9FA13A00533B6C /* ActivityServiceRemote.swift */,
 				82FFBF551F460DD400F4573F /* BlogJetpackSettingsServiceRemote.swift */,
@@ -2067,6 +2070,7 @@
 				93BD273D1EE73282002BB00B /* AccountServiceRemoteREST.m in Sources */,
 				82FFBF501F45EFD100F4573F /* RemoteBlogJetpackSettings.swift in Sources */,
 				74650F741F0EA1E200188EDB /* RemoteGravatarProfile.swift in Sources */,
+				7E3ADCDA20E290680008400A /* FormattableContentFormatter.swift in Sources */,
 				93BD27811EE73944002BB00B /* WordPressOrgXMLRPCApi.swift in Sources */,
 				B5A4822B20AC6C0B009D95F6 /* CocoaLumberjack.swift in Sources */,
 				9368C7B21EC630270092CE8E /* StatsItem.m in Sources */,

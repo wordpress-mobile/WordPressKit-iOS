@@ -48,8 +48,8 @@ public class Activity {
     public let items: [ActivityObject]?
 
     public let content: AnyObject?
-
     var cachedContentGroup: FormattableContentGroup<Activity>? = nil
+    let formatter = FormattableContentFormatter(styles: ActivityFormattableContentStyles())
 
     private let rewindable: Bool
 
@@ -139,7 +139,10 @@ public class Activity {
     }
 
     public var formattedContent: NSAttributedString {
-        return contentGroup?.blockOfKind(.text)?.render() ?? NSAttributedString()
+        guard let textBlock = contentGroup?.blockOfKind(.text) else {
+            return NSAttributedString()
+        }
+        return formatter.render(content: textBlock)
     }
 }
 
