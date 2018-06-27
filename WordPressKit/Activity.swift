@@ -40,7 +40,7 @@ extension Activity: FormattableContentParent {
 class ActivityContentGroup: FormattableContentGroup {
     class func create(with subject: [[String: AnyObject]], parent: FormattableContentParent) -> FormattableContentGroup {
         let blocks = FormattableContent.blocksFromArray(subject, parent: parent)
-        return FormattableContentGroup(blocks: blocks, kind: .subject)
+        return FormattableContentGroup(blocks: blocks)
     }
 }
 
