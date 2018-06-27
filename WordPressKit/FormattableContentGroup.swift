@@ -32,12 +32,4 @@ extension FormattableContentGroup {
 
         return nil
     }
-
-    /// Extracts all of the imageUrl's for the blocks of the specified kinds
-    ///
-    public func imageUrlsFromBlocksInKindSet(_ kindSet: Set<FormattableContent.Kind>) -> Set<URL> {
-        let filtered = blocks.filter { kindSet.contains($0.kind) }
-        let imageUrls = filtered.flatMap { $0.imageUrls }
-        return Set(imageUrls) as Set<URL>
-    }
 }
