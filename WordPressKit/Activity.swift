@@ -115,11 +115,6 @@ public class Activity {
         } else {
             items = nil
         }
-
-        content = dictionary["content"]
-        if let nonNilContent = content {
-            print(nonNilContent)
-        }
     }
 
     public lazy var isRewindComplete: Bool = {
