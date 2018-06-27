@@ -3,19 +3,16 @@ import Foundation
 
 public class FormattableContentFormatter {
 
-    let styles: FormattableContentStyles
-
     /// Helper used by the +Interface Extension.
     ///
     fileprivate var dynamicAttributesCache = [String: AnyObject]()
 
-    public init(styles: FormattableContentStyles) {
-        self.styles = styles
+    public init() {
     }
 
-    public func render(content: FormattableContent) -> NSAttributedString {
+    public func render(content: FormattableContent, with styles: FormattableContentStyles) -> NSAttributedString {
         let attributedText = memoize {
-            let snippet = self.text(from: content, with: self.styles)
+            let snippet = self.text(from: content, with: styles)
 
             return snippet.trimNewlines()
         }

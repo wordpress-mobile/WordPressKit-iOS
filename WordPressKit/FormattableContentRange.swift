@@ -94,7 +94,7 @@ public class FormattableContentRange {
     ///
     /// Alternatively, depending on what you need to get done, you may also consider modifying the way the current blocks look like.
     ///
-    init(kind: Kind, range: NSRange, url: URL? = nil, commentID: NSNumber? = nil, postID: NSNumber? = nil, siteID: NSNumber? = nil, userID: NSNumber? = nil, value: String? = nil) {
+    public init(kind: Kind, range: NSRange, url: URL? = nil, commentID: NSNumber? = nil, postID: NSNumber? = nil, siteID: NSNumber? = nil, userID: NSNumber? = nil, value: String? = nil) {
         self.kind = kind
         self.range = range
         self.url = url

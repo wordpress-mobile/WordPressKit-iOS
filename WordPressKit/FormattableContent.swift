@@ -104,7 +104,7 @@ public class FormattableContent: Equatable {
     ///
     /// Alternatively, depending on what you need to get done, you may also consider modifying the way the current blocks look like.
     ///
-    init(text: String?, ranges: [FormattableContentRange] = [], media: [FormattableMediaContent] = []) {
+    public init(text: String?, ranges: [FormattableContentRange] = [], media: [FormattableMediaContent] = []) {
         self.text = text
         self.ranges = ranges
         self.media =  media

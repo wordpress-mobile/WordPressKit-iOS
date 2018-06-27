@@ -37,6 +37,13 @@ extension Activity: FormattableContentParent {
     }
 }
 
+class ActivityContentGroup: FormattableContentGroup {
+    class func create(with subject: [[String: AnyObject]], parent: FormattableContentParent) -> FormattableContentGroup {
+        let blocks = FormattableContent.blocksFromArray(subject, parent: parent)
+        return FormattableContentGroup(blocks: blocks, kind: .subject)
+    }
+}
+
 public class Activity {
     public let activityID: String
     public let summary: String
@@ -51,8 +58,9 @@ public class Activity {
     public let object: ActivityObject?
     public let target: ActivityObject?
     public let items: [ActivityObject]?
-
     public let content: AnyObject?
+
+    let formatter = FormattableContentFormatter()
     var cachedContentGroup: FormattableContentGroup? = nil
 
     private let rewindable: Bool
@@ -139,15 +147,15 @@ public class Activity {
             return nil
         }
 
-        cachedContentGroup = FormattableContentGroup.groupFromSubject([content], parent: self)
+        cachedContentGroup = ActivityContentGroup.create(with: [content], parent: self)
         return cachedContentGroup
     }
 
-    public func formattedContent(ofKind kind: FormattableContent.Kind, using formatter: FormattableContentFormatter) -> NSAttributedString {
+    public func formattedContent(ofKind kind: FormattableContent.Kind, using styles: FormattableContentStyles) -> NSAttributedString {
         guard let textBlock = contentGroup?.blockOfKind(kind) else {
             return NSAttributedString()
         }
-        return formatter.render(content: textBlock)
+        return formatter.render(content: textBlock, with: styles)
     }
 }
 
