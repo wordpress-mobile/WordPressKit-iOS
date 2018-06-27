@@ -115,6 +115,8 @@ public class Activity {
         } else {
             items = nil
         }
+
+        content = dictionary["content"]
     }
 
     public lazy var isRewindComplete: Bool = {
