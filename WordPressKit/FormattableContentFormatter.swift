@@ -20,7 +20,6 @@ public class FormattableContentFormatter {
         return attributedText(styles.key)
     }
 
-
     /// This method is meant to aid cache-implementation into all of the AttriutedString getters introduced
     /// in this extension.
     ///
@@ -121,90 +120,5 @@ public class FormattableContentFormatter {
         }
 
         return newString
-    }
-}
-
-
-
-extension NSMutableAttributedString {
-    func applyAttributes(toQuotes attributes: [NSAttributedStringKey: Any]?) {
-        guard let attributes = attributes else {
-            return
-        }
-        let rawString = self.string
-        let scanner = Scanner(string: rawString)
-        let quotes = scanner.scanQuotesText()
-        quotes.forEach {
-            if let itemRange = rawString.range(of: $0) {
-                let range = NSRange(itemRange, in: rawString)
-                self.addAttributes(attributes, range: range)
-            }
-
-        }
-    }
-}
-
-extension NSAttributedString {
-    /// This helper method returns a new NSAttributedString instance, with all of the the leading / trailing newLines
-    /// characters removed.
-    ///
-    @objc func trimNewlines() -> NSAttributedString {
-        guard let trimmed = mutableCopy() as? NSMutableAttributedString else {
-            return self
-        }
-
-        let characterSet = CharacterSet.newlines
-
-        // Trim: Leading
-        var range = (trimmed.string as NSString).rangeOfCharacter(from: characterSet)
-
-        while range.length != 0 && range.location == 0 {
-            trimmed.replaceCharacters(in: range, with: String())
-            range = (trimmed.string as NSString).rangeOfCharacter(from: characterSet)
-        }
-
-        // Trim Trailing
-        range = (trimmed.string as NSString).rangeOfCharacter(from: characterSet, options: .backwards)
-
-        while range.length != 0 && NSMaxRange(range) == trimmed.length {
-            trimmed.replaceCharacters(in: range, with: String())
-            range = (trimmed.string as NSString).rangeOfCharacter(from: characterSet, options: .backwards)
-        }
-
-        return trimmed
-    }
-}
-
-extension Scanner {
-    func scanQuotesText() -> [String] {
-        var scanned = [String]()
-        var quote: NSString?
-        let quoteString = "\""
-        while self.isAtEnd == false {
-            scanUpTo(quoteString, into: nil)
-            scanString(quoteString, into: nil)
-            scanUpTo(quoteString, into: &quote)
-            scanUpTo(quoteString, into: nil)
-
-            if let quoteString = quote, quoteString.isEmpty() == false {
-                scanned.append(quoteString as String)
-            }
-        }
-
-        return scanned
-    }
-}
-
-extension NSMutableParagraphStyle {
-    @objc convenience init(minLineHeight: CGFloat, lineBreakMode: NSLineBreakMode, alignment: NSTextAlignment) {
-        self.init()
-        self.minimumLineHeight  = minLineHeight
-        self.lineBreakMode      = lineBreakMode
-        self.alignment          = alignment
-    }
-
-    @objc convenience init(minLineHeight: CGFloat, maxLineHeight: CGFloat, lineBreakMode: NSLineBreakMode, alignment: NSTextAlignment) {
-        self.init(minLineHeight: minLineHeight, lineBreakMode: lineBreakMode, alignment: alignment)
-        self.maximumLineHeight  = maxLineHeight
     }
 }

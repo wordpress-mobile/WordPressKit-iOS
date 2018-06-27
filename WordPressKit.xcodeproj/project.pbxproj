@@ -220,6 +220,11 @@
 		7E3ADCD520E1505E0008400A /* FormattableContentGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3ADCD120E1505E0008400A /* FormattableContentGroup.swift */; };
 		7E3ADCDA20E290680008400A /* FormattableContentFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3ADCD920E290680008400A /* FormattableContentFormatter.swift */; };
 		7E3ADCDD20E2AE3D0008400A /* FormattableContentStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3ADCDC20E2AE3D0008400A /* FormattableContentStyles.swift */; };
+		7E3E7A4520E443060075D159 /* NSAttributedString+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3E7A4420E443050075D159 /* NSAttributedString+extensions.swift */; };
+		7E3E7A4820E443370075D159 /* NSMutableAttributedString+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3E7A4720E443370075D159 /* NSMutableAttributedString+extensions.swift */; };
+		7E3E7A4A20E443890075D159 /* Scanner+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3E7A4920E443890075D159 /* Scanner+extensions.swift */; };
+		7E3E7A4C20E443AA0075D159 /* NSMutableParagraphStyle+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3E7A4B20E443AA0075D159 /* NSMutableParagraphStyle+extensions.swift */; };
+		7E3E7A4F20E446600075D159 /* FormattableContentParent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3E7A4E20E446600075D159 /* FormattableContentParent.swift */; };
 		8236EB4D2024B9F8007C7CF9 /* RemoteBlogJetpackModulesSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8236EB4C2024B9F8007C7CF9 /* RemoteBlogJetpackModulesSettings.swift */; };
 		826016F11F9FA13A00533B6C /* ActivityServiceRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826016F01F9FA13A00533B6C /* ActivityServiceRemote.swift */; };
 		826016F31F9FA17B00533B6C /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826016F21F9FA17B00533B6C /* Activity.swift */; };
@@ -641,6 +646,11 @@
 		7E3ADCD120E1505E0008400A /* FormattableContentGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormattableContentGroup.swift; sourceTree = "<group>"; };
 		7E3ADCD920E290680008400A /* FormattableContentFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormattableContentFormatter.swift; sourceTree = "<group>"; };
 		7E3ADCDC20E2AE3D0008400A /* FormattableContentStyles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormattableContentStyles.swift; sourceTree = "<group>"; };
+		7E3E7A4420E443050075D159 /* NSAttributedString+extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+extensions.swift"; sourceTree = "<group>"; };
+		7E3E7A4720E443370075D159 /* NSMutableAttributedString+extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+extensions.swift"; sourceTree = "<group>"; };
+		7E3E7A4920E443890075D159 /* Scanner+extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Scanner+extensions.swift"; sourceTree = "<group>"; };
+		7E3E7A4B20E443AA0075D159 /* NSMutableParagraphStyle+extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableParagraphStyle+extensions.swift"; sourceTree = "<group>"; };
+		7E3E7A4E20E446600075D159 /* FormattableContentParent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormattableContentParent.swift; sourceTree = "<group>"; };
 		8236EB4C2024B9F8007C7CF9 /* RemoteBlogJetpackModulesSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteBlogJetpackModulesSettings.swift; sourceTree = "<group>"; };
 		826016F01F9FA13A00533B6C /* ActivityServiceRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityServiceRemote.swift; sourceTree = "<group>"; };
 		826016F21F9FA17B00533B6C /* Activity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Activity.swift; sourceTree = "<group>"; };
@@ -980,6 +990,31 @@
 			name = Media;
 			sourceTree = "<group>";
 		};
+		7E3E7A4320E442740075D159 /* FormattableContent */ = {
+			isa = PBXGroup;
+			children = (
+				7E3ADCD920E290680008400A /* FormattableContentFormatter.swift */,
+				7E3ADCDC20E2AE3D0008400A /* FormattableContentStyles.swift */,
+				7E3ADCD020E1505E0008400A /* FormattableContent.swift */,
+				7E3E7A4E20E446600075D159 /* FormattableContentParent.swift */,
+				7E3ADCD120E1505E0008400A /* FormattableContentGroup.swift */,
+				7E3ADCCF20E1505D0008400A /* FormattableContentRange.swift */,
+				7E3ADCCE20E1505D0008400A /* FormattableMediaContent.swift */,
+			);
+			name = FormattableContent;
+			sourceTree = "<group>";
+		};
+		7E3E7A4620E443100075D159 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				7E3E7A4420E443050075D159 /* NSAttributedString+extensions.swift */,
+				7E3E7A4720E443370075D159 /* NSMutableAttributedString+extensions.swift */,
+				7E3E7A4920E443890075D159 /* Scanner+extensions.swift */,
+				7E3E7A4B20E443AA0075D159 /* NSMutableParagraphStyle+extensions.swift */,
+			);
+			name = Extensions;
+			sourceTree = "<group>";
+		};
 		826016FE1F9FD59400533B6C /* Activity */ = {
 			isa = PBXGroup;
 			children = (
@@ -1122,13 +1157,7 @@
 		9368C79B1EC62EB70092CE8E /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				7E3ADCD920E290680008400A /* FormattableContentFormatter.swift */,
-				7E3ADCDC20E2AE3D0008400A /* FormattableContentStyles.swift */,
-				7E3ADCD020E1505E0008400A /* FormattableContent.swift */,
 				E6D0EE611F7EF9CE0064D3FC /* AccountServiceRemoteREST+SocialService.swift */,
-				7E3ADCD120E1505E0008400A /* FormattableContentGroup.swift */,
-				7E3ADCCF20E1505D0008400A /* FormattableContentRange.swift */,
-				7E3ADCCE20E1505D0008400A /* FormattableMediaContent.swift */,
 				93BD27381EE73282002BB00B /* AccountServiceRemote.h */,
 				93BD27391EE73282002BB00B /* AccountServiceRemoteREST.h */,
 				93BD273A1EE73282002BB00B /* AccountServiceRemoteREST.m */,
@@ -1212,6 +1241,8 @@
 		9368C79C1EC62EBD0092CE8E /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				7E3E7A4620E443100075D159 /* Extensions */,
+				7E3E7A4320E442740075D159 /* FormattableContent */,
 				E1EF5D5E1F9F3CA700B6D53E /* Plugins */,
 				930F52B91ECF8A44002F921B /* Stats */,
 				7403A3011EF0726E00DED7DC /* AccountSettings.swift */,
@@ -2023,6 +2054,7 @@
 				7430C9D71F1933210051B8E6 /* RemoteReaderCrossPostMeta.swift in Sources */,
 				9311A68B1F22625A00704AC9 /* TaxonomyServiceRemoteXMLRPC.m in Sources */,
 				93BD277E1EE73944002BB00B /* NSDate+WordPressJSON.m in Sources */,
+				7E3E7A4820E443370075D159 /* NSMutableAttributedString+extensions.swift in Sources */,
 				E194CB731FBDEF6500B0A8B8 /* PluginState.swift in Sources */,
 				E13EE1471F33258E00C15787 /* PluginServiceRemote.swift in Sources */,
 				9368C7B61EC630270092CE8E /* StatsStreak.m in Sources */,
@@ -2040,14 +2072,17 @@
 				9368C7C01EC630CE0092CE8E /* StatsStringUtilities.m in Sources */,
 				826016F11F9FA13A00533B6C /* ActivityServiceRemote.swift in Sources */,
 				74BA04FA1F06DC3900ED5CD8 /* RemoteComment.m in Sources */,
+				7E3E7A4C20E443AA0075D159 /* NSMutableParagraphStyle+extensions.swift in Sources */,
 				93C674EC1EE8348F00BFAF05 /* RemoteBlogOptionsHelper.m in Sources */,
 				E632D7781F6E047400297F6D /* SocialLogin2FANonceInfo.swift in Sources */,
 				9F3E0B9B208732B3009CB5BA /* RemoteReaderSiteInfoSubscription.swift in Sources */,
 				7403A2E41EF06ED500DED7DC /* AccountSettingsRemote.swift in Sources */,
+				7E3E7A4F20E446600075D159 /* FormattableContentParent.swift in Sources */,
 				93C674E81EE8345300BFAF05 /* RemoteBlog.m in Sources */,
 				7E3ADCD320E1505E0008400A /* FormattableContentRange.swift in Sources */,
 				93BD27831EE73944002BB00B /* WordPressRSDParser.swift in Sources */,
 				826016F31F9FA17B00533B6C /* Activity.swift in Sources */,
+				7E3E7A4A20E443890075D159 /* Scanner+extensions.swift in Sources */,
 				7E3ADCDD20E2AE3D0008400A /* FormattableContentStyles.swift in Sources */,
 				742362E31F1025B400BD0A7F /* RemoteMenuLocation.m in Sources */,
 				82FFBF561F460DD400F4573F /* BlogJetpackSettingsServiceRemote.swift in Sources */,
@@ -2100,6 +2135,7 @@
 				74E2295B1F1E77290085F7F2 /* KeyringConnection.swift in Sources */,
 				74B5F0DA1EF8299B00B411E7 /* BlogServiceRemoteXMLRPC.m in Sources */,
 				E1EF5D5D1F9F329900B6D53E /* SitePluginCapabilities.swift in Sources */,
+				7E3E7A4520E443060075D159 /* NSAttributedString+extensions.swift in Sources */,
 				93F50A411F227C9700B5BEBA /* RemoteProfile.swift in Sources */,
 				93C674EE1EE834B700BFAF05 /* RemoteBlogSettings.swift in Sources */,
 				82FFBF521F45F04100F4573F /* RemoteBlogJetpackMonitorSettings.swift in Sources */,
