@@ -4,7 +4,7 @@ import Foundation
 
 // MARK: - FormattableMediaContent Entity
 //
-class FormattableMediaContent {
+public class FormattableMediaContent {
     /// Kind of the current Media.
     ///
     let kind: Kind
@@ -15,11 +15,11 @@ class FormattableMediaContent {
 
     /// Resource URL, if any.
     ///
-    fileprivate(set) var mediaURL: URL?
+    public private(set) var mediaURL: URL?
 
     /// Resource Size, if any.
     ///
-    fileprivate(set) var size: CGSize?
+    public private(set) var size: CGSize?
 
 
     /// Designated Initializer.

@@ -11,7 +11,7 @@ open class FormattableContentGroup {
 
     /// Kind of the current Group
     ///
-    let kind: Kind
+    public let kind: Kind
 
     /// Designated Initializer
     ///
@@ -34,7 +34,7 @@ extension FormattableContentGroup {
 
     /// Extracts all of the imageUrl's for the blocks of the specified kinds
     ///
-    func imageUrlsFromBlocksInKindSet(_ kindSet: Set<FormattableContent.Kind>) -> Set<URL> {
+    public func imageUrlsFromBlocksInKindSet(_ kindSet: Set<FormattableContent.Kind>) -> Set<URL> {
         let filtered = blocks.filter { kindSet.contains($0.kind) }
         let imageUrls = filtered.flatMap { $0.imageUrls }
         return Set(imageUrls) as Set<URL>
@@ -77,7 +77,7 @@ extension FormattableContentGroup {
 
 // MARK: - Private Parsing Helpers
 //
-private extension FormattableContentGroup {
+extension FormattableContentGroup {
     /// Non-Comment Body Groups: 1-1 Mapping between Blocks <> BlockGroups
     ///
     ///     -   Notifications of the kind [Follow, Like, CommentLike] may contain a Footer block.
@@ -142,7 +142,7 @@ private extension FormattableContentGroup {
 
     /// Returns the First Block of a specified kind.
     ///
-    class func blockOfKind(_ kind: FormattableContent.Kind, from blocks: [FormattableContent]) -> FormattableContent? {
+    public class func blockOfKind(_ kind: FormattableContent.Kind, from blocks: [FormattableContent]) -> FormattableContent? {
         for block in blocks where block.kind == kind {
             return block
         }
@@ -154,11 +154,11 @@ private extension FormattableContentGroup {
 
 // MARK: - Private Parsing Helpers
 //
-private extension FormattableContentGroup {
+extension FormattableContentGroup {
 
     /// Returns a BlockGroup containing a single Text Block, which links to the specified URL.
     ///
-    class func pingbackReadMoreGroup(for url: URL) -> FormattableContentGroup {
+    public class func pingbackReadMoreGroup(for url: URL) -> FormattableContentGroup {
         let text = NSLocalizedString("Read the source post", comment: "Displayed at the footer of a Pingback Notification.")
         let textRange = NSRange(location: 0, length: text.count)
         let zeroRange = NSRange(location: 0, length: 0)
@@ -189,7 +189,7 @@ extension FormattableContentGroup {
         case header
         case footer
 
-        static func fromBlockKind(_ blockKind: FormattableContent.Kind) -> Kind {
+        public static func fromBlockKind(_ blockKind: FormattableContent.Kind) -> Kind {
             switch blockKind {
             case .text:     return .text
             case .image:    return .image

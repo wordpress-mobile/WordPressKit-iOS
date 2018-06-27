@@ -32,7 +32,7 @@ public protocol FormattableContentParent: AnyObject {
 public class FormattableContent: Equatable {
     /// Parsed Media Entities.
     ///
-    let media: [FormattableMediaContent]
+    public let media: [FormattableMediaContent]
 
     /// Parsed Range Entities.
     ///
@@ -40,7 +40,7 @@ public class FormattableContent: Equatable {
 
     /// Block Associated Text.
     ///
-    let text: String?
+    public let text: String?
 
     /// Text Override: Local (Ephimeral) Edition.
     ///
@@ -121,7 +121,7 @@ public class FormattableContent: Equatable {
 extension FormattableContent {
     /// Returns the current Block's Kind. SORRY: Duck Typing code below.
     ///
-    var kind: Kind {
+    public var kind: Kind {
         if let rawType = type, rawType.isEqual(Constants.BlockKeys.UserType) {
             return .user
         }
@@ -139,7 +139,7 @@ extension FormattableContent {
 
     /// Returns all of the Image URL's referenced by the FormattableMediaContent instances.
     ///
-    var imageUrls: [URL] {
+    public var imageUrls: [URL] {
         return media.compactMap {
             guard $0.kind == .Image && $0.mediaURL != nil else {
                 return nil
@@ -151,7 +151,7 @@ extension FormattableContent {
 
     /// Returns YES if the associated comment (if any) is approved. NO otherwise.
     ///
-    var isCommentApproved: Bool {
+    public var isCommentApproved: Bool {
         return isActionOn(.Approve) || !isActionEnabled(.Approve)
     }
 
@@ -163,7 +163,7 @@ extension FormattableContent {
 
     /// Home Site's Link, if any.
     ///
-    var metaLinksHome: URL? {
+    public var metaLinksHome: URL? {
         guard let rawLink = metaLinks?[Constants.MetaKeys.Home] as? String else {
             return nil
         }
@@ -179,7 +179,7 @@ extension FormattableContent {
 
     /// Home Site's Title, if any.
     ///
-    var metaTitlesHome: String? {
+    public var metaTitlesHome: String? {
         return metaTitles?[Constants.MetaKeys.Home] as? String
     }
 
@@ -239,13 +239,13 @@ extension FormattableContent {
 
     /// Returns *true* if a given action is available.
     ///
-    func isActionEnabled(_ action: Action) -> Bool {
+    public func isActionEnabled(_ action: Action) -> Bool {
         return valueForAction(action) != nil
     }
 
     /// Returns *true* if a given action is toggled on. (I.e.: Approval = On >> the comment is currently approved).
     ///
-    func isActionOn(_ action: Action) -> Bool {
+    public func isActionOn(_ action: Action) -> Bool {
         return valueForAction(action) ?? false
     }
 
@@ -280,7 +280,7 @@ extension FormattableContent {
 
     /// Finds the first FormattableContentRange instance that maps to a given CommentID.
     ///
-    func formattableContentRangeWithCommentId(_ commentID: NSNumber) -> FormattableContentRange? {
+    public func formattableContentRangeWithCommentId(_ commentID: NSNumber) -> FormattableContentRange? {
         for range in ranges {
             if let rangeCommentID = range.commentID, rangeCommentID.isEqual(commentID) {
                 return range
@@ -301,6 +301,27 @@ extension FormattableContent {
         return blocks.compactMap {
             return FormattableContent(dictionary: $0, parent: parent)
         }
+    }
+
+    public func buildRangesToImagesMap(_ mediaMap: [URL: UIImage]) -> [NSValue: UIImage]? {
+        guard textOverride == nil else {
+            return nil
+        }
+
+        var ranges = [NSValue: UIImage]()
+
+        for theMedia in media {
+            guard let mediaURL = theMedia.mediaURL else {
+                continue
+            }
+
+            if let image = mediaMap[mediaURL as URL] {
+                let rangeValue      = NSValue(range: theMedia.range)
+                ranges[rangeValue]  = image
+            }
+        }
+
+        return ranges
     }
 }
 
