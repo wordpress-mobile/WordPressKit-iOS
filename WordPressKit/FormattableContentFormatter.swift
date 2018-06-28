@@ -20,6 +20,10 @@ public class FormattableContentFormatter {
         return attributedText(styles.key)
     }
 
+    public func resetCache() {
+        dynamicAttributesCache.removeAll()
+    }
+
     /// This method is meant to aid cache-implementation into all of the AttriutedString getters introduced
     /// in this extension.
     ///
