@@ -37,9 +37,15 @@ extension Activity: FormattableContentParent {
     }
 }
 
+class ActivityActionsParser: FormattableContentActionParser {
+    func parse(_ dictionary: [String : AnyObject]?) -> [FormattableContentAction] {
+        return []
+    }
+}
+
 class ActivityContentGroup: FormattableContentGroup {
     class func create(with subject: [[String: AnyObject]], parent: FormattableContentParent) -> FormattableContentGroup {
-        let blocks = FormattableContent.blocksFromArray(subject, actions: [], parent: parent)
+        let blocks = FormattableContent.blocksFromArray(subject, actionsParser: ActivityActionsParser(), parent: parent)
         return FormattableContentGroup(blocks: blocks)
     }
 }

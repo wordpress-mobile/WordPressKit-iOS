@@ -5,12 +5,14 @@ public protocol ActionableObject: AnyObject {
     var metaSiteID: NSNumber? { get }
     var metaCommentID: NSNumber? { get }
     var isCommentApproved: Bool { get }
+    var text: String? { get }
     var textOverride: String? { get set }
     func action(id: Identifier) -> FormattableContentAction?
 }
 
-
-
+public protocol FormattableContentActionParser {
+    func parse(_ dictionary: [String: AnyObject]?) -> [FormattableContentAction]
+}
 
 /// Used by both NotificationsViewController and NotificationDetailsViewController.
 ///

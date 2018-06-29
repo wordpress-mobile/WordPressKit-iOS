@@ -246,9 +246,10 @@ extension FormattableContent {
 
     /// Parses a collection of Block Definitions into FormattableContent instances.
     ///
-    public class func blocksFromArray(_ blocks: [[String: AnyObject]],  actions commandActions: [FormattableContentAction], parent: FormattableContentParent) -> [FormattableContent] {
+    public class func blocksFromArray(_ blocks: [[String: AnyObject]],  actionsParser parser: FormattableContentActionParser , parent: FormattableContentParent) -> [FormattableContent] {
         return blocks.compactMap {
-            return FormattableContent(dictionary: $0, actions: commandActions, parent: parent)
+            let actions = parser.parse($0[Constants.BlockKeys.Actions] as? [String: AnyObject])
+            return FormattableContent(dictionary: $0, actions: actions, parent: parent)
         }
     }
 
