@@ -2,7 +2,7 @@ import Foundation
 
 // MARK: - FormattableContent Implementation
 //
-public class FormattableContent: Equatable {
+open class FormattableContent: Equatable {
     /// Parsed Media Entities.
     ///
     public let media: [FormattableMediaContent]
@@ -17,23 +17,24 @@ public class FormattableContent: Equatable {
 
     /// Text Override: Local (Ephimeral) Edition.
     ///
-    var textOverride: String? {
+    public var textOverride: String? {
         didSet {
             parent?.didChangeOverrides()
         }
     }
 
-    /// Available Actions collection.
-    ///
-    fileprivate let actions: [String: AnyObject]?
-
-    /// Action Override Values
-    ///
-    fileprivate var actionsOverride = [Action: Bool]() {
-        didSet {
-            parent?.didChangeOverrides()
-        }
-    }
+    let actions: [FormattableContentAction]?
+//    /// Available Actions collection.
+//    ///
+//    fileprivate let actions: [String: AnyObject]?
+//
+//    /// Action Override Values
+//    ///
+//    fileprivate var actionsOverride = [Action: Bool]() {
+//        didSet {
+//            parent?.didChangeOverrides()
+//        }
+//    }
 
     /// Helper used by the +Interface Extension.
     ///
@@ -54,11 +55,11 @@ public class FormattableContent: Equatable {
 
     /// Designated Initializer.
     ///
-    init(dictionary: [String: AnyObject], parent note: FormattableContentParent) {
+    init(dictionary: [String: AnyObject], actions commandActions: [FormattableContentAction], parent note: FormattableContentParent) {
         let rawMedia    = dictionary[Constants.BlockKeys.Media] as? [[String: AnyObject]]
         let rawRanges   = dictionary[Constants.BlockKeys.Ranges] as? [[String: AnyObject]]
 
-        actions = dictionary[Constants.BlockKeys.Actions] as? [String: AnyObject]
+        actions = commandActions
         media   = FormattableMediaContent.mediaFromArray(rawMedia)
         meta    = dictionary[Constants.BlockKeys.Meta] as? [String: AnyObject]
         ranges  = FormattableContentRange.rangesFromArray(rawRanges)
@@ -120,15 +121,9 @@ extension FormattableContent {
         }
     }
 
-    /// Returns YES if the associated comment (if any) is approved. NO otherwise.
-    ///
-    public var isCommentApproved: Bool {
-        return isActionOn(.Approve) || !isActionEnabled(.Approve)
-    }
-
     /// Comment ID, if any.
     ///
-    var metaCommentID: NSNumber? {
+    public var metaCommentID: NSNumber? {
         return metaIds?[Constants.MetaKeys.Comment] as? NSNumber
     }
 
@@ -144,7 +139,7 @@ extension FormattableContent {
 
     /// Site ID, if any.
     ///
-    var metaSiteID: NSNumber? {
+    public var metaSiteID: NSNumber? {
         return metaIds?[Constants.MetaKeys.Site] as? NSNumber
     }
 
@@ -156,7 +151,7 @@ extension FormattableContent {
 
     /// Parent Notification ID
     ///
-    var parentID: String? {
+    public var parentID: String? {
         return parent?.uniqueID
     }
 
@@ -182,40 +177,24 @@ extension FormattableContent {
 // MARK: - FormattableContent Methods
 //
 extension FormattableContent {
-    /// Allows us to set a local override for a remote value. This is used to fake the UI, while
-    /// there's a BG call going on.
+    /// Gets a command by identifier
     ///
-    func setOverrideValue(_ value: Bool, forAction action: Action) {
-        actionsOverride[action] = value
+    public func action(id: Identifier) -> FormattableContentAction? {
+        return actions?.filter {
+            $0.identifier == id
+            }.first
     }
 
-    /// Removes any local (temporary) value that might have been set by means of *setActionOverrideValue*.
+    /// Indicated if a command is active
     ///
-    func removeOverrideValueForAction(_ action: Action) {
-        actionsOverride.removeValue(forKey: action)
+    public func isActionOn(id: Identifier) -> Bool {
+        return action(id: id)?.on ?? false
     }
 
-    /// Returns the Notification Block status for a given action. Will return any *Override* that might be set, if any.
+    /// Indicates if a command is enabled
     ///
-    fileprivate func valueForAction(_ action: Action) -> Bool? {
-        if let overrideValue = actionsOverride[action] {
-            return overrideValue
-        }
-
-        let value = actions?[action.rawValue] as? NSNumber
-        return value?.boolValue
-    }
-
-    /// Returns *true* if a given action is available.
-    ///
-    public func isActionEnabled(_ action: Action) -> Bool {
-        return valueForAction(action) != nil
-    }
-
-    /// Returns *true* if a given action is toggled on. (I.e.: Approval = On >> the comment is currently approved).
-    ///
-    public func isActionOn(_ action: Action) -> Bool {
-        return valueForAction(action) ?? false
+    public func isActionEnabled(id: Identifier) -> Bool {
+        return action(id: id)?.enabled ?? false
     }
 
     // Dynamic Attribute Cache: Used internally by the Interface Extension, as an optimization.
@@ -260,14 +239,16 @@ extension FormattableContent {
     }
 }
 
+
 // MARK: - FormattableContent Parsers
 //
 extension FormattableContent {
+
     /// Parses a collection of Block Definitions into FormattableContent instances.
     ///
-    public class func blocksFromArray(_ blocks: [[String: AnyObject]], parent: FormattableContentParent) -> [FormattableContent] {
+    public class func blocksFromArray(_ blocks: [[String: AnyObject]],  actions commandActions: [FormattableContentAction], parent: FormattableContentParent) -> [FormattableContent] {
         return blocks.compactMap {
-            return FormattableContent(dictionary: $0, parent: parent)
+            return FormattableContent(dictionary: $0, actions: commandActions, parent: parent)
         }
     }
 
