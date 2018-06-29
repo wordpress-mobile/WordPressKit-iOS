@@ -1,5 +1,49 @@
 import Foundation
 
+extension Activity: FormattableContentParent {
+    public func isEqual(to other: FormattableContentParent) -> Bool {
+        guard let otherActivity = other as? Activity else {
+            return false
+        }
+        return self == otherActivity
+    }
+
+    public var metaCommentID: NSNumber? {
+        return 0
+    }
+
+    public var uniqueID: String? {
+        return activityID
+    }
+
+    public var kind: ParentKind {
+        return .Unknown
+    }
+
+    public var metaReplyID: NSNumber? {
+        return 0
+    }
+
+    public var isPingback: Bool {
+        return false
+    }
+
+    public func didChangeOverrides() {
+
+    }
+
+    public static func == (lhs: Activity, rhs: Activity) -> Bool {
+        return lhs.activityID == rhs.activityID
+    }
+}
+
+class ActivityContentGroup: FormattableContentGroup {
+    class func create(with subject: [[String: AnyObject]], parent: FormattableContentParent) -> FormattableContentGroup {
+        let blocks = FormattableContent.blocksFromArray(subject, parent: parent)
+        return FormattableContentGroup(blocks: blocks)
+    }
+}
+
 public class Activity {
     public let activityID: String
     public let summary: String
@@ -14,6 +58,10 @@ public class Activity {
     public let object: ActivityObject?
     public let target: ActivityObject?
     public let items: [ActivityObject]?
+    public let content: AnyObject?
+
+    let formatter = FormattableContentFormatter()
+    var cachedContentGroup: FormattableContentGroup? = nil
 
     private let rewindable: Bool
 
@@ -34,6 +82,7 @@ public class Activity {
         guard let publishedDate = Date.dateWithISO8601WithMillisecondsString(publishedString) else {
             throw Error.incorrectPusblishedDateFormat
         }
+        
         activityID = id
         summary = summaryText
         text = contentText
@@ -66,6 +115,8 @@ public class Activity {
         } else {
             items = nil
         }
+
+        content = dictionary["content"]
     }
 
     public lazy var isRewindComplete: Bool = {
@@ -84,6 +135,25 @@ public class Activity {
         return rewindID != nil && rewindable
     }()
 
+    var contentGroup: FormattableContentGroup? {
+        if let group = cachedContentGroup {
+            return group
+        }
+
+        guard let content = content as? [String: AnyObject], content.isEmpty == false else {
+            return nil
+        }
+
+        cachedContentGroup = ActivityContentGroup.create(with: [content], parent: self)
+        return cachedContentGroup
+    }
+
+    public func formattedContent(ofKind kind: FormattableContent.Kind, using styles: FormattableContentStyles) -> NSAttributedString {
+        guard let textBlock = contentGroup?.blockOfKind(kind) else {
+            return NSAttributedString()
+        }
+        return formatter.render(content: textBlock, with: styles)
+    }
 }
 
 private extension Activity {
