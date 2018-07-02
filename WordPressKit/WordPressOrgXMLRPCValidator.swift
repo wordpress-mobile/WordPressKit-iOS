@@ -38,7 +38,7 @@ import CocoaLumberjack
 /// WordPress XMLRPC sites.
 open class WordPressOrgXMLRPCValidator: NSObject {
 
-    @objc open static let UserInfoHasJetpackKey = "UserInfoHasJetpackKey"
+    @objc public static let UserInfoHasJetpackKey = "UserInfoHasJetpackKey"
 
     // The documentation for NSURLErrorHTTPTooManyRedirects says that 16
     // is the default threshold for allowable redirects.
