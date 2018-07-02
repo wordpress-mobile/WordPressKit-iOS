@@ -6,8 +6,29 @@ public protocol FormattableContent {
     var ranges: [FormattableContentRange] { get }
     var parent: FormattableContentParent? { get }
     var actions: [FormattableContentAction]? { get }
+    var meta: [String: AnyObject]? { get }
 
     init(dictionary: [String: AnyObject], actions commandActions: [FormattableContentAction], parent note: FormattableContentParent)
+
+    func action(id: Identifier) -> FormattableContentAction?
+    func isActionEnabled(id: Identifier) -> Bool
+    func isActionOn(id: Identifier) -> Bool
+}
+
+public extension FormattableContent {
+    public func isActionEnabled(id: Identifier) -> Bool {
+        return action(id: id)?.enabled ?? false
+    }
+
+    public func isActionOn(id: Identifier) -> Bool {
+        return action(id: id)?.on ?? false
+    }
+
+    public func action(id: Identifier) -> FormattableContentAction? {
+        return actions?.filter {
+            $0.identifier == id
+            }.first
+    }
 }
 
 // MARK: - FormattableContent Implementation
@@ -21,7 +42,7 @@ open class DefaultFormattableContent: FormattableContent, Equatable {
 
     /// Parsed Media Entities.
     ///
-    public let media: [FormattableMediaContent]
+    public let media: [FormattableMediaItem]
 
     /// Text Override: Local (Ephimeral) Edition.
     ///
@@ -37,7 +58,7 @@ open class DefaultFormattableContent: FormattableContent, Equatable {
 
     /// Meta Fields collection.
     ///
-    fileprivate let meta: [String: AnyObject]?
+    public let meta: [String: AnyObject]?
 
     /// Raw Type, expressed as a string.
     ///
@@ -51,7 +72,7 @@ open class DefaultFormattableContent: FormattableContent, Equatable {
         let rawRanges   = dictionary[Constants.BlockKeys.Ranges] as? [[String: AnyObject]]
 
         actions = commandActions
-        media   = FormattableMediaContent.mediaFromArray(rawMedia)
+        media   = FormattableMediaItem.mediaFromArray(rawMedia)
         meta    = dictionary[Constants.BlockKeys.Meta] as? [String: AnyObject]
         ranges  = FormattableContentRange.rangesFromArray(rawRanges)
         parent  = note
@@ -69,7 +90,7 @@ open class DefaultFormattableContent: FormattableContent, Equatable {
     ///
     /// Alternatively, depending on what you need to get done, you may also consider modifying the way the current blocks look like.
     ///
-    public init(text: String?, ranges: [FormattableContentRange] = [], media: [FormattableMediaContent] = []) {
+    public init(text: String?, ranges: [FormattableContentRange] = [], media: [FormattableMediaItem] = []) {
         self.text = text
         self.ranges = ranges
         self.media =  media

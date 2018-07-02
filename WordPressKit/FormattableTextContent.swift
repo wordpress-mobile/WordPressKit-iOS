@@ -1,21 +1,23 @@
 
 import Foundation
 
-struct FormattableTextContent: FormattableContent {
-    var parent: FormattableContentParent?
+open class FormattableTextContent: FormattableContent {
+    public let text: String?
+    public let ranges: [FormattableContentRange]
 
-    var actions: [FormattableContentAction]?
+    public var parent: FormattableContentParent?
+    public var actions: [FormattableContentAction]?
 
-    let text: String?
-    let ranges: [FormattableContentRange]
+    public var meta: [String : AnyObject]?
 
-    init(dictionary: [String : AnyObject], actions commandActions: [FormattableContentAction], parent note: FormattableContentParent) {
+    public required init(dictionary: [String : AnyObject], actions commandActions: [FormattableContentAction], parent note: FormattableContentParent) {
         let rawRanges   = dictionary[Constants.BlockKeys.Ranges] as? [[String: AnyObject]]
 
         actions = commandActions
         ranges  = FormattableContentRange.rangesFromArray(rawRanges)
         parent  = note
         text    = dictionary[Constants.BlockKeys.Text] as? String
+        meta    = dictionary[Constants.BlockKeys.Meta] as? [String: AnyObject]
     }
 }
 

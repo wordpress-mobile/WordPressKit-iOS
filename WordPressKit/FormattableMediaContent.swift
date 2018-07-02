@@ -4,14 +4,14 @@ import Foundation
 
 // MARK: - FormattableMediaContent Entity
 //
-public class FormattableMediaContent {
+public class FormattableMediaItem {
     /// Kind of the current Media.
     ///
-    let kind: Kind
+    public let kind: Kind
 
     /// Text Range Associated!
     ///
-    let range: NSRange
+    public let range: NSRange
 
     /// Resource URL, if any.
     ///
@@ -46,12 +46,12 @@ public class FormattableMediaContent {
 
 // MARK: - NotificationRange Parsers
 //
-extension FormattableMediaContent {
+extension FormattableMediaItem {
     /// Parses FormattableMediaContent instances, given an array of raw media.
     ///
-    class func mediaFromArray(_ media: [[String: AnyObject]]?) -> [FormattableMediaContent] {
+    public class func mediaFromArray(_ media: [[String: AnyObject]]?) -> [FormattableMediaItem] {
         let parsed = media?.compactMap {
-            return FormattableMediaContent(dictionary: $0)
+            return FormattableMediaItem(dictionary: $0)
         }
 
         return parsed ?? []
@@ -61,10 +61,10 @@ extension FormattableMediaContent {
 
 // MARK: - FormattableMediaContent Types
 //
-extension FormattableMediaContent {
+public extension FormattableMediaItem {
     /// Known kinds of Media Entities
     ///
-    enum Kind: String {
+    public enum Kind: String {
         case Image              = "image"
         case Badge              = "badge"
     }
