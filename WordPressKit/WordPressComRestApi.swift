@@ -24,21 +24,21 @@ import Alamofire
 }
 
 open class WordPressComRestApi: NSObject {    
-    @objc open static let ErrorKeyErrorCode: String = "WordPressComRestApiErrorCodeKey"
-    @objc open static let ErrorKeyErrorMessage: String = "WordPressComRestApiErrorMessageKey"
-    @objc open static let SessionTaskKey: String = "WordPressComRestAPI.sessionTask"
+    @objc public static let ErrorKeyErrorCode: String = "WordPressComRestApiErrorCodeKey"
+    @objc public static let ErrorKeyErrorMessage: String = "WordPressComRestApiErrorMessageKey"
+    @objc public static let SessionTaskKey: String = "WordPressComRestAPI.sessionTask"
 
     public typealias RequestEnqueuedBlock = (_ taskID : NSNumber) -> Void
     public typealias SuccessResponseBlock = (_ responseObject: AnyObject, _ httpResponse: HTTPURLResponse?) -> ()
     public typealias FailureReponseBlock = (_ error: NSError, _ httpResponse: HTTPURLResponse?) -> ()
 
-    @objc open static let apiBaseURLString: String = "https://public-api.wordpress.com/"
+    @objc public static let apiBaseURLString: String = "https://public-api.wordpress.com/"
     
-    @objc open static let defaultBackgroundSessionIdentifier = "org.wordpress.wpcomrestapi"
+    @objc public static let defaultBackgroundSessionIdentifier = "org.wordpress.wpcomrestapi"
     
-    @objc open let backgroundSessionIdentifier: String
+    @objc public let backgroundSessionIdentifier: String
 
-    @objc open let sharedContainerIdentifier: String?
+    @objc public let sharedContainerIdentifier: String?
     
     fileprivate let backgroundUploads: Bool
 

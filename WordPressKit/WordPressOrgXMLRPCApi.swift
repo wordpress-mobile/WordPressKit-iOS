@@ -11,7 +11,7 @@ open class WordPressOrgXMLRPCApi: NSObject {
     fileprivate let userAgent: String?
     fileprivate var backgroundUploads: Bool
     fileprivate var backgroundSessionIdentifier: String
-    @objc open static let defaultBackgroundSessionIdentifier = "org.wordpress.wporgxmlrpcapi"
+    @objc public static let defaultBackgroundSessionIdentifier = "org.wordpress.wporgxmlrpcapi"
 
     /// onChallenge's Callback Closure Signature. Host Apps should call this method, whenever a proper AuthChallengeDisposition has been
     /// picked up (optionally with URLCredentials!).
@@ -20,12 +20,12 @@ open class WordPressOrgXMLRPCApi: NSObject {
 
     /// Closure to be executed whenever we receive a URLSession Authentication Challenge.
     ///
-    open static var onChallenge: ((URLAuthenticationChallenge, @escaping AuthenticationHandler) -> Void)?
+    public static var onChallenge: ((URLAuthenticationChallenge, @escaping AuthenticationHandler) -> Void)?
 
 
     /// Minimum WordPress.org Supported Version.
     ///
-    @objc open static let minimumSupportedVersion = "4.0"
+    @objc public static let minimumSupportedVersion = "4.0"
 
 
     fileprivate lazy var sessionManager: Alamofire.SessionManager = {
@@ -288,9 +288,9 @@ open class WordPressOrgXMLRPCApi: NSObject {
         return responseXML as AnyObject
     }
 
-    @objc open static let WordPressOrgXMLRPCApiErrorKeyData: NSError.UserInfoKey = "WordPressOrgXMLRPCApiErrorKeyData"
-    @objc open static let WordPressOrgXMLRPCApiErrorKeyDataString: NSError.UserInfoKey = "WordPressOrgXMLRPCApiErrorKeyDataString"
-    @objc open static let WordPressOrgXMLRPCApiErrorKeyStatusCode: NSError.UserInfoKey = "WordPressOrgXMLRPCApiErrorKeyStatusCode"
+    @objc public static let WordPressOrgXMLRPCApiErrorKeyData: NSError.UserInfoKey = "WordPressOrgXMLRPCApiErrorKeyData"
+    @objc public static let WordPressOrgXMLRPCApiErrorKeyDataString: NSError.UserInfoKey = "WordPressOrgXMLRPCApiErrorKeyDataString"
+    @objc public static let WordPressOrgXMLRPCApiErrorKeyStatusCode: NSError.UserInfoKey = "WordPressOrgXMLRPCApiErrorKeyStatusCode"
 
     fileprivate func convertError(_ error: NSError, data: Data?, statusCode: Int? = nil) -> NSError {
         if let data = data {

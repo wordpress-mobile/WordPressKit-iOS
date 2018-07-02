@@ -14,11 +14,11 @@ import Foundation
 open class RemoteNotificationSettings {
     /// Represents the Channel to which the current settings are associated.
     ///
-    open let channel: Channel
+    public let channel: Channel
 
     /// Contains an array of the available Notification Streams.
     ///
-    open let streams: [Stream]
+    public let streams: [Stream]
 
 
 
@@ -158,7 +158,7 @@ open class RemoteNotificationSettings {
     ///
     /// - Returns: An array of RemoteNotificationSettings objects
     ///
-    open static func fromDictionary(_ dictionary: NSDictionary?) -> [RemoteNotificationSettings] {
+    public static func fromDictionary(_ dictionary: NSDictionary?) -> [RemoteNotificationSettings] {
         var parsed = [RemoteNotificationSettings]()
 
         if let rawBlogs = dictionary?["blogs"] as? [NSDictionary] {

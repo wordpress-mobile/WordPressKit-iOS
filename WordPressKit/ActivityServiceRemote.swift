@@ -128,8 +128,15 @@ private extension ActivityServiceRemote {
     func mapActivitiesResponse(_ response: AnyObject) throws -> ([Activity], Int) {
 
         guard let json = response as? [String: AnyObject],
-            let totalItems = json["totalItems"] as? Int,
-            let current = json["current"] as? [String: AnyObject],
+            let totalItems = json["totalItems"] as? Int else {
+                throw ActivityServiceRemote.ResponseError.decodingFailure
+        }
+
+        guard totalItems > 0 else {
+            return ([], 0)
+        }
+
+        guard let current = json["current"] as? [String: AnyObject],
             let orderedItems = current["orderedItems"] as? [[String: AnyObject]] else {
                 throw ActivityServiceRemote.ResponseError.decodingFailure
         }

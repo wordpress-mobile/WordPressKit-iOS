@@ -133,10 +133,6 @@ public class Activity {
         return self.name == ActivityName.fullBackup
     }()
 
-    public lazy var publishedDateUTCWithoutTime: String = {
-        return self.published.longUTCStringWithoutTime()
-    }()
-
     public lazy var isRewindable: Bool = {
         return rewindID != nil && rewindable
     }()
