@@ -19,15 +19,15 @@ open class FormattableContentGroup {
 extension FormattableContentGroup {
     /// Returns the First Block of a specified kind
     ///
-    public func blockOfKind(_ kind: FormattableContent.Kind) -> FormattableContent? {
-        return type(of: self).blockOfKind(kind, from: blocks)
+    public func blockOfType<ContentType: FormattableContent>(_ aType: ContentType.Type) -> ContentType? {
+        return FormattableContentGroup.blockOfType(aType, from: blocks)
     }
 
     /// Returns the First Block of a specified kind.
     ///
-    public class func blockOfKind(_ kind: FormattableContent.Kind, from blocks: [FormattableContent]) -> FormattableContent? {
-        for block in blocks where block.kind == kind {
-            return block
+    public class func blockOfType<ContentType: FormattableContent>(_ aType: ContentType.Type, from blocks: [FormattableContent]) -> ContentType? {
+        for block in blocks where block is ContentType {
+            return block as? ContentType
         }
 
         return nil

@@ -45,7 +45,7 @@ class ActivityActionsParser: FormattableContentActionParser {
 
 class ActivityContentGroup: FormattableContentGroup {
     class func create(with subject: [[String: AnyObject]], parent: FormattableContentParent) -> FormattableContentGroup {
-        let blocks = FormattableContent.blocksFromArray(subject, actionsParser: ActivityActionsParser(), parent: parent)
+        let blocks = ActivityFormattableContentFactory.content(from: subject, actionsParser: ActivityActionsParser(), parent: parent)
         return FormattableContentGroup(blocks: blocks)
     }
 }
@@ -150,8 +150,8 @@ public class Activity {
         return cachedContentGroup
     }
 
-    public func formattedContent(ofKind kind: FormattableContent.Kind, using styles: FormattableContentStyles) -> NSAttributedString {
-        guard let textBlock = contentGroup?.blockOfKind(kind) else {
+    public func formattedContent(using styles: FormattableContentStyles) -> NSAttributedString {
+        guard let textBlock = contentGroup?.blockOfType(FormattableTextContent.self) else {
             return NSAttributedString()
         }
         return formatter.render(content: textBlock, with: styles)

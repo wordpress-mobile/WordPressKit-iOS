@@ -226,6 +226,8 @@
 		7E3E7A4C20E443AA0075D159 /* NSMutableParagraphStyle+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3E7A4B20E443AA0075D159 /* NSMutableParagraphStyle+extensions.swift */; };
 		7E3E7A4F20E446600075D159 /* FormattableContentParent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3E7A4E20E446600075D159 /* FormattableContentParent.swift */; };
 		7E841B4C20E6950600EB2BD1 /* FormattableContentAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E841B4B20E6950600EB2BD1 /* FormattableContentAction.swift */; };
+		7EFF208120EAC5E0009C4699 /* FormattableTextContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EFF208020EAC5E0009C4699 /* FormattableTextContent.swift */; };
+		7EFF208320EAC8E0009C4699 /* FormattableContentFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EFF208220EAC8E0009C4699 /* FormattableContentFactory.swift */; };
 		8236EB4D2024B9F8007C7CF9 /* RemoteBlogJetpackModulesSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8236EB4C2024B9F8007C7CF9 /* RemoteBlogJetpackModulesSettings.swift */; };
 		826016F11F9FA13A00533B6C /* ActivityServiceRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826016F01F9FA13A00533B6C /* ActivityServiceRemote.swift */; };
 		826016F31F9FA17B00533B6C /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826016F21F9FA17B00533B6C /* Activity.swift */; };
@@ -653,6 +655,8 @@
 		7E3E7A4B20E443AA0075D159 /* NSMutableParagraphStyle+extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableParagraphStyle+extensions.swift"; sourceTree = "<group>"; };
 		7E3E7A4E20E446600075D159 /* FormattableContentParent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormattableContentParent.swift; sourceTree = "<group>"; };
 		7E841B4B20E6950600EB2BD1 /* FormattableContentAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormattableContentAction.swift; sourceTree = "<group>"; };
+		7EFF208020EAC5E0009C4699 /* FormattableTextContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormattableTextContent.swift; sourceTree = "<group>"; };
+		7EFF208220EAC8E0009C4699 /* FormattableContentFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormattableContentFactory.swift; sourceTree = "<group>"; };
 		8236EB4C2024B9F8007C7CF9 /* RemoteBlogJetpackModulesSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteBlogJetpackModulesSettings.swift; sourceTree = "<group>"; };
 		826016F01F9FA13A00533B6C /* ActivityServiceRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityServiceRemote.swift; sourceTree = "<group>"; };
 		826016F21F9FA17B00533B6C /* Activity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Activity.swift; sourceTree = "<group>"; };
@@ -1003,6 +1007,8 @@
 				7E3ADCCF20E1505D0008400A /* FormattableContentRange.swift */,
 				7E3ADCCE20E1505D0008400A /* FormattableMediaContent.swift */,
 				7E841B4B20E6950600EB2BD1 /* FormattableContentAction.swift */,
+				7EFF208020EAC5E0009C4699 /* FormattableTextContent.swift */,
+				7EFF208220EAC8E0009C4699 /* FormattableContentFactory.swift */,
 			);
 			name = FormattableContent;
 			sourceTree = "<group>";
@@ -2107,6 +2113,7 @@
 				E182BF6A1FD961810001D850 /* Endpoint.swift in Sources */,
 				74BA04F41F06DC0A00ED5CD8 /* CommentServiceRemoteREST.m in Sources */,
 				74C473AC1EF2F75E009918F2 /* SiteManagementServiceRemote.swift in Sources */,
+				7EFF208120EAC5E0009C4699 /* FormattableTextContent.swift in Sources */,
 				74585B971F0D54B400E7E667 /* RemoteDomain.swift in Sources */,
 				74A44DD01F13C64B006CD8F4 /* RemoteNotification.swift in Sources */,
 				E1D6B558200E473A00325669 /* TimeZoneServiceRemote.swift in Sources */,
@@ -2134,6 +2141,7 @@
 				74DA563B1F06EB3000FE9BF4 /* RemoteMedia.m in Sources */,
 				9311A6861F22625A00704AC9 /* RemoteTaxonomyPaging.m in Sources */,
 				93BD27821EE73944002BB00B /* WordPressOrgXMLRPCValidator.swift in Sources */,
+				7EFF208320EAC8E0009C4699 /* FormattableContentFactory.swift in Sources */,
 				748710A81F06B542008095AB /* RemotePlan.swift in Sources */,
 				740B23C51F17EE8000067A2A /* RemotePost.m in Sources */,
 				74E2295B1F1E77290085F7F2 /* KeyringConnection.swift in Sources */,

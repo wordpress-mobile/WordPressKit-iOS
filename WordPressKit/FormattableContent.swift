@@ -1,19 +1,27 @@
 import Foundation
 
+
+public protocol FormattableContent {
+    var text: String? { get }
+    var ranges: [FormattableContentRange] { get }
+    var parent: FormattableContentParent? { get }
+    var actions: [FormattableContentAction]? { get }
+
+    init(dictionary: [String: AnyObject], actions commandActions: [FormattableContentAction], parent note: FormattableContentParent)
+}
+
 // MARK: - FormattableContent Implementation
 //
-open class FormattableContent: Equatable {
+open class DefaultFormattableContent: FormattableContent, Equatable {
+
+    public let text: String?
+    public let ranges: [FormattableContentRange]
+    public weak var parent: FormattableContentParent?
+    public let actions: [FormattableContentAction]?
+
     /// Parsed Media Entities.
     ///
     public let media: [FormattableMediaContent]
-
-    /// Parsed Range Entities.
-    ///
-    let ranges: [FormattableContentRange]
-
-    /// Block Associated Text.
-    ///
-    public let text: String?
 
     /// Text Override: Local (Ephimeral) Edition.
     ///
@@ -23,19 +31,6 @@ open class FormattableContent: Equatable {
         }
     }
 
-    let actions: [FormattableContentAction]?
-//    /// Available Actions collection.
-//    ///
-//    fileprivate let actions: [String: AnyObject]?
-//
-//    /// Action Override Values
-//    ///
-//    fileprivate var actionsOverride = [Action: Bool]() {
-//        didSet {
-//            parent?.didChangeOverrides()
-//        }
-//    }
-
     /// Helper used by the +Interface Extension.
     ///
     fileprivate var dynamicAttributesCache = [String: AnyObject]()
@@ -44,10 +39,6 @@ open class FormattableContent: Equatable {
     ///
     fileprivate let meta: [String: AnyObject]?
 
-    /// Associated Notification
-    ///
-    fileprivate weak var parent: FormattableContentParent?
-
     /// Raw Type, expressed as a string.
     ///
     fileprivate let type: String?
@@ -55,7 +46,7 @@ open class FormattableContent: Equatable {
 
     /// Designated Initializer.
     ///
-    init(dictionary: [String: AnyObject], actions commandActions: [FormattableContentAction], parent note: FormattableContentParent) {
+    public required init(dictionary: [String: AnyObject], actions commandActions: [FormattableContentAction], parent note: FormattableContentParent) {
         let rawMedia    = dictionary[Constants.BlockKeys.Media] as? [[String: AnyObject]]
         let rawRanges   = dictionary[Constants.BlockKeys.Ranges] as? [[String: AnyObject]]
 
@@ -90,24 +81,24 @@ open class FormattableContent: Equatable {
 
 // MARK: - FormattableContent Computed Properties
 //
-extension FormattableContent {
+extension DefaultFormattableContent {
     /// Returns the current Block's Kind. SORRY: Duck Typing code below.
     ///
-    public var kind: Kind {
-        if let rawType = type, rawType.isEqual(Constants.BlockKeys.UserType) {
-            return .user
-        }
-
-        if let commentID = metaCommentID, let parentCommentID = parent?.metaCommentID, let _ = metaSiteID, commentID.isEqual(parentCommentID) {
-            return .comment
-        }
-
-        if let firstMedia = media.first, (firstMedia.kind == .Image || firstMedia.kind == .Badge) {
-            return .image
-        }
-
-        return .text
-    }
+//    public var kind: Kind {
+//        if let rawType = type, rawType.isEqual(Constants.BlockKeys.UserType) {
+//            return .user
+//        }
+//
+//        if let commentID = metaCommentID, let parentCommentID = parent?.metaCommentID, let _ = metaSiteID, commentID.isEqual(parentCommentID) {
+//            return .comment
+//        }
+//
+//        if let firstMedia = media.first, (firstMedia.kind == .Image || firstMedia.kind == .Badge) {
+//            return .image
+//        }
+//
+//        return .text
+//    }
 
     /// Returns all of the Image URL's referenced by the FormattableMediaContent instances.
     ///
@@ -176,7 +167,7 @@ extension FormattableContent {
 
 // MARK: - FormattableContent Methods
 //
-extension FormattableContent {
+extension DefaultFormattableContent {
     /// Gets a command by identifier
     ///
     public func action(id: Identifier) -> FormattableContentAction? {
@@ -242,14 +233,14 @@ extension FormattableContent {
 
 // MARK: - FormattableContent Parsers
 //
-extension FormattableContent {
+extension DefaultFormattableContent {
 
     /// Parses a collection of Block Definitions into FormattableContent instances.
     ///
     public class func blocksFromArray(_ blocks: [[String: AnyObject]],  actionsParser parser: FormattableContentActionParser , parent: FormattableContentParent) -> [FormattableContent] {
         return blocks.compactMap {
             let actions = parser.parse($0[Constants.BlockKeys.Actions] as? [String: AnyObject])
-            return FormattableContent(dictionary: $0, actions: actions, parent: parent)
+            return DefaultFormattableContent(dictionary: $0, actions: actions, parent: parent)
         }
     }
 
@@ -272,30 +263,6 @@ extension FormattableContent {
         }
 
         return ranges
-    }
-}
-
-// MARK: - FormattableContent Types
-//
-public extension FormattableContent {
-    /// Known kinds of Blocks
-    ///
-    public enum Kind {
-        case text
-        case image      // Includes Badges and Images
-        case user
-        case comment
-    }
-
-    /// Known kinds of Actions
-    ///
-    public enum Action: String {
-        case Approve            = "approve-comment"
-        case Follow             = "follow"
-        case Like               = "like-comment"
-        case Reply              = "replyto-comment"
-        case Spam               = "spam-comment"
-        case Trash              = "trash-comment"
     }
 }
 
@@ -328,8 +295,8 @@ private enum Constants {
 
 //// MARK: - FormattableContent Equatable Implementation
 
-extension FormattableContent {
-    public static func == (lhs: FormattableContent, rhs: FormattableContent) -> Bool {
+extension DefaultFormattableContent {
+    public static func == (lhs: DefaultFormattableContent, rhs: DefaultFormattableContent) -> Bool {
         if lhs.parent == nil && rhs.parent == nil {
             return lhs.isEqual(to: rhs)
         }
@@ -339,9 +306,8 @@ extension FormattableContent {
         return lhs.isEqual(to: rhs) && lhsParent.isEqual(to: rhsParent)
     }
 
-    private func isEqual(to other: FormattableContent) -> Bool {
-        return kind == other.kind &&
-            text == other.text &&
+    private func isEqual(to other: DefaultFormattableContent) -> Bool {
+        return text == other.text &&
             ranges.count == other.ranges.count &&
             media.count == other.media.count
     }
