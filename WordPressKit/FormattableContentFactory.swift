@@ -16,5 +16,5 @@ struct ActivityFormattableContentFactory: FormattableContentFactory {
 }
 
 private enum Constants {
-    static let ActionsKey      = "actions"
+    static let ActionsKey = "actions"
 }

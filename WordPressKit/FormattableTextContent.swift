@@ -8,6 +8,10 @@ open class FormattableTextContent: FormattableContent {
     public var parent: FormattableContentParent?
     public var actions: [FormattableContentAction]?
 
+    open var type: String? {
+        return "text"
+    }
+
     public var meta: [String : AnyObject]?
 
     public required init(dictionary: [String : AnyObject], actions commandActions: [FormattableContentAction], parent note: FormattableContentParent) {
@@ -19,31 +23,19 @@ open class FormattableTextContent: FormattableContent {
         text    = dictionary[Constants.BlockKeys.Text] as? String
         meta    = dictionary[Constants.BlockKeys.Meta] as? [String: AnyObject]
     }
+
+    public init(text: String, ranges: [FormattableContentRange]) {
+        self.text = text
+        self.ranges = ranges
+    }
 }
 
 private enum Constants {
     /// Parsing Keys
     ///
     fileprivate enum BlockKeys {
-        static let Actions      = "actions"
-        static let Media        = "media"
         static let Meta         = "meta"
         static let Ranges       = "ranges"
-        static let RawType      = "type"
         static let Text         = "text"
-        static let UserType     = "user"
-    }
-
-    /// Meta Parsing Keys
-    ///
-    fileprivate enum MetaKeys {
-        static let Ids          = "ids"
-        static let Links        = "links"
-        static let Titles       = "titles"
-        static let Site         = "site"
-        static let Post         = "post"
-        static let Comment      = "comment"
-        static let Reply        = "reply_comment"
-        static let Home         = "home"
     }
 }
