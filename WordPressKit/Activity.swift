@@ -37,10 +37,20 @@ extension Activity: FormattableContentParent {
     }
 }
 
+class ActivityActionsParser: FormattableContentActionParser {
+    func parse(_ dictionary: [String : AnyObject]?) -> [FormattableContentAction] {
+        return []
+    }
+}
+
+extension FormattableContentGroup.Kind {
+    static let activity = FormattableContentGroup.Kind("activity")
+}
+
 class ActivityContentGroup: FormattableContentGroup {
     class func create(with subject: [[String: AnyObject]], parent: FormattableContentParent) -> FormattableContentGroup {
-        let blocks = FormattableContent.blocksFromArray(subject, parent: parent)
-        return FormattableContentGroup(blocks: blocks)
+        let blocks = ActivityFormattableContentFactory.content(from: subject, actionsParser: ActivityActionsParser(), parent: parent)
+        return FormattableContentGroup(blocks: blocks, kind: .activity)
     }
 }
 
@@ -144,8 +154,8 @@ public class Activity {
         return cachedContentGroup
     }
 
-    public func formattedContent(ofKind kind: FormattableContent.Kind, using styles: FormattableContentStyles) -> NSAttributedString {
-        guard let textBlock = contentGroup?.blockOfKind(kind) else {
+    public func formattedContent(using styles: FormattableContentStyles) -> NSAttributedString {
+        guard let textBlock: FormattableTextContent = contentGroup?.blockOfKind(.text) else {
             return NSAttributedString()
         }
         return formatter.render(content: textBlock, with: styles)

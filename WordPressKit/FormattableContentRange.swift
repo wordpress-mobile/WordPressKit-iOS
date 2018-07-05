@@ -19,7 +19,7 @@ public class FormattableContentRange {
 
     /// Comment ID, if any.
     ///
-    fileprivate(set) var commentID: NSNumber?
+    public fileprivate(set) var commentID: NSNumber?
 
     /// Post ID, if any.
     ///
