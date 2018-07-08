@@ -79,8 +79,7 @@ public class FormattableContentFormatter {
         var lengthShift = 0
 
         for range in content.ranges {
-            lengthShift += range.shift
-            range.apply(styles, to: theString, withShift: lengthShift)
+            lengthShift += range.apply(styles, to: theString, withShift: lengthShift)
         }
 
         return theString

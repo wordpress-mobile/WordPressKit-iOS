@@ -1,31 +1,59 @@
 import Foundation
 
+public protocol FormattableContentRange {
+    typealias Shift = Int
+    var range: NSRange { get }
+    func apply(_ styles: FormattableContentStyles, to string: NSMutableAttributedString, withShift shift: Int) -> Shift
+}
+
 // MARK: - DefaultFormattableContentRange Entity
 //
-public class FormattableContentRange {
+public class NotificationContentRange: FormattableContentRange {
     public let kind: Kind
     public let range: NSRange
 
-    public func apply(_ styles: FormattableContentStyles, to string: NSMutableAttributedString, withShift shift: Int) {
-        var shiftedRange        = range
-        shiftedRange.location   += shift
+    public let userID: NSNumber?
+    public let siteID: NSNumber?
+    public let postID: NSNumber?
+    public let url: URL?
 
+    public init(kind: Kind, properties: Properties) {
+        self.kind = kind
+        range = properties.range
+        url = properties.url
+        siteID = properties.siteID
+        userID = properties.userID
+        postID = properties.postID
+    }
+
+    public func apply(_ styles: FormattableContentStyles, to string: NSMutableAttributedString, withShift shift: Int) -> Shift {
+        let shiftedRange = rangeShifted(by: shift)
+
+        apply(styles, to: string, at: shiftedRange)
+        applyURLStyles(to: string, shiftedRange: shiftedRange, applying: styles)
+
+        return 0
+    }
+
+    fileprivate func apply(_ styles: FormattableContentStyles, to string: NSMutableAttributedString, at shiftedRange: NSRange) {
         if let rangeStyle = styles.rangeStylesMap?[kind] {
             string.addAttributes(rangeStyle, range: shiftedRange)
         }
     }
 
-    var shift: Int {
-        return 0
+    fileprivate func applyURLStyles(to string: NSMutableAttributedString, shiftedRange: NSRange, applying styles: FormattableContentStyles) {
+        if let url = url, let linksColor = styles.linksColor {
+            string.addAttribute(.link, value: url, range: shiftedRange)
+            string.addAttribute(.foregroundColor, value: linksColor, range: shiftedRange)
+        }
     }
 
-    init(kind: Kind, range: NSRange) {
-        self.range = range
-        self.kind = kind
+    fileprivate func rangeShifted(by shift: Int) -> NSRange {
+        return NSMakeRange(range.location + shift, range.length)
     }
 }
 
-extension FormattableContentRange {
+public extension NotificationContentRange {
     public struct Kind: Equatable, Hashable {
         let rawType: String
 
@@ -35,91 +63,66 @@ extension FormattableContentRange {
     }
 }
 
-class FormattableUserRange: FormattableContentRange {
-    public let userID: NSNumber
+public class FormattableCommentRange: NotificationContentRange {
+    public let commentID: NSNumber?
 
-    init(userID: NSNumber, range: NSRange) {
-        self.userID = userID
-        super.init(kind: FormattableContentRange.Kind.user, range: range)
-    }
-}
-
-public class FormattablePostRange: FormattableContentRange {
-    public let postID: NSNumber
-
-    init(postID: NSNumber, range: NSRange) {
-        self.postID = postID
-        super.init(kind: FormattableContentRange.Kind.post, range: range)
-    }
-}
-
-public class FormattableCommentRange: FormattableContentRange {
-    public let commentID: NSNumber
-    public let postID: NSNumber
-
-    init(commentID: NSNumber, postID: NSNumber, range: NSRange) {
+    public init(commentID: NSNumber?, properties: Properties) {
         self.commentID = commentID
-        self.postID = postID
-        super.init(kind: FormattableContentRange.Kind.comment, range: range)
+        super.init(kind: .comment, properties: properties)
     }
 }
 
-public class FormattableNoticonRange: FormattableContentRange {
+public class FormattableNoticonRange: NotificationContentRange {
     public let value: String
-    override var shift: Int {
-        return 1
+
+    private var noticon: String {
+        return value + " "
     }
 
-    init(value: String, range: NSRange) {
+    public init(value: String, properties: Properties) {
         self.value = value
-        super.init(kind: FormattableContentRange.Kind.noticon, range: range)
+        super.init(kind: .noticon, properties: properties)
     }
 
-    public override func apply(_ styles: FormattableContentStyles, to string: NSMutableAttributedString, withShift shift: Int) {
-        //do noticon stuff
-        super.apply(styles, to: string, withShift: shift)
+    public override func apply(_ styles: FormattableContentStyles, to string: NSMutableAttributedString, withShift shift: Int) -> Shift {
+
+        let shiftedRange = rangeShifted(by: shift)
+        string.replaceCharacters(in: shiftedRange, with: noticon)
+
+        let superShift = super.apply(styles, to: string, withShift: shift)
+
+        return noticon.count + superShift
+    }
+
+    override func apply(_ styles: FormattableContentStyles, to string: NSMutableAttributedString, at shiftedRange: NSRange) {
+        let longerRange = NSMakeRange(shiftedRange.location, shiftedRange.length + noticon.count)
+        super.apply(styles, to: string, at: longerRange)
     }
 }
 
-public class FormattableSiteRange: FormattableContentRange {
-    public let siteID: NSNumber
+extension NotificationContentRange {
+    public struct Properties {
+        let range: NSRange
+        public var url: URL?
+        public var siteID: NSNumber?
+        public var userID: NSNumber?
+        public var postID: NSNumber?
 
-    init(siteID: NSNumber, range: NSRange) {
-        self.siteID = siteID
-        super.init(kind: FormattableContentRange.Kind.site, range: range)
-    }
-}
-
-public class FormattableLinkRange: FormattableContentRange {
-    public let url: URL
-
-    init(url: URL, range: NSRange) {
-        self.url = url
-        super.init(kind: FormattableContentRange.Kind.link, range: range)
-    }
-
-    public override func apply(_ styles: FormattableContentStyles, to string: NSMutableAttributedString, withShift shift: Int) {
-        super.apply(styles, to: string, withShift: shift)
-
-        var shiftedRange        = range
-        shiftedRange.location   += shift
-
-        if let linksColor = styles.linksColor {
-            string.addAttribute(.link, value: url, range: shiftedRange)
-            string.addAttribute(.foregroundColor, value: linksColor, range: shiftedRange)
+        public init(range: NSRange) {
+            self.range = range
         }
     }
 }
 
-extension FormattableContentRange.Kind {
-    static let user       = FormattableContentRange.Kind("user")
-    static let post       = FormattableContentRange.Kind("post")
-    static let comment    = FormattableContentRange.Kind("comment")
-    static let stats      = FormattableContentRange.Kind("stat")
-    static let follow     = FormattableContentRange.Kind("follow")
-    static let blockquote = FormattableContentRange.Kind("blockquote")
-    static let noticon    = FormattableContentRange.Kind("noticon")
-    static let site       = FormattableContentRange.Kind("site")
-    static let match      = FormattableContentRange.Kind("match")
-    static let link       = FormattableContentRange.Kind("link")
+public extension NotificationContentRange.Kind {
+    public static let user       = NotificationContentRange.Kind("user")
+    public static let post       = NotificationContentRange.Kind("post")
+    public static let comment    = NotificationContentRange.Kind("comment")
+    public static let stats      = NotificationContentRange.Kind("stat")
+    public static let follow     = NotificationContentRange.Kind("follow")
+    public static let blockquote = NotificationContentRange.Kind("blockquote")
+    public static let noticon    = NotificationContentRange.Kind("noticon")
+    public static let site       = NotificationContentRange.Kind("site")
+    public static let match      = NotificationContentRange.Kind("match")
+    public static let link       = NotificationContentRange.Kind("link")
 }
