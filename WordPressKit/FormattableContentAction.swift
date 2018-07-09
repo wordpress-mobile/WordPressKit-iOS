@@ -71,19 +71,19 @@ public protocol FormattableContentAction: CustomStringConvertible {
     var identifier: Identifier { get }
     var enabled: Bool { get }
     var on: Bool { get }
-    var icon: UIButton? { get }
+    var command: FormattableContentActionCommand? { get }
 
     func execute(context: ActionContext)
 }
 
 extension FormattableContentAction {
-    public static func actionIdentifier() -> Identifier {
-        return Identifier(value: String(describing: self))
+    public var description: String {
+        return identifier.description + "enabled \(enabled)"
     }
 }
 
 extension FormattableContentAction {
-    public var description: String {
-        return identifier.description + " enabled \(enabled)"
+    public static func actionIdentifier() -> Identifier {
+        return Identifier(value: String(describing: self))
     }
 }
