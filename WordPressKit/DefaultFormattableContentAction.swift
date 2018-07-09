@@ -7,7 +7,7 @@ public class DefaultFormattableContentAction: FormattableContentAction {
         return type(of: self).actionIdentifier()
     }
 
-    init(on: Bool) {
+    public init(on: Bool) {
         self.on = on
         self.enabled = true
     }
