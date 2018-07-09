@@ -25,15 +25,30 @@ open class FormattableTextContent: FormattableContent {
         let rawRanges   = dictionary[Constants.BlockKeys.Ranges] as? [[String: AnyObject]]
 
         actions = commandActions
-        ranges = FormattableContentRange.rangesFromArray(rawRanges)
+        ranges = FormattableTextContent.rangesFrom(rawRanges)
         parent = note
         internalText = dictionary[Constants.BlockKeys.Text] as? String
         meta = dictionary[Constants.BlockKeys.Meta] as? [String: AnyObject]
     }
 
-    public init(text: String, ranges: [FormattableContentRange]) {
+    public init(text: String, ranges: [NotificationContentRange]) {
         self.internalText = text
         self.ranges = ranges
+    }
+
+    private static func rangesFrom(_ rawRanges: [[String: AnyObject]]?) -> [NotificationContentRange] {
+        let parsed = rawRanges?.compactMap(NotificationContentRangeFactory.contentRange)
+        return parsed ?? []
+    }
+}
+
+public extension FormattableMediaItem {
+    fileprivate enum MediaKeys {
+        static let RawType      = "type"
+        static let URL          = "url"
+        static let Indices      = "indices"
+        static let Width        = "width"
+        static let Height       = "height"
     }
 }
 

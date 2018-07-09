@@ -226,6 +226,7 @@
 		7E3E7A4C20E443AA0075D159 /* NSMutableParagraphStyle+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3E7A4B20E443AA0075D159 /* NSMutableParagraphStyle+extensions.swift */; };
 		7E3E7A4F20E446600075D159 /* FormattableContentParent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3E7A4E20E446600075D159 /* FormattableContentParent.swift */; };
 		7E841B4C20E6950600EB2BD1 /* FormattableContentAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E841B4B20E6950600EB2BD1 /* FormattableContentAction.swift */; };
+		7E9A02F920F01CAF0094DC69 /* NotificationContentRangeFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E9A02F820F01CAF0094DC69 /* NotificationContentRangeFactory.swift */; };
 		7EFF208120EAC5E0009C4699 /* FormattableTextContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EFF208020EAC5E0009C4699 /* FormattableTextContent.swift */; };
 		7EFF208320EAC8E0009C4699 /* FormattableContentFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EFF208220EAC8E0009C4699 /* FormattableContentFactory.swift */; };
 		8236EB4D2024B9F8007C7CF9 /* RemoteBlogJetpackModulesSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8236EB4C2024B9F8007C7CF9 /* RemoteBlogJetpackModulesSettings.swift */; };
@@ -655,6 +656,7 @@
 		7E3E7A4B20E443AA0075D159 /* NSMutableParagraphStyle+extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableParagraphStyle+extensions.swift"; sourceTree = "<group>"; };
 		7E3E7A4E20E446600075D159 /* FormattableContentParent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormattableContentParent.swift; sourceTree = "<group>"; };
 		7E841B4B20E6950600EB2BD1 /* FormattableContentAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormattableContentAction.swift; sourceTree = "<group>"; };
+		7E9A02F820F01CAF0094DC69 /* NotificationContentRangeFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationContentRangeFactory.swift; sourceTree = "<group>"; };
 		7EFF208020EAC5E0009C4699 /* FormattableTextContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormattableTextContent.swift; sourceTree = "<group>"; };
 		7EFF208220EAC8E0009C4699 /* FormattableContentFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormattableContentFactory.swift; sourceTree = "<group>"; };
 		8236EB4C2024B9F8007C7CF9 /* RemoteBlogJetpackModulesSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteBlogJetpackModulesSettings.swift; sourceTree = "<group>"; };
@@ -1009,6 +1011,7 @@
 				7E841B4B20E6950600EB2BD1 /* FormattableContentAction.swift */,
 				7EFF208020EAC5E0009C4699 /* FormattableTextContent.swift */,
 				7EFF208220EAC8E0009C4699 /* FormattableContentFactory.swift */,
+				7E9A02F820F01CAF0094DC69 /* NotificationContentRangeFactory.swift */,
 			);
 			name = FormattableContent;
 			sourceTree = "<group>";
@@ -2130,6 +2133,7 @@
 				7430C9A61F1927180051B8E6 /* ReaderSiteServiceRemote.m in Sources */,
 				7430C9B21F1927C50051B8E6 /* RemoteReaderPost.m in Sources */,
 				93BD27931EE82B30002BB00B /* JetpackServiceRemote.m in Sources */,
+				7E9A02F920F01CAF0094DC69 /* NotificationContentRangeFactory.swift in Sources */,
 				74A44DCD1F13C533006CD8F4 /* PushAuthenticationServiceRemote.swift in Sources */,
 				742362DF1F1025B400BD0A7F /* RemoteMenu.m in Sources */,
 				7E3ADCD220E1505E0008400A /* FormattableMediaContent.swift in Sources */,

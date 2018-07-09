@@ -1,179 +1,128 @@
 import Foundation
 
+public protocol FormattableContentRange {
+    typealias Shift = Int
+    var range: NSRange { get }
+    func apply(_ styles: FormattableContentStyles, to string: NSMutableAttributedString, withShift shift: Int) -> Shift
+}
 
-
-// MARK: - FormattableContentRange Entity
+// MARK: - DefaultFormattableContentRange Entity
 //
-public class FormattableContentRange {
-    /// Kind of the current Range
-    ///
-    let kind: Kind
+public class NotificationContentRange: FormattableContentRange {
+    public let kind: Kind
+    public let range: NSRange
 
-    /// Text Range Associated!
-    ///
-    let range: NSRange
+    public let userID: NSNumber?
+    public let siteID: NSNumber?
+    public let postID: NSNumber?
+    public let url: URL?
 
-    /// Resource URL, if any.
-    ///
-    fileprivate(set) var url: URL?
-
-    /// Comment ID, if any.
-    ///
-    public fileprivate(set) var commentID: NSNumber?
-
-    /// Post ID, if any.
-    ///
-    fileprivate(set) var postID: NSNumber?
-
-    /// Site ID, if any.
-    ///
-    fileprivate(set) var siteID: NSNumber?
-
-    /// User ID, if any.
-    ///
-    fileprivate(set) var userID: NSNumber?
-
-    /// String Payload, if any.
-    ///
-    fileprivate(set) var value: String?
-
-
-    /// Designated Initializer
-    ///
-    init?(dictionary: [String: AnyObject]) {
-        guard let theKind = FormattableContentRange.kind(for: dictionary),
-            let indices = dictionary[RangeKeys.Indices] as? [Int],
-            let start = indices.first,
-            let end = indices.last
-            else {
-                return nil
-        }
-
-        kind = theKind
-        range = NSMakeRange(start, end - start)
-        siteID = dictionary[RangeKeys.SiteId] as? NSNumber
-
-        if let rawURL = dictionary[RangeKeys.URL] as? String {
-            url = URL(string: rawURL)
-        }
-
-        //  SORRY: << Let me stress this. Sorry, i'm 1000% against Duck Typing.
-        //  ======
-        //  `id` is coupled with the `kind`. Which, in turn, is also duck typed.
-        //
-        //      type = comment  => id = comment_id
-        //      type = user     => id = user_id
-        //      type = post     => id = post_id
-        //      type = site     => id = site_id
-        //
-        switch kind {
-        case .Comment:
-            commentID = dictionary[RangeKeys.Id] as? NSNumber
-            postID = dictionary[RangeKeys.PostId] as? NSNumber
-        case .Noticon:
-            value = dictionary[RangeKeys.Value] as? String
-        case .Post:
-            postID = dictionary[RangeKeys.Id] as? NSNumber
-        case .Site:
-            siteID = dictionary[RangeKeys.Id] as? NSNumber
-        case .User:
-            userID = dictionary[RangeKeys.Id] as? NSNumber
-        default:
-            break
-        }
-    }
-
-
-    /// AVOID USING This Initializer at all costs.
-    ///
-    /// The Notifications stack was designed to render the Model entities, retrieved via the Backend's API, for several reasons.
-    /// Most important one is: iOS, Android, WordPress.com and the WordPress Desktop App need to look consistent, all over.
-    ///
-    /// If you're tampering with the Backend Response, just to get a new UI component onscreen, means that you'll break consistency.
-    /// Please consider patching the backend first, so that the actual response contains (whatever) you need it to contain!.
-    ///
-    /// Alternatively, depending on what you need to get done, you may also consider modifying the way the current blocks look like.
-    ///
-    public init(kind: Kind, range: NSRange, url: URL? = nil, commentID: NSNumber? = nil, postID: NSNumber? = nil, siteID: NSNumber? = nil, userID: NSNumber? = nil, value: String? = nil) {
+    public init(kind: Kind, properties: Properties) {
         self.kind = kind
-        self.range = range
-        self.url = url
+        range = properties.range
+        url = properties.url
+        siteID = properties.siteID
+        userID = properties.userID
+        postID = properties.postID
+    }
+
+    public func apply(_ styles: FormattableContentStyles, to string: NSMutableAttributedString, withShift shift: Int) -> Shift {
+        let shiftedRange = rangeShifted(by: shift)
+
+        apply(styles, to: string, at: shiftedRange)
+        applyURLStyles(to: string, shiftedRange: shiftedRange, applying: styles)
+
+        return 0
+    }
+
+    fileprivate func apply(_ styles: FormattableContentStyles, to string: NSMutableAttributedString, at shiftedRange: NSRange) {
+        if let rangeStyle = styles.rangeStylesMap?[kind] {
+            string.addAttributes(rangeStyle, range: shiftedRange)
+        }
+    }
+
+    fileprivate func applyURLStyles(to string: NSMutableAttributedString, shiftedRange: NSRange, applying styles: FormattableContentStyles) {
+        if let url = url, let linksColor = styles.linksColor {
+            string.addAttribute(.link, value: url, range: shiftedRange)
+            string.addAttribute(.foregroundColor, value: linksColor, range: shiftedRange)
+        }
+    }
+
+    fileprivate func rangeShifted(by shift: Int) -> NSRange {
+        return NSMakeRange(range.location + shift, range.length)
+    }
+}
+
+public extension NotificationContentRange {
+    public struct Kind: Equatable, Hashable {
+        let rawType: String
+
+        public init(_ rawType: String) {
+            self.rawType = rawType
+        }
+    }
+}
+
+public class FormattableCommentRange: NotificationContentRange {
+    public let commentID: NSNumber?
+
+    public init(commentID: NSNumber?, properties: Properties) {
         self.commentID = commentID
-        self.postID = postID
-        self.siteID = siteID
-        self.userID = userID
+        super.init(kind: .comment, properties: properties)
+    }
+}
+
+public class FormattableNoticonRange: NotificationContentRange {
+    public let value: String
+
+    private var noticon: String {
+        return value + " "
+    }
+
+    public init(value: String, properties: Properties) {
         self.value = value
+        super.init(kind: .noticon, properties: properties)
     }
 
+    public override func apply(_ styles: FormattableContentStyles, to string: NSMutableAttributedString, withShift shift: Int) -> Shift {
 
-    /// Returns the FormattableContentRange Kind, for a given raw Notification Range.
-    ///
-    /// - Details:
-    ///     I truly hope the reviewer, and the Opensource Community can forgive this ongoing hack.
-    ///     Notifications can now carry URL's without specifying an explicit 'Type'. For that reason,
-    ///     surprise!... we're now also inferring the Notification Type.
-    ///
-    private static func kind(for dictionary: [String: AnyObject]) -> Kind? {
-        if let type = dictionary[RangeKeys.RawType] as? String,
-            let kind = Kind(rawValue: type) {
-            return kind
-        }
+        let shiftedRange = rangeShifted(by: shift)
+        string.replaceCharacters(in: shiftedRange, with: noticon)
 
-        if let _ = dictionary[RangeKeys.SiteId] {
-            return .Site
-        }
+        let superShift = super.apply(styles, to: string, withShift: shift)
 
-        if let _ = dictionary[RangeKeys.URL] {
-            return .Link
-        }
+        return noticon.count + superShift
+    }
 
-        return nil
+    override func apply(_ styles: FormattableContentStyles, to string: NSMutableAttributedString, at shiftedRange: NSRange) {
+        let longerRange = NSMakeRange(shiftedRange.location, shiftedRange.length + noticon.count)
+        super.apply(styles, to: string, at: longerRange)
     }
 }
 
+extension NotificationContentRange {
+    public struct Properties {
+        let range: NSRange
+        public var url: URL?
+        public var siteID: NSNumber?
+        public var userID: NSNumber?
+        public var postID: NSNumber?
 
-// MARK: - FormattableContentRange Parsers
-//
-extension FormattableContentRange {
-    /// Parses FormattableContentRange instances, given an array of raw ranges.
-    ///
-    class func rangesFromArray(_ ranges: [[String: AnyObject]]?) -> [FormattableContentRange] {
-        let parsed = ranges?.compactMap {
-            return FormattableContentRange(dictionary: $0)
+        public init(range: NSRange) {
+            self.range = range
         }
-
-        return parsed ?? []
     }
 }
 
-
-// MARK: - FormattableContentRange Types
-//
-public extension FormattableContentRange {
-    /// Known kinds of Range
-    ///
-    public enum Kind: String {
-        case User = "user"
-        case Post = "post"
-        case Comment = "comment"
-        case Stats = "stat"
-        case Follow = "follow"
-        case Blockquote = "blockquote"
-        case Noticon = "noticon"
-        case Site = "site"
-        case Match = "match"
-        case Link = "link"
-    }
-
-    /// Parsing Keys
-    ///
-    fileprivate enum RangeKeys {
-        static let RawType = "type"
-        static let URL = "url"
-        static let Indices = "indices"
-        static let Id = "id"
-        static let Value = "value"
-        static let SiteId = "site_id"
-        static let PostId = "post_id"
-    }
+public extension NotificationContentRange.Kind {
+    public static let user       = NotificationContentRange.Kind("user")
+    public static let post       = NotificationContentRange.Kind("post")
+    public static let comment    = NotificationContentRange.Kind("comment")
+    public static let stats      = NotificationContentRange.Kind("stat")
+    public static let follow     = NotificationContentRange.Kind("follow")
+    public static let blockquote = NotificationContentRange.Kind("blockquote")
+    public static let noticon    = NotificationContentRange.Kind("noticon")
+    public static let site       = NotificationContentRange.Kind("site")
+    public static let match      = NotificationContentRange.Kind("match")
+    public static let link       = NotificationContentRange.Kind("link")
 }

@@ -79,24 +79,7 @@ public class FormattableContentFormatter {
         var lengthShift = 0
 
         for range in content.ranges {
-            var shiftedRange        = range.range
-            shiftedRange.location   += lengthShift
-
-            if range.kind == .Noticon {
-                let noticon         = (range.value ?? String()) + " "
-                theString.replaceCharacters(in: shiftedRange, with: noticon)
-                lengthShift         += noticon.count
-                shiftedRange.length += noticon.count
-            }
-
-            if let rangeStyle = styles.rangeStylesMap?[range.kind] {
-                theString.addAttributes(rangeStyle, range: shiftedRange)
-            }
-
-            if let rangeURL = range.url, let linksColor = styles.linksColor {
-                theString.addAttribute(.link, value: rangeURL, range: shiftedRange)
-                theString.addAttribute(.foregroundColor, value: linksColor, range: shiftedRange)
-            }
+            lengthShift += range.apply(styles, to: theString, withShift: lengthShift)
         }
 
         return theString
