@@ -72,7 +72,8 @@ public protocol FormattableContentAction: CustomStringConvertible {
     var enabled: Bool { get }
     var on: Bool { get }
 
-    func execute(command: FormattableContentActionCommand)
+    func setCommand(_ command: FormattableContentActionCommand)
+    func execute(context: ActionContext)
 }
 
 extension FormattableContentAction {
