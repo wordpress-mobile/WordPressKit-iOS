@@ -1,0 +1,3 @@
+final class EditCommentAction: DefaultFormattableContentAction {
+    
+}
