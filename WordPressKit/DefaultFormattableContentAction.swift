@@ -7,18 +7,15 @@ public class DefaultFormattableContentAction: FormattableContentAction {
         }
     }
 
-    public var command: FormattableContentActionCommand?
+    public private(set) var command: FormattableContentActionCommand?
 
     public var identifier: Identifier {
         return type(of: self).actionIdentifier()
     }
 
-    public init(on: Bool) {
+    public init(on: Bool, command: FormattableContentActionCommand) {
         self.on = on
         self.enabled = true
-    }
-
-    public func setCommand(_ command: FormattableContentActionCommand) {
         self.command = command
     }
 
