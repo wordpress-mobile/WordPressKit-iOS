@@ -26,3 +26,12 @@ public class DefaultFormattableContentAction: FormattableContentAction {
         command?.execute(context: context)
     }
 }
+
+public final class ApproveCommentAction: DefaultFormattableContentAction { }
+public final class FollowAction: DefaultFormattableContentAction { }
+public final class LikeCommentAction: DefaultFormattableContentAction { }
+public final class ReplyToCommentAction: DefaultFormattableContentAction { }
+public final class MarkAsSpamAction: DefaultFormattableContentAction { }
+public final class TrashCommentAction: DefaultFormattableContentAction { }
+public final class LikePostAction: DefaultFormattableContentAction { }
+public final class EditCommentAction: DefaultFormattableContentAction { }

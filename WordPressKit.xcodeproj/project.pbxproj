@@ -390,14 +390,6 @@
 		B5A4822F20AC6C1A009D95F6 /* WPKitLogging.h in Headers */ = {isa = PBXBuildFile; fileRef = B5A4822D20AC6C1A009D95F6 /* WPKitLogging.h */; };
 		D89C533B20F31E04001E293E /* FormattableContentActionCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89C533A20F31E04001E293E /* FormattableContentActionCommand.swift */; };
 		D89C534420F326BB001E293E /* DefaultFormattableContentAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89C534320F326BB001E293E /* DefaultFormattableContentAction.swift */; };
-		D89C534620F32814001E293E /* ApproveCommentAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89C534520F32814001E293E /* ApproveCommentAction.swift */; };
-		D89C534820F3283F001E293E /* FollowAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89C534720F3283F001E293E /* FollowAction.swift */; };
-		D89C534A20F32868001E293E /* LikeCommentAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89C534920F32868001E293E /* LikeCommentAction.swift */; };
-		D89C534D20F328AA001E293E /* ReplyToCommentAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89C534C20F328AA001E293E /* ReplyToCommentAction.swift */; };
-		D89C534F20F328D1001E293E /* MarkAsSpamAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89C534E20F328D1001E293E /* MarkAsSpamAction.swift */; };
-		D89C535120F328F9001E293E /* TrashCommentAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89C535020F328F9001E293E /* TrashCommentAction.swift */; };
-		D89C535320F32920001E293E /* LikePostAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89C535220F32920001E293E /* LikePostAction.swift */; };
-		D89C535520F3292A001E293E /* EditCommentAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89C535420F3292A001E293E /* EditCommentAction.swift */; };
 		E11C2AD21FA77FB90023BDE2 /* SitePlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11C2AD11FA77FB90023BDE2 /* SitePlugin.swift */; };
 		E13EE1471F33258E00C15787 /* PluginServiceRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13EE1461F33258E00C15787 /* PluginServiceRemote.swift */; };
 		E13EE1491F332B8500C15787 /* site-plugins-success.json in Resources */ = {isa = PBXBuildFile; fileRef = E13EE1481F332B8500C15787 /* site-plugins-success.json */; };
@@ -839,14 +831,6 @@
 		CA5ABD95F40077D001644BCC /* Pods-WordPressKit.release-internal.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WordPressKit.release-internal.xcconfig"; path = "Pods/Target Support Files/Pods-WordPressKit/Pods-WordPressKit.release-internal.xcconfig"; sourceTree = "<group>"; };
 		D89C533A20F31E04001E293E /* FormattableContentActionCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormattableContentActionCommand.swift; sourceTree = "<group>"; };
 		D89C534320F326BB001E293E /* DefaultFormattableContentAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultFormattableContentAction.swift; sourceTree = "<group>"; };
-		D89C534520F32814001E293E /* ApproveCommentAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApproveCommentAction.swift; sourceTree = "<group>"; };
-		D89C534720F3283F001E293E /* FollowAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowAction.swift; sourceTree = "<group>"; };
-		D89C534920F32868001E293E /* LikeCommentAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeCommentAction.swift; sourceTree = "<group>"; };
-		D89C534C20F328AA001E293E /* ReplyToCommentAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyToCommentAction.swift; sourceTree = "<group>"; };
-		D89C534E20F328D1001E293E /* MarkAsSpamAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkAsSpamAction.swift; sourceTree = "<group>"; };
-		D89C535020F328F9001E293E /* TrashCommentAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrashCommentAction.swift; sourceTree = "<group>"; };
-		D89C535220F32920001E293E /* LikePostAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikePostAction.swift; sourceTree = "<group>"; };
-		D89C535420F3292A001E293E /* EditCommentAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditCommentAction.swift; sourceTree = "<group>"; };
 		E11C2AD11FA77FB90023BDE2 /* SitePlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SitePlugin.swift; sourceTree = "<group>"; };
 		E13EE1461F33258E00C15787 /* PluginServiceRemote.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PluginServiceRemote.swift; sourceTree = "<group>"; };
 		E13EE1481F332B8500C15787 /* site-plugins-success.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "site-plugins-success.json"; sourceTree = "<group>"; };
@@ -1594,14 +1578,6 @@
 			isa = PBXGroup;
 			children = (
 				D89C534320F326BB001E293E /* DefaultFormattableContentAction.swift */,
-				D89C534520F32814001E293E /* ApproveCommentAction.swift */,
-				D89C534720F3283F001E293E /* FollowAction.swift */,
-				D89C534920F32868001E293E /* LikeCommentAction.swift */,
-				D89C534C20F328AA001E293E /* ReplyToCommentAction.swift */,
-				D89C534E20F328D1001E293E /* MarkAsSpamAction.swift */,
-				D89C535020F328F9001E293E /* TrashCommentAction.swift */,
-				D89C535220F32920001E293E /* LikePostAction.swift */,
-				D89C535420F3292A001E293E /* EditCommentAction.swift */,
 			);
 			name = FormattableContentActions;
 			sourceTree = "<group>";
@@ -2074,7 +2050,6 @@
 				7430C9A41F1927180051B8E6 /* ReaderPostServiceRemote.m in Sources */,
 				74E2294E1F1E73FE0085F7F2 /* RemotePublicizeService.swift in Sources */,
 				9F3E0BA22087345F009CB5BA /* ServiceRequest.swift in Sources */,
-				D89C535120F328F9001E293E /* TrashCommentAction.swift in Sources */,
 				E1A6605F1FD694ED00BAC339 /* PluginDirectoryEntry.swift in Sources */,
 				7430C9CB1F192F260051B8E6 /* RemoteSourcePostAttribution.m in Sources */,
 				742362E11F1025B400BD0A7F /* RemoteMenuItem.m in Sources */,
@@ -2085,9 +2060,7 @@
 				9F3E0B9E208733C3009CB5BA /* ReaderServiceDeliveryFrequency.swift in Sources */,
 				74E2295E1F1E777B0085F7F2 /* RemoteSharingButton.swift in Sources */,
 				93BD27701EE737A8002BB00B /* ServiceRemoteWordPressComREST.m in Sources */,
-				D89C535520F3292A001E293E /* EditCommentAction.swift in Sources */,
 				7433BC001EFC4505002D9E92 /* PlanFeatureServiceRemote.swift in Sources */,
-				D89C534F20F328D1001E293E /* MarkAsSpamAction.swift in Sources */,
 				93BD277F1EE73944002BB00B /* WordPressComOAuthClient.swift in Sources */,
 				740B23B91F17EC7300067A2A /* PostServiceRemoteREST.m in Sources */,
 				93BD27801EE73944002BB00B /* WordPressComRestApi.swift in Sources */,
@@ -2142,8 +2115,6 @@
 				82FFBF561F460DD400F4573F /* BlogJetpackSettingsServiceRemote.swift in Sources */,
 				9368C7B81EC630270092CE8E /* StatsStreakItem.m in Sources */,
 				74BA04F61F06DC0A00ED5CD8 /* CommentServiceRemoteXMLRPC.m in Sources */,
-				D89C534A20F32868001E293E /* LikeCommentAction.swift in Sources */,
-				D89C534620F32814001E293E /* ApproveCommentAction.swift in Sources */,
 				7430C9A81F1927180051B8E6 /* ReaderTopicServiceRemote.m in Sources */,
 				17CE77F120C6EB41001DEA5A /* ReaderFeed.swift in Sources */,
 				7E3ADCD420E1505E0008400A /* FormattableContent.swift in Sources */,
@@ -2168,7 +2139,6 @@
 				82FFBF501F45EFD100F4573F /* RemoteBlogJetpackSettings.swift in Sources */,
 				74650F741F0EA1E200188EDB /* RemoteGravatarProfile.swift in Sources */,
 				7E3ADCDA20E290680008400A /* FormattableContentFormatter.swift in Sources */,
-				D89C534D20F328AA001E293E /* ReplyToCommentAction.swift in Sources */,
 				93BD27811EE73944002BB00B /* WordPressOrgXMLRPCApi.swift in Sources */,
 				B5A4822B20AC6C0B009D95F6 /* CocoaLumberjack.swift in Sources */,
 				9368C7B21EC630270092CE8E /* StatsItem.m in Sources */,
@@ -2182,7 +2152,6 @@
 				74A44DCD1F13C533006CD8F4 /* PushAuthenticationServiceRemote.swift in Sources */,
 				742362DF1F1025B400BD0A7F /* RemoteMenu.m in Sources */,
 				7E3ADCD220E1505E0008400A /* FormattableMediaContent.swift in Sources */,
-				D89C535320F32920001E293E /* LikePostAction.swift in Sources */,
 				74B5F0D81EF8299B00B411E7 /* BlogServiceRemoteREST.m in Sources */,
 				9FCDD09720A5EF75004F0BF7 /* ReaderTopicServiceError.swift in Sources */,
 				74A44DD11F13C64B006CD8F4 /* RemoteNotificationSettings.swift in Sources */,
@@ -2196,7 +2165,6 @@
 				740B23C51F17EE8000067A2A /* RemotePost.m in Sources */,
 				74E2295B1F1E77290085F7F2 /* KeyringConnection.swift in Sources */,
 				74B5F0DA1EF8299B00B411E7 /* BlogServiceRemoteXMLRPC.m in Sources */,
-				D89C534820F3283F001E293E /* FollowAction.swift in Sources */,
 				D89C533B20F31E04001E293E /* FormattableContentActionCommand.swift in Sources */,
 				E1EF5D5D1F9F329900B6D53E /* SitePluginCapabilities.swift in Sources */,
 				7E3E7A4520E443060075D159 /* NSAttributedString+extensions.swift in Sources */,
