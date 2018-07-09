@@ -1,3 +1,3 @@
-final class LikeCommentAction: DefaultFormattableContentAction {
+final class LikePostAction: DefaultFormattableContentAction {
     
 }

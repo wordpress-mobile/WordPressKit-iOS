@@ -76,6 +76,12 @@ public protocol FormattableContentAction: CustomStringConvertible {
 }
 
 extension FormattableContentAction {
+    var description: String {
+        return identifier.description + "enabled \(enabled)"
+    }
+}
+
+extension FormattableContentAction {
     public static func actionIdentifier() -> Identifier {
         return Identifier(value: String(describing: self))
     }
