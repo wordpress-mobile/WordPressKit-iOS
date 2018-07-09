@@ -1,6 +1,12 @@
 public class DefaultFormattableContentAction: FormattableContentAction {
-    public var enabled: Bool
-    public var on: Bool
+    public var enabled: Bool 
+
+    public var on: Bool {
+        didSet {
+            command?.on = on
+        }
+    }
+
     public var command: FormattableContentActionCommand?
 
     public var identifier: Identifier {
