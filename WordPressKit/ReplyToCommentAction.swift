@@ -1,3 +1,3 @@
-final class ReplyToCommentAction: DefaultFormattableContentAction {
+public final class ReplyToCommentAction: DefaultFormattableContentAction {
     
 }

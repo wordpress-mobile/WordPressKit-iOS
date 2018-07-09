@@ -1,3 +1,3 @@
-final class TrashCommentAction: DefaultFormattableContentAction {
+public final class TrashCommentAction: DefaultFormattableContentAction {
     
 }

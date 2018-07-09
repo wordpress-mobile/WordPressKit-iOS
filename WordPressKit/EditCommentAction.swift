@@ -1,3 +1,3 @@
-final class EditCommentAction: DefaultFormattableContentAction {
+public final class EditCommentAction: DefaultFormattableContentAction {
     
 }

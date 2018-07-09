@@ -77,7 +77,7 @@ public protocol FormattableContentAction: CustomStringConvertible {
 }
 
 extension FormattableContentAction {
-    var description: String {
+    public var description: String {
         return identifier.description + "enabled \(enabled)"
     }
 }

@@ -1,3 +1,3 @@
-final class MarkAsSpamAction: DefaultFormattableContentAction {
+public final class MarkAsSpamAction: DefaultFormattableContentAction {
     
 }

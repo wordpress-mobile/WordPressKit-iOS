@@ -1,3 +1,3 @@
-final class FollowAction: DefaultFormattableContentAction {
+public final class FollowAction: DefaultFormattableContentAction {
     
 }

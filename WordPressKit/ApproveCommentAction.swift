@@ -1,3 +1,3 @@
-final class ApproveCommentAction: DefaultFormattableContentAction {
+public final class ApproveCommentAction: DefaultFormattableContentAction {
     
 }

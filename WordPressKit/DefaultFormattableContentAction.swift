@@ -1,9 +1,9 @@
-class DefaultFormattableContentAction: FormattableContentAction {
-    var enabled: Bool
-    var on: Bool
-    var command: FormattableContentActionCommand?
+public class DefaultFormattableContentAction: FormattableContentAction {
+    public var enabled: Bool
+    public var on: Bool
+    public var command: FormattableContentActionCommand?
 
-    var identifier: Identifier {
+    public var identifier: Identifier {
         return type(of: self).actionIdentifier()
     }
 
@@ -12,11 +12,11 @@ class DefaultFormattableContentAction: FormattableContentAction {
         self.enabled = true
     }
 
-    func setCommand(_ command: FormattableContentActionCommand) {
+    public func setCommand(_ command: FormattableContentActionCommand) {
         self.command = command
     }
 
-    func execute(context: ActionContext) {
+    public func execute(context: ActionContext) {
         command?.execute(context: context)
     }
 }
