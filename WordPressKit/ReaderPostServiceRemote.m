@@ -129,10 +129,13 @@ static const NSUInteger ReaderPostTitleLength = 30;
 
 - (void)fetchPost:(NSUInteger)postID
          fromSite:(NSUInteger)siteID
+           isFeed:(BOOL)isFeed
           success:(void (^)(RemoteReaderPost *post))success
           failure:(void (^)(NSError *error))failure {
 
-    NSString *path = [NSString stringWithFormat:@"read/sites/%lu/posts/%lu/?meta=site", (unsigned long)siteID, (unsigned long)postID];
+    NSString *feedType = (isFeed) ? @"feed" : @"sites";
+    NSString *path = [NSString stringWithFormat:@"read/%@/%lu/posts/%lu/?meta=site", feedType, (unsigned long)siteID, (unsigned long)postID];
+
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:ServiceRemoteWordPressComRESTApiVersion_1_2];
     

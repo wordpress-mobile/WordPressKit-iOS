@@ -47,6 +47,7 @@
  */
 - (void)fetchPost:(NSUInteger)postID
          fromSite:(NSUInteger)siteID
+           isFeed:(BOOL)isFeed
           success:(void (^)(RemoteReaderPost *post))success
           failure:(void (^)(NSError *error))failure;
 
