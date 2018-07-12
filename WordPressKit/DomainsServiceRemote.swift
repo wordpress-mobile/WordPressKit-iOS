@@ -130,12 +130,16 @@ public class DomainsServiceRemote: ServiceRemoteWordPressComREST {
     }
 )
     */
-    public func getDomainSuggestions(base query: String, success: @escaping ([String]) -> Void, failure: @escaping (Error) -> Void) {
+    public func getDomainSuggestions(base query: String,
+                                     includeWordPressDotCom: Bool = true,
+                                     onlyWordPressDotCom: Bool = true,
+                                     success: @escaping ([String]) -> Void,
+                                     failure: @escaping (Error) -> Void) {
         let endPoint = "domains/suggestions"
         let servicePath = path(forEndpoint: endPoint, withVersion: ._1_1)
         let parameters: [String: AnyObject] = ["query": query as AnyObject,
-                                               "include_wordpressdotcom": true as AnyObject,
-                                               "only_wordpressdotcom": true as AnyObject]
+                                               "include_wordpressdotcom": includeWordPressDotCom as AnyObject,
+                                               "only_wordpressdotcom": onlyWordPressDotCom as AnyObject]
 
         wordPressComRestApi.GET(servicePath,
                                 parameters: parameters,
