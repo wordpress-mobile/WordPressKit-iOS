@@ -13,19 +13,23 @@ class PlanServiceRemoteTests: RemoteTestCase, RESTTestable {
     let getPlansAuthFailureMockFilename             = "site-plans-auth-failure.json"
     let getPlansBadSiteFailureMockFilename          = "site-plans-failure.json"
     let getPlansBadJsonFailureMockFilename          = "site-plans-bad-json-failure.json"
-
+    let getPlansV3SuccessMockFilename               = "site-plans-v3-success.json"
+    let getPlansV3EmptyFailureMockFilename          = "site-plans-v3-empty-failure.json"
+    let getPlansV3BadJsonFailureMockFilename        = "site-plans-v3-bad-json-failure.json"
 
     // MARK: - Properties
 
     var sitePlansEndpoint: String { return "sites/\(siteID)/plans" }
     var remote: PlanServiceRemote!
-
+    var remoteV3: PlanServiceRemoteV3!
+    
     // MARK: - Overridden Methods
 
     override func setUp() {
         super.setUp()
 
         remote = PlanServiceRemote(wordPressComRestApi: getRestApi())
+        remoteV3 = PlanServiceRemoteV3(wordPressComRestApi: getRestApi())
     }
 
     override func tearDown() {
@@ -51,7 +55,7 @@ class PlanServiceRemoteTests: RemoteTestCase, RESTTestable {
 
         waitForExpectations(timeout: timeout, handler: nil)
     }
-
+    
     func testGetPlansWithEmptyResponseArrayFails() {
         let expect = expectation(description: "Get plans with empty response array success")
 
@@ -131,6 +135,54 @@ class PlanServiceRemoteTests: RemoteTestCase, RESTTestable {
             expect.fulfill()
         })
 
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+    
+    func testGetPlansV3Succeeds() {
+        let expect = expectation(description: "Get plans for site success")
+        
+        stubRemoteResponse(sitePlansEndpoint, filename: getPlansV3SuccessMockFilename, contentType: .ApplicationJSON)
+        
+        remoteV3.getPlansForSite(siteID, success: { sitePlans in
+            XCTAssertEqual(sitePlans.activePlan.hasDomainCredit, true, "Active plan should have domain credit")
+            XCTAssertEqual(sitePlans.availablePlans.count, 7, "The availible plans count should be 7")
+            expect.fulfill()
+        }) { error in
+            XCTFail("This callback shouldn't get called")
+            expect.fulfill()
+        }
+        
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+    
+    func testGetPlansV3WithEmptyResponseArrayFails() {
+        let expect = expectation(description: "Get plans with empty response array success")
+        
+        stubRemoteResponse(sitePlansEndpoint, filename: getPlansV3EmptyFailureMockFilename, contentType: .ApplicationJSON)
+        remoteV3.getPlansForSite(siteID, success: { sitePlans in
+            XCTFail("The site should always return plans.")
+            expect.fulfill()
+        }, failure: { error in
+            let error = error as NSError
+            XCTAssertEqual(error.domain, String(reflecting: PlanServiceRemote.ResponseError.self), "The error domain should be PlanServiceRemote.ResponseError")
+            XCTAssertEqual(error.code, PlanServiceRemote.ResponseError.noActivePlan.hashValue, "The error code should be 2 - no active plan")
+            expect.fulfill()
+        })
+        
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+    
+    func testGetPlansV3WithBadJsonFails() {
+        let expect = expectation(description: "Get plans with invalid json response failure")
+        
+        stubRemoteResponse(sitePlansEndpoint, filename: getPlansV3BadJsonFailureMockFilename, contentType: .ApplicationJSON, status: 200)
+        remote.getPlansForSite(siteID, success: { sitePlans in
+            XCTFail("This callback shouldn't get called")
+            expect.fulfill()
+        }, failure: { error in
+            expect.fulfill()
+        })
+        
         waitForExpectations(timeout: timeout, handler: nil)
     }
 }
