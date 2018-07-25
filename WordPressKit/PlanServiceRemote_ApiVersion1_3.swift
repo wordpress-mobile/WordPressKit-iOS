@@ -2,9 +2,9 @@ import Foundation
 import WordPressShared
 import CocoaLumberjack
 
-@objc public class PlanServiceV3Remote: ServiceRemoteWordPressComREST {
+@objc public class PlanServiceRemote_ApiVersion1_3: ServiceRemoteWordPressComREST {
 
-    public typealias SitePlans = (activePlan: RemotePlanDetail, availablePlans: [RemotePlanDetail])
+    public typealias SitePlans = (activePlan: RemotePlan_ApiVersion1_3, availablePlans: [RemotePlan_ApiVersion1_3])
 
     @objc public func getPlansForSite(_ siteID: Int,
                                       success: @escaping (SitePlans) -> Void,
@@ -19,7 +19,7 @@ import CocoaLumberjack
             success: {
                 response, _ in
                 do {
-                    try success(PlanServiceV3Remote.mapPlansResponse(response))
+                    try success(PlanServiceRemote_ApiVersion1_3.mapPlansResponse(response))
                 } catch {
                     DDLogError("Error parsing plans response for site \(siteID)")
                     DDLogError("\(error)")
@@ -37,19 +37,19 @@ import CocoaLumberjack
     private static func mapPlansResponse(
         _ response: AnyObject
         ) throws
-        -> (activePlan: RemotePlanDetail, availablePlans: [RemotePlanDetail]) {
+        -> (activePlan: RemotePlan_ApiVersion1_3, availablePlans: [RemotePlan_ApiVersion1_3]) {
 
         guard let json = response as? [String: AnyObject] else {
             throw PlanServiceRemote.ResponseError.decodingFailure
         }
 
-        var activePlans: [RemotePlanDetail] = []
-        var currentlyActivePlan: RemotePlanDetail?
+        var activePlans: [RemotePlan_ApiVersion1_3] = []
+        var currentlyActivePlan: RemotePlan_ApiVersion1_3?
 
         try json.forEach { (key, value) in
             let data = try JSONSerialization.data(withJSONObject: value, options: .prettyPrinted)
             do {
-                let decodedResult = try JSONDecoder.apiDecoder.decode(RemotePlanDetail.self, from: data)
+                let decodedResult = try JSONDecoder.apiDecoder.decode(RemotePlan_ApiVersion1_3.self, from: data)
                 decodedResult.planID = key
                 activePlans.append(decodedResult)
                 if decodedResult.isCurrentPlan {

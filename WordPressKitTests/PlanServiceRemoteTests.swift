@@ -8,20 +8,20 @@ class PlanServiceRemoteTests: RemoteTestCase, RESTTestable {
 
     let siteID   = 321
 
-    let getPlansSuccessMockFilename                 = "site-plans-success.json"
-    let getPlansEmptyFailureMockFilename            = "site-plans-empty-failure.json"
-    let getPlansAuthFailureMockFilename             = "site-plans-auth-failure.json"
-    let getPlansBadSiteFailureMockFilename          = "site-plans-failure.json"
-    let getPlansBadJsonFailureMockFilename          = "site-plans-bad-json-failure.json"
-    let getPlansV3SuccessMockFilename               = "site-plans-v3-success.json"
-    let getPlansV3EmptyFailureMockFilename          = "site-plans-v3-empty-failure.json"
-    let getPlansV3BadJsonFailureMockFilename        = "site-plans-v3-bad-json-failure.json"
+    let getPlansSuccessMockFilename                      = "site-plans-success.json"
+    let getPlansEmptyFailureMockFilename                 = "site-plans-empty-failure.json"
+    let getPlansAuthFailureMockFilename                  = "site-plans-auth-failure.json"
+    let getPlansBadSiteFailureMockFilename               = "site-plans-failure.json"
+    let getPlansBadJsonFailureMockFilename               = "site-plans-bad-json-failure.json"
+    let getPlansSuccessMockFilename_ApiVersion1_3        = "site-plans-v3-success.json"
+    let getPlansEmptyFailureMockFilename_ApiVersion1_3   = "site-plans-v3-empty-failure.json"
+    let getPlansBadJsonFailureMockFilename_ApiVersion1_3 = "site-plans-v3-bad-json-failure.json"
 
     // MARK: - Properties
 
     var sitePlansEndpoint: String { return "sites/\(siteID)/plans" }
     var remote: PlanServiceRemote!
-    var remoteV3: PlanServiceRemoteV3!
+    var remoteV3: PlanServiceRemote_ApiVersion1_3!
     
     // MARK: - Overridden Methods
 
@@ -29,7 +29,7 @@ class PlanServiceRemoteTests: RemoteTestCase, RESTTestable {
         super.setUp()
 
         remote = PlanServiceRemote(wordPressComRestApi: getRestApi())
-        remoteV3 = PlanServiceRemoteV3(wordPressComRestApi: getRestApi())
+        remoteV3 = PlanServiceRemote_ApiVersion1_3(wordPressComRestApi: getRestApi())
     }
 
     override func tearDown() {
@@ -138,10 +138,10 @@ class PlanServiceRemoteTests: RemoteTestCase, RESTTestable {
         waitForExpectations(timeout: timeout, handler: nil)
     }
     
-    func testGetPlansV3Succeeds() {
+    func testGetPlansSucceeds_ApiVersion1_3() {
         let expect = expectation(description: "Get plans for site success")
         
-        stubRemoteResponse(sitePlansEndpoint, filename: getPlansV3SuccessMockFilename, contentType: .ApplicationJSON)
+        stubRemoteResponse(sitePlansEndpoint, filename: getPlansSuccessMockFilename_ApiVersion1_3, contentType: .ApplicationJSON)
         
         remoteV3.getPlansForSite(siteID, success: { sitePlans in
             XCTAssertEqual(sitePlans.activePlan.hasDomainCredit, true, "Active plan should have domain credit")
@@ -155,10 +155,10 @@ class PlanServiceRemoteTests: RemoteTestCase, RESTTestable {
         waitForExpectations(timeout: timeout, handler: nil)
     }
     
-    func testGetPlansV3WithEmptyResponseArrayFails() {
+    func testGetPlansWithEmptyResponseArrayFails_ApiVersion1_3() {
         let expect = expectation(description: "Get plans with empty response array success")
         
-        stubRemoteResponse(sitePlansEndpoint, filename: getPlansV3EmptyFailureMockFilename, contentType: .ApplicationJSON)
+        stubRemoteResponse(sitePlansEndpoint, filename: getPlansEmptyFailureMockFilename_ApiVersion1_3, contentType: .ApplicationJSON)
         remoteV3.getPlansForSite(siteID, success: { sitePlans in
             XCTFail("The site should always return plans.")
             expect.fulfill()
@@ -172,10 +172,10 @@ class PlanServiceRemoteTests: RemoteTestCase, RESTTestable {
         waitForExpectations(timeout: timeout, handler: nil)
     }
     
-    func testGetPlansV3WithBadJsonFails() {
+    func testGetPlansWithBadJsonFails_ApiVersion1_3() {
         let expect = expectation(description: "Get plans with invalid json response failure")
         
-        stubRemoteResponse(sitePlansEndpoint, filename: getPlansV3BadJsonFailureMockFilename, contentType: .ApplicationJSON, status: 200)
+        stubRemoteResponse(sitePlansEndpoint, filename: getPlansBadJsonFailureMockFilename_ApiVersion1_3, contentType: .ApplicationJSON, status: 200)
         remote.getPlansForSite(siteID, success: { sitePlans in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()

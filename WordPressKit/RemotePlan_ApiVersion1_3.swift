@@ -1,6 +1,9 @@
 import Foundation
 
-@objc public class RemotePlanDetail: NSObject, Codable {
+/// This is for getPlansForSite service in api version v1.3.
+/// There are some huge differences between v1.3 and v1.2 so a new
+/// class is created for v1.3.
+@objc public class RemotePlan_ApiVersion1_3: NSObject, Codable {
     var autoRenew: Bool?
     var freeTrial: Bool?
     var interval: Int?
