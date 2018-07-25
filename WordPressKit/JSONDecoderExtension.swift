@@ -12,21 +12,28 @@ extension JSONDecoder {
 
 extension JSONDecoder.DateDecodingStrategy {
     
+    enum DateFormat: String {
+        case noTime = "yyyy-mm-dd"
+        case dateWithTime = "yyyy-MM-dd HH:mm:ss"
+        
+        var formatter: DateFormatter {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = rawValue
+            return dateFormatter
+        }
+    }
+    
     static var supportMultipleDateFormats: JSONDecoder.DateDecodingStrategy {
         return JSONDecoder.DateDecodingStrategy.custom({ (decoder) -> Date in
             let container = try decoder.singleValueContainer()
             let dateStr = try container.decode(String.self)
-            let dateNoTimeFormatter = DateFormatter()
-            dateNoTimeFormatter.dateFormat = "yyyy-mm-dd"
             
-            let dateWithTimeFormatter = DateFormatter()
-            dateWithTimeFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
             let len = dateStr.count
             var date: Date? = nil
-            if len == 10 {
-                date = dateNoTimeFormatter.date(from: dateStr)
-            } else if len == 19 {
-                date = dateWithTimeFormatter.date(from: dateStr)
+            if len == DateFormat.noTime.rawValue.count {
+                date = DateFormat.noTime.formatter.date(from: dateStr)
+            } else if len == DateFormat.dateWithTime.rawValue.count {
+                date = DateFormat.dateWithTime.formatter.date(from: dateStr)
             }
             guard let _date = date else {
                 throw DecodingError.dataCorruptedError(
