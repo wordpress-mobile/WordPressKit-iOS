@@ -26,6 +26,27 @@ public class DomainsServiceRemote: ServiceRemoteWordPressComREST {
         case decodingFailed
     }
 
+    public enum DomainSuggestionType {
+        case noWordpressDotCom
+        case includeWordPressDotCom
+        case onlyWordPressDotCom
+        
+        fileprivate func parameters() -> [String: AnyObject] {
+            var result: [String: AnyObject] = [:]
+            switch self {
+            case .noWordpressDotCom:
+                result = ["include_wordpressdotcom": false as AnyObject]
+            case .includeWordPressDotCom:
+                result = ["include_wordpressdotcom": true as AnyObject,
+                          "only_wordpressdotcom": false as AnyObject]
+            case .onlyWordPressDotCom:
+                result =  ["include_wordpressdotcom": true as AnyObject,
+                           "only_wordpressdotcom": true as AnyObject]
+            }
+            return result
+        }
+    }
+    
     public func getDomainsForSite(_ siteID: Int, success: @escaping ([RemoteDomain]) -> Void, failure: @escaping (Error) -> Void) {
         let endpoint = "sites/\(siteID)/domains"
         let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
@@ -131,16 +152,14 @@ public class DomainsServiceRemote: ServiceRemoteWordPressComREST {
 )
     */
     public func getDomainSuggestions(base query: String,
-                                     includeWordPressDotCom: Bool = true,
-                                     onlyWordPressDotCom: Bool = true,
+                                     domainSuggestionType: DomainSuggestionType = .onlyWordPressDotCom,
                                      success: @escaping ([String]) -> Void,
                                      failure: @escaping (Error) -> Void) {
         let endPoint = "domains/suggestions"
         let servicePath = path(forEndpoint: endPoint, withVersion: ._1_1)
-        let parameters: [String: AnyObject] = ["query": query as AnyObject,
-                                               "include_wordpressdotcom": includeWordPressDotCom as AnyObject,
-                                               "only_wordpressdotcom": onlyWordPressDotCom as AnyObject]
-
+        var parameters: [String: AnyObject] = domainSuggestionType.parameters()
+        parameters["query"] = query as AnyObject
+        
         wordPressComRestApi.GET(servicePath,
                                 parameters: parameters,
                                 success: {
