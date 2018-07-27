@@ -67,6 +67,7 @@ open class SharingServiceRemote: ServiceRemoteWordPressComREST {
 
                     pub.connectURL = dict.string(forKey: ServiceDictionaryKeys.connectURL)
                     pub.detail = dict.string(forKey: ServiceDictionaryKeys.description)
+                    pub.externalUsersOnly = dict.number(forKey: ServiceDictionaryKeys.externalUsersOnly).boolValue
                     pub.icon = dict.string(forKey: ServiceDictionaryKeys.icon)
                     pub.serviceID = dict.string(forKey: ServiceDictionaryKeys.ID)
                     pub.jetpackModuleRequired = dict.string(forKey: ServiceDictionaryKeys.jetpackModuleRequired)
@@ -532,6 +533,7 @@ open class SharingServiceRemote: ServiceRemoteWordPressComREST {
 private struct ServiceDictionaryKeys {
     static let connectURL = "connect_URL"
     static let description = "description"
+    static let externalUsersOnly = "external_users_only"
     static let ID = "ID"
     static let icon = "icon"
     static let jetpackModuleRequired = "jetpack_module_required"
