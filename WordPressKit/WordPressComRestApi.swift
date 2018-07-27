@@ -21,6 +21,7 @@ import Alamofire
     case responseSerializationFailed
     case tooManyRequests
     case unknown
+    case preconditionFailure
 }
 
 open class WordPressComRestApi: NSObject {    
@@ -358,6 +359,13 @@ extension WordPressComRestApi {
             }
             return WordPressComRestApiError.unknown as NSError
         }
+
+        //FIXME: A hack to support free WPCom sites and Rewind. Should be obsolote as soon as the backend
+        // stops returning 412's for those sites.
+        if httpResponse.statusCode == 412, let code = responseDictionary["code"] as? String, code == "no_connected_jetpack" {
+            return WordPressComRestApiError.preconditionFailure as NSError
+        }
+
         var errorDictionary: AnyObject? = responseDictionary as AnyObject?
         if let errorArray = responseDictionary["errors"] as? [AnyObject], errorArray.count > 0 {
             errorDictionary = errorArray.first

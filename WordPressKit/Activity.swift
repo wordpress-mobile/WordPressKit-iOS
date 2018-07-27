@@ -164,6 +164,15 @@ public class RewindStatus {
     public let reason: String?
     public let restore: RestoreStatus?
 
+    internal init(state: State) {
+        //FIXME: A hack to support free WPCom sites and Rewind. Should be obsolote as soon as the backend
+        // stops returning 412's for those sites.
+        self.state = state
+        self.lastUpdated = Date()
+        self.reason = nil
+        self.restore = nil
+    }
+
     init(dictionary: [String: AnyObject]) throws {
         guard let rewindState = dictionary["state"] as? String else {
             throw Error.missingState
