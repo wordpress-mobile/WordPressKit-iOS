@@ -3,6 +3,7 @@ import Foundation
 @objc open class RemotePublicizeService: NSObject {
     @objc open var connectURL = ""
     @objc open var detail = ""
+    @objc open var externalUsersOnly = false
     @objc open var icon = ""
     @objc open var jetpackSupport = false
     @objc open var jetpackModuleRequired = ""
