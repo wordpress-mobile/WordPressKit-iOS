@@ -66,6 +66,33 @@ public class DomainsServiceRemote: ServiceRemoteWordPressComREST {
         })
     }
 
+    @objc func getStates(for countryCode: String,
+                         success: @escaping ([State]) -> Void,
+                         failure: @escaping (Error) -> Void) {
+        let endPoint = "domains/supported-states/\(countryCode)"
+        let servicePath = path(forEndpoint: endPoint, withVersion: ._1_1)
+        
+        wordPressComRestApi.GET(
+            servicePath,
+            parameters: nil,
+            success: {
+                response, _ in
+                do {
+                    guard let json = response as? [AnyObject] else {
+                        throw ResponseError.decodingFailed
+                    }
+                    let data = try JSONSerialization.data(withJSONObject: json, options: .prettyPrinted)
+                    let decodedResult = try JSONDecoder.apiDecoder.decode([State].self, from: data)
+                    success(decodedResult)
+                } catch {
+                    DDLogError("Error parsing State list for country code (\(error)): \(response)")
+                    failure(error)
+                }
+        }, failure: { error, _ in
+            failure(error)
+        })
+    }
+    
     /* from https://opengrok.a8c.com/source/xref/trunk/public.api/rest/wpcom-json-endpoints/class.wpcom-store-domains-api-endpoints.php
  "'description'      => 'Get a list of suggested domain names that are available for registration based on a given term or domain name.',
  154    // 'group'            => 'domains',

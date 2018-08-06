@@ -12,6 +12,7 @@ class DomainsServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
     let domainServiceAuthFailureMockFilename    = "site-export-auth-failure.json"
     let domainServiceBadJsonFailureMockFilename = "domain-service-bad-json.json"
     let domainServiceEmptyResponseMockFilename  = "domain-service-empty.json"
+    let domainServiceSupportedStatesSuccess     = "supported-states-success.json"
     
     // MARK: - Properties
     
@@ -112,6 +113,27 @@ class DomainsServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
             expect.fulfill()
         })
         
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+    
+    func testGetStatesSuccess() {
+        let expect = expectation(description: "Get states for coutry code")
+        let countryCode = "US"
+        stubRemoteResponse("domains/supported-states/" + countryCode,
+                           filename: domainServiceSupportedStatesSuccess,
+                           contentType: .ApplicationJSON,
+                           status: 200)
+        
+        remote.getStates(for: countryCode,
+                         success: { (stateList) in
+            XCTAssert(stateList.count == 61)
+            XCTAssert(stateList[0].code == "AL")
+            XCTAssert(stateList[0].name == "Alabama")
+            expect.fulfill()
+        }) { (error) in
+            XCTFail("This callback shouldn't get called")
+            expect.fulfill()
+        }
         waitForExpectations(timeout: timeout, handler: nil)
     }
 }
