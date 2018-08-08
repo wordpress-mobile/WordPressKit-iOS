@@ -66,7 +66,7 @@ public class DomainsServiceRemote: ServiceRemoteWordPressComREST {
         })
     }
 
-    @objc func getStates(for countryCode: String,
+    @objc public func getStates(for countryCode: String,
                          success: @escaping ([State]) -> Void,
                          failure: @escaping (Error) -> Void) {
         let endPoint = "domains/supported-states/\(countryCode)"

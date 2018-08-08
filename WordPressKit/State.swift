@@ -1,6 +1,6 @@
 import Foundation
 
-@objc class State: NSObject, Codable {
-    var code: String?
-    var name: String?
+@objc public class State: NSObject, Codable {
+    public var code: String?
+    public var name: String?
 }
