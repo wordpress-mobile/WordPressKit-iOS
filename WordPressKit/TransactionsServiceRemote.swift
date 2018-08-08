@@ -9,7 +9,7 @@ import CocoaLumberjack
     }
     
     @objc public func getSupportedCountries(success: @escaping ([Country]) -> Void,
-                                     failure: @escaping (Error) -> Void) {
+                                            failure: @escaping (Error) -> Void) {
         let endPoint = "me/transactions/supported-countries/"
         let servicePath = path(forEndpoint: endPoint, withVersion: ._1_1)
         

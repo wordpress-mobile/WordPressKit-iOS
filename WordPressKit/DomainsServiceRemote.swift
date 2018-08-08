@@ -67,8 +67,8 @@ public class DomainsServiceRemote: ServiceRemoteWordPressComREST {
     }
 
     @objc public func getStates(for countryCode: String,
-                         success: @escaping ([State]) -> Void,
-                         failure: @escaping (Error) -> Void) {
+                                success: @escaping ([State]) -> Void,
+                                failure: @escaping (Error) -> Void) {
         let endPoint = "domains/supported-states/\(countryCode)"
         let servicePath = path(forEndpoint: endPoint, withVersion: ._1_1)
         
@@ -94,9 +94,9 @@ public class DomainsServiceRemote: ServiceRemoteWordPressComREST {
     }
     
     public func validateDomainContactInformation(contactInformation: [String: String],
-                                          domainNames: [String],
-                                          success: @escaping (ValidateDomainContactInformationResponse) -> Void,
-                                          failure: @escaping (Error) -> Void) {
+                                                 domainNames: [String],
+                                                 success: @escaping (ValidateDomainContactInformationResponse) -> Void,
+                                                 failure: @escaping (Error) -> Void) {
         let endPoint = "me/domain-contact-information/validate"
         let servicePath = path(forEndpoint: endPoint, withVersion: ._1_1)
         
