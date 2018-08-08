@@ -3,7 +3,7 @@ import WordPressShared
 import CocoaLumberjack
 @testable import WordPressKit
 
-class TransactionsServiceTests: RemoteTestCase, RESTTestable {
+class TransactionsServiceRemoteTests: RemoteTestCase, RESTTestable {
     
     let supportedCountriesSuccessFileName = "supported-countries-success.json"
     var remote: TransactionsServiceRemote!

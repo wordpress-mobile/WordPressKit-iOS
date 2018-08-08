@@ -23,7 +23,7 @@
 		40F88F621F85799A00AE3FAF /* auth-send-verification-email-success.json in Resources */ = {isa = PBXBuildFile; fileRef = 40F88F611F85799A00AE3FAF /* auth-send-verification-email-success.json */; };
 		436D56332118D7AA00CEAA33 /* TransactionsServiceRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436D56322118D7AA00CEAA33 /* TransactionsServiceRemote.swift */; };
 		436D56352118D85800CEAA33 /* Country.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436D56342118D85800CEAA33 /* Country.swift */; };
-		436D56382118DC4B00CEAA33 /* TransactionsServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436D56372118DC4B00CEAA33 /* TransactionsServiceTests.swift */; };
+		436D56382118DC4B00CEAA33 /* TransactionsServiceRemoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436D56372118DC4B00CEAA33 /* TransactionsServiceRemoteTests.swift */; };
 		436D563A2118DE3B00CEAA33 /* supported-countries-success.json in Resources */ = {isa = PBXBuildFile; fileRef = 436D56392118DE3B00CEAA33 /* supported-countries-success.json */; };
 		436D563C2118E18D00CEAA33 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436D563B2118E18D00CEAA33 /* State.swift */; };
 		436D563E2118E34D00CEAA33 /* supported-states-success.json in Resources */ = {isa = PBXBuildFile; fileRef = 436D563D2118E34D00CEAA33 /* supported-states-success.json */; };
@@ -452,7 +452,7 @@
 		40F88F611F85799A00AE3FAF /* auth-send-verification-email-success.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "auth-send-verification-email-success.json"; sourceTree = "<group>"; };
 		436D56322118D7AA00CEAA33 /* TransactionsServiceRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsServiceRemote.swift; sourceTree = "<group>"; };
 		436D56342118D85800CEAA33 /* Country.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Country.swift; sourceTree = "<group>"; };
-		436D56372118DC4B00CEAA33 /* TransactionsServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsServiceTests.swift; sourceTree = "<group>"; };
+		436D56372118DC4B00CEAA33 /* TransactionsServiceRemoteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsServiceRemoteTests.swift; sourceTree = "<group>"; };
 		436D56392118DE3B00CEAA33 /* supported-countries-success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "supported-countries-success.json"; sourceTree = "<group>"; };
 		436D563B2118E18D00CEAA33 /* State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = "<group>"; };
 		436D563D2118E34D00CEAA33 /* supported-states-success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "supported-states-success.json"; sourceTree = "<group>"; };
@@ -904,7 +904,7 @@
 		436D56362118DC2800CEAA33 /* Transactions */ = {
 			isa = PBXGroup;
 			children = (
-				436D56372118DC4B00CEAA33 /* TransactionsServiceTests.swift */,
+				436D56372118DC4B00CEAA33 /* TransactionsServiceRemoteTests.swift */,
 			);
 			name = Transactions;
 			sourceTree = "<group>";
@@ -2211,7 +2211,7 @@
 				93AC8EE21ED32FD000900F5A /* WPStatsServiceRemoteTests.m in Sources */,
 				E1787DB2200E5690004CB3AF /* TimeZoneServiceRemoteTests.swift in Sources */,
 				740B23D21F17F6BB00067A2A /* PostServiceRemoteRESTTests.m in Sources */,
-				436D56382118DC4B00CEAA33 /* TransactionsServiceTests.swift in Sources */,
+				436D56382118DC4B00CEAA33 /* TransactionsServiceRemoteTests.swift in Sources */,
 				9F3E0BA82087355E009CB5BA /* RemoteReaderSiteInfoSubscriptionTests.swift in Sources */,
 				7430C9BE1F192C0F0051B8E6 /* ReaderTopicServiceRemoteTests.m in Sources */,
 				74B335DC1F06F4180053A184 /* WordPressOrgXMLRPCApiTests.swift in Sources */,
