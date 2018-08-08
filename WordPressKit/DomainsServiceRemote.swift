@@ -93,6 +93,32 @@ public class DomainsServiceRemote: ServiceRemoteWordPressComREST {
         })
     }
     
+    public func validateDomainContactInformation(contactInformation: [String: String],
+                                          domainNames: [String],
+                                          success: @escaping (ValidateDomainContactInformationResponse) -> Void,
+                                          failure: @escaping (Error) -> Void) {
+        let endPoint = "me/domain-contact-information/validate"
+        let servicePath = path(forEndpoint: endPoint, withVersion: ._1_1)
+        
+        let parameters: [String: AnyObject] = ["contact_information": contactInformation as AnyObject,
+                                               "domain_names": domainNames as AnyObject]
+        wordPressComRestApi.POST(
+            servicePath,
+            parameters: parameters,
+            success: { response,_ in
+                do {
+                    let data = try JSONSerialization.data(withJSONObject: response, options: .prettyPrinted)
+                    let decodedResult = try JSONDecoder.apiDecoder.decode(ValidateDomainContactInformationResponse.self, from: data)
+                    success(decodedResult)
+                } catch {
+                    DDLogError("Error parsing ValidateDomainContactInformationResponse  (\(error)): \(response)")
+                    failure(error)
+                }
+        }) { (error, response) in
+            failure(error)
+        }
+    }
+    
     /* from https://opengrok.a8c.com/source/xref/trunk/public.api/rest/wpcom-json-endpoints/class.wpcom-store-domains-api-endpoints.php
  "'description'      => 'Get a list of suggested domain names that are available for registration based on a given term or domain name.',
  154    // 'group'            => 'domains',
