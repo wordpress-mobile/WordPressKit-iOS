@@ -30,6 +30,7 @@
 		436D5641211B7F4400CEAA33 /* DomainContactInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436D5640211B7F4400CEAA33 /* DomainContactInformation.swift */; };
 		436D5643211B7F9B00CEAA33 /* validate-domain-contact-information-response-fail.json in Resources */ = {isa = PBXBuildFile; fileRef = 436D5642211B7F9B00CEAA33 /* validate-domain-contact-information-response-fail.json */; };
 		436D5645211B801100CEAA33 /* validate-domain-contact-information-response-success.json in Resources */ = {isa = PBXBuildFile; fileRef = 436D5644211B801000CEAA33 /* validate-domain-contact-information-response-success.json */; };
+		436D564C211CCCB900CEAA33 /* domain-contact-information-response-success.json in Resources */ = {isa = PBXBuildFile; fileRef = 436D564B211CCCB900CEAA33 /* domain-contact-information-response-success.json */; };
 		439A44CD2107899600795ED7 /* site-plans-v3-success.json in Resources */ = {isa = PBXBuildFile; fileRef = 439A44CC2107899500795ED7 /* site-plans-v3-success.json */; };
 		439A44D62107C66A00795ED7 /* JSONDecoderExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439A44D52107C66A00795ED7 /* JSONDecoderExtension.swift */; };
 		439A44D82107C85E00795ED7 /* PlanServiceRemote_ApiVersion1_3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439A44D72107C85E00795ED7 /* PlanServiceRemote_ApiVersion1_3.swift */; };
@@ -462,6 +463,7 @@
 		436D5640211B7F4400CEAA33 /* DomainContactInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainContactInformation.swift; sourceTree = "<group>"; };
 		436D5642211B7F9B00CEAA33 /* validate-domain-contact-information-response-fail.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "validate-domain-contact-information-response-fail.json"; sourceTree = "<group>"; };
 		436D5644211B801000CEAA33 /* validate-domain-contact-information-response-success.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "validate-domain-contact-information-response-success.json"; sourceTree = "<group>"; };
+		436D564B211CCCB900CEAA33 /* domain-contact-information-response-success.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "domain-contact-information-response-success.json"; sourceTree = "<group>"; };
 		439A44CC2107899500795ED7 /* site-plans-v3-success.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "site-plans-v3-success.json"; sourceTree = "<group>"; };
 		439A44D52107C66A00795ED7 /* JSONDecoderExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONDecoderExtension.swift; sourceTree = "<group>"; };
 		439A44D72107C85E00795ED7 /* PlanServiceRemote_ApiVersion1_3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanServiceRemote_ApiVersion1_3.swift; sourceTree = "<group>"; };
@@ -1390,6 +1392,7 @@
 				93BD27461EE73442002BB00B /* auth-send-login-email-success.json */,
 				40F88F5F1F85723400AE3FAF /* auth-send-verification-email-already-verified-failure.json */,
 				40F88F611F85799A00AE3FAF /* auth-send-verification-email-success.json */,
+				436D564B211CCCB900CEAA33 /* domain-contact-information-response-success.json */,
 				74585B931F0D53B800E7E667 /* domain-service-all-domain-types.json */,
 				74585B9E1F0D6E7500E7E667 /* domain-service-bad-json.json */,
 				74585BA01F0D6F5300E7E667 /* domain-service-empty.json */,
@@ -1835,6 +1838,7 @@
 				FFE247B020C891E6002DF3A2 /* WordPressComAuthenticateWithIDToken2FANeededSuccess.json in Resources */,
 				436D563E2118E34D00CEAA33 /* supported-states-success.json in Resources */,
 				93BD27561EE73442002BB00B /* auth-send-login-email-invalid-secret-failure.json in Resources */,
+				436D564C211CCCB900CEAA33 /* domain-contact-information-response-success.json in Resources */,
 				93BD275A1EE73442002BB00B /* is-available-email-success.json in Resources */,
 				17BF9A6C20C7DC3300BF57D2 /* reader-site-search-success.json in Resources */,
 				74D67F141F15C2D70010C5ED /* site-roles-bad-json-failure.json in Resources */,

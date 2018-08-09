@@ -15,7 +15,8 @@ class DomainsServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
     let domainServiceSupportedStatesSuccess     = "supported-states-success.json"
     let validateDomainContactInformationFail    = "validate-domain-contact-information-response-fail.json"
     let validateDomainContactInformationSuccess = "validate-domain-contact-information-response-success.json"
-
+    let getDomainContactInformationSuccess      = "domain-contact-information-response-success.json"
+    
     // MARK: - Properties
     
     var domainsEndpoint: String { return "sites/\(siteID)/domains" }
@@ -172,6 +173,26 @@ class DomainsServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
             contactInformation: [:],
             domainNames: ["someblog.blog"], success: { (reponse) in
                 XCTAssert(reponse.success)
+                expect.fulfill()
+        }) { (error) in
+            XCTFail("This callback shouldn't get called")
+            expect.fulfill()
+        }
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+    
+    func testGetDomainContactInformationSuccess() {
+        let expect = expectation(description: "Validate domain contact information")
+        stubRemoteResponse("me/domain-contact-information",
+                           filename: getDomainContactInformationSuccess,
+                           contentType: .ApplicationJSON,
+                           status: 200)
+        remote.getDomainContactInformation(
+            success: { (reponse) in
+                XCTAssert(reponse.email == "pinar@yahoo.com")
+                XCTAssert(reponse.firstName == "Pinar")
+                XCTAssert(reponse.lastName == nil)
+                XCTAssert(reponse.postalCode == "12345")
                 expect.fulfill()
         }) { (error) in
             XCTFail("This callback shouldn't get called")

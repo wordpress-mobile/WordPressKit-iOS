@@ -93,6 +93,28 @@ public class DomainsServiceRemote: ServiceRemoteWordPressComREST {
         })
     }
     
+    public func getDomainContactInformation(success: @escaping (DomainContactInformation) -> Void,
+                                            failure: @escaping (Error) -> Void) {
+        let endPoint = "me/domain-contact-information"
+        let servicePath = path(forEndpoint: endPoint, withVersion: ._1_1)
+        
+        wordPressComRestApi.GET(
+            servicePath,
+            parameters: nil,
+            success: { (response, _) in
+                do {
+                    let data = try JSONSerialization.data(withJSONObject: response, options: .prettyPrinted)
+                    let decodedResult = try JSONDecoder.apiDecoder.decode(DomainContactInformation.self, from: data)
+                    success(decodedResult)
+                } catch {
+                    DDLogError("Error parsing DomainContactInformation  (\(error)): \(response)")
+                    failure(error)
+                }
+        }) { (error, _) in
+            failure(error)
+        }
+    }
+    
     public func validateDomainContactInformation(contactInformation: [String: String],
                                                  domainNames: [String],
                                                  success: @escaping (ValidateDomainContactInformationResponse) -> Void,
