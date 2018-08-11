@@ -4,41 +4,41 @@ import Foundation
 /// There are some huge differences between v1.3 and v1.2 so a new
 /// class is created for v1.3.
 @objc public class RemotePlan_ApiVersion1_3: NSObject, Codable {
-    var autoRenew: Bool?
-    var freeTrial: Bool?
-    var interval: Int?
-    var rawDiscount: Int?
-    var rawPrice: Int?
-    var hasDomainCredit: Bool?
-    var currentPlan: Bool?
-    var userIsOwner: Bool?
-    var isDomainUpgrade: Bool?
-    @objc var autoRenewDate: Date?
-    @objc var currencyCode: String?
-    @objc var discountReason: String?
-    @objc var expiry: Date?
-    @objc var formattedDiscount: String?
-    @objc var formattedOriginalPrice: String?
-    @objc var formattedPrice: String?
-    @objc var planID: String?
-    @objc var productName: String?
-    @objc var productSlug: String?
-    @objc var subscribedDate: Date?
-    @objc var userFacingExpiry: Date?
+    public var autoRenew: Bool?
+    public var freeTrial: Bool?
+    public var interval: Int?
+    public var rawDiscount: Int?
+    public var rawPrice: Int?
+    public var hasDomainCredit: Bool?
+    public var currentPlan: Bool?
+    public var userIsOwner: Bool?
+    public var isDomainUpgrade: Bool?
+    @objc public var autoRenewDate: Date?
+    @objc public var currencyCode: String?
+    @objc public var discountReason: String?
+    @objc public var expiry: Date?
+    @objc public var formattedDiscount: String?
+    @objc public var formattedOriginalPrice: String?
+    @objc public var formattedPrice: String?
+    @objc public var planID: String?
+    @objc public var productName: String?
+    @objc public var productSlug: String?
+    @objc public var subscribedDate: Date?
+    @objc public var userFacingExpiry: Date?
     
-    @objc var isAutoRenew: Bool {
+    @objc public var isAutoRenew: Bool {
         return autoRenew ?? false
     }
     
-    @objc var isCurrentPlan: Bool {
+    @objc public var isCurrentPlan: Bool {
         return currentPlan ?? false
     }
     
-    @objc var isFreeTrial: Bool {
+    @objc public var isFreeTrial: Bool {
         return freeTrial ?? false
     }
     
-    @objc var doesHaveDomainCredit: Bool {
+    @objc public var doesHaveDomainCredit: Bool {
         return hasDomainCredit ?? false
     }
 }
