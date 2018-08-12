@@ -16,6 +16,8 @@
 		17CE77F120C6EB41001DEA5A /* ReaderFeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CE77F020C6EB41001DEA5A /* ReaderFeed.swift */; };
 		17CE77F420C701C8001DEA5A /* ReaderSiteSearchServiceRemoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CE77F320C701C8001DEA5A /* ReaderSiteSearchServiceRemoteTests.swift */; };
 		240315B0A1D6C2B981572B5B /* Pods_WordPressKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED05C8FF3E61D93CE5BA527E /* Pods_WordPressKitTests.framework */; };
+		40247DFA2120D8E100AE1C3C /* AutomatedTransferService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40247DF92120D8E100AE1C3C /* AutomatedTransferService.swift */; };
+		40247DFC2120E69600AE1C3C /* AutomatedTransferStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40247DFB2120E69600AE1C3C /* AutomatedTransferStatus.swift */; };
 		40AB1ADA200FED25009B533D /* PluginDirectoryFeedPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40AB1AD9200FED25009B533D /* PluginDirectoryFeedPage.swift */; };
 		40E4698B2017C2840030DB5F /* plugin-directory-popular.json in Resources */ = {isa = PBXBuildFile; fileRef = 40E4698A2017C2840030DB5F /* plugin-directory-popular.json */; };
 		40E4698D2017D2E30030DB5F /* plugin-directory-new.json in Resources */ = {isa = PBXBuildFile; fileRef = 40E4698C2017D2E30030DB5F /* plugin-directory-new.json */; };
@@ -433,6 +435,8 @@
 		17CE77F020C6EB41001DEA5A /* ReaderFeed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderFeed.swift; sourceTree = "<group>"; };
 		17CE77F320C701C8001DEA5A /* ReaderSiteSearchServiceRemoteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderSiteSearchServiceRemoteTests.swift; sourceTree = "<group>"; };
 		264F5C834541BBF2018F4964 /* Pods-WordPressKitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WordPressKitTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WordPressKitTests/Pods-WordPressKitTests.debug.xcconfig"; sourceTree = "<group>"; };
+		40247DF92120D8E100AE1C3C /* AutomatedTransferService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutomatedTransferService.swift; sourceTree = "<group>"; };
+		40247DFB2120E69600AE1C3C /* AutomatedTransferStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutomatedTransferStatus.swift; sourceTree = "<group>"; };
 		40AB1AD9200FED25009B533D /* PluginDirectoryFeedPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PluginDirectoryFeedPage.swift; sourceTree = "<group>"; };
 		40E4698A2017C2840030DB5F /* plugin-directory-popular.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "plugin-directory-popular.json"; sourceTree = "<group>"; };
 		40E4698C2017D2E30030DB5F /* plugin-directory-new.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "plugin-directory-new.json"; sourceTree = "<group>"; };
@@ -1135,6 +1139,7 @@
 				93BD273A1EE73282002BB00B /* AccountServiceRemoteREST.m */,
 				7403A2E31EF06ED500DED7DC /* AccountSettingsRemote.swift */,
 				826016F01F9FA13A00533B6C /* ActivityServiceRemote.swift */,
+				40247DF92120D8E100AE1C3C /* AutomatedTransferService.swift */,
 				82FFBF551F460DD400F4573F /* BlogJetpackSettingsServiceRemote.swift */,
 				74B5F0DB1EF829B800B411E7 /* BlogServiceRemote.h */,
 				74B5F0D31EF8299B00B411E7 /* BlogServiceRemoteREST.h */,
@@ -1219,6 +1224,7 @@
 				7403A3011EF0726E00DED7DC /* AccountSettings.swift */,
 				74E229591F1E77290085F7F2 /* KeyringConnection.swift */,
 				74E2295A1F1E77290085F7F2 /* KeyringConnectionExternalUser.swift */,
+				40247DFB2120E69600AE1C3C /* AutomatedTransferStatus.swift */,
 				826016F21F9FA17B00533B6C /* Activity.swift */,
 				93C674E51EE8345300BFAF05 /* RemoteBlog.h */,
 				93C674E61EE8345300BFAF05 /* RemoteBlog.m */,
@@ -2095,7 +2101,9 @@
 				9311A6861F22625A00704AC9 /* RemoteTaxonomyPaging.m in Sources */,
 				93BD27821EE73944002BB00B /* WordPressOrgXMLRPCValidator.swift in Sources */,
 				748710A81F06B542008095AB /* RemotePlan.swift in Sources */,
+				40247DFC2120E69600AE1C3C /* AutomatedTransferStatus.swift in Sources */,
 				740B23C51F17EE8000067A2A /* RemotePost.m in Sources */,
+				40247DFA2120D8E100AE1C3C /* AutomatedTransferService.swift in Sources */,
 				74E2295B1F1E77290085F7F2 /* KeyringConnection.swift in Sources */,
 				74B5F0DA1EF8299B00B411E7 /* BlogServiceRemoteXMLRPC.m in Sources */,
 				E1EF5D5D1F9F329900B6D53E /* SitePluginCapabilities.swift in Sources */,
