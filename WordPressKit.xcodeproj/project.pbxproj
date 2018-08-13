@@ -31,6 +31,7 @@
 		436D5643211B7F9B00CEAA33 /* validate-domain-contact-information-response-fail.json in Resources */ = {isa = PBXBuildFile; fileRef = 436D5642211B7F9B00CEAA33 /* validate-domain-contact-information-response-fail.json */; };
 		436D5645211B801100CEAA33 /* validate-domain-contact-information-response-success.json in Resources */ = {isa = PBXBuildFile; fileRef = 436D5644211B801000CEAA33 /* validate-domain-contact-information-response-success.json */; };
 		436D564C211CCCB900CEAA33 /* domain-contact-information-response-success.json in Resources */ = {isa = PBXBuildFile; fileRef = 436D564B211CCCB900CEAA33 /* domain-contact-information-response-success.json */; };
+		436D56532121F60500CEAA33 /* supported-states-empty.json in Resources */ = {isa = PBXBuildFile; fileRef = 436D56522121F60400CEAA33 /* supported-states-empty.json */; };
 		439A44CD2107899600795ED7 /* site-plans-v3-success.json in Resources */ = {isa = PBXBuildFile; fileRef = 439A44CC2107899500795ED7 /* site-plans-v3-success.json */; };
 		439A44D62107C66A00795ED7 /* JSONDecoderExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439A44D52107C66A00795ED7 /* JSONDecoderExtension.swift */; };
 		439A44D82107C85E00795ED7 /* PlanServiceRemote_ApiVersion1_3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439A44D72107C85E00795ED7 /* PlanServiceRemote_ApiVersion1_3.swift */; };
@@ -464,6 +465,7 @@
 		436D5642211B7F9B00CEAA33 /* validate-domain-contact-information-response-fail.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "validate-domain-contact-information-response-fail.json"; sourceTree = "<group>"; };
 		436D5644211B801000CEAA33 /* validate-domain-contact-information-response-success.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "validate-domain-contact-information-response-success.json"; sourceTree = "<group>"; };
 		436D564B211CCCB900CEAA33 /* domain-contact-information-response-success.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "domain-contact-information-response-success.json"; sourceTree = "<group>"; };
+		436D56522121F60400CEAA33 /* supported-states-empty.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "supported-states-empty.json"; sourceTree = "<group>"; };
 		439A44CC2107899500795ED7 /* site-plans-v3-success.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "site-plans-v3-success.json"; sourceTree = "<group>"; };
 		439A44D52107C66A00795ED7 /* JSONDecoderExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONDecoderExtension.swift; sourceTree = "<group>"; };
 		439A44D72107C85E00795ED7 /* PlanServiceRemote_ApiVersion1_3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanServiceRemote_ApiVersion1_3.swift; sourceTree = "<group>"; };
@@ -1498,6 +1500,9 @@
 				74D67F2C1F15C3740010C5ED /* site-viewers-delete-bad-json.json */,
 				74D67F2D1F15C3740010C5ED /* site-viewers-delete-failure.json */,
 				74D67F2E1F15C3740010C5ED /* site-viewers-delete-success.json */,
+				436D56392118DE3B00CEAA33 /* supported-countries-success.json */,
+				436D56522121F60400CEAA33 /* supported-states-empty.json */,
+				436D563D2118E34D00CEAA33 /* supported-states-success.json */,
 				E1787DAF200E564B004CB3AF /* timezones.json */,
 				436D5644211B801000CEAA33 /* validate-domain-contact-information-response-success.json */,
 				436D5642211B7F9B00CEAA33 /* validate-domain-contact-information-response-fail.json */,
@@ -1530,8 +1535,6 @@
 				740B23DE1F17FB4200067A2A /* xmlrpc-wp-getpost-bad-xml-failure.xml */,
 				740B23DF1F17FB4200067A2A /* xmlrpc-wp-getpost-invalid-id-failure.xml */,
 				740B23E01F17FB4200067A2A /* xmlrpc-wp-getpost-success.xml */,
-				436D56392118DE3B00CEAA33 /* supported-countries-success.json */,
-				436D563D2118E34D00CEAA33 /* supported-states-success.json */,
 			);
 			path = "Mock Data";
 			sourceTree = "<group>";
@@ -1863,6 +1866,7 @@
 				74C473C71EF334D4009918F2 /* site-active-purchases-none-active-success.json in Resources */,
 				829BA4321FACF187003ADEEA /* activity-rewind-status-restore-finished.json in Resources */,
 				74D67F181F15C2D70010C5ED /* site-users-update-role-unknown-site-failure.json in Resources */,
+				436D56532121F60500CEAA33 /* supported-states-empty.json in Resources */,
 				93AC8ED31ED32FD000900F5A /* stats-v1.1-streak.json in Resources */,
 				7403A2F91EF06FEB00DED7DC /* me-settings-change-email-success.json in Resources */,
 				439A44DC2107CE3C00795ED7 /* site-plans-v3-empty-failure.json in Resources */,

@@ -13,6 +13,7 @@ class DomainsServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
     let domainServiceBadJsonFailureMockFilename = "domain-service-bad-json.json"
     let domainServiceEmptyResponseMockFilename  = "domain-service-empty.json"
     let domainServiceSupportedStatesSuccess     = "supported-states-success.json"
+    let domainServiceSupportedStatesEmpty       = "supported-states-empty.json"
     let validateDomainContactInformationFail    = "validate-domain-contact-information-response-fail.json"
     let validateDomainContactInformationSuccess = "validate-domain-contact-information-response-success.json"
     let getDomainContactInformationSuccess      = "domain-contact-information-response-success.json"
@@ -140,6 +141,25 @@ class DomainsServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
         waitForExpectations(timeout: timeout, handler: nil)
     }
     
+    func testGetStatesSuccessEmpty() {
+        let expect = expectation(description: "Get states for coutry code")
+        let countryCode = "TR"
+        stubRemoteResponse("domains/supported-states/" + countryCode,
+                           filename: domainServiceSupportedStatesEmpty,
+                           contentType: .ApplicationJSON,
+                           status: 200)
+        
+        remote.getStates(for: countryCode,
+                         success: { (stateList) in
+                            XCTAssert(stateList.count == 0)
+                            expect.fulfill()
+        }) { (error) in
+            XCTFail("This callback shouldn't get called")
+            expect.fulfill()
+        }
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+
     func testValidateDomainContactInformationFail() {
         let expect = expectation(description: "Validate domain contact information")
         stubRemoteResponse("me/domain-contact-information/validate",
