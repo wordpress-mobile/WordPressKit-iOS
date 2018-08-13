@@ -29,19 +29,23 @@ extension JSONDecoder.DateDecodingStrategy {
             let dateStr = try container.decode(String.self)
             
             let len = dateStr.count
-            var date: Date? = nil
-            if len == DateFormat.noTime.rawValue.count {
+            var date: Date?
+            switch len {
+            case DateFormat.noTime.rawValue.count:
                 date = DateFormat.noTime.formatter.date(from: dateStr)
-            } else if len == DateFormat.dateWithTime.rawValue.count {
+            case DateFormat.dateWithTime.rawValue.count:
                 date = DateFormat.dateWithTime.formatter.date(from: dateStr)
+            default:
+                break
             }
-            guard let _date = date else {
+            if let date = date {
+                return date
+            } else {
                 throw DecodingError.dataCorruptedError(
                     in: container,
                     debugDescription: "Cannot decode date string \(dateStr)"
                 )
             }
-            return _date
         })
     }
 }

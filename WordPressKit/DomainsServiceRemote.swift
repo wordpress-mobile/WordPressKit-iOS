@@ -32,7 +32,7 @@ public class DomainsServiceRemote: ServiceRemoteWordPressComREST {
         case onlyWordPressDotCom
         
         fileprivate func parameters() -> [String: AnyObject] {
-            var result: [String: AnyObject] = [:]
+            let result: [String: AnyObject]
             switch self {
             case .noWordpressDotCom:
                 result = ["include_wordpressdotcom": false as AnyObject]
