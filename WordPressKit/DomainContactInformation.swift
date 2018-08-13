@@ -15,6 +15,9 @@ public struct ValidateDomainContactInformationResponse: Codable {
     
     public var success: Bool = false
     public var messages: Messages?
+    
+    public init() {
+    }
 }
 
 public struct DomainContactInformation: Codable {
@@ -29,4 +32,7 @@ public struct DomainContactInformation: Codable {
     public var fax: String?
     public var state: String?
     public var organization: String?
+    
+    public init() {
+    }
 }
