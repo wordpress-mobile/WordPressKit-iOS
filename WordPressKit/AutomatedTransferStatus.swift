@@ -8,9 +8,9 @@ public struct AutomatedTransferStatus {
         case active
     }
 
-    let status: State
-    let step: Int?
-    let totalSteps: Int?
+    public let status: State
+    public let step: Int?
+    public let totalSteps: Int?
 
     init?(status statusString: String) {
         guard let status = State(rawValue: statusString) else {
