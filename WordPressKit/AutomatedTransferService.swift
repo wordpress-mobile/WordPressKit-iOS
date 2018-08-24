@@ -1,5 +1,4 @@
 import Foundation
-import Alamofire
 
 /// Class encapsualting all requests related to performing Automated Transfer operations.
 public class AutomatedTransferService: ServiceRemoteWordPressComREST {
