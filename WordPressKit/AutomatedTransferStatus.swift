@@ -3,9 +3,14 @@ import Foundation
 /// A helper object encapsulating a status of Automated Transfer operation.
 public struct AutomatedTransferStatus {
     public enum State: String, RawRepresentable {
-        case complete
-        case pending
         case active
+        case backfilling
+        case complete
+        case error
+        case notFound = "not found"
+        case unknownStatus = "unknown_status"
+        case uploading
+        case pending
     }
 
     public let status: State
