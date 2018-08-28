@@ -363,6 +363,9 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
     post.commentCount = [jsonPost numberForKeyPath:@"discussion.comment_count"] ?: @0;
     post.likeCount = [jsonPost numberForKeyPath:@"like_count"] ?: @0;
 
+    NSNumber *stickyPost = [jsonPost numberForKeyPath:@"sticky"] ?: @0;
+    post.isStickyPost = stickyPost.boolValue;
+    
     // FIXME: remove conversion once API is fixed #38-io
     // metadata should always be an array but it's returning false when there are no custom fields
     post.metadata = [jsonPost arrayForKey:@"metadata"];
@@ -435,6 +438,8 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
     }
     parameters[@"featured_image"] = post.postThumbnailID ? [post.postThumbnailID stringValue] : @"";
     parameters[@"metadata"] = [self metadataForPost:post];
+    
+    parameters[@"sticky"] = post.isStickyPost ? @"1" : @"0";
 
     // Scheduled posts need to sync with a status of 'publish'.
     // Passing a status of 'future' will set the post status to 'draft'
