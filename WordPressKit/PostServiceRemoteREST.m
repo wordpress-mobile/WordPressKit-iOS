@@ -439,7 +439,7 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
     parameters[@"featured_image"] = post.postThumbnailID ? [post.postThumbnailID stringValue] : @"";
     parameters[@"metadata"] = [self metadataForPost:post];
     
-    parameters[@"sticky"] = post.isStickyPost ? @"1" : @"0";
+    parameters[@"sticky"] = post.isStickyPost ? @"true" : @"false";
 
     // Scheduled posts need to sync with a status of 'publish'.
     // Passing a status of 'future' will set the post status to 'draft'
