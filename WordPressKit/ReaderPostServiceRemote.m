@@ -549,14 +549,14 @@ static const NSUInteger ReaderPostTitleLength = 30;
 
 - (nullable NSString *)apiPathForPostAtURL:(NSURL *)url
 {
-    NSURLComponents *components = [NSURLComponents componentsWithURL:url resolvingAgainstBaseURL:nil];
+    NSURLComponents *components = [NSURLComponents componentsWithURL:url resolvingAgainstBaseURL:NO];
 
     NSString *hostname = components.host;
-    NSArray *pathComponents = [components.path pathComponents];
+    NSArray *pathComponents = [[components.path pathComponents] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF != '/'"] ];
     NSString *slug = [components.path lastPathComponent];
 
-    // We expect 6 path components for a post – year, month, day, slug, plus a '/' on either end
-    if (hostname == nil || pathComponents.count != 6 || slug == nil) {
+    // We expect 4 path components for a post – year, month, day, slug, plus a '/' on either end
+    if (hostname == nil || pathComponents.count != 4 || slug == nil) {
         return nil;
     }
 
