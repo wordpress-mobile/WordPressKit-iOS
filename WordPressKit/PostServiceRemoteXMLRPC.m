@@ -319,6 +319,9 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
     NSArray *terms = [xmlrpcDictionary arrayForKey:@"terms"];
     post.tags = [self tagsFromXMLRPCTermsArray:terms];
     post.categories = [self remoteCategoriesFromXMLRPCTermsArray:terms];
+    
+    NSNumber *stickyPost = [xmlrpcDictionary numberForKeyPath:@"sticky"] ?: @0;
+    post.isStickyPost = stickyPost.boolValue;
 
     // Pick an image to use for display
     if (post.postThumbnailPath) {
@@ -409,6 +412,8 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
     if ([post.metadata count] > 0) {
         postParams[@"custom_fields"] = post.metadata;
     }
+    
+    postParams[@"sticky"] = post.isStickyPost ? @"true" : @"false";
 
     // Scheduled posts need to sync with a status of 'publish'.
     // Passing a status of 'future' will set the post status to 'draft'
