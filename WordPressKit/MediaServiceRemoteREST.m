@@ -160,12 +160,7 @@ const NSInteger WPRestErrorCodeMediaNew = 10;
                                         success(returnedRemoteMedia);
                                     }
                                 } else {
-                                    DDLogDebug(@"Error uploading multiple media files: %@", errorList);
-                                    NSError * error = nil;
-                                    if (errorList.count > 0){
-                                        NSDictionary * errorDictionary = @{NSLocalizedDescriptionKey: errorList[0]};
-                                        error = [NSError errorWithDomain:WordPressComRestApiErrorDomain code:WordPressComRestApiErrorUploadFailed userInfo:errorDictionary];
-                                    }
+                                    NSError *error = [self processMediaUploadErrors:errorList];
                                     if (failure) {
                                         failure(error);
                                     }
@@ -209,20 +204,15 @@ const NSInteger WPRestErrorCodeMediaNew = 10;
                                                                 requestEnqueued:nil
                                                                         success:^(id  _Nonnull responseObject, NSHTTPURLResponse * _Nullable httpResponse) {
                                                                             NSDictionary *response = (NSDictionary *)responseObject;
-                                                                            NSArray * errorList = response[@"errors"];
-                                                                            NSArray * mediaList = response[@"media"];
+                                                                            NSArray *errorList = response[@"errors"];
+                                                                            NSArray *mediaList = response[@"media"];
                                                                             if (mediaList.count > 0){
-                                                                                RemoteMedia * remoteMedia = [MediaServiceRemoteREST remoteMediaFromJSONDictionary:mediaList[0]];
+                                                                                RemoteMedia *remoteMedia = [MediaServiceRemoteREST remoteMediaFromJSONDictionary:mediaList[0]];
                                                                                 if (success) {
                                                                                     success(remoteMedia);
                                                                                 }
                                                                             } else {
-                                                                                DDLogDebug(@"Error uploading file: %@", errorList);
-                                                                                NSError * error = nil;
-                                                                                if (errorList.count > 0){
-                                                                                    NSDictionary * errorDictionary = @{NSLocalizedDescriptionKey: errorList[0]};
-                                                                                    error = [NSError errorWithDomain:WordPressComRestApiErrorDomain code:WordPressComRestApiErrorUploadFailed userInfo:errorDictionary];
-                                                                                }
+                                                                                NSError *error = [self processMediaUploadErrors:errorList];
                                                                                 if (failure) {
                                                                                     failure(error);
                                                                                 }
@@ -236,6 +226,21 @@ const NSInteger WPRestErrorCodeMediaNew = 10;
                                                                         }];
 
     *progress = localProgress;
+}
+
+- (NSError *)processMediaUploadErrors:(NSArray *)errorList {
+    DDLogDebug(@"Error uploading file: %@", errorList);
+    NSError * error = nil;
+    if (errorList.count > 0) {
+        NSString *errorMessage = [errorList.firstObject description];
+        if ([errorList.firstObject isKindOfClass:NSDictionary.class]) {
+            NSDictionary *errorInfo = errorList.firstObject;
+            errorMessage = errorInfo[@"message"];
+        }
+        NSDictionary *errorDictionary = @{NSLocalizedDescriptionKey: errorMessage};
+        error = [NSError errorWithDomain:WordPressComRestApiErrorDomain code:WordPressComRestApiErrorUploadFailed userInfo:errorDictionary];
+    }
+    return error;
 }
 
 - (void)updateMedia:(RemoteMedia *)media
