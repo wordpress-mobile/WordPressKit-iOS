@@ -26,6 +26,27 @@ public class DomainsServiceRemote: ServiceRemoteWordPressComREST {
         case decodingFailed
     }
 
+    public enum DomainSuggestionType {
+        case noWordpressDotCom
+        case includeWordPressDotCom
+        case onlyWordPressDotCom
+        
+        fileprivate func parameters() -> [String: AnyObject] {
+            let result: [String: AnyObject]
+            switch self {
+            case .noWordpressDotCom:
+                result = ["include_wordpressdotcom": false as AnyObject]
+            case .includeWordPressDotCom:
+                result = ["include_wordpressdotcom": true as AnyObject,
+                          "only_wordpressdotcom": false as AnyObject]
+            case .onlyWordPressDotCom:
+                result =  ["include_wordpressdotcom": true as AnyObject,
+                           "only_wordpressdotcom": true as AnyObject]
+            }
+            return result
+        }
+    }
+    
     public func getDomainsForSite(_ siteID: Int, success: @escaping ([RemoteDomain]) -> Void, failure: @escaping (Error) -> Void) {
         let endpoint = "sites/\(siteID)/domains"
         let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
@@ -45,6 +66,81 @@ public class DomainsServiceRemote: ServiceRemoteWordPressComREST {
         })
     }
 
+    @objc public func getStates(for countryCode: String,
+                                success: @escaping ([State]) -> Void,
+                                failure: @escaping (Error) -> Void) {
+        let endPoint = "domains/supported-states/\(countryCode)"
+        let servicePath = path(forEndpoint: endPoint, withVersion: ._1_1)
+        
+        wordPressComRestApi.GET(
+            servicePath,
+            parameters: nil,
+            success: {
+                response, _ in
+                do {
+                    guard let json = response as? [AnyObject] else {
+                        throw ResponseError.decodingFailed
+                    }
+                    let data = try JSONSerialization.data(withJSONObject: json, options: .prettyPrinted)
+                    let decodedResult = try JSONDecoder.apiDecoder.decode([State].self, from: data)
+                    success(decodedResult)
+                } catch {
+                    DDLogError("Error parsing State list for country code (\(error)): \(response)")
+                    failure(error)
+                }
+        }, failure: { error, _ in
+            failure(error)
+        })
+    }
+    
+    public func getDomainContactInformation(success: @escaping (DomainContactInformation) -> Void,
+                                            failure: @escaping (Error) -> Void) {
+        let endPoint = "me/domain-contact-information"
+        let servicePath = path(forEndpoint: endPoint, withVersion: ._1_1)
+        
+        wordPressComRestApi.GET(
+            servicePath,
+            parameters: nil,
+            success: { (response, _) in
+                do {
+                    let data = try JSONSerialization.data(withJSONObject: response, options: .prettyPrinted)
+                    let decodedResult = try JSONDecoder.apiDecoder.decode(DomainContactInformation.self, from: data)
+                    success(decodedResult)
+                } catch {
+                    DDLogError("Error parsing DomainContactInformation  (\(error)): \(response)")
+                    failure(error)
+                }
+        }) { (error, _) in
+            failure(error)
+        }
+    }
+    
+    public func validateDomainContactInformation(contactInformation: [String: String],
+                                                 domainNames: [String],
+                                                 success: @escaping (ValidateDomainContactInformationResponse) -> Void,
+                                                 failure: @escaping (Error) -> Void) {
+        let endPoint = "me/domain-contact-information/validate"
+        let servicePath = path(forEndpoint: endPoint, withVersion: ._1_1)
+        
+        let parameters: [String: AnyObject] = ["contact_information": contactInformation as AnyObject,
+                                               "domain_names": domainNames as AnyObject]
+        wordPressComRestApi.POST(
+            servicePath,
+            parameters: parameters,
+            success: { response,_ in
+                do {
+                    let data = try JSONSerialization.data(withJSONObject: response, options: .prettyPrinted)
+                    let decodedResult = try JSONDecoder.apiDecoder.decode(ValidateDomainContactInformationResponse.self, from: data)
+                    success(decodedResult)
+                } catch {
+                    DDLogError("Error parsing ValidateDomainContactInformationResponse  (\(error)): \(response)")
+                    failure(error)
+                }
+        }) { (error, response) in
+            failure(error)
+        }
+    }
+    
     /* from https://opengrok.a8c.com/source/xref/trunk/public.api/rest/wpcom-json-endpoints/class.wpcom-store-domains-api-endpoints.php
  "'description'      => 'Get a list of suggested domain names that are available for registration based on a given term or domain name.',
  154    // 'group'            => 'domains',
@@ -130,13 +226,15 @@ public class DomainsServiceRemote: ServiceRemoteWordPressComREST {
     }
 )
     */
-    public func getDomainSuggestions(base query: String, success: @escaping ([String]) -> Void, failure: @escaping (Error) -> Void) {
+    public func getDomainSuggestions(base query: String,
+                                     domainSuggestionType: DomainSuggestionType = .onlyWordPressDotCom,
+                                     success: @escaping ([String]) -> Void,
+                                     failure: @escaping (Error) -> Void) {
         let endPoint = "domains/suggestions"
         let servicePath = path(forEndpoint: endPoint, withVersion: ._1_1)
-        let parameters: [String: AnyObject] = ["query": query as AnyObject,
-                                               "include_wordpressdotcom": true as AnyObject,
-                                               "only_wordpressdotcom": true as AnyObject]
-
+        var parameters: [String: AnyObject] = domainSuggestionType.parameters()
+        parameters["query"] = query as AnyObject
+        
         wordPressComRestApi.GET(servicePath,
                                 parameters: parameters,
                                 success: {
