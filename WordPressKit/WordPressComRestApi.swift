@@ -266,7 +266,7 @@ open class WordPressComRestApi: NSObject {
                 if let taskIdentifier = upload.task?.taskIdentifier {
                     requestEnqueued?(NSNumber(value: taskIdentifier))
                 }
-                let dataRequest = upload.responseJSON(completionHandler: { response in                    
+                let dataRequest = upload.validate().responseJSON(completionHandler: { response in                    
                     switch response.result {
                     case .success(let responseObject):
                         progress.completedUnitCount = progress.totalUnitCount
