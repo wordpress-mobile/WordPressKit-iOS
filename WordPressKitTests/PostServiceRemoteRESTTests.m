@@ -145,6 +145,7 @@
     OCMStub([post type]).andReturn(@"Type");
     OCMStub([post metadata]).andReturn(@[]);
     OCMStub([post isStickyPost]).andReturn(YES);
+    OCMStub([post parentID]).andReturn(@38);
 
     XCTAssertNoThrow(service = [[PostServiceRemoteREST alloc] initWithWordPressComRestApi:api siteID:dotComID]);
 
@@ -189,6 +190,7 @@
     OCMStub([post type]).andReturn(@"Type");
     OCMStub([post metadata]).andReturn(@[]);
     OCMStub([post isStickyPost]).andReturn(YES);
+    OCMStub([post parentID]).andReturn(nil);
 
     XCTAssertNoThrow(service = [[PostServiceRemoteREST alloc] initWithWordPressComRestApi:api siteID:dotComID]);
 

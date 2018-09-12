@@ -423,9 +423,6 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
     if (post.slug) {
         parameters[@"slug"] = post.slug;
     }
-    if (post.parentID) {
-        parameters[@"parent"] = post.parentID;
-    }
 
     if (post.categories) {
         parameters[@"categories"] = [post.categories valueForKey:@"categoryID"];
@@ -436,6 +433,8 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
     if (post.format) {
         parameters[@"format"] = post.format;
     }
+
+    parameters[@"parent"] = post.parentID ?: @"false";
     parameters[@"featured_image"] = post.postThumbnailID ? [post.postThumbnailID stringValue] : @"";
     parameters[@"metadata"] = [self metadataForPost:post];
     
