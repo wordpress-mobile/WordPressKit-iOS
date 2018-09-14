@@ -1,7 +1,7 @@
 import Foundation
 
 public typealias PricedPlan = (plan: RemotePlan, price: String)
-public typealias SitePricedPlans = (siteID: Int, activePlan: RemotePlan, availablePlans: [PricedPlan])
+public typealias SitePricedPlans = (siteID: Int, activePlan: RemotePlan?, availablePlans: [PricedPlan])
 public typealias RemotePlanFeatures = [PlanID: [RemotePlanFeature]]
 
 public typealias PlanID = Int
