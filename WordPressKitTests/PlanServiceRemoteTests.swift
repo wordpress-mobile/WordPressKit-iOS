@@ -41,30 +41,13 @@ class PlanServiceRemoteTests: RemoteTestCase, RESTTestable {
 
         stubRemoteResponse(sitePlansEndpoint, filename: getPlansSuccessMockFilename, contentType: .ApplicationJSON)
         remote.getPlansForSite(siteID, success: { sitePlans in
-            XCTAssertEqual(sitePlans.activePlan.id, 1, "The active plan id should be 1")
+            XCTAssertEqual(sitePlans.activePlan?.id, 1, "The active plan id should be 1")
             XCTAssertEqual(sitePlans.availablePlans.count, 4, "The availible plans count should be 4")
             expect.fulfill()
         }) { error in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         }
-
-        waitForExpectations(timeout: timeout, handler: nil)
-    }
-
-    func testGetPlansWithEmptyResponseArrayFails() {
-        let expect = expectation(description: "Get plans with empty response array success")
-
-        stubRemoteResponse(sitePlansEndpoint, filename: getPlansEmptyFailureMockFilename, contentType: .ApplicationJSON)
-        remote.getPlansForSite(siteID, success: { sitePlans in
-            XCTFail("The site should always return plans.")
-            expect.fulfill()
-        }, failure: { error in
-            let error = error as NSError
-            XCTAssertEqual(error.domain, String(reflecting: PlanServiceRemote.ResponseError.self), "The error domain should be PlanServiceRemote.ResponseError")
-            XCTAssertEqual(error.code, PlanServiceRemote.ResponseError.noActivePlan.hashValue, "The error code should be 2 - no active plan")
-            expect.fulfill()
-        })
 
         waitForExpectations(timeout: timeout, handler: nil)
     }

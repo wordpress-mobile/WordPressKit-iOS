@@ -32,7 +32,7 @@ PODS:
     - CocoaLumberjack (= 3.4.2)
     - NSObject-SafeExpectations (= 0.0.3)
     - UIDeviceIdentifier (~> 0.4)
-    - WordPressShared (~> 1.1.1-beta.2)
+    - WordPressShared (= 1.1.1-beta.2)
     - wpxmlrpc (= 0.8.3)
   - WordPressShared (1.1.1-beta.2):
     - CocoaLumberjack (~> 3.4)
@@ -70,7 +70,7 @@ SPEC CHECKSUMS:
   OCMock: ebe9ee1dca7fbed0ff9193ac0b3e2d8862ea56f6
   OHHTTPStubs: 1e21c7d2c084b8153fc53d48400d8919d2d432d0
   UIDeviceIdentifier: a959a6d4f51036b4180dd31fb26483a820f1cc46
-  WordPressKit: 7bec576e243151dd9a483fe1035f73e0deb4ce9f
+  WordPressKit: e32079ad12f2f1a5791a126af518096bd940f5b0
   WordPressShared: c4d4356a06fc73bde9b782f26768d42e62a330ef
   wpxmlrpc: bfc572f62ce7ee897f6f38b098d2ba08732ecef4
 
