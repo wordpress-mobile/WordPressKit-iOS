@@ -295,7 +295,7 @@ open class WordPressComRestApi: NSObject {
         return !(authToken.isEmpty)
     }
 
-    override open var hashValue: Int {
+    override open var hash: Int {
         return "\(String(describing: oAuthToken)),\(String(describing: userAgent))".hashValue
     }
 

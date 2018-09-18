@@ -38,17 +38,17 @@ open class HTTPAuthenticationAlertController {
     static fileprivate func controllerForServerTrustChallenge(_ challenge: URLAuthenticationChallenge) -> UIAlertController {
         let title = NSLocalizedString("Certificate error", comment: "Popup title for wrong SSL certificate.")
         let message = String(format: NSLocalizedString("The certificate for this server is invalid. You might be connecting to a server that is pretending to be “%@” which could put your confidential information at risk.\n\nWould you like to trust the certificate anyway?", comment: ""), challenge.protectionSpace.host)
-        let controller =  UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
+        let controller =  UIAlertController(title: title, message: message, preferredStyle: .alert)
 
         let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: "Cancel button label"),
-                                         style: UIAlertActionStyle.default,
+                                         style: .default,
                                          handler: { (action) in
                                             executeHandlerForChallenge(challenge, disposition: .cancelAuthenticationChallenge, credential: nil)
         })
         controller.addAction(cancelAction)
 
         let trustAction = UIAlertAction(title: NSLocalizedString("Trust", comment: "Connect when the SSL certificate is invalid"),
-                                        style: UIAlertActionStyle.default,
+                                        style: .default,
                                         handler: { (action) in
                                             let credential = URLCredential(trust: challenge.protectionSpace.serverTrust!)
                                             URLCredentialStorage.shared.setDefaultCredential(credential, for: challenge.protectionSpace)
@@ -63,7 +63,7 @@ open class HTTPAuthenticationAlertController {
         let message = NSLocalizedString("Please enter your credentials", comment: "Popup message to ask for user credentials (fields shown below).")
         let controller =  UIAlertController(title: title,
                                             message: message,
-                                            preferredStyle: UIAlertControllerStyle.alert)
+                                            preferredStyle: .alert)
 
         controller.addTextField( configurationHandler: { (textField) in
             textField.placeholder = NSLocalizedString("Username", comment: "Login dialog username placeholder")

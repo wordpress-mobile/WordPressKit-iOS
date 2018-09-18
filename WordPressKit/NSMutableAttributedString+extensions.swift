@@ -1,7 +1,7 @@
 import Foundation
 
 extension NSMutableAttributedString {
-    func applyAttributes(toQuotes attributes: [NSAttributedStringKey: Any]?) {
+    func applyAttributes(toQuotes attributes: [NSAttributedString.Key: Any]?) {
         guard let attributes = attributes else {
             return
         }
