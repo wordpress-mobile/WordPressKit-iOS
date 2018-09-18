@@ -3,7 +3,7 @@ import WordPressShared
 import CocoaLumberjack
 
 public class PlanServiceRemote: ServiceRemoteWordPressComREST {
-    public typealias SitePlans = (activePlan: RemotePlan, availablePlans: [RemotePlan])
+    public typealias SitePlans = (activePlan: RemotePlan?, availablePlans: [RemotePlan])
 
     public enum ResponseError: Error {
         case decodingFailure
@@ -37,7 +37,7 @@ public class PlanServiceRemote: ServiceRemoteWordPressComREST {
 
 }
 
-private func mapPlansResponse(_ response: AnyObject) throws -> (activePlan: RemotePlan, availablePlans: [RemotePlan]) {
+private func mapPlansResponse(_ response: AnyObject) throws -> (activePlan: RemotePlan?, availablePlans: [RemotePlan]) {
     guard let json = response as? [[String: AnyObject]] else {
         throw PlanServiceRemote.ResponseError.decodingFailure
     }
@@ -73,9 +73,7 @@ private func mapPlansResponse(_ response: AnyObject) throws -> (activePlan: Remo
         }
     })
 
-    guard let activePlan = parsedResponse.0 else {
-        throw PlanServiceRemote.ResponseError.noActivePlan
-    }
+    let activePlan = parsedResponse.0
     let availablePlans = parsedResponse.1
     return (activePlan, availablePlans)
 }
