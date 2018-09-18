@@ -21,7 +21,7 @@ Pod::Spec.new do |s|
 
   s.dependency 'Alamofire', '~> 4.7.3'
   s.dependency 'CocoaLumberjack', '3.4.2'
-  s.dependency 'WordPressShared', '~> 1.1.1-beta.2'
+  s.dependency 'WordPressShared', '1.1.1-beta.2'
   s.dependency 'NSObject-SafeExpectations', '0.0.3'
   s.dependency 'wpxmlrpc', '0.8.3'
   s.dependency 'UIDeviceIdentifier', '~> 0.4'
