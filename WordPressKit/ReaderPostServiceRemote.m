@@ -662,7 +662,7 @@ static const NSUInteger ReaderPostTitleLength = 30;
 /**
  Parse whether the post belongs to a wpcom blog.
 
- @param A dictionary representing a post object from the REST API
+ @param dict A dictionary representing a post object from the REST API
  @return YES if the post belongs to a wpcom blog, else NO
  */
 - (BOOL)isWPComFromPostDictionary:(NSDictionary *)dict
@@ -903,7 +903,7 @@ static const NSUInteger ReaderPostTitleLength = 30;
  Formats a post's summary.  The excerpts provided by the REST API contain HTML and have some extra content appened to the end.
  HTML is stripped and the extra bit is removed.
 
- @param string The summary to format.
+ @param summary The summary to format.
  @return The formatted summary.
  */
 - (NSString *)formatSummary:(NSString *)summary
