@@ -44,7 +44,7 @@ DEPENDENCIES:
   - OHHTTPStubs (= 6.1.0)
   - OHHTTPStubs/Swift (= 6.1.0)
   - WordPressKit (from `./`)
-  - WordPressShared (~> 1.1.1-beta.2)
+  - WordPressShared (= 1.1.1-beta.2)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -74,6 +74,6 @@ SPEC CHECKSUMS:
   WordPressShared: c4d4356a06fc73bde9b782f26768d42e62a330ef
   wpxmlrpc: bfc572f62ce7ee897f6f38b098d2ba08732ecef4
 
-PODFILE CHECKSUM: 9bd6ab8c30fa44c675c4c08697d8d1ae0229d9d4
+PODFILE CHECKSUM: 86b5d1ec95c00c49d7440b352dba6b896fa7157d
 
 COCOAPODS: 1.5.3
