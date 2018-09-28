@@ -26,11 +26,15 @@ class SiteManagementServiceRemoteTests: RemoteTestCase, RESTTestable {
     let getActivePurchasesAuthFailureMockFilename           = "site-active-purchases-auth-failure.json"
     let getActivePurchasesBadJsonFailureMockFilename        = "site-active-purchases-bad-json-failure.json"
 
+    let markQuickStartAsCompletedSuccessMockFilename        = "site-quick-start-success.json"
+    let markQuickStartAsCompletedFailureMockFilename        = "site-quick-start-failure.json"
+
     // MARK: - Properties
 
     var siteDeleteEndpoint: String { return "sites/\(siteID)/delete" }
     var siteExportStartEndpoint: String { return "sites/\(siteID)/exports/start" }
     var sitePurchasesEndpoint: String { return "sites/\(siteID)/purchases" }
+    var siteMarkQuickStartAsCompletedEndPoint: String { return "sites/\(siteID)/mobile-quick-start" }
 
     var remote: SiteManagementServiceRemote!
 
@@ -419,6 +423,36 @@ class SiteManagementServiceRemoteTests: RemoteTestCase, RESTTestable {
             expect.fulfill()
         })
 
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+    
+    // MARK: - Mark Site Quick Start As Completed Tests
+    
+    func testMarkQuickStartAsCompletedSuccess() {
+        let expect = expectation(description: "Mark Site Quick Start as Completed success test")
+        
+        stubRemoteResponse(siteMarkQuickStartAsCompletedEndPoint, filename: markQuickStartAsCompletedSuccessMockFilename, contentType: .ApplicationJSON)
+        remote.markQuickStartAsCompleted(NSNumber(value: Int32(siteID)), success: {
+            expect.fulfill()
+        }, failure: { error in
+            XCTFail("This callback shouldn't get called")
+            expect.fulfill()
+        })
+        
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+    
+    func testMarkQuickStartAsCompletedFailure() {
+        let expect = expectation(description: "Mark Site Quick Start as Completed failure test")
+        
+        stubRemoteResponse(siteMarkQuickStartAsCompletedEndPoint, filename: markQuickStartAsCompletedFailureMockFilename, contentType: .ApplicationJSON, status: 403)
+        remote.markQuickStartAsCompleted(NSNumber(value: Int32(siteID)), success: {
+            XCTFail("This callback shouldn't get called")
+            expect.fulfill()
+        }, failure: { error in
+            expect.fulfill()
+        })
+        
         waitForExpectations(timeout: timeout, handler: nil)
     }
 
