@@ -100,6 +100,27 @@ open class SiteManagementServiceRemote: ServiceRemoteWordPressComREST {
                 failure?(error)
         })
     }
+    
+    /// Trigger a masterbar notification celebrating completion of mobile quick start.
+    ///
+    /// - Parameters:
+    ///   - siteID: The WordPress.com ID of the site.
+    ///   - success: Optional success block
+    ///   - failure: Optional failure block with NSError
+    ///
+    @objc open func markQuickStartAsCompleted(_ siteID: NSNumber, success: (() -> Void)?, failure: ((NSError) -> Void)?) {
+        let endpoint = "sites/\(siteID)/mobile-quick-start"
+        let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
+
+        wordPressComRestApi.POST(path,
+                                 parameters: nil,
+                                 success: { response, httpResponse in
+                                    success?()
+        },
+                                 failure: { error, httpResponse in
+                                    failure?(error)
+        })
+    }
 
     /// Keys found in API results
     ///
