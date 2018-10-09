@@ -108,7 +108,7 @@ open class SiteManagementServiceRemote: ServiceRemoteWordPressComREST {
     ///   - success: Optional success block
     ///   - failure: Optional failure block with NSError
     ///
-    @objc open func markQuickStartAsCompleted(_ siteID: NSNumber, success: (() -> Void)?, failure: ((NSError) -> Void)?) {
+    @objc open func markQuickStartChecklistAsComplete(_ siteID: NSNumber, success: (() -> Void)?, failure: ((NSError) -> Void)?) {
         let endpoint = "sites/\(siteID)/mobile-quick-start"
         let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
 

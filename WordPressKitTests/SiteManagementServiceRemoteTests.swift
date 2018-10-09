@@ -432,7 +432,7 @@ class SiteManagementServiceRemoteTests: RemoteTestCase, RESTTestable {
         let expect = expectation(description: "Mark Site Quick Start as Completed success test")
         
         stubRemoteResponse(siteMarkQuickStartAsCompletedEndPoint, filename: markQuickStartAsCompletedSuccessMockFilename, contentType: .ApplicationJSON)
-        remote.markQuickStartAsCompleted(NSNumber(value: Int32(siteID)), success: {
+        remote.markQuickStartChecklistAsComplete(NSNumber(value: Int32(siteID)), success: {
             expect.fulfill()
         }, failure: { error in
             XCTFail("This callback shouldn't get called")
@@ -446,7 +446,7 @@ class SiteManagementServiceRemoteTests: RemoteTestCase, RESTTestable {
         let expect = expectation(description: "Mark Site Quick Start as Completed failure test")
         
         stubRemoteResponse(siteMarkQuickStartAsCompletedEndPoint, filename: markQuickStartAsCompletedFailureMockFilename, contentType: .ApplicationJSON, status: 403)
-        remote.markQuickStartAsCompleted(NSNumber(value: Int32(siteID)), success: {
+        remote.markQuickStartChecklistAsComplete(NSNumber(value: Int32(siteID)), success: {
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         }, failure: { error in
