@@ -106,6 +106,18 @@ class MediaServiceRemoteRESTTests: XCTestCase {
         XCTAssertEqual(errorDescription, response["errors"]![0])
     }
 
+    func testCreateMultipleMediaErrorDictionary() {
+
+        let response = ["errors": [["error": "upload_error", "message": "some error", "file": "file.jpg"]]]
+        let media = [mockRemoteMedia(), mockRemoteMedia()]
+        var errorDescription = ""
+        mediaServiceRemote.uploadMedia(media, requestEnqueued: { _ in }, success: { _ in }, failure: {
+            errorDescription = ($0?.localizedDescription)!
+        })
+        mockRemoteApi.successBlockPassedIn?(response as AnyObject, HTTPURLResponse())
+        XCTAssertEqual(errorDescription, response["errors"]![0]["message"])
+    }
+
     func testUpdateMediaPath() {
 
         let media = mockRemoteMedia()

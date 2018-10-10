@@ -144,6 +144,8 @@
     OCMStub([post password]).andReturn(@"Password");
     OCMStub([post type]).andReturn(@"Type");
     OCMStub([post metadata]).andReturn(@[]);
+    OCMStub([post isStickyPost]).andReturn(YES);
+    OCMStub([post parentID]).andReturn(@38);
 
     XCTAssertNoThrow(service = [[PostServiceRemoteREST alloc] initWithWordPressComRestApi:api siteID:dotComID]);
 
@@ -187,7 +189,9 @@
     OCMStub([post password]).andReturn(@"Password");
     OCMStub([post type]).andReturn(@"Type");
     OCMStub([post metadata]).andReturn(@[]);
-    
+    OCMStub([post isStickyPost]).andReturn(YES);
+    OCMStub([post parentID]).andReturn(nil);
+
     XCTAssertNoThrow(service = [[PostServiceRemoteREST alloc] initWithWordPressComRestApi:api siteID:dotComID]);
 
     NSString *endpoint = [NSString stringWithFormat:@"sites/%@/posts/%@?context=edit", dotComID, post.postID];

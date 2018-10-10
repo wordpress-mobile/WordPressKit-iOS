@@ -162,6 +162,46 @@ static const NSUInteger ReaderPostTitleLength = 30;
               }];
 }
 
+/**
+ Fetches a specific post from the specified URL
+
+ @param postURL The URL of the post to fetch
+ @param success block called on a successful fetch.
+ @param failure block called if there is any error. `error` can be any underlying network error.
+ */
+- (void)fetchPostAtURL:(NSURL *)postURL
+               success:(void (^)(RemoteReaderPost *post))success
+               failure:(void (^)(NSError *error))failure
+{
+    NSString *path = [self apiPathForPostAtURL:postURL];
+
+    if (!path) {
+        failure(nil);
+        return;
+    }
+
+    [self.wordPressComRestApi GET:path
+                       parameters:nil
+                          success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
+                              if (!success) {
+                                  return;
+                              }
+                              dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+                                  // Do all of this work on a background thread, then call success on the main thread.
+                                  // Do this to avoid any chance of blocking the UI while parsing.
+                                  RemoteReaderPost *post = [self formatPostDictionary:(NSDictionary *)responseObject];
+                                  dispatch_async(dispatch_get_main_queue(), ^{
+                                      success(post);
+                                  });
+                              });
+
+                          } failure:^(NSError *error, NSHTTPURLResponse *httpResponse) {
+                              if (failure) {
+                                  failure(error);
+                              }
+                          }];
+}
+
 - (void)likePost:(NSUInteger)postID
          forSite:(NSUInteger)siteID
          success:(void (^)(void))success
@@ -507,6 +547,25 @@ static const NSUInteger ReaderPostTitleLength = 30;
     return sourceAttr;
 }
 
+- (nullable NSString *)apiPathForPostAtURL:(NSURL *)url
+{
+    NSURLComponents *components = [NSURLComponents componentsWithURL:url resolvingAgainstBaseURL:NO];
+
+    NSString *hostname = components.host;
+    NSArray *pathComponents = [[components.path pathComponents] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF != '/'"] ];
+    NSString *slug = [components.path lastPathComponent];
+
+    // We expect 4 path components for a post – year, month, day, slug, plus a '/' on either end
+    if (hostname == nil || pathComponents.count != 4 || slug == nil) {
+        return nil;
+    }
+
+    NSString *path = [NSString stringWithFormat:@"sites/%@/posts/slug:%@?meta=site,likes", hostname, slug];
+
+    return [self pathForEndpoint:path
+                     withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
+}
+
 
 #pragma mark - Utils
 
@@ -603,7 +662,7 @@ static const NSUInteger ReaderPostTitleLength = 30;
 /**
  Parse whether the post belongs to a wpcom blog.
 
- @param A dictionary representing a post object from the REST API
+ @param dict A dictionary representing a post object from the REST API
  @return YES if the post belongs to a wpcom blog, else NO
  */
 - (BOOL)isWPComFromPostDictionary:(NSDictionary *)dict
@@ -844,7 +903,7 @@ static const NSUInteger ReaderPostTitleLength = 30;
  Formats a post's summary.  The excerpts provided by the REST API contain HTML and have some extra content appened to the end.
  HTML is stripped and the extra bit is removed.
 
- @param string The summary to format.
+ @param summary The summary to format.
  @return The formatted summary.
  */
 - (NSString *)formatSummary:(NSString *)summary

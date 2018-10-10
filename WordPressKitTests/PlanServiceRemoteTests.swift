@@ -45,7 +45,7 @@ class PlanServiceRemoteTests: RemoteTestCase, RESTTestable {
 
         stubRemoteResponse(sitePlansEndpoint, filename: getPlansSuccessMockFilename, contentType: .ApplicationJSON)
         remote.getPlansForSite(siteID, success: { sitePlans in
-            XCTAssertEqual(sitePlans.activePlan.id, 1, "The active plan id should be 1")
+            XCTAssertEqual(sitePlans.activePlan?.id, 1, "The active plan id should be 1")
             XCTAssertEqual(sitePlans.availablePlans.count, 4, "The availible plans count should be 4")
             expect.fulfill()
         }) { error in

@@ -76,7 +76,7 @@ open class GravatarServiceRemote {
         request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
 
         // Body
-        let gravatarData = UIImagePNGRepresentation(image)!
+        let gravatarData = image.pngData()!
         let requestBody = bodyWithGravatarData(gravatarData, account: accountEmail, boundary: boundary)
 
         // Task

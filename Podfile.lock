@@ -1,5 +1,5 @@
 PODS:
-  - Alamofire (4.7.2)
+  - Alamofire (4.7.3)
   - CocoaLumberjack (3.4.2):
     - CocoaLumberjack/Default (= 3.4.2)
     - CocoaLumberjack/Extensions (= 3.4.2)
@@ -10,7 +10,7 @@ PODS:
   - FormatterKit/TimeIntervalFormatter (1.8.2):
     - FormatterKit/Resources
   - NSObject-SafeExpectations (0.0.3)
-  - OCMock (3.4.1)
+  - OCMock (3.4.2)
   - OHHTTPStubs (6.1.0):
     - OHHTTPStubs/Default (= 6.1.0)
   - OHHTTPStubs/Core (6.1.0)
@@ -27,23 +27,24 @@ PODS:
   - OHHTTPStubs/Swift (6.1.0):
     - OHHTTPStubs/Default
   - UIDeviceIdentifier (0.5.0)
-  - WordPressKit (1.2):
-    - Alamofire (~> 4.7)
+  - WordPressKit (1.4.1-beta.2):
+    - Alamofire (~> 4.7.3)
     - CocoaLumberjack (= 3.4.2)
     - NSObject-SafeExpectations (= 0.0.3)
     - UIDeviceIdentifier (~> 0.4)
-    - WordPressShared (~> 1.0.3)
+    - WordPressShared (~> 1.1.1-beta.4)
     - wpxmlrpc (= 0.8.3)
-  - WordPressShared (1.0.7):
+  - WordPressShared (1.1.1-beta.4):
     - CocoaLumberjack (~> 3.4)
     - FormatterKit/TimeIntervalFormatter (= 1.8.2)
   - wpxmlrpc (0.8.3)
 
 DEPENDENCIES:
-  - OCMock (~> 3.4)
+  - OCMock (~> 3.4.2)
   - OHHTTPStubs (= 6.1.0)
   - OHHTTPStubs/Swift (= 6.1.0)
   - WordPressKit (from `./`)
+  - WordPressShared (= 1.1.1-beta.4)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -62,17 +63,17 @@ EXTERNAL SOURCES:
     :path: "./"
 
 SPEC CHECKSUMS:
-  Alamofire: e4fa87002c137ba2d8d634d2c51fabcda0d5c223
+  Alamofire: c7287b6e5d7da964a70935e5db17046b7fde6568
   CocoaLumberjack: db7cc9e464771f12054c22ff6947c5a58d43a0fd
   FormatterKit: 4b8f29acc9b872d5d12a63efb560661e8f2e1b98
   NSObject-SafeExpectations: b989b68a8a9b7b9f2b264a8b52ba9d7aab8f3129
-  OCMock: 2cd0716969bab32a2283ff3a46fd26a8c8b4c5e3
+  OCMock: ebe9ee1dca7fbed0ff9193ac0b3e2d8862ea56f6
   OHHTTPStubs: 1e21c7d2c084b8153fc53d48400d8919d2d432d0
   UIDeviceIdentifier: a959a6d4f51036b4180dd31fb26483a820f1cc46
-  WordPressKit: a0910e9786558f1b793e88bed191540d6b7a511d
-  WordPressShared: db964b81e02ff9be1ea2ff65ca9a4d57c49e82ba
+  WordPressKit: e71c993dbd909006b7032cb8bed783ecf2907d18
+  WordPressShared: fc613aa29351c73677c421daacb36eacf53f100d
   wpxmlrpc: bfc572f62ce7ee897f6f38b098d2ba08732ecef4
 
-PODFILE CHECKSUM: f9a8f48eb9684c55a8f317e05d210f8dca50da7f
+PODFILE CHECKSUM: c725572e316775a133097acaac2bef6747c44fd0
 
 COCOAPODS: 1.5.3

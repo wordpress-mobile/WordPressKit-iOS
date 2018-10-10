@@ -143,6 +143,24 @@ class WordPressComRestApiTests: XCTestCase {
         self.waitForExpectations(timeout: 2, handler: nil)
     }
 
+    func testMultipleErrorsFailedMultiPartPostCall() {
+        stub(condition: isRestAPIMediaNewRequest()) { request in
+            let stubPath = OHPathForFile("WordPressComRestApiMultipleErrors.json", type(of: self))
+            return fixture(filePath: stubPath!, status: 403, headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
+        }
+        let expect = self.expectation(description: "One callback should be invoked")
+        let api = WordPressComRestApi(oAuthToken: "fakeToken")
+        api.multipartPOST(wordPressMediaNewEndpoint, parameters: nil, fileParts: [], success: { (responseObject: AnyObject, httpResponse: HTTPURLResponse?) in
+            expect.fulfill()
+            XCTFail("This call should fail")
+        }, failure: { (error, httpResponse) in
+            expect.fulfill()
+            XCTAssert(error.domain == String(reflecting: WordPressComRestApiError.self), "The error domain should be WordPressComRestApiError")
+            XCTAssert(error.code == Int(WordPressComRestApiError.uploadFailed.rawValue), "The error code should be AuthorizationRequired")
+        })
+        self.waitForExpectations(timeout: 2, handler: nil)
+    }
+
     func testThatAppendingLocaleWorks() {
 
         let path = "path/path"

@@ -266,7 +266,7 @@ open class WordPressComRestApi: NSObject {
                 if let taskIdentifier = upload.task?.taskIdentifier {
                     requestEnqueued?(NSNumber(value: taskIdentifier))
                 }
-                let dataRequest = upload.responseJSON(completionHandler: { response in                    
+                let dataRequest = upload.validate().responseJSON(completionHandler: { response in                    
                     switch response.result {
                     case .success(let responseObject):
                         progress.completedUnitCount = progress.totalUnitCount
@@ -295,7 +295,7 @@ open class WordPressComRestApi: NSObject {
         return !(authToken.isEmpty)
     }
 
-    override open var hashValue: Int {
+    override open var hash: Int {
         return "\(String(describing: oAuthToken)),\(String(describing: userAgent))".hashValue
     }
 
