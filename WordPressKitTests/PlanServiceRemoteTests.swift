@@ -55,23 +55,6 @@ class PlanServiceRemoteTests: RemoteTestCase, RESTTestable {
 
         waitForExpectations(timeout: timeout, handler: nil)
     }
-    
-    func testGetPlansWithEmptyResponseArrayFails() {
-        let expect = expectation(description: "Get plans with empty response array success")
-
-        stubRemoteResponse(sitePlansEndpoint, filename: getPlansEmptyFailureMockFilename, contentType: .ApplicationJSON)
-        remote.getPlansForSite(siteID, success: { sitePlans in
-            XCTFail("The site should always return plans.")
-            expect.fulfill()
-        }, failure: { error in
-            let error = error as NSError
-            XCTAssertEqual(error.domain, String(reflecting: PlanServiceRemote.ResponseError.self), "The error domain should be PlanServiceRemote.ResponseError")
-            XCTAssertEqual(error.code, PlanServiceRemote.ResponseError.noActivePlan.hashValue, "The error code should be 2 - no active plan")
-            expect.fulfill()
-        })
-
-        waitForExpectations(timeout: timeout, handler: nil)
-    }
 
     func testGetPlansWithBadSiteFails() {
         let expect = expectation(description: "Get plans with incorrect site failure")
@@ -165,7 +148,7 @@ class PlanServiceRemoteTests: RemoteTestCase, RESTTestable {
         }, failure: { error in
             let error = error as NSError
             XCTAssertEqual(error.domain, String(reflecting: PlanServiceRemote.ResponseError.self), "The error domain should be PlanServiceRemote.ResponseError")
-            XCTAssertEqual(error.code, PlanServiceRemote.ResponseError.noActivePlan.hashValue, "The error code should be 2 - no active plan")
+            XCTAssertEqual(error.code, PlanServiceRemote.ResponseError.noActivePlan.rawValue, "The error code should be 2 - no active plan")
             expect.fulfill()
         })
         
