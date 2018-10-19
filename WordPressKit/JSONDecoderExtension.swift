@@ -12,9 +12,10 @@ extension JSONDecoder {
 
 extension JSONDecoder.DateDecodingStrategy {
     
-    enum DateFormat: String {
+    enum DateFormat: String, CaseIterable {
         case noTime = "yyyy-mm-dd"
         case dateWithTime = "yyyy-MM-dd HH:mm:ss"
+        case iso8601 = "yyyy-MM-dd'T'HH:mm:ssZ"
         
         var formatter: DateFormatter {
             let dateFormatter = DateFormatter()
@@ -27,17 +28,17 @@ extension JSONDecoder.DateDecodingStrategy {
         return JSONDecoder.DateDecodingStrategy.custom({ (decoder) -> Date in
             let container = try decoder.singleValueContainer()
             let dateStr = try container.decode(String.self)
-            
+
             let len = dateStr.count
             var date: Date?
-            switch len {
-            case DateFormat.noTime.rawValue.count:
-                date = DateFormat.noTime.formatter.date(from: dateStr)
-            case DateFormat.dateWithTime.rawValue.count:
-                date = DateFormat.dateWithTime.formatter.date(from: dateStr)
-            default:
-                break
+
+            for format in DateFormat.allCases {
+                date = format.formatter.date(from: dateStr)
+                if date != nil {
+                    break
+                }
             }
+
             if let date = date {
                 return date
             } else {
