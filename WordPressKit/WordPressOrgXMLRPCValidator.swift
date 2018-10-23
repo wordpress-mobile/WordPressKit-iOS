@@ -25,7 +25,7 @@ import CocoaLumberjack
         case .mobilePluginRedirectedError:
             return NSLocalizedString("You seem to have installed a mobile plugin from DudaMobile which is preventing the app to connect to your blog", comment: "")
         case .invalid:
-            return NSLocalizedString("We're sure this is a great site - but it's not a WordPress site, so you can't connect to it with this app.", comment: "Error message shown a URL points to a valid site but not a WordPress site.")
+            return NSLocalizedString("Couldn't connect to the WordPress site. There is no valid WordPress site at this address. Check the site address (URL) you entered.", comment: "Error message shown a URL points to a valid site but not a WordPress site.")
         case .blocked:
             return NSLocalizedString("Couldn't connect. Your host is blocking POST requests, and the app needs that in order to communicate with your site. Contact your host to solve this problem.", comment: "Message to show to user when he tries to add a self-hosted site but the host returned a 405 error, meaning that the host is blocking POST requests on /xmlrpc.php file.")
         case .forbidden:
