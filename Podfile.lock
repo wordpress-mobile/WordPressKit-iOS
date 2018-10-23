@@ -27,7 +27,7 @@ PODS:
   - OHHTTPStubs/Swift (6.1.0):
     - OHHTTPStubs/Default
   - UIDeviceIdentifier (0.5.0)
-  - WordPressKit (1.4.2):
+  - WordPressKit (1.4.3-beta.1):
     - Alamofire (~> 4.7.3)
     - CocoaLumberjack (= 3.4.2)
     - NSObject-SafeExpectations (= 0.0.3)
@@ -70,7 +70,7 @@ SPEC CHECKSUMS:
   OCMock: ebe9ee1dca7fbed0ff9193ac0b3e2d8862ea56f6
   OHHTTPStubs: 1e21c7d2c084b8153fc53d48400d8919d2d432d0
   UIDeviceIdentifier: a959a6d4f51036b4180dd31fb26483a820f1cc46
-  WordPressKit: 16b46a68b144a0dd83d6c96e0fc95c6baf14fda3
+  WordPressKit: 07501ceb3e9cbebbbe64ad02dcaff44807406450
   WordPressShared: 7ef0253d54989b195e020a74100a8500be0a4315
   wpxmlrpc: bfc572f62ce7ee897f6f38b098d2ba08732ecef4
 
