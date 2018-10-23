@@ -381,6 +381,8 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
     }
     post.tags = [self tagNamesFromJSONDictionary:jsonPost[@"tags"]];
 
+    post.revisions = [jsonPost arrayForKey:@"revisions"];
+    
     // Pick an image to use for display
     if (post.postThumbnailPath) {
         post.pathForDisplayImage = post.postThumbnailPath;
