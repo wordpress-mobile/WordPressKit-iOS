@@ -39,6 +39,7 @@ extern NSString * const PostStatusDeleted;
 @property (nonatomic, strong) NSNumber *likeCount;
 
 @property (nonatomic, strong) NSArray *categories;
+@property (nonatomic, strong) NSArray *revisions;
 @property (nonatomic, strong) NSArray *tags;
 @property (nonatomic, strong) NSString *pathForDisplayImage;
 @property (nonatomic, assign) BOOL isFeaturedImageChanged;
