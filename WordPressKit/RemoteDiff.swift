@@ -1,8 +1,8 @@
 import Foundation
 
 
-/// Diff model
-public struct Diff: Codable {
+/// RemoteDiff model
+public struct RemoteDiff: Codable {
     /// Revision id from the content has been changed
     public var fromRevisionId: Int
 
@@ -10,7 +10,7 @@ public struct Diff: Codable {
     public var toRevisionId: Int
 
     /// Model for the diff values
-    public var values: DiffValues
+    public var values: RemoteDiffValues
 
     /// Mapping keys
     private enum CodingKeys: String, CodingKey {
@@ -27,20 +27,21 @@ public struct Diff: Codable {
 
         fromRevisionId = (try? data.decode(Int.self, forKey: .fromRevisionId)) ?? 0
         toRevisionId = (try? data.decode(Int.self, forKey: .toRevisionId)) ?? 0
-        values = try data.decode(DiffValues.self, forKey: .values)
+        values = try data.decode(RemoteDiffValues.self, forKey: .values)
     }
 }
 
 
-public struct DiffValues: Codable {
+/// RemoteDiffValues model
+public struct RemoteDiffValues: Codable {
     /// Model for the diff totals operations
-    public var totals: DiffTotals?
+    public var totals: RemoteDiffTotals?
 
     /// Title diffs array
-    public var titleDiffs: [DiffValue]
+    public var titleDiffs: [RemoteDiffValue]
 
     /// Content diffs array
-    public var contentDiffs: [DiffValue]
+    public var contentDiffs: [RemoteDiffValue]
 
     /// Mapping keys
     private enum CodingKeys: String, CodingKey {
@@ -51,8 +52,8 @@ public struct DiffValues: Codable {
 }
 
 
-/// DiffTotals model
-public struct DiffTotals: Codable {
+/// RemoteDiffTotals model
+public struct RemoteDiffTotals: Codable {
     /// Total of additional operations
     public var totalAdditions: Int
 
@@ -77,13 +78,13 @@ public struct DiffTotals: Codable {
 }
 
 
-/// Diff Operation
+/// RemoteDiffOperation enumeration
 ///
 /// - add: Addition
 /// - copy: Copy
 /// - del: Deletion
 /// - unknown: Default value
-public enum DiffOperation: String, Codable {
+public enum RemoteDiffOperation: String, Codable {
     case add
     case copy
     case del
@@ -92,9 +93,9 @@ public enum DiffOperation: String, Codable {
 
 
 /// DiffValue
-public struct DiffValue: Codable {
+public struct RemoteDiffValue: Codable {
     /// Diff operation
-    public var operation: DiffOperation
+    public var operation: RemoteDiffOperation
 
     /// Diff value
     public var value: String?
@@ -111,7 +112,7 @@ public struct DiffValue: Codable {
     public init(from decoder: Decoder) throws {
         let data = try decoder.container(keyedBy: CodingKeys.self)
 
-        operation = (try? data.decode(DiffOperation.self, forKey: .operation)) ?? .unknown
+        operation = (try? data.decode(RemoteDiffOperation.self, forKey: .operation)) ?? .unknown
         value = try? data.decode(String.self, forKey: .value)
     }
 }

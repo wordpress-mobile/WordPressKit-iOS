@@ -4,7 +4,7 @@ import Foundation
 public extension PostServiceRemoteREST {
     public func getPostRevisions(for siteId: Int,
                                  postId: Int,
-                                 success: @escaping ([Revision]?) -> Void,
+                                 success: @escaping ([RemoteRevision]?) -> Void,
                                  failure: @escaping (Error?) -> Void) {
         let endpoint = "/sites/\(siteId)/post/\(postId)/diffs"
         let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
@@ -34,22 +34,22 @@ public extension PostServiceRemoteREST {
 private extension PostServiceRemoteREST {
     private typealias JSONRevision = [String: Any]
 
-    private struct Diffs: Codable {
-        var diffs: [Diff]
+    private struct RemoteDiffs: Codable {
+        var diffs: [RemoteDiff]
     }
 
 
-    private func map(from data: Data, _ completion: @escaping ([Revision]?, Error?) -> Void) {
+    private func map(from data: Data, _ completion: @escaping ([RemoteRevision]?, Error?) -> Void) {
         do {
-            var revisions: [Revision] = []
+            var revisions: [RemoteRevision] = []
 
-            let diffs: Diffs = try decode(data)
+            let diffs: RemoteDiffs = try decode(data)
             let jsonResult = try JSONSerialization.jsonObject(with: data, options: .mutableLeaves) as? JSONRevision
             let revisionsDict = jsonResult?["revisions"] as? [String: JSONRevision]
 
             try revisionsDict?.forEach { (key: String, value: JSONRevision) in
                 let revisionData = try JSONSerialization.data(withJSONObject: value, options: .prettyPrinted)
-                var revision: Revision = try decode(revisionData)
+                var revision: RemoteRevision = try decode(revisionData)
                 revision.diff = diffs.diffs.first { $0.toRevisionId == Int(key) }
                 revisions.append(revision)
             }

@@ -3,7 +3,7 @@ import Foundation
 
 /// Revision model
 ///
-public struct Revision: Codable {
+public struct RemoteRevision: Codable {
     /// Revision id
     public var id: Int?
 
@@ -26,7 +26,7 @@ public struct Revision: Codable {
     public var postAuthorId: String?
 
     /// Optional revision diff
-    public var diff: Diff?
+    public var diff: RemoteDiff?
 
     /// Mapping keys
     private enum CodingKeys: String, CodingKey {
