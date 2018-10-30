@@ -5,7 +5,7 @@ import Foundation
 ///
 public struct RemoteRevision: Codable {
     /// Revision id
-    public var id: Int?
+    public var id: Int
 
     /// Optional post content
     public var postContent: String?
