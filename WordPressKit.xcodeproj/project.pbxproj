@@ -362,7 +362,7 @@
 		93F50A471F227F3600B5BEBA /* xmlrpc-response-getprofile.xml in Resources */ = {isa = PBXBuildFile; fileRef = 93F50A451F227F3600B5BEBA /* xmlrpc-response-getprofile.xml */; };
 		93F50A481F227F3600B5BEBA /* xmlrpc-response-valid-but-unexpected-dictionary.xml in Resources */ = {isa = PBXBuildFile; fileRef = 93F50A461F227F3600B5BEBA /* xmlrpc-response-valid-but-unexpected-dictionary.xml */; };
 		9AB6D647218705E90008F274 /* RemoteDiff.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB6D646218705E90008F274 /* RemoteDiff.swift */; };
-		9AB6D64A218727D60008F274 /* PostServiceRemoteRESTRevisions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB6D649218727D60008F274 /* PostServiceRemoteRESTRevisions.swift */; };
+		9AB6D64A218727D60008F274 /* PostServiceRemoteRESTRevisionsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB6D649218727D60008F274 /* PostServiceRemoteRESTRevisionsTest.swift */; };
 		9AB6D64B21872A0D0008F274 /* post-revisions-success.json in Resources */ = {isa = PBXBuildFile; fileRef = 9AB6D648218722BB0008F274 /* post-revisions-success.json */; };
 		9AB6D64E218731AB0008F274 /* post-revisions-mapping-success.json in Resources */ = {isa = PBXBuildFile; fileRef = 9AB6D64D218731380008F274 /* post-revisions-mapping-success.json */; };
 		9AB6D64F218731AB0008F274 /* post-revisions-failure.json in Resources */ = {isa = PBXBuildFile; fileRef = 9AB6D64C218730130008F274 /* post-revisions-failure.json */; };
@@ -797,7 +797,7 @@
 		93F50A461F227F3600B5BEBA /* xmlrpc-response-valid-but-unexpected-dictionary.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "xmlrpc-response-valid-but-unexpected-dictionary.xml"; sourceTree = "<group>"; };
 		9AB6D646218705E90008F274 /* RemoteDiff.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteDiff.swift; sourceTree = "<group>"; };
 		9AB6D648218722BB0008F274 /* post-revisions-success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "post-revisions-success.json"; sourceTree = "<group>"; };
-		9AB6D649218727D60008F274 /* PostServiceRemoteRESTRevisions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostServiceRemoteRESTRevisions.swift; sourceTree = "<group>"; };
+		9AB6D649218727D60008F274 /* PostServiceRemoteRESTRevisionsTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostServiceRemoteRESTRevisionsTest.swift; sourceTree = "<group>"; };
 		9AB6D64C218730130008F274 /* post-revisions-failure.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "post-revisions-failure.json"; sourceTree = "<group>"; };
 		9AB6D64D218731380008F274 /* post-revisions-mapping-success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "post-revisions-mapping-success.json"; sourceTree = "<group>"; };
 		9AEAA772215E71C000876E62 /* site-quick-start-success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "site-quick-start-success.json"; sourceTree = "<group>"; };
@@ -904,7 +904,7 @@
 			children = (
 				740B23D01F17F6BB00067A2A /* PostServiceRemoteRESTTests.m */,
 				740B23D11F17F6BB00067A2A /* PostServiceRemoteXMLRPCTests.swift */,
-				9AB6D649218727D60008F274 /* PostServiceRemoteRESTRevisions.swift */,
+				9AB6D649218727D60008F274 /* PostServiceRemoteRESTRevisionsTest.swift */,
 			);
 			name = Post;
 			sourceTree = "<group>";
@@ -2174,7 +2174,7 @@
 				74D67F0A1F15C24C0010C5ED /* PeopleServiceRemoteTests.swift in Sources */,
 				9F3E0BAE20873836009CB5BA /* ReaderTopicServiceRemoteTest+Subscriptions.swift in Sources */,
 				74585B901F0D51F900E7E667 /* DomainsServiceRemoteRESTTests.swift in Sources */,
-				9AB6D64A218727D60008F274 /* PostServiceRemoteRESTRevisions.swift in Sources */,
+				9AB6D64A218727D60008F274 /* PostServiceRemoteRESTRevisionsTest.swift in Sources */,
 				7430C9BD1F192C0F0051B8E6 /* ReaderPostServiceRemoteTests.m in Sources */,
 				826017001F9FD60A00533B6C /* ActivityServiceRemoteTests.swift in Sources */,
 				93F50A3A1F226BB600B5BEBA /* WordPressComServiceRemoteRestTests.swift in Sources */,

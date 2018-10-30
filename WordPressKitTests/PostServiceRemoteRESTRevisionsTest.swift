@@ -4,12 +4,12 @@ import XCTest
 @testable import WordPressKit
 
 
-class PostServiceRemoteRESTRevisions: RemoteTestCase, RESTTestable {
+class PostServiceRemoteRESTRevisionsTest: RemoteTestCase, RESTTestable {
     private let performRevisionsSuccessFilename = "post-revisions-success.json"
     private let performRevisionsMappingSuccessFilename = "post-revisions-mapping-success.json"
     private let performRevisionsFailureFilename = "post-revisions-failure.json"
-    private let siteId: Int = 0
-    private let postId: Int = 1
+    private let siteId = 0
+    private let postId = 1
     private var remote: PostServiceRemoteREST!
 
     private var performEndpoint: String {
