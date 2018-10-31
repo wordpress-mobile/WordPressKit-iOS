@@ -414,6 +414,7 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
     }
     
     postParams[@"sticky"] = post.isStickyPost ? @"true" : @"false";
+    postParams[@"wp_page_parent_id"] = post.parentID ? post.parentID.stringValue : @"0";
 
     // Scheduled posts need to sync with a status of 'publish'.
     // Passing a status of 'future' will set the post status to 'draft'

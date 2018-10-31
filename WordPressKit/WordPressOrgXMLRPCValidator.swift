@@ -11,6 +11,7 @@ import CocoaLumberjack
     case forbidden = 403 // Server returned a 403 error while reading xmlrpc file
     case blocked = 405 // Server returned a 405 error while reading xmlrpc file
     case invalid // Doesn't look to be valid XMLRPC Endpoint.
+    case xmlrpc_missing // site contains RSD link but XML-RPC information is missing
 
     public var localizedDescription: String {
         switch (self) {
@@ -25,11 +26,13 @@ import CocoaLumberjack
         case .mobilePluginRedirectedError:
             return NSLocalizedString("You seem to have installed a mobile plugin from DudaMobile which is preventing the app to connect to your blog", comment: "")
         case .invalid:
-            return NSLocalizedString("We're sure this is a great site - but it's not a WordPress site, so you can't connect to it with this app.", comment: "Error message shown a URL points to a valid site but not a WordPress site.")
+            return NSLocalizedString("Couldn't connect to the WordPress site. There is no valid WordPress site at this address. Check the site address (URL) you entered.", comment: "Error message shown a URL points to a valid site but not a WordPress site.")
         case .blocked:
             return NSLocalizedString("Couldn't connect. Your host is blocking POST requests, and the app needs that in order to communicate with your site. Contact your host to solve this problem.", comment: "Message to show to user when he tries to add a self-hosted site but the host returned a 405 error, meaning that the host is blocking POST requests on /xmlrpc.php file.")
         case .forbidden:
             return NSLocalizedString("Couldn't connect. We received a 403 error when trying to access your site XMLRPC endpoint. The app needs that in order to communicate with your site. Contact your host to solve this problem.", comment: "Message to show to user when he tries to add a self-hosted site but the host returned a 403 error, meaning that the access to the /xmlrpc.php file is forbidden.")
+        case .xmlrpc_missing:
+            return NSLocalizedString("Couldn't connect. Required XML-RPC methods are missing on the server.", comment: "Message to show to user when he tries to add a self-hosted site with RSD link present, but xmlrpc is missing.")
         }
     }
 }
@@ -192,6 +195,7 @@ open class WordPressOrgXMLRPCValidator: NSObject {
                                        redirectCount: Int = 0,
                                    success: @escaping (_ xmlrpcURL: URL) -> (),
                                    failure: @escaping (_ error: NSError) -> ()) {
+            
         guard redirectCount < redirectLimit else {
             let error = NSError(domain: URLError.errorDomain,
                                 code: URLError.httpTooManyRedirects.rawValue,
@@ -247,6 +251,8 @@ open class WordPressOrgXMLRPCValidator: NSObject {
                                            success: @escaping (_ xmlrpcURL: URL) -> (),
                                            failure: @escaping (_ error: NSError) -> ()) {
         DDLogInfo("Fetch the original url and look for the RSD link by using RegExp")
+        
+        var isWpSite = false
         let session = URLSession(configuration: URLSessionConfiguration.ephemeral)
         let dataTask = session.dataTask(with: htmlURL, completionHandler: { (data, response, error) in
             if let error = error {
@@ -261,6 +267,9 @@ open class WordPressOrgXMLRPCValidator: NSObject {
                 return
             }
 
+            // If the site contains RSD link, it is WP.org site
+            isWpSite = true
+
             // Try removing "?rsd" from the url, it should point to the XML-RPC endpoint
             let xmlrpc = rsdURL.replacingOccurrences(of: "?rsd", with: "")
             if xmlrpc != rsdURL {
@@ -273,7 +282,9 @@ open class WordPressOrgXMLRPCValidator: NSObject {
                     if error.code == 403 || error.code == 405, let xmlrpcValidatorError = error as? WordPressOrgXMLRPCValidatorError {
                         failure(xmlrpcValidatorError as NSError)
                     } else {
-                        failure(WordPressOrgXMLRPCValidatorError.invalid as NSError)
+                        let validatorError = isWpSite ? WordPressOrgXMLRPCValidatorError.xmlrpc_missing :
+                                                        WordPressOrgXMLRPCValidatorError.invalid
+                            failure(validatorError as NSError)
                     }
                 })
             } else {

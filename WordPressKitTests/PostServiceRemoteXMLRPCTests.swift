@@ -10,6 +10,7 @@ class PostServiceRemoteXMLRPCTests: RemoteTestCase, XMLRPCTestable {
     let postTitle = "Hello world!"
     let postContent = "Welcome to WordPress."
     let postIsSticky = true
+    let postParentId: NSNumber = 2
 
     let getPostSuccessMockFilename              = "xmlrpc-wp-getpost-success.xml"
     let getPostBadXMLFailureFilename            = "xmlrpc-wp-getpost-bad-xml-failure.xml"
@@ -142,6 +143,7 @@ class PostServiceRemoteXMLRPCTests: RemoteTestCase, XMLRPCTestable {
                 post.title = postTitle
                 post.content = postContent
                 post.isStickyPost = postIsSticky
+                post.parentID = postParentId
                 return post
             }()
 
@@ -267,6 +269,7 @@ class PostServiceRemoteXMLRPCTests: RemoteTestCase, XMLRPCTestable {
                 post.title = postTitle
                 post.content = postContent
                 post.isStickyPost = postIsSticky
+                post.parentID = nil
                 return post
             }()
 
