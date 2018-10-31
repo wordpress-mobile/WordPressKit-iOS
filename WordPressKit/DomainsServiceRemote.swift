@@ -30,18 +30,16 @@ public class DomainsServiceRemote: ServiceRemoteWordPressComREST {
         case onlyWordPressDotCom
         
         fileprivate func parameters() -> [String: AnyObject] {
-            let result: [String: AnyObject]
             switch self {
             case .noWordpressDotCom:
-                result = ["include_wordpressdotcom": false as AnyObject]
+                return ["include_wordpressdotcom": false as AnyObject]
             case .includeWordPressDotCom:
-                result = ["include_wordpressdotcom": true as AnyObject,
-                          "only_wordpressdotcom": false as AnyObject]
+                return ["include_wordpressdotcom": true as AnyObject,
+                        "only_wordpressdotcom": false as AnyObject]
             case .onlyWordPressDotCom:
-                result =  ["include_wordpressdotcom": true as AnyObject,
-                           "only_wordpressdotcom": true as AnyObject]
+                return  ["include_wordpressdotcom": true as AnyObject,
+                         "only_wordpressdotcom": true as AnyObject]
             }
-            return result
         }
     }
     

@@ -39,14 +39,14 @@ extension JSONDecoder.DateDecodingStrategy {
                 }
             }
 
-            if let date = date {
-                return date
-            } else {
+            guard let calculatedDate = date else {
                 throw DecodingError.dataCorruptedError(
                     in: container,
                     debugDescription: "Cannot decode date string \(dateStr)"
                 )
             }
+            
+            return calculatedDate
         })
     }
 }
