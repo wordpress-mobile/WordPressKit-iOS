@@ -29,7 +29,6 @@ extension JSONDecoder.DateDecodingStrategy {
             let container = try decoder.singleValueContainer()
             let dateStr = try container.decode(String.self)
 
-            let len = dateStr.count
             var date: Date?
 
             for format in DateFormat.allCases {

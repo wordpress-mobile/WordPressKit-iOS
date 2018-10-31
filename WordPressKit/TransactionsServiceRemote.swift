@@ -64,7 +64,7 @@ import CocoaLumberjack
     }
 
     public func redeemCartUsingCredits(cartID: String,
-                                       success: @escaping (Void) -> Void,
+                                       success: @escaping () -> Void,
                                        failure: @escaping (Error) -> Void) {
 
         let endPoint = "me/transactions"
@@ -76,7 +76,7 @@ import CocoaLumberjack
                                                "payment": paymentDict as AnyObject]
 
         wordPressComRestApi.POST(urlPath, parameters: parameters, success: { (response, _) in
-            success(())
+            success()
         }) { (error, response) in
             failure(error)
         }
