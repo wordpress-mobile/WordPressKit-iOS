@@ -6,7 +6,7 @@ public extension PostServiceRemoteREST {
                                  postId: Int,
                                  success: @escaping ([RemoteRevision]?) -> Void,
                                  failure: @escaping (Error?) -> Void) {
-        let endpoint = "/sites/\(siteId)/post/\(postId)/diffs"
+        let endpoint = "sites/\(siteId)/post/\(postId)/diffs"
         let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
         wordPressComRestApi.GET(path,
                                 parameters: nil,
