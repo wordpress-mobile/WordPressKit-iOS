@@ -18,6 +18,6 @@ target 'WordPressKit' do
     pod 'OHHTTPStubs', '6.1.0'
     pod 'OHHTTPStubs/Swift', '6.1.0'
     pod 'OCMock', '~> 3.4.2'
-    pod 'WordPressShared', '~> 1.3.0'
+    pod 'WordPressShared', '~> 1.4'
   end
 end
