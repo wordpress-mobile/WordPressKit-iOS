@@ -3,19 +3,17 @@ import CocoaLumberjack
 
 public struct DomainSuggestion: Codable {
     public let domainName: String
-    public let productID: Int
-    public let supportsPrivacy: Bool
+    public let productID: Int?
+    public let supportsPrivacy: Bool?
 
     public init(json: [String: AnyObject]) throws {
-        guard let domain = json["domain_name"] as? String,
-            let product = json["product_id"] as? Int,
-            let privacy = json["supports_privacy"] as? Bool else {
-                throw DomainsServiceRemote.ResponseError.decodingFailed
+        guard let domain = json["domain_name"] as? String else {
+             throw DomainsServiceRemote.ResponseError.decodingFailed
         }
 
         self.domainName = domain
-        self.productID = product
-        self.supportsPrivacy = privacy
+        self.productID = json["product_id"] as? Int ?? nil
+        self.supportsPrivacy = json["supports_privacy"] as? Bool ?? nil
     }
 }
 
@@ -37,8 +35,7 @@ public class DomainsServiceRemote: ServiceRemoteWordPressComREST {
                 return ["include_wordpressdotcom": true as AnyObject,
                         "only_wordpressdotcom": false as AnyObject]
             case .onlyWordPressDotCom:
-                return  ["include_wordpressdotcom": true as AnyObject,
-                         "only_wordpressdotcom": true as AnyObject]
+                return  ["only_wordpressdotcom": true as AnyObject]
             }
         }
     }
