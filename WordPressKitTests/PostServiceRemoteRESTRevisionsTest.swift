@@ -13,7 +13,7 @@ class PostServiceRemoteRESTRevisionsTest: RemoteTestCase, RESTTestable {
     private var remote: PostServiceRemoteREST!
 
     private var performEndpoint: String {
-        return "/sites/\(siteId)/post/\(postId)/diffs"
+        return "sites/\(siteId)/post/\(postId)/diffs"
     }
     
     
