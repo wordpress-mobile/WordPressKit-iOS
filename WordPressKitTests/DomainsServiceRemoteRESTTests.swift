@@ -12,6 +12,11 @@ class DomainsServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
     let domainServiceAuthFailureMockFilename    = "site-export-auth-failure.json"
     let domainServiceBadJsonFailureMockFilename = "domain-service-bad-json.json"
     let domainServiceEmptyResponseMockFilename  = "domain-service-empty.json"
+    let domainServiceSupportedStatesSuccess     = "supported-states-success.json"
+    let domainServiceSupportedStatesEmpty       = "supported-states-empty.json"
+    let validateDomainContactInformationFail    = "validate-domain-contact-information-response-fail.json"
+    let validateDomainContactInformationSuccess = "validate-domain-contact-information-response-success.json"
+    let getDomainContactInformationSuccess      = "domain-contact-information-response-success.json"
     
     // MARK: - Properties
     
@@ -112,6 +117,107 @@ class DomainsServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
             expect.fulfill()
         })
         
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+    
+    func testGetStatesSuccess() {
+        let expect = expectation(description: "Get states for coutry code")
+        let countryCode = "US"
+        stubRemoteResponse("domains/supported-states/" + countryCode,
+                           filename: domainServiceSupportedStatesSuccess,
+                           contentType: .ApplicationJSON,
+                           status: 200)
+        
+        remote.getStates(for: countryCode,
+                         success: { (stateList) in
+            XCTAssert(stateList.count == 61)
+            XCTAssert(stateList[0].code == "AL")
+            XCTAssert(stateList[0].name == "Alabama")
+            expect.fulfill()
+        }) { (error) in
+            XCTFail("This callback shouldn't get called")
+            expect.fulfill()
+        }
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+    
+    func testGetStatesSuccessEmpty() {
+        let expect = expectation(description: "Get states for coutry code")
+        let countryCode = "TR"
+        stubRemoteResponse("domains/supported-states/" + countryCode,
+                           filename: domainServiceSupportedStatesEmpty,
+                           contentType: .ApplicationJSON,
+                           status: 200)
+        
+        remote.getStates(for: countryCode,
+                         success: { (stateList) in
+                            XCTAssert(stateList.count == 0)
+                            expect.fulfill()
+        }) { (error) in
+            XCTFail("This callback shouldn't get called")
+            expect.fulfill()
+        }
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+
+    func testValidateDomainContactInformationFail() {
+        let expect = expectation(description: "Validate domain contact information")
+        stubRemoteResponse("me/domain-contact-information/validate",
+                           filename: validateDomainContactInformationFail,
+                           contentType: .ApplicationJSON,
+                           status: 200)
+
+        remote.validateDomainContactInformation(
+            contactInformation: [:],
+            domainNames: ["someblog.blog"], success: { (reponse) in
+                XCTAssert(!reponse.success)
+                XCTAssert(reponse.messages!.phone![0] == "Enter a valid country code followed by a dot (for example +1.6285550199).")
+                XCTAssert(reponse.messages!.postalCode![0] == "This field is required.")
+                XCTAssert(reponse.messages!.email![0] == "The 'Email' field does not appear to be valid.")
+                expect.fulfill()
+        }) { (error) in
+            XCTFail("This callback shouldn't get called")
+            expect.fulfill()
+        }
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+    
+    func testValidateDomainContactInformationSuccess() {
+        let expect = expectation(description: "Validate domain contact information")
+        stubRemoteResponse("me/domain-contact-information/validate",
+                           filename: validateDomainContactInformationSuccess,
+                           contentType: .ApplicationJSON,
+                           status: 200)
+        
+        remote.validateDomainContactInformation(
+            contactInformation: [:],
+            domainNames: ["someblog.blog"], success: { (reponse) in
+                XCTAssert(reponse.success)
+                expect.fulfill()
+        }) { (error) in
+            XCTFail("This callback shouldn't get called")
+            expect.fulfill()
+        }
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+    
+    func testGetDomainContactInformationSuccess() {
+        let expect = expectation(description: "Validate domain contact information")
+        stubRemoteResponse("me/domain-contact-information",
+                           filename: getDomainContactInformationSuccess,
+                           contentType: .ApplicationJSON,
+                           status: 200)
+        remote.getDomainContactInformation(
+            success: { (reponse) in
+                XCTAssert(reponse.email == "pinar@yahoo.com")
+                XCTAssert(reponse.firstName == "Pinar")
+                XCTAssert(reponse.lastName == nil)
+                XCTAssert(reponse.postalCode == "12345")
+                expect.fulfill()
+        }) { (error) in
+            XCTFail("This callback shouldn't get called")
+            expect.fulfill()
+        }
         waitForExpectations(timeout: timeout, handler: nil)
     }
 }

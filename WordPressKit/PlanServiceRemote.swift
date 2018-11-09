@@ -5,7 +5,7 @@ import CocoaLumberjack
 public class PlanServiceRemote: ServiceRemoteWordPressComREST {
     public typealias SitePlans = (activePlan: RemotePlan?, availablePlans: [RemotePlan])
 
-    public enum ResponseError: Error {
+    public enum ResponseError: Int, Error {
         case decodingFailure
         case unsupportedPlan
         case noActivePlan
