@@ -12,10 +12,34 @@ static NSString * const RemotePostTypePublicKey = @"public";
 
 @implementation BlogServiceRemoteXMLRPC
 
-- (void)getAuthorsWithSuccess:(UsersHandler)success
-                      failure:(void (^)(NSError *))failure
+- (void)getAllAuthorsWithNumber:(NSNumber *)number
+                        success:(UsersHandler)success
+                        failure:(void (^)(NSError *error))failure
 {
-    NSDictionary *filter = @{@"who":@"authors"};
+    NSMutableArray *remoteUsers = [NSMutableArray array];
+    [self getAllAuthorsWithRemoteUsers:remoteUsers
+                                number:number
+                                offset:nil
+                               success:success
+                               failure:failure];
+}
+
+- (void)getAllAuthorsWithRemoteUsers:(NSMutableArray <RemoteUser *>*)remoteusers
+                              number:(NSNumber *)number
+                              offset:(NSNumber *)offset
+                             success:(UsersHandler)success
+                             failure:(void (^)(NSError *error))failure
+{
+    NSMutableDictionary *filter = [@{ @"who":@"authors" } mutableCopy];
+    
+    if (offset != nil) {
+        filter[@"offset"] = offset.stringValue;
+    }
+    
+    if (number != nil) {
+        filter[@"number"] = number.stringValue;
+    }
+    
     NSArray *parameters = [self XMLRPCArgumentsWithExtra:filter];
     [self.api callMethod:@"wp.getUsers"
               parameters:parameters
@@ -24,9 +48,18 @@ static NSString * const RemotePostTypePublicKey = @"public";
                          return [self remoteUserFromXMLRPCDictionary:xmlrpcUser];
                      }];
                      if (success) {
-                         success(users);
+                         if (users == nil || users.count == 0) {
+                             success(remoteusers);
+                         } else {
+                             [remoteusers addObjectsFromArray:users];
+                             [self getAllAuthorsWithRemoteUsers:remoteusers
+                                                         number:number
+                                                         offset:@(remoteusers.count)
+                                                        success:success
+                                                        failure:failure];
+                         }
                      }
-
+                     
                  } failure:^(NSError *error, NSHTTPURLResponse *response) {
                      if (failure) {
                          failure(error);

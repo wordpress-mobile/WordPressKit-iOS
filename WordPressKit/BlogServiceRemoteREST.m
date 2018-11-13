@@ -72,11 +72,34 @@ static NSInteger const RemoteBlogUncategorizedCategory                      = 1;
 
 @implementation BlogServiceRemoteREST
 
-- (void)getAuthorsWithSuccess:(UsersHandler)success
-                      failure:(void (^)(NSError *error))failure
+- (void)getAllAuthorsWithNumber:(NSNumber *)number
+                        success:(UsersHandler)success
+                        failure:(void (^)(NSError *error))failure
 {
-    NSDictionary *parameters = @{@"authors_only":@(YES)};
+    NSMutableArray *remoteUsers = [NSMutableArray array];
+    [self getAllAuthorsWithRemoteUsers:remoteUsers
+                                number:number
+                                offset:nil
+                               success:success
+                               failure:failure];
+}
 
+- (void)getAllAuthorsWithRemoteUsers:(NSMutableArray <RemoteUser *>*)remoteusers
+                                number:(NSNumber *)number
+                                offset:(NSNumber *)offset
+                               success:(UsersHandler)success
+                               failure:(void (^)(NSError *error))failure
+{
+    NSMutableDictionary *parameters = [@{ @"authors_only":@(YES) } mutableCopy];
+    
+    if (offset != nil) {
+        parameters[@"offset"] = offset.stringValue;
+    }
+    
+    if (number != nil) {
+        parameters[@"number"] = number.stringValue;
+    }
+    
     NSString *path = [self pathForUsers];
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
@@ -85,8 +108,18 @@ static NSInteger const RemoteBlogUncategorizedCategory                      = 1;
                        parameters:parameters
                           success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
                               if (success) {
-                                  NSArray *users = [self usersFromJSONArray:responseObject[@"users"]];
-                                  success(users);
+                                  NSArray *users = responseObject[@"users"];
+                                  
+                                  if (users == nil || users.count == 0) {
+                                      success(remoteusers);
+                                  } else {
+                                      [remoteusers addObjectsFromArray:[self usersFromJSONArray:users]];
+                                      [self getAllAuthorsWithRemoteUsers:remoteusers
+                                                                  number:number
+                                                                  offset:@(remoteusers.count)
+                                                                 success:success
+                                                                 failure:failure];
+                                  }
                               }
                           } failure:^(NSError *error, NSHTTPURLResponse *httpResponse) {
                               if (failure) {

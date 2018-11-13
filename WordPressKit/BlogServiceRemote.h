@@ -14,13 +14,15 @@ typedef void (^SuccessHandler)(void);
 @protocol BlogServiceRemote <NSObject>
 
 /**
- *  @brief      Synchronizes a blog's authors.
- *
- *  @param      success     The block that will be executed on success.  Can be nil.
- *  @param      failure     The block that will be executed on failure.  Can be nil.
+ Synchronizes all blog's authors.
+
+ @param number Limit the total number of users returned.
+ @param success The block that will be executed on success.  Can be nil.
+ @param failure The block that will be executed on failure.  Can be nil.
  */
-- (void)getAuthorsWithSuccess:(UsersHandler)success
-                      failure:(void (^)(NSError *error))failure;
+- (void)getAllAuthorsWithNumber:(NSNumber *)number
+                        success:(UsersHandler)success
+                        failure:(void (^)(NSError *error))failure;
 
 /**
  *  @brief      Synchronizes a blog's post types.
