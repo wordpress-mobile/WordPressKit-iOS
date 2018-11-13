@@ -72,6 +72,29 @@ static NSInteger const RemoteBlogUncategorizedCategory                      = 1;
 
 @implementation BlogServiceRemoteREST
 
+- (void)getAuthorsWithSuccess:(UsersHandler)success
+                      failure:(void (^)(NSError *error))failure
+{
+    NSDictionary *parameters = @{@"authors_only":@(YES)};
+    
+    NSString *path = [self pathForUsers];
+    NSString *requestUrl = [self pathForEndpoint:path
+                                     withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
+    
+    [self.wordPressComRestApi GET:requestUrl
+                       parameters:parameters
+                          success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
+                              if (success) {
+                                  NSArray *users = [self usersFromJSONArray:responseObject[@"users"]];
+                                  success(users);
+                              }
+                          } failure:^(NSError *error, NSHTTPURLResponse *httpResponse) {
+                              if (failure) {
+                                  failure(error);
+                              }
+                          }];
+}
+
 - (void)getAllAuthorsWithNumber:(NSNumber *)number
                         success:(UsersHandler)success
                         failure:(void (^)(NSError *error))failure
