@@ -32,9 +32,9 @@ PODS:
     - CocoaLumberjack (= 3.4.2)
     - NSObject-SafeExpectations (= 0.0.3)
     - UIDeviceIdentifier (~> 0.4)
-    - WordPressShared (~> 1.4)
+    - WordPressShared (~> 1.5.0-beta.1)
     - wpxmlrpc (= 0.8.3)
-  - WordPressShared (1.4.0):
+  - WordPressShared (1.5.0-beta.1):
     - CocoaLumberjack (~> 3.4)
     - FormatterKit/TimeIntervalFormatter (= 1.8.2)
   - wpxmlrpc (0.8.3)
@@ -44,7 +44,7 @@ DEPENDENCIES:
   - OHHTTPStubs (= 6.1.0)
   - OHHTTPStubs/Swift (= 6.1.0)
   - WordPressKit (from `./`)
-  - WordPressShared (~> 1.4)
+  - WordPressShared (~> 1.5.0-beta.1)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -70,10 +70,10 @@ SPEC CHECKSUMS:
   OCMock: 43565190abc78977ad44a61c0d20d7f0784d35ab
   OHHTTPStubs: 1e21c7d2c084b8153fc53d48400d8919d2d432d0
   UIDeviceIdentifier: a959a6d4f51036b4180dd31fb26483a820f1cc46
-  WordPressKit: 28a429d2c3ccc098e07633928bd82cb062f4f39b
-  WordPressShared: f55be10963c8f6dbbc8e896450805ba1dd5353f7
+  WordPressKit: e544957ac03714fb10b405be654399989bc20c12
+  WordPressShared: f6272345642887904f5aefff9d65d566e6c5d634
   wpxmlrpc: bfc572f62ce7ee897f6f38b098d2ba08732ecef4
 
-PODFILE CHECKSUM: a6284d738a2e335fc7b8db139fe8a0ff19c1a138
+PODFILE CHECKSUM: 6a605a60c974b4fadce86636aafb3b3f0da57aaf
 
 COCOAPODS: 1.5.3
