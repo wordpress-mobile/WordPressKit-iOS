@@ -3,11 +3,16 @@ import WordPressShared
 import CocoaLumberjack
 
 @objc public class TransactionsServiceRemote: ServiceRemoteWordPressComREST {
-    
+
     public enum ResponseError: Error {
         case decodingFailure
     }
-    
+
+    private enum Constants {
+        static let privateRegistrationProductID = 16
+        static let freeDomainPaymentMethod = "WPCOM_Billing_WPCOM"
+    }
+
     @objc public func getSupportedCountries(success: @escaping ([Country]) -> Void,
                                             failure: @escaping (Error) -> Void) {
         let endPoint = "me/transactions/supported-countries/"
@@ -35,27 +40,44 @@ import CocoaLumberjack
 
     public func createShoppingCart(siteID: Int,
                                    domainSuggestion: DomainSuggestion,
-                                   success: @escaping (String) -> Void,
+                                   privacyProtectionEnabled: Bool,
+                                   success: @escaping (CartResponse) -> Void,
                                    failure: @escaping (Error) -> Void) {
 
         let endPoint = "me/shopping-cart/\(siteID)"
         let urlPath = path(forEndpoint: endPoint, withVersion: ._1_1)
 
-        let productsArray = [["product_id": domainSuggestion.productID,
-                              "meta": domainSuggestion.domainName]]
+        let productsArray: [[String: AnyObject]]
 
-        let parameters: [String: AnyObject] = ["temporary": "false" as AnyObject,
+        let productDictionary: [String: AnyObject] = ["product_id": domainSuggestion.productID as AnyObject,
+                                                      "meta": domainSuggestion.domainName as AnyObject]
+
+        if privacyProtectionEnabled {
+            let privacyProduct: [String: AnyObject] = ["product_id": Constants.privateRegistrationProductID as AnyObject,
+                                                       "meta": domainSuggestion.domainName as AnyObject]
+
+            productsArray = [productDictionary, privacyProduct]
+        } else {
+            productsArray = [productDictionary]
+        }
+
+        let parameters: [String: AnyObject] = ["temporary": "true" as AnyObject,
                                                "products": productsArray as AnyObject]
 
         wordPressComRestApi.POST(urlPath,
                                  parameters: parameters,
                                  success: { (response, _) in
-                                    guard let cartKey = response["cart_key"] as? String else {
+
+
+                                    guard let jsonResponse = response as? [String: AnyObject],
+                                        let cart = CartResponse(jsonDictionary: jsonResponse),
+                                        !cart.products.isEmpty else {
+                                            
                                         failure(TransactionsServiceRemote.ResponseError.decodingFailure)
                                         return
                                     }
 
-                                    success(cartKey)
+                                    success(cart)
         }) { (error, response) in
             failure(error)
         }
@@ -63,7 +85,8 @@ import CocoaLumberjack
 
     }
 
-    public func redeemCartUsingCredits(cartID: String,
+    public func redeemCartUsingCredits(cart: CartResponse,
+                                       domainContactInformation: [String: String],
                                        success: @escaping () -> Void,
                                        failure: @escaping (Error) -> Void) {
 
@@ -71,8 +94,10 @@ import CocoaLumberjack
 
         let urlPath = path(forEndpoint: endPoint, withVersion: ._1_1)
 
-        let paymentDict = ["payment_method": "WPCOM_Billing_WPCOM"]
-        let parameters: [String: AnyObject] = ["cart": cartID as AnyObject,
+        let paymentDict = ["payment_method": Constants.freeDomainPaymentMethod]
+
+        let parameters: [String: AnyObject] = ["domain_details": domainContactInformation as AnyObject,
+                                               "cart": cart.jsonRepresentation() as AnyObject,
                                                "payment": paymentDict as AnyObject]
 
         wordPressComRestApi.POST(urlPath, parameters: parameters, success: { (response, _) in
@@ -81,4 +106,46 @@ import CocoaLumberjack
             failure(error)
         }
     }
+}
+
+public struct CartResponse: Codable {
+    let blogID: Int
+    let cartKey: String
+    let products: [Product]
+
+    init?(jsonDictionary: [String: AnyObject]) {
+        guard let cartKey = jsonDictionary["cart_key"] as? String,
+                let blogID = jsonDictionary["blog_id"] as? Int,
+                let products = jsonDictionary["products"] as? [[String: AnyObject]] else {
+                return nil
+        }
+
+        let mappedProducts = products.compactMap { (product) -> Product? in
+            guard let productID = product["product_id"] as? Int,
+                let meta = product["meta"] as? String else {
+                    return nil
+            }
+
+            return Product(productID: productID, meta: meta)
+        }
+
+        guard mappedProducts.count == products.count else {
+            return nil
+        }
+
+        self.blogID = blogID
+        self.cartKey = cartKey
+        self.products = mappedProducts
+    }
+
+    fileprivate func jsonRepresentation() -> [String: AnyObject] {
+        return ["blog_id": blogID as AnyObject,
+                "cart_key": cartKey as AnyObject,
+                "products": products.map { return ["product_id": $0.productID, "meta": $0.meta] } as AnyObject ]
+    }
+}
+
+public struct Product: Codable {
+    let productID: Int
+    let meta: String
 }
