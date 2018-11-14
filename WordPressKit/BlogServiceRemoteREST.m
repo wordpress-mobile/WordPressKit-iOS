@@ -72,55 +72,26 @@ static NSInteger const RemoteBlogUncategorizedCategory                      = 1;
 
 @implementation BlogServiceRemoteREST
 
-- (void)getAuthorsWithSuccess:(UsersHandler)success
-                      failure:(void (^)(NSError *error))failure
+- (void)getAllAuthorsWithSuccess:(UsersHandler)success
+                         failure:(void (^)(NSError *error))failure
 {
-    NSDictionary *parameters = @{@"authors_only":@(YES)};
-    
-    NSString *path = [self pathForUsers];
-    NSString *requestUrl = [self pathForEndpoint:path
-                                     withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
-    
-    [self.wordPressComRestApi GET:requestUrl
-                       parameters:parameters
-                          success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
-                              if (success) {
-                                  NSArray *users = [self usersFromJSONArray:responseObject[@"users"]];
-                                  success(users);
-                              }
-                          } failure:^(NSError *error, NSHTTPURLResponse *httpResponse) {
-                              if (failure) {
-                                  failure(error);
-                              }
-                          }];
-}
-
-- (void)getAllAuthorsWithNumber:(NSNumber *)number
-                        success:(UsersHandler)success
-                        failure:(void (^)(NSError *error))failure
-{
-    NSMutableArray *remoteUsers = [NSMutableArray array];
-    [self getAllAuthorsWithRemoteUsers:remoteUsers
-                                number:number
+    [self getAllAuthorsWithRemoteUsers:nil
                                 offset:nil
                                success:success
                                failure:failure];
 }
 
-- (void)getAllAuthorsWithRemoteUsers:(NSMutableArray <RemoteUser *>*)remoteusers
-                                number:(NSNumber *)number
-                                offset:(NSNumber *)offset
-                               success:(UsersHandler)success
-                               failure:(void (^)(NSError *error))failure
+- (void)getAllAuthorsWithRemoteUsers:(NSMutableArray <RemoteUser *>*)remoteUsers
+                              offset:(NSNumber *)offset
+                             success:(UsersHandler)success
+                             failure:(void (^)(NSError *error))failure
 {
-    NSMutableDictionary *parameters = [@{ @"authors_only":@(YES) } mutableCopy];
+    NSMutableDictionary *parameters = [@{ @"authors_only":@(YES),
+                                          @"number": @(100)
+                                        } mutableCopy];
     
-    if (offset != nil) {
+    if ([offset wp_isValidObject]) {
         parameters[@"offset"] = offset.stringValue;
-    }
-    
-    if (number != nil) {
-        parameters[@"number"] = number.stringValue;
     }
     
     NSString *path = [self pathForUsers];
@@ -131,15 +102,16 @@ static NSInteger const RemoteBlogUncategorizedCategory                      = 1;
                        parameters:parameters
                           success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
                               if (success) {
-                                  NSArray *users = responseObject[@"users"];
+                                  NSArray *responseUsers = responseObject[@"users"];
                                   
-                                  if (users == nil || users.count == 0) {
-                                      success(remoteusers);
+                                  NSMutableArray *users = [remoteUsers wp_isValidObject] ? [remoteUsers mutableCopy] : [NSMutableArray array];
+                                  
+                                  if (![responseUsers wp_isValidObject] || responseUsers.count == 0) {
+                                      success([users copy]);
                                   } else {
-                                      [remoteusers addObjectsFromArray:[self usersFromJSONArray:users]];
-                                      [self getAllAuthorsWithRemoteUsers:remoteusers
-                                                                  number:number
-                                                                  offset:@(remoteusers.count)
+                                      [users addObjectsFromArray:[self usersFromJSONArray:users]];
+                                      [self getAllAuthorsWithRemoteUsers:users
+                                                                  offset:@(users.count)
                                                                  success:success
                                                                  failure:failure];
                                   }

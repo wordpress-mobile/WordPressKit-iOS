@@ -12,71 +12,45 @@ static NSString * const RemotePostTypePublicKey = @"public";
 
 @implementation BlogServiceRemoteXMLRPC
 
-- (void)getAuthorsWithSuccess:(UsersHandler)success
-                      failure:(void (^)(NSError *))failure
+- (void)getAllAuthorsWithSuccess:(UsersHandler)success
+                         failure:(void (^)(NSError *error))failure
 {
-    NSDictionary *filter = @{@"who":@"authors"};
-    NSArray *parameters = [self XMLRPCArgumentsWithExtra:filter];
-    [self.api callMethod:@"wp.getUsers"
-              parameters:parameters
-                 success:^(id responseObject, NSHTTPURLResponse *response) {
-                     NSArray <RemoteUser *> *users = [[responseObject allObjects] wp_map:^id(NSDictionary *xmlrpcUser) {
-                         return [self remoteUserFromXMLRPCDictionary:xmlrpcUser];
-                     }];
-                     if (success) {
-                         success(users);
-                     }
-                     
-                 } failure:^(NSError *error, NSHTTPURLResponse *response) {
-                     if (failure) {
-                         failure(error);
-                     }
-                 }];
-}
-
-- (void)getAllAuthorsWithNumber:(NSNumber *)number
-                        success:(UsersHandler)success
-                        failure:(void (^)(NSError *error))failure
-{
-    NSMutableArray *remoteUsers = [NSMutableArray array];
-    [self getAllAuthorsWithRemoteUsers:remoteUsers
-                                number:number
+    [self getAllAuthorsWithRemoteUsers:nil
                                 offset:nil
                                success:success
                                failure:failure];
 }
 
-- (void)getAllAuthorsWithRemoteUsers:(NSMutableArray <RemoteUser *>*)remoteusers
-                              number:(NSNumber *)number
+- (void)getAllAuthorsWithRemoteUsers:(NSMutableArray <RemoteUser *>*)remoteUsers
                               offset:(NSNumber *)offset
                              success:(UsersHandler)success
                              failure:(void (^)(NSError *error))failure
 {
-    NSMutableDictionary *filter = [@{ @"who":@"authors" } mutableCopy];
+    NSMutableDictionary *filter = [@{ @"who":@"authors",
+                                      @"number": @(100)
+                                    } mutableCopy];
     
-    if (offset != nil) {
+    if ([offset wp_isValidObject]) {
         filter[@"offset"] = offset.stringValue;
-    }
-    
-    if (number != nil) {
-        filter[@"number"] = number.stringValue;
     }
     
     NSArray *parameters = [self XMLRPCArgumentsWithExtra:filter];
     [self.api callMethod:@"wp.getUsers"
               parameters:parameters
                  success:^(id responseObject, NSHTTPURLResponse *response) {
-                     NSArray <RemoteUser *> *users = [[responseObject allObjects] wp_map:^id(NSDictionary *xmlrpcUser) {
+                     NSArray <RemoteUser *> *responseUsers = [[responseObject allObjects] wp_map:^id(NSDictionary *xmlrpcUser) {
                          return [self remoteUserFromXMLRPCDictionary:xmlrpcUser];
                      }];
+                     
+                     NSMutableArray *users = [remoteUsers wp_isValidObject] ? [remoteUsers mutableCopy] : [NSMutableArray array];
+                     
                      if (success) {
-                         if (users == nil || users.count == 0) {
-                             success(remoteusers);
+                         if (![responseUsers wp_isValidObject] || responseUsers.count == 0) {
+                             success([users copy]);
                          } else {
-                             [remoteusers addObjectsFromArray:users];
-                             [self getAllAuthorsWithRemoteUsers:remoteusers
-                                                         number:number
-                                                         offset:@(remoteusers.count)
+                             [users addObjectsFromArray:responseUsers];
+                             [self getAllAuthorsWithRemoteUsers:users
+                                                         offset:@(users.count)
                                                         success:success
                                                         failure:failure];
                          }
