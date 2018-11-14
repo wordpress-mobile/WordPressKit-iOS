@@ -21,6 +21,16 @@ static NSString * const RemotePostTypePublicKey = @"public";
                                failure:failure];
 }
 
+
+/**
+ This method is called recursively to fetch all authors.
+ The success block is called whenever the response users array is nil or empty.
+
+ @param remoteUsers The loaded remote users
+ @param offset The first n users to be skipped in the returned array
+ @param success The block that will be executed on success
+ @param failure The block that will be executed on failure
+ */
 - (void)getAllAuthorsWithRemoteUsers:(NSMutableArray <RemoteUser *>*)remoteUsers
                               offset:(NSNumber *)offset
                              success:(UsersHandler)success
