@@ -118,7 +118,7 @@ static NSInteger const RemoteBlogUncategorizedCategory                      = 1;
                                   if (![responseUsers wp_isValidObject] || responseUsers.count == 0) {
                                       success([users copy]);
                                   } else {
-                                      [users addObjectsFromArray:[self usersFromJSONArray:users]];
+                                      [users addObjectsFromArray:[self usersFromJSONArray:responseUsers]];
                                       [self getAllAuthorsWithRemoteUsers:users
                                                                   offset:@(users.count)
                                                                  success:success
