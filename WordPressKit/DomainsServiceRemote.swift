@@ -59,6 +59,22 @@ public class DomainsServiceRemote: ServiceRemoteWordPressComREST {
         })
     }
 
+    public func setPrimaryDomainForSite(siteID: Int, domain: String, success: @escaping () -> Void, failure: @escaping (Error) -> Void) {
+        let endpoint = "sites/\(siteID)/domains/primary"
+        let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
+
+        let parameters: [String: AnyObject] = ["domain": domain as AnyObject]
+
+        wordPressComRestApi.POST(path, parameters: parameters,
+                                success: { response, _ in
+
+            success()
+        }, failure: { error, _ in
+
+            failure(error)
+        })
+    }
+
     @objc public func getStates(for countryCode: String,
                                 success: @escaping ([State]) -> Void,
                                 failure: @escaping (Error) -> Void) {
