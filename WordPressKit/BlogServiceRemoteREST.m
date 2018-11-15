@@ -72,11 +72,37 @@ static NSInteger const RemoteBlogUncategorizedCategory                      = 1;
 
 @implementation BlogServiceRemoteREST
 
-- (void)getAuthorsWithSuccess:(UsersHandler)success
-                      failure:(void (^)(NSError *error))failure
+- (void)getAllAuthorsWithSuccess:(UsersHandler)success
+                         failure:(void (^)(NSError *error))failure
 {
-    NSDictionary *parameters = @{@"authors_only":@(YES)};
+    [self getAllAuthorsWithRemoteUsers:nil
+                                offset:nil
+                               success:success
+                               failure:failure];
+}
 
+/**
+ This method is called recursively to fetch all authors.
+ The success block is called whenever the response users array is nil or empty.
+ 
+ @param remoteUsers The loaded remote users
+ @param offset The first n users to be skipped in the returned array
+ @param success The block that will be executed on success
+ @param failure The block that will be executed on failure
+ */
+- (void)getAllAuthorsWithRemoteUsers:(NSMutableArray <RemoteUser *>*)remoteUsers
+                              offset:(NSNumber *)offset
+                             success:(UsersHandler)success
+                             failure:(void (^)(NSError *error))failure
+{
+    NSMutableDictionary *parameters = [@{ @"authors_only":@(YES),
+                                          @"number": @(100)
+                                        } mutableCopy];
+    
+    if ([offset wp_isValidObject]) {
+        parameters[@"offset"] = offset.stringValue;
+    }
+    
     NSString *path = [self pathForUsers];
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
@@ -85,8 +111,19 @@ static NSInteger const RemoteBlogUncategorizedCategory                      = 1;
                        parameters:parameters
                           success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
                               if (success) {
-                                  NSArray *users = [self usersFromJSONArray:responseObject[@"users"]];
-                                  success(users);
+                                  NSArray *responseUsers = responseObject[@"users"];
+                                  
+                                  NSMutableArray *users = [remoteUsers wp_isValidObject] ? [remoteUsers mutableCopy] : [NSMutableArray array];
+                                  
+                                  if (![responseUsers wp_isValidObject] || responseUsers.count == 0) {
+                                      success([users copy]);
+                                  } else {
+                                      [users addObjectsFromArray:[self usersFromJSONArray:responseUsers]];
+                                      [self getAllAuthorsWithRemoteUsers:users
+                                                                  offset:@(users.count)
+                                                                 success:success
+                                                                 failure:failure];
+                                  }
                               }
                           } failure:^(NSError *error, NSHTTPURLResponse *httpResponse) {
                               if (failure) {

@@ -43,8 +43,8 @@ static NSTimeInterval const TestExpectationTimeout = 5;
              success:[OCMArg isNotNil]
              failure:[OCMArg isNotNil]]);
 
-    [service getAuthorsWithSuccess:^(NSArray<RemoteUser *> *users) {}
-                           failure:^(NSError *error) {}];
+    [service getAllAuthorsWithSuccess:^(NSArray<RemoteUser *> *users) {}
+                              failure:^(NSError *error) {}];
 }
 
 #pragma mark - Synchronizing site details for a blog
