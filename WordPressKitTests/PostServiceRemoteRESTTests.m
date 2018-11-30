@@ -144,7 +144,7 @@
     OCMStub([post password]).andReturn(@"Password");
     OCMStub([post type]).andReturn(@"Type");
     OCMStub([post metadata]).andReturn(@[]);
-    OCMStub([post isStickyPost]).andReturn(YES);
+    OCMStub([post isStickyPost]).andReturn(@1);
     OCMStub([post parentID]).andReturn(@38);
 
     XCTAssertNoThrow(service = [[PostServiceRemoteREST alloc] initWithWordPressComRestApi:api siteID:dotComID]);
@@ -189,7 +189,7 @@
     OCMStub([post password]).andReturn(@"Password");
     OCMStub([post type]).andReturn(@"Type");
     OCMStub([post metadata]).andReturn(@[]);
-    OCMStub([post isStickyPost]).andReturn(YES);
+    OCMStub([post isStickyPost]).andReturn(@0);
     OCMStub([post parentID]).andReturn(nil);
 
     XCTAssertNoThrow(service = [[PostServiceRemoteREST alloc] initWithWordPressComRestApi:api siteID:dotComID]);
