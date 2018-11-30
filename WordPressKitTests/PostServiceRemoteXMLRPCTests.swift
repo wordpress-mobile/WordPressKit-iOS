@@ -9,7 +9,7 @@ class PostServiceRemoteXMLRPCTests: RemoteTestCase, XMLRPCTestable {
     let postID: NSNumber = 1
     let postTitle = "Hello world!"
     let postContent = "Welcome to WordPress."
-    let postIsSticky = true
+    let postIsSticky: NSNumber = 1
     let postParentId: NSNumber = 2
 
     let getPostSuccessMockFilename              = "xmlrpc-wp-getpost-success.xml"
