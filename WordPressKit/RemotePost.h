@@ -42,8 +42,8 @@ extern NSString * const PostStatusDeleted;
 @property (nonatomic, strong) NSArray *revisions;
 @property (nonatomic, strong) NSArray *tags;
 @property (nonatomic, strong) NSString *pathForDisplayImage;
+@property (nonatomic, assign) NSNumber *isStickyPost;
 @property (nonatomic, assign) BOOL isFeaturedImageChanged;
-@property (nonatomic, assign) BOOL isStickyPost;
 
 /**
  Array of custom fields. Each value is a dictionary containing {ID, key, value}
