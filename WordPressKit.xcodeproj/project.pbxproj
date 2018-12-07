@@ -422,7 +422,9 @@
 		E1E89C681FD6B2E9006E7A33 /* plugin-directory-jetpack.json in Resources */ = {isa = PBXBuildFile; fileRef = E1E89C671FD6B2E9006E7A33 /* plugin-directory-jetpack.json */; };
 		E1E89C6A1FD6BDB1006E7A33 /* PluginDirectoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E89C691FD6BDB1006E7A33 /* PluginDirectoryTests.swift */; };
 		E1EF5D5D1F9F329900B6D53E /* SitePluginCapabilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1EF5D5C1F9F329900B6D53E /* SitePluginCapabilities.swift */; };
+		E61A51A621B172A900A5F902 /* RemotePlanDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = E61A51A521B172A900A5F902 /* RemotePlanDescription.swift */; };
 		E632D7781F6E047400297F6D /* SocialLogin2FANonceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E632D7771F6E047400297F6D /* SocialLogin2FANonceInfo.swift */; };
+		E689431E21B0A1A800C5E4A7 /* plans-mobile-success.json in Resources */ = {isa = PBXBuildFile; fileRef = E689431D21B0A1A800C5E4A7 /* plans-mobile-success.json */; };
 		E6C1E8491EF21FC100D139D9 /* is-passwordless-account-no-account-found.json in Resources */ = {isa = PBXBuildFile; fileRef = E6C1E8471EF21FC100D139D9 /* is-passwordless-account-no-account-found.json */; };
 		E6C1E84A1EF21FC100D139D9 /* is-passwordless-account-success.json in Resources */ = {isa = PBXBuildFile; fileRef = E6C1E8481EF21FC100D139D9 /* is-passwordless-account-success.json */; };
 		E6D0EE621F7EF9CE0064D3FC /* AccountServiceRemoteREST+SocialService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6D0EE611F7EF9CE0064D3FC /* AccountServiceRemoteREST+SocialService.swift */; };
@@ -879,7 +881,9 @@
 		E1E89C691FD6BDB1006E7A33 /* PluginDirectoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PluginDirectoryTests.swift; sourceTree = "<group>"; };
 		E1EF5D5C1F9F329900B6D53E /* SitePluginCapabilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SitePluginCapabilities.swift; sourceTree = "<group>"; };
 		E33F1EA3284E0454909D1967 /* Pods-WordPressKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WordPressKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-WordPressKit/Pods-WordPressKit.release.xcconfig"; sourceTree = "<group>"; };
+		E61A51A521B172A900A5F902 /* RemotePlanDescription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemotePlanDescription.swift; sourceTree = "<group>"; };
 		E632D7771F6E047400297F6D /* SocialLogin2FANonceInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialLogin2FANonceInfo.swift; sourceTree = "<group>"; };
+		E689431D21B0A1A800C5E4A7 /* plans-mobile-success.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "plans-mobile-success.json"; sourceTree = "<group>"; };
 		E6C1E8471EF21FC100D139D9 /* is-passwordless-account-no-account-found.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "is-passwordless-account-no-account-found.json"; sourceTree = "<group>"; };
 		E6C1E8481EF21FC100D139D9 /* is-passwordless-account-success.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "is-passwordless-account-success.json"; sourceTree = "<group>"; };
 		E6D0EE611F7EF9CE0064D3FC /* AccountServiceRemoteREST+SocialService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AccountServiceRemoteREST+SocialService.swift"; sourceTree = "<group>"; };
@@ -1320,6 +1324,7 @@
 				74D67F071F15BEB70010C5ED /* RemotePerson.swift */,
 				748710A71F06B542008095AB /* RemotePlan.swift */,
 				439A44D92107C93000795ED7 /* RemotePlan_ApiVersion1_3.swift */,
+				E61A51A521B172A900A5F902 /* RemotePlanDescription.swift */,
 				740B23C01F17EE8000067A2A /* RemotePost.h */,
 				740B23C11F17EE8000067A2A /* RemotePost.m */,
 				740B23BE1F17EE8000067A2A /* RemotePostCategory.h */,
@@ -1469,6 +1474,7 @@
 				7433BC071EFC4598002D9E92 /* plans-feature-bad-json-failure.json */,
 				7433BC081EFC4598002D9E92 /* plans-feature-empty-success.json */,
 				7433BC091EFC4598002D9E92 /* plans-feature-success.json */,
+				E689431D21B0A1A800C5E4A7 /* plans-mobile-success.json */,
 				E1E89C671FD6B2E9006E7A33 /* plugin-directory-jetpack.json */,
 				40E4698C2017D2E30030DB5F /* plugin-directory-new.json */,
 				40E4698A2017C2840030DB5F /* plugin-directory-popular.json */,
@@ -1935,6 +1941,7 @@
 				9AB6D64B21872A0D0008F274 /* post-revisions-success.json in Resources */,
 				7433BC131EFC45C7002D9E92 /* site-plans-bad-json-failure.json in Resources */,
 				74B335DE1F06F5A50053A184 /* WordPressComRestApiFailInvalidJSON.json in Resources */,
+				E689431E21B0A1A800C5E4A7 /* plans-mobile-success.json in Resources */,
 				74D67F3B1F15C3740010C5ED /* site-viewers-delete-success.json in Resources */,
 				93BD275F1EE73442002BB00B /* me-sites-auth-failure.json in Resources */,
 				7433BC151EFC45C7002D9E92 /* site-plans-failure.json in Resources */,
@@ -2120,6 +2127,7 @@
 				9F3E0B9E208733C3009CB5BA /* ReaderServiceDeliveryFrequency.swift in Sources */,
 				74E2295E1F1E777B0085F7F2 /* RemoteSharingButton.swift in Sources */,
 				93BD27701EE737A8002BB00B /* ServiceRemoteWordPressComREST.m in Sources */,
+				E61A51A621B172A900A5F902 /* RemotePlanDescription.swift in Sources */,
 				7433BC001EFC4505002D9E92 /* PlanFeatureServiceRemote.swift in Sources */,
 				93BD277F1EE73944002BB00B /* WordPressComOAuthClient.swift in Sources */,
 				740B23B91F17EC7300067A2A /* PostServiceRemoteREST.m in Sources */,
