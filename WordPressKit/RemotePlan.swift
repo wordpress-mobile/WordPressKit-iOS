@@ -69,13 +69,6 @@ extension Array where Element: Identifiable {
     }
 }
 
-public struct RemotePlanFeature {
-    public let slug: String
-    public let title: String
-    public let description: String
-    public let iconURL: URL?
-}
-
 public struct RemotePlanFeatureGroupPlaceholder {
     public let title: String?
     public let slugs: [String]
