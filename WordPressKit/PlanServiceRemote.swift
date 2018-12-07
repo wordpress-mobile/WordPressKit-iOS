@@ -3,8 +3,7 @@ import WordPressShared
 import CocoaLumberjack
 
 public class PlanServiceRemote: ServiceRemoteWordPressComREST {
-    public typealias SitePlans = (activePlan: RemotePlan?, availablePlans: [RemotePlan])
-    public typealias AvailablePlans = (plans: [RemotePlanDescription], groups: [RemotePlanGroup], features: [RemotePlanFeature])
+    public typealias AvailablePlans = (plans: [RemoteWpcomPlan], groups: [RemotePlanGroup], features: [RemotePlanFeature])
 
     typealias EndpointResponse =  [String: AnyObject]
 
@@ -16,31 +15,6 @@ public class PlanServiceRemote: ServiceRemoteWordPressComREST {
         // Deprecated. No active plan identified in the results.
         case noActivePlan
     }
-
-    public func getPlansForSite(_ siteID: Int, success: @escaping (SitePlans) -> Void, failure: @escaping (Error) -> Void) {
-        let endpoint = "sites/\(siteID)/plans"
-        let path = self.path(forEndpoint: endpoint, withVersion: ._1_2)
-        let locale = WordPressComLanguageDatabase().deviceLanguage.slug
-        let parameters = ["locale": locale]
-
-        wordPressComRestApi.GET(path,
-            parameters: parameters as [String : AnyObject]?,
-            success: {
-                response, _ in
-                do {
-                    try success(mapPlansResponse(response))
-                } catch {
-                    DDLogError("Error parsing plans response for site \(siteID)")
-                    DDLogError("\(error)")
-                    DDLogDebug("Full response: \(response)")
-                    failure(error)
-                }
-            }, failure: {
-                error, _ in
-                failure(error)
-        })
-    }
-
 
     public func getWpcomPlans(_ success: @escaping (AvailablePlans) -> Void, failure: @escaping (Error) -> Void) {
         let endpoint = "plans/mobile"
@@ -70,15 +44,15 @@ public class PlanServiceRemote: ServiceRemoteWordPressComREST {
     }
 
 
-    func parseWpcomPlans(_ response: EndpointResponse) -> [RemotePlanDescription] {
-        var parsedResult = [RemotePlanDescription]()
+    func parseWpcomPlans(_ response: EndpointResponse) -> [RemoteWpcomPlan] {
+        var parsedResult = [RemoteWpcomPlan]()
         guard let json = response["plans"] as? [EndpointResponse] else {
             return parsedResult
         }
 
         for item in json {
-            if let remotePlanDescription = parseWpcomPlan(item) {
-                parsedResult.append(remotePlanDescription)
+            if let RemoteWpcomPlan = parseWpcomPlan(item) {
+                parsedResult.append(RemoteWpcomPlan)
             }
         }
 
@@ -129,7 +103,7 @@ public class PlanServiceRemote: ServiceRemoteWordPressComREST {
     }
 
 
-    func parseWpcomPlan(_ item: EndpointResponse) -> RemotePlanDescription? {
+    func parseWpcomPlan(_ item: EndpointResponse) -> RemoteWpcomPlan? {
         guard
             let groups = (item["groups"] as? [String])?.joined(separator: ","),
             let productsArray = item["products"] as? [EndpointResponse],
@@ -143,7 +117,7 @@ public class PlanServiceRemote: ServiceRemoteWordPressComREST {
 
         let products = parseWpcomPlanProducts(productsArray)
 
-        return RemotePlanDescription(groups: groups,
+        return RemoteWpcomPlan(groups: groups,
                                      products: products,
                                      name: name,
                                      shortname: shortname,
@@ -173,53 +147,4 @@ public class PlanServiceRemote: ServiceRemoteWordPressComREST {
         return RemotePlanFeature(slug: slug, title: title, description: description, iconURL: nil)
     }
 
-}
-
-
-private func mapPlansResponse(_ response: AnyObject) throws -> (activePlan: RemotePlan?, availablePlans: [RemotePlan]) {
-    guard let json = response as? [[String: AnyObject]] else {
-        throw PlanServiceRemote.ResponseError.decodingFailure
-    }
-
-    let parsedResponse: (RemotePlan?, [RemotePlan]) = try json.reduce((nil, []), {
-        (result, planDetails: [String: AnyObject]) in
-        guard let planId = planDetails["product_id"] as? Int,
-            let title = planDetails["product_name_short"] as? String,
-            let fullTitle = planDetails["product_name"] as? String,
-            let tagline = planDetails["tagline"] as? String,
-            let featureGroupsJson = planDetails["features_highlight"] as? [[String: AnyObject]] else {
-            throw PlanServiceRemote.ResponseError.decodingFailure
-        }
-
-        guard let icon = planDetails["icon"] as? String,
-            let iconUrl = URL(string: icon),
-            let activeIcon = planDetails["icon_active"] as? String,
-            let activeIconUrl = URL(string: activeIcon) else {
-            return result
-        }
-
-        let productIdentifier = (planDetails["apple_sku"] as? String).flatMap({ $0.nonEmptyString() })
-        let featureGroups = try parseFeatureGroups(featureGroupsJson)
-
-        let plan = RemotePlan(id: planId, title: title, fullTitle: fullTitle, tagline: tagline, iconUrl: iconUrl, activeIconUrl: activeIconUrl, productIdentifier: productIdentifier, featureGroups: featureGroups)
-
-        let plans = result.1 + [plan]
-        if let isCurrent = planDetails["current_plan"] as? Bool,
-            isCurrent {
-            return (plan, plans)
-        } else {
-            return (result.0, plans)
-        }
-    })
-
-    let activePlan = parsedResponse.0
-    let availablePlans = parsedResponse.1
-    return (activePlan, availablePlans)
-}
-
-private func parseFeatureGroups(_ json: [[String: AnyObject]]) throws -> [RemotePlanFeatureGroupPlaceholder] {
-    return try json.compactMap { groupJson in
-        guard let slugs = groupJson["items"] as? [String] else { throw PlanServiceRemote.ResponseError.decodingFailure }
-        return RemotePlanFeatureGroupPlaceholder(title: groupJson["title"] as? String, slugs: slugs)
-    }
 }

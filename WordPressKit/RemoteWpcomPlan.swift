@@ -1,6 +1,6 @@
 import Foundation
 
-public struct RemotePlanDescription {
+public struct RemoteWpcomPlan {
     // A commma separated list of groups to which the plan belongs.
     public let groups: String
     // A comma separated list of plan_ids described by the plan description, e.g. 1 year and 2 year plans.
