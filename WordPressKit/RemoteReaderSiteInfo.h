@@ -12,6 +12,7 @@
 @property (nonatomic) BOOL isJetpack;
 @property (nonatomic) BOOL isPrivate;
 @property (nonatomic) BOOL isVisible;
+@property (nonatomic) BOOL isFeed;
 @property (nonatomic, strong) NSNumber *postCount;
 @property (nonatomic, strong) NSString *siteBlavatar;
 @property (nonatomic, strong) NSString *siteDescription;
