@@ -2,10 +2,13 @@
 
 #import "ReaderTopicServiceRemote.h"
 #import "RemoteReaderTopic.h"
+#import "RemoteReaderSiteInfo.h"
 #import <WordPressKit/WordPressKit-Swift.h>
 
 @interface ReaderTopicServiceRemote()
 - (RemoteReaderTopic *)normalizeTopicDictionary:(NSDictionary *)topicDict subscribed:(BOOL)subscribed recommended:(BOOL)recommended;
+
+- (RemoteReaderSiteInfo *)siteInfoFromFollowedSiteDictionary:(NSDictionary *)dict;
 @end
 
 @interface ReaderTopicServiceRemoteTests : XCTestCase
@@ -71,5 +74,24 @@
     XCTAssertEqual(remoteTopic.title, topicDictionaryWithID[@"title"], @"Remote topic title did not match.");
     XCTAssertEqual(remoteTopic.topicID, @0, @"Remote topic ID was not 0.");
 }
+
+- (void)testSiteInfoForSiteResponse
+{
+    ReaderTopicServiceRemote *remoteService = nil;
+    XCTAssertNoThrow(remoteService = [self service]);
+    
+    RemoteReaderSiteInfo *remoteTopic = [remoteService siteInfoFromFollowedSiteDictionary:@{ @"meta": @{ @"data": @{ @"site": @{ @"ID": @"12345" } } } }];
+    XCTAssertFalse(remoteTopic.isFeed, @"Remote Reader topic shouldn't be a feed.");
+}
+
+- (void)testSiteInfoForFeedResponse
+{
+    ReaderTopicServiceRemote *remoteService = nil;
+    XCTAssertNoThrow(remoteService = [self service]);
+    
+    RemoteReaderSiteInfo *remoteTopic = [remoteService siteInfoFromFollowedSiteDictionary:@{ @"meta": @{ @"data": @{ @"feed": @{ @"ID": @"12345" } } } }];
+    XCTAssertTrue(remoteTopic.isFeed, @"Remote Reader topic should be a feed.");
+}
+
 
 @end
