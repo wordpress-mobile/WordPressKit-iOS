@@ -320,8 +320,7 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
     post.tags = [self tagsFromXMLRPCTermsArray:terms];
     post.categories = [self remoteCategoriesFromXMLRPCTermsArray:terms];
     
-    NSNumber *stickyPost = [xmlrpcDictionary numberForKeyPath:@"sticky"] ?: @0;
-    post.isStickyPost = stickyPost.boolValue;
+    post.isStickyPost = [xmlrpcDictionary numberForKeyPath:@"sticky"];
 
     // Pick an image to use for display
     if (post.postThumbnailPath) {
@@ -412,8 +411,11 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
     if ([post.metadata count] > 0) {
         postParams[@"custom_fields"] = post.metadata;
     }
-    
-    postParams[@"sticky"] = post.isStickyPost ? @"true" : @"false";
+
+    if (post.isStickyPost != nil) {
+        postParams[@"sticky"] = post.isStickyPost.boolValue ? @"true" : @"false";
+    }
+
     postParams[@"wp_page_parent_id"] = post.parentID ? post.parentID.stringValue : @"0";
 
     // Scheduled posts need to sync with a status of 'publish'.
