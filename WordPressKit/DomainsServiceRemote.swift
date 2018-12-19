@@ -26,6 +26,7 @@ public class DomainsServiceRemote: ServiceRemoteWordPressComREST {
         case noWordpressDotCom
         case includeWordPressDotCom
         case onlyWordPressDotCom
+        case wordPressDotComAndDotBlogSubdomains
         
         fileprivate func parameters() -> [String: AnyObject] {
             switch self {
@@ -36,6 +37,11 @@ public class DomainsServiceRemote: ServiceRemoteWordPressComREST {
                         "only_wordpressdotcom": false as AnyObject]
             case .onlyWordPressDotCom:
                 return  ["only_wordpressdotcom": true as AnyObject]
+            case .wordPressDotComAndDotBlogSubdomains:
+                return ["include_dotblogsubdomain": true as AnyObject,
+                        "vendor": "dot" as AnyObject,
+                        "only_wordpressdotcom": true as AnyObject,
+                        "include_wordpressdotcom": true as AnyObject]
             }
         }
     }
