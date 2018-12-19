@@ -15,6 +15,8 @@ public struct RemoteWpcomPlan {
     public let description: String
     // A comma separated list of slugs for the plan's features.
     public let features: String
+    // An icon representing the plan.
+    public let icon: String
 }
 
 public struct RemotePlanGroup {

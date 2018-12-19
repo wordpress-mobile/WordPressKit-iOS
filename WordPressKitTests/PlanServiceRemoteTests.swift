@@ -169,7 +169,8 @@ class PlanServiceRemoteTests: RemoteTestCase, RESTTestable {
                 "simple-payments",
                 "wordads",
                 "videopress"
-            ]
+            ],
+            "icon": ""
         }
         """
         let data = str.data(using: .utf8)!

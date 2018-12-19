@@ -111,7 +111,8 @@ public class PlanServiceRemote: ServiceRemoteWordPressComREST {
             let shortname = item["short_name"] as? String,
             let tagline = item["tagline"] as? String,
             let description = item["description"] as? String,
-            let features = (item["features"] as? [String])?.joined(separator: ",") else {
+            let features = (item["features"] as? [String])?.joined(separator: ","),
+            let icon = item["icon"] as? String else {
                 return nil
         }
 
@@ -123,7 +124,8 @@ public class PlanServiceRemote: ServiceRemoteWordPressComREST {
                                      shortname: shortname,
                                      tagline: tagline,
                                      description: description,
-                                     features: features)
+                                     features: features,
+                                     icon: icon)
     }
 
 
