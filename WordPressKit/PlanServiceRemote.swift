@@ -5,7 +5,7 @@ import CocoaLumberjack
 public class PlanServiceRemote: ServiceRemoteWordPressComREST {
     public typealias AvailablePlans = (plans: [RemoteWpcomPlan], groups: [RemotePlanGroup], features: [RemotePlanFeature])
 
-    typealias EndpointResponse =  [String: AnyObject]
+    typealias EndpointResponse = [String: AnyObject]
 
     public enum ResponseError: Int, Error {
         // Error decoding JSON
@@ -45,61 +45,33 @@ public class PlanServiceRemote: ServiceRemoteWordPressComREST {
 
 
     func parseWpcomPlans(_ response: EndpointResponse) -> [RemoteWpcomPlan] {
-        var parsedResult = [RemoteWpcomPlan]()
         guard let json = response["plans"] as? [EndpointResponse] else {
-            return parsedResult
+            return [RemoteWpcomPlan]()
         }
 
-        for item in json {
-            if let RemoteWpcomPlan = parseWpcomPlan(item) {
-                parsedResult.append(RemoteWpcomPlan)
-            }
-        }
-
-        return parsedResult
+        return json.compactMap { parseWpcomPlan($0) }
     }
 
 
     func parseWpcomPlanProducts(_ products: [EndpointResponse]) -> String {
-        var parsedResult = [String]()
-        for item in products {
-            if let planId = item["plan_id"] as? String {
-                parsedResult.append(planId)
-            }
-        }
+        let parsedResult = products.compactMap { $0["plan_id"] as? String }
         return parsedResult.joined(separator: ",")
     }
 
 
     func parseWpcomPlanGroups(_ response: EndpointResponse) -> [RemotePlanGroup] {
-        var parsedResult = [RemotePlanGroup]()
         guard let json = response["groups"] as? [EndpointResponse] else {
-            return parsedResult
+            return [RemotePlanGroup]()
         }
-
-        for item in json {
-            if let remoteGroup = parsePlanGroup(item) {
-                parsedResult.append(remoteGroup)
-            }
-        }
-
-        return parsedResult
+        return json.compactMap { parsePlanGroup($0) }
     }
 
 
     func parseWpcomPlanFeatures(_ response: EndpointResponse) -> [RemotePlanFeature] {
-        var parsedResult = [RemotePlanFeature]()
         guard let json = response["features"] as? [EndpointResponse] else {
-            return parsedResult
+            return [RemotePlanFeature]()
         }
-
-        for item in json {
-            if let remoteFeature = parsePlanFeature(item) {
-                parsedResult.append(remoteFeature)
-            }
-        }
-
-        return parsedResult
+        return json.compactMap { parsePlanFeature($0) }
     }
 
 
