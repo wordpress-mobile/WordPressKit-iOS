@@ -84,7 +84,7 @@ class SiteCreationRequestEncodingTests: XCTestCase {
         XCTAssertNotNil(jsonDictionary["validate"])
     }
 
-    func testSiteCreationRequestEncoding_WorksWithoutValidation() {
+    func testSiteCreationRequestEncoding_WorksWithValidate_SetToFalse() {
         // Given
         let request = SiteCreationRequest(
             segmentIdentifier: 1,
@@ -124,7 +124,7 @@ class SiteCreationRequestEncodingTests: XCTestCase {
         XCTAssertNotNil(jsonDictionary["validate"])
     }
 
-    func testSiteCreationRequestEncoding_WorksSansVertical() {
+    func testSiteCreationRequestEncoding_WorksWithoutVertical() {
         // Given
         let request = SiteCreationRequest(
             segmentIdentifier: 1,
@@ -164,7 +164,7 @@ class SiteCreationRequestEncodingTests: XCTestCase {
         XCTAssertNotNil(jsonDictionary["validate"])
     }
 
-    func testSiteCreationRequestEncoding_WorksSansTagline() {
+    func testSiteCreationRequestEncoding_WorksWithoutTagline() {
         // Given
         let request = SiteCreationRequest(
             segmentIdentifier: 1,
