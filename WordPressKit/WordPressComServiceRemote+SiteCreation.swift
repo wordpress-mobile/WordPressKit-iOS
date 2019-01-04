@@ -6,16 +6,39 @@ import Foundation
 /// This value type is intended to express a site creation request.
 ///
 public struct SiteCreationRequest: Encodable {
-    let segmentIdentifier: Int64
-    let verticalIdentifier: String?
-    let title: String
-    let tagline: String?
-    let siteURLString: String
-    let isPublic: Bool
-    let languageIdentifier: String
-    let shouldValidate: Bool
-    let clientIdentifier: String
-    let clientSecret: String
+    public let segmentIdentifier: Int64
+    public let verticalIdentifier: String?
+    public let title: String
+    public let tagline: String?
+    public let siteURLString: String
+    public let isPublic: Bool
+    public let languageIdentifier: String
+    public let shouldValidate: Bool
+    public let clientIdentifier: String
+    public let clientSecret: String
+
+    public init(segmentIdentifier: Int64,
+                verticalIdentifier: String?,
+                title: String,
+                tagline: String?,
+                siteURLString: String,
+                isPublic: Bool,
+                languageIdentifier: String,
+                shouldValidate: Bool,
+                clientIdentifier: String,
+                clientSecret: String) {
+
+        self.segmentIdentifier = segmentIdentifier
+        self.verticalIdentifier = verticalIdentifier
+        self.title = title
+        self.tagline = tagline
+        self.siteURLString = siteURLString
+        self.isPublic = isPublic
+        self.languageIdentifier = languageIdentifier
+        self.shouldValidate = shouldValidate
+        self.clientIdentifier = clientIdentifier
+        self.clientSecret = clientSecret
+    }
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
