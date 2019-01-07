@@ -101,26 +101,28 @@ private struct SiteInformation: Encodable {
 /// This value type is intended to express a site creation response.
 ///
 public struct SiteCreationResponse: Decodable {
-    struct CreatedSite: Decodable {
-        let identifier: String
-        let title: String
-        let urlString: String
-        let xmlrpcString: String
-
-        enum CodingKeys: String, CodingKey {
-            case identifier     = "blogid"
-            case title          = "blogname"
-            case urlString      = "url"
-            case xmlrpcString   = "xmlrpc"
-        }
-    }
-    
-    let createdSite: CreatedSite
-    let success: Bool
+    public let createdSite: CreatedSite
+    public let success: Bool
 
     enum CodingKeys: String, CodingKey {
         case createdSite = "blog_details"
         case success
+    }
+}
+
+/// This value type describes the site that was created.
+///
+public struct CreatedSite: Decodable {
+    public let identifier: String
+    public let title: String
+    public let urlString: String
+    public let xmlrpcString: String
+
+    enum CodingKeys: String, CodingKey {
+        case identifier     = "blogid"
+        case title          = "blogname"
+        case urlString      = "url"
+        case xmlrpcString   = "xmlrpc"
     }
 }
 
