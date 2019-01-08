@@ -1,5 +1,21 @@
 import Foundation
 
+// MARK: - SiteVerticalsRequest
+
+/// Allows the construction of a request for site verticals.
+///
+/// NB: The default limit (5) applies to the number of results returned by the service. If a search with limit n evinces no exact match, (n - 1) server-unique results are returned.
+///
+public struct SiteVerticalsRequest: Encodable {
+    public let search: String
+    public let limit: Int
+
+    public init(search: String, limit: Int = 5) {
+        self.search = search
+        self.limit = limit
+    }
+}
+
 // MARK: - SiteVertical(s) : Response
 
 /// Models a Site Vertical

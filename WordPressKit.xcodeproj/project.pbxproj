@@ -50,6 +50,7 @@
 		73D592FC21E550D300E4CF84 /* site-verticals-single.json in Resources */ = {isa = PBXBuildFile; fileRef = 73D592F921E550D300E4CF84 /* site-verticals-single.json */; };
 		73D592FD21E550D300E4CF84 /* site-verticals-empty.json in Resources */ = {isa = PBXBuildFile; fileRef = 73D592FA21E550D300E4CF84 /* site-verticals-empty.json */; };
 		73D5930121E550F500E4CF84 /* SiteVerticalsResponseDecodingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73D592FF21E550F500E4CF84 /* SiteVerticalsResponseDecodingTests.swift */; };
+		73D5930321E552CD00E4CF84 /* SiteVerticalsRequestEncodingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73D5930221E552CD00E4CF84 /* SiteVerticalsRequestEncodingTests.swift */; };
 		7403A2E41EF06ED500DED7DC /* AccountSettingsRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7403A2E31EF06ED500DED7DC /* AccountSettingsRemote.swift */; };
 		7403A2E61EF06F7000DED7DC /* AccountSettingsRemoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7403A2E51EF06F7000DED7DC /* AccountSettingsRemoteTests.swift */; };
 		7403A2F41EF06FEB00DED7DC /* me-settings-auth-failure.json in Resources */ = {isa = PBXBuildFile; fileRef = 7403A2E71EF06FEB00DED7DC /* me-settings-auth-failure.json */; };
@@ -499,6 +500,7 @@
 		73D592F921E550D300E4CF84 /* site-verticals-single.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "site-verticals-single.json"; sourceTree = "<group>"; };
 		73D592FA21E550D300E4CF84 /* site-verticals-empty.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "site-verticals-empty.json"; sourceTree = "<group>"; };
 		73D592FF21E550F500E4CF84 /* SiteVerticalsResponseDecodingTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SiteVerticalsResponseDecodingTests.swift; sourceTree = "<group>"; };
+		73D5930221E552CD00E4CF84 /* SiteVerticalsRequestEncodingTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SiteVerticalsRequestEncodingTests.swift; sourceTree = "<group>"; };
 		7403A2E31EF06ED500DED7DC /* AccountSettingsRemote.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountSettingsRemote.swift; sourceTree = "<group>"; };
 		7403A2E51EF06F7000DED7DC /* AccountSettingsRemoteTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountSettingsRemoteTests.swift; sourceTree = "<group>"; };
 		7403A2E71EF06FEB00DED7DC /* me-settings-auth-failure.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "me-settings-auth-failure.json"; path = "WordPressKitTests/me-settings-auth-failure.json"; sourceTree = SOURCE_ROOT; };
@@ -1009,6 +1011,7 @@
 				731BA83521DECD61000FDFCD /* SiteCreationRequestEncodingTests.swift */,
 				731BA83721DECD97000FDFCD /* SiteCreationResponseDecodingTests.swift */,
 				74C473AE1EF2F7D1009918F2 /* SiteManagementServiceRemoteTests.swift */,
+				73D5930221E552CD00E4CF84 /* SiteVerticalsRequestEncodingTests.swift */,
 				73D592FF21E550F500E4CF84 /* SiteVerticalsResponseDecodingTests.swift */,
 				E1787DB1200E5690004CB3AF /* TimeZoneServiceRemoteTests.swift */,
 				7328420521CD798A00126755 /* WordPressComServiceRemoteTests+SiteCreation.swift */,
@@ -2279,6 +2282,7 @@
 				93BD27411EE73311002BB00B /* AccountServiceRemoteRESTTests.swift in Sources */,
 				93F50A441F227CFB00B5BEBA /* UsersServiceRemoteXMLRPCTests.swift in Sources */,
 				7430C9BC1F192C0F0051B8E6 /* ReaderSiteServiceRemoteTests.swift in Sources */,
+				73D5930321E552CD00E4CF84 /* SiteVerticalsRequestEncodingTests.swift in Sources */,
 				930999521F1658F800F006A1 /* ThemeServiceRemoteTests.m in Sources */,
 				74B335DA1F06F3D60053A184 /* WordPressComRestApiTests.swift in Sources */,
 				7403A2E61EF06F7000DED7DC /* AccountSettingsRemoteTests.swift in Sources */,
