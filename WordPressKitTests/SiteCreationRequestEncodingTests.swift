@@ -2,7 +2,7 @@
 import XCTest
 @testable import WordPressKit
 
-class SiteCreationRequestEncodingTests: XCTestCase {
+final class SiteCreationRequestEncodingTests: XCTestCase {
 
     func testSiteCreationRequestEncoding_WithAllParameters_IsSuccessful() {
         // Given
