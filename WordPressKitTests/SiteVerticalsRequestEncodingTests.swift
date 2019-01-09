@@ -19,10 +19,10 @@ final class SiteVerticalsRequestEncodingTests: XCTestCase {
         XCTAssertNoThrow(try JSONSerialization.jsonObject(with: encodedJSON, options: []))
         let serializedJSON = try! JSONSerialization.jsonObject(with: encodedJSON, options: [])
 
-        if let _ = serializedJSON as? [String : AnyObject] {} else {
+        guard let jsonDictionary = serializedJSON as? [String : AnyObject] else {
             XCTFail("Failed to encode a proper JSON dictionary!")
+            return
         }
-        let jsonDictionary = serializedJSON as! [String : AnyObject]
 
         // Then
         let actualSearch = jsonDictionary["search"] as? String
@@ -50,10 +50,10 @@ final class SiteVerticalsRequestEncodingTests: XCTestCase {
         XCTAssertNoThrow(try JSONSerialization.jsonObject(with: encodedJSON, options: []))
         let serializedJSON = try! JSONSerialization.jsonObject(with: encodedJSON, options: [])
 
-        if let _ = serializedJSON as? [String : AnyObject] {} else {
+        guard let jsonDictionary = serializedJSON as? [String : AnyObject] else {
             XCTFail("Failed to encode a proper JSON dictionary!")
+            return
         }
-        let jsonDictionary = serializedJSON as! [String : AnyObject]
 
         // Then
         let actualSearch = jsonDictionary["search"] as? String
@@ -81,10 +81,10 @@ final class SiteVerticalsRequestEncodingTests: XCTestCase {
         XCTAssertNoThrow(try JSONSerialization.jsonObject(with: encodedJSON, options: []))
         let serializedJSON = try! JSONSerialization.jsonObject(with: encodedJSON, options: [])
 
-        if let _ = serializedJSON as? [String : AnyObject] {} else {
+        guard let jsonDictionary = serializedJSON as? [String : AnyObject] else {
             XCTFail("Failed to encode a proper JSON dictionary!")
+            return
         }
-        let jsonDictionary = serializedJSON as! [String : AnyObject]
 
         // Then
         let actualSearch = jsonDictionary["search"] as? String

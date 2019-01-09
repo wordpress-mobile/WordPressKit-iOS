@@ -120,7 +120,6 @@ final class SiteVerticalDecodingTests: XCTestCase {
     // MARK: Multiple Verticals
 
     func testSiteParsingOfMultipleVerticalsWorksAsExpected() {
-        XCTAssertTrue(!verticalsSUT.isEmpty)
         XCTAssertEqual(verticalsSUT.count, 5)
     }
 
