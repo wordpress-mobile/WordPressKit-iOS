@@ -2,7 +2,7 @@
 import XCTest
 @testable import WordPressKit
 
-class SiteCreationResponseDecodingTests: XCTestCase {
+final class SiteCreationResponseDecodingTests: XCTestCase {
 
     func testSiteCreationResponseDecoding_IsSuccessful() {
         // Given

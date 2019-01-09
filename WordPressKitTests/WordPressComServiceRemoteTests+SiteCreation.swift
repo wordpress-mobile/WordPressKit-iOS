@@ -2,7 +2,7 @@
 import XCTest
 @testable import WordPressKit
 
-class SiteCreationServiceTests: RemoteTestCase, RESTTestable {
+final class SiteCreationServiceTests: RemoteTestCase, RESTTestable {
 
     func testSiteCreationRequest_Succeeds() {
         // Given
