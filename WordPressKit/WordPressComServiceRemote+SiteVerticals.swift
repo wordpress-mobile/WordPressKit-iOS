@@ -79,7 +79,7 @@ public extension WordPressComServiceRemote {
     ///   - request:    the value object with which to compose the request.
     ///   - completion: a closure including the result of the request for site verticals.
     ///
-    func retrievalVerticals(request: SiteVerticalsRequest, completion: @escaping SiteVerticalsServiceCompletion) {
+    func retrieveVerticals(request: SiteVerticalsRequest, completion: @escaping SiteVerticalsServiceCompletion) {
 
         let endpoint = "verticals"
         let path = self.path(forEndpoint: endpoint, withVersion: ._2_0)

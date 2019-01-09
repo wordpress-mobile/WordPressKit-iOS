@@ -17,7 +17,7 @@ final class SiteCreationVerticalsTests: RemoteTestCase, RESTTestable {
         // When, Then
         let verticalsExpectation = expectation(description: "Initiate site verticals request")
         let remote = WordPressComServiceRemote(wordPressComRestApi: getRestApi())
-        remote.retrievalVerticals(request: request) { result in
+        remote.retrieveVerticals(request: request) { result in
             verticalsExpectation.fulfill()
 
             switch result {
