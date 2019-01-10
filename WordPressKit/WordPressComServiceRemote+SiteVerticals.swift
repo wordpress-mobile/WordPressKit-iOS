@@ -1,7 +1,5 @@
 import Foundation
 
-import WordPressShared
-
 // MARK: - SiteVerticalsRequest
 
 /// Allows the construction of a request for site verticals.
@@ -84,7 +82,7 @@ public extension WordPressComServiceRemote {
         let endpoint = "verticals"
         let path = self.path(forEndpoint: endpoint, withVersion: ._2_0)
 
-        var requestParameters: [String : AnyObject]
+        let requestParameters: [String : AnyObject]
         do {
             requestParameters = try encodeRequestParameters(request: request)
         } catch {
@@ -93,9 +91,6 @@ public extension WordPressComServiceRemote {
             completion(.failure(SiteVerticalsError.requestEncodingFailure))
             return
         }
-
-        let locale = WordPressComLanguageDatabase().deviceLanguage.slug
-        requestParameters["locale"] = locale as AnyObject
 
         wordPressComRestApi.GET(
             path,

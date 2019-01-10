@@ -34,7 +34,4 @@ final class SiteCreationVerticalsTests: RemoteTestCase, RESTTestable {
 
         waitForExpectations(timeout: timeout)
     }
-
-    func testSiteVerticalsRequest() {
-    }
 }
