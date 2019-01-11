@@ -8,7 +8,7 @@ Pod::Spec.new do |s|
                     with WordPress.com and WordPress.org endpoints.
                     DESC
 
-  s.homepage      = "http://apps.wordpress.com"
+  s.homepage      = "https://github.com/wordpress-mobile/WordPressKit-iOS"
   s.license       = "GPLv2"
   s.author        = { "Jorge Leandro Perez" => "jorge.perez@automattic.com" }
   s.platform      = :ios, "10.0"
