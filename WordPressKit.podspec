@@ -23,6 +23,6 @@ Pod::Spec.new do |s|
   s.dependency 'CocoaLumberjack', '3.4.2'
   s.dependency 'WordPressShared', '~> 1.4'
   s.dependency 'NSObject-SafeExpectations', '0.0.3'
-  s.dependency 'wpxmlrpc', '0.8.3'
+  s.dependency 'wpxmlrpc', '0.8.4'
   s.dependency 'UIDeviceIdentifier', '~> 0.4'
 end
