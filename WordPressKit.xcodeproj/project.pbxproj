@@ -411,6 +411,7 @@
 		B5A4822B20AC6C0B009D95F6 /* CocoaLumberjack.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A4822A20AC6C0B009D95F6 /* CocoaLumberjack.swift */; };
 		B5A4822E20AC6C1A009D95F6 /* WPKitLogging.m in Sources */ = {isa = PBXBuildFile; fileRef = B5A4822C20AC6C19009D95F6 /* WPKitLogging.m */; };
 		B5A4822F20AC6C1A009D95F6 /* WPKitLogging.h in Headers */ = {isa = PBXBuildFile; fileRef = B5A4822D20AC6C1A009D95F6 /* WPKitLogging.h */; };
+		D816857121EDACD10049883E /* WordPressComServiceRemote+SiteSegments.swift in Sources */ = {isa = PBXBuildFile; fileRef = D816857021EDACD10049883E /* WordPressComServiceRemote+SiteSegments.swift */; };
 		E11C2AD21FA77FB90023BDE2 /* SitePlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11C2AD11FA77FB90023BDE2 /* SitePlugin.swift */; };
 		E13EE1471F33258E00C15787 /* PluginServiceRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13EE1461F33258E00C15787 /* PluginServiceRemote.swift */; };
 		E13EE1491F332B8500C15787 /* site-plugins-success.json in Resources */ = {isa = PBXBuildFile; fileRef = E13EE1481F332B8500C15787 /* site-plugins-success.json */; };
@@ -875,6 +876,7 @@
 		BEEC8B5D92DA614468900BD7 /* Pods-WordPressKit.release-alpha.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WordPressKit.release-alpha.xcconfig"; path = "Pods/Target Support Files/Pods-WordPressKit/Pods-WordPressKit.release-alpha.xcconfig"; sourceTree = "<group>"; };
 		C5953994B3865AF409BA4210 /* Pods-WordPressKitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WordPressKitTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-WordPressKitTests/Pods-WordPressKitTests.release.xcconfig"; sourceTree = "<group>"; };
 		CA5ABD95F40077D001644BCC /* Pods-WordPressKit.release-internal.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WordPressKit.release-internal.xcconfig"; path = "Pods/Target Support Files/Pods-WordPressKit/Pods-WordPressKit.release-internal.xcconfig"; sourceTree = "<group>"; };
+		D816857021EDACD10049883E /* WordPressComServiceRemote+SiteSegments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WordPressComServiceRemote+SiteSegments.swift"; sourceTree = "<group>"; };
 		E11C2AD11FA77FB90023BDE2 /* SitePlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SitePlugin.swift; sourceTree = "<group>"; };
 		E13EE1461F33258E00C15787 /* PluginServiceRemote.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PluginServiceRemote.swift; sourceTree = "<group>"; };
 		E13EE1481F332B8500C15787 /* site-plugins-success.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "site-plugins-success.json"; sourceTree = "<group>"; };
@@ -1296,6 +1298,7 @@
 				93F50A351F226B9300B5BEBA /* WordPressComServiceRemote.h */,
 				93F50A361F226B9300B5BEBA /* WordPressComServiceRemote.m */,
 				7328420321CD786C00126755 /* WordPressComServiceRemote+SiteCreation.swift */,
+				D816857021EDACD10049883E /* WordPressComServiceRemote+SiteSegments.swift */,
 				730E869E21E44EFD00753E1A /* WordPressComServiceRemote+SiteVerticals.swift */,
 				73A2F38921E7F81E00388609 /* WordPressComServiceRemote+SiteVerticalsPrompt.swift */,
 				9368C7A11EC62F800092CE8E /* WPStatsServiceRemote.h */,
@@ -2160,6 +2163,7 @@
 				73A2F38A21E7F81E00388609 /* WordPressComServiceRemote+SiteVerticalsPrompt.swift in Sources */,
 				740B23BB1F17EC7300067A2A /* PostServiceRemoteXMLRPC.m in Sources */,
 				74B5F0E31EF82D2100B411E7 /* SiteServiceRemoteWordPressComREST.m in Sources */,
+				D816857121EDACD10049883E /* WordPressComServiceRemote+SiteSegments.swift in Sources */,
 				74E2295C1F1E77290085F7F2 /* KeyringConnectionExternalUser.swift in Sources */,
 				E1BD95151FD5A2B800CD5CE3 /* PluginDirectoryServiceRemote.swift in Sources */,
 				7430C9D71F1933210051B8E6 /* RemoteReaderCrossPostMeta.swift in Sources */,
