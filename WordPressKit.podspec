@@ -24,5 +24,5 @@ Pod::Spec.new do |s|
   s.dependency 'WordPressShared', '~> 1.4'
   s.dependency 'NSObject-SafeExpectations', '0.0.3'
   s.dependency 'wpxmlrpc', '0.8.4'
-  s.dependency 'UIDeviceIdentifier', '~> 0.4'
+  s.dependency 'UIDeviceIdentifier', '~> 1.1.4'
 end
