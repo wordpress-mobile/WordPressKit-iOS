@@ -120,7 +120,6 @@ public extension WordPressComServiceRemote {
                 }
 
                 do {
-                    print("response Object ", responseObject)
                     let response = try self.decodeResponse(responseObject: responseObject)
                     let validContent = self.validSegments(response)
                     completion(.success(validContent))
