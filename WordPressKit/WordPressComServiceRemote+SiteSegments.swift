@@ -1,13 +1,12 @@
 
 /// Models a type of site.
 public struct SiteSegment {
-    let identifier: Int64   // we use a numeric ID for segments; see p9wMUP-bH-612-p2 for discussion
-    let title: String
-    let subtitle: String
-    let icon: URL?
-    //let iconColor: UIColor?
-    let iconColorString: String?
-    let mobile: Bool
+    public let identifier: Int64   // we use a numeric ID for segments; see p9wMUP-bH-612-p2 for discussion
+    public let title: String
+    public let subtitle: String
+    public let icon: URL?
+    public let iconColor: String?
+    public let mobile: Bool
 }
 
 extension SiteSegment {
@@ -41,15 +40,15 @@ extension SiteSegment: Decodable {
             icon = nil
         }
 
-        if let iconColor = try values.decodeIfPresent(String.self, forKey: .iconColor) {
-            var cleanIconColorString = iconColor
-            if iconColor.hasPrefix("#") {
-                cleanIconColorString = String(iconColor.dropFirst(1))
+        if let iconColorString = try values.decodeIfPresent(String.self, forKey: .iconColor) {
+            var cleanIconColorString = iconColorString
+            if iconColorString.hasPrefix("#") {
+                cleanIconColorString = String(iconColorString.dropFirst(1))
             }
 
-            iconColorString = cleanIconColorString
+            iconColor = cleanIconColorString
         } else {
-            iconColorString = nil
+            iconColor = nil
         }
 
         mobile = try values.decode(Bool.self, forKey: .mobile)
@@ -77,7 +76,7 @@ public enum SiteSegmentsResult {
 }
 
 public struct SiteSegmentsRequest: Encodable {
-    let locale: String
+    public let locale: String
 }
 
 typealias SiteSegmentsServiceCompletion = (SiteSegmentsResult) -> Void
