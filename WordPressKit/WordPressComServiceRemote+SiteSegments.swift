@@ -79,9 +79,9 @@ public struct SiteSegmentsRequest: Encodable {
     public let locale: String
 }
 
-typealias SiteSegmentsServiceCompletion = (SiteSegmentsResult) -> Void
+public typealias SiteSegmentsServiceCompletion = (SiteSegmentsResult) -> Void
 
-extension WordPressComServiceRemote {
+public extension WordPressComServiceRemote {
     func retrieveSegments(request: SiteSegmentsRequest, completion: @escaping SiteSegmentsServiceCompletion) {
         let endpoint = "segments"
         let remotePath = path(forEndpoint: endpoint, withVersion: ._2_0)
