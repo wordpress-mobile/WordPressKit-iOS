@@ -7,10 +7,19 @@ public struct SiteSegment {
     public let icon: URL?
     public let iconColor: String?
     public let mobile: Bool
+
+    public init(identifier: Int64, title: String, subtitle: String, icon: URL?, iconColor: String?, mobile: Bool) {
+        self.identifier = identifier
+        self.title = title
+        self.subtitle = subtitle
+        self.icon = icon
+        self.iconColor = iconColor
+        self.mobile = mobile
+    }
 }
 
 extension SiteSegment {
-    static let blogSegmentIdentifier = Int64(1)
+    public static let blogSegmentIdentifier = Int64(1)
 }
 
 extension SiteSegment: Equatable {
@@ -77,6 +86,10 @@ public enum SiteSegmentsResult {
 
 public struct SiteSegmentsRequest: Encodable {
     public let locale: String
+
+    public init(locale: String) {
+        self.locale = locale
+    }
 }
 
 public typealias SiteSegmentsServiceCompletion = (SiteSegmentsResult) -> Void
