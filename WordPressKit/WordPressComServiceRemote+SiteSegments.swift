@@ -1,4 +1,3 @@
-
 /// Models a type of site.
 public struct SiteSegment {
     public let identifier: Int64   // we use a numeric ID for segments; see p9wMUP-bH-612-p2 for discussion
@@ -79,6 +78,11 @@ public enum SiteSegmentsError: Error {
     case serviceFailure
 }
 
+/// Advises the caller of results related to requests for site segments.
+///
+/// - success: the site segments request succeeded with the accompanying result.
+/// - failure: the site segments request failed due to the accompanying error.
+///
 public enum SiteSegmentsResult {
     case success([SiteSegment])
     case failure(SiteSegmentsError)
@@ -86,6 +90,8 @@ public enum SiteSegmentsResult {
 
 public typealias SiteSegmentsServiceCompletion = (SiteSegmentsResult) -> Void
 
+/// Site segments service, exclusive to WordPress.com.
+///
 public extension WordPressComServiceRemote {
     func retrieveSegments(completion: @escaping SiteSegmentsServiceCompletion) {
         let endpoint = "segments"
@@ -116,6 +122,8 @@ public extension WordPressComServiceRemote {
         })
     }
 }
+
+// MARK: - Serialization support
 
 private extension WordPressComServiceRemote {
     private func decodeResponse(responseObject: AnyObject) throws -> [SiteSegment] {

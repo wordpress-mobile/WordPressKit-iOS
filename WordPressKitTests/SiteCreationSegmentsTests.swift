@@ -10,12 +10,11 @@ final class SiteCreationSegmentsTests: RemoteTestCase, RESTTestable {
         stubRemoteResponse(endpoint, filename: fileName, contentType: .ApplicationJSON)
 
         let expectedSegmentsCount = 5
-        let request = SiteSegmentsRequest(locale: "es_ES")
 
         // When, Then
         let segmentsExpectation = expectation(description: "Initiate site segments request")
         let remote = WordPressComServiceRemote(wordPressComRestApi: getRestApi())
-        remote.retrieveSegments(request: request) { result in
+        remote.retrieveSegments(completion: { result in
             segmentsExpectation.fulfill()
             switch result {
             case .success(let segments):
@@ -27,7 +26,7 @@ final class SiteCreationSegmentsTests: RemoteTestCase, RESTTestable {
             case .failure(_):
                 XCTFail()
             }
-        }
+        })
 
         waitForExpectations(timeout: timeout)
     }
