@@ -1,6 +1,8 @@
 ### Description
 
-ℹ Please replace this with a link to the issue this pull request addresses, as well as a summary of the implementation details.
+Fixes #
+
+ℹ Please replace the above with a link to the issue this pull request addresses, as well as a summary of the implementation details.
 
 ### Testing Details
 
