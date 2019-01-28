@@ -81,7 +81,7 @@ extension WordPressComRestApiTests {
         XCTAssertTrue(queryStringIncludesSomeKey)
     }
 
-    func testThatAppendingLocaleIgnoresIfAlreadyIncludedInPath() {
+    func testThatLocaleIsNotAppendedIfAlreadyIncludedInPath() {
         // Given
         let preferredLanguageIdentifier = "foo"
         let path = "/path/path?locale=\(preferredLanguageIdentifier)"
@@ -119,5 +119,32 @@ extension WordPressComRestApiTests {
 
         let expectedQueryItemValue = preferredLanguageIdentifier
         XCTAssertEqual(expectedQueryItemValue, actualQueryItemValue!)
+    }
+
+    func testThatAppendingLocaleIsNotAppendedIfAlreadyIncludedInRequestParameters() {
+        // Given
+        let inputPath = "/path/path"
+        let expectedLocaleValue = "foo"
+
+        // When
+        let inputURL = URL(string: inputPath, relativeTo: URL(string: WordPressComRestApi.apiBaseURLString))
+        XCTAssertNotNil(inputURL)
+
+        var actualURLComponents = URLComponents(url: inputURL!, resolvingAgainstBaseURL: false)
+        XCTAssertNotNil(actualURLComponents)
+
+        let localeQueryItem = URLQueryItem(name: WordPressComRestApi.localeKey, value: expectedLocaleValue)
+        actualURLComponents!.queryItems = [ localeQueryItem ]
+
+        let actualPath = actualURLComponents?.path
+        XCTAssertNotNil(actualPath)
+
+        let localeAppendedPath = WordPressComRestApi.pathByAppendingPreferredLanguageLocale(actualPath!)
+
+        // Then
+        XCTAssertTrue(localeAppendedPath.contains(expectedLocaleValue))
+
+        let preferredLanguageIdentifier = WordPressComLanguageDatabase().deviceLanguage.slug
+        XCTAssertFalse(localeAppendedPath.contains(preferredLanguageIdentifier))
     }
 }
