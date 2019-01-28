@@ -43,7 +43,7 @@ open class WordPressComRestApi: NSObject {
     
     fileprivate let backgroundUploads: Bool
 
-    fileprivate static let localeKey = "locale"
+    static let localeKey = "locale"
 
     fileprivate let oAuthToken: String?
     fileprivate let userAgent: String?
