@@ -145,7 +145,7 @@ open class WordPressComRestApi: NSObject {
                          success: @escaping SuccessResponseBlock,
                          failure: @escaping FailureReponseBlock) -> Progress? {
 
-        guard let URLString = buildRequestURLFor(path: urlString) else {
+        guard let URLString = buildRequestURLFor(path: urlString, parameters: parameters) else {
             let error = NSError(domain: String(describing: WordPressComRestApiError.self),
                                 code: WordPressComRestApiError.requestSerializationFailed.rawValue,
                                 userInfo: [NSLocalizedDescriptionKey: NSLocalizedString("Failed to serialize request to the REST API.", comment: "Error message to show when wrong URL format is used to access the REST API")])
@@ -241,7 +241,7 @@ open class WordPressComRestApi: NSObject {
                               success: @escaping SuccessResponseBlock,
                               failure: @escaping FailureReponseBlock) -> Progress? {
 
-        guard let URLString = buildRequestURLFor(path: URLString) else {
+        guard let URLString = buildRequestURLFor(path: URLString, parameters: parameters) else {
             let error = NSError(domain: String(describing: WordPressComRestApiError.self),
                                 code: WordPressComRestApiError.requestSerializationFailed.rawValue,
                                 userInfo: [NSLocalizedDescriptionKey: NSLocalizedString("Failed to serialize request to the REST API.", comment: "Error message to show when wrong URL format is used to access the REST API")])
@@ -299,18 +299,54 @@ open class WordPressComRestApi: NSObject {
         return "\(String(describing: oAuthToken)),\(String(describing: userAgent))".hashValue
     }
 
-    fileprivate func buildRequestURLFor(path: String) -> String? {
-        let pathWithLocale = appendLocaleIfNeeded(path)
+    // AlamoFire our parameters via `SessionManager.request(_:method:parameters:encoding:headers:)`
+
+    /// This method assembles a valid request URL for the specified path & parameters.
+    /// The framework relies on a field (`appendsPreferredLanguageLocale`) to influence whether or not locale should be
+    /// added to the path of requests. This approach did not consider request parameters.
+    ///
+    /// This method now considers both the path and specified request parameters when performing the substitution.
+    /// It only accounts for the locale parameter. AlamoFire encodes other parameters via `SessionManager.request(_:method:parameters:encoding:headers:)`
+    ///
+    /// - Parameters:
+    ///   - path: the path for the request, which might include `locale`
+    ///   - parameters: the request parameters, which could conceivably include `locale`
+    ///   - localeKey: the locale key to search for (`locale` in v1 endpoints, `_locale` for v2)
+    /// - Returns: a request URL if successful, `nil` otherwise.
+    ///
+    func buildRequestURLFor(path: String, parameters: [String: AnyObject]? = [:], localeKey: String = WordPressComRestApi.localeKey) -> String? {
+
         let baseURL = URL(string: WordPressComRestApi.apiBaseURLString)
-        let requestURLString = URL(string: pathWithLocale, relativeTo: baseURL)?.absoluteString
-        return requestURLString
+
+        guard let requestURLString = URL(string: path, relativeTo: baseURL)?.absoluteString,
+            let urlComponents = URLComponents(string: requestURLString) else {
+
+            return nil
+        }
+
+        let urlComponentsWithLocale = applyLocaleIfNeeded(urlComponents: urlComponents, parameters: parameters, localeKey: localeKey)
+
+        return urlComponentsWithLocale?.url?.absoluteString
     }
 
-    fileprivate func appendLocaleIfNeeded(_ path: String) -> String {
+    private func applyLocaleIfNeeded(urlComponents: URLComponents, parameters: [String: AnyObject]? = [:], localeKey: String) -> URLComponents? {
         guard appendsPreferredLanguageLocale else {
-            return path
+            return urlComponents
         }
-        return WordPressComRestApi.pathByAppendingPreferredLanguageLocale(path)
+
+        var componentsWithLocale = urlComponents
+        var existingQueryItems = componentsWithLocale.queryItems ?? []
+
+        let existingLocaleQueryItems = existingQueryItems.filter { $0.name == localeKey }
+        if let parameters = parameters, parameters[localeKey] == nil, existingLocaleQueryItems.isEmpty {
+            let preferredLanguageIdentifier = WordPressComLanguageDatabase().deviceLanguage.slug
+            let localeQueryItem = URLQueryItem(name: WordPressComRestApi.localeKey, value: preferredLanguageIdentifier)
+
+            existingQueryItems.append(localeQueryItem)
+        }
+        componentsWithLocale.queryItems = existingQueryItems
+
+        return componentsWithLocale
     }
 
     @objc public func temporaryFileURL(withExtension fileExtension: String) -> URL {
@@ -412,7 +448,6 @@ extension WordPressComRestApi {
         let errorWithLocalizedMessage = NSError(domain: nsError.domain, code: nsError.code, userInfo:userInfo)
         return errorWithLocalizedMessage
     }
-
 }
 
 extension WordPressComRestApi {
@@ -421,25 +456,6 @@ extension WordPressComRestApi {
     @objc class public func anonymousApi(userAgent: String) -> WordPressComRestApi {
         return WordPressComRestApi(oAuthToken: nil, userAgent: userAgent)
     }
-
-    /// Append the user's preferred device locale as a query param to the URL path.
-    /// If the locale already exists the original path is returned.
-    ///
-    /// - Parameters:
-    ///     - path: A URL string. Can be an absolute or relative URL string.
-    ///
-    /// - Returns: The path with the locale appended, or the original path if it already had a locale param.
-    ///
-    @objc class public func pathByAppendingPreferredLanguageLocale(_ path: String) -> String {
-        let localeKey = WordPressComRestApi.localeKey
-        if path.isEmpty || path.contains("\(localeKey)=") {
-            return path
-        }
-        let preferredLanguageIdentifier = WordPressComLanguageDatabase().deviceLanguage.slug
-        let separator = path.contains("?") ? "&" : "?"
-        return "\(path)\(separator)\(localeKey)=\(preferredLanguageIdentifier)"
-    }
-
 }
 
 @objc extension Progress {

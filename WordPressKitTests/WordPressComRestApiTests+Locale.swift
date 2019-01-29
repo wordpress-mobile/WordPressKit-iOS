@@ -12,10 +12,11 @@ extension WordPressComRestApiTests {
         let preferredLanguageIdentifier = WordPressComLanguageDatabase().deviceLanguage.slug
 
         // When
-        let localeAppendedPath = WordPressComRestApi.pathByAppendingPreferredLanguageLocale(path)
+        let localeAppendedPath = WordPressComRestApi().buildRequestURLFor(path: path)
 
         // Then
-        let actualURL = URL(string: localeAppendedPath, relativeTo: URL(string: WordPressComRestApi.apiBaseURLString))
+        XCTAssertNotNil(localeAppendedPath)
+        let actualURL = URL(string: localeAppendedPath!, relativeTo: URL(string: WordPressComRestApi.apiBaseURLString))
         XCTAssertNotNil(actualURL)
 
         let actualURLComponents = URLComponents(url: actualURL!, resolvingAgainstBaseURL: false)
@@ -46,15 +47,19 @@ extension WordPressComRestApiTests {
         XCTAssertEqual(expectedQueryItemValue, actualQueryItemValue!)
     }
 
-    func testThatAppendingLocalePreservesExistingParams() {
+    func testThatAppendingLocaleWorksWithExistingParams() {
         // Given
-        let path = "/path/path?someKey=value"
+        let path = "/path/path"
+        let params: [String: AnyObject] = [
+            "someKey": "value" as AnyObject
+        ]
 
         // When
-        let localeAppendedPath = WordPressComRestApi.pathByAppendingPreferredLanguageLocale(path)
+        let localeAppendedPath = WordPressComRestApi().buildRequestURLFor(path: path, parameters: params)
 
         // Then
-        let actualURL = URL(string: localeAppendedPath, relativeTo: URL(string: WordPressComRestApi.apiBaseURLString))
+        XCTAssertNotNil(localeAppendedPath)
+        let actualURL = URL(string: localeAppendedPath!, relativeTo: URL(string: WordPressComRestApi.apiBaseURLString))
         XCTAssertNotNil(actualURL)
 
         let actualURLComponents = URLComponents(url: actualURL!, resolvingAgainstBaseURL: false)
@@ -67,7 +72,7 @@ extension WordPressComRestApiTests {
         let actualQueryItems = actualURLComponents!.queryItems
         XCTAssertNotNil(actualQueryItems)
 
-        let expectedQueryItemCount = 2
+        let expectedQueryItemCount = 1
         let actualQueryItemCount = actualQueryItems!.count
         XCTAssertEqual(expectedQueryItemCount, actualQueryItemCount)
 
@@ -76,9 +81,6 @@ extension WordPressComRestApiTests {
 
         let queryStringIncludesLocale = actualQueryString!.contains(WordPressComRestApi.localeKey)
         XCTAssertTrue(queryStringIncludesLocale)
-
-        let queryStringIncludesSomeKey = actualQueryString!.contains("someKey")
-        XCTAssertTrue(queryStringIncludesSomeKey)
     }
 
     func testThatLocaleIsNotAppendedIfAlreadyIncludedInPath() {
@@ -87,10 +89,11 @@ extension WordPressComRestApiTests {
         let path = "/path/path?locale=\(preferredLanguageIdentifier)"
 
         // When
-        let localeAppendedPath = WordPressComRestApi.pathByAppendingPreferredLanguageLocale(path)
+        let localeAppendedPath = WordPressComRestApi().buildRequestURLFor(path: path)
 
         // Then
-        let actualURL = URL(string: localeAppendedPath, relativeTo: URL(string: WordPressComRestApi.apiBaseURLString))
+        XCTAssertNotNil(localeAppendedPath)
+        let actualURL = URL(string: localeAppendedPath!, relativeTo: URL(string: WordPressComRestApi.apiBaseURLString))
         XCTAssertNotNil(actualURL)
 
         let actualURLComponents = URLComponents(url: actualURL!, resolvingAgainstBaseURL: false)
@@ -121,30 +124,44 @@ extension WordPressComRestApiTests {
         XCTAssertEqual(expectedQueryItemValue, actualQueryItemValue!)
     }
 
-    func testThatAppendingLocaleIsNotAppendedIfAlreadyIncludedInRequestParameters() {
+    func testThatAppendingLocaleIgnoresIfAlreadyIncludedInRequestParameters() {
         // Given
         let inputPath = "/path/path"
         let expectedLocaleValue = "foo"
+        let params: [String : AnyObject] = [
+            WordPressComRestApi.localeKey: expectedLocaleValue as AnyObject
+        ]
 
         // When
-        let inputURL = URL(string: inputPath, relativeTo: URL(string: WordPressComRestApi.apiBaseURLString))
-        XCTAssertNotNil(inputURL)
-
-        var actualURLComponents = URLComponents(url: inputURL!, resolvingAgainstBaseURL: false)
-        XCTAssertNotNil(actualURLComponents)
-
-        let localeQueryItem = URLQueryItem(name: WordPressComRestApi.localeKey, value: expectedLocaleValue)
-        actualURLComponents!.queryItems = [ localeQueryItem ]
-
-        let actualPath = actualURLComponents?.path
-        XCTAssertNotNil(actualPath)
-
-        let localeAppendedPath = WordPressComRestApi.pathByAppendingPreferredLanguageLocale(actualPath!)
+        let requestURLString = WordPressComRestApi().buildRequestURLFor(path: inputPath, parameters: params)
 
         // Then
-        XCTAssertTrue(localeAppendedPath.contains(expectedLocaleValue))
-
         let preferredLanguageIdentifier = WordPressComLanguageDatabase().deviceLanguage.slug
-        XCTAssertFalse(localeAppendedPath.contains(preferredLanguageIdentifier))
+        XCTAssertFalse(requestURLString!.contains(preferredLanguageIdentifier))
+    }
+
+    func testThatLocaleIsNotAppendedWhenDisabled() {
+        // Given
+        let path = "/path/path"
+
+        // When
+        let api = WordPressComRestApi()
+        api.appendsPreferredLanguageLocale = false
+        let localeAppendedPath = api.buildRequestURLFor(path: path)
+
+        // Then
+        XCTAssertNotNil(localeAppendedPath)
+        let actualURL = URL(string: localeAppendedPath!, relativeTo: URL(string: WordPressComRestApi.apiBaseURLString))
+        XCTAssertNotNil(actualURL)
+
+        let actualURLComponents = URLComponents(url: actualURL!, resolvingAgainstBaseURL: false)
+        XCTAssertNotNil(actualURLComponents)
+
+        let expectedPath = path
+        let actualPath = actualURLComponents!.path
+        XCTAssertEqual(expectedPath, actualPath)
+
+        let actualQueryItems = actualURLComponents!.queryItems
+        XCTAssertNil(actualQueryItems)
     }
 }
