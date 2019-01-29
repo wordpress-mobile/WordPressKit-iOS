@@ -299,8 +299,6 @@ open class WordPressComRestApi: NSObject {
         return "\(String(describing: oAuthToken)),\(String(describing: userAgent))".hashValue
     }
 
-    // AlamoFire our parameters via `SessionManager.request(_:method:parameters:encoding:headers:)`
-
     /// This method assembles a valid request URL for the specified path & parameters.
     /// The framework relies on a field (`appendsPreferredLanguageLocale`) to influence whether or not locale should be
     /// added to the path of requests. This approach did not consider request parameters.
