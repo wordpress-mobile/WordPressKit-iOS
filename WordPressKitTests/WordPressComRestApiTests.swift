@@ -6,9 +6,10 @@ import WordPressShared
 
 class WordPressComRestApiTests: XCTestCase {
 
-    let wordPressComRestApi = "https://public-api.wordpress.com/"
-    let wordPressMediaRoute = "rest/v1.1/sites/0/media/"
-    let wordPressMediaNewEndpoint = "rest/v1.1/sites/0/media/new"
+    let scheme                          = "https"
+    let host                            = "public-api.wordpress.com"
+    let wordPressMediaRoutePath         = "/rest/v1.1/sites/0/media/"
+    let wordPressMediaNewEndpointPath   = "/rest/v1.1/sites/0/media/new"
 
     override func setUp() {
         super.setUp()
@@ -19,17 +20,43 @@ class WordPressComRestApiTests: XCTestCase {
         OHHTTPStubs.removeAllStubs()
     }
 
-    fileprivate func isRestAPIRequest() -> OHHTTPStubsTestBlock {
+    private func isRestAPIRequest() -> OHHTTPStubsTestBlock {
         return { request in
-            let pathWithLocale = WordPressComRestApi.pathByAppendingPreferredLanguageLocale(self.wordPressMediaRoute)
-            return request.url?.absoluteString == self.wordPressComRestApi + pathWithLocale
+            guard let requestURL = request.url, let components = URLComponents(string: requestURL.absoluteString) else {
+                return false
+            }
+
+            let expectedScheme = self.scheme
+            let actualScheme = components.scheme
+
+            let expectedHost = self.host
+            let actualHost = components.host
+
+            let expectedPath = self.wordPressMediaRoutePath
+            let actualPath = components.path
+
+            let result = expectedScheme == actualScheme && expectedHost == actualHost && expectedPath == actualPath
+            return result
         }
     }
 
-    fileprivate func isRestAPIMediaNewRequest() -> OHHTTPStubsTestBlock {
+    private func isRestAPIMediaNewRequest() -> OHHTTPStubsTestBlock {
         return { request in
-            let pathWithLocale = WordPressComRestApi.pathByAppendingPreferredLanguageLocale(self.wordPressMediaNewEndpoint)
-            return request.url?.absoluteString == self.wordPressComRestApi + pathWithLocale
+            guard let requestURL = request.url, let components = URLComponents(string: requestURL.absoluteString) else {
+                return false
+            }
+
+            let expectedScheme = self.scheme
+            let actualScheme = components.scheme
+
+            let expectedHost = self.host
+            let actualHost = components.host
+
+            let expectedPath = self.wordPressMediaNewEndpointPath
+            let actualPath = components.path
+
+            let result = expectedScheme == actualScheme && expectedHost == actualHost && expectedPath == actualPath
+            return result
         }
     }
 
@@ -41,7 +68,7 @@ class WordPressComRestApiTests: XCTestCase {
 
         let expect = self.expectation(description: "One callback should be invoked")
         let api = WordPressComRestApi(oAuthToken: "fakeToken")
-        api.GET(wordPressMediaRoute, parameters: nil, success: { (responseObject: AnyObject, httpResponse: HTTPURLResponse?) in
+        api.GET(wordPressMediaRoutePath, parameters: nil, success: { (responseObject: AnyObject, httpResponse: HTTPURLResponse?) in
             expect.fulfill()
             XCTAssert(responseObject is [String: AnyObject], "The response should be a dictionary")
             }, failure: { (error, httpResponse) in
@@ -60,7 +87,7 @@ class WordPressComRestApiTests: XCTestCase {
 
         let expect = self.expectation(description: "One callback should be invoked")
         let api = WordPressComRestApi(oAuthToken: "fakeToken")
-        api.GET(wordPressMediaRoute, parameters: nil, success: { (responseObject: AnyObject, httpResponse: HTTPURLResponse?) in
+        api.GET(wordPressMediaRoutePath, parameters: nil, success: { (responseObject: AnyObject, httpResponse: HTTPURLResponse?) in
             expect.fulfill()
             XCTFail("This call should fail")
             }, failure: { (error, httpResponse) in
@@ -78,7 +105,7 @@ class WordPressComRestApiTests: XCTestCase {
         }
         let expect = self.expectation(description: "One callback should be invoked")
         let api = WordPressComRestApi(oAuthToken: "fakeToken")
-        api.GET(wordPressMediaRoute, parameters: nil, success: { (responseObject: AnyObject, httpResponse: HTTPURLResponse?) in
+        api.GET(wordPressMediaRoutePath, parameters: nil, success: { (responseObject: AnyObject, httpResponse: HTTPURLResponse?) in
             expect.fulfill()
             XCTFail("This call should fail")
             }, failure: { (error, httpResponse) in
@@ -96,7 +123,7 @@ class WordPressComRestApiTests: XCTestCase {
         }
         let expect = self.expectation(description: "One callback should be invoked")
         let api = WordPressComRestApi(oAuthToken: "fakeToken")
-        api.POST(wordPressMediaNewEndpoint, parameters: nil, success: { (responseObject: AnyObject, httpResponse: HTTPURLResponse?) in
+        api.POST(wordPressMediaNewEndpointPath, parameters: nil, success: { (responseObject: AnyObject, httpResponse: HTTPURLResponse?) in
             expect.fulfill()
             XCTFail("This call should fail")
             }, failure: { (error, httpResponse) in
@@ -114,7 +141,7 @@ class WordPressComRestApiTests: XCTestCase {
         }
         let expect = self.expectation(description: "One callback should be invoked")
         let api = WordPressComRestApi(oAuthToken: "fakeToken")
-        api.POST(wordPressMediaNewEndpoint, parameters: nil, success: { (responseObject: AnyObject, httpResponse: HTTPURLResponse?) in
+        api.POST(wordPressMediaNewEndpointPath, parameters: nil, success: { (responseObject: AnyObject, httpResponse: HTTPURLResponse?) in
             expect.fulfill()
             XCTFail("This call should fail")
             }, failure: { (error, httpResponse) in
@@ -132,7 +159,7 @@ class WordPressComRestApiTests: XCTestCase {
         }
         let expect = self.expectation(description: "One callback should be invoked")
         let api = WordPressComRestApi(oAuthToken: "fakeToken")
-        api.POST(wordPressMediaNewEndpoint, parameters: nil, success: { (responseObject: AnyObject, httpResponse: HTTPURLResponse?) in
+        api.POST(wordPressMediaNewEndpointPath, parameters: nil, success: { (responseObject: AnyObject, httpResponse: HTTPURLResponse?) in
             expect.fulfill()
             XCTFail("This call should fail")
             }, failure: { (error, httpResponse) in
@@ -150,7 +177,7 @@ class WordPressComRestApiTests: XCTestCase {
         }
         let expect = self.expectation(description: "One callback should be invoked")
         let api = WordPressComRestApi(oAuthToken: "fakeToken")
-        api.multipartPOST(wordPressMediaNewEndpoint, parameters: nil, fileParts: [], success: { (responseObject: AnyObject, httpResponse: HTTPURLResponse?) in
+        api.multipartPOST(wordPressMediaNewEndpointPath, parameters: nil, fileParts: [], success: { (responseObject: AnyObject, httpResponse: HTTPURLResponse?) in
             expect.fulfill()
             XCTFail("This call should fail")
         }, failure: { (error, httpResponse) in
@@ -159,38 +186,6 @@ class WordPressComRestApiTests: XCTestCase {
             XCTAssert(error.code == Int(WordPressComRestApiError.uploadFailed.rawValue), "The error code should be AuthorizationRequired")
         })
         self.waitForExpectations(timeout: 2, handler: nil)
-    }
-
-    func testThatAppendingLocaleWorks() {
-
-        let path = "path/path"
-        let localeKey = "locale"
-        let preferredLanguageIdentifier = WordPressComLanguageDatabase().deviceLanguage.slug
-        let expectedPath = "\(path)?\(localeKey)=\(preferredLanguageIdentifier)"
-
-        let localeAppendedPath = WordPressComRestApi.pathByAppendingPreferredLanguageLocale(path)
-        XCTAssert(localeAppendedPath == expectedPath, "Expected the locale to be appended to the path as (\(expectedPath)) but instead encountered (\(localeAppendedPath)).")
-    }
-
-    func testThatAppendingLocaleWorksWithExistingParams() {
-
-        let path = "path/path?someKey=value"
-        let localeKey = "locale"
-        let preferredLanguageIdentifier = WordPressComLanguageDatabase().deviceLanguage.slug
-        let expectedPath = "\(path)&\(localeKey)=\(preferredLanguageIdentifier)"
-
-        let localeAppendedPath = WordPressComRestApi.pathByAppendingPreferredLanguageLocale(path)
-        XCTAssert(localeAppendedPath == expectedPath, "Expected the locale to be appended to the path as (\(expectedPath)) but instead encountered (\(localeAppendedPath)).")
-    }
-
-    func testThatAppendingLocaleIgnoresIfAlreadyIncluded() {
-
-        let localeKey = "locale"
-        let preferredLanguageIdentifier = WordPressComLanguageDatabase().deviceLanguage.slug
-        let path = "path/path?\(localeKey)=\(preferredLanguageIdentifier)&someKey=value"
-
-        let localeAppendedPath = WordPressComRestApi.pathByAppendingPreferredLanguageLocale(path)
-        XCTAssert(localeAppendedPath == path, "Expected the locale to already be appended to the path as (\(path)) but instead encountered (\(localeAppendedPath)).")
     }
 
     func testStreamMethodCallWithInvalidFile() {
@@ -202,7 +197,7 @@ class WordPressComRestApiTests: XCTestCase {
         let expect = self.expectation(description: "One callback should be invoked")
         let api = WordPressComRestApi(oAuthToken: "fakeToken")
         let filePart = FilePart(parameterName: "file", url: URL(fileURLWithPath: "/a.txt") as URL, filename: "a.txt", mimeType: "image/jpeg")
-        api.multipartPOST(wordPressMediaNewEndpoint, parameters: nil, fileParts: [filePart], success: { (responseObject: AnyObject, httpResponse: HTTPURLResponse?) in
+        api.multipartPOST(wordPressMediaNewEndpointPath, parameters: nil, fileParts: [filePart], success: { (responseObject: AnyObject, httpResponse: HTTPURLResponse?) in
             expect.fulfill()
             XCTFail("This call should fail")
             }, failure: { (error, httpResponse) in
@@ -226,7 +221,7 @@ class WordPressComRestApiTests: XCTestCase {
         let expect = self.expectation(description: "One callback should be invoked")
         let api = WordPressComRestApi(oAuthToken: "fakeToken")
         let filePart = FilePart(parameterName: "media[]", url: mediaURL as URL, filename: "test-image.jpg", mimeType: "image/jpeg")
-        let progress1 = api.multipartPOST(wordPressMediaNewEndpoint, parameters: nil, fileParts: [filePart], success: { (responseObject: AnyObject, httpResponse: HTTPURLResponse?) in
+        let progress1 = api.multipartPOST(wordPressMediaNewEndpointPath, parameters: nil, fileParts: [filePart], success: { (responseObject: AnyObject, httpResponse: HTTPURLResponse?) in
                 XCTFail("This call should fail")
             }, failure: { (error, httpResponse) in
                 print(error)
@@ -235,7 +230,7 @@ class WordPressComRestApiTests: XCTestCase {
             }
         )
         progress1?.cancel()
-        api.multipartPOST(wordPressMediaNewEndpoint, parameters: nil, fileParts: [filePart], success: { (responseObject: AnyObject, httpResponse: HTTPURLResponse?) in
+        api.multipartPOST(wordPressMediaNewEndpointPath, parameters: nil, fileParts: [filePart], success: { (responseObject: AnyObject, httpResponse: HTTPURLResponse?) in
             expect.fulfill()
 
             }, failure: { (error, httpResponse) in
