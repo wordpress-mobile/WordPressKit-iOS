@@ -17,10 +17,6 @@ public struct SiteSegment {
     }
 }
 
-extension SiteSegment {
-    public static let blogSegmentIdentifier = Int64(1)
-}
-
 extension SiteSegment: Equatable {
     public static func ==(lhs: SiteSegment, rhs: SiteSegment) -> Bool {
         return lhs.identifier == rhs.identifier
