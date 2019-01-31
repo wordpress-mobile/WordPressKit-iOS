@@ -24,7 +24,10 @@ import Alamofire
     case preconditionFailure
 }
 
-open class WordPressComRestApi: NSObject {    
+open class WordPressComRestApi: NSObject {
+
+    // MARK: - Properties
+
     @objc public static let ErrorKeyErrorCode: String = "WordPressComRestApiErrorCodeKey"
     @objc public static let ErrorKeyErrorMessage: String = "WordPressComRestApiErrorMessageKey"
     @objc public static let SessionTaskKey: String = "WordPressComRestAPI.sessionTask"
@@ -41,19 +44,19 @@ open class WordPressComRestApi: NSObject {
 
     @objc public let sharedContainerIdentifier: String?
     
-    fileprivate let backgroundUploads: Bool
+    private let backgroundUploads: Bool
 
-    static let localeKey = "locale"
+    static let defaultLocaleKey = "locale"
 
-    fileprivate let oAuthToken: String?
-    fileprivate let userAgent: String?
+    private let oAuthToken: String?
+    private let userAgent: String?
 
     /**
      Configure whether or not the user's preferred language locale should be appended. Defaults to true.
      */
     @objc open var appendsPreferredLanguageLocale = true
 
-    fileprivate lazy var sessionManager: Alamofire.SessionManager = {
+    private lazy var sessionManager: Alamofire.SessionManager = {
         let sessionConfiguration = URLSessionConfiguration.default
         let sessionManager = self.makeSessionManager(configuration: sessionConfiguration)
         return sessionManager
@@ -67,7 +70,7 @@ open class WordPressComRestApi: NSObject {
         return result
     }
 
-    fileprivate lazy var uploadSessionManager: Alamofire.SessionManager = {
+    private lazy var uploadSessionManager: Alamofire.SessionManager = {
         if self.backgroundUploads {
             let sessionConfiguration = URLSessionConfiguration.background(withIdentifier: self.backgroundSessionIdentifier)
             sessionConfiguration.sharedContainerIdentifier = self.sharedContainerIdentifier
@@ -78,7 +81,7 @@ open class WordPressComRestApi: NSObject {
         return self.sessionManager
     }()
 
-    fileprivate func makeSessionManager(configuration sessionConfiguration: URLSessionConfiguration) -> Alamofire.SessionManager {
+    private func makeSessionManager(configuration sessionConfiguration: URLSessionConfiguration) -> Alamofire.SessionManager {
         var additionalHeaders: [String : AnyObject] = [:]
         if let oAuthToken = self.oAuthToken {
             additionalHeaders["Authorization"] = "Bearer \(oAuthToken)" as AnyObject?
@@ -92,6 +95,8 @@ open class WordPressComRestApi: NSObject {
 
         return sessionManager
     }
+
+    // MARK: - WordPressComRestApi
     
     @objc convenience public init(oAuthToken: String? = nil, userAgent: String? = nil) {
         self.init(oAuthToken: oAuthToken, userAgent: userAgent, backgroundUploads: false, backgroundSessionIdentifier: WordPressComRestApi.defaultBackgroundSessionIdentifier)
@@ -141,11 +146,12 @@ open class WordPressComRestApi: NSObject {
     private func request(method: HTTPMethod,
                          urlString: String,
                          parameters: [String: AnyObject]?,
+                         localeKey: String,
                          encoding: ParameterEncoding,
                          success: @escaping SuccessResponseBlock,
                          failure: @escaping FailureReponseBlock) -> Progress? {
 
-        guard let URLString = buildRequestURLFor(path: urlString, parameters: parameters) else {
+        guard let URLString = buildRequestURLFor(path: urlString, parameters: parameters, localeKey: localeKey) else {
             let error = NSError(domain: String(describing: WordPressComRestApiError.self),
                                 code: WordPressComRestApiError.requestSerializationFailed.rawValue,
                                 userInfo: [NSLocalizedDescriptionKey: NSLocalizedString("Failed to serialize request to the REST API.", comment: "Error message to show when wrong URL format is used to access the REST API")])
@@ -180,7 +186,7 @@ open class WordPressComRestApi: NSObject {
     }
 
     /**
-     Executes a GET request to the specified endpoint defined on URLString
+     Executes a GET request to the specified endpoint defined on URLString. If `appendsPreferredLanguageLocale` is enabled, the default locale key will be used to convey the prevailing locale.
 
      - parameter URLString:  the url string to be added to the baseURL
      - parameter parameters: the parameters to be encoded on the request
@@ -196,11 +202,33 @@ open class WordPressComRestApi: NSObject {
                      success: @escaping SuccessResponseBlock,
                      failure: @escaping FailureReponseBlock) -> Progress? {
 
-        return request(method: .get, urlString: URLString, parameters: parameters, encoding: URLEncoding.default, success: success, failure: failure)
+        return GET(URLString, parameters: parameters, localeKey: WordPressComRestApi.defaultLocaleKey, success: success, failure: failure)
     }
 
     /**
-     Executes a POST request to the specified endpoint defined on URLString
+     Executes a GET request to the specified endpoint defined on URLString.
+
+     - parameter URLString:  the url string to be added to the baseURL
+     - parameter parameters: the parameters to be encoded on the request
+     - parameter localeKey:  the key with which to encode the user's locale
+     - parameter success:    callback to be called on successful request
+     - parameter failure:    callback to be called on failed request
+
+     - returns:  a NSProgress object that can be used to track the progress of the request and to cancel the request. If the method
+     returns nil it's because something happened on the request serialization and the network request was not started, but the failure callback
+     will be invoked with the error specificing the serialization issues.
+     */
+    @objc @discardableResult open func GET(_ URLString: String,
+                                           parameters: [String: AnyObject]?,
+                                           localeKey: String,
+                                           success: @escaping SuccessResponseBlock,
+                                           failure: @escaping FailureReponseBlock) -> Progress? {
+
+        return request(method: .get, urlString: URLString, parameters: parameters, localeKey: localeKey, encoding: URLEncoding.default, success: success, failure: failure)
+    }
+
+    /**
+     Executes a POST request to the specified endpoint defined on URLString. If `appendsPreferredLanguageLocale` is enabled, the default locale key will be used to convey the prevailing locale.
 
      - parameter URLString:  the url string to be added to the baseURL
      - parameter parameters: the parameters to be encoded on the request
@@ -216,12 +244,33 @@ open class WordPressComRestApi: NSObject {
                      success: @escaping SuccessResponseBlock,
                      failure: @escaping FailureReponseBlock) -> Progress? {
 
-        return request(method: .post, urlString: URLString, parameters: parameters, encoding: JSONEncoding.default, success: success, failure: failure)
+        return POST(URLString, parameters: parameters, localeKey: WordPressComRestApi.defaultLocaleKey, success: success, failure: failure)
     }
 
     /**
-     Executes a multipart POST using the current serializer, the parameters defined and the fileParts defined in the request
-     This request will be streamed from disk, so it's ideally to be used for large media post uploads.
+     Executes a POST request to the specified endpoint defined on URLString.
+
+     - parameter URLString:  the url string to be added to the baseURL
+     - parameter parameters: the parameters to be encoded on the request
+     - parameter localeKey:  the key with which to encode the user's locale
+     - parameter success:    callback to be called on successful request
+     - parameter failure:    callback to be called on failed request
+
+     - returns:  a NSProgress object that can be used to track the progress of the upload and to cancel the upload. If the method
+     returns nil it's because something happened on the request serialization and the network request was not started, but the failure callback
+     will be invoked with the error specificing the serialization issues.
+     */
+    @objc @discardableResult open func POST(_ URLString: String,
+                                            parameters: [String: AnyObject]?,
+                                            localeKey: String,
+                                            success: @escaping SuccessResponseBlock,
+                                            failure: @escaping FailureReponseBlock) -> Progress? {
+
+        return request(method: .post, urlString: URLString, parameters: parameters, localeKey: localeKey, encoding: JSONEncoding.default, success: success, failure: failure)
+    }
+
+    /**
+     Executes a multipart POST using the current serializer, the parameters defined and the fileParts defined in the request. This request will be streamed from disk, so it's ideally to be used for large media post uploads. If `appendsPreferredLanguageLocale` is enabled, the default locale key will be used to convey the prevailing locale.
 
      - parameter URLString:  the endpoint to connect
      - parameter parameters: the parameters to use on the request
@@ -235,13 +284,40 @@ open class WordPressComRestApi: NSObject {
      will be invoked with the error specificing the serialization issues.
      */
     @objc @discardableResult open func multipartPOST(_ URLString: String,
+                                                     parameters: [String: AnyObject]?,
+                                                     fileParts: [FilePart],
+                                                     requestEnqueued: RequestEnqueuedBlock? = nil,
+                                                     success: @escaping SuccessResponseBlock,
+                                                     failure: @escaping FailureReponseBlock) -> Progress? {
+
+        return multipartPOST(URLString, parameters: parameters, localeKey: WordPressComRestApi.defaultLocaleKey, fileParts: fileParts, requestEnqueued: requestEnqueued, success: success, failure: failure)
+    }
+
+    /**
+     Executes a multipart POST using the current serializer, the parameters defined,
+     locale key specified, and the fileParts defined in the request. This request will be streamed from disk, so it's ideally to be used for large media post uploads.
+
+     - parameter URLString:  the endpoint to connect
+     - parameter parameters: the parameters to use on the request
+     - parameter localeKey:  the key with which to encode the user's locale
+     - parameter fileParts:  the file parameters that are added to the multipart request
+     - parameter requestEnqueued: callback to be called when the fileparts are serialized and request is added to the background session. Defaults to nil
+     - parameter success:    callback to be called on successful request
+     - parameter failure:    callback to be called on failed request
+
+     - returns:  a NSProgress object that can be used to track the progress of the upload and to cancel the upload. If the method
+     returns nil it's because something happened on the request serialization and the network request was not started, but the failure callback
+     will be invoked with the error specificing the serialization issues.
+     */
+    @objc @discardableResult open func multipartPOST(_ URLString: String,
                               parameters: [String: AnyObject]?,
+                              localeKey: String,
                               fileParts: [FilePart],
                               requestEnqueued: RequestEnqueuedBlock? = nil,
                               success: @escaping SuccessResponseBlock,
                               failure: @escaping FailureReponseBlock) -> Progress? {
 
-        guard let URLString = buildRequestURLFor(path: URLString, parameters: parameters) else {
+        guard let URLString = buildRequestURLFor(path: URLString, parameters: parameters, localeKey: localeKey) else {
             let error = NSError(domain: String(describing: WordPressComRestApiError.self),
                                 code: WordPressComRestApiError.requestSerializationFailed.rawValue,
                                 userInfo: [NSLocalizedDescriptionKey: NSLocalizedString("Failed to serialize request to the REST API.", comment: "Error message to show when wrong URL format is used to access the REST API")])
@@ -309,10 +385,10 @@ open class WordPressComRestApi: NSObject {
     /// - Parameters:
     ///   - path: the path for the request, which might include `locale`
     ///   - parameters: the request parameters, which could conceivably include `locale`
-    ///   - localeKey: the locale key to search for (`locale` in v1 endpoints, `_locale` for v2)
+    ///   - localeKey: the locale key to search for (e.g., `locale` in v1 endpoints, `_locale` for v2)
     /// - Returns: a request URL if successful, `nil` otherwise.
     ///
-    func buildRequestURLFor(path: String, parameters: [String: AnyObject]? = [:], localeKey: String = WordPressComRestApi.localeKey) -> String? {
+    func buildRequestURLFor(path: String, parameters: [String: AnyObject]? = [:], localeKey: String) -> String? {
 
         let baseURL = URL(string: WordPressComRestApi.apiBaseURLString)
 
@@ -355,6 +431,8 @@ open class WordPressComRestApi: NSObject {
     }
 }
 
+// MARK: - FilePart
+
 /// FilePart represents the infomartion needed to encode a file on a multipart form request
 public final class FilePart: NSObject {
     @objc let parameterName: String
@@ -369,6 +447,8 @@ public final class FilePart: NSObject {
         self.mimeType = mimeType
     }
 }
+
+// MARK: - Error processing
 
 extension WordPressComRestApi {
 
@@ -448,6 +528,8 @@ extension WordPressComRestApi {
     }
 }
 
+// MARK: - Anonymous API support
+
 extension WordPressComRestApi {
 
     /// Returns an Api object without an oAuthtoken defined and with the userAgent set for the WordPress App user agent
@@ -455,6 +537,8 @@ extension WordPressComRestApi {
         return WordPressComRestApi(oAuthToken: nil, userAgent: userAgent)
     }
 }
+
+// MARK: - Progress
 
 @objc extension Progress {
 
