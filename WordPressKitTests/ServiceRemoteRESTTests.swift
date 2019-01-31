@@ -3,7 +3,15 @@ import XCTest
 
 @testable import WordPressKit
 
-extension ServiceRemoteWordPressComRESTTests {
+class ServiceRemoteWordPressComRESTTests: XCTestCase {
 
-    func testStub() {}
+    func testRegularInitialization() {
+        let api = WordPressComRestApi(oAuthToken: nil, userAgent: nil)
+
+        XCTAssertNoThrow(ServiceRemoteWordPressComREST(wordPressComRestApi: api))
+        let service = ServiceRemoteWordPressComREST(wordPressComRestApi: api)
+
+        XCTAssertTrue(service.isKind(of: ServiceRemoteWordPressComREST.self))
+        XCTAssertEqual(service.wordPressComRestApi, api)
+    }
 }
