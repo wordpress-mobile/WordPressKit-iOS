@@ -1,4 +1,4 @@
-#import <Foundation/Foundation.h>
+@import Foundation;
 
 @class WordPressComRestApi;
 
@@ -16,7 +16,6 @@ NS_ASSUME_NONNULL_BEGIN
  *  @brief  Parent class for all REST service classes.
  */
 @interface ServiceRemoteWordPressComREST : NSObject
-
 
 /**
  *  @brief      The API object to use for communications.
@@ -44,6 +43,16 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (NSString *)pathForEndpoint:(NSString *)endpoint
                   withVersion:(ServiceRemoteWordPressComRESTApiVersion)apiVersion;
+
+/**
+ *  @brief      Returns the locale key corresponding to the specified API version, as this varies.
+ *
+ *  @param      endpoint        The key which to specify locale.
+ *  @param      apiVersion      The version of the API to use.
+ *
+ *  @returns    The request URL.
+ */
+- (NSString *)localeKeyForVersion:(ServiceRemoteWordPressComRESTApiVersion)apiVersion;
 
 /**
  *  @brief      An anonoymous API object to use for communications where authentication is not needed.

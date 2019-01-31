@@ -14,13 +14,16 @@ static NSString* const ServiceRemoteWordPressComRESTApiVersionString_1_2 = @"res
 static NSString* const ServiceRemoteWordPressComRESTApiVersionString_1_3 = @"rest/v1.3";
 static NSString* const ServiceRemoteWordPressComRESTApiVersionString_2_0 = @"wpcom/v2";
 
+static NSString* const ServiceRemoteWordPressComRESTLocaleKeyDefault    = @"locale";
+static NSString* const ServiceRemoteWordPressComRESTLocaleKey_v2_0      = @"_locale";
+
 @interface ServiceRemoteWordPressComREST ()
 @end
 
 @implementation ServiceRemoteWordPressComREST
 
-- (instancetype)initWithWordPressComRestApi:(WordPressComRestApi *)wordPressComRestApi {
-
+- (instancetype)initWithWordPressComRestApi:(WordPressComRestApi *)wordPressComRestApi
+{
     NSParameterAssert([wordPressComRestApi isKindOfClass:[WordPressComRestApi class]]);
 
     self = [super init];
@@ -79,11 +82,26 @@ static NSString* const ServiceRemoteWordPressComRESTApiVersionString_2_0 = @"wpc
     return [NSString stringWithFormat:@"%@/%@", apiVersionString, resourceUrl];
 }
 
-+ (WordPressComRestApi *)anonymousWordPressComRestApiWithUserAgent:(NSString *)userAgent {
+- (NSString *)localeKeyForVersion:(ServiceRemoteWordPressComRESTApiVersion)apiVersion
+{
+    NSString *result = nil;
 
-    return [[WordPressComRestApi alloc] initWithOAuthToken:nil
-                                                 userAgent:userAgent
-            ];
+    switch (apiVersion) {
+        case ServiceRemoteWordPressComRESTApiVersion_2_0:
+            result = ServiceRemoteWordPressComRESTLocaleKey_v2_0;
+            break;
+
+        default:
+            result = ServiceRemoteWordPressComRESTLocaleKeyDefault;
+            break;
+    }
+
+    return result;
+}
+
++ (WordPressComRestApi *)anonymousWordPressComRestApiWithUserAgent:(NSString *)userAgent
+{
+    return [[WordPressComRestApi alloc] initWithOAuthToken:nil userAgent:userAgent];
 }
 
 @end
