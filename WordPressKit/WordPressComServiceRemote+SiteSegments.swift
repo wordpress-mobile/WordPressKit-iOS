@@ -92,10 +92,12 @@ public extension WordPressComServiceRemote {
     func retrieveSegments(completion: @escaping SiteSegmentsServiceCompletion) {
         let endpoint = "segments"
         let remotePath = path(forEndpoint: endpoint, withVersion: ._2_0)
+        let localeKey = self.localeKey(forVersion: ._2_0)
 
         wordPressComRestApi.GET(
             remotePath,
             parameters: nil,
+            localeKey: localeKey,
             success: { [weak self] responseObject, httpResponse in
                 DDLogInfo("\(responseObject) | \(String(describing: httpResponse))")
 

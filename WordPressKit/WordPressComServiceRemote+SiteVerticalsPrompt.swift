@@ -41,6 +41,7 @@ public extension WordPressComServiceRemote {
         
         let endpoint = "verticals/prompt"
         let path = self.path(forEndpoint: endpoint, withVersion: ._2_0)
+        let localeKey = self.localeKey(forVersion: ._2_0)
         
         let requestParameters: [String : AnyObject] = [
             "segment_id" : request as AnyObject
@@ -49,6 +50,7 @@ public extension WordPressComServiceRemote {
         wordPressComRestApi.GET(
             path,
             parameters: requestParameters,
+            localeKey: localeKey,
             success: { [weak self] responseObject, httpResponse in
                 DDLogInfo("\(responseObject) | \(String(describing: httpResponse))")
                 
