@@ -47,7 +47,6 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  @brief      Returns the locale key corresponding to the specified API version, as this varies.
  *
- *  @param      endpoint        The key which to specify locale.
  *  @param      apiVersion      The version of the API to use.
  *
  *  @returns    The request URL.
