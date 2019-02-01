@@ -380,7 +380,7 @@ extension WordPressComRestApi {
             if let afError = originalError as? AFError, case AFError.responseSerializationFailed(_) = afError {
                 return WordPressComRestApiError.responseSerializationFailed as NSError
             }
-            return WordPressComRestApiError.unknown as NSError
+            return originalNSError
         }
 
         var userInfo: [String: Any] = originalNSError.userInfo

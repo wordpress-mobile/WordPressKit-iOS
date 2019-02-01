@@ -240,4 +240,21 @@ class WordPressComRestApiTests: XCTestCase {
         )
         self.waitForExpectations(timeout: 5, handler: nil)
     }
+
+    func testCancelationOfRequest() {
+        stub(condition: isRestAPIMediaNewRequest()) { request in
+            return OHHTTPStubsResponse.init(error: NSError(domain: NSURLErrorDomain, code: NSURLErrorCancelled, userInfo: nil))
+        }
+        let expect = self.expectation(description: "One callback should be invoked")
+        let api = WordPressComRestApi(oAuthToken: "fakeToken")
+        api.POST(wordPressMediaNewEndpointPath, parameters: nil, success: { (responseObject: AnyObject, httpResponse: HTTPURLResponse?) in
+            expect.fulfill()
+            XCTFail("This call should fail")
+        }, failure: { (error, httpResponse) in
+            expect.fulfill()
+            XCTAssert(error.domain == NSURLErrorDomain, "The error domain should be NSURLErrorDomain")
+            XCTAssert(error.code == NSURLErrorCancelled, "The error code should be NSURLErrorCancelled")
+        })
+        self.waitForExpectations(timeout: 2, handler: nil)
+    }
 }
