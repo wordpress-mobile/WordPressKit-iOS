@@ -32,9 +32,13 @@ open class WordPressComRestApi: NSObject {
 
     // MARK: Properties
 
-    @objc public static let ErrorKeyErrorCode: String = "WordPressComRestApiErrorCodeKey"
-    @objc public static let ErrorKeyErrorMessage: String = "WordPressComRestApiErrorMessageKey"
-    @objc public static let SessionTaskKey: String = "WordPressComRestAPI.sessionTask"
+    @objc public static let ErrorKeyErrorCode       = "WordPressComRestApiErrorCodeKey"
+    @objc public static let ErrorKeyErrorMessage    = "WordPressComRestApiErrorMessageKey"
+
+    @objc public static let LocaleKeyDefault        = "locale"
+    @objc public static let LocaleKeyV2             = "_locale"
+
+    @objc public static let SessionTaskKey          = "WordPressComRestAPI.sessionTask"
 
     public typealias RequestEnqueuedBlock = (_ taskID : NSNumber) -> Void
     public typealias SuccessResponseBlock = (_ responseObject: AnyObject, _ httpResponse: HTTPURLResponse?) -> ()
@@ -44,16 +48,17 @@ open class WordPressComRestApi: NSObject {
     
     @objc public static let defaultBackgroundSessionIdentifier = "org.wordpress.wpcomrestapi"
     
+    private let oAuthToken: String?
+
+    private let userAgent: String?
+
     @objc public let backgroundSessionIdentifier: String
 
     @objc public let sharedContainerIdentifier: String?
-    
+
     private let backgroundUploads: Bool
 
-    static let localeKey = "locale"
-
-    private let oAuthToken: String?
-    private let userAgent: String?
+    private let localeKey: String
 
     /**
      Configure whether or not the user's preferred language locale should be appended. Defaults to true.
@@ -123,12 +128,15 @@ open class WordPressComRestApi: NSObject {
     @objc public init(oAuthToken: String? = nil, userAgent: String? = nil,
                 backgroundUploads: Bool = false,
                 backgroundSessionIdentifier: String = WordPressComRestApi.defaultBackgroundSessionIdentifier,
-                sharedContainerIdentifier: String? = nil) {
+                sharedContainerIdentifier: String? = nil,
+                localeKey: String = WordPressComRestApi.LocaleKeyDefault) {
         self.oAuthToken = oAuthToken
         self.userAgent = userAgent
         self.backgroundUploads = backgroundUploads
         self.backgroundSessionIdentifier = backgroundSessionIdentifier
         self.sharedContainerIdentifier = sharedContainerIdentifier
+        self.localeKey = localeKey
+
         super.init()
     }
 
@@ -318,10 +326,9 @@ open class WordPressComRestApi: NSObject {
     /// - Parameters:
     ///   - path: the path for the request, which might include `locale`
     ///   - parameters: the request parameters, which could conceivably include `locale`
-    ///   - localeKey: the locale key to search for (`locale` in v1 endpoints, `_locale` for v2)
     /// - Returns: a request URL if successful, `nil` otherwise.
     ///
-    func buildRequestURLFor(path: String, parameters: [String: AnyObject]? = [:], localeKey: String = WordPressComRestApi.localeKey) -> String? {
+    func buildRequestURLFor(path: String, parameters: [String: AnyObject]? = [:]) -> String? {
 
         let baseURL = URL(string: WordPressComRestApi.apiBaseURLString)
 
