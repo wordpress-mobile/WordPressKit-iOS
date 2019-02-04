@@ -2,6 +2,8 @@ import Foundation
 import WordPressShared
 import Alamofire
 
+// MARK: - WordPressComRestApiError
+
 /**
  Error constants for the WordPress.com REST API
 
@@ -24,7 +26,12 @@ import Alamofire
     case preconditionFailure
 }
 
-open class WordPressComRestApi: NSObject {    
+// MARK: - WordPressComRestApi
+
+open class WordPressComRestApi: NSObject {
+
+    // MARK: Properties
+
     @objc public static let ErrorKeyErrorCode: String = "WordPressComRestApiErrorCodeKey"
     @objc public static let ErrorKeyErrorMessage: String = "WordPressComRestApiErrorMessageKey"
     @objc public static let SessionTaskKey: String = "WordPressComRestAPI.sessionTask"
@@ -41,19 +48,19 @@ open class WordPressComRestApi: NSObject {
 
     @objc public let sharedContainerIdentifier: String?
     
-    fileprivate let backgroundUploads: Bool
+    private let backgroundUploads: Bool
 
     static let localeKey = "locale"
 
-    fileprivate let oAuthToken: String?
-    fileprivate let userAgent: String?
+    private let oAuthToken: String?
+    private let userAgent: String?
 
     /**
      Configure whether or not the user's preferred language locale should be appended. Defaults to true.
      */
     @objc open var appendsPreferredLanguageLocale = true
 
-    fileprivate lazy var sessionManager: Alamofire.SessionManager = {
+    private lazy var sessionManager: Alamofire.SessionManager = {
         let sessionConfiguration = URLSessionConfiguration.default
         let sessionManager = self.makeSessionManager(configuration: sessionConfiguration)
         return sessionManager
@@ -67,7 +74,7 @@ open class WordPressComRestApi: NSObject {
         return result
     }
 
-    fileprivate lazy var uploadSessionManager: Alamofire.SessionManager = {
+    private lazy var uploadSessionManager: Alamofire.SessionManager = {
         if self.backgroundUploads {
             let sessionConfiguration = URLSessionConfiguration.background(withIdentifier: self.backgroundSessionIdentifier)
             sessionConfiguration.sharedContainerIdentifier = self.sharedContainerIdentifier
@@ -78,7 +85,7 @@ open class WordPressComRestApi: NSObject {
         return self.sessionManager
     }()
 
-    fileprivate func makeSessionManager(configuration sessionConfiguration: URLSessionConfiguration) -> Alamofire.SessionManager {
+    private func makeSessionManager(configuration sessionConfiguration: URLSessionConfiguration) -> Alamofire.SessionManager {
         var additionalHeaders: [String : AnyObject] = [:]
         if let oAuthToken = self.oAuthToken {
             additionalHeaders["Authorization"] = "Bearer \(oAuthToken)" as AnyObject?
@@ -92,6 +99,8 @@ open class WordPressComRestApi: NSObject {
 
         return sessionManager
     }
+
+    // MARK: WordPressComRestApi
     
     @objc convenience public init(oAuthToken: String? = nil, userAgent: String? = nil) {
         self.init(oAuthToken: oAuthToken, userAgent: userAgent, backgroundUploads: false, backgroundSessionIdentifier: WordPressComRestApi.defaultBackgroundSessionIdentifier)
@@ -136,7 +145,7 @@ open class WordPressComRestApi: NSObject {
         uploadSessionManager.session.invalidateAndCancel()
     }
 
-    // MARK: - Network requests
+    // MARK: Network requests
 
     private func request(method: HTTPMethod,
                          urlString: String,
@@ -355,6 +364,8 @@ open class WordPressComRestApi: NSObject {
     }
 }
 
+// MARK: - FilePart
+
 /// FilePart represents the infomartion needed to encode a file on a multipart form request
 public final class FilePart: NSObject {
     @objc let parameterName: String
@@ -369,6 +380,8 @@ public final class FilePart: NSObject {
         self.mimeType = mimeType
     }
 }
+
+// MARK: - Error processing
 
 extension WordPressComRestApi {
 
@@ -447,6 +460,7 @@ extension WordPressComRestApi {
         return errorWithLocalizedMessage
     }
 }
+// MARK: - Anonymous API support
 
 extension WordPressComRestApi {
 
@@ -455,6 +469,8 @@ extension WordPressComRestApi {
         return WordPressComRestApi(oAuthToken: nil, userAgent: userAgent)
     }
 }
+
+// MARK: - Progress
 
 @objc extension Progress {
 
