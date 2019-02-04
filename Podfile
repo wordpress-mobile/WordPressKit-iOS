@@ -4,7 +4,7 @@ inhibit_all_warnings!
 use_frameworks!
 
 platform :ios, '10.0'
-
+plugin 'cocoapods-repo-update'
 
 ## WordPress Kit
 ## =============
