@@ -471,9 +471,16 @@ extension WordPressComRestApi {
 
 extension WordPressComRestApi {
 
-    /// Returns an Api object without an oAuthtoken defined and with the userAgent set for the WordPress App user agent
+    /// Returns an API object without an OAuth token defined & with the userAgent set for the WordPress App user agent
+    ///
     @objc class public func anonymousApi(userAgent: String) -> WordPressComRestApi {
         return WordPressComRestApi(oAuthToken: nil, userAgent: userAgent)
+    }
+
+    /// Returns an API object without an OAuth token defined & with both the userAgent & localeKey set for the WordPress App user agent
+    ///
+    @objc class public func anonymousApi(userAgent: String, localeKey: String) -> WordPressComRestApi {
+        return WordPressComRestApi(oAuthToken: nil, userAgent: userAgent, localeKey: localeKey)
     }
 }
 
