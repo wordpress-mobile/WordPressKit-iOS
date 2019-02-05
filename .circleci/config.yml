@@ -1,0 +1,19 @@
+version: 2.1
+
+orbs:
+  # This uses the iOS Orb located at https://github.com/wordpress-mobile/circleci-orbs
+  ios: wordpress-mobile/ios@0.0.15
+
+workflows:
+  test_and_validate:
+    jobs:
+      - ios/test:
+          name: Test
+          workspace: WordPressKit.xcworkspace
+          scheme: WordPressKitTests
+          device: iPhone X
+          ios-version: "12.1"
+      - ios/validate-podspec:
+          name: Validate Podspec
+          podspec-path: WordPressKit.podspec
+          update-specs-repo: true
