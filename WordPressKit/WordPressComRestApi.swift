@@ -35,8 +35,8 @@ open class WordPressComRestApi: NSObject {
     @objc public static let ErrorKeyErrorCode       = "WordPressComRestApiErrorCodeKey"
     @objc public static let ErrorKeyErrorMessage    = "WordPressComRestApiErrorMessageKey"
 
-    @objc public static let LocaleKeyDefault        = "locale"
-    @objc public static let LocaleKeyV2             = "_locale"
+    @objc public static let LocaleKeyDefault        = "locale"  // locale is specified with this for v1 endpoints
+    @objc public static let LocaleKeyV2             = "_locale" // locale is prefixed with an underscore for v2
 
     @objc public static let SessionTaskKey          = "WordPressComRestAPI.sessionTask"
 
@@ -119,6 +119,7 @@ open class WordPressComRestApi: NSObject {
     ///   - backgroundUploads: If this value is true the API object will use a background session to execute uploads requests when using the `multipartPOST` function. The default value is false.
     ///   - backgroundSessionIdentifier: The session identifier to use for the background session. This must be unique in the system.
     ///   - sharedContainerIdentifier: An optional string used when setting up background sessions for use in an app extension. Default is nil.
+    ///   - localeKey: The key with which to specify locale in the parameters of a request.
     ///
     /// - Discussion: When backgroundUploads are activated any request done by the multipartPOST method will use background session. This background session is shared for all multipart
     ///   requests and the identifier used must be unique in the system, Apple recomends to use invert DNS base on your bundle ID. Keep in mind these requests will continue even
