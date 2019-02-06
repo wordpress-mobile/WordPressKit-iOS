@@ -2,6 +2,8 @@ import Foundation
 import WordPressShared
 import Alamofire
 
+// MARK: - WordPressComRestApiError
+
 /**
  Error constants for the WordPress.com REST API
 
@@ -24,10 +26,19 @@ import Alamofire
     case preconditionFailure
 }
 
-open class WordPressComRestApi: NSObject {    
-    @objc public static let ErrorKeyErrorCode: String = "WordPressComRestApiErrorCodeKey"
-    @objc public static let ErrorKeyErrorMessage: String = "WordPressComRestApiErrorMessageKey"
-    @objc public static let SessionTaskKey: String = "WordPressComRestAPI.sessionTask"
+// MARK: - WordPressComRestApi
+
+open class WordPressComRestApi: NSObject {
+
+    // MARK: Properties
+
+    @objc public static let ErrorKeyErrorCode       = "WordPressComRestApiErrorCodeKey"
+    @objc public static let ErrorKeyErrorMessage    = "WordPressComRestApiErrorMessageKey"
+
+    @objc public static let LocaleKeyDefault        = "locale"  // locale is specified with this for v1 endpoints
+    @objc public static let LocaleKeyV2             = "_locale" // locale is prefixed with an underscore for v2
+
+    @objc public static let SessionTaskKey          = "WordPressComRestAPI.sessionTask"
 
     public typealias RequestEnqueuedBlock = (_ taskID : NSNumber) -> Void
     public typealias SuccessResponseBlock = (_ responseObject: AnyObject, _ httpResponse: HTTPURLResponse?) -> ()
@@ -37,23 +48,24 @@ open class WordPressComRestApi: NSObject {
     
     @objc public static let defaultBackgroundSessionIdentifier = "org.wordpress.wpcomrestapi"
     
+    private let oAuthToken: String?
+
+    private let userAgent: String?
+
     @objc public let backgroundSessionIdentifier: String
 
     @objc public let sharedContainerIdentifier: String?
-    
-    fileprivate let backgroundUploads: Bool
 
-    static let localeKey = "locale"
+    private let backgroundUploads: Bool
 
-    fileprivate let oAuthToken: String?
-    fileprivate let userAgent: String?
+    private let localeKey: String
 
     /**
      Configure whether or not the user's preferred language locale should be appended. Defaults to true.
      */
     @objc open var appendsPreferredLanguageLocale = true
 
-    fileprivate lazy var sessionManager: Alamofire.SessionManager = {
+    private lazy var sessionManager: Alamofire.SessionManager = {
         let sessionConfiguration = URLSessionConfiguration.default
         let sessionManager = self.makeSessionManager(configuration: sessionConfiguration)
         return sessionManager
@@ -67,7 +79,7 @@ open class WordPressComRestApi: NSObject {
         return result
     }
 
-    fileprivate lazy var uploadSessionManager: Alamofire.SessionManager = {
+    private lazy var uploadSessionManager: Alamofire.SessionManager = {
         if self.backgroundUploads {
             let sessionConfiguration = URLSessionConfiguration.background(withIdentifier: self.backgroundSessionIdentifier)
             sessionConfiguration.sharedContainerIdentifier = self.sharedContainerIdentifier
@@ -78,7 +90,7 @@ open class WordPressComRestApi: NSObject {
         return self.sessionManager
     }()
 
-    fileprivate func makeSessionManager(configuration sessionConfiguration: URLSessionConfiguration) -> Alamofire.SessionManager {
+    private func makeSessionManager(configuration sessionConfiguration: URLSessionConfiguration) -> Alamofire.SessionManager {
         var additionalHeaders: [String : AnyObject] = [:]
         if let oAuthToken = self.oAuthToken {
             additionalHeaders["Authorization"] = "Bearer \(oAuthToken)" as AnyObject?
@@ -92,6 +104,8 @@ open class WordPressComRestApi: NSObject {
 
         return sessionManager
     }
+
+    // MARK: WordPressComRestApi
     
     @objc convenience public init(oAuthToken: String? = nil, userAgent: String? = nil) {
         self.init(oAuthToken: oAuthToken, userAgent: userAgent, backgroundUploads: false, backgroundSessionIdentifier: WordPressComRestApi.defaultBackgroundSessionIdentifier)
@@ -105,6 +119,7 @@ open class WordPressComRestApi: NSObject {
     ///   - backgroundUploads: If this value is true the API object will use a background session to execute uploads requests when using the `multipartPOST` function. The default value is false.
     ///   - backgroundSessionIdentifier: The session identifier to use for the background session. This must be unique in the system.
     ///   - sharedContainerIdentifier: An optional string used when setting up background sessions for use in an app extension. Default is nil.
+    ///   - localeKey: The key with which to specify locale in the parameters of a request.
     ///
     /// - Discussion: When backgroundUploads are activated any request done by the multipartPOST method will use background session. This background session is shared for all multipart
     ///   requests and the identifier used must be unique in the system, Apple recomends to use invert DNS base on your bundle ID. Keep in mind these requests will continue even
@@ -114,12 +129,15 @@ open class WordPressComRestApi: NSObject {
     @objc public init(oAuthToken: String? = nil, userAgent: String? = nil,
                 backgroundUploads: Bool = false,
                 backgroundSessionIdentifier: String = WordPressComRestApi.defaultBackgroundSessionIdentifier,
-                sharedContainerIdentifier: String? = nil) {
+                sharedContainerIdentifier: String? = nil,
+                localeKey: String = WordPressComRestApi.LocaleKeyDefault) {
         self.oAuthToken = oAuthToken
         self.userAgent = userAgent
         self.backgroundUploads = backgroundUploads
         self.backgroundSessionIdentifier = backgroundSessionIdentifier
         self.sharedContainerIdentifier = sharedContainerIdentifier
+        self.localeKey = localeKey
+
         super.init()
     }
 
@@ -136,7 +154,7 @@ open class WordPressComRestApi: NSObject {
         uploadSessionManager.session.invalidateAndCancel()
     }
 
-    // MARK: - Network requests
+    // MARK: Network requests
 
     private func request(method: HTTPMethod,
                          urlString: String,
@@ -309,10 +327,9 @@ open class WordPressComRestApi: NSObject {
     /// - Parameters:
     ///   - path: the path for the request, which might include `locale`
     ///   - parameters: the request parameters, which could conceivably include `locale`
-    ///   - localeKey: the locale key to search for (`locale` in v1 endpoints, `_locale` for v2)
     /// - Returns: a request URL if successful, `nil` otherwise.
     ///
-    func buildRequestURLFor(path: String, parameters: [String: AnyObject]? = [:], localeKey: String = WordPressComRestApi.localeKey) -> String? {
+    func buildRequestURLFor(path: String, parameters: [String: AnyObject]? = [:]) -> String? {
 
         let baseURL = URL(string: WordPressComRestApi.apiBaseURLString)
 
@@ -355,6 +372,8 @@ open class WordPressComRestApi: NSObject {
     }
 }
 
+// MARK: - FilePart
+
 /// FilePart represents the infomartion needed to encode a file on a multipart form request
 public final class FilePart: NSObject {
     @objc let parameterName: String
@@ -369,6 +388,8 @@ public final class FilePart: NSObject {
         self.mimeType = mimeType
     }
 }
+
+// MARK: - Error processing
 
 extension WordPressComRestApi {
 
@@ -447,14 +468,24 @@ extension WordPressComRestApi {
         return errorWithLocalizedMessage
     }
 }
+// MARK: - Anonymous API support
 
 extension WordPressComRestApi {
 
-    /// Returns an Api object without an oAuthtoken defined and with the userAgent set for the WordPress App user agent
+    /// Returns an API object without an OAuth token defined & with the userAgent set for the WordPress App user agent
+    ///
     @objc class public func anonymousApi(userAgent: String) -> WordPressComRestApi {
         return WordPressComRestApi(oAuthToken: nil, userAgent: userAgent)
     }
+
+    /// Returns an API object without an OAuth token defined & with both the userAgent & localeKey set for the WordPress App user agent
+    ///
+    @objc class public func anonymousApi(userAgent: String, localeKey: String) -> WordPressComRestApi {
+        return WordPressComRestApi(oAuthToken: nil, userAgent: userAgent, localeKey: localeKey)
+    }
 }
+
+// MARK: - Progress
 
 @objc extension Progress {
 

@@ -28,6 +28,7 @@ class ActivityServiceRemoteTests: RemoteTestCase, RESTTestable {
     var restoreEndpoint: String { return "activity-log/\(siteID)/rewind/to/\(rewindID)" }
     var rewindStatusEndpoint: String { return "sites/\(siteID)/rewind" }
 
+    var remoteV1: ActivityServiceRemote_ApiVersion1_0!
     var remote: ActivityServiceRemote!
 
     /// MARK: - Overridden Methods
@@ -35,7 +36,10 @@ class ActivityServiceRemoteTests: RemoteTestCase, RESTTestable {
     override func setUp() {
         super.setUp()
 
-        remote = ActivityServiceRemote(wordPressComRestApi: getRestApi())
+        remoteV1 = ActivityServiceRemote_ApiVersion1_0(wordPressComRestApi: getRestApi())
+
+        let v2RestApi = WordPressComRestApi(localeKey: WordPressComRestApi.LocaleKeyV2)
+        remote = ActivityServiceRemote(wordPressComRestApi: v2RestApi)
     }
 
     override func tearDown() {
@@ -142,7 +146,7 @@ class ActivityServiceRemoteTests: RemoteTestCase, RESTTestable {
 
         stubRemoteResponse(restoreEndpoint, filename: restoreSuccessMockFilename, contentType: .ApplicationJSON)
 
-        remote.restoreSite(siteID,
+        remoteV1.restoreSite(siteID,
                            rewindID: rewindID,
                            success: { (restoreID) in
                                XCTAssertEqual(restoreID, self.restoreID)

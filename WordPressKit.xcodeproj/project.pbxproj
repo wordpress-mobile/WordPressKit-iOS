@@ -47,6 +47,7 @@
 		7328420421CD786C00126755 /* WordPressComServiceRemote+SiteCreation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7328420321CD786C00126755 /* WordPressComServiceRemote+SiteCreation.swift */; };
 		7328420621CD798A00126755 /* WordPressComServiceRemoteTests+SiteCreation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7328420521CD798A00126755 /* WordPressComServiceRemoteTests+SiteCreation.swift */; };
 		736C971021E80D48007A4200 /* SiteVerticalsPromptResponseDecodingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736C970F21E80D48007A4200 /* SiteVerticalsPromptResponseDecodingTests.swift */; };
+		7397F01A220A072500C723F3 /* ActivityServiceRemote_ApiVersion1_0.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7397F019220A072500C723F3 /* ActivityServiceRemote_ApiVersion1_0.swift */; };
 		73A2F38A21E7F81E00388609 /* WordPressComServiceRemote+SiteVerticalsPrompt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A2F38921E7F81E00388609 /* WordPressComServiceRemote+SiteVerticalsPrompt.swift */; };
 		73A2F38D21E7FC8200388609 /* WordPressComServiceRemoteTests+SiteVerticalsPrompt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A2F38C21E7FC8200388609 /* WordPressComServiceRemoteTests+SiteVerticalsPrompt.swift */; };
 		73A2F38E21E7FD9B00388609 /* site-verticals-prompt.json in Resources */ = {isa = PBXBuildFile; fileRef = 73A2F38B21E7FC2A00388609 /* site-verticals-prompt.json */; };
@@ -508,6 +509,7 @@
 		7328420321CD786C00126755 /* WordPressComServiceRemote+SiteCreation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WordPressComServiceRemote+SiteCreation.swift"; sourceTree = "<group>"; };
 		7328420521CD798A00126755 /* WordPressComServiceRemoteTests+SiteCreation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WordPressComServiceRemoteTests+SiteCreation.swift"; sourceTree = "<group>"; };
 		736C970F21E80D48007A4200 /* SiteVerticalsPromptResponseDecodingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteVerticalsPromptResponseDecodingTests.swift; sourceTree = "<group>"; };
+		7397F019220A072500C723F3 /* ActivityServiceRemote_ApiVersion1_0.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityServiceRemote_ApiVersion1_0.swift; sourceTree = "<group>"; };
 		73A2F38921E7F81E00388609 /* WordPressComServiceRemote+SiteVerticalsPrompt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WordPressComServiceRemote+SiteVerticalsPrompt.swift"; sourceTree = "<group>"; };
 		73A2F38B21E7FC2A00388609 /* site-verticals-prompt.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "site-verticals-prompt.json"; sourceTree = "<group>"; };
 		73A2F38C21E7FC8200388609 /* WordPressComServiceRemoteTests+SiteVerticalsPrompt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WordPressComServiceRemoteTests+SiteVerticalsPrompt.swift"; sourceTree = "<group>"; };
@@ -1237,6 +1239,7 @@
 				93BD273A1EE73282002BB00B /* AccountServiceRemoteREST.m */,
 				7403A2E31EF06ED500DED7DC /* AccountSettingsRemote.swift */,
 				826016F01F9FA13A00533B6C /* ActivityServiceRemote.swift */,
+				7397F019220A072500C723F3 /* ActivityServiceRemote_ApiVersion1_0.swift */,
 				40247DF92120D8E100AE1C3C /* AutomatedTransferService.swift */,
 				82FFBF551F460DD400F4573F /* BlogJetpackSettingsServiceRemote.swift */,
 				74B5F0DB1EF829B800B411E7 /* BlogServiceRemote.h */,
@@ -2214,6 +2217,7 @@
 				93BD27831EE73944002BB00B /* WordPressRSDParser.swift in Sources */,
 				7328420421CD786C00126755 /* WordPressComServiceRemote+SiteCreation.swift in Sources */,
 				826016F31F9FA17B00533B6C /* Activity.swift in Sources */,
+				7397F01A220A072500C723F3 /* ActivityServiceRemote_ApiVersion1_0.swift in Sources */,
 				7E3E7A4A20E443890075D159 /* Scanner+extensions.swift in Sources */,
 				742362E31F1025B400BD0A7F /* RemoteMenuLocation.m in Sources */,
 				82FFBF561F460DD400F4573F /* BlogJetpackSettingsServiceRemote.swift in Sources */,
