@@ -182,7 +182,7 @@ extension StatsLastPostInsight: InsightProtocol {
                 return nil
         }
 
-        self.title = title // TODO: Some magic was done before on this, re-add
+        self.title = title.trimmingCharacters(in: CharacterSet.whitespaces).stringByDecodingXMLCharacters()
         self.url = url
         self.publishedDate = date
         self.likesCount = likesCount
