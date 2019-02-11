@@ -8,10 +8,6 @@ public struct StatsTodayInsight {
 extension StatsTodayInsight: InsightProtocol {
 
     //MARK: - InsightProtocol Conformance
-    public static var queryProperties: [String : AnyObject] {
-        return [:]
-    }
-
     public static var pathComponent: String {
         return "stats/summary"
     }

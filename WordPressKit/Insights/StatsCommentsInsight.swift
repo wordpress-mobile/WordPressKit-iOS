@@ -6,10 +6,6 @@ public struct StatsCommentsInsight {
 extension StatsCommentsInsight: InsightProtocol {
 
     //MARK: - InsightProtocol Conformance
-    public static var queryProperties: [String: AnyObject] {
-        return [:]
-    }
-
     public static var pathComponent: String {
         return "stats/comments"
     }

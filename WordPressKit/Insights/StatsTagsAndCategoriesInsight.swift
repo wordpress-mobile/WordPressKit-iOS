@@ -3,10 +3,6 @@ public struct StatsTagsAndCategoriesInsight {
 }
 
 extension StatsTagsAndCategoriesInsight: InsightProtocol {
-    public static var queryProperties: [String : AnyObject] {
-        return [:]
-    }
-
     public static var pathComponent: String {
         return "stats/tags"
     }

@@ -5,10 +5,6 @@ public struct StatsPublicizeInsight {
 extension StatsPublicizeInsight: InsightProtocol {
 
     //MARK: - InsightProtocol Conformance
-    public static var queryProperties: [String: AnyObject] {
-        return [:]
-    }
-
     public static var pathComponent: String {
         return "stats/publicize"
     }

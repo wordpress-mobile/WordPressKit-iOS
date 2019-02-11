@@ -112,7 +112,13 @@ public protocol InsightProtocol {
 }
 
 extension InsightProtocol {
-    // A big chunk of those use the `/stats/` endpoint. Let's simplify the protocol conformance in those cases.
+
+    // A big chunk of those use the same endpoint and queryProperties.. Let's simplify the protocol conformance in those cases.
+
+    public static var queryProperties: [String: AnyObject] {
+        return [:]
+    }
+
     public static var pathComponent: String {
         return "stats/"
     }

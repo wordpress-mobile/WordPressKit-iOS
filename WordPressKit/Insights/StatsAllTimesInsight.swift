@@ -10,10 +10,6 @@ public struct StatsAllTimesInsight {
 extension StatsAllTimesInsight: InsightProtocol {
 
     //MARK: - InsightProtocol Conformance
-    public static var queryProperties: [String : AnyObject] {
-        return [:]
-    }
-
     public init?(jsonDictionary: [String: AnyObject]) {
         guard
             let statsDict = jsonDictionary["stats"] as? [String: AnyObject],
