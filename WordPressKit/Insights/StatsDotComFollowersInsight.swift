@@ -30,7 +30,7 @@ extension StatsDotComFollowersInsight: InsightProtocol {
     }
 
     //MARK: -
-    fileprivate static let dateFormatter: ISO8601DateFormatter = .init()
+    fileprivate static let dateFormatter = ISO8601DateFormatter()
 }
 
 public struct StatsFollower {

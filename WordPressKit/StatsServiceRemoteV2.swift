@@ -79,7 +79,7 @@ public class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
         })
     }
 
-    public func getPostViews(`for` postID: Int, completion: @escaping ((Int?, Error?) -> Void)) {
+    private func getPostViews(`for` postID: Int, completion: @escaping ((Int?, Error?) -> Void)) {
         let parameters = ["fields": "views" as AnyObject]
 
         let path = self.path(forEndpoint: "sites/\(siteID)/stats/post/\(postID)", withVersion: ._1_1)
@@ -103,7 +103,7 @@ public class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
 }
 
 // This serves both as a way to get the query properties in a "nice" way,
-// but also as a way to narrow down the generic type in `getInisght:` method.
+// but also as a way to narrow down the generic type in `getInsight(completion:)` method.
 public protocol InsightProtocol {
     static var queryProperties: [String: AnyObject] { get }
     static var pathComponent: String { get }
@@ -124,8 +124,7 @@ extension InsightProtocol {
     }
 }
 
-// For some god-forsaken reason Swift compiler freaks out if this is not declared _in this file_,
-// and refuses to compile the project.
+// Swift compiler doesn't like if this is not declared _in this file_, and refuses to compile the project.
 // I'm guessing this has somethign to do with generic specialisation, but I'm not enough
 // of a `swiftc` guru to really know. Leaving this in here to appease Swift gods.
 // TODO: see if this is still a problem in Swift 5 mode!
@@ -159,7 +158,7 @@ extension StatsLastPostInsight: InsightProtocol {
 
     //MARK: -
 
-    private static let dateFormatter: ISO8601DateFormatter = .init()
+    private static let dateFormatter = ISO8601DateFormatter()
 
     public init?(jsonDictionary: [String: AnyObject], views: Int) {
 
