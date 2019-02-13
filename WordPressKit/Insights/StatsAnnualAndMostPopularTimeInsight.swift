@@ -56,11 +56,7 @@ extension StatsAnnualAndMostPopularTimeInsight: InsightProtocol {
             // iOS Calendar system is `1-based` and uses Sunday as the first day of the week.
             // The data returned from WP.com is `0-based` and uses Monday as the first day of the week.
             // This maps the WP.com data to iOS format.
-            if $0 == 6 {
-                return 0
-            }
-
-            return $0 + 2
+            return $0 == 6 ? 0 : $0 + 2
         }
 
         let weekDayComponent = DateComponents(weekday: mappedWeekday(highestDayOfWeek))
