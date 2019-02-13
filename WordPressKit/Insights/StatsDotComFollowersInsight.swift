@@ -6,9 +6,9 @@ public struct StatsDotComFollowersInsight {
 extension StatsDotComFollowersInsight: InsightProtocol {
 
     //MARK: - InsightProtocol Conformance
-    public static var queryProperties: [String: AnyObject] {
-        return ["type": "wpcom" as AnyObject,
-                "max": "7" as AnyObject]
+    public static var queryProperties: [String: String] {
+        return ["type": "wpcom",
+                "max": "7"]
     }
 
     public static var pathComponent: String {

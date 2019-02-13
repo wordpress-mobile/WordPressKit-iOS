@@ -21,7 +21,7 @@ public class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
 
 
     public func getInsight<InsightType: InsightProtocol>(completion: @escaping ((InsightType?, Error?) -> Void)) {
-        let properties = InsightType.queryProperties
+        let properties = InsightType.queryProperties as [String: AnyObject]
         let pathComponent = InsightType.pathComponent
 
         let path = self.path(forEndpoint: "sites/\(siteID)/\(pathComponent)/", withVersion: ._1_1)
@@ -48,7 +48,7 @@ public class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
     }
 
     private func getLastPostInsight(completion: @escaping ((StatsLastPostInsight?, Error?) -> Void)) {
-        let properties = StatsLastPostInsight.queryProperties
+        let properties = StatsLastPostInsight.queryProperties as [String: AnyObject]
         let pathComponent = StatsLastPostInsight.pathComponent
 
         let path = self.path(forEndpoint: "sites/\(siteID)/\(pathComponent)", withVersion: ._1_1)
@@ -105,7 +105,7 @@ public class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
 // This serves both as a way to get the query properties in a "nice" way,
 // but also as a way to narrow down the generic type in `getInsight(completion:)` method.
 public protocol InsightProtocol {
-    static var queryProperties: [String: AnyObject] { get }
+    static var queryProperties: [String: String] { get }
     static var pathComponent: String { get }
 
     init?(jsonDictionary: [String: AnyObject])
@@ -115,7 +115,7 @@ extension InsightProtocol {
 
     // A big chunk of those use the same endpoint and queryProperties.. Let's simplify the protocol conformance in those cases.
 
-    public static var queryProperties: [String: AnyObject] {
+    public static var queryProperties: [String: String] {
         return [:]
     }
 
@@ -141,11 +141,11 @@ public struct StatsLastPostInsight {
 extension StatsLastPostInsight: InsightProtocol {
 
     //MARK: - InsightProtocol Conformance
-    public static var queryProperties: [String: AnyObject] {
-        return ["order_by": "date" as AnyObject,
-                "number": "1" as AnyObject,
-                "type": "post" as AnyObject,
-                "fields": "ID, title, URL, discussion, like_count, date" as AnyObject]
+    public static var queryProperties: [String: String] {
+        return ["order_by": "date",
+                "number": "1",
+                "type": "post",
+                "fields": "ID, title, URL, discussion, like_count, date"]
     }
 
     public static var pathComponent: String {
