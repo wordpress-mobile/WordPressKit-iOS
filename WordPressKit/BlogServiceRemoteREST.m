@@ -299,10 +299,11 @@ static NSInteger const RemoteBlogUncategorizedCategory                      = 1;
                           success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
                               if (success) {
                                   success((NSDictionary *)responseObject);
-                                  return;
                               }
                           } failure:^(NSError *error, NSHTTPURLResponse *httpResponse) {
-                              failure(error);
+                              if(failure) {
+                                  failure(error);
+                              }
                           }];
 }
 
