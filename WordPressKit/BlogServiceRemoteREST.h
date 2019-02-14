@@ -55,7 +55,7 @@ typedef void (^SettingsHandler)(RemoteBlogSettings *settings);
                         failure:(void (^)(NSError *error))failure;
 
 /**
- *  @brief      Fetch site info (does not require authentication) for the specified site address with no authentication.
+ *  @brief      Fetch site info (does not require authentication) for the specified site address.
  *
  *  @note       Uses anonymous API
  *
