@@ -293,6 +293,7 @@ static NSInteger const RemoteBlogUncategorizedCategory                      = 1;
 {
     NSString *path = [self pathForEndpoint:@"connect/site-info" withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
     NSURL *siteURL = [NSURL URLWithString:siteAddress];
+
     [self.wordPressComRestApi GET:path
                        parameters:@{ @"url": siteURL.absoluteString }
                           success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
