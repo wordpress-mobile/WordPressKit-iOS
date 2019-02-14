@@ -287,6 +287,26 @@ static NSInteger const RemoteBlogUncategorizedCategory                      = 1;
                           }];
 }
 
+- (void)fetchUnauthenticatedSiteInfoForAddress:(NSString *)siteAddress
+                        success:(void(^)(NSDictionary *siteInfoDict))success
+                        failure:(void (^)(NSError *error))failure
+{
+    NSString *path = [self pathForEndpoint:@"connect/site-info" withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
+    NSURL *siteURL = [NSURL URLWithString:siteAddress];
+
+    [self.wordPressComRestApi GET:path
+                       parameters:@{ @"url": siteURL.absoluteString }
+                          success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
+                              if (success) {
+                                  success((NSDictionary *)responseObject);
+                              }
+                          } failure:^(NSError *error, NSHTTPURLResponse *httpResponse) {
+                              if(failure) {
+                                  failure(error);
+                              }
+                          }];
+}
+
 #pragma mark - API paths
 
 - (NSString *)pathForUsers
