@@ -1,6 +1,6 @@
 #  WordPressKit for iOS
 
-[![BuddyBuild](https://dashboard.buddybuild.com/api/statusImage?appID=5afc8fa8fb450e000197be06&branch=develop&build=latest)](https://dashboard.buddybuild.com/apps/5afc8fa8fb450e000197be06/build/latest?branch=develop)
+[![CircleCI](https://circleci.com/gh/wordpress-mobile/WordPressKit-iOS.svg?style=svg)](https://circleci.com/gh/wordpress-mobile/WordPressKit-iOS)
 
 ## About
 
