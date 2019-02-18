@@ -72,7 +72,11 @@ public class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
         wordPressComRestApi.GET(path, parameters: properties, success: { (response, _) in
             guard
                 let jsonResponse = response as? [String: AnyObject],
-                let timestats = TimeStatsType(jsonDictionary: jsonResponse)
+                let dateString = response["date"] as? String,
+                let date = self.periodDataQueryDateFormatter.date(from: dateString),
+                let periodString = response["period"] as? String,
+                let parsedPeriod = StatsPeriodUnit(string: periodString),
+                let timestats = TimeStatsType(date: date, period: parsedPeriod, jsonDictionary: jsonResponse)
                 else {
                     completion(nil, ResponseError.decodingFailure)
                     return
@@ -156,18 +160,17 @@ public protocol InsightProtocol {
 
 // naming is hard.
 public protocol TimeStatsProtocol {
-    static var queryProperties: [String: String] { get }
     static var pathComponent: String { get }
 
     var period: StatsPeriodUnit { get }
     var periodEndDate: Date { get }
 
-    init?(jsonDictionary: [String: AnyObject])
+    init?(date: Date, period: StatsPeriodUnit, jsonDictionary: [String: AnyObject])
 }
 
 // We'll bring `StatsPeriodUnit` into this file when the "old" `WPStatsServiceRemote` gets removed.
 // For now we can piggy-back off the old type and add this as an extension.
-private extension StatsPeriodUnit {
+fileprivate extension StatsPeriodUnit {
     var stringValue: String {
         switch self {
         case .day:
@@ -178,6 +181,21 @@ private extension StatsPeriodUnit {
             return "month"
         case .year:
             return "year"
+        }
+    }
+
+    init?(string: String) {
+        switch string {
+        case "day":
+            self = .day
+        case "week":
+            self = .week
+        case "month":
+            self = .month
+        case "year":
+            self = .year
+        default:
+            return nil
         }
     }
 }

@@ -18,6 +18,7 @@
 		240315B0A1D6C2B981572B5B /* Pods_WordPressKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED05C8FF3E61D93CE5BA527E /* Pods_WordPressKitTests.framework */; };
 		40247DFA2120D8E100AE1C3C /* AutomatedTransferService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40247DF92120D8E100AE1C3C /* AutomatedTransferService.swift */; };
 		40247DFC2120E69600AE1C3C /* AutomatedTransferStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40247DFB2120E69600AE1C3C /* AutomatedTransferStatus.swift */; };
+		404057C5221B30400060250C /* SearchTermStatsType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404057C4221B30400060250C /* SearchTermStatsType.swift */; };
 		4041405E220F9EF500CF7C5B /* StatsDotComFollowersInsight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4041405D220F9EF500CF7C5B /* StatsDotComFollowersInsight.swift */; };
 		40414060220F9F1F00CF7C5B /* StatsAllTimesInsight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4041405F220F9F1F00CF7C5B /* StatsAllTimesInsight.swift */; };
 		40A71C6E220E1D8E002E3D25 /* StatsServiceRemoteV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A71C6D220E1D8E002E3D25 /* StatsServiceRemoteV2.swift */; };
@@ -490,6 +491,7 @@
 		264F5C834541BBF2018F4964 /* Pods-WordPressKitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WordPressKitTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WordPressKitTests/Pods-WordPressKitTests.debug.xcconfig"; sourceTree = "<group>"; };
 		40247DF92120D8E100AE1C3C /* AutomatedTransferService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutomatedTransferService.swift; sourceTree = "<group>"; };
 		40247DFB2120E69600AE1C3C /* AutomatedTransferStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutomatedTransferStatus.swift; sourceTree = "<group>"; };
+		404057C4221B30400060250C /* SearchTermStatsType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTermStatsType.swift; sourceTree = "<group>"; };
 		4041405D220F9EF500CF7C5B /* StatsDotComFollowersInsight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsDotComFollowersInsight.swift; sourceTree = "<group>"; };
 		4041405F220F9F1F00CF7C5B /* StatsAllTimesInsight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsAllTimesInsight.swift; sourceTree = "<group>"; };
 		40A71C6D220E1D8E002E3D25 /* StatsServiceRemoteV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsServiceRemoteV2.swift; sourceTree = "<group>"; };
@@ -987,6 +989,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		404057C3221B30140060250C /* Time-based data */ = {
+			isa = PBXGroup;
+			children = (
+				404057C4221B30400060250C /* SearchTermStatsType.swift */,
+			);
+			path = "Time-based data";
+			sourceTree = "<group>";
+		};
 		40414061220F9F2800CF7C5B /* Insights */ = {
 			isa = PBXGroup;
 			children = (
@@ -1006,6 +1016,7 @@
 		40B01BF3220E534900036D10 /* V2 */ = {
 			isa = PBXGroup;
 			children = (
+				404057C3221B30140060250C /* Time-based data */,
 				40414061220F9F2800CF7C5B /* Insights */,
 			);
 			name = V2;
@@ -2329,6 +2340,7 @@
 				40247DFC2120E69600AE1C3C /* AutomatedTransferStatus.swift in Sources */,
 				730E869F21E44EFD00753E1A /* WordPressComServiceRemote+SiteVerticals.swift in Sources */,
 				740B23C51F17EE8000067A2A /* RemotePost.m in Sources */,
+				404057C5221B30400060250C /* SearchTermStatsType.swift in Sources */,
 				40247DFA2120D8E100AE1C3C /* AutomatedTransferService.swift in Sources */,
 				74E2295B1F1E77290085F7F2 /* KeyringConnection.swift in Sources */,
 				74B5F0DA1EF8299B00B411E7 /* BlogServiceRemoteXMLRPC.m in Sources */,
