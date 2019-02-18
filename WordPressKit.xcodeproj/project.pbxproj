@@ -19,6 +19,7 @@
 		40247DFA2120D8E100AE1C3C /* AutomatedTransferService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40247DF92120D8E100AE1C3C /* AutomatedTransferService.swift */; };
 		40247DFC2120E69600AE1C3C /* AutomatedTransferStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40247DFB2120E69600AE1C3C /* AutomatedTransferStatus.swift */; };
 		404057C5221B30400060250C /* SearchTermStatsType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404057C4221B30400060250C /* SearchTermStatsType.swift */; };
+		404057C7221B36070060250C /* stats-search-term-result.json in Resources */ = {isa = PBXBuildFile; fileRef = 404057C6221B36070060250C /* stats-search-term-result.json */; };
 		4041405E220F9EF500CF7C5B /* StatsDotComFollowersInsight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4041405D220F9EF500CF7C5B /* StatsDotComFollowersInsight.swift */; };
 		40414060220F9F1F00CF7C5B /* StatsAllTimesInsight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4041405F220F9F1F00CF7C5B /* StatsAllTimesInsight.swift */; };
 		40A71C6E220E1D8E002E3D25 /* StatsServiceRemoteV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A71C6D220E1D8E002E3D25 /* StatsServiceRemoteV2.swift */; };
@@ -492,6 +493,7 @@
 		40247DF92120D8E100AE1C3C /* AutomatedTransferService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutomatedTransferService.swift; sourceTree = "<group>"; };
 		40247DFB2120E69600AE1C3C /* AutomatedTransferStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutomatedTransferStatus.swift; sourceTree = "<group>"; };
 		404057C4221B30400060250C /* SearchTermStatsType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTermStatsType.swift; sourceTree = "<group>"; };
+		404057C6221B36070060250C /* stats-search-term-result.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "stats-search-term-result.json"; sourceTree = "<group>"; };
 		4041405D220F9EF500CF7C5B /* StatsDotComFollowersInsight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsDotComFollowersInsight.swift; sourceTree = "<group>"; };
 		4041405F220F9F1F00CF7C5B /* StatsAllTimesInsight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsAllTimesInsight.swift; sourceTree = "<group>"; };
 		40A71C6D220E1D8E002E3D25 /* StatsServiceRemoteV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsServiceRemoteV2.swift; sourceTree = "<group>"; };
@@ -1511,6 +1513,7 @@
 			isa = PBXGroup;
 			children = (
 				40F9880D221ACFB400B7B369 /* stats-streak-result.json */,
+				404057C6221B36070060250C /* stats-search-term-result.json */,
 				826016F61F9FAF6300533B6C /* activity-log-auth-failure.json */,
 				826016F81F9FAF6300533B6C /* activity-log-bad-json-failure.json */,
 				826016F51F9FAF6300533B6C /* activity-log-success-1.json */,
@@ -1976,6 +1979,7 @@
 				93F50A471F227F3600B5BEBA /* xmlrpc-response-getprofile.xml in Resources */,
 				7403A2F51EF06FEB00DED7DC /* me-settings-bad-json-failure.json in Resources */,
 				9AB6D64E218731AB0008F274 /* post-revisions-mapping-success.json in Resources */,
+				404057C7221B36070060250C /* stats-search-term-result.json in Resources */,
 				7403A2F41EF06FEB00DED7DC /* me-settings-auth-failure.json in Resources */,
 				930999581F16598A00F006A1 /* get-single-theme-v1.1.json in Resources */,
 				74B335E61F06F6E90053A184 /* WordPressComRestApiMedia.json in Resources */,
