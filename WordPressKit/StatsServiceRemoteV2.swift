@@ -13,13 +13,22 @@ public class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
     private let siteID: Int
     private let siteTimezone: TimeZone
 
+    private lazy var periodDataQueryDateFormatter: DateFormatter = {
+        let df = DateFormatter()
+        df.locale = Locale(identifier: "en_US_POSIX")
+        df.dateFormat = "yyyy-MM-dd"
+        return df
+    }()
+
     public init(wordPressComRestApi api: WordPressComRestApi, siteID: Int, siteTimezone: TimeZone) {
         self.siteID = siteID
         self.siteTimezone = siteTimezone
         super.init(wordPressComRestApi: api)
     }
 
-
+    /// Responsible for fetching Stats data for Insights — latest data about a site,
+    /// in general — not considering a specific slice of time.
+    /// For a possible set of returned types, see objects that conform to `InsightProtocol`.
     public func getInsight<InsightType: InsightProtocol>(completion: @escaping ((InsightType?, Error?) -> Void)) {
         let properties = InsightType.queryProperties as [String: AnyObject]
         let pathComponent = InsightType.pathComponent
@@ -36,6 +45,40 @@ public class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
             }
 
             completion(insight, nil)
+        }, failure: { (error, _) in
+            completion(nil, error)
+        })
+    }
+
+
+    /// Used to fetch data about site over a specific timeframe.
+    /// - parameters:
+    ///   - period: An enum representing whether either a day, a week, a month or a year worth's of data.
+    ///   - endingOn: Date on which the `period` for which data you're interested in **is ending**.
+    ///    e.g. if you want data spanning 11-17 Feb 2019, you should pass in a period of `.week` and an
+    ///    ending date of `Feb 17 2019`.
+    ///   - limit: Limit of how many objects you want returned for your query. Default is `10`. `0` means no limit.
+    public func getData<TimeStatsType: TimeStatsProtocol>(for period: StatsPeriodUnit,
+                                                          endingOn: Date,
+                                                          limit: Int = 10,
+                                                          completion: @escaping ((TimeStatsType?, Error?) -> Void)) {
+        let pathComponent = TimeStatsType.pathComponent
+        let path = self.path(forEndpoint: "sites/\(siteID)/\(pathComponent)/", withVersion: ._1_1)
+
+        let properties = ["period": period.stringValue,
+                          "date": periodDataQueryDateFormatter.string(from: endingOn),
+                          "max": limit as AnyObject] as [String: AnyObject]
+
+        wordPressComRestApi.GET(path, parameters: properties, success: { (response, _) in
+            guard
+                let jsonResponse = response as? [String: AnyObject],
+                let timestats = TimeStatsType(jsonDictionary: jsonResponse)
+                else {
+                    completion(nil, ResponseError.decodingFailure)
+                    return
+            }
+
+            completion(timestats, nil)
         }, failure: { (error, _) in
             completion(nil, error)
         })
@@ -111,6 +154,34 @@ public protocol InsightProtocol {
     init?(jsonDictionary: [String: AnyObject])
 }
 
+// naming is hard.
+public protocol TimeStatsProtocol {
+    static var queryProperties: [String: String] { get }
+    static var pathComponent: String { get }
+
+    var period: StatsPeriodUnit { get }
+    var periodEndDate: Date { get }
+
+    init?(jsonDictionary: [String: AnyObject])
+}
+
+// We'll bring `StatsPeriodUnit` into this file when the "old" `WPStatsServiceRemote` gets removed.
+// For now we can piggy-back off the old type and add this as an extension.
+private extension StatsPeriodUnit {
+    var stringValue: String {
+        switch self {
+        case .day:
+            return "day"
+        case .week:
+            return "week"
+        case .month:
+            return "month"
+        case .year:
+            return "year"
+        }
+    }
+}
+
 extension InsightProtocol {
 
     // A big chunk of those use the same endpoint and queryProperties.. Let's simplify the protocol conformance in those cases.
@@ -123,6 +194,7 @@ extension InsightProtocol {
         return "stats/"
     }
 }
+
 
 // Swift compiler doesn't like if this is not declared _in this file_, and refuses to compile the project.
 // I'm guessing this has somethign to do with generic specialisation, but I'm not enough
