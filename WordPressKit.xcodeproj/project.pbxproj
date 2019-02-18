@@ -32,6 +32,9 @@
 		40E7FEBA2210894B0032834E /* StatsTagsAndCategoriesInsight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E7FEB92210894B0032834E /* StatsTagsAndCategoriesInsight.swift */; };
 		40F88F601F85723500AE3FAF /* auth-send-verification-email-already-verified-failure.json in Resources */ = {isa = PBXBuildFile; fileRef = 40F88F5F1F85723400AE3FAF /* auth-send-verification-email-already-verified-failure.json */; };
 		40F88F621F85799A00AE3FAF /* auth-send-verification-email-success.json in Resources */ = {isa = PBXBuildFile; fileRef = 40F88F611F85799A00AE3FAF /* auth-send-verification-email-success.json */; };
+		40F98809221AC88700B7B369 /* StatsPostingStreakInsight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F98808221AC88700B7B369 /* StatsPostingStreakInsight.swift */; };
+		40F9880C221ACEEE00B7B369 /* StatsRemoteV2Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F9880B221ACEEE00B7B369 /* StatsRemoteV2Tests.swift */; };
+		40F9880E221ACFB400B7B369 /* stats-streak-result.json in Resources */ = {isa = PBXBuildFile; fileRef = 40F9880D221ACFB400B7B369 /* stats-streak-result.json */; };
 		436D56332118D7AA00CEAA33 /* TransactionsServiceRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436D56322118D7AA00CEAA33 /* TransactionsServiceRemote.swift */; };
 		436D56352118D85800CEAA33 /* Country.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436D56342118D85800CEAA33 /* Country.swift */; };
 		436D56382118DC4B00CEAA33 /* TransactionsServiceRemoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436D56372118DC4B00CEAA33 /* TransactionsServiceRemoteTests.swift */; };
@@ -501,6 +504,9 @@
 		40E7FEB92210894B0032834E /* StatsTagsAndCategoriesInsight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsTagsAndCategoriesInsight.swift; sourceTree = "<group>"; };
 		40F88F5F1F85723400AE3FAF /* auth-send-verification-email-already-verified-failure.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "auth-send-verification-email-already-verified-failure.json"; sourceTree = "<group>"; };
 		40F88F611F85799A00AE3FAF /* auth-send-verification-email-success.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "auth-send-verification-email-success.json"; sourceTree = "<group>"; };
+		40F98808221AC88700B7B369 /* StatsPostingStreakInsight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsPostingStreakInsight.swift; sourceTree = "<group>"; };
+		40F9880B221ACEEE00B7B369 /* StatsRemoteV2Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsRemoteV2Tests.swift; sourceTree = "<group>"; };
+		40F9880D221ACFB400B7B369 /* stats-streak-result.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "stats-streak-result.json"; sourceTree = "<group>"; };
 		436D56322118D7AA00CEAA33 /* TransactionsServiceRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsServiceRemote.swift; sourceTree = "<group>"; };
 		436D56342118D85800CEAA33 /* Country.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Country.swift; sourceTree = "<group>"; };
 		436D56372118DC4B00CEAA33 /* TransactionsServiceRemoteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsServiceRemoteTests.swift; sourceTree = "<group>"; };
@@ -992,6 +998,7 @@
 				40E7FEB3221063480032834E /* StatsTodayInsight.swift */,
 				40E7FEB622106A8D0032834E /* StatsCommentsInsight.swift */,
 				40E7FEB92210894B0032834E /* StatsTagsAndCategoriesInsight.swift */,
+				40F98808221AC88700B7B369 /* StatsPostingStreakInsight.swift */,
 			);
 			path = Insights;
 			sourceTree = "<group>";
@@ -1206,6 +1213,7 @@
 		930F52BB1ECF8A78002F921B /* Stats */ = {
 			isa = PBXGroup;
 			children = (
+				40F9880B221ACEEE00B7B369 /* StatsRemoteV2Tests.swift */,
 				93AC8EE31ED32FDA00900F5A /* Test Data */,
 				93AC8EBF1ED32FD000900F5A /* StatsItemTests.m */,
 				93AC8EC01ED32FD000900F5A /* StatsStreakItemTests.m */,
@@ -1491,6 +1499,7 @@
 		93BD27421EE73384002BB00B /* Mock Data */ = {
 			isa = PBXGroup;
 			children = (
+				40F9880D221ACFB400B7B369 /* stats-streak-result.json */,
 				826016F61F9FAF6300533B6C /* activity-log-auth-failure.json */,
 				826016F81F9FAF6300533B6C /* activity-log-bad-json-failure.json */,
 				826016F51F9FAF6300533B6C /* activity-log-success-1.json */,
@@ -2089,6 +2098,7 @@
 				826016FB1F9FAF6300533B6C /* activity-log-auth-failure.json in Resources */,
 				73D592FB21E550D300E4CF84 /* site-verticals-multiple.json in Resources */,
 				7403A2F61EF06FEB00DED7DC /* me-settings-change-aboutme-success.json in Resources */,
+				40F9880E221ACFB400B7B369 /* stats-streak-result.json in Resources */,
 				7403A2FA1EF06FEB00DED7DC /* me-settings-change-firstname-success.json in Resources */,
 				74D67F321F15C3740010C5ED /* site-followers-delete-success.json in Resources */,
 				93F50A481F227F3600B5BEBA /* xmlrpc-response-valid-but-unexpected-dictionary.xml in Resources */,
@@ -2256,6 +2266,7 @@
 				826016F11F9FA13A00533B6C /* ActivityServiceRemote.swift in Sources */,
 				74BA04FA1F06DC3900ED5CD8 /* RemoteComment.m in Sources */,
 				7E3E7A4C20E443AA0075D159 /* NSMutableParagraphStyle+extensions.swift in Sources */,
+				40F98809221AC88700B7B369 /* StatsPostingStreakInsight.swift in Sources */,
 				93C674EC1EE8348F00BFAF05 /* RemoteBlogOptionsHelper.m in Sources */,
 				E632D7781F6E047400297F6D /* SocialLogin2FANonceInfo.swift in Sources */,
 				9F3E0B9B208732B3009CB5BA /* RemoteReaderSiteInfoSubscription.swift in Sources */,
@@ -2355,6 +2366,7 @@
 				74585B901F0D51F900E7E667 /* DomainsServiceRemoteRESTTests.swift in Sources */,
 				9AB6D64A218727D60008F274 /* PostServiceRemoteRESTRevisionsTest.swift in Sources */,
 				7430C9BD1F192C0F0051B8E6 /* ReaderPostServiceRemoteTests.m in Sources */,
+				40F9880C221ACEEE00B7B369 /* StatsRemoteV2Tests.swift in Sources */,
 				826017001F9FD60A00533B6C /* ActivityServiceRemoteTests.swift in Sources */,
 				93F50A3A1F226BB600B5BEBA /* WordPressComServiceRemoteRestTests.swift in Sources */,
 				93AC8EE01ED32FD000900F5A /* StatsStreakTests.m in Sources */,
