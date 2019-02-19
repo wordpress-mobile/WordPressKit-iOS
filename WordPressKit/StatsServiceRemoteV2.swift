@@ -71,12 +71,14 @@ public class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
 
         wordPressComRestApi.GET(path, parameters: properties, success: { (response, _) in
             guard
-                let jsonResponse = response as? [String: AnyObject],
                 let dateString = response["date"] as? String,
                 let date = self.periodDataQueryDateFormatter.date(from: dateString),
                 let periodString = response["period"] as? String,
                 let parsedPeriod = StatsPeriodUnit(string: periodString),
-                let timestats = TimeStatsType(date: date, period: parsedPeriod, jsonDictionary: jsonResponse)
+                let days = response["days"] as? [String: AnyObject],
+                let firstKey = days.keys.first,
+                let firstDay = days[firstKey] as? [String: AnyObject],
+                let timestats = TimeStatsType(date: date, period: parsedPeriod, jsonDictionary: firstDay)
                 else {
                     completion(nil, ResponseError.decodingFailure)
                     return

@@ -1,16 +1,44 @@
-struct AuthorsStatsType {
-    let period: StatsPeriodUnit
-    let periodEndDate: Date
+public struct AuthorsStatsType {
+    public let period: StatsPeriodUnit
+    public let periodEndDate: Date
 
-    let topAuthors: [StatsTopAuthor]
+    public let topAuthors: [StatsTopAuthor]
 }
 
-struct StatsTopAuthor {
-    let name: String
-    let iconURL: URL?
-    let viewsCount: Int
-    let posts: [StatsTopPost]
+public struct StatsTopAuthor {
+    public let name: String
+    public let iconURL: URL?
+    public let viewsCount: Int
+    public let posts: [StatsTopPost]
+}
 
+
+public struct StatsTopPost {
+    public let title: String
+    public let postID: Int
+    public let postURL: URL?
+    public let viewsCount: Int
+}
+
+extension AuthorsStatsType: TimeStatsProtocol {
+    public static var pathComponent: String {
+        return "stats/top-authors/"
+    }
+
+    public init?(date: Date, period: StatsPeriodUnit, jsonDictionary: [String : AnyObject]) {
+        guard
+            let authors = jsonDictionary["authors"] as? [[String: AnyObject]]
+            else {
+                return nil
+        }
+
+        self.period = period
+        self.periodEndDate = date
+        self.topAuthors = authors.compactMap { StatsTopAuthor(jsonDictionary: $0) }
+    }
+}
+
+extension StatsTopAuthor {
     init?(jsonDictionary: [String: AnyObject]) {
         guard
             let name = jsonDictionary["name"] as? String,
@@ -39,12 +67,7 @@ struct StatsTopAuthor {
     }
 }
 
-struct StatsTopPost {
-    let title: String
-    let postID: Int
-    let postURL: URL?
-    let viewsCount: Int
-
+extension StatsTopPost {
     init?(jsonDictionary: [String: AnyObject]) {
         guard
             let title = jsonDictionary["title"] as? String,
@@ -62,23 +85,3 @@ struct StatsTopPost {
     }
 }
 
-extension AuthorsStatsType: TimeStatsProtocol {
-    static var pathComponent: String {
-        return "stats/top-authors/"
-    }
-
-    init?(date: Date, period: StatsPeriodUnit, jsonDictionary: [String : AnyObject]) {
-        guard
-            let days = jsonDictionary["days"] as? [String: AnyObject],
-            let firstKey = days.keys.first,
-            let firstDay = days[firstKey] as? [String: AnyObject],
-            let authors = firstDay["authors"] as? [[String: AnyObject]]
-            else {
-                return nil
-        }
-
-        self.period = period
-        self.periodEndDate = date
-        self.topAuthors = authors.compactMap { StatsTopAuthor(jsonDictionary: $0) }
-    }
-}
