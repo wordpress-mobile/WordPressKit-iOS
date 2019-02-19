@@ -1,28 +1,30 @@
-struct SearchTermStatsType {
-    let period: StatsPeriodUnit
-    let periodEndDate: Date
+public struct SearchTermStatsType {
+    public let period: StatsPeriodUnit
+    public let periodEndDate: Date
 
-    let totalSearchTermsCount: Int
-    let hiddenSearchTermsCount: Int
-    let otherSearchTermsCount: Int
-    let searchTerms: [SearchTerm]
+    public let totalSearchTermsCount: Int
+    public let hiddenSearchTermsCount: Int
+    public let otherSearchTermsCount: Int
+    public let searchTerms: [SearchTerm]
 }
 
+public struct SearchTerm {
+    public let term: String
+    public let viewsCount: Int
+}
 
 extension SearchTermStatsType: TimeStatsProtocol {
-    static var pathComponent: String {
+    public static var pathComponent: String {
         return "stats/search-terms"
     }
 
-    init?(date: Date, period: StatsPeriodUnit, jsonDictionary: [String : AnyObject]) {
+    public init?(date: Date, period: StatsPeriodUnit, jsonDictionary: [String : AnyObject]) {
         guard
-            let days = jsonDictionary["days"] as? [String: AnyObject],
-            let firstKey = days.keys.first,
-            let firstDay = days[firstKey] as? [String: AnyObject],
-            let totalSearchTerms = firstDay["total_search_terms"] as? Int,
-            let hiddenSearchTerms = firstDay["encrypted_search_terms"] as? Int,
-            let otherSearchTerms = firstDay["other_search_terms"] as? Int,
-            let searchTermsDict = firstDay["search_terms"] as? [[String: AnyObject]]
+            let unwrappedDays = type(of: self).unwrapDaysDictionary(jsonDictionary: jsonDictionary),
+            let totalSearchTerms = unwrappedDays["total_search_terms"] as? Int,
+            let hiddenSearchTerms = unwrappedDays["encrypted_search_terms"] as? Int,
+            let otherSearchTerms = unwrappedDays["other_search_terms"] as? Int,
+            let searchTermsDict = unwrappedDays["search_terms"] as? [[String: AnyObject]]
             else {
                 return nil
         }
@@ -46,7 +48,3 @@ extension SearchTermStatsType: TimeStatsProtocol {
 
 }
 
-public struct SearchTerm {
-    let term: String
-    let viewsCount: Int
-}
