@@ -11,12 +11,14 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
     let getStreakMockFilename = "stats-streak-result.json"
     let getSearchDataFilename = "stats-search-term-result.json"
     let getAuthorsDataFilename = "stats-top-authors.json"
+    let getVideosMockFilename = "stats-videos-data.json"
 
     // MARK: - Properties
 
     var siteStreakEndpoint: String { return "sites/\(siteID)/stats/streak" }
     var siteSearchDataEndpoint: String { return "sites/\(siteID)/stats/search-terms/" }
     var siteAuthorsDataEndpoint: String { return "sites/\(siteID)/stats/top-authors/" }
+    var siteVideosDataEndpoint: String { return "sites/\(siteID)/stats/video-plays/" }
 
     var remote: StatsServiceRemoteV2!
 
@@ -105,6 +107,39 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
             XCTAssertEqual(topAuthors?.topAuthors.first!.posts.first!.viewsCount, 7)
             XCTAssertEqual(topAuthors?.topAuthors.first!.posts.first!.title, "Josepha's Prospect ")
             XCTAssertEqual(topAuthors?.topAuthors.first!.posts.first!.postURL, URL(string: "http://bagomattic.wordpress.com/2016/09/20/josephas-prospect/"))
+
+            expect.fulfill()
+        }
+
+        waitForExpectations(timeout: timeout, handler: nil)
+
+    }
+
+    func testVideos() {
+        let expect = expectation(description: "It should return video data for a year")
+
+        stubRemoteResponse(siteVideosDataEndpoint, filename: getVideosMockFilename, contentType: .ApplicationJSON)
+
+        let dec31 = DateComponents(year: 2019, month: 12, day: 31)
+        let date = Calendar.autoupdatingCurrent.date(from: dec31)!
+
+
+        remote.getData(for: .year, endingOn: date) { (videos: VideoStatsType?, error: Error?) in
+            XCTAssertNil(error)
+            XCTAssertNotNil(videos)
+
+            XCTAssertEqual(videos?.totalPlaysCount, 13661)
+            XCTAssertEqual(videos?.otherPlayCount, 62)
+
+            XCTAssertEqual(videos?.videos.count, 10)
+
+            XCTAssertEqual(videos?.videos.first!.playsCount, 7774)
+            XCTAssertEqual(videos?.videos.first!.title, "you won't believe what's number two")
+            XCTAssertEqual(videos?.videos.first!.postID, 9001)
+
+            XCTAssertEqual(videos?.videos.last!.playsCount, 97)
+            XCTAssertEqual(videos?.videos.last!.postID, 9010)
+            XCTAssertEqual(videos?.videos.last!.title, "so call me maybe?")
 
             expect.fulfill()
         }
