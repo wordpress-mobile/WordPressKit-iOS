@@ -8,11 +8,16 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
 
     let siteID   = 321
 
-    let getStreakMockFilename               = "stats-streak-result.json"
+    let getStreakMockFilename = "stats-streak-result.json"
+    let getSearchDataFilename = "stats-search-term-result.json"
+    let getAuthorsDataFilename = "stats-top-authors.json"
 
     // MARK: - Properties
 
     var siteStreakEndpoint: String { return "sites/\(siteID)/stats/streak" }
+    var siteSearchDataEndpoint: String { return "sites/\(siteID)/stats/search-terms/" }
+    var siteAuthorsDataEndpoint: String { return "sites/\(siteID)/stats/top-authors/" }
+
     var remote: StatsServiceRemoteV2!
 
     // MARK: - Overridden Methods
@@ -52,5 +57,59 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
         }
 
         waitForExpectations(timeout: timeout, handler: nil)
+    }
+
+    func testFetchSearchData() {
+        let expect = expectation(description: "It should return search data for a week")
+
+        stubRemoteResponse(siteSearchDataEndpoint, filename: getSearchDataFilename, contentType: .ApplicationJSON)
+
+        remote.getData(for: .week, endingOn: Date()) { (searchTerms: SearchTermStatsType?, error: Error?) in
+            XCTAssertNil(error)
+            XCTAssertNotNil(searchTerms)
+
+            XCTAssertEqual(searchTerms!.hiddenSearchTermsCount, 634)
+            XCTAssertEqual(searchTerms!.otherSearchTermsCount, 190)
+            XCTAssertEqual(searchTerms!.totalSearchTermsCount, 867)
+
+            XCTAssertEqual(searchTerms?.searchTerms.count, 9)
+            XCTAssertEqual(searchTerms?.searchTerms.first!.term, "wordpress")
+            XCTAssertEqual(searchTerms?.searchTerms.first!.viewsCount, 16)
+
+            expect.fulfill()
+        }
+
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+
+    func testTopAuthors() {
+        let expect = expectation(description: "It should return authors data for a year")
+
+        stubRemoteResponse(siteAuthorsDataEndpoint, filename: getAuthorsDataFilename, contentType: .ApplicationJSON)
+
+        let dec31 = DateComponents(year: 2018, month: 12, day: 31)
+        let date = Calendar.autoupdatingCurrent.date(from: dec31)!
+
+
+        remote.getData(for: .year, endingOn: date) { (topAuthors: AuthorsStatsType?, error: Error?) in
+            XCTAssertNil(error)
+            XCTAssertNotNil(topAuthors)
+
+            XCTAssertEqual(topAuthors?.topAuthors.count, 10)
+
+            XCTAssertEqual(topAuthors?.topAuthors.first!.viewsCount, 57)
+            XCTAssertEqual(topAuthors?.topAuthors.first!.name, "George Hotelling")
+
+            XCTAssertEqual(topAuthors?.topAuthors.first!.posts.count, 10)
+            XCTAssertEqual(topAuthors?.topAuthors.first!.posts.first!.postID, 132)
+            XCTAssertEqual(topAuthors?.topAuthors.first!.posts.first!.viewsCount, 7)
+            XCTAssertEqual(topAuthors?.topAuthors.first!.posts.first!.title, "Josepha's Prospect ")
+            XCTAssertEqual(topAuthors?.topAuthors.first!.posts.first!.postURL, URL(string: "http://bagomattic.wordpress.com/2016/09/20/josephas-prospect/"))
+
+            expect.fulfill()
+        }
+
+        waitForExpectations(timeout: timeout, handler: nil)
+
     }
 }
