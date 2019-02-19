@@ -14,6 +14,7 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
     let getVideosMockFilename = "stats-videos-data.json"
     let getCountriesMockFilename = "stats-countries-data.json"
     let getClicksMockFilename = "stats-clicks-data.json"
+    let getReferrersMockFilename = "stats-referrer-data.json"
 
     // MARK: - Properties
 
@@ -23,6 +24,7 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
     var siteVideosDataEndpoint: String { return "sites/\(siteID)/stats/video-plays/" }
     var siteCountriesDataEndpoint: String { return "sites/\(siteID)/stats/country-views/" }
     var siteClicksDataEndpoint: String { return "sites/\(siteID)/stats/clicks/" }
+    var siteReferrerDataEndpoint: String { return "sites/\(siteID)/stats/referrers/" }
 
     var remote: StatsServiceRemoteV2!
 
@@ -223,6 +225,67 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
         }
 
         waitForExpectations(timeout: timeout, handler: nil)
+    }
 
+    func testReferrers() {
+        let expect = expectation(description: "It should return referrer data for a year")
+
+        stubRemoteResponse(siteReferrerDataEndpoint, filename: getReferrersMockFilename, contentType: .ApplicationJSON)
+
+        let jan31 = DateComponents(year: 2019, month: 1, day: 31)
+        let date = Calendar.autoupdatingCurrent.date(from: jan31)!
+
+        remote.getData(for: .month, endingOn: date) { (referrers: ReferrerStatsType?, error: Error?) in
+            XCTAssertNil(error)
+            XCTAssertNotNil(referrers)
+
+            XCTAssertEqual(referrers?.totalReferrerViews, 560)
+            XCTAssertEqual(referrers?.otherReferrerViews, 18)
+
+            XCTAssertEqual(referrers?.referrers.count, 10)
+
+            XCTAssertEqual(referrers?.referrers.first!.viewsCount, 126)
+            XCTAssertEqual(referrers?.referrers.first!.title, "linkedin.com")
+            XCTAssertEqual(referrers?.referrers.first!.iconURL, URL(string: "https://secure.gravatar.com/blavatar/f54db463750940e0e7f7630fe327845e?s=48"))
+            XCTAssertEqual(referrers?.referrers.first?.children.count, 5)
+            XCTAssertNil(referrers?.referrers.first!.url)
+
+            let noChildrenItem = referrers?.referrers[1]
+            XCTAssertNotNil(noChildrenItem)
+
+            XCTAssertEqual(noChildrenItem!.viewsCount, 124)
+            XCTAssertEqual(noChildrenItem!.title, "Twitter")
+            XCTAssertEqual(noChildrenItem!.url, URL(string: "http://twitter.com/"))
+            XCTAssertEqual(noChildrenItem?.iconURL, URL(string: "https://secure.gravatar.com/blavatar/7905d1c4e12c54933a44d19fcd5f9356?s=48"))
+            XCTAssertEqual(noChildrenItem?.children.count, 0)
+
+            XCTAssertEqual(referrers?.referrers[3].viewsCount, 55)
+            XCTAssertEqual(referrers?.referrers[3].title, "Search Engines")
+            XCTAssertEqual(referrers?.referrers[3].iconURL, URL(string: "https://wordpress.com/i/stats/search-engine.png"))
+            XCTAssertEqual(referrers?.referrers[3].children.count, 1)
+            XCTAssertNil(referrers?.referrers[3].url)
+
+            let google = referrers?.referrers[3].children.first
+            XCTAssertNotNil(google)
+
+            XCTAssertEqual(google!.viewsCount, 55)
+            XCTAssertEqual(google!.title, "Google Search")
+            XCTAssertEqual(google!.iconURL, URL(string: "https://secure.gravatar.com/blavatar/6741a05f4bc6e5b65f504c4f3df388a1?s=48"))
+            XCTAssertEqual(google?.children.count, 9)
+            XCTAssertNil(google?.url)
+
+            let firstGoogleChildren = google?.children.first
+            XCTAssertNotNil(firstGoogleChildren)
+
+            XCTAssertEqual(firstGoogleChildren?.viewsCount, 47)
+            XCTAssertEqual(firstGoogleChildren?.title, "google.com")
+            XCTAssertEqual(firstGoogleChildren?.url, URL(string: "http://www.google.com/"))
+            XCTAssertEqual(firstGoogleChildren?.children.count, 0)
+            XCTAssertNil(firstGoogleChildren?.iconURL)
+
+            expect.fulfill()
+        }
+
+        waitForExpectations(timeout: timeout, handler: nil)
     }
 }
