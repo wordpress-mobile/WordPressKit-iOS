@@ -13,6 +13,7 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
     let getAuthorsDataFilename = "stats-top-authors.json"
     let getVideosMockFilename = "stats-videos-data.json"
     let getCountriesMockFilename = "stats-countries-data.json"
+    let getClicksMockFilename = "stats-clicks-data.json"
 
     // MARK: - Properties
 
@@ -21,6 +22,7 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
     var siteAuthorsDataEndpoint: String { return "sites/\(siteID)/stats/top-authors/" }
     var siteVideosDataEndpoint: String { return "sites/\(siteID)/stats/video-plays/" }
     var siteCountriesDataEndpoint: String { return "sites/\(siteID)/stats/country-views/" }
+    var siteClicksDataEndpoint: String { return "sites/\(siteID)/stats/clicks/" }
 
     var remote: StatsServiceRemoteV2!
 
@@ -176,6 +178,46 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
             XCTAssertEqual(countries?.countries.last!.name, "Netherlands")
             XCTAssertEqual(countries?.countries.last!.code, "NL")
 
+
+            expect.fulfill()
+        }
+
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+
+    func testClicks() {
+        let expect = expectation(description: "It should return clicks data for a year")
+
+        stubRemoteResponse(siteClicksDataEndpoint, filename: getClicksMockFilename, contentType: .ApplicationJSON)
+
+        let dec31 = DateComponents(year: 2018, month: 12, day: 31)
+        let date = Calendar.autoupdatingCurrent.date(from: dec31)!
+
+
+        remote.getData(for: .year, endingOn: date) { (clicks: ClicksStatsType?, error: Error?) in
+            XCTAssertNil(error)
+            XCTAssertNotNil(clicks)
+
+            XCTAssertEqual(clicks?.totalClicksCount, 1032)
+            XCTAssertEqual(clicks?.otherClicksCount, 2)
+
+            XCTAssertEqual(clicks!.clicks.count, 10)
+
+            XCTAssertEqual(clicks?.clicks.first!.clicksCount, 767)
+            XCTAssertEqual(clicks?.clicks.first!.title, "automattic.com/work-with-us/?utm_source=a8c&utm_medium=site&utm_campaign=officetoday")
+            XCTAssertEqual(clicks?.clicks.first!.clickedURL, URL(string: "http://automattic.com/work-with-us/?utm_source=a8c&amp;utm_medium=site&amp;utm_campaign=officetoday"))
+            XCTAssertEqual(clicks?.clicks.first?.iconURL, URL(string: "https://secure.gravatar.com/blavatar/70ac4b986ed274e446bd33c2fdeefe49?s=48"))
+            XCTAssertEqual(clicks?.clicks.first?.children.count, 0)
+
+            XCTAssertEqual(clicks?.clicks[1].clicksCount, 167)
+            XCTAssertEqual(clicks?.clicks[1].title, "WordPress.com Media ")
+            XCTAssertNil(clicks?.clicks[1].iconURL)
+            XCTAssertNil(clicks?.clicks[1].clickedURL)
+
+            XCTAssertEqual(clicks?.clicks[1].children.count, 10)
+            XCTAssertEqual(clicks?.clicks[1].children.first?.clicksCount, 22)
+            XCTAssertEqual(clicks?.clicks[1].children.first?.clickedURL, URL(string: "https://officetoday.files.wordpress.com/2018/11/20181115_093040.jpg"))
+            XCTAssertEqual(clicks?.clicks[1].children.first?.title, "officetoday.files.wordpress.com/2018/11/20181115_093040.jpg")
 
             expect.fulfill()
         }
