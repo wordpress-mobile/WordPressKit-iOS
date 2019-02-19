@@ -20,6 +20,8 @@
 		40247DFC2120E69600AE1C3C /* AutomatedTransferStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40247DFB2120E69600AE1C3C /* AutomatedTransferStatus.swift */; };
 		404057C5221B30400060250C /* SearchTermStatsType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404057C4221B30400060250C /* SearchTermStatsType.swift */; };
 		404057C7221B36070060250C /* stats-search-term-result.json in Resources */ = {isa = PBXBuildFile; fileRef = 404057C6221B36070060250C /* stats-search-term-result.json */; };
+		404057C9221B789B0060250C /* AuthorsStatsType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404057C8221B789B0060250C /* AuthorsStatsType.swift */; };
+		404057CB221B80BC0060250C /* stats-top-authors.json in Resources */ = {isa = PBXBuildFile; fileRef = 404057CA221B80BC0060250C /* stats-top-authors.json */; };
 		4041405E220F9EF500CF7C5B /* StatsDotComFollowersInsight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4041405D220F9EF500CF7C5B /* StatsDotComFollowersInsight.swift */; };
 		40414060220F9F1F00CF7C5B /* StatsAllTimesInsight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4041405F220F9F1F00CF7C5B /* StatsAllTimesInsight.swift */; };
 		40A71C6E220E1D8E002E3D25 /* StatsServiceRemoteV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A71C6D220E1D8E002E3D25 /* StatsServiceRemoteV2.swift */; };
@@ -494,6 +496,8 @@
 		40247DFB2120E69600AE1C3C /* AutomatedTransferStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutomatedTransferStatus.swift; sourceTree = "<group>"; };
 		404057C4221B30400060250C /* SearchTermStatsType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTermStatsType.swift; sourceTree = "<group>"; };
 		404057C6221B36070060250C /* stats-search-term-result.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "stats-search-term-result.json"; sourceTree = "<group>"; };
+		404057C8221B789B0060250C /* AuthorsStatsType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorsStatsType.swift; sourceTree = "<group>"; };
+		404057CA221B80BC0060250C /* stats-top-authors.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "stats-top-authors.json"; sourceTree = "<group>"; };
 		4041405D220F9EF500CF7C5B /* StatsDotComFollowersInsight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsDotComFollowersInsight.swift; sourceTree = "<group>"; };
 		4041405F220F9F1F00CF7C5B /* StatsAllTimesInsight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsAllTimesInsight.swift; sourceTree = "<group>"; };
 		40A71C6D220E1D8E002E3D25 /* StatsServiceRemoteV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsServiceRemoteV2.swift; sourceTree = "<group>"; };
@@ -995,6 +999,7 @@
 			isa = PBXGroup;
 			children = (
 				404057C4221B30400060250C /* SearchTermStatsType.swift */,
+				404057C8221B789B0060250C /* AuthorsStatsType.swift */,
 			);
 			path = "Time-based data";
 			sourceTree = "<group>";
@@ -1512,6 +1517,7 @@
 		93BD27421EE73384002BB00B /* Mock Data */ = {
 			isa = PBXGroup;
 			children = (
+				404057CA221B80BC0060250C /* stats-top-authors.json */,
 				40F9880D221ACFB400B7B369 /* stats-streak-result.json */,
 				404057C6221B36070060250C /* stats-search-term-result.json */,
 				826016F61F9FAF6300533B6C /* activity-log-auth-failure.json */,
@@ -2057,6 +2063,7 @@
 				74D67F151F15C2D70010C5ED /* site-roles-success.json in Resources */,
 				D8DB404221EF22B500B8238E /* site-segments-multiple.json in Resources */,
 				740B23E11F17FB4200067A2A /* xmlrpc-metaweblog-editpost-bad-xml-failure.xml in Resources */,
+				404057CB221B80BC0060250C /* stats-top-authors.json in Resources */,
 				93AC8ED51ED32FD000900F5A /* stats-v1.1-tags-categories-views-day.json in Resources */,
 				17BF9A7520C7E18200BF57D2 /* reader-site-search-success-no-icon.json in Resources */,
 				828A2402201B6B8A004F6859 /* activity-rewind-status-restore-in-progress.json in Resources */,
@@ -2296,6 +2303,7 @@
 				742362E31F1025B400BD0A7F /* RemoteMenuLocation.m in Sources */,
 				82FFBF561F460DD400F4573F /* BlogJetpackSettingsServiceRemote.swift in Sources */,
 				9368C7B81EC630270092CE8E /* StatsStreakItem.m in Sources */,
+				404057C9221B789B0060250C /* AuthorsStatsType.swift in Sources */,
 				74BA04F61F06DC0A00ED5CD8 /* CommentServiceRemoteXMLRPC.m in Sources */,
 				7430C9A81F1927180051B8E6 /* ReaderTopicServiceRemote.m in Sources */,
 				17CE77F120C6EB41001DEA5A /* ReaderFeed.swift in Sources */,
