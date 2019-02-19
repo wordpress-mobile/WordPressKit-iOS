@@ -12,6 +12,7 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
     let getSearchDataFilename = "stats-search-term-result.json"
     let getAuthorsDataFilename = "stats-top-authors.json"
     let getVideosMockFilename = "stats-videos-data.json"
+    let getCountriesMockFilename = "stats-countries-data.json"
 
     // MARK: - Properties
 
@@ -19,6 +20,7 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
     var siteSearchDataEndpoint: String { return "sites/\(siteID)/stats/search-terms/" }
     var siteAuthorsDataEndpoint: String { return "sites/\(siteID)/stats/top-authors/" }
     var siteVideosDataEndpoint: String { return "sites/\(siteID)/stats/video-plays/" }
+    var siteCountriesDataEndpoint: String { return "sites/\(siteID)/stats/country-views/" }
 
     var remote: StatsServiceRemoteV2!
 
@@ -140,6 +142,40 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
             XCTAssertEqual(videos?.videos.last!.playsCount, 97)
             XCTAssertEqual(videos?.videos.last!.postID, 9010)
             XCTAssertEqual(videos?.videos.last!.title, "so call me maybe?")
+
+            expect.fulfill()
+        }
+
+        waitForExpectations(timeout: timeout, handler: nil)
+
+    }
+
+    func testCountries() {
+        let expect = expectation(description: "It should return country data for a year")
+
+        stubRemoteResponse(siteCountriesDataEndpoint, filename: getCountriesMockFilename, contentType: .ApplicationJSON)
+
+        let dec31 = DateComponents(year: 2018, month: 12, day: 31)
+        let date = Calendar.autoupdatingCurrent.date(from: dec31)!
+
+
+        remote.getData(for: .year, endingOn: date) { (countries: CountryStatsType?, error: Error?) in
+            XCTAssertNil(error)
+            XCTAssertNotNil(countries)
+
+            XCTAssertEqual(countries?.totalViewsCount, 1884)
+            XCTAssertEqual(countries?.otherViewsCount, 242)
+
+            XCTAssertEqual(countries?.countries.count, 10)
+
+            XCTAssertEqual(countries?.countries.first!.viewsCount, 937)
+            XCTAssertEqual(countries?.countries.first!.name, "United States")
+            XCTAssertEqual(countries?.countries.first!.code, "US")
+
+            XCTAssertEqual(countries?.countries.last!.viewsCount, 37)
+            XCTAssertEqual(countries?.countries.last!.name, "Netherlands")
+            XCTAssertEqual(countries?.countries.last!.code, "NL")
+
 
             expect.fulfill()
         }

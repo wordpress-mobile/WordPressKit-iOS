@@ -20,10 +20,11 @@ extension SearchTermStatsType: TimeStatsProtocol {
 
     public init?(date: Date, period: StatsPeriodUnit, jsonDictionary: [String : AnyObject]) {
         guard
-            let totalSearchTerms = jsonDictionary["total_search_terms"] as? Int,
-            let hiddenSearchTerms = jsonDictionary["encrypted_search_terms"] as? Int,
-            let otherSearchTerms = jsonDictionary["other_search_terms"] as? Int,
-            let searchTermsDict = jsonDictionary["search_terms"] as? [[String: AnyObject]]
+            let unwrappedDays = type(of: self).unwrapDaysDictionary(jsonDictionary: jsonDictionary),
+            let totalSearchTerms = unwrappedDays["total_search_terms"] as? Int,
+            let hiddenSearchTerms = unwrappedDays["encrypted_search_terms"] as? Int,
+            let otherSearchTerms = unwrappedDays["other_search_terms"] as? Int,
+            let searchTermsDict = unwrappedDays["search_terms"] as? [[String: AnyObject]]
             else {
                 return nil
         }

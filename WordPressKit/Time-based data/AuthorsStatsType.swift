@@ -27,7 +27,8 @@ extension AuthorsStatsType: TimeStatsProtocol {
 
     public init?(date: Date, period: StatsPeriodUnit, jsonDictionary: [String : AnyObject]) {
         guard
-            let authors = jsonDictionary["authors"] as? [[String: AnyObject]]
+            let unwrappedDays = type(of: self).unwrapDaysDictionary(jsonDictionary: jsonDictionary),
+            let authors = unwrappedDays["authors"] as? [[String: AnyObject]]
             else {
                 return nil
         }

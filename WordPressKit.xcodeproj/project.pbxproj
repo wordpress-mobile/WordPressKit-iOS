@@ -24,6 +24,8 @@
 		404057CB221B80BC0060250C /* stats-top-authors.json in Resources */ = {isa = PBXBuildFile; fileRef = 404057CA221B80BC0060250C /* stats-top-authors.json */; };
 		404057CE221C38130060250C /* VideosStatsType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404057CD221C38130060250C /* VideosStatsType.swift */; };
 		404057D0221C46790060250C /* stats-videos-data.json in Resources */ = {isa = PBXBuildFile; fileRef = 404057CF221C46780060250C /* stats-videos-data.json */; };
+		404057D2221C56AB0060250C /* CountryStatsType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404057D1221C56AB0060250C /* CountryStatsType.swift */; };
+		404057D4221C5FC40060250C /* stats-countries-data.json in Resources */ = {isa = PBXBuildFile; fileRef = 404057D3221C5FC30060250C /* stats-countries-data.json */; };
 		4041405E220F9EF500CF7C5B /* StatsDotComFollowersInsight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4041405D220F9EF500CF7C5B /* StatsDotComFollowersInsight.swift */; };
 		40414060220F9F1F00CF7C5B /* StatsAllTimesInsight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4041405F220F9F1F00CF7C5B /* StatsAllTimesInsight.swift */; };
 		40A71C6E220E1D8E002E3D25 /* StatsServiceRemoteV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A71C6D220E1D8E002E3D25 /* StatsServiceRemoteV2.swift */; };
@@ -502,6 +504,8 @@
 		404057CA221B80BC0060250C /* stats-top-authors.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "stats-top-authors.json"; sourceTree = "<group>"; };
 		404057CD221C38130060250C /* VideosStatsType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideosStatsType.swift; sourceTree = "<group>"; };
 		404057CF221C46780060250C /* stats-videos-data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "stats-videos-data.json"; sourceTree = "<group>"; };
+		404057D1221C56AB0060250C /* CountryStatsType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryStatsType.swift; sourceTree = "<group>"; };
+		404057D3221C5FC30060250C /* stats-countries-data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "stats-countries-data.json"; sourceTree = "<group>"; };
 		4041405D220F9EF500CF7C5B /* StatsDotComFollowersInsight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsDotComFollowersInsight.swift; sourceTree = "<group>"; };
 		4041405F220F9F1F00CF7C5B /* StatsAllTimesInsight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsAllTimesInsight.swift; sourceTree = "<group>"; };
 		40A71C6D220E1D8E002E3D25 /* StatsServiceRemoteV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsServiceRemoteV2.swift; sourceTree = "<group>"; };
@@ -1005,6 +1009,7 @@
 				404057C4221B30400060250C /* SearchTermStatsType.swift */,
 				404057C8221B789B0060250C /* AuthorsStatsType.swift */,
 				404057CD221C38130060250C /* VideosStatsType.swift */,
+				404057D1221C56AB0060250C /* CountryStatsType.swift */,
 			);
 			path = "Time-based data";
 			sourceTree = "<group>";
@@ -1522,6 +1527,7 @@
 		93BD27421EE73384002BB00B /* Mock Data */ = {
 			isa = PBXGroup;
 			children = (
+				404057D3221C5FC30060250C /* stats-countries-data.json */,
 				404057CF221C46780060250C /* stats-videos-data.json */,
 				404057CA221B80BC0060250C /* stats-top-authors.json */,
 				40F9880D221ACFB400B7B369 /* stats-streak-result.json */,
@@ -2002,6 +2008,7 @@
 				93AC8ED91ED32FD000900F5A /* stats-v1.1-video-plays-day-no-data.json in Resources */,
 				7403A2F81EF06FEB00DED7DC /* me-settings-change-display-name-success.json in Resources */,
 				FFE247B420C891E6002DF3A2 /* WordPressComOAuthSuccess.json in Resources */,
+				404057D4221C5FC40060250C /* stats-countries-data.json in Resources */,
 				74D67F1F1F15C3240010C5ED /* people-send-invitation-success.json in Resources */,
 				FFE247B020C891E6002DF3A2 /* WordPressComAuthenticateWithIDToken2FANeededSuccess.json in Resources */,
 				436D563E2118E34D00CEAA33 /* supported-states-success.json in Resources */,
@@ -2252,6 +2259,7 @@
 				93BD277F1EE73944002BB00B /* WordPressComOAuthClient.swift in Sources */,
 				740B23B91F17EC7300067A2A /* PostServiceRemoteREST.m in Sources */,
 				93BD27801EE73944002BB00B /* WordPressComRestApi.swift in Sources */,
+				404057D2221C56AB0060250C /* CountryStatsType.swift in Sources */,
 				E11C2AD21FA77FB90023BDE2 /* SitePlugin.swift in Sources */,
 				74A44DCC1F13C533006CD8F4 /* NotificationSyncServiceRemote.swift in Sources */,
 				74E229501F1E741B0085F7F2 /* RemotePublicizeConnection.swift in Sources */,

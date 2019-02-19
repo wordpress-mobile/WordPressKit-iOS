@@ -24,9 +24,10 @@ extension VideoStatsType: TimeStatsProtocol {
 
     public init?(date: Date, period: StatsPeriodUnit, jsonDictionary: [String : AnyObject]) {
         guard
-            let totalPlayCount = jsonDictionary["total_plays"] as? Int,
-            let otherPlays = jsonDictionary["other_plays"] as? Int,
-            let videos = jsonDictionary["plays"] as? [[String: AnyObject]]
+            let unwrappedDays = type(of: self).unwrapDaysDictionary(jsonDictionary: jsonDictionary),
+            let totalPlayCount = unwrappedDays["total_plays"] as? Int,
+            let otherPlays = unwrappedDays["other_plays"] as? Int,
+            let videos = unwrappedDays["plays"] as? [[String: AnyObject]]
             else {
                 return nil
         }
