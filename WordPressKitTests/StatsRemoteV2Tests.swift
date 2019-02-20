@@ -15,6 +15,7 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
     let getCountriesMockFilename = "stats-countries-data.json"
     let getClicksMockFilename = "stats-clicks-data.json"
     let getReferrersMockFilename = "stats-referrer-data.json"
+    let getPostsMockFilename = "stats-posts-data.json"
 
     // MARK: - Properties
 
@@ -25,6 +26,7 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
     var siteCountriesDataEndpoint: String { return "sites/\(siteID)/stats/country-views/" }
     var siteClicksDataEndpoint: String { return "sites/\(siteID)/stats/clicks/" }
     var siteReferrerDataEndpoint: String { return "sites/\(siteID)/stats/referrers/" }
+    var sitePostsDataEndpoint: String { return "sites/\(siteID)/stats/top-posts/" }
 
     var remote: StatsServiceRemoteV2!
 
@@ -287,5 +289,48 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
         }
 
         waitForExpectations(timeout: timeout, handler: nil)
+    }
+
+    func testTopPosts() {
+        let expect = expectation(description: "It should return posts data for a year")
+
+        stubRemoteResponse(sitePostsDataEndpoint, filename: getPostsMockFilename, contentType: .ApplicationJSON)
+
+        let jan31 = DateComponents(year: 2019, month: 1, day: 31)
+        let date = Calendar.autoupdatingCurrent.date(from: jan31)!
+
+
+        remote.getData(for: .month, endingOn: date) { (topPosts: PostsStatsType?, error: Error?) in
+            XCTAssertNil(error)
+            XCTAssertNotNil(topPosts)
+
+            XCTAssertEqual(topPosts?.totalViewsCount, 3499)
+            XCTAssertEqual(topPosts?.otherViewsCount, 237)
+
+            XCTAssertEqual(topPosts?.topPosts.count, 10)
+
+            XCTAssertEqual(topPosts?.topPosts.first?.viewsCount, 2816)
+            XCTAssertEqual(topPosts?.topPosts.first?.kind, .homepage)
+            XCTAssertEqual(topPosts?.topPosts.first?.title, "Home page / Archives")
+            XCTAssertEqual(topPosts?.topPosts.first?.postID, 0)
+            XCTAssertEqual(topPosts?.topPosts.first?.postURL, URL(string: "http://officetoday.wordpress.com/"))
+
+            XCTAssertEqual(topPosts?.topPosts[1].viewsCount, 146)
+            XCTAssertEqual(topPosts?.topPosts[1].kind, .post)
+            XCTAssertEqual(topPosts?.topPosts[1].title, "Valizas, Uruguay")
+            XCTAssertEqual(topPosts?.topPosts[1].postID, 2396)
+            XCTAssertEqual(topPosts?.topPosts[1].postURL, URL(string: "http://officetoday.wordpress.com/2019/01/04/valizas-uruguay/"))
+
+            XCTAssertEqual(topPosts?.topPosts[2].viewsCount, 141)
+            XCTAssertEqual(topPosts?.topPosts[2].kind, .page)
+            XCTAssertEqual(topPosts?.topPosts[2].title, "Dundee, Scotland")
+            XCTAssertEqual(topPosts?.topPosts[2].postID, 2413)
+            XCTAssertEqual(topPosts?.topPosts[2].postURL, URL(string: "http://officetoday.wordpress.com/2019/01/24/dundee-scotland-2/"))
+
+            expect.fulfill()
+        }
+
+        waitForExpectations(timeout: timeout, handler: nil)
+
     }
 }

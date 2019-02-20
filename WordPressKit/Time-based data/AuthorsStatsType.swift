@@ -14,10 +14,21 @@ public struct StatsTopAuthor {
 
 
 public struct StatsTopPost {
+
+    public enum Kind {
+        case unknown
+        case post
+        case page
+        case homepage
+    }
+
+
     public let title: String
     public let postID: Int
     public let postURL: URL?
     public let viewsCount: Int
+    public let kind: Kind
+
 }
 
 extension AuthorsStatsType: TimeStatsProtocol {
@@ -83,6 +94,20 @@ extension StatsTopPost {
         self.postID = postID
         self.viewsCount = viewsCount
         self.postURL = URL(string: postURL)
+        self.kind = type(of: self).kind(from: jsonDictionary["type"] as? String)
+    }
+
+    static func kind(from kindString: String?) -> Kind {
+        switch kindString {
+        case "post"?:
+            return .post
+        case "homepage"?:
+            return .homepage
+        case "page"?:
+            return .page
+        default:
+            return .unknown
+        }
     }
 }
 
