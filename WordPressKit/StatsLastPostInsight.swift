@@ -1,9 +1,3 @@
-import Foundation
-
-// Swift compiler doesn't like if this is not declared _in this file_, and refuses to compile the project.
-// I'm guessing this has somethign to do with generic specialisation, but I'm not enough
-// of a `swiftc` guru to really know. Leaving this in here to appease Swift gods.
-// TODO: see if this is still a problem in Swift 5 mode!
 public struct StatsLastPostInsight {
     public let title: String
     public let url: URL
