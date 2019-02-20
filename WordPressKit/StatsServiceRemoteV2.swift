@@ -97,6 +97,9 @@ public class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
             completion(nil, error)
         })
     }
+}
+
+extension StatsServiceRemoteV2 {
 
     // "Last Post" Insights are "fun" in the way that they require multiple requests to actually create them,
     // so we do this "fun" dance in a separate method.
