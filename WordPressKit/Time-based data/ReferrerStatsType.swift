@@ -2,8 +2,8 @@ public struct ReferrerStatsType {
     public let period: StatsPeriodUnit
     public let periodEndDate: Date
 
-    public let totalReferrerViews: Int
-    public let otherReferrerViews: Int
+    public let totalReferrerViewsCount: Int
+    public let otherReferrerViewsCount: Int
 
     public let referrers: [StatsReferrer]
 }
@@ -34,8 +34,8 @@ extension ReferrerStatsType: TimeStatsProtocol {
 
         self.period = period
         self.periodEndDate = date
-        self.totalReferrerViews = totalClicks
-        self.otherReferrerViews = otherClicks
+        self.totalReferrerViewsCount = totalClicks
+        self.otherReferrerViewsCount = otherClicks
         self.referrers = referrers.compactMap { StatsReferrer(jsonDictionary: $0) }
     }
 }

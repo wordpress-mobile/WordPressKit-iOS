@@ -239,8 +239,8 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
             XCTAssertNil(error)
             XCTAssertNotNil(referrers)
 
-            XCTAssertEqual(referrers?.totalReferrerViews, 560)
-            XCTAssertEqual(referrers?.otherReferrerViews, 18)
+            XCTAssertEqual(referrers?.totalReferrerViewsCount, 560)
+            XCTAssertEqual(referrers?.otherReferrerViewsCount, 18)
 
             XCTAssertEqual(referrers?.referrers.count, 10)
 
