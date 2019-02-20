@@ -26,6 +26,10 @@
 		404057D0221C46790060250C /* stats-videos-data.json in Resources */ = {isa = PBXBuildFile; fileRef = 404057CF221C46780060250C /* stats-videos-data.json */; };
 		404057D2221C56AB0060250C /* CountryStatsType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404057D1221C56AB0060250C /* CountryStatsType.swift */; };
 		404057D4221C5FC40060250C /* stats-countries-data.json in Resources */ = {isa = PBXBuildFile; fileRef = 404057D3221C5FC30060250C /* stats-countries-data.json */; };
+		404057D6221C92660060250C /* ClicksStatsType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404057D5221C92660060250C /* ClicksStatsType.swift */; };
+		404057D8221C986A0060250C /* stats-clicks-data.json in Resources */ = {isa = PBXBuildFile; fileRef = 404057D7221C98690060250C /* stats-clicks-data.json */; };
+		404057DA221C9D560060250C /* ReferrerStatsType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404057D9221C9D560060250C /* ReferrerStatsType.swift */; };
+		404057DC221C9FD80060250C /* stats-referrer-data.json in Resources */ = {isa = PBXBuildFile; fileRef = 404057DB221C9FD70060250C /* stats-referrer-data.json */; };
 		4041405E220F9EF500CF7C5B /* StatsDotComFollowersInsight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4041405D220F9EF500CF7C5B /* StatsDotComFollowersInsight.swift */; };
 		40414060220F9F1F00CF7C5B /* StatsAllTimesInsight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4041405F220F9F1F00CF7C5B /* StatsAllTimesInsight.swift */; };
 		40A71C6E220E1D8E002E3D25 /* StatsServiceRemoteV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A71C6D220E1D8E002E3D25 /* StatsServiceRemoteV2.swift */; };
@@ -506,6 +510,10 @@
 		404057CF221C46780060250C /* stats-videos-data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "stats-videos-data.json"; sourceTree = "<group>"; };
 		404057D1221C56AB0060250C /* CountryStatsType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryStatsType.swift; sourceTree = "<group>"; };
 		404057D3221C5FC30060250C /* stats-countries-data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "stats-countries-data.json"; sourceTree = "<group>"; };
+		404057D5221C92660060250C /* ClicksStatsType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClicksStatsType.swift; sourceTree = "<group>"; };
+		404057D7221C98690060250C /* stats-clicks-data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "stats-clicks-data.json"; sourceTree = "<group>"; };
+		404057D9221C9D560060250C /* ReferrerStatsType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferrerStatsType.swift; sourceTree = "<group>"; };
+		404057DB221C9FD70060250C /* stats-referrer-data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "stats-referrer-data.json"; sourceTree = "<group>"; };
 		4041405D220F9EF500CF7C5B /* StatsDotComFollowersInsight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsDotComFollowersInsight.swift; sourceTree = "<group>"; };
 		4041405F220F9F1F00CF7C5B /* StatsAllTimesInsight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsAllTimesInsight.swift; sourceTree = "<group>"; };
 		40A71C6D220E1D8E002E3D25 /* StatsServiceRemoteV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsServiceRemoteV2.swift; sourceTree = "<group>"; };
@@ -1010,6 +1018,8 @@
 				404057C8221B789B0060250C /* AuthorsStatsType.swift */,
 				404057CD221C38130060250C /* VideosStatsType.swift */,
 				404057D1221C56AB0060250C /* CountryStatsType.swift */,
+				404057D5221C92660060250C /* ClicksStatsType.swift */,
+				404057D9221C9D560060250C /* ReferrerStatsType.swift */,
 			);
 			path = "Time-based data";
 			sourceTree = "<group>";
@@ -1527,6 +1537,8 @@
 		93BD27421EE73384002BB00B /* Mock Data */ = {
 			isa = PBXGroup;
 			children = (
+				404057DB221C9FD70060250C /* stats-referrer-data.json */,
+				404057D7221C98690060250C /* stats-clicks-data.json */,
 				404057D3221C5FC30060250C /* stats-countries-data.json */,
 				404057CF221C46780060250C /* stats-videos-data.json */,
 				404057CA221B80BC0060250C /* stats-top-authors.json */,
@@ -2037,9 +2049,11 @@
 				74D67F201F15C3240010C5ED /* people-validate-invitation-failure.json in Resources */,
 				74D67F161F15C2D70010C5ED /* site-users-update-role-bad-json-failure.json in Resources */,
 				93BD27661EE73442002BB00B /* me-success.json in Resources */,
+				404057DC221C9FD80060250C /* stats-referrer-data.json in Resources */,
 				74C473C71EF334D4009918F2 /* site-active-purchases-none-active-success.json in Resources */,
 				829BA4321FACF187003ADEEA /* activity-rewind-status-restore-finished.json in Resources */,
 				74D67F181F15C2D70010C5ED /* site-users-update-role-unknown-site-failure.json in Resources */,
+				404057D8221C986A0060250C /* stats-clicks-data.json in Resources */,
 				436D56532121F60500CEAA33 /* supported-states-empty.json in Resources */,
 				93AC8ED31ED32FD000900F5A /* stats-v1.1-streak.json in Resources */,
 				7403A2F91EF06FEB00DED7DC /* me-settings-change-email-success.json in Resources */,
@@ -2284,6 +2298,7 @@
 				93BD277E1EE73944002BB00B /* NSDate+WordPressJSON.m in Sources */,
 				7E3E7A4820E443370075D159 /* NSMutableAttributedString+extensions.swift in Sources */,
 				E194CB731FBDEF6500B0A8B8 /* PluginState.swift in Sources */,
+				404057D6221C92660060250C /* ClicksStatsType.swift in Sources */,
 				9AF4F2FC218331DC00570E4B /* PostServiceRemoteREST+Revisions.swift in Sources */,
 				E13EE1471F33258E00C15787 /* PluginServiceRemote.swift in Sources */,
 				9368C7B61EC630270092CE8E /* StatsStreak.m in Sources */,
@@ -2299,6 +2314,7 @@
 				7430C9B81F1927C50051B8E6 /* RemoteReaderTopic.m in Sources */,
 				7403A3021EF0726E00DED7DC /* AccountSettings.swift in Sources */,
 				40E7FEA9220FA4060032834E /* StatsEmailFollowersInsight.swift in Sources */,
+				404057DA221C9D560060250C /* ReferrerStatsType.swift in Sources */,
 				9368C7C01EC630CE0092CE8E /* StatsStringUtilities.m in Sources */,
 				826016F11F9FA13A00533B6C /* ActivityServiceRemote.swift in Sources */,
 				74BA04FA1F06DC3900ED5CD8 /* RemoteComment.m in Sources */,
