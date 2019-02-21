@@ -99,11 +99,11 @@ extension StatsTopPost {
 
     static func kind(from kindString: String?) -> Kind {
         switch kindString {
-        case "post"?:
+        case "post":
             return .post
-        case "homepage"?:
+        case "homepage":
             return .homepage
-        case "page"?:
+        case "page":
             return .page
         default:
             return .unknown
