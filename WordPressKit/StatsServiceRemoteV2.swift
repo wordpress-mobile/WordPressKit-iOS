@@ -65,9 +65,15 @@ public class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
         let pathComponent = TimeStatsType.pathComponent
         let path = self.path(forEndpoint: "sites/\(siteID)/\(pathComponent)/", withVersion: ._1_1)
 
-        let properties = ["period": period.stringValue,
-                          "date": periodDataQueryDateFormatter.string(from: endingOn),
-                          "max": limit as AnyObject] as [String: AnyObject]
+        let staticProperties = ["period": period.stringValue,
+                                "date": periodDataQueryDateFormatter.string(from: endingOn),
+                                "max": limit as AnyObject] as [String: AnyObject]
+
+        let classProperties = TimeStatsType.queryProperties as [String: AnyObject]
+
+        let properties = staticProperties.merging(classProperties) { val1, _ in
+            return val1
+        }
 
         wordPressComRestApi.GET(path, parameters: properties, success: { (response, _) in
             guard
@@ -174,6 +180,7 @@ public protocol InsightProtocol {
 // naming is hard.
 public protocol TimeStatsProtocol {
     static var pathComponent: String { get }
+    static var queryProperties: [String: String] { get }
 
     var period: StatsPeriodUnit { get }
     var periodEndDate: Date { get }
@@ -182,6 +189,10 @@ public protocol TimeStatsProtocol {
 }
 
 extension TimeStatsProtocol {
+
+    public static var queryProperties: [String: String] {
+        return [:]
+    }
 
     // Most of the responses for time data come in a unwieldy format, that requires awkwkard unwrapping
     // at the call-site — unfortunately not _all of them_, which means we can't just do it at the request level.
