@@ -35,5 +35,6 @@ private extension StatsTopPost {
         self.title = title
         self.postURL = URL(string: urlString)
         self.viewsCount = 0
+        self.kind = .unknown
     }
 }
