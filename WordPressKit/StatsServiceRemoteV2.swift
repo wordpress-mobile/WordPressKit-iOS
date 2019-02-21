@@ -99,6 +99,7 @@ public class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
     }
 }
 
+// MARK: - StatsLastPostInsight-specific hack
 extension StatsServiceRemoteV2 {
 
     // "Last Post" Insights are "fun" in the way that they require multiple requests to actually create them,
@@ -159,7 +160,6 @@ extension StatsServiceRemoteV2 {
                                 }
         )
     }
-
 }
 
 // This serves both as a way to get the query properties in a "nice" way,
