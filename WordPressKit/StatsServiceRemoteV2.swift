@@ -165,7 +165,7 @@ extension StatsServiceRemoteV2 {
 extension StatsServiceRemoteV2 {
 
     // PublishedPostsStatsType hit a different endpoint and with different parameters
-    // then the rest of the time-based types — we need tco handle them separately here.
+    // then the rest of the time-based types — we need to handle them separately here.
     public func getData(for period: StatsPeriodUnit,
                         endingOn: Date,
                         limit: Int = 10,
