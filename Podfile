@@ -10,7 +10,12 @@ plugin 'cocoapods-repo-update'
 ## =============
 ##
 target 'WordPressKit' do
-  pod "WordPressKit", :path => "./"
+  pod 'Alamofire', '~> 4.7.3'
+  pod 'CocoaLumberjack', '3.4.2'
+  pod 'WordPressShared', '~> 1.4'
+  pod 'NSObject-SafeExpectations', '~> 0.0.3'
+  pod 'wpxmlrpc', '0.8.4'
+  pod 'UIDeviceIdentifier', '~> 1.1.4'
 
   target 'WordPressKitTests' do
     inherit! :search_paths

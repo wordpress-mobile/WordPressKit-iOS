@@ -16,6 +16,7 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
     let getClicksMockFilename = "stats-clicks-data.json"
     let getReferrersMockFilename = "stats-referrer-data.json"
     let getPostsMockFilename = "stats-posts-data.json"
+    let getPublishedPostsFilename = "stats-published-posts.json"
 
     // MARK: - Properties
 
@@ -27,6 +28,7 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
     var siteClicksDataEndpoint: String { return "sites/\(siteID)/stats/clicks/" }
     var siteReferrerDataEndpoint: String { return "sites/\(siteID)/stats/referrers/" }
     var sitePostsDataEndpoint: String { return "sites/\(siteID)/stats/top-posts/" }
+    var sitePublishedPostsEndpoint: String { return "sites/\(siteID)/posts/" }
 
     var remote: StatsServiceRemoteV2!
 
@@ -295,11 +297,10 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
         let expect = expectation(description: "It should return posts data for a year")
 
         stubRemoteResponse(sitePostsDataEndpoint, filename: getPostsMockFilename, contentType: .ApplicationJSON)
-
+      
         let jan31 = DateComponents(year: 2019, month: 1, day: 31)
         let date = Calendar.autoupdatingCurrent.date(from: jan31)!
-
-
+      
         remote.getData(for: .month, endingOn: date) { (topPosts: PostsStatsType?, error: Error?) in
             XCTAssertNil(error)
             XCTAssertNotNil(topPosts)
@@ -326,11 +327,36 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
             XCTAssertEqual(topPosts?.topPosts[2].title, "Dundee, Scotland")
             XCTAssertEqual(topPosts?.topPosts[2].postID, 2413)
             XCTAssertEqual(topPosts?.topPosts[2].postURL, URL(string: "http://officetoday.wordpress.com/2019/01/24/dundee-scotland-2/"))
+                                                     
+            expect.fulfill()
+        }
+
+        waitForExpectations(timeout: timeout, handler: nil)                                                    
+    }                                                    
+
+    func testsPublishedPosts() {
+        let expect = expectation(description: "It should return published posts for a specified window")
+
+        stubRemoteResponse(sitePublishedPostsEndpoint, filename: getPublishedPostsFilename, contentType: .ApplicationJSON)
+
+        let jan31 = DateComponents(year: 2019, month: 1, day: 31)
+        let date = Calendar.autoupdatingCurrent.date(from: jan31)!
+
+        remote.getData(for: .month, endingOn: date) { (publishedPosts: PublishedPostsStatsType?, error: Error?) in
+            XCTAssertNil(error)
+            XCTAssertNotNil(publishedPosts)
+
+            XCTAssertEqual(publishedPosts?.publishedPosts.count, 3)
+
+            XCTAssertEqual(publishedPosts?.publishedPosts[0].postID, 41038)
+            XCTAssertEqual(publishedPosts?.publishedPosts[0].postURL, URL(string: "http://en.blog.wordpress.com/2019/01/14/newspack-by-wordpress-com/"))
+            XCTAssertEqual(publishedPosts?.publishedPosts[0].title, "Announcing Newspack by WordPress.com &#8212; A New Publishing Solution for News Organizations")
+
 
             expect.fulfill()
         }
 
         waitForExpectations(timeout: timeout, handler: nil)
-
-    }
+      
+    }    
 }
