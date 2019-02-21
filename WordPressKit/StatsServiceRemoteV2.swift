@@ -99,8 +99,8 @@ public class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
     }
 }
 
+// MARK: - StatsLastPostInsight-specific hack
 extension StatsServiceRemoteV2 {
-
     // "Last Post" Insights are "fun" in the way that they require multiple requests to actually create them,
     // so we do this "fun" dance in a separate method.
     public func getInsight(completion: @escaping ((StatsLastPostInsight?, Error?) -> Void)) {
@@ -158,6 +158,63 @@ extension StatsServiceRemoteV2 {
                                     completion(nil, error)
                                 }
         )
+    }
+}
+
+// MARK - PublishedPostsStatsType-specific hack
+extension StatsServiceRemoteV2 {
+
+    // PublishedPostsStatsType hit a different endpoint and with different parameters
+    // then the rest of the time-based types — we need to handle them separately here.
+    public func getData(for period: StatsPeriodUnit,
+                        endingOn: Date,
+                        limit: Int = 10,
+                        completion: @escaping ((PublishedPostsStatsType?, Error?) -> Void)) {
+
+        let pathComponent = StatsLastPostInsight.pathComponent
+
+        let path = self.path(forEndpoint: "sites/\(siteID)/\(pathComponent)", withVersion: ._1_1)
+
+        let properties = ["number": limit,
+                          "fields": "ID, title, URL",
+                          "after": ISO8601DateFormatter().string(from: startDate(for: period, endDate: endingOn)),
+                          "before": ISO8601DateFormatter().string(from: endingOn)] as [String: AnyObject]
+
+        wordPressComRestApi.GET(path,
+                                parameters: properties,
+                                success: { (response, _) in
+                                    guard
+                                        let jsonResponse = response as? [String: AnyObject],
+                                        let response = PublishedPostsStatsType(date: endingOn, period: period, jsonDictionary: jsonResponse) else {
+                                            completion(nil, ResponseError.decodingFailure)
+                                            return
+                                    }
+                                    completion(response, nil)
+                                }, failure: { (error, _) in
+                                    completion(nil, error)
+                                }
+            )
+    }
+
+    private func startDate(for period: StatsPeriodUnit, endDate: Date) -> Date {
+        switch  period {
+        case .day:
+            return Calendar.autoupdatingCurrent.startOfDay(for: endDate)
+        case .week:
+            let weekAgo = Calendar.autoupdatingCurrent.date(byAdding: .day, value: -6, to: endDate)!
+            return Calendar.autoupdatingCurrent.startOfDay(for: weekAgo)
+        case .month:
+            let monthAgo = Calendar.autoupdatingCurrent.date(byAdding: .month, value: -1, to: endDate)!
+            let firstOfMonth = Calendar.autoupdatingCurrent.date(bySetting: .day, value: 1, of: monthAgo)!
+
+            return Calendar.autoupdatingCurrent.startOfDay(for: firstOfMonth)
+        case .year:
+            let yearAgo = Calendar.autoupdatingCurrent.date(byAdding: .year, value: -1, to: endDate)!
+            let january = Calendar.autoupdatingCurrent.date(bySetting: .month, value: 1, of: yearAgo)!
+            let jan1 = Calendar.autoupdatingCurrent.date(bySetting: .day, value: 1, of: january)!
+
+            return Calendar.autoupdatingCurrent.startOfDay(for: jan1)
+        }
     }
 
 }
