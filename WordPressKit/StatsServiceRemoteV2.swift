@@ -69,7 +69,7 @@ public class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
                                 "date": periodDataQueryDateFormatter.string(from: endingOn),
                                 "max": limit as AnyObject] as [String: AnyObject]
 
-        let classProperties = TimeStatsType.queryProperties as [String: AnyObject]
+        let classProperties = TimeStatsType.queryProperties(with: endingOn, period: period) as [String: AnyObject]
 
         let properties = staticProperties.merging(classProperties) { val1, _ in
             return val1
@@ -180,17 +180,18 @@ public protocol InsightProtocol {
 // naming is hard.
 public protocol TimeStatsProtocol {
     static var pathComponent: String { get }
-    static var queryProperties: [String: String] { get }
 
     var period: StatsPeriodUnit { get }
     var periodEndDate: Date { get }
 
     init?(date: Date, period: StatsPeriodUnit, jsonDictionary: [String: AnyObject])
+
+    static func queryProperties(with date: Date, period: StatsPeriodUnit) -> [String: String]
 }
 
 extension TimeStatsProtocol {
 
-    public static var queryProperties: [String: String] {
+    public static func queryProperties(with date: Date, period: StatsPeriodUnit) -> [String: String] {
         return [:]
     }
 
@@ -211,7 +212,7 @@ extension TimeStatsProtocol {
 
 // We'll bring `StatsPeriodUnit` into this file when the "old" `WPStatsServiceRemote` gets removed.
 // For now we can piggy-back off the old type and add this as an extension.
-fileprivate extension StatsPeriodUnit {
+extension StatsPeriodUnit {
     var stringValue: String {
         switch self {
         case .day:

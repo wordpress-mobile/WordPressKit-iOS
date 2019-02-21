@@ -20,9 +20,10 @@ extension SummaryStatsType: TimeStatsProtocol {
         return "stats/visits"
     }
 
-    public static var queryProperties: [String: String] {
+    public static func queryProperties(with date: Date, period: StatsPeriodUnit) -> [String: String] {
         return ["quantity": "10",
-                "stat_fields": "views,visitors,likes,comments"]
+                "stat_fields": "views,visitors,likes,comments",
+                "unit": period.stringValue]
     }
 
     public init?(date: Date, period: StatsPeriodUnit, jsonDictionary: [String : AnyObject]) {
