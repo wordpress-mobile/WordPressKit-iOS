@@ -65,9 +65,15 @@ public class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
         let pathComponent = TimeStatsType.pathComponent
         let path = self.path(forEndpoint: "sites/\(siteID)/\(pathComponent)/", withVersion: ._1_1)
 
-        let properties = ["period": period.stringValue,
-                          "date": periodDataQueryDateFormatter.string(from: endingOn),
-                          "max": limit as AnyObject] as [String: AnyObject]
+        let staticProperties = ["period": period.stringValue,
+                                "date": periodDataQueryDateFormatter.string(from: endingOn),
+                                "max": limit as AnyObject] as [String: AnyObject]
+
+        let classProperties = TimeStatsType.queryProperties(with: endingOn, period: period) as [String: AnyObject]
+
+        let properties = staticProperties.merging(classProperties) { val1, _ in
+            return val1
+        }
 
         wordPressComRestApi.GET(path, parameters: properties, success: { (response, _) in
             guard
@@ -254,9 +260,15 @@ public protocol TimeStatsProtocol {
     var periodEndDate: Date { get }
 
     init?(date: Date, period: StatsPeriodUnit, jsonDictionary: [String: AnyObject])
+
+    static func queryProperties(with date: Date, period: StatsPeriodUnit) -> [String: String]
 }
 
 extension TimeStatsProtocol {
+
+    public static func queryProperties(with date: Date, period: StatsPeriodUnit) -> [String: String] {
+        return [:]
+    }
 
     // Most of the responses for time data come in a unwieldy format, that requires awkwkard unwrapping
     // at the call-site — unfortunately not _all of them_, which means we can't just do it at the request level.
@@ -275,7 +287,7 @@ extension TimeStatsProtocol {
 
 // We'll bring `StatsPeriodUnit` into this file when the "old" `WPStatsServiceRemote` gets removed.
 // For now we can piggy-back off the old type and add this as an extension.
-fileprivate extension StatsPeriodUnit {
+extension StatsPeriodUnit {
     var stringValue: String {
         switch self {
         case .day:
