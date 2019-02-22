@@ -111,7 +111,7 @@ private extension StatsSummaryData {
 
     // We have our own handrolled date format for data broken up on week basis.
     // Example dates in this format are `2019W02W18` or `2019W02W11`.
-    // The structure is rougly `aaaaWbbWcc`, where:
+    // The structure is `aaaaWbbWcc`, where:
     // - `aaaa` is four-digit year number,
     // - `bb` is two-digit month number
     // - `cc` is two-digit day number
