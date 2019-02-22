@@ -36,6 +36,10 @@
 		4081977B221F153B00A298E4 /* stats-visits-week.json in Resources */ = {isa = PBXBuildFile; fileRef = 40819779221F153A00A298E4 /* stats-visits-week.json */; };
 		4081977C221F153B00A298E4 /* stats-visits-day.json in Resources */ = {isa = PBXBuildFile; fileRef = 4081977A221F153A00A298E4 /* stats-visits-day.json */; };
 		4081977E221F269A00A298E4 /* stats-visits-month.json in Resources */ = {isa = PBXBuildFile; fileRef = 4081977D221F269A00A298E4 /* stats-visits-month.json */; };
+		4081976F221DDE9B00A298E4 /* PostsStatsType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4081976E221DDE9B00A298E4 /* PostsStatsType.swift */; };
+		40819771221DFDB700A298E4 /* stats-posts-data.json in Resources */ = {isa = PBXBuildFile; fileRef = 40819770221DFDB600A298E4 /* stats-posts-data.json */; };
+		40819773221E10C900A298E4 /* PublishedPostsStatsType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40819772221E10C900A298E4 /* PublishedPostsStatsType.swift */; };
+		40819775221E497D00A298E4 /* stats-published-posts.json in Resources */ = {isa = PBXBuildFile; fileRef = 40819774221E497C00A298E4 /* stats-published-posts.json */; };
 		40A71C6E220E1D8E002E3D25 /* StatsServiceRemoteV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A71C6D220E1D8E002E3D25 /* StatsServiceRemoteV2.swift */; };
 		40AB1ADA200FED25009B533D /* PluginDirectoryFeedPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40AB1AD9200FED25009B533D /* PluginDirectoryFeedPage.swift */; };
 		40E4698B2017C2840030DB5F /* plugin-directory-popular.json in Resources */ = {isa = PBXBuildFile; fileRef = 40E4698A2017C2840030DB5F /* plugin-directory-popular.json */; };
@@ -525,6 +529,10 @@
 		40819779221F153A00A298E4 /* stats-visits-week.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "stats-visits-week.json"; sourceTree = "<group>"; };
 		4081977A221F153A00A298E4 /* stats-visits-day.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "stats-visits-day.json"; sourceTree = "<group>"; };
 		4081977D221F269A00A298E4 /* stats-visits-month.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "stats-visits-month.json"; sourceTree = "<group>"; };
+		4081976E221DDE9B00A298E4 /* PostsStatsType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsStatsType.swift; sourceTree = "<group>"; };
+		40819770221DFDB600A298E4 /* stats-posts-data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "stats-posts-data.json"; sourceTree = "<group>"; };
+		40819772221E10C900A298E4 /* PublishedPostsStatsType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublishedPostsStatsType.swift; sourceTree = "<group>"; };
+		40819774221E497C00A298E4 /* stats-published-posts.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "stats-published-posts.json"; sourceTree = "<group>"; };
 		40A71C6D220E1D8E002E3D25 /* StatsServiceRemoteV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsServiceRemoteV2.swift; sourceTree = "<group>"; };
 		40AB1AD9200FED25009B533D /* PluginDirectoryFeedPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PluginDirectoryFeedPage.swift; sourceTree = "<group>"; };
 		40E4698A2017C2840030DB5F /* plugin-directory-popular.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "plugin-directory-popular.json"; sourceTree = "<group>"; };
@@ -1026,11 +1034,13 @@
 			children = (
 				404057C4221B30400060250C /* SearchTermStatsType.swift */,
 				404057C8221B789B0060250C /* AuthorsStatsType.swift */,
+				4081976E221DDE9B00A298E4 /* PostsStatsType.swift */,
 				404057CD221C38130060250C /* VideosStatsType.swift */,
 				404057D1221C56AB0060250C /* CountryStatsType.swift */,
 				404057D5221C92660060250C /* ClicksStatsType.swift */,
 				404057D9221C9D560060250C /* ReferrerStatsType.swift */,
 				40819777221F00E600A298E4 /* SummaryStatsType.swift */,
+				40819772221E10C900A298E4 /* PublishedPostsStatsType.swift */,
 			);
 			path = "Time-based data";
 			sourceTree = "<group>";
@@ -1552,6 +1562,8 @@
 				4081977A221F153A00A298E4 /* stats-visits-day.json */,
 				4081977D221F269A00A298E4 /* stats-visits-month.json */,
 				40819779221F153A00A298E4 /* stats-visits-week.json */,
+				40819770221DFDB600A298E4 /* stats-posts-data.json */,
+				40819774221E497C00A298E4 /* stats-published-posts.json */,
 				404057DB221C9FD70060250C /* stats-referrer-data.json */,
 				404057D7221C98690060250C /* stats-clicks-data.json */,
 				404057D3221C5FC30060250C /* stats-countries-data.json */,
@@ -2052,6 +2064,7 @@
 				7403A2FD1EF06FEB00DED7DC /* me-settings-change-primary-site-success.json in Resources */,
 				93AC8ED41ED32FD000900F5A /* stats-v1.1-summary.json in Resources */,
 				74C473B71EF3229B009918F2 /* site-delete-unexpected-json-failure.json in Resources */,
+				40819771221DFDB700A298E4 /* stats-posts-data.json in Resources */,
 				93AC8ECD1ED32FD000900F5A /* stats-v1.1-insights.json in Resources */,
 				740B23EE1F17FB7E00067A2A /* xmlrpc-malformed-request-xml-error.xml in Resources */,
 				826016F91F9FAF6300533B6C /* activity-log-success-3.json in Resources */,
@@ -2103,6 +2116,7 @@
 				74C473C51EF33242009918F2 /* site-active-purchases-two-active-success.json in Resources */,
 				93AC8ECA1ED32FD000900F5A /* stats-v1.1-country-views-day.json in Resources */,
 				74C473BF1EF32B64009918F2 /* site-export-bad-json-failure.json in Resources */,
+				40819775221E497D00A298E4 /* stats-published-posts.json in Resources */,
 				74D67F151F15C2D70010C5ED /* site-roles-success.json in Resources */,
 				D8DB404221EF22B500B8238E /* site-segments-multiple.json in Resources */,
 				740B23E11F17FB4200067A2A /* xmlrpc-metaweblog-editpost-bad-xml-failure.xml in Resources */,
@@ -2276,6 +2290,7 @@
 				9F3E0BA22087345F009CB5BA /* ServiceRequest.swift in Sources */,
 				E1A6605F1FD694ED00BAC339 /* PluginDirectoryEntry.swift in Sources */,
 				7430C9CB1F192F260051B8E6 /* RemoteSourcePostAttribution.m in Sources */,
+				40819773221E10C900A298E4 /* PublishedPostsStatsType.swift in Sources */,
 				742362E11F1025B400BD0A7F /* RemoteMenuItem.m in Sources */,
 				436D56332118D7AA00CEAA33 /* TransactionsServiceRemote.swift in Sources */,
 				93BD27721EE737A9002BB00B /* ServiceRemoteWordPressXMLRPC.m in Sources */,
@@ -2309,6 +2324,7 @@
 				74E2295C1F1E77290085F7F2 /* KeyringConnectionExternalUser.swift in Sources */,
 				E1BD95151FD5A2B800CD5CE3 /* PluginDirectoryServiceRemote.swift in Sources */,
 				7430C9D71F1933210051B8E6 /* RemoteReaderCrossPostMeta.swift in Sources */,
+				4081976F221DDE9B00A298E4 /* PostsStatsType.swift in Sources */,
 				9311A68B1F22625A00704AC9 /* TaxonomyServiceRemoteXMLRPC.m in Sources */,
 				40414060220F9F1F00CF7C5B /* StatsAllTimesInsight.swift in Sources */,
 				93BD277E1EE73944002BB00B /* NSDate+WordPressJSON.m in Sources */,
