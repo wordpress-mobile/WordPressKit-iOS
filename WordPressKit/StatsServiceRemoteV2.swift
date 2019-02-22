@@ -103,6 +103,24 @@ public class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
             completion(nil, error)
         })
     }
+
+    public func getDetails(forPostID postID: Int, completion: @escaping ((StatsPostDetails?, Error?) -> Void)) {
+        let path = self.path(forEndpoint: "sites/\(siteID)/post/\(postID)/", withVersion: ._1_1)
+
+        wordPressComRestApi.GET(path, parameters: [:], success: { (response, _) in
+            guard
+                let jsonResponse = response as? [String: AnyObject],
+                let postDetails = StatsPostDetails(jsonDictionary: jsonResponse)
+                else {
+                    completion(nil, ResponseError.decodingFailure)
+                    return
+            }
+
+            completion(postDetails, nil)
+        }, failure: { (error, _) in
+            completion(nil, error)
+        })
+    }
 }
 
 // MARK: - StatsLastPostInsight-specific hack
