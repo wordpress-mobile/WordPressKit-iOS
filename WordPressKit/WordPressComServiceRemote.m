@@ -8,7 +8,6 @@
 - (void)createWPComAccountWithEmail:(NSString *)email
                         andUsername:(NSString *)username
                         andPassword:(NSString *)password
-                          andLocale:(NSString *)locale
                         andClientID:(NSString *)clientID
                     andClientSecret:(NSString *)clientSecret
                             success:(WordPressComServiceSuccessBlock)success
@@ -21,7 +20,6 @@
     [self createWPComAccountWithEmail:email
                           andUsername:username
                           andPassword:password
-                            andLocale:locale
                           andClientID:clientID
                       andClientSecret:clientSecret
                              validate:NO
@@ -32,7 +30,6 @@
 - (void)createWPComAccountWithEmail:(NSString *)email
                         andUsername:(NSString *)username
                         andPassword:(NSString *)password
-                          andLocale:(NSString *)locale
                         andClientID:(NSString *)clientID
                     andClientSecret:(NSString *)clientSecret
                            validate:(BOOL)validate
@@ -57,7 +54,6 @@
                              @"username": username,
                              @"password": password,
                              @"validate": @(validate),
-                             @"locale": locale,
                              @"client_id": clientID,
                              @"client_secret": clientSecret
                              };
@@ -70,7 +66,6 @@
 
 // API v1 POST /users/social/new
 - (void)createWPComAccountWithGoogle:(NSString *)token
-                           andLocale:(NSString *)locale
                          andClientID:(NSString *)clientID
                      andClientSecret:(NSString *)clientSecret
                              success:(WordPressComServiceSuccessBlock)success
@@ -89,7 +84,6 @@
                              @"client_id": clientID,
                              @"client_secret": clientSecret,
                              @"id_token": token,
-                             @"locale": locale,
                              @"service": @"google",
                              @"signup_flow_name": @"social",
                              };

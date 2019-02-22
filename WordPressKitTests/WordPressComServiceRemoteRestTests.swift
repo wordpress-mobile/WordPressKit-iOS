@@ -53,7 +53,6 @@ class WordPressComServiceRemoteRestTests: XCTestCase {
         service.createWPComAccount(withEmail: "fakeEmail",
                                             andUsername: "fakeUsername",
                                             andPassword: "fakePassword",
-                                            andLocale: "en",
                                             andClientID: "moo",
                                             andClientSecret: "cow",
                                             success: { (responseObject) in
