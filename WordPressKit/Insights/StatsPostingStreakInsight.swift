@@ -12,6 +12,11 @@ public struct StatsPostingStreakInsight {
 public struct PostingStreakEvent {
     public let date: Date
     public let postCount: Int
+
+    public init(date: Date, postCount: Int) {
+        self.date = date
+        self.postCount = postCount
+    }
 }
 
 extension StatsPostingStreakInsight: InsightProtocol {
