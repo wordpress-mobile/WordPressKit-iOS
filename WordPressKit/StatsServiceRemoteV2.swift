@@ -13,13 +13,22 @@ public class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
     private let siteID: Int
     private let siteTimezone: TimeZone
 
+    private lazy var periodDataQueryDateFormatter: DateFormatter = {
+        let df = DateFormatter()
+        df.locale = Locale(identifier: "en_US_POSIX")
+        df.dateFormat = "yyyy-MM-dd"
+        return df
+    }()
+
     public init(wordPressComRestApi api: WordPressComRestApi, siteID: Int, siteTimezone: TimeZone) {
         self.siteID = siteID
         self.siteTimezone = siteTimezone
         super.init(wordPressComRestApi: api)
     }
 
-
+    /// Responsible for fetching Stats data for Insights — latest data about a site,
+    /// in general — not considering a specific slice of time.
+    /// For a possible set of returned types, see objects that conform to `InsightProtocol`.
     public func getInsight<InsightType: InsightProtocol>(completion: @escaping ((InsightType?, Error?) -> Void)) {
         let properties = InsightType.queryProperties as [String: AnyObject]
         let pathComponent = InsightType.pathComponent
@@ -41,6 +50,81 @@ public class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
         })
     }
 
+
+    /// Used to fetch data about site over a specific timeframe.
+    /// - parameters:
+    ///   - period: An enum representing whether either a day, a week, a month or a year worth's of data.
+    ///   - endingOn: Date on which the `period` for which data you're interested in **is ending**.
+    ///    e.g. if you want data spanning 11-17 Feb 2019, you should pass in a period of `.week` and an
+    ///    ending date of `Feb 17 2019`.
+    ///   - limit: Limit of how many objects you want returned for your query. Default is `10`. `0` means no limit.
+    public func getData<TimeStatsType: TimeStatsProtocol>(for period: StatsPeriodUnit,
+                                                          endingOn: Date,
+                                                          limit: Int = 10,
+                                                          completion: @escaping ((TimeStatsType?, Error?) -> Void)) {
+        let pathComponent = TimeStatsType.pathComponent
+        let path = self.path(forEndpoint: "sites/\(siteID)/\(pathComponent)/", withVersion: ._1_1)
+
+        let staticProperties = ["period": period.stringValue,
+                                "date": periodDataQueryDateFormatter.string(from: endingOn),
+                                "max": limit as AnyObject] as [String: AnyObject]
+
+        let classProperties = TimeStatsType.queryProperties(with: endingOn, period: period) as [String: AnyObject]
+
+        let properties = staticProperties.merging(classProperties) { val1, _ in
+            return val1
+        }
+
+        wordPressComRestApi.GET(path, parameters: properties, success: { (response, _) in
+            guard
+                let jsonResponse = response as? [String: AnyObject],
+                let dateString = jsonResponse["date"] as? String,
+                let date = self.periodDataQueryDateFormatter.date(from: dateString)
+                else {
+                    completion(nil, ResponseError.decodingFailure)
+                    return
+            }
+
+            let periodString = jsonResponse["period"] as? String
+            let parsedPeriod = periodString.flatMap { StatsPeriodUnit(string: $0) } ?? period
+            // some responses omit this field!  not a reason to fail a whole request parsing though.
+
+            guard
+                let timestats = TimeStatsType(date: date,
+                                              period: parsedPeriod,
+                                              jsonDictionary: jsonResponse)
+                else {
+                    completion(nil, ResponseError.decodingFailure)
+                    return
+            }
+
+            completion(timestats, nil)
+        }, failure: { (error, _) in
+            completion(nil, error)
+        })
+    }
+
+    public func getDetails(forPostID postID: Int, completion: @escaping ((StatsPostDetails?, Error?) -> Void)) {
+        let path = self.path(forEndpoint: "sites/\(siteID)/post/\(postID)/", withVersion: ._1_1)
+
+        wordPressComRestApi.GET(path, parameters: [:], success: { (response, _) in
+            guard
+                let jsonResponse = response as? [String: AnyObject],
+                let postDetails = StatsPostDetails(jsonDictionary: jsonResponse)
+                else {
+                    completion(nil, ResponseError.decodingFailure)
+                    return
+            }
+
+            completion(postDetails, nil)
+        }, failure: { (error, _) in
+            completion(nil, error)
+        })
+    }
+}
+
+// MARK: - StatsLastPostInsight-specific hack
+extension StatsServiceRemoteV2 {
     // "Last Post" Insights are "fun" in the way that they require multiple requests to actually create them,
     // so we do this "fun" dance in a separate method.
     public func getInsight(completion: @escaping ((StatsLastPostInsight?, Error?) -> Void)) {
@@ -99,6 +183,63 @@ public class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
                                 }
         )
     }
+}
+
+// MARK - PublishedPostsStatsType-specific hack
+extension StatsServiceRemoteV2 {
+
+    // PublishedPostsStatsType hit a different endpoint and with different parameters
+    // then the rest of the time-based types — we need to handle them separately here.
+    public func getData(for period: StatsPeriodUnit,
+                        endingOn: Date,
+                        limit: Int = 10,
+                        completion: @escaping ((PublishedPostsStatsType?, Error?) -> Void)) {
+
+        let pathComponent = StatsLastPostInsight.pathComponent
+
+        let path = self.path(forEndpoint: "sites/\(siteID)/\(pathComponent)", withVersion: ._1_1)
+
+        let properties = ["number": limit,
+                          "fields": "ID, title, URL",
+                          "after": ISO8601DateFormatter().string(from: startDate(for: period, endDate: endingOn)),
+                          "before": ISO8601DateFormatter().string(from: endingOn)] as [String: AnyObject]
+
+        wordPressComRestApi.GET(path,
+                                parameters: properties,
+                                success: { (response, _) in
+                                    guard
+                                        let jsonResponse = response as? [String: AnyObject],
+                                        let response = PublishedPostsStatsType(date: endingOn, period: period, jsonDictionary: jsonResponse) else {
+                                            completion(nil, ResponseError.decodingFailure)
+                                            return
+                                    }
+                                    completion(response, nil)
+                                }, failure: { (error, _) in
+                                    completion(nil, error)
+                                }
+            )
+    }
+
+    private func startDate(for period: StatsPeriodUnit, endDate: Date) -> Date {
+        switch  period {
+        case .day:
+            return Calendar.autoupdatingCurrent.startOfDay(for: endDate)
+        case .week:
+            let weekAgo = Calendar.autoupdatingCurrent.date(byAdding: .day, value: -6, to: endDate)!
+            return Calendar.autoupdatingCurrent.startOfDay(for: weekAgo)
+        case .month:
+            let monthAgo = Calendar.autoupdatingCurrent.date(byAdding: .month, value: -1, to: endDate)!
+            let firstOfMonth = Calendar.autoupdatingCurrent.date(bySetting: .day, value: 1, of: monthAgo)!
+
+            return Calendar.autoupdatingCurrent.startOfDay(for: firstOfMonth)
+        case .year:
+            let yearAgo = Calendar.autoupdatingCurrent.date(byAdding: .year, value: -1, to: endDate)!
+            let january = Calendar.autoupdatingCurrent.date(bySetting: .month, value: 1, of: yearAgo)!
+            let jan1 = Calendar.autoupdatingCurrent.date(bySetting: .day, value: 1, of: january)!
+
+            return Calendar.autoupdatingCurrent.startOfDay(for: jan1)
+        }
+    }
 
 }
 
@@ -111,6 +252,71 @@ public protocol InsightProtocol {
     init?(jsonDictionary: [String: AnyObject])
 }
 
+// naming is hard.
+public protocol TimeStatsProtocol {
+    static var pathComponent: String { get }
+
+    var period: StatsPeriodUnit { get }
+    var periodEndDate: Date { get }
+
+    init?(date: Date, period: StatsPeriodUnit, jsonDictionary: [String: AnyObject])
+
+    static func queryProperties(with date: Date, period: StatsPeriodUnit) -> [String: String]
+}
+
+extension TimeStatsProtocol {
+
+    public static func queryProperties(with date: Date, period: StatsPeriodUnit) -> [String: String] {
+        return [:]
+    }
+
+    // Most of the responses for time data come in a unwieldy format, that requires awkwkard unwrapping
+    // at the call-site — unfortunately not _all of them_, which means we can't just do it at the request level.
+    static func unwrapDaysDictionary(jsonDictionary: [String: AnyObject]) -> [String: AnyObject]? {
+        guard
+            let days = jsonDictionary["days"] as? [String: AnyObject],
+            let firstKey = days.keys.first,
+            let firstDay = days[firstKey] as? [String: AnyObject]
+            else {
+                return nil
+        }
+        return firstDay
+    }
+
+}
+
+// We'll bring `StatsPeriodUnit` into this file when the "old" `WPStatsServiceRemote` gets removed.
+// For now we can piggy-back off the old type and add this as an extension.
+extension StatsPeriodUnit {
+    var stringValue: String {
+        switch self {
+        case .day:
+            return "day"
+        case .week:
+            return "week"
+        case .month:
+            return "month"
+        case .year:
+            return "year"
+        }
+    }
+
+    init?(string: String) {
+        switch string {
+        case "day":
+            self = .day
+        case "week":
+            self = .week
+        case "month":
+            self = .month
+        case "year":
+            self = .year
+        default:
+            return nil
+        }
+    }
+}
+
 extension InsightProtocol {
 
     // A big chunk of those use the same endpoint and queryProperties.. Let's simplify the protocol conformance in those cases.
@@ -121,72 +327,5 @@ extension InsightProtocol {
 
     public static var pathComponent: String {
         return "stats/"
-    }
-}
-
-// Swift compiler doesn't like if this is not declared _in this file_, and refuses to compile the project.
-// I'm guessing this has somethign to do with generic specialisation, but I'm not enough
-// of a `swiftc` guru to really know. Leaving this in here to appease Swift gods.
-// TODO: see if this is still a problem in Swift 5 mode!
-public struct StatsLastPostInsight {
-    public let title: String
-    public let url: URL
-    public let publishedDate: Date
-    public let likesCount: Int
-    public let commentsCount: Int
-    public let viewsCount: Int
-    public let postID: Int
-}
-
-extension StatsLastPostInsight: InsightProtocol {
-
-    //MARK: - InsightProtocol Conformance
-    public static var queryProperties: [String: String] {
-        return ["order_by": "date",
-                "number": "1",
-                "type": "post",
-                "fields": "ID, title, URL, discussion, like_count, date"]
-    }
-
-    public static var pathComponent: String {
-        return "posts/"
-    }
-
-    public init?(jsonDictionary: [String: AnyObject]) {
-        fatalError("This shouldn't be ever called, instead init?(jsonDictionary:_ views:_) be called instead.")
-    }
-
-    //MARK: -
-
-    private static let dateFormatter = ISO8601DateFormatter()
-
-    public init?(jsonDictionary: [String: AnyObject], views: Int) {
-
-        guard
-            let title = jsonDictionary["title"] as? String,
-            let dateString = jsonDictionary["date"] as? String,
-            let urlString = jsonDictionary["URL"] as? String,
-            let likesCount = jsonDictionary["like_count"] as? Int,
-            let postID = jsonDictionary["ID"] as? Int,
-            let discussionDict = jsonDictionary["discussion"] as? [String: Any],
-            let commentsCount = discussionDict["comment_count"] as? Int
-            else {
-                return nil
-        }
-
-        guard
-            let url = URL(string: urlString),
-            let date = StatsLastPostInsight.dateFormatter.date(from: dateString)
-            else {
-                return nil
-        }
-
-        self.title = title.trimmingCharacters(in: CharacterSet.whitespaces).stringByDecodingXMLCharacters()
-        self.url = url
-        self.publishedDate = date
-        self.likesCount = likesCount
-        self.commentsCount = commentsCount
-        self.viewsCount = views
-        self.postID = postID
     }
 }
