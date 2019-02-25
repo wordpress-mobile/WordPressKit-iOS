@@ -26,6 +26,32 @@ extension StatsPostingStreakInsight: InsightProtocol {
         return "stats/streak"
     }
 
+    // Some heavy-traffic sites can have A LOT of posts and the default query parameters wouldn't
+    // return all the relevant streak data, so we manualy override the `max` and `startDate``/endDate`
+    // parameters to hopefully get all.
+    public static var queryProperties: [String: String] {
+        let today = Date()
+
+        let numberOfDaysInCurrentMonth = Calendar.autoupdatingCurrent.range(of: .day, in: .month, for: today)
+
+        guard
+            let firstDayIndex = numberOfDaysInCurrentMonth?.first,
+            let lastDayIndex = numberOfDaysInCurrentMonth?.last,
+            let lastDayOfMonth = Calendar.autoupdatingCurrent.date(bySetting: .day, value: lastDayIndex, of: today),
+            let firstDayOfMonth = Calendar.autoupdatingCurrent.date(bySetting: .day, value: firstDayIndex, of: today),
+            let yearAgo = Calendar.autoupdatingCurrent.date(byAdding: .year, value: -1, to: firstDayOfMonth)
+            else {
+                return [:]
+        }
+
+        let firstDayString = self.dateFormatter.string(from: yearAgo)
+        let lastDayString = self.dateFormatter.string(from: lastDayOfMonth)
+
+        return ["startDate": "\(firstDayString)",
+                "endDate": "\(lastDayString)",
+                "max": "5000"]
+    }
+
     public init?(jsonDictionary: [String: AnyObject]) {
         guard
             let postsData = jsonDictionary["data"] as? [String: AnyObject],
