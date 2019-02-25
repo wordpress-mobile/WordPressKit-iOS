@@ -1,4 +1,4 @@
-public struct AuthorsStatsType {
+public struct StatsTopAuthorsTimeIntervalData {
     public let period: StatsPeriodUnit
     public let periodEndDate: Date
 
@@ -11,7 +11,6 @@ public struct StatsTopAuthor {
     public let viewsCount: Int
     public let posts: [StatsTopPost]
 }
-
 
 public struct StatsTopPost {
 
@@ -31,7 +30,7 @@ public struct StatsTopPost {
 
 }
 
-extension AuthorsStatsType: TimeStatsProtocol {
+extension StatsTopAuthorsTimeIntervalData: StatsTimeIntervalData {
     public static var pathComponent: String {
         return "stats/top-authors/"
     }

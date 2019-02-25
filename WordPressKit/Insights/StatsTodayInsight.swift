@@ -5,9 +5,9 @@ public struct StatsTodayInsight {
     public let commentsCount: Int
 }
 
-extension StatsTodayInsight: InsightProtocol {
+extension StatsTodayInsight: StatsInsightData {
 
-    //MARK: - InsightProtocol Conformance
+    //MARK: - StatsInsightData Conformance
     public static var pathComponent: String {
         return "stats/summary"
     }
