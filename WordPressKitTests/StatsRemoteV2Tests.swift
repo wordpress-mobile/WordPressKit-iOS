@@ -15,8 +15,12 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
     let getCountriesMockFilename = "stats-countries-data.json"
     let getClicksMockFilename = "stats-clicks-data.json"
     let getReferrersMockFilename = "stats-referrer-data.json"
+    let getVisitsDayMockFilename = "stats-visits-day.json"
+    let getVisitsWeekMockFilename = "stats-visits-week.json"
+    let getVisitsMonthMockFilename = "stats-visits-month.json"
     let getPostsMockFilename = "stats-posts-data.json"
     let getPublishedPostsFilename = "stats-published-posts.json"
+    let getPostsDetailsFilename = "stats-post-details.json"
 
     // MARK: - Properties
 
@@ -27,8 +31,11 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
     var siteCountriesDataEndpoint: String { return "sites/\(siteID)/stats/country-views/" }
     var siteClicksDataEndpoint: String { return "sites/\(siteID)/stats/clicks/" }
     var siteReferrerDataEndpoint: String { return "sites/\(siteID)/stats/referrers/" }
+    var siteVisitsDataEndpoint: String { return "sites/\(siteID)/stats/visits/" }
     var sitePostsDataEndpoint: String { return "sites/\(siteID)/stats/top-posts/" }
     var sitePublishedPostsEndpoint: String { return "sites/\(siteID)/posts/" }
+    var sitePostDetailsEndpoint: String { return "sites/\(siteID)/post/9001" }
+
 
     var remote: StatsServiceRemoteV2!
 
@@ -352,11 +359,194 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
             XCTAssertEqual(publishedPosts?.publishedPosts[0].postURL, URL(string: "http://en.blog.wordpress.com/2019/01/14/newspack-by-wordpress-com/"))
             XCTAssertEqual(publishedPosts?.publishedPosts[0].title, "Announcing Newspack by WordPress.com &#8212; A New Publishing Solution for News Organizations")
 
+            expect.fulfill()
+        }
+
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+  
+  func testVisitsForDay() {
+        let expect = expectation(description: "It should return visits data for a day")
+
+        stubRemoteResponse(siteVisitsDataEndpoint, filename: getVisitsDayMockFilename, contentType: .ApplicationJSON)
+
+        let feb21 = DateComponents(year: 2019, month: 2, day: 21)
+        let date = Calendar.autoupdatingCurrent.date(from: feb21)!
+
+        remote.getData(for: .day, endingOn: date) { (summary: SummaryStatsType?, error: Error?) in
+            XCTAssertNil(error)
+            XCTAssertNotNil(summary)
+
+            XCTAssertEqual(summary?.summaryData.count, 10)
+
+            XCTAssertEqual(summary?.summaryData[0].viewsCount, 5140)
+            XCTAssertEqual(summary?.summaryData[0].visitorsCount, 3560)
+            XCTAssertEqual(summary?.summaryData[0].likesCount, 70)
+            XCTAssertEqual(summary?.summaryData[0].commentsCount, 1)
+
+            let nineDaysAgo = Calendar.autoupdatingCurrent.date(byAdding: .day, value: -9, to: date)!
+            XCTAssertEqual(summary?.summaryData[0].periodStartDate, nineDaysAgo)
+
+            XCTAssertEqual(summary?.summaryData[9].viewsCount, 3244)
+            XCTAssertEqual(summary?.summaryData[9].visitorsCount, 2127)
+            XCTAssertEqual(summary?.summaryData[9].likesCount, 25)
+            XCTAssertEqual(summary?.summaryData[9].commentsCount, 0)
+            XCTAssertEqual(summary?.summaryData[9].periodStartDate, date)
 
             expect.fulfill()
         }
 
         waitForExpectations(timeout: timeout, handler: nil)
+    }
+
+    func testFetchPostDetail() {
+        let expect = expectation(description: "It should return post detail")
+
+        stubRemoteResponse(sitePostDetailsEndpoint, filename: getPostsDetailsFilename, contentType: .ApplicationJSON)
       
-    }    
+        let feb21 = DateComponents(year: 2019, month: 2, day: 21)
+        let date = Calendar.autoupdatingCurrent.date(from: feb21)!
+      
+        remote.getDetails(forPostID: 9001) { (postDetails, error) in
+            XCTAssertNil(error)
+            XCTAssertNotNil(postDetails)
+
+            XCTAssertEqual(postDetails?.fetchedDate, date)
+            XCTAssertEqual(postDetails?.totalViewsCount, 163343)
+
+            XCTAssertEqual(postDetails?.dailyAveragesPerMonth.count, postDetails?.monthlyBreakdown.count)
+            XCTAssertEqual(postDetails?.dailyAveragesPerMonth.count, 10 + 12 + 12 + 12 + 2)
+
+            let feb19Averages = postDetails?.dailyAveragesPerMonth.first { $0.date == DateComponents(year: 2019, month: 2) }
+            XCTAssertNotNil(feb19Averages)
+            XCTAssertEqual(feb19Averages?.period, .month)
+            XCTAssertEqual(feb19Averages?.viewsCount, 112)
+
+            let feb19Views = postDetails?.monthlyBreakdown.first { $0.date == DateComponents(year: 2019, month: 2) }
+            XCTAssertNotNil(feb19Views)
+            XCTAssertEqual(feb19Views?.period, .month)
+            XCTAssertEqual(feb19Views?.viewsCount, 2578)
+
+            XCTAssertEqual(postDetails?.lastTwoWeeks.count, 14)
+
+            XCTAssertEqual(postDetails?.lastTwoWeeks.first?.viewsCount, 112)
+            XCTAssertEqual(postDetails?.lastTwoWeeks.first?.period, .day)
+            XCTAssertEqual(postDetails?.lastTwoWeeks.first?.date, DateComponents(year: 2019, month: 2, day: 08))
+
+            XCTAssertEqual(postDetails?.lastTwoWeeks.last?.viewsCount, 324)
+            XCTAssertEqual(postDetails?.lastTwoWeeks.last?.period, .day)
+            XCTAssertEqual(postDetails?.lastTwoWeeks.last?.date, DateComponents(year: 2019, month: 2, day: 21))
+
+            XCTAssertEqual(postDetails?.recentWeeks.count, 6)
+
+            let leastRecentWeek = postDetails?.recentWeeks.first
+            let mostRecentWeek = postDetails?.recentWeeks.last
+
+            XCTAssertNotNil(leastRecentWeek)
+            XCTAssertNotNil(mostRecentWeek)
+
+            XCTAssertEqual(leastRecentWeek?.totalViewsCount, 688)
+            XCTAssertEqual(leastRecentWeek?.averageViewsCount, 98)
+            XCTAssertEqual(leastRecentWeek!.changePercentage, 0.0, accuracy: 0.0000000001)
+            XCTAssertEqual(leastRecentWeek?.startDay, DateComponents(year: 2019, month: 01, day: 14))
+            XCTAssertEqual(leastRecentWeek?.endDay, DateComponents(year: 2019, month: 01, day: 20))
+            XCTAssertEqual(leastRecentWeek?.days.count, 7)
+            XCTAssertEqual(leastRecentWeek?.days.first?.date, leastRecentWeek?.startDay)
+            XCTAssertEqual(leastRecentWeek?.days.last?.date, leastRecentWeek?.endDay)
+            XCTAssertEqual(leastRecentWeek?.days.first?.viewsCount, 174)
+            XCTAssertEqual(leastRecentWeek?.days.last?.viewsCount, 60)
+
+            XCTAssertEqual(mostRecentWeek?.totalViewsCount, 867)
+            XCTAssertEqual(mostRecentWeek?.averageViewsCount, 181)
+            XCTAssertEqual(mostRecentWeek!.changePercentage, 38.7732, accuracy: 0.001)
+            XCTAssertEqual(mostRecentWeek?.startDay, DateComponents(year: 2019, month: 02, day: 18))
+            XCTAssertEqual(mostRecentWeek?.endDay, DateComponents(year: 2019, month: 02, day: 21))
+            XCTAssertEqual(mostRecentWeek?.days.count, 4)
+            XCTAssertEqual(mostRecentWeek?.days.first?.date, mostRecentWeek?.startDay)
+            XCTAssertEqual(mostRecentWeek?.days.last?.date, mostRecentWeek?.endDay)
+            XCTAssertEqual(mostRecentWeek?.days.first?.viewsCount, 157)
+            XCTAssertEqual(mostRecentWeek?.days.last?.viewsCount, 324)
+                                            
+            expect.fulfill()
+        }
+
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+
+    func testVisitsForWeek() {
+        let expect = expectation(description: "It should return visits data for a week")
+
+        stubRemoteResponse(siteVisitsDataEndpoint, filename: getVisitsWeekMockFilename, contentType: .ApplicationJSON)
+
+        let feb21 = DateComponents(year: 2019, month: 2, day: 21)
+        let date = Calendar.autoupdatingCurrent.date(from: feb21)!
+
+        remote.getData(for: .week, endingOn: date) { (summary: SummaryStatsType?, error: Error?) in
+            XCTAssertNil(error)
+            XCTAssertNotNil(summary)
+
+            XCTAssertEqual(summary?.summaryData.count, 10)
+
+            XCTAssertEqual(summary?.summaryData[0].viewsCount, 32603)
+            XCTAssertEqual(summary?.summaryData[0].visitorsCount, 23205)
+            XCTAssertEqual(summary?.summaryData[0].likesCount, 855)
+            XCTAssertEqual(summary?.summaryData[0].commentsCount, 44)
+
+            let dec17 = DateComponents(year: 2018, month: 12, day: 17)
+            let dec17Date = Calendar.autoupdatingCurrent.date(from: dec17)!
+            XCTAssertEqual(summary?.summaryData[0].periodStartDate, dec17Date)
+
+            XCTAssertEqual(summary?.summaryData[9].viewsCount, 17162)
+            XCTAssertEqual(summary?.summaryData[9].visitorsCount, 11490)
+            XCTAssertEqual(summary?.summaryData[9].likesCount, 126)
+            XCTAssertEqual(summary?.summaryData[9].commentsCount, 0)
+
+            XCTAssertEqual(summary?.summaryData[9].periodStartDate, Calendar.autoupdatingCurrent.date(byAdding: .day,
+                                                                                                      value: 7 * 9, // 7 days * nine objects
+                                                                                                      to: dec17Date))
+
+            expect.fulfill()
+        }
+
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+
+    func testVisitsForMonth() {
+        let expect = expectation(description: "It should return visits data for a month")
+
+        stubRemoteResponse(siteVisitsDataEndpoint, filename: getVisitsMonthMockFilename, contentType: .ApplicationJSON)
+
+        let feb21 = DateComponents(year: 2019, month: 2, day: 21)
+        let date = Calendar.autoupdatingCurrent.date(from: feb21)!
+
+        
+        remote.getData(for: .month, endingOn: date) { (summary: SummaryStatsType?, error: Error?) in
+            XCTAssertNil(error)
+            XCTAssertNotNil(summary)
+
+            XCTAssertEqual(summary?.summaryData.count, 10)
+
+            XCTAssertEqual(summary?.summaryData[0].viewsCount, 3496)
+            XCTAssertEqual(summary?.summaryData[0].visitorsCount, 398)
+            XCTAssertEqual(summary?.summaryData[0].likesCount, 72)
+            XCTAssertEqual(summary?.summaryData[0].commentsCount, 0)
+
+            let may1 = DateComponents(year: 2018, month: 5, day: 1)
+            let may1Date = Calendar.autoupdatingCurrent.date(from: may1)!
+            XCTAssertEqual(summary?.summaryData[0].periodStartDate, may1Date)
+
+            XCTAssertEqual(summary?.summaryData[9].viewsCount, 2569)
+            XCTAssertEqual(summary?.summaryData[9].visitorsCount, 334)
+            XCTAssertEqual(summary?.summaryData[9].likesCount, 116)
+            XCTAssertEqual(summary?.summaryData[9].commentsCount, 0)
+
+            let nineMonthsFromMay1 = Calendar.autoupdatingCurrent.date(byAdding: .month, value: 9, to: may1Date)!
+
+            XCTAssertEqual(summary?.summaryData[9].periodStartDate, nineMonthsFromMay1)
+            
+            expect.fulfill()
+        }
+
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
 }
