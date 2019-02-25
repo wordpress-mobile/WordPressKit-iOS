@@ -1,4 +1,4 @@
-public struct ReferrerStatsType {
+public struct StatsTopReferrersTimeIntervalData {
     public let period: StatsPeriodUnit
     public let periodEndDate: Date
 
@@ -17,7 +17,7 @@ public struct StatsReferrer {
     public let children: [StatsReferrer]
 }
 
-extension ReferrerStatsType: TimeStatsProtocol {
+extension StatsTopReferrersTimeIntervalData: StatsTimeIntervalData {
     public static var pathComponent: String {
         return "stats/referrers"
     }
