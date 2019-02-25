@@ -39,26 +39,26 @@ public final class WordPressComOAuthClient: NSObject {
 
     @objc public static let WordPressComSocialLoginEndpointVersion = 1.0
 
-    fileprivate let clientID: String
-    fileprivate let secret: String
+    private let clientID: String
+    private let secret: String
 
-    fileprivate let oauth2SessionManager: SessionManager = {
+    private let oauth2SessionManager: SessionManager = {
         return WordPressComOAuthClient.sessionManager()
     }()
 
-    fileprivate let socialSessionManager: SessionManager = {
+    private let socialSessionManager: SessionManager = {
         return WordPressComOAuthClient.sessionManager()
     }()
 
-    fileprivate let social2FASessionManager: SessionManager = {
+    private let social2FASessionManager: SessionManager = {
         return WordPressComOAuthClient.sessionManager()
     }()
 
-    fileprivate let socialNewSMS2FASessionManager: SessionManager = {
+    private let socialNewSMS2FASessionManager: SessionManager = {
         return WordPressComOAuthClient.sessionManager()
     }()
 
-    fileprivate class func sessionManager() -> SessionManager {
+    private class func sessionManager() -> SessionManager {
         let configuration = URLSessionConfiguration.ephemeral
         configuration.httpAdditionalHeaders = ["Accept": "application/json"]
         let sessionManager = SessionManager(configuration: .ephemeral)
@@ -391,7 +391,7 @@ public final class WordPressComOAuthClient: NSObject {
             })
     }
 
-    fileprivate func cleanedUpResponseForLogging(_ response: AnyObject) -> AnyObject {
+    private func cleanedUpResponseForLogging(_ response: AnyObject) -> AnyObject {
         guard var responseDictionary = response as? [String: AnyObject],
             let _ = responseDictionary["access_token"]
             else {

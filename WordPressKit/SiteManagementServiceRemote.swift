@@ -124,14 +124,14 @@ open class SiteManagementServiceRemote: ServiceRemoteWordPressComREST {
 
     /// Keys found in API results
     ///
-    fileprivate struct ResultKey {
+    private struct ResultKey {
         static let Status = "status"
         static let Active = "active"
     }
 
     /// Values found in API results
     ///
-    fileprivate struct ResultValue {
+    private struct ResultValue {
         static let Deleted = "deleted"
         static let Running = "running"
     }
