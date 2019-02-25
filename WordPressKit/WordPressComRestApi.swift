@@ -351,9 +351,11 @@ open class WordPressComRestApi: NSObject {
 
         var componentsWithLocale = urlComponents
         var existingQueryItems = componentsWithLocale.queryItems ?? []
-
         let existingLocaleQueryItems = existingQueryItems.filter { $0.name == localeKey }
-        if let parameters = parameters, parameters[localeKey] == nil, existingLocaleQueryItems.isEmpty {
+
+        let inputParameters = parameters ?? [:]
+
+        if inputParameters[localeKey] == nil, existingLocaleQueryItems.isEmpty {
             let preferredLanguageIdentifier = WordPressComLanguageDatabase().deviceLanguage.slug
             let localeQueryItem = URLQueryItem(name: localeKey, value: preferredLanguageIdentifier)
 
