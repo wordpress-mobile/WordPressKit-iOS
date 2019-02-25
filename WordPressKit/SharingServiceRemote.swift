@@ -154,7 +154,7 @@ open class SharingServiceRemote: ServiceRemoteWordPressComREST {
     ///
     /// - Returns: An array of KeyringConnectionExternalUser instances.
     ///
-    fileprivate func externalUsersForKeyringConnection(_ externalUsers: NSArray) -> [KeyringConnectionExternalUser] {
+    private func externalUsersForKeyringConnection(_ externalUsers: NSArray) -> [KeyringConnectionExternalUser] {
         let arr: [KeyringConnectionExternalUser] = externalUsers.map { (dict) -> KeyringConnectionExternalUser in
             let externalUser = KeyringConnectionExternalUser()
             externalUser.externalID = (dict as AnyObject).string(forKey: ConnectionDictionaryKeys.externalID) ?? externalUser.externalID
@@ -364,7 +364,7 @@ open class SharingServiceRemote: ServiceRemoteWordPressComREST {
     ///
     /// - Returns: A `RemotePublicizeConnection` object.
     ///
-    fileprivate func remotePublicizeConnectionFromDictionary(_ dict: NSDictionary) -> RemotePublicizeConnection? {
+    private func remotePublicizeConnectionFromDictionary(_ dict: NSDictionary) -> RemotePublicizeConnection? {
         guard let connectionID = dict.number(forKey: ConnectionDictionaryKeys.ID) else {
             return nil
         }
@@ -486,7 +486,7 @@ open class SharingServiceRemote: ServiceRemoteWordPressComREST {
     ///
     /// - Returns: An array of `RemoteSharingButton` objects.
     ///
-    fileprivate func remoteSharingButtonsFromDictionary(_ buttons: NSArray) -> [RemoteSharingButton] {
+    private func remoteSharingButtonsFromDictionary(_ buttons: NSArray) -> [RemoteSharingButton] {
         var order = 0
         let sharingButtons: [RemoteSharingButton] = buttons.map { (dict) -> RemoteSharingButton in
             let btn = RemoteSharingButton()
@@ -510,7 +510,7 @@ open class SharingServiceRemote: ServiceRemoteWordPressComREST {
     }
 
 
-    fileprivate func dictionariesFromRemoteSharingButtons(_ buttons: [RemoteSharingButton]) -> [NSDictionary] {
+    private func dictionariesFromRemoteSharingButtons(_ buttons: [RemoteSharingButton]) -> [NSDictionary] {
         return buttons.map({ (btn) -> NSDictionary in
 
             let dict = NSMutableDictionary()
