@@ -1,4 +1,4 @@
-public struct VideoStatsType {
+public struct StatsTopVideosTimeIntervalData {
     public let period: StatsPeriodUnit
     public let periodEndDate: Date
 
@@ -16,7 +16,7 @@ public struct StatsVideo {
 
 }
 
-extension VideoStatsType: TimeStatsProtocol {
+extension StatsTopVideosTimeIntervalData: StatsTimeIntervalData {
 
     public static var pathComponent: String {
         return "stats/video-plays"

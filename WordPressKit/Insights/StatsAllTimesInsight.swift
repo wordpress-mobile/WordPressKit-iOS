@@ -7,9 +7,9 @@ public struct StatsAllTimesInsight {
 }
 
 
-extension StatsAllTimesInsight: InsightProtocol {
+extension StatsAllTimesInsight: StatsInsightData {
 
-    //MARK: - InsightProtocol Conformance
+    //MARK: - StatsInsightData Conformance
     public init?(jsonDictionary: [String: AnyObject]) {
         guard
             let statsDict = jsonDictionary["stats"] as? [String: AnyObject],

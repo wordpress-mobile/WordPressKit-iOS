@@ -2,7 +2,7 @@ public struct StatsTagsAndCategoriesInsight {
     public let topTagsAndCategories: [StatsTagAndCategory]
 }
 
-extension StatsTagsAndCategoriesInsight: InsightProtocol {
+extension StatsTagsAndCategoriesInsight: StatsInsightData {
     public static var pathComponent: String {
         return "stats/tags"
     }

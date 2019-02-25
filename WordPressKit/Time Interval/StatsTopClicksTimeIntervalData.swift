@@ -1,4 +1,4 @@
-public struct ClicksStatsType {
+public struct StatsTopClicksTimeIntervalData {
     public let period: StatsPeriodUnit
     public let periodEndDate: Date
 
@@ -17,7 +17,7 @@ public struct StatsClick {
     public let children: [StatsClick]
 }
 
-extension ClicksStatsType: TimeStatsProtocol {
+extension StatsTopClicksTimeIntervalData: StatsTimeIntervalData {
     public static var pathComponent: String {
         return "stats/clicks"
     }
