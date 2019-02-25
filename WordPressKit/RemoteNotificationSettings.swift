@@ -67,7 +67,7 @@ open class RemoteNotificationSettings {
         ///
         /// - Returns: A native Swift dictionary, containing only the Boolean entries
         ///
-        fileprivate func filterNonBooleanEntries(_ dictionary: NSDictionary?) -> [String : Bool] {
+        private func filterNonBooleanEntries(_ dictionary: NSDictionary?) -> [String : Bool] {
             var filtered = [String: Bool]()
             if dictionary == nil {
                 return filtered
@@ -114,7 +114,7 @@ open class RemoteNotificationSettings {
     ///     - channel: The communications channel that uses the current settings
     ///     - settings: Raw dictionary containing the remote settings response
     ///
-    fileprivate init(channel: Channel, settings: NSDictionary?) {
+    private init(channel: Channel, settings: NSDictionary?) {
         self.channel = channel
         self.streams = Stream.fromDictionary(settings)
     }
@@ -124,7 +124,7 @@ open class RemoteNotificationSettings {
     ///
     /// - Parameter wpcomSettings: Dictionary containing the collection of WordPress.com Settings
     ///
-    fileprivate init(wpcomSettings: NSDictionary?) {
+    private init(wpcomSettings: NSDictionary?) {
         // WordPress.com is a special scenario: It contains just one (unspecified) stream: Email
         self.channel = Channel.wordPressCom
         self.streams = [ Stream(kind: .Email, preferences: wpcomSettings) ]
@@ -135,7 +135,7 @@ open class RemoteNotificationSettings {
     ///
     /// - Parameter blogSettings: Dictionary containing the collection of settings for a single blog
     ///
-    fileprivate convenience init(blogSettings: NSDictionary?) {
+    private convenience init(blogSettings: NSDictionary?) {
         let blogId = blogSettings?["blog_id"] as? Int ?? Int.max
         self.init(channel: Channel.blog(blogId: blogId), settings: blogSettings)
     }
@@ -145,7 +145,7 @@ open class RemoteNotificationSettings {
     ///
     /// - Parameter otherSettings: Dictionary containing the collection of "Other Settings"
     ///
-    fileprivate convenience init(otherSettings: NSDictionary?) {
+    private convenience init(otherSettings: NSDictionary?) {
         self.init(channel: Channel.other, settings: otherSettings)
     }
 

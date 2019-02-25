@@ -5,7 +5,7 @@ import Foundation
 public class NotificationSyncServiceRemote: ServiceRemoteWordPressComREST {
     // MARK: - Constants
     //
-    fileprivate let defaultPageSize = 100
+    private let defaultPageSize = 100
 
 
     // MARK: - Errors

@@ -209,6 +209,6 @@ public class RemoteBlogSettings: NSObject {
 
     // MARK: - Private
 
-    fileprivate static let AscendingStringValue     = "asc"
-    fileprivate static let DescendingStringValue    = "desc"
+    private static let AscendingStringValue     = "asc"
+    private static let DescendingStringValue    = "desc"
 }
