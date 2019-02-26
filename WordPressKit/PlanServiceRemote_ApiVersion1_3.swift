@@ -11,11 +11,10 @@ import CocoaLumberjack
                                       failure: @escaping (Error) -> Void) {
         let endpoint = "sites/\(siteID)/plans"
         let path = self.path(forEndpoint: endpoint, withVersion: ._1_3)
-        let locale = WordPressComLanguageDatabase().deviceLanguage.slug
-        let parameters = ["locale": locale]
+
         wordPressComRestApi.GET(
             path,
-            parameters: parameters as [String : AnyObject]?,
+            parameters: nil,
             success: {
                 response, _ in
                 do {

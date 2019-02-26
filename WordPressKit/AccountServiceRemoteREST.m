@@ -242,8 +242,7 @@ static NSString * const UserDictionaryEmailVerifiedKey = @"email_verified";
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary:@{
                                                                                   @"email": email,
                                                                                   @"client_id": clientID,
-                                                                                  @"client_secret": clientSecret,
-                                                                                  @"locale": [[WordPressComLanguageDatabase new] deviceLanguageSlug],
+                                                                                  @"client_secret": clientSecret
                                                                                   }];
     if (![@"wordpress" isEqualToString:scheme]) {
         [params setObject:scheme forKey:@"scheme"];
