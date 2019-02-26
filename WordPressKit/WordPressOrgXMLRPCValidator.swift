@@ -152,7 +152,7 @@ open class WordPressOrgXMLRPCValidator: NSObject {
         })
     }
 
-    fileprivate func urlForXMLRPCFromURLString(_ urlString: String, addXMLRPC: Bool) throws -> URL {
+    private func urlForXMLRPCFromURLString(_ urlString: String, addXMLRPC: Bool) throws -> URL {
         var resultURLString = urlString
         // Is an empty url? Sorry, no psychic powers yet
         resultURLString = urlString.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
@@ -191,8 +191,8 @@ open class WordPressOrgXMLRPCValidator: NSObject {
         return url
     }
 
-    fileprivate func validateXMLRPCURL(_ url: URL,
-                                       redirectCount: Int = 0,
+    private func validateXMLRPCURL(_ url: URL,
+                                   redirectCount: Int = 0,
                                    success: @escaping (_ xmlrpcURL: URL) -> (),
                                    failure: @escaping (_ error: NSError) -> ()) {
             
@@ -247,7 +247,7 @@ open class WordPressOrgXMLRPCValidator: NSObject {
             })
     }
 
-    fileprivate func guessXMLRPCURLFromHTMLURL(_ htmlURL: URL,
+    private func guessXMLRPCURLFromHTMLURL(_ htmlURL: URL,
                                            success: @escaping (_ xmlrpcURL: URL) -> (),
                                            failure: @escaping (_ error: NSError) -> ()) {
         DDLogInfo("Fetch the original url and look for the RSD link by using RegExp")
@@ -295,7 +295,7 @@ open class WordPressOrgXMLRPCValidator: NSObject {
         dataTask.resume()
     }
 
-    fileprivate func extractRSDURLFromHTML(_ html: String) -> String? {
+    private func extractRSDURLFromHTML(_ html: String) -> String? {
         guard let rsdURLRegExp = try? NSRegularExpression(pattern: "<link\\s+rel=\"EditURI\"\\s+type=\"application/rsd\\+xml\"\\s+title=\"RSD\"\\s+href=\"([^\"]*)\"[^/]*/>",
                                                           options: [.caseInsensitive])
             else {
@@ -322,7 +322,7 @@ open class WordPressOrgXMLRPCValidator: NSObject {
         return rsdURL
     }
 
-    fileprivate func guessXMLRPCURLFromRSD(_ rsd: String,
+    private func guessXMLRPCURLFromRSD(_ rsd: String,
                                        success: @escaping (_ xmlrpcURL: URL) -> (),
                                        failure: @escaping (_ error: NSError) -> ()) {
         DDLogInfo("Parse the RSD document at the following URL: \(rsd)")

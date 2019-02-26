@@ -7,10 +7,10 @@ open class WordPressOrgXMLRPCApi: NSObject {
     public typealias SuccessResponseBlock = (AnyObject, HTTPURLResponse?) -> ()
     public typealias FailureReponseBlock = (_ error: NSError, _ httpResponse: HTTPURLResponse?) -> ()
 
-    fileprivate let endpoint: URL
-    fileprivate let userAgent: String?
-    fileprivate var backgroundUploads: Bool
-    fileprivate var backgroundSessionIdentifier: String
+    private let endpoint: URL
+    private let userAgent: String?
+    private var backgroundUploads: Bool
+    private var backgroundSessionIdentifier: String
     @objc public static let defaultBackgroundSessionIdentifier = "org.wordpress.wporgxmlrpcapi"
 
     /// onChallenge's Callback Closure Signature. Host Apps should call this method, whenever a proper AuthChallengeDisposition has been
@@ -22,19 +22,17 @@ open class WordPressOrgXMLRPCApi: NSObject {
     ///
     public static var onChallenge: ((URLAuthenticationChallenge, @escaping AuthenticationHandler) -> Void)?
 
-
     /// Minimum WordPress.org Supported Version.
     ///
     @objc public static let minimumSupportedVersion = "4.0"
 
-
-    fileprivate lazy var sessionManager: Alamofire.SessionManager = {
+    private lazy var sessionManager: Alamofire.SessionManager = {
         let sessionConfiguration = URLSessionConfiguration.default
         let sessionManager = self.makeSessionManager(configuration: sessionConfiguration)
         return sessionManager
     }()
 
-    fileprivate lazy var uploadSessionManager: Alamofire.SessionManager = {
+    private lazy var uploadSessionManager: Alamofire.SessionManager = {
         if self.backgroundUploads {
             let sessionConfiguration = URLSessionConfiguration.background(withIdentifier: self.backgroundSessionIdentifier)
             let sessionManager = self.makeSessionManager(configuration: sessionConfiguration)
@@ -44,7 +42,7 @@ open class WordPressOrgXMLRPCApi: NSObject {
         return self.sessionManager
     }()
 
-    fileprivate func makeSessionManager(configuration sessionConfiguration: URLSessionConfiguration) -> Alamofire.SessionManager {
+    private func makeSessionManager(configuration sessionConfiguration: URLSessionConfiguration) -> Alamofire.SessionManager {
         var additionalHeaders: [String : AnyObject] = ["Accept-Encoding": "gzip, deflate" as AnyObject]
         if let userAgent = self.userAgent {
             additionalHeaders["User-Agent"] = userAgent as AnyObject?
@@ -222,7 +220,7 @@ open class WordPressOrgXMLRPCApi: NSObject {
 
     // MARK: - Request Building
 
-    fileprivate func requestWithMethod(_ method: String, parameters: [AnyObject]?) throws -> URLRequest {
+    private func requestWithMethod(_ method: String, parameters: [AnyObject]?) throws -> URLRequest {
         let mutableRequest = NSMutableURLRequest(url: endpoint)
         mutableRequest.httpMethod = "POST"
         mutableRequest.setValue("text/xml", forHTTPHeaderField: "Content-Type")
@@ -232,7 +230,7 @@ open class WordPressOrgXMLRPCApi: NSObject {
         return mutableRequest as URLRequest
     }
 
-    fileprivate func streamingRequestWithMethod(_ method: String, parameters: [AnyObject]?, usingFileURLForCache fileURL: URL) throws -> URLRequest {
+    private func streamingRequestWithMethod(_ method: String, parameters: [AnyObject]?, usingFileURLForCache fileURL: URL) throws -> URLRequest {
         let mutableRequest = NSMutableURLRequest(url: endpoint)
         mutableRequest.httpMethod = "POST"
         mutableRequest.setValue("text/xml", forHTTPHeaderField: "Content-Type")
@@ -247,7 +245,7 @@ open class WordPressOrgXMLRPCApi: NSObject {
         return mutableRequest as URLRequest
     }
 
-    fileprivate func URLForTemporaryFile() -> URL {
+    private func URLForTemporaryFile() -> URL {
         let fileName = "\(ProcessInfo.processInfo.globallyUniqueString)_file.xmlrpc"
         let fileURL = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(fileName)
         return fileURL
@@ -255,7 +253,7 @@ open class WordPressOrgXMLRPCApi: NSObject {
 
     // MARK: - Handling of data
 
-    fileprivate func handleResponseWithData(_ originalData: Data?, urlResponse: URLResponse?, error: NSError?) throws -> AnyObject {
+    private func handleResponseWithData(_ originalData: Data?, urlResponse: URLResponse?, error: NSError?) throws -> AnyObject {
         guard let data = originalData,
             let httpResponse = urlResponse as? HTTPURLResponse,
             let contentType = httpResponse.allHeaderFields["Content-Type"] as? String, error == nil else {
@@ -292,7 +290,7 @@ open class WordPressOrgXMLRPCApi: NSObject {
     @objc public static let WordPressOrgXMLRPCApiErrorKeyDataString: NSError.UserInfoKey = "WordPressOrgXMLRPCApiErrorKeyDataString"
     @objc public static let WordPressOrgXMLRPCApiErrorKeyStatusCode: NSError.UserInfoKey = "WordPressOrgXMLRPCApiErrorKeyStatusCode"
 
-    fileprivate func convertError(_ error: NSError, data: Data?, statusCode: Int? = nil) -> NSError {
+    private func convertError(_ error: NSError, data: Data?, statusCode: Int? = nil) -> NSError {
         if let data = data {
             var userInfo: [AnyHashable: Any] = error.userInfo
             userInfo[type(of: self).WordPressOrgXMLRPCApiErrorKeyData] = data

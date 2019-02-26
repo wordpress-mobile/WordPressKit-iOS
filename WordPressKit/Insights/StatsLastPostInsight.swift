@@ -8,9 +8,9 @@ public struct StatsLastPostInsight {
     public let postID: Int
 }
 
-extension StatsLastPostInsight: InsightProtocol {
+extension StatsLastPostInsight: StatsInsightData {
 
-    //MARK: - InsightProtocol Conformance
+    //MARK: - StatsInsightData Conformance
     public static var queryProperties: [String: String] {
         return ["order_by": "date",
                 "number": "1",

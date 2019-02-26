@@ -24,7 +24,7 @@ public struct StatsAnnualAndMostPopularTimeInsight {
     public let annualInsightsAverageImagesCount: Double
 }
 
-extension StatsAnnualAndMostPopularTimeInsight: InsightProtocol {
+extension StatsAnnualAndMostPopularTimeInsight: StatsInsightData {
     public static var pathComponent: String {
         return "stats/insights"
     }

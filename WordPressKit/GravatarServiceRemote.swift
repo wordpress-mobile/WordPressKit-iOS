@@ -93,7 +93,7 @@ open class GravatarServiceRemote {
 
     /// Returns a new (randomized) Boundary String
     ///
-    fileprivate func boundaryForRequest() -> String {
+    private func boundaryForRequest() -> String {
         return "Boundary-" + UUID().uuidString
     }
 
@@ -107,7 +107,7 @@ open class GravatarServiceRemote {
     ///
     /// - Returns: A NSData instance, containing the Request's Payload.
     ///
-    fileprivate func bodyWithGravatarData(_ gravatarData: Data, account: String, boundary: String) -> Data {
+    private func bodyWithGravatarData(_ gravatarData: Data, account: String, boundary: String) -> Data {
         let body = NSMutableData()
 
         // Image Payload
@@ -131,7 +131,7 @@ open class GravatarServiceRemote {
 
 
     // MARK: - Private Structs
-    fileprivate struct UploadParameters {
+    private struct UploadParameters {
         static let endpointURL          = "https://api.gravatar.com/v1/upload-image"
         static let HTTPMethod           = "POST"
         static let contentType          = "application/octet-stream"

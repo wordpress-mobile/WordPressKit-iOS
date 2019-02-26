@@ -1,4 +1,4 @@
-public struct PostsStatsType {
+public struct StatsTopPostsTimeIntervalData {
     public let period: StatsPeriodUnit
     public let periodEndDate: Date
 
@@ -7,7 +7,7 @@ public struct PostsStatsType {
     public let topPosts: [StatsTopPost]
 }
 
-extension PostsStatsType: TimeStatsProtocol {
+extension StatsTopPostsTimeIntervalData: StatsTimeIntervalData {
     public static var pathComponent: String {
         return "stats/top-posts"
     }

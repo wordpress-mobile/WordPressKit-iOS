@@ -4,8 +4,8 @@ import CocoaLumberjack
 /// An WordPressRSDParser is able to parse an RSD file and search for the XMLRPC WordPress url.
 open class WordPressRSDParser: NSObject, XMLParserDelegate {
 
-    fileprivate let parser: XMLParser
-    fileprivate var endpoint: String?
+    private let parser: XMLParser
+    private var endpoint: String?
 
     @objc init?(xmlString: String) {
         guard let data = xmlString.data(using: String.Encoding.utf8) else {

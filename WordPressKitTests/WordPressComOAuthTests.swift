@@ -22,7 +22,7 @@ class WordPressComOAuthTests: XCTestCase {
         OHHTTPStubs.removeAllStubs()
     }
 
-    fileprivate func isOauthTokenRequest(url: OAuthURL) -> OHHTTPStubsTestBlock {
+    private func isOauthTokenRequest(url: OAuthURL) -> OHHTTPStubsTestBlock {
         return { request in
             return request.url?.absoluteString == url.rawValue
         }

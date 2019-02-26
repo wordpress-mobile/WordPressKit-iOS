@@ -2,9 +2,9 @@ public struct StatsPublicizeInsight {
     public let publicizeServices: [StatsPublicizeService]
 }
 
-extension StatsPublicizeInsight: InsightProtocol {
+extension StatsPublicizeInsight: StatsInsightData {
 
-    //MARK: - InsightProtocol Conformance
+    //MARK: - StatsInsightData Conformance
     public static var pathComponent: String {
         return "stats/publicize"
     }

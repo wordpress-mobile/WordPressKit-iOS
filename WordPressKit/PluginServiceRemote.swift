@@ -182,7 +182,7 @@ public class PluginServiceRemote: ServiceRemoteWordPressComREST {
     }
 }
 
-fileprivate extension PluginServiceRemote {
+private extension PluginServiceRemote {
     func encoded(pluginID: String) -> String? {
         let allowedCharacters = CharacterSet.urlPathAllowed.subtracting(CharacterSet(charactersIn: "/"))
         guard let escapedPluginID = pluginID.addingPercentEncoding(withAllowedCharacters: allowedCharacters) else {

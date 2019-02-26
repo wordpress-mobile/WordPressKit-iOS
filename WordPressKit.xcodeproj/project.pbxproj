@@ -18,25 +18,25 @@
 		240315B0A1D6C2B981572B5B /* Pods_WordPressKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED05C8FF3E61D93CE5BA527E /* Pods_WordPressKitTests.framework */; };
 		40247DFA2120D8E100AE1C3C /* AutomatedTransferService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40247DF92120D8E100AE1C3C /* AutomatedTransferService.swift */; };
 		40247DFC2120E69600AE1C3C /* AutomatedTransferStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40247DFB2120E69600AE1C3C /* AutomatedTransferStatus.swift */; };
-		404057C5221B30400060250C /* SearchTermStatsType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404057C4221B30400060250C /* SearchTermStatsType.swift */; };
+		404057C5221B30400060250C /* StatsSearchTermTimeIntervalData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404057C4221B30400060250C /* StatsSearchTermTimeIntervalData.swift */; };
 		404057C7221B36070060250C /* stats-search-term-result.json in Resources */ = {isa = PBXBuildFile; fileRef = 404057C6221B36070060250C /* stats-search-term-result.json */; };
-		404057C9221B789B0060250C /* AuthorsStatsType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404057C8221B789B0060250C /* AuthorsStatsType.swift */; };
+		404057C9221B789B0060250C /* StatsTopAuthorsTimeIntervalData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404057C8221B789B0060250C /* StatsTopAuthorsTimeIntervalData.swift */; };
 		404057CB221B80BC0060250C /* stats-top-authors.json in Resources */ = {isa = PBXBuildFile; fileRef = 404057CA221B80BC0060250C /* stats-top-authors.json */; };
-		404057CE221C38130060250C /* VideosStatsType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404057CD221C38130060250C /* VideosStatsType.swift */; };
+		404057CE221C38130060250C /* StatsTopVideosTimeIntervalData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404057CD221C38130060250C /* StatsTopVideosTimeIntervalData.swift */; };
 		404057D0221C46790060250C /* stats-videos-data.json in Resources */ = {isa = PBXBuildFile; fileRef = 404057CF221C46780060250C /* stats-videos-data.json */; };
-		404057D2221C56AB0060250C /* CountryStatsType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404057D1221C56AB0060250C /* CountryStatsType.swift */; };
+		404057D2221C56AB0060250C /* StatsTopCountryTimeIntervalData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404057D1221C56AB0060250C /* StatsTopCountryTimeIntervalData.swift */; };
 		404057D4221C5FC40060250C /* stats-countries-data.json in Resources */ = {isa = PBXBuildFile; fileRef = 404057D3221C5FC30060250C /* stats-countries-data.json */; };
-		404057D6221C92660060250C /* ClicksStatsType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404057D5221C92660060250C /* ClicksStatsType.swift */; };
+		404057D6221C92660060250C /* StatsTopClicksTimeIntervalData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404057D5221C92660060250C /* StatsTopClicksTimeIntervalData.swift */; };
 		404057D8221C986A0060250C /* stats-clicks-data.json in Resources */ = {isa = PBXBuildFile; fileRef = 404057D7221C98690060250C /* stats-clicks-data.json */; };
-		404057DA221C9D560060250C /* ReferrerStatsType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404057D9221C9D560060250C /* ReferrerStatsType.swift */; };
+		404057DA221C9D560060250C /* StatsTopReferrersTimeIntervalData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404057D9221C9D560060250C /* StatsTopReferrersTimeIntervalData.swift */; };
 		404057DC221C9FD80060250C /* stats-referrer-data.json in Resources */ = {isa = PBXBuildFile; fileRef = 404057DB221C9FD70060250C /* stats-referrer-data.json */; };
 		4041405E220F9EF500CF7C5B /* StatsDotComFollowersInsight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4041405D220F9EF500CF7C5B /* StatsDotComFollowersInsight.swift */; };
 		40414060220F9F1F00CF7C5B /* StatsAllTimesInsight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4041405F220F9F1F00CF7C5B /* StatsAllTimesInsight.swift */; };
-		4081976F221DDE9B00A298E4 /* PostsStatsType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4081976E221DDE9B00A298E4 /* PostsStatsType.swift */; };
+		4081976F221DDE9B00A298E4 /* StatsTopPostsTimeIntervalData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4081976E221DDE9B00A298E4 /* StatsTopPostsTimeIntervalData.swift */; };
 		40819771221DFDB700A298E4 /* stats-posts-data.json in Resources */ = {isa = PBXBuildFile; fileRef = 40819770221DFDB600A298E4 /* stats-posts-data.json */; };
-		40819773221E10C900A298E4 /* PublishedPostsStatsType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40819772221E10C900A298E4 /* PublishedPostsStatsType.swift */; };
+		40819773221E10C900A298E4 /* StatsPublishedPostsTimeIntervalData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40819772221E10C900A298E4 /* StatsPublishedPostsTimeIntervalData.swift */; };
 		40819775221E497D00A298E4 /* stats-published-posts.json in Resources */ = {isa = PBXBuildFile; fileRef = 40819774221E497C00A298E4 /* stats-published-posts.json */; };
-		40819778221F00E600A298E4 /* SummaryStatsType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40819777221F00E600A298E4 /* SummaryStatsType.swift */; };
+		40819778221F00E600A298E4 /* StatsSummaryTimeIntervalData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40819777221F00E600A298E4 /* StatsSummaryTimeIntervalData.swift */; };
 		4081977B221F153B00A298E4 /* stats-visits-week.json in Resources */ = {isa = PBXBuildFile; fileRef = 40819779221F153A00A298E4 /* stats-visits-week.json */; };
 		4081977C221F153B00A298E4 /* stats-visits-day.json in Resources */ = {isa = PBXBuildFile; fileRef = 4081977A221F153A00A298E4 /* stats-visits-day.json */; };
 		4081977E221F269A00A298E4 /* stats-visits-month.json in Resources */ = {isa = PBXBuildFile; fileRef = 4081977D221F269A00A298E4 /* stats-visits-month.json */; };
@@ -513,25 +513,25 @@
 		264F5C834541BBF2018F4964 /* Pods-WordPressKitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WordPressKitTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WordPressKitTests/Pods-WordPressKitTests.debug.xcconfig"; sourceTree = "<group>"; };
 		40247DF92120D8E100AE1C3C /* AutomatedTransferService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutomatedTransferService.swift; sourceTree = "<group>"; };
 		40247DFB2120E69600AE1C3C /* AutomatedTransferStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutomatedTransferStatus.swift; sourceTree = "<group>"; };
-		404057C4221B30400060250C /* SearchTermStatsType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTermStatsType.swift; sourceTree = "<group>"; };
+		404057C4221B30400060250C /* StatsSearchTermTimeIntervalData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsSearchTermTimeIntervalData.swift; sourceTree = "<group>"; };
 		404057C6221B36070060250C /* stats-search-term-result.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "stats-search-term-result.json"; sourceTree = "<group>"; };
-		404057C8221B789B0060250C /* AuthorsStatsType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorsStatsType.swift; sourceTree = "<group>"; };
+		404057C8221B789B0060250C /* StatsTopAuthorsTimeIntervalData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsTopAuthorsTimeIntervalData.swift; sourceTree = "<group>"; };
 		404057CA221B80BC0060250C /* stats-top-authors.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "stats-top-authors.json"; sourceTree = "<group>"; };
-		404057CD221C38130060250C /* VideosStatsType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideosStatsType.swift; sourceTree = "<group>"; };
+		404057CD221C38130060250C /* StatsTopVideosTimeIntervalData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsTopVideosTimeIntervalData.swift; sourceTree = "<group>"; };
 		404057CF221C46780060250C /* stats-videos-data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "stats-videos-data.json"; sourceTree = "<group>"; };
-		404057D1221C56AB0060250C /* CountryStatsType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryStatsType.swift; sourceTree = "<group>"; };
+		404057D1221C56AB0060250C /* StatsTopCountryTimeIntervalData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsTopCountryTimeIntervalData.swift; sourceTree = "<group>"; };
 		404057D3221C5FC30060250C /* stats-countries-data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "stats-countries-data.json"; sourceTree = "<group>"; };
-		404057D5221C92660060250C /* ClicksStatsType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClicksStatsType.swift; sourceTree = "<group>"; };
+		404057D5221C92660060250C /* StatsTopClicksTimeIntervalData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsTopClicksTimeIntervalData.swift; sourceTree = "<group>"; };
 		404057D7221C98690060250C /* stats-clicks-data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "stats-clicks-data.json"; sourceTree = "<group>"; };
-		404057D9221C9D560060250C /* ReferrerStatsType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferrerStatsType.swift; sourceTree = "<group>"; };
+		404057D9221C9D560060250C /* StatsTopReferrersTimeIntervalData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsTopReferrersTimeIntervalData.swift; sourceTree = "<group>"; };
 		404057DB221C9FD70060250C /* stats-referrer-data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "stats-referrer-data.json"; sourceTree = "<group>"; };
 		4041405D220F9EF500CF7C5B /* StatsDotComFollowersInsight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsDotComFollowersInsight.swift; sourceTree = "<group>"; };
 		4041405F220F9F1F00CF7C5B /* StatsAllTimesInsight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsAllTimesInsight.swift; sourceTree = "<group>"; };
-		4081976E221DDE9B00A298E4 /* PostsStatsType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsStatsType.swift; sourceTree = "<group>"; };
+		4081976E221DDE9B00A298E4 /* StatsTopPostsTimeIntervalData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsTopPostsTimeIntervalData.swift; sourceTree = "<group>"; };
 		40819770221DFDB600A298E4 /* stats-posts-data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "stats-posts-data.json"; sourceTree = "<group>"; };
-		40819772221E10C900A298E4 /* PublishedPostsStatsType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublishedPostsStatsType.swift; sourceTree = "<group>"; };
+		40819772221E10C900A298E4 /* StatsPublishedPostsTimeIntervalData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsPublishedPostsTimeIntervalData.swift; sourceTree = "<group>"; };
 		40819774221E497C00A298E4 /* stats-published-posts.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "stats-published-posts.json"; sourceTree = "<group>"; };
-		40819777221F00E600A298E4 /* SummaryStatsType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryStatsType.swift; sourceTree = "<group>"; };
+		40819777221F00E600A298E4 /* StatsSummaryTimeIntervalData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsSummaryTimeIntervalData.swift; sourceTree = "<group>"; };
 		40819779221F153A00A298E4 /* stats-visits-week.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "stats-visits-week.json"; sourceTree = "<group>"; };
 		4081977A221F153A00A298E4 /* stats-visits-day.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "stats-visits-day.json"; sourceTree = "<group>"; };
 		4081977D221F269A00A298E4 /* stats-visits-month.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "stats-visits-month.json"; sourceTree = "<group>"; };
@@ -1033,20 +1033,20 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		404057C3221B30140060250C /* Time-based data */ = {
+		404057C3221B30140060250C /* Time Interval */ = {
 			isa = PBXGroup;
 			children = (
-				404057C4221B30400060250C /* SearchTermStatsType.swift */,
-				404057C8221B789B0060250C /* AuthorsStatsType.swift */,
-				4081976E221DDE9B00A298E4 /* PostsStatsType.swift */,
-				404057CD221C38130060250C /* VideosStatsType.swift */,
-				404057D1221C56AB0060250C /* CountryStatsType.swift */,
-				404057D5221C92660060250C /* ClicksStatsType.swift */,
-				404057D9221C9D560060250C /* ReferrerStatsType.swift */,
-				40819777221F00E600A298E4 /* SummaryStatsType.swift */,
-				40819772221E10C900A298E4 /* PublishedPostsStatsType.swift */,
+				404057C4221B30400060250C /* StatsSearchTermTimeIntervalData.swift */,
+				404057C8221B789B0060250C /* StatsTopAuthorsTimeIntervalData.swift */,
+				4081976E221DDE9B00A298E4 /* StatsTopPostsTimeIntervalData.swift */,
+				404057CD221C38130060250C /* StatsTopVideosTimeIntervalData.swift */,
+				404057D1221C56AB0060250C /* StatsTopCountryTimeIntervalData.swift */,
+				404057D5221C92660060250C /* StatsTopClicksTimeIntervalData.swift */,
+				404057D9221C9D560060250C /* StatsTopReferrersTimeIntervalData.swift */,
+				40819777221F00E600A298E4 /* StatsSummaryTimeIntervalData.swift */,
+				40819772221E10C900A298E4 /* StatsPublishedPostsTimeIntervalData.swift */,
 			);
-			path = "Time-based data";
+			path = "Time Interval";
 			sourceTree = "<group>";
 		};
 		40414061220F9F2800CF7C5B /* Insights */ = {
@@ -1069,7 +1069,7 @@
 		40B01BF3220E534900036D10 /* V2 */ = {
 			isa = PBXGroup;
 			children = (
-				404057C3221B30140060250C /* Time-based data */,
+				404057C3221B30140060250C /* Time Interval */,
 				40414061220F9F2800CF7C5B /* Insights */,
 				40819782221F5C8200A298E4 /* StatsPostDetails.swift */,
 			);
@@ -2298,7 +2298,7 @@
 				9F3E0BA22087345F009CB5BA /* ServiceRequest.swift in Sources */,
 				E1A6605F1FD694ED00BAC339 /* PluginDirectoryEntry.swift in Sources */,
 				7430C9CB1F192F260051B8E6 /* RemoteSourcePostAttribution.m in Sources */,
-				40819773221E10C900A298E4 /* PublishedPostsStatsType.swift in Sources */,
+				40819773221E10C900A298E4 /* StatsPublishedPostsTimeIntervalData.swift in Sources */,
 				742362E11F1025B400BD0A7F /* RemoteMenuItem.m in Sources */,
 				436D56332118D7AA00CEAA33 /* TransactionsServiceRemote.swift in Sources */,
 				93BD27721EE737A9002BB00B /* ServiceRemoteWordPressXMLRPC.m in Sources */,
@@ -2312,7 +2312,7 @@
 				93BD277F1EE73944002BB00B /* WordPressComOAuthClient.swift in Sources */,
 				740B23B91F17EC7300067A2A /* PostServiceRemoteREST.m in Sources */,
 				93BD27801EE73944002BB00B /* WordPressComRestApi.swift in Sources */,
-				404057D2221C56AB0060250C /* CountryStatsType.swift in Sources */,
+				404057D2221C56AB0060250C /* StatsTopCountryTimeIntervalData.swift in Sources */,
 				E11C2AD21FA77FB90023BDE2 /* SitePlugin.swift in Sources */,
 				74A44DCC1F13C533006CD8F4 /* NotificationSyncServiceRemote.swift in Sources */,
 				74E229501F1E741B0085F7F2 /* RemotePublicizeConnection.swift in Sources */,
@@ -2332,13 +2332,13 @@
 				74E2295C1F1E77290085F7F2 /* KeyringConnectionExternalUser.swift in Sources */,
 				E1BD95151FD5A2B800CD5CE3 /* PluginDirectoryServiceRemote.swift in Sources */,
 				7430C9D71F1933210051B8E6 /* RemoteReaderCrossPostMeta.swift in Sources */,
-				4081976F221DDE9B00A298E4 /* PostsStatsType.swift in Sources */,
+				4081976F221DDE9B00A298E4 /* StatsTopPostsTimeIntervalData.swift in Sources */,
 				9311A68B1F22625A00704AC9 /* TaxonomyServiceRemoteXMLRPC.m in Sources */,
 				40414060220F9F1F00CF7C5B /* StatsAllTimesInsight.swift in Sources */,
 				93BD277E1EE73944002BB00B /* NSDate+WordPressJSON.m in Sources */,
 				7E3E7A4820E443370075D159 /* NSMutableAttributedString+extensions.swift in Sources */,
 				E194CB731FBDEF6500B0A8B8 /* PluginState.swift in Sources */,
-				404057D6221C92660060250C /* ClicksStatsType.swift in Sources */,
+				404057D6221C92660060250C /* StatsTopClicksTimeIntervalData.swift in Sources */,
 				9AF4F2FC218331DC00570E4B /* PostServiceRemoteREST+Revisions.swift in Sources */,
 				E13EE1471F33258E00C15787 /* PluginServiceRemote.swift in Sources */,
 				9368C7B61EC630270092CE8E /* StatsStreak.m in Sources */,
@@ -2354,7 +2354,7 @@
 				7430C9B81F1927C50051B8E6 /* RemoteReaderTopic.m in Sources */,
 				7403A3021EF0726E00DED7DC /* AccountSettings.swift in Sources */,
 				40E7FEA9220FA4060032834E /* StatsEmailFollowersInsight.swift in Sources */,
-				404057DA221C9D560060250C /* ReferrerStatsType.swift in Sources */,
+				404057DA221C9D560060250C /* StatsTopReferrersTimeIntervalData.swift in Sources */,
 				9368C7C01EC630CE0092CE8E /* StatsStringUtilities.m in Sources */,
 				826016F11F9FA13A00533B6C /* ActivityServiceRemote.swift in Sources */,
 				74BA04FA1F06DC3900ED5CD8 /* RemoteComment.m in Sources */,
@@ -2375,9 +2375,9 @@
 				742362E31F1025B400BD0A7F /* RemoteMenuLocation.m in Sources */,
 				82FFBF561F460DD400F4573F /* BlogJetpackSettingsServiceRemote.swift in Sources */,
 				9368C7B81EC630270092CE8E /* StatsStreakItem.m in Sources */,
-				404057C9221B789B0060250C /* AuthorsStatsType.swift in Sources */,
+				404057C9221B789B0060250C /* StatsTopAuthorsTimeIntervalData.swift in Sources */,
 				74BA04F61F06DC0A00ED5CD8 /* CommentServiceRemoteXMLRPC.m in Sources */,
-				40819778221F00E600A298E4 /* SummaryStatsType.swift in Sources */,
+				40819778221F00E600A298E4 /* StatsSummaryTimeIntervalData.swift in Sources */,
 				7430C9A81F1927180051B8E6 /* ReaderTopicServiceRemote.m in Sources */,
 				17CE77F120C6EB41001DEA5A /* ReaderFeed.swift in Sources */,
 				93C674F21EE8351E00BFAF05 /* NSMutableDictionary+Helpers.m in Sources */,
@@ -2390,7 +2390,7 @@
 				40AB1ADA200FED25009B533D /* PluginDirectoryFeedPage.swift in Sources */,
 				436D56352118D85800CEAA33 /* Country.swift in Sources */,
 				74A44DCB1F13C533006CD8F4 /* NotificationSettingsServiceRemote.swift in Sources */,
-				404057CE221C38130060250C /* VideosStatsType.swift in Sources */,
+				404057CE221C38130060250C /* StatsTopVideosTimeIntervalData.swift in Sources */,
 				E182BF6A1FD961810001D850 /* Endpoint.swift in Sources */,
 				9AF4F2FF2183346B00570E4B /* RemoteRevision.swift in Sources */,
 				74BA04F41F06DC0A00ED5CD8 /* CommentServiceRemoteREST.m in Sources */,
@@ -2426,7 +2426,7 @@
 				40247DFC2120E69600AE1C3C /* AutomatedTransferStatus.swift in Sources */,
 				730E869F21E44EFD00753E1A /* WordPressComServiceRemote+SiteVerticals.swift in Sources */,
 				740B23C51F17EE8000067A2A /* RemotePost.m in Sources */,
-				404057C5221B30400060250C /* SearchTermStatsType.swift in Sources */,
+				404057C5221B30400060250C /* StatsSearchTermTimeIntervalData.swift in Sources */,
 				40247DFA2120D8E100AE1C3C /* AutomatedTransferService.swift in Sources */,
 				74E2295B1F1E77290085F7F2 /* KeyringConnection.swift in Sources */,
 				74B5F0DA1EF8299B00B411E7 /* BlogServiceRemoteXMLRPC.m in Sources */,
@@ -2663,7 +2663,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
@@ -2689,7 +2688,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.automattic.WordPressKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
 		};
@@ -2710,7 +2708,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "WordPressKitTests/WordPressKitTests-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
@@ -2730,7 +2727,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.automattic.WordPressKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "WordPressKitTests/WordPressKitTests-Bridging-Header.h";
-				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
 		};
@@ -2812,7 +2808,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.automattic.WordPressKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.2;
 			};
 			name = "Release-Internal";
 		};
@@ -2832,7 +2827,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.automattic.WordPressKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "WordPressKitTests/WordPressKitTests-Bridging-Header.h";
-				SWIFT_VERSION = 4.2;
 			};
 			name = "Release-Internal";
 		};
@@ -2914,7 +2908,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.automattic.WordPressKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.2;
 			};
 			name = "Release-Alpha";
 		};
@@ -2934,7 +2927,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.automattic.WordPressKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "WordPressKitTests/WordPressKitTests-Bridging-Header.h";
-				SWIFT_VERSION = 4.2;
 			};
 			name = "Release-Alpha";
 		};
