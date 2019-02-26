@@ -1,4 +1,4 @@
-public struct SummaryStatsType {
+public struct StatsSummaryTimeIntervalData {
     public let period: StatsPeriodUnit
     public let periodEndDate: Date
 
@@ -15,7 +15,7 @@ public struct StatsSummaryData {
     public let commentsCount: Int
 }
 
-extension SummaryStatsType: TimeStatsProtocol {
+extension StatsSummaryTimeIntervalData: StatsTimeIntervalData {
     public static var pathComponent: String {
         return "stats/visits"
     }

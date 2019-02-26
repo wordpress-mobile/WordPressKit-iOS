@@ -3,9 +3,9 @@ public struct StatsDotComFollowersInsight {
     public let topDotComFollowers: [StatsFollower]
 }
 
-extension StatsDotComFollowersInsight: InsightProtocol {
+extension StatsDotComFollowersInsight: StatsInsightData {
 
-    //MARK: - InsightProtocol Conformance
+    //MARK: - StatsInsightData Conformance
     public static var queryProperties: [String: String] {
         return ["type": "wpcom",
                 "max": "7"]

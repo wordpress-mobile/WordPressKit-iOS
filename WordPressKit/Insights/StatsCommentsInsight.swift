@@ -3,9 +3,9 @@ public struct StatsCommentsInsight {
     public let topAuthors: [StatsTopCommentsAuthor]
 }
 
-extension StatsCommentsInsight: InsightProtocol {
+extension StatsCommentsInsight: StatsInsightData {
 
-    //MARK: - InsightProtocol Conformance
+    //MARK: - StatsInsightData Conformance
     public static var pathComponent: String {
         return "stats/comments"
     }

@@ -1,4 +1,4 @@
-public struct SearchTermStatsType {
+public struct StatsSearchTermTimeIntervalData {
     public let period: StatsPeriodUnit
     public let periodEndDate: Date
 
@@ -13,7 +13,7 @@ public struct SearchTerm {
     public let viewsCount: Int
 }
 
-extension SearchTermStatsType: TimeStatsProtocol {
+extension StatsSearchTermTimeIntervalData: StatsTimeIntervalData {
     public static var pathComponent: String {
         return "stats/search-terms"
     }

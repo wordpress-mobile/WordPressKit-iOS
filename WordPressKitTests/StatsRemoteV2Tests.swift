@@ -83,7 +83,7 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
 
         stubRemoteResponse(siteSearchDataEndpoint, filename: getSearchDataFilename, contentType: .ApplicationJSON)
 
-        remote.getData(for: .week, endingOn: Date()) { (searchTerms: SearchTermStatsType?, error: Error?) in
+        remote.getData(for: .week, endingOn: Date()) { (searchTerms: StatsSearchTermTimeIntervalData?, error: Error?) in
             XCTAssertNil(error)
             XCTAssertNotNil(searchTerms)
 
@@ -110,7 +110,7 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
         let date = Calendar.autoupdatingCurrent.date(from: dec31)!
 
 
-        remote.getData(for: .year, endingOn: date) { (topAuthors: AuthorsStatsType?, error: Error?) in
+        remote.getData(for: .year, endingOn: date) { (topAuthors: StatsTopAuthorsTimeIntervalData?, error: Error?) in
             XCTAssertNil(error)
             XCTAssertNotNil(topAuthors)
 
@@ -141,7 +141,7 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
         let date = Calendar.autoupdatingCurrent.date(from: dec31)!
 
 
-        remote.getData(for: .year, endingOn: date) { (videos: VideoStatsType?, error: Error?) in
+        remote.getData(for: .year, endingOn: date) { (videos: StatsTopVideosTimeIntervalData?, error: Error?) in
             XCTAssertNil(error)
             XCTAssertNotNil(videos)
 
@@ -174,7 +174,7 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
         let date = Calendar.autoupdatingCurrent.date(from: dec31)!
 
 
-        remote.getData(for: .year, endingOn: date) { (countries: CountryStatsType?, error: Error?) in
+        remote.getData(for: .year, endingOn: date) { (countries: StatsTopCountryTimeIntervalData?, error: Error?) in
             XCTAssertNil(error)
             XCTAssertNotNil(countries)
 
@@ -207,7 +207,7 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
         let date = Calendar.autoupdatingCurrent.date(from: dec31)!
 
 
-        remote.getData(for: .year, endingOn: date) { (clicks: ClicksStatsType?, error: Error?) in
+        remote.getData(for: .year, endingOn: date) { (clicks: StatsTopClicksTimeIntervalData?, error: Error?) in
             XCTAssertNil(error)
             XCTAssertNotNil(clicks)
 
@@ -246,7 +246,7 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
         let jan31 = DateComponents(year: 2019, month: 1, day: 31)
         let date = Calendar.autoupdatingCurrent.date(from: jan31)!
 
-        remote.getData(for: .month, endingOn: date) { (referrers: ReferrerStatsType?, error: Error?) in
+        remote.getData(for: .month, endingOn: date) { (referrers: StatsTopReferrersTimeIntervalData?, error: Error?) in
             XCTAssertNil(error)
             XCTAssertNotNil(referrers)
 
@@ -308,7 +308,7 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
         let jan31 = DateComponents(year: 2019, month: 1, day: 31)
         let date = Calendar.autoupdatingCurrent.date(from: jan31)!
       
-        remote.getData(for: .month, endingOn: date) { (topPosts: PostsStatsType?, error: Error?) in
+        remote.getData(for: .month, endingOn: date) { (topPosts: StatsTopPostsTimeIntervalData?, error: Error?) in
             XCTAssertNil(error)
             XCTAssertNotNil(topPosts)
 
@@ -349,7 +349,7 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
         let jan31 = DateComponents(year: 2019, month: 1, day: 31)
         let date = Calendar.autoupdatingCurrent.date(from: jan31)!
 
-        remote.getData(for: .month, endingOn: date) { (publishedPosts: PublishedPostsStatsType?, error: Error?) in
+        remote.getData(for: .month, endingOn: date) { (publishedPosts: StatsPublishedPostsTimeIntervalData?, error: Error?) in
             XCTAssertNil(error)
             XCTAssertNotNil(publishedPosts)
 
@@ -373,7 +373,7 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
         let feb21 = DateComponents(year: 2019, month: 2, day: 21)
         let date = Calendar.autoupdatingCurrent.date(from: feb21)!
 
-        remote.getData(for: .day, endingOn: date) { (summary: SummaryStatsType?, error: Error?) in
+        remote.getData(for: .day, endingOn: date) { (summary: StatsSummaryTimeIntervalData?, error: Error?) in
             XCTAssertNil(error)
             XCTAssertNotNil(summary)
 
@@ -481,7 +481,7 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
         let feb21 = DateComponents(year: 2019, month: 2, day: 21)
         let date = Calendar.autoupdatingCurrent.date(from: feb21)!
 
-        remote.getData(for: .week, endingOn: date) { (summary: SummaryStatsType?, error: Error?) in
+        remote.getData(for: .week, endingOn: date) { (summary: StatsSummaryTimeIntervalData?, error: Error?) in
             XCTAssertNil(error)
             XCTAssertNotNil(summary)
 
@@ -520,7 +520,7 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
         let date = Calendar.autoupdatingCurrent.date(from: feb21)!
 
         
-        remote.getData(for: .month, endingOn: date) { (summary: SummaryStatsType?, error: Error?) in
+        remote.getData(for: .month, endingOn: date) { (summary: StatsSummaryTimeIntervalData?, error: Error?) in
             XCTAssertNil(error)
             XCTAssertNotNil(summary)
 

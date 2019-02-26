@@ -3,9 +3,9 @@ public struct StatsEmailFollowersInsight {
     public let topEmailFollowers: [StatsFollower]
 }
 
-extension StatsEmailFollowersInsight: InsightProtocol {
+extension StatsEmailFollowersInsight: StatsInsightData {
 
-    //MARK: - InsightProtocol Conformance
+    //MARK: - StatsInsightData Conformance
     public static var queryProperties: [String: String] {
         return ["type": "email",
                 "max": "7"]
