@@ -123,7 +123,7 @@ public class AccountSettingsRemote: ServiceRemoteWordPressComREST {
         })
     }
     
-    fileprivate func settingsFromResponse(_ responseObject: AnyObject) throws -> AccountSettings {
+    private func settingsFromResponse(_ responseObject: AnyObject) throws -> AccountSettings {
         guard let
             response = responseObject as? [String: AnyObject],
             let firstName = response["first_name"] as? String,
@@ -158,7 +158,7 @@ public class AccountSettingsRemote: ServiceRemoteWordPressComREST {
                                tracksOptOut: tracksOptOut)
     }
 
-    fileprivate func fieldNameForChange(_ change: AccountSettingsChange) -> String {
+    private func fieldNameForChange(_ change: AccountSettingsChange) -> String {
         switch change {
         case .firstName:
             return "first_name"

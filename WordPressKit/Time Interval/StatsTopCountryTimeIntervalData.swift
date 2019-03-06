@@ -1,4 +1,4 @@
-public struct CountryStatsType {
+public struct StatsTopCountryTimeIntervalData {
     public let period: StatsPeriodUnit
     public let periodEndDate: Date
 
@@ -14,7 +14,7 @@ public struct StatsCountry {
     let viewsCount: Int
 }
 
-extension CountryStatsType: TimeStatsProtocol {
+extension StatsTopCountryTimeIntervalData: StatsTimeIntervalData {
     public static var pathComponent: String {
         return "stats/country-views"
     }

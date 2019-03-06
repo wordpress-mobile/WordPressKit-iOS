@@ -38,7 +38,7 @@ import Foundation
         return nil
     }
 
-    fileprivate func parseData(_ data: Data) -> JSONDictionary? {
+    private func parseData(_ data: Data) -> JSONDictionary? {
         let options: JSONSerialization.ReadingOptions = [.mutableContainers , .mutableLeaves]
 
         do {

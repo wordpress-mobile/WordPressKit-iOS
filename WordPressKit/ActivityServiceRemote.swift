@@ -26,10 +26,8 @@ public class ActivityServiceRemote: ServiceRemoteWordPressComREST {
                                    failure: @escaping (Error) -> Void) {
         let endpoint = "sites/\(siteID)/activity"
         let path = self.path(forEndpoint: endpoint, withVersion: ._2_0)
-        let locale = WordPressComLanguageDatabase().deviceLanguage.slug
         let pageNumber = (offset / count + 1)
         let parameters: [String: AnyObject] = [
-            "locale": locale as AnyObject,
             "number": count as AnyObject,
             "page": pageNumber as AnyObject
         ]
@@ -64,13 +62,9 @@ public class ActivityServiceRemote: ServiceRemoteWordPressComREST {
                                 failure: @escaping (Error) -> Void) {
         let endpoint = "sites/\(siteID)/rewind"
         let path = self.path(forEndpoint: endpoint, withVersion: ._2_0)
-        let locale = WordPressComLanguageDatabase().deviceLanguage.slug
-        let parameters: [String: AnyObject] = [
-            "locale": locale as AnyObject
-        ]
 
         wordPressComRestApi.GET(path,
-                                parameters: parameters,
+                                parameters: nil,
                                 success: { response, _ in
                                     guard let rewindStatus = response as? [String: AnyObject] else {
                                         failure(ResponseError.decodingFailure)

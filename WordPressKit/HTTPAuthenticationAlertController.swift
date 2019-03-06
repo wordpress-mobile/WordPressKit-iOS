@@ -7,7 +7,7 @@ open class HTTPAuthenticationAlertController {
 
     public typealias AuthenticationHandler = (URLSession.AuthChallengeDisposition, URLCredential?) -> Void
 
-    fileprivate static var onGoingChallenges = [URLProtectionSpace: [AuthenticationHandler]]()
+    private static var onGoingChallenges = [URLProtectionSpace: [AuthenticationHandler]]()
 
     static public func controller(for challenge: URLAuthenticationChallenge, handler: @escaping AuthenticationHandler) -> UIAlertController? {
         if var handlers = onGoingChallenges[challenge.protectionSpace] {
@@ -35,7 +35,7 @@ open class HTTPAuthenticationAlertController {
         onGoingChallenges.removeValue(forKey: challenge.protectionSpace)
     }
 
-    static fileprivate func controllerForServerTrustChallenge(_ challenge: URLAuthenticationChallenge) -> UIAlertController {
+    private static func controllerForServerTrustChallenge(_ challenge: URLAuthenticationChallenge) -> UIAlertController {
         let title = NSLocalizedString("Certificate error", comment: "Popup title for wrong SSL certificate.")
         let message = String(format: NSLocalizedString("The certificate for this server is invalid. You might be connecting to a server that is pretending to be “%@” which could put your confidential information at risk.\n\nWould you like to trust the certificate anyway?", comment: ""), challenge.protectionSpace.host)
         let controller =  UIAlertController(title: title, message: message, preferredStyle: .alert)
@@ -58,7 +58,7 @@ open class HTTPAuthenticationAlertController {
         return controller
     }
 
-    static fileprivate func controllerForUserAuthenticationChallenge(_ challenge: URLAuthenticationChallenge) -> UIAlertController {
+    private static func controllerForUserAuthenticationChallenge(_ challenge: URLAuthenticationChallenge) -> UIAlertController {
         let title = String(format: NSLocalizedString("Authentication required for host: %@", comment: "Popup title to ask for user credentials."), challenge.protectionSpace.host)
         let message = NSLocalizedString("Please enter your credentials", comment: "Popup message to ask for user credentials (fields shown below).")
         let controller =  UIAlertController(title: title,

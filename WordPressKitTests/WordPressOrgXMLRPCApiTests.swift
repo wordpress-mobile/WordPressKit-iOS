@@ -16,7 +16,7 @@ class WordPressOrgXMLRPCApiTests: XCTestCase {
         OHHTTPStubs.removeAllStubs()
     }
 
-    fileprivate func isXmlRpcAPIRequest() -> OHHTTPStubsTestBlock {
+    private func isXmlRpcAPIRequest() -> OHHTTPStubsTestBlock {
         return { request in
             return request.url?.absoluteString == self.xmlrpcEndpoint
         }

@@ -19,11 +19,9 @@ public class PlanServiceRemote: ServiceRemoteWordPressComREST {
     public func getWpcomPlans(_ success: @escaping (AvailablePlans) -> Void, failure: @escaping (Error) -> Void) {
         let endpoint = "plans/mobile"
         let path = self.path(forEndpoint: endpoint, withVersion: ._2_0)
-        let locale = WordPressComLanguageDatabase().deviceLanguage.slug
-        let parameters = ["locale": locale]
 
         wordPressComRestApi.GET(path,
-                                parameters: parameters as [String : AnyObject]?,
+                                parameters: nil,
                                 success: {
                                     response, _ in
 

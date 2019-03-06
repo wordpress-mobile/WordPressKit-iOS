@@ -28,8 +28,8 @@ public class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
 
     /// Responsible for fetching Stats data for Insights — latest data about a site,
     /// in general — not considering a specific slice of time.
-    /// For a possible set of returned types, see objects that conform to `InsightProtocol`.
-    public func getInsight<InsightType: InsightProtocol>(completion: @escaping ((InsightType?, Error?) -> Void)) {
+    /// For a possible set of returned types, see objects that conform to `StatsInsightData`.
+    public func getInsight<InsightType: StatsInsightData>(completion: @escaping ((InsightType?, Error?) -> Void)) {
         let properties = InsightType.queryProperties as [String: AnyObject]
         let pathComponent = InsightType.pathComponent
 
@@ -58,16 +58,22 @@ public class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
     ///    e.g. if you want data spanning 11-17 Feb 2019, you should pass in a period of `.week` and an
     ///    ending date of `Feb 17 2019`.
     ///   - limit: Limit of how many objects you want returned for your query. Default is `10`. `0` means no limit.
-    public func getData<TimeStatsType: TimeStatsProtocol>(for period: StatsPeriodUnit,
+    public func getData<TimeStatsType: StatsTimeIntervalData>(for period: StatsPeriodUnit,
                                                           endingOn: Date,
                                                           limit: Int = 10,
                                                           completion: @escaping ((TimeStatsType?, Error?) -> Void)) {
         let pathComponent = TimeStatsType.pathComponent
         let path = self.path(forEndpoint: "sites/\(siteID)/\(pathComponent)/", withVersion: ._1_1)
 
-        let properties = ["period": period.stringValue,
-                          "date": periodDataQueryDateFormatter.string(from: endingOn),
-                          "max": limit as AnyObject] as [String: AnyObject]
+        let staticProperties = ["period": period.stringValue,
+                                "date": periodDataQueryDateFormatter.string(from: endingOn),
+                                "max": limit as AnyObject] as [String: AnyObject]
+
+        let classProperties = TimeStatsType.queryProperties(with: endingOn, period: period) as [String: AnyObject]
+
+        let properties = staticProperties.merging(classProperties) { val1, _ in
+            return val1
+        }
 
         wordPressComRestApi.GET(path, parameters: properties, success: { (response, _) in
             guard
@@ -93,6 +99,24 @@ public class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
             }
 
             completion(timestats, nil)
+        }, failure: { (error, _) in
+            completion(nil, error)
+        })
+    }
+
+    public func getDetails(forPostID postID: Int, completion: @escaping ((StatsPostDetails?, Error?) -> Void)) {
+        let path = self.path(forEndpoint: "sites/\(siteID)/post/\(postID)/", withVersion: ._1_1)
+
+        wordPressComRestApi.GET(path, parameters: [:], success: { (response, _) in
+            guard
+                let jsonResponse = response as? [String: AnyObject],
+                let postDetails = StatsPostDetails(jsonDictionary: jsonResponse)
+                else {
+                    completion(nil, ResponseError.decodingFailure)
+                    return
+            }
+
+            completion(postDetails, nil)
         }, failure: { (error, _) in
             completion(nil, error)
         })
@@ -161,15 +185,15 @@ extension StatsServiceRemoteV2 {
     }
 }
 
-// MARK - PublishedPostsStatsType-specific hack
+// MARK - StatsPublishedPostsTimeIntervalData-specific hack
 extension StatsServiceRemoteV2 {
 
-    // PublishedPostsStatsType hit a different endpoint and with different parameters
+    // StatsPublishedPostsTimeIntervalData hit a different endpoint and with different parameters
     // then the rest of the time-based types — we need to handle them separately here.
     public func getData(for period: StatsPeriodUnit,
                         endingOn: Date,
                         limit: Int = 10,
-                        completion: @escaping ((PublishedPostsStatsType?, Error?) -> Void)) {
+                        completion: @escaping ((StatsPublishedPostsTimeIntervalData?, Error?) -> Void)) {
 
         let pathComponent = StatsLastPostInsight.pathComponent
 
@@ -185,7 +209,7 @@ extension StatsServiceRemoteV2 {
                                 success: { (response, _) in
                                     guard
                                         let jsonResponse = response as? [String: AnyObject],
-                                        let response = PublishedPostsStatsType(date: endingOn, period: period, jsonDictionary: jsonResponse) else {
+                                        let response = StatsPublishedPostsTimeIntervalData(date: endingOn, period: period, jsonDictionary: jsonResponse) else {
                                             completion(nil, ResponseError.decodingFailure)
                                             return
                                     }
@@ -221,24 +245,29 @@ extension StatsServiceRemoteV2 {
 
 // This serves both as a way to get the query properties in a "nice" way,
 // but also as a way to narrow down the generic type in `getInsight(completion:)` method.
-public protocol InsightProtocol {
+public protocol StatsInsightData {
     static var queryProperties: [String: String] { get }
     static var pathComponent: String { get }
 
     init?(jsonDictionary: [String: AnyObject])
 }
 
-// naming is hard.
-public protocol TimeStatsProtocol {
+public protocol StatsTimeIntervalData {
     static var pathComponent: String { get }
 
     var period: StatsPeriodUnit { get }
     var periodEndDate: Date { get }
 
     init?(date: Date, period: StatsPeriodUnit, jsonDictionary: [String: AnyObject])
+
+    static func queryProperties(with date: Date, period: StatsPeriodUnit) -> [String: String]
 }
 
-extension TimeStatsProtocol {
+extension StatsTimeIntervalData {
+
+    public static func queryProperties(with date: Date, period: StatsPeriodUnit) -> [String: String] {
+        return [:]
+    }
 
     // Most of the responses for time data come in a unwieldy format, that requires awkwkard unwrapping
     // at the call-site — unfortunately not _all of them_, which means we can't just do it at the request level.
@@ -257,7 +286,7 @@ extension TimeStatsProtocol {
 
 // We'll bring `StatsPeriodUnit` into this file when the "old" `WPStatsServiceRemote` gets removed.
 // For now we can piggy-back off the old type and add this as an extension.
-fileprivate extension StatsPeriodUnit {
+extension StatsPeriodUnit {
     var stringValue: String {
         switch self {
         case .day:
@@ -287,7 +316,7 @@ fileprivate extension StatsPeriodUnit {
     }
 }
 
-extension InsightProtocol {
+extension StatsInsightData {
 
     // A big chunk of those use the same endpoint and queryProperties.. Let's simplify the protocol conformance in those cases.
 
