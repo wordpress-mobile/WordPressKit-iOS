@@ -131,7 +131,7 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
     NSString *filename = media.file;
     NSString *path = [NSString stringWithFormat:@"sites/%@/posts/new", self.siteID];
     NSString *requestUrl = [self pathForEndpoint:path
-                                     withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
+                                     withVersion:ServiceRemoteWordPressComRESTApiVersion_1_2];
 
     NSMutableDictionary *parameters = [NSMutableDictionary dictionaryWithDictionary:@{}];
     parameters[@"content"] = post.content;
