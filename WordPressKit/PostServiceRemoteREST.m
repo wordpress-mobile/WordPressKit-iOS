@@ -165,7 +165,7 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
 
     NSString *path = [NSString stringWithFormat:@"sites/%@/posts/%@?context=edit", self.siteID, post.postID];
     NSString *requestUrl = [self pathForEndpoint:path
-                                     withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
+                                     withVersion:ServiceRemoteWordPressComRESTApiVersion_1_2];
     
     NSDictionary *parameters = [self parametersWithRemotePost:post];
 
