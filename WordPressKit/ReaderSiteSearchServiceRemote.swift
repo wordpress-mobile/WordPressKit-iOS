@@ -25,9 +25,7 @@ public class ReaderSiteSearchServiceRemote: ServiceRemoteWordPressComREST {
                               failure: @escaping (Error) -> Void) {
         let endpoint = "read/feed"
         let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
-        let locale = WordPressComLanguageDatabase().deviceLanguage.slug
         let parameters: [String: AnyObject] = [
-            "locale": locale as AnyObject,
             "number": count as AnyObject,
             "offset": offset as AnyObject,
             "exclude_followed": false as AnyObject,

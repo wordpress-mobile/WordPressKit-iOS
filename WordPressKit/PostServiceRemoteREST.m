@@ -34,7 +34,7 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
 
     NSString *path = [NSString stringWithFormat:@"sites/%@/posts/%@", self.siteID, postID];
     NSString *requestUrl = [self pathForEndpoint:path
-                                     withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
+                                     withVersion:ServiceRemoteWordPressComRESTApiVersion_1_2];
     
     NSDictionary *parameters = @{ @"context": @"edit" };
     
@@ -67,7 +67,7 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
 
     NSString *path = [NSString stringWithFormat:@"sites/%@/posts", self.siteID];
     NSString *requestUrl = [self pathForEndpoint:path
-                                     withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
+                                     withVersion:ServiceRemoteWordPressComRESTApiVersion_1_2];
     
     NSDictionary *parameters = @{
                                  @"status": @"any,trash",
@@ -101,7 +101,7 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
 
     NSString *path = [NSString stringWithFormat:@"sites/%@/posts/new?context=edit", self.siteID];
     NSString *requestUrl = [self pathForEndpoint:path
-                                     withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
+                                     withVersion:ServiceRemoteWordPressComRESTApiVersion_1_2];
     
     NSDictionary *parameters = [self parametersWithRemotePost:post];
 
@@ -131,7 +131,7 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
     NSString *filename = media.file;
     NSString *path = [NSString stringWithFormat:@"sites/%@/posts/new", self.siteID];
     NSString *requestUrl = [self pathForEndpoint:path
-                                     withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
+                                     withVersion:ServiceRemoteWordPressComRESTApiVersion_1_2];
 
     NSMutableDictionary *parameters = [NSMutableDictionary dictionaryWithDictionary:@{}];
     parameters[@"content"] = post.content;
@@ -165,7 +165,7 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
 
     NSString *path = [NSString stringWithFormat:@"sites/%@/posts/%@?context=edit", self.siteID, post.postID];
     NSString *requestUrl = [self pathForEndpoint:path
-                                     withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
+                                     withVersion:ServiceRemoteWordPressComRESTApiVersion_1_2];
     
     NSDictionary *parameters = [self parametersWithRemotePost:post];
 
@@ -429,7 +429,9 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
         parameters[@"categories"] = [post.categories valueForKey:@"categoryID"];
     }
     if (post.tags) {
-        parameters[@"tags"] = post.tags;
+        NSArray *tags = post.tags;
+        NSDictionary *postTags = @{@"post_tag":tags};
+        parameters[@"terms"] = postTags;
     }
     if (post.format) {
         parameters[@"format"] = post.format;
