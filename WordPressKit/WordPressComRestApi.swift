@@ -156,10 +156,6 @@ open class WordPressComRestApi: NSObject {
         uploadSessionManager.session.invalidateAndCancel()
     }
 
-    public func authTokenEquals(token: String) -> Bool {
-        return token == oAuthToken
-    }
-
     @objc func setInvalidTokenHandler(_ handler: @escaping () -> Void) {
         invalidTokenHandler = handler
     }
