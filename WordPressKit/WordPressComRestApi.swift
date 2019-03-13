@@ -60,6 +60,8 @@ open class WordPressComRestApi: NSObject {
 
     private let localeKey: String
 
+    private var invalidTokenHandler: (() -> Void)? = nil
+
     /**
      Configure whether or not the user's preferred language locale should be appended. Defaults to true.
      */
@@ -152,6 +154,10 @@ open class WordPressComRestApi: NSObject {
     @objc open func invalidateAndCancelTasks() {
         sessionManager.session.invalidateAndCancel()
         uploadSessionManager.session.invalidateAndCancel()
+    }
+
+    @objc func setInvalidTokenHandler(_ handler: @escaping () -> Void) {
+        invalidTokenHandler = handler
     }
 
     // MARK: Network requests
@@ -443,6 +449,9 @@ extension WordPressComRestApi {
         ]
 
         let mappedError = errorsMap[errorCode] ?? WordPressComRestApiError.unknown
+        if mappedError == .invalidToken {
+            invalidTokenHandler?()
+        }
         userInfo[WordPressComRestApi.ErrorKeyErrorCode] = errorCode
         userInfo[WordPressComRestApi.ErrorKeyErrorMessage] = errorDescription
         userInfo[NSLocalizedDescriptionKey] =  errorDescription
