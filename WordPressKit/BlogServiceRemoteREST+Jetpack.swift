@@ -48,7 +48,7 @@ public extension BlogServiceRemoteREST {
             completion(false, code ?? .unknown)
         }
     }
-    
+
     private enum Constants {
         static let status = "status"
     }
