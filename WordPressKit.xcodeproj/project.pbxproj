@@ -437,6 +437,7 @@
 		9AB6D64B21872A0D0008F274 /* post-revisions-success.json in Resources */ = {isa = PBXBuildFile; fileRef = 9AB6D648218722BB0008F274 /* post-revisions-success.json */; };
 		9AB6D64E218731AB0008F274 /* post-revisions-mapping-success.json in Resources */ = {isa = PBXBuildFile; fileRef = 9AB6D64D218731380008F274 /* post-revisions-mapping-success.json */; };
 		9AB6D64F218731AB0008F274 /* post-revisions-failure.json in Resources */ = {isa = PBXBuildFile; fileRef = 9AB6D64C218730130008F274 /* post-revisions-failure.json */; };
+		9ABE13EB223F8DA3006A8806 /* blog-service-jetpack-remote-error-invalid-credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = 9ABE13EA223F8D62006A8806 /* blog-service-jetpack-remote-error-invalid-credentials.json */; };
 		9AD75C77223943C600AED6F4 /* BlogServiceRemoteREST+Jetpack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD75C76223943C600AED6F4 /* BlogServiceRemoteREST+Jetpack.swift */; };
 		9AD75C79223BEC5D00AED6F4 /* BlogServiceRemoteRESTTests+Jetpack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD75C78223BEC5D00AED6F4 /* BlogServiceRemoteRESTTests+Jetpack.swift */; };
 		9AEAA774215E774A00876E62 /* site-quick-start-success.json in Resources */ = {isa = PBXBuildFile; fileRef = 9AEAA772215E71C000876E62 /* site-quick-start-success.json */; };
@@ -950,6 +951,7 @@
 		9AB6D649218727D60008F274 /* PostServiceRemoteRESTRevisionsTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostServiceRemoteRESTRevisionsTest.swift; sourceTree = "<group>"; };
 		9AB6D64C218730130008F274 /* post-revisions-failure.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "post-revisions-failure.json"; sourceTree = "<group>"; };
 		9AB6D64D218731380008F274 /* post-revisions-mapping-success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "post-revisions-mapping-success.json"; sourceTree = "<group>"; };
+		9ABE13EA223F8D62006A8806 /* blog-service-jetpack-remote-error-invalid-credentials.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "blog-service-jetpack-remote-error-invalid-credentials.json"; sourceTree = "<group>"; };
 		9AD75C76223943C600AED6F4 /* BlogServiceRemoteREST+Jetpack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BlogServiceRemoteREST+Jetpack.swift"; sourceTree = "<group>"; };
 		9AD75C78223BEC5D00AED6F4 /* BlogServiceRemoteRESTTests+Jetpack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BlogServiceRemoteRESTTests+Jetpack.swift"; sourceTree = "<group>"; };
 		9AD75C7A223BEF7A00AED6F4 /* blog-service-jetpack-remote-success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "blog-service-jetpack-remote-success.json"; sourceTree = "<group>"; };
@@ -1624,6 +1626,7 @@
 				40F88F611F85799A00AE3FAF /* auth-send-verification-email-success.json */,
 				9AD75C7A223BEF7A00AED6F4 /* blog-service-jetpack-remote-success.json */,
 				9A881738223BFC8E00A3AB20 /* blog-service-jetpack-remote-failure.json */,
+				9ABE13EA223F8D62006A8806 /* blog-service-jetpack-remote-error-invalid-credentials.json */,
 				9A88173A223BFE5100A3AB20 /* blog-service-jetpack-remote-error-unknown.json */,
 				9A88173C223BFF0400A3AB20 /* blog-service-jetpack-remote-error-forbidden.json */,
 				9A88173E223C012900A3AB20 /* blog-service-jetpack-remote-error-install-failure.json */,
@@ -2135,6 +2138,7 @@
 				74D67F181F15C2D70010C5ED /* site-users-update-role-unknown-site-failure.json in Resources */,
 				404057D8221C986A0060250C /* stats-clicks-data.json in Resources */,
 				436D56532121F60500CEAA33 /* supported-states-empty.json in Resources */,
+				9ABE13EB223F8DA3006A8806 /* blog-service-jetpack-remote-error-invalid-credentials.json in Resources */,
 				93AC8ED31ED32FD000900F5A /* stats-v1.1-streak.json in Resources */,
 				7403A2F91EF06FEB00DED7DC /* me-settings-change-email-success.json in Resources */,
 				439A44DC2107CE3C00795ED7 /* site-plans-v3-empty-failure.json in Resources */,

@@ -13,8 +13,8 @@ class BlogServiceRemoteRESTTests_Jetpack: RemoteTestCase, RESTTestable {
     let jetpackRemoteFailureMockFilename = "blog-service-jetpack-remote-failure.json"
 
     let jetpackRemoteErrorUnknownMockFilename = "blog-service-jetpack-remote-error-unknown.json"
+    let jetpackRemoteErrorInvalidCredentialsMockFilename = "blog-service-jetpack-remote-error-invalid-credentials.json"
     let jetpackRemoteErrorForbiddenMockFilename = "blog-service-jetpack-remote-error-forbidden.json"
-
     let jetpackRemoteErrorInstallFailureMockFilename = "blog-service-jetpack-remote-error-install-failure.json"
     let jetpackRemoteErrorInstallResponseMockFilename = "blog-service-jetpack-remote-error-install-response.json"
     let jetpackRemoteErrorLoginFailureMockFilename = "blog-service-jetpack-remote-error-login-failure.json"
@@ -56,7 +56,19 @@ class BlogServiceRemoteRESTTests_Jetpack: RemoteTestCase, RESTTestable {
     func testJetpackRemoteInstallationFailure() {
         let expect = expectation(description: "Install Jetpack failure")
         
-        stubRemoteResponse(endpoint, filename: jetpackRemoteFailureMockFilename, contentType: .ApplicationJSON, status: 400)
+        stubRemoteResponse(endpoint, filename: jetpackRemoteFailureMockFilename, contentType: .ApplicationJSON, status: 200)
+        remote.installJetpack(url: url, username: username, password: password) { (success, error) in
+            XCTAssertFalse(success, "Success should be false")
+            expect.fulfill()
+        }
+        
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+    
+    func testJetpackRemoteInstallationErrorInvalidCredentials() {
+        let expect = expectation(description: "Install Jetpack failure")
+        
+        stubRemoteResponse(endpoint, filename: jetpackRemoteErrorInvalidCredentialsMockFilename, contentType: .ApplicationJSON, status: 400)
         remote.installJetpack(url: url, username: username, password: password) { (success, error) in
             XCTAssertFalse(success, "Success should be false")
             XCTAssertEqual(error, .invalidCredentials)
