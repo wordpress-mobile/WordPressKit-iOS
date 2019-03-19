@@ -24,7 +24,7 @@ public extension BlogServiceRemoteREST {
             completion(false, .unknown)
             return
         }
-        let path = String(format: "jetpack-install/%@/?locale=en_US", escapedURL)
+        let path = String(format: "jetpack-install/%@/", escapedURL)
         let requestUrl = self.path(forEndpoint: path, withVersion: ._1_0)
         let parameters = ["user": username,
                           "password": password]

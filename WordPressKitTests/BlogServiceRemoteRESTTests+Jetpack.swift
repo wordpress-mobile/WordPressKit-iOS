@@ -23,7 +23,7 @@ class BlogServiceRemoteRESTTests_Jetpack: RemoteTestCase, RESTTestable {
     let jetpackRemoteErrorActivationResponseMockFilename = "blog-service-jetpack-remote-error-activation-response.json"
     let jetpackRemoteErrorActivationFailureMockFilename = "blog-service-jetpack-remote-error-activation-failure.json"
     
-    var endpoint: String { return "jetpack-install/\(encodedURL)/?locale=en_US" }
+    var endpoint: String { return "jetpack-install/\(encodedURL)/" }
     
     var remote: BlogServiceRemoteREST!
     
