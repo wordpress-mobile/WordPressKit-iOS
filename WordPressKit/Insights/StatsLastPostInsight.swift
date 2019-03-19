@@ -6,6 +6,22 @@ public struct StatsLastPostInsight {
     public let commentsCount: Int
     public let viewsCount: Int
     public let postID: Int
+
+    public init(title: String,
+                url: URL,
+                publishedDate: Date,
+                likesCount: Int,
+                commentsCount: Int,
+                viewsCount: Int,
+                postID: Int) {
+        self.title = title
+        self.url = url
+        self.publishedDate = publishedDate
+        self.likesCount = likesCount
+        self.commentsCount = commentsCount
+        self.viewsCount = viewsCount
+        self.postID = postID
+    }
 }
 
 extension StatsLastPostInsight: StatsInsightData {

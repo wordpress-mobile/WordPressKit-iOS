@@ -1,6 +1,12 @@
 public struct StatsDotComFollowersInsight {
     public let dotComFollowersCount: Int
     public let topDotComFollowers: [StatsFollower]
+
+    public init (dotComFollowersCount: Int,
+                 topDotComFollowers: [StatsFollower]) {
+        self.dotComFollowersCount = dotComFollowersCount
+        self.topDotComFollowers = topDotComFollowers
+    }
 }
 
 extension StatsDotComFollowersInsight: StatsInsightData {
@@ -37,6 +43,14 @@ public struct StatsFollower {
     public let name: String
     public let subscribedDate: Date
     public let avatarURL: URL?
+
+    public init(name: String,
+                subscribedDate: Date,
+                avatarURL: URL?) {
+        self.name = name
+        self.subscribedDate = subscribedDate
+        self.avatarURL = avatarURL
+    }
 }
 
 extension StatsFollower {
