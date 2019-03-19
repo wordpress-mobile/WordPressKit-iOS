@@ -10,13 +10,8 @@ public enum JetpackInstallError: String, Error {
     case activationFailure = "ACTIVATION_FAILURE"
     case unknown
 
-    init?(error code: String?) {
-        guard let code = code else {
-            self = .unknown
-            return
-        }
-
-        self.init(rawValue: code)
+    init(error key: String) {
+        self = JetpackInstallError(rawValue: key) ?? .unknown
     }
 }
 
@@ -44,8 +39,11 @@ public extension BlogServiceRemoteREST {
                                         completion(false, .installResponseError)
                                     }
         }) { (error: NSError, httpResponse: HTTPURLResponse?) in
-            let code = JetpackInstallError(error: error.userInfo[WordPressComRestApi.ErrorKeyErrorCode] as? String)
-            completion(false, code ?? .unknown)
+            if let key = error.userInfo[WordPressComRestApi.ErrorKeyErrorCode] as? String {
+                completion(false, JetpackInstallError(error: key))
+            } else {
+                completion(false, .unknown)
+            }
         }
     }
 
