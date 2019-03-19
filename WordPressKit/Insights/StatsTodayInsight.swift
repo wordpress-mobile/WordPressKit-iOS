@@ -3,6 +3,16 @@ public struct StatsTodayInsight {
     public let visitorsCount: Int
     public let likesCount: Int
     public let commentsCount: Int
+
+    public init(viewsCount: Int,
+                visitorsCount: Int,
+                likesCount: Int,
+                commentsCount: Int) {
+        self.viewsCount = viewsCount
+        self.visitorsCount = visitorsCount
+        self.likesCount = likesCount
+        self.commentsCount = commentsCount
+    }
 }
 
 extension StatsTodayInsight: StatsInsightData {

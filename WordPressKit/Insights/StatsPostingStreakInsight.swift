@@ -7,6 +7,24 @@ public struct StatsPostingStreakInsight {
     public let longestStreakLength: Int
 
     public let postingEvents: [PostingStreakEvent]
+
+    public init(currentStreakStart: Date,
+                currentStreakEnd: Date,
+                currentStreakLength: Int,
+                longestStreakStart: Date,
+                longestStreakEnd: Date,
+                longestStreakLength: Int,
+                postingEvents: [PostingStreakEvent]) {
+        self.currentStreakStart = currentStreakStart
+        self.currentStreakEnd = currentStreakEnd
+        self.currentStreakLength = currentStreakLength
+
+        self.longestStreakStart = longestStreakStart
+        self.longestStreakEnd = longestStreakEnd
+        self.longestStreakLength = longestStreakLength
+
+        self.postingEvents = postingEvents
+    }
 }
 
 public struct PostingStreakEvent {

@@ -1,5 +1,9 @@
 public struct StatsPublicizeInsight {
     public let publicizeServices: [StatsPublicizeService]
+
+    public init(publicizeServices: [StatsPublicizeService]) {
+        self.publicizeServices = publicizeServices
+    }
 }
 
 extension StatsPublicizeInsight: StatsInsightData {
@@ -27,6 +31,14 @@ public struct StatsPublicizeService {
     public let name: String
     public let followers: Int
     public let iconURL: URL?
+
+    public init(name: String,
+                followers: Int,
+                iconURL: URL?) {
+        self.name = name
+        self.followers = followers
+        self.iconURL = iconURL
+    }
 }
 
 private extension StatsPublicizeService {
