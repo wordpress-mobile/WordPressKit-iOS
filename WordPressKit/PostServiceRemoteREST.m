@@ -426,8 +426,9 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
     }
 
     if (post.categories) {
-        parameters[@"categories"] = [post.categories valueForKey:@"categoryID"];
+        parameters[@"categories_by_id"] = [post.categories valueForKey:@"categoryID"];
     }
+
     if (post.tags) {
         NSArray *tags = post.tags;
         NSDictionary *postTags = @{@"post_tag":tags};
