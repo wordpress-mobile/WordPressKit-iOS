@@ -6,12 +6,32 @@ public struct StatsTopCountryTimeIntervalData {
     public let otherViewsCount: Int
 
     public let countries: [StatsCountry]
+
+    public init(period: StatsPeriodUnit,
+                periodEndDate: Date,
+                countries: [StatsCountry],
+                totalViewsCount: Int,
+                otherViewsCount: Int) {
+        self.period = period
+        self.periodEndDate = periodEndDate
+        self.countries = countries
+        self.totalViewsCount = totalViewsCount
+        self.otherViewsCount = otherViewsCount
+    }
 }
 
 public struct StatsCountry {
-    let name: String
-    let code: String
-    let viewsCount: Int
+    public let name: String
+    public let code: String
+    public let viewsCount: Int
+
+    public init(name: String,
+                code: String,
+                viewsCount: Int){
+        self.name = name
+        self.code = code
+        self.viewsCount = viewsCount
+    }
 }
 
 extension StatsTopCountryTimeIntervalData: StatsTimeIntervalData {

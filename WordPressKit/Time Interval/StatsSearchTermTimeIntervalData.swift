@@ -5,12 +5,32 @@ public struct StatsSearchTermTimeIntervalData {
     public let totalSearchTermsCount: Int
     public let hiddenSearchTermsCount: Int
     public let otherSearchTermsCount: Int
-    public let searchTerms: [SearchTerm]
+    public let searchTerms: [StatsSearchTerm]
+
+    public init(period: StatsPeriodUnit,
+                periodEndDate: Date,
+                searchTerms: [StatsSearchTerm],
+                totalSearchTermsCount: Int,
+                hiddenSearchTermsCount: Int,
+                otherSearchTermsCount: Int) {
+        self.period = period
+        self.periodEndDate = periodEndDate
+        self.searchTerms = searchTerms
+        self.totalSearchTermsCount = totalSearchTermsCount
+        self.hiddenSearchTermsCount = hiddenSearchTermsCount
+        self.otherSearchTermsCount = otherSearchTermsCount
+    }
 }
 
-public struct SearchTerm {
+public struct StatsSearchTerm {
     public let term: String
     public let viewsCount: Int
+
+    public init(term: String,
+                viewsCount: Int) {
+        self.term = term
+        self.viewsCount = viewsCount
+    }
 }
 
 extension StatsSearchTermTimeIntervalData: StatsTimeIntervalData {
@@ -29,12 +49,12 @@ extension StatsSearchTermTimeIntervalData: StatsTimeIntervalData {
                 return nil
         }
 
-        let searchTerms: [SearchTerm] = searchTermsDict.compactMap {
+        let searchTerms: [StatsSearchTerm] = searchTermsDict.compactMap {
             guard let term = $0["term"] as? String, let views = $0["views"] as? Int else {
                 return nil
             }
 
-            return SearchTerm(term: term, viewsCount: views)
+            return StatsSearchTerm(term: term, viewsCount: views)
         }
 
 
