@@ -6,6 +6,18 @@ public struct StatsTopClicksTimeIntervalData {
     public let otherClicksCount: Int
 
     public let clicks: [StatsClick]
+
+    public init(period: StatsPeriodUnit,
+                periodEndDate: Date,
+                clicks: [StatsClick],
+                totalClicksCount: Int,
+                otherClicksCount: Int) {
+        self.period = period
+        self.periodEndDate = periodEndDate
+        self.clicks = clicks
+        self.totalClicksCount = totalClicksCount
+        self.otherClicksCount = otherClicksCount
+    }
 }
 
 public struct StatsClick {
@@ -15,6 +27,18 @@ public struct StatsClick {
     public let iconURL: URL?
 
     public let children: [StatsClick]
+
+    public init(title: String,
+                clicksCount: Int,
+                clickedURL: URL?,
+                iconURL: URL?,
+                children: [StatsClick]) {
+        self.title = title
+        self.clicksCount = clicksCount
+        self.clickedURL = clickedURL
+        self.iconURL = iconURL
+        self.children = children
+    }
 }
 
 extension StatsTopClicksTimeIntervalData: StatsTimeIntervalData {
