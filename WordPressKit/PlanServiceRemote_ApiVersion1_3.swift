@@ -6,9 +6,9 @@ import CocoaLumberjack
 
     public typealias SitePlans = (activePlan: RemotePlan_ApiVersion1_3, availablePlans: [RemotePlan_ApiVersion1_3])
 
-    @objc public func getPlansForSite(_ siteID: Int,
-                                      success: @escaping (SitePlans) -> Void,
-                                      failure: @escaping (Error) -> Void) {
+    public func getPlansForSite(_ siteID: Int,
+                                success: @escaping (SitePlans) -> Void,
+                                failure: @escaping (Error) -> Void) {
         let endpoint = "sites/\(siteID)/plans"
         let path = self.path(forEndpoint: endpoint, withVersion: ._1_3)
 
