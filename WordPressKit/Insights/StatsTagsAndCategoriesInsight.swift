@@ -1,5 +1,9 @@
 public struct StatsTagsAndCategoriesInsight {
     public let topTagsAndCategories: [StatsTagAndCategory]
+
+    public init(topTagsAndCategories: [StatsTagAndCategory]) {
+        self.topTagsAndCategories = topTagsAndCategories
+    }
 }
 
 extension StatsTagsAndCategoriesInsight: StatsInsightData {
@@ -34,6 +38,15 @@ public struct StatsTagAndCategory {
     public let url: URL?
     public let viewsCount: Int?
     public let children: [StatsTagAndCategory]
+
+    public init(name: String, kind: Kind, url: URL?, viewsCount: Int?, children: [StatsTagAndCategory]) {
+        self.name = name
+        self.kind = kind
+        self.url = url
+        self.viewsCount = viewsCount
+        self.children = children
+    }
+
 }
 
 extension StatsTagAndCategory {
@@ -61,7 +74,7 @@ extension StatsTagAndCategory {
         let mappedChildren = innerTags.compactMap { StatsTagAndCategory(singleTag: $0) }
         let label = mappedChildren.map { $0.name }.joined(separator: ", ")
         
-        self.init(name: label, kind: .folder, url: "", viewsCount: views, children: mappedChildren)
+        self.init(name: label, kind: .folder, url: nil, viewsCount: views, children: mappedChildren)
     }
 
     init?(singleTag tag: [String: AnyObject], viewsCount: Int? = 0) {
@@ -84,16 +97,6 @@ extension StatsTagAndCategory {
             kind = .category
         }
 
-        self.init(name: name, kind: kind, url: url, viewsCount: viewsCount, children: [])
+        self.init(name: name, kind: kind, url: URL(string: url), viewsCount: viewsCount, children: [])
     }
-
-
-    init(name: String, kind: Kind, url: String, viewsCount: Int?, children: [StatsTagAndCategory]) {
-        self.name = name
-        self.kind = kind
-        self.url = URL(string: url)
-        self.viewsCount = viewsCount
-        self.children = children
-    }
-
 }

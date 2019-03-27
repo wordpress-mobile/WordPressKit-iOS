@@ -22,6 +22,42 @@ public struct StatsAnnualAndMostPopularTimeInsight {
 
     public let annualInsightsTotalImagesCount: Int
     public let annualInsightsAverageImagesCount: Double
+
+    public init(mostPopularDayOfWeek: DateComponents,
+                mostPopularDayOfWeekPercentage: Int,
+                mostPopularHour: DateComponents,
+                mostPopularHourPercentage: Int,
+                annualInsightsYear: Int,
+                annualInsightsTotalPostsCount: Int,
+                annualInsightsTotalWordsCount: Int,
+                annualInsightsAverageWordsCount: Double,
+                annualInsightsTotalLikesCount: Int,
+                annualInsightsAverageLikesCount: Double,
+                annualInsightsTotalCommentsCount: Int,
+                annualInsightsAverageCommentsCount: Double,
+                annualInsightsTotalImagesCount: Int,
+                annualInsightsAverageImagesCount: Double) {
+        self.mostPopularDayOfWeek = mostPopularDayOfWeek
+        self.mostPopularDayOfWeekPercentage = mostPopularDayOfWeekPercentage
+
+        self.mostPopularHour = mostPopularHour
+        self.mostPopularHourPercentage = mostPopularHourPercentage
+
+        self.annualInsightsYear = annualInsightsYear
+
+        self.annualInsightsTotalPostsCount = annualInsightsTotalPostsCount
+        self.annualInsightsTotalWordsCount = annualInsightsTotalWordsCount
+        self.annualInsightsAverageWordsCount = annualInsightsAverageWordsCount
+
+        self.annualInsightsTotalLikesCount = annualInsightsTotalLikesCount
+        self.annualInsightsAverageLikesCount = annualInsightsAverageLikesCount
+
+        self.annualInsightsTotalCommentsCount = annualInsightsTotalCommentsCount
+        self.annualInsightsAverageCommentsCount = annualInsightsAverageCommentsCount
+
+        self.annualInsightsTotalImagesCount = annualInsightsTotalImagesCount
+        self.annualInsightsAverageImagesCount = annualInsightsAverageImagesCount
+    }
 }
 
 extension StatsAnnualAndMostPopularTimeInsight: StatsInsightData {

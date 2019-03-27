@@ -4,6 +4,18 @@ public struct StatsAllTimesInsight {
     public let bestViewsDay: Date
     public let visitorsCount: Int
     public let bestViewsPerDayCount: Int
+
+    public init(postsCount: Int,
+                viewsCount: Int,
+                bestViewsDay: Date,
+                visitorsCount: Int,
+                bestViewsPerDayCount: Int) {
+        self.postsCount = postsCount
+        self.viewsCount = viewsCount
+        self.bestViewsDay = bestViewsDay
+        self.visitorsCount = visitorsCount
+        self.bestViewsPerDayCount = bestViewsPerDayCount
+    }
 }
 
 

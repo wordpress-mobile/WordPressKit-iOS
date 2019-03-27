@@ -5,15 +5,35 @@ public struct StatsTopVideosTimeIntervalData {
     public let totalPlaysCount: Int
     public let otherPlayCount: Int
     public let videos: [StatsVideo]
+
+    public init(period: StatsPeriodUnit,
+                periodEndDate: Date,
+                videos: [StatsVideo],
+                totalPlaysCount: Int,
+                otherPlayCount: Int) {
+        self.period = period
+        self.periodEndDate = periodEndDate
+        self.videos = videos
+        self.totalPlaysCount = totalPlaysCount
+        self.otherPlayCount = otherPlayCount
+    }
 }
 
 public struct StatsVideo {
-    let postID: Int
-    let title: String
-    let playsCount: Int
-    let videoURL: URL?
+    public let postID: Int
+    public let title: String
+    public let playsCount: Int
+    public let videoURL: URL?
 
-
+    public init(postID: Int,
+                title: String,
+                playsCount: Int,
+                videoURL: URL?) {
+        self.postID = postID
+        self.title = title
+        self.playsCount = playsCount
+        self.videoURL = videoURL
+    }
 }
 
 extension StatsTopVideosTimeIntervalData: StatsTimeIntervalData {

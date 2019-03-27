@@ -3,6 +3,14 @@ public struct StatsSummaryTimeIntervalData {
     public let periodEndDate: Date
 
     public let summaryData: [StatsSummaryData]
+
+    public init(period: StatsPeriodUnit,
+                periodEndDate: Date,
+                summaryData: [StatsSummaryData]) {
+        self.period = period
+        self.periodEndDate = periodEndDate
+        self.summaryData = summaryData
+    }
 }
 
 public struct StatsSummaryData {
@@ -13,6 +21,20 @@ public struct StatsSummaryData {
     public let visitorsCount: Int
     public let likesCount: Int
     public let commentsCount: Int
+
+    public init(period: StatsPeriodUnit,
+                periodStartDate: Date,
+                viewsCount: Int,
+                visitorsCount: Int,
+                likesCount: Int,
+                commentsCount: Int) {
+        self.period = period
+        self.periodStartDate = periodStartDate
+        self.viewsCount = viewsCount
+        self.visitorsCount = visitorsCount
+        self.likesCount = likesCount
+        self.commentsCount = commentsCount
+    }
 }
 
 extension StatsSummaryTimeIntervalData: StatsTimeIntervalData {

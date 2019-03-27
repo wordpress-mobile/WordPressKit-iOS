@@ -1,6 +1,12 @@
 public struct StatsCommentsInsight {
     public let topPosts: [StatsTopCommentsPost]
     public let topAuthors: [StatsTopCommentsAuthor]
+
+    public init(topPosts: [StatsTopCommentsPost],
+                topAuthors: [StatsTopCommentsAuthor]) {
+        self.topPosts = topPosts
+        self.topAuthors = topAuthors
+    }
 }
 
 extension StatsCommentsInsight: StatsInsightData {
@@ -31,6 +37,14 @@ public struct StatsTopCommentsAuthor {
     public let name: String
     public let commentCount: Int
     public let iconURL: URL?
+
+    public init(name: String,
+                commentCount: Int,
+                iconURL: URL?) {
+        self.name = name
+        self.commentCount = commentCount
+        self.iconURL = iconURL
+    }
 }
 
 public struct StatsTopCommentsPost {
@@ -38,6 +52,16 @@ public struct StatsTopCommentsPost {
     public let postID: String
     public let commentCount: Int
     public let postURL: URL?
+
+    public init(name: String,
+                postID: String,
+                commentCount: Int,
+                postURL: URL?) {
+        self.name = name
+        self.postID = postID
+        self.commentCount = commentCount
+        self.postURL = postURL
+    }
 }
 
 private extension StatsTopCommentsAuthor {

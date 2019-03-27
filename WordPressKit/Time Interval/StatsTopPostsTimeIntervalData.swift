@@ -5,6 +5,18 @@ public struct StatsTopPostsTimeIntervalData {
     public let totalViewsCount: Int
     public let otherViewsCount: Int
     public let topPosts: [StatsTopPost]
+
+    public init(period: StatsPeriodUnit,
+                periodEndDate: Date,
+                topPosts: [StatsTopPost],
+                totalViewsCount: Int,
+                otherViewsCount: Int) {
+        self.period = period
+        self.periodEndDate = periodEndDate
+        self.topPosts = topPosts
+        self.totalViewsCount = totalViewsCount
+        self.otherViewsCount = otherViewsCount
+    }
 }
 
 extension StatsTopPostsTimeIntervalData: StatsTimeIntervalData {

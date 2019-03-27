@@ -1,6 +1,12 @@
 public struct StatsEmailFollowersInsight {
     public let emailFollowersCount: Int
     public let topEmailFollowers: [StatsFollower]
+
+    public init(emailFollowersCount: Int,
+                topEmailFollowers: [StatsFollower]) {
+        self.emailFollowersCount = emailFollowersCount
+        self.topEmailFollowers = topEmailFollowers
+    }
 }
 
 extension StatsEmailFollowersInsight: StatsInsightData {
