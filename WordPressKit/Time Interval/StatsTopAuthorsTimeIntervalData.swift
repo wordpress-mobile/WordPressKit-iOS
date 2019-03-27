@@ -3,6 +3,14 @@ public struct StatsTopAuthorsTimeIntervalData {
     public let periodEndDate: Date
 
     public let topAuthors: [StatsTopAuthor]
+
+    public init(period: StatsPeriodUnit,
+                periodEndDate: Date,
+                topAuthors: [StatsTopAuthor]) {
+        self.period = period
+        self.periodEndDate = periodEndDate
+        self.topAuthors = topAuthors
+    }
 }
 
 public struct StatsTopAuthor {
@@ -10,6 +18,16 @@ public struct StatsTopAuthor {
     public let iconURL: URL?
     public let viewsCount: Int
     public let posts: [StatsTopPost]
+
+    public init(name: String,
+                iconURL: URL?,
+                viewsCount: Int,
+                posts: [StatsTopPost]) {
+        self.name = name
+        self.iconURL = iconURL
+        self.viewsCount = viewsCount
+        self.posts = posts
+    }
 }
 
 public struct StatsTopPost {
@@ -28,6 +46,17 @@ public struct StatsTopPost {
     public let viewsCount: Int
     public let kind: Kind
 
+    public init(title: String,
+                postID: Int,
+                postURL: URL?,
+                viewsCount: Int,
+                kind: Kind) {
+        self.title = title
+        self.postID = postID
+        self.postURL = postURL
+        self.viewsCount = viewsCount
+        self.kind = kind
+    }
 }
 
 extension StatsTopAuthorsTimeIntervalData: StatsTimeIntervalData {

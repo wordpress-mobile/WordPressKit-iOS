@@ -3,6 +3,14 @@ public struct StatsPublishedPostsTimeIntervalData {
     public let period: StatsPeriodUnit
 
     public let publishedPosts: [StatsTopPost]
+
+    public init(period: StatsPeriodUnit,
+                periodEndDate: Date,
+                publishedPosts: [StatsTopPost]) {
+        self.period = period
+        self.periodEndDate = periodEndDate
+        self.publishedPosts = publishedPosts
+    }
 }
 
 extension StatsPublishedPostsTimeIntervalData: StatsTimeIntervalData {

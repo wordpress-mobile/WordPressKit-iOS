@@ -6,6 +6,18 @@ public struct StatsTopReferrersTimeIntervalData {
     public let otherReferrerViewsCount: Int
 
     public let referrers: [StatsReferrer]
+
+    public init(period: StatsPeriodUnit,
+                periodEndDate: Date,
+                referrers: [StatsReferrer],
+                totalReferrerViewsCount: Int,
+                otherReferrerViewsCount: Int) {
+        self.period = period
+        self.periodEndDate = periodEndDate
+        self.referrers = referrers
+        self.totalReferrerViewsCount = totalReferrerViewsCount
+        self.otherReferrerViewsCount = otherReferrerViewsCount
+    }
 }
 
 public struct StatsReferrer {
@@ -15,6 +27,18 @@ public struct StatsReferrer {
     public let iconURL: URL?
 
     public let children: [StatsReferrer]
+
+    public init(title: String,
+                viewsCount: Int,
+                url: URL?,
+                iconURL: URL?,
+                children: [StatsReferrer]) {
+        self.title = title
+        self.viewsCount = viewsCount
+        self.url = url
+        self.iconURL = iconURL
+        self.children = children
+    }
 }
 
 extension StatsTopReferrersTimeIntervalData: StatsTimeIntervalData {
