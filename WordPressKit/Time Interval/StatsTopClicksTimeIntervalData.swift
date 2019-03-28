@@ -49,14 +49,13 @@ extension StatsTopClicksTimeIntervalData: StatsTimeIntervalData {
     public init?(date: Date, period: StatsPeriodUnit, jsonDictionary: [String : AnyObject]) {
         guard
             let unwrappedDays = type(of: self).unwrapDaysDictionary(jsonDictionary: jsonDictionary),
-            let totalClicks = unwrappedDays["total_clicks"] as? Int,
-            let otherClicks = unwrappedDays["other_clicks"] as? Int,
             let clicks = unwrappedDays["clicks"] as? [[String: AnyObject]]
             else {
                 return nil
         }
 
-
+        let totalClicks = unwrappedDays["total_clicks"] as? Int ?? 0
+        let otherClicks = unwrappedDays["other_clicks"] as? Int ?? 0
 
         self.period = period
         self.periodEndDate = date

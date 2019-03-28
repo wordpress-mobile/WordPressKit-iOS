@@ -27,12 +27,13 @@ extension StatsTopPostsTimeIntervalData: StatsTimeIntervalData {
     public init?(date: Date, period: StatsPeriodUnit, jsonDictionary: [String : AnyObject]) {
         guard
             let unwrappedDays = type(of: self).unwrapDaysDictionary(jsonDictionary: jsonDictionary),
-            let posts = unwrappedDays["postviews"] as? [[String: AnyObject]],
-            let totalViews = unwrappedDays["total_views"] as? Int,
-            let otherViews = unwrappedDays["other_views"] as? Int
+            let posts = unwrappedDays["postviews"] as? [[String: AnyObject]]
             else {
                 return nil
         }
+
+        let totalViews = unwrappedDays["total_views"] as? Int ?? 0
+        let otherViews = unwrappedDays["other_views"] as? Int ?? 0
 
         self.periodEndDate = date
         self.period = period
