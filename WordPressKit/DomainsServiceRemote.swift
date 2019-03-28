@@ -157,7 +157,7 @@ public class DomainsServiceRemote: ServiceRemoteWordPressComREST {
     }
 
     public func getDomainSuggestions(base query: String,
-                                     segmentID: Int,
+                                     segmentID: Int64,
                                      success: @escaping ([DomainSuggestion]) -> Void,
                                      failure: @escaping (Error) -> Void) {
         let endPoint = "domains/suggestions"
