@@ -49,12 +49,13 @@ extension StatsTopReferrersTimeIntervalData: StatsTimeIntervalData {
     public init?(date: Date, period: StatsPeriodUnit, jsonDictionary: [String : AnyObject]) {
         guard
             let unwrappedDays = type(of: self).unwrapDaysDictionary(jsonDictionary: jsonDictionary),
-            let totalClicks = unwrappedDays["total_views"] as? Int,
-            let otherClicks = unwrappedDays["other_views"] as? Int,
             let referrers = unwrappedDays["groups"] as? [[String: AnyObject]]
             else {
                 return nil
         }
+
+        let totalClicks = unwrappedDays["total_views"] as? Int ?? 0
+        let otherClicks = unwrappedDays["other_views"] as? Int ?? 0
 
         self.period = period
         self.periodEndDate = date
