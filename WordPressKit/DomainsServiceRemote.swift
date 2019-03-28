@@ -157,6 +157,32 @@ public class DomainsServiceRemote: ServiceRemoteWordPressComREST {
     }
 
     public func getDomainSuggestions(base query: String,
+                                     segmentID: Int,
+                                     success: @escaping ([DomainSuggestion]) -> Void,
+                                     failure: @escaping (Error) -> Void) {
+        let endPoint = "domains/suggestions"
+        let servicePath = path(forEndpoint: endPoint, withVersion: ._1_1)
+        var parameters: [String: AnyObject] = ["segment_id": segmentID as AnyObject]
+        parameters["query"] = query as AnyObject
+
+        wordPressComRestApi.GET(servicePath,
+                                parameters: parameters,
+                                success: {
+                                    response, _ in
+                                    do {
+                                        let suggestions = try map(suggestions: response)
+                                        success(suggestions)
+                                    } catch {
+                                        DDLogError("Error parsing domains response (\(error)): \(response)")
+                                        failure(error)
+                                    }
+        }, failure: {
+            error, _ in
+            failure(error)
+        })
+    }
+
+    public func getDomainSuggestions(base query: String,
                                      domainSuggestionType: DomainSuggestionType = .onlyWordPressDotCom,
                                      success: @escaping ([DomainSuggestion]) -> Void,
                                      failure: @escaping (Error) -> Void) {
