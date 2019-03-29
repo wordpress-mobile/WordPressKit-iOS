@@ -414,8 +414,9 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
             XCTAssertEqual(postDetails?.fetchedDate, date)
             XCTAssertEqual(postDetails?.totalViewsCount, 163343)
 
+            let dailyAverages = 10 + 12 + 12 + 12 + 2
             XCTAssertEqual(postDetails?.dailyAveragesPerMonth.count, postDetails?.monthlyBreakdown.count)
-            XCTAssertEqual(postDetails?.dailyAveragesPerMonth.count, 10 + 12 + 12 + 12 + 2)
+            XCTAssertEqual(postDetails?.dailyAveragesPerMonth.count, dailyAverages)
 
             let feb19Averages = postDetails?.dailyAveragesPerMonth.first { $0.date == DateComponents(year: 2019, month: 2) }
             XCTAssertNotNil(feb19Averages)

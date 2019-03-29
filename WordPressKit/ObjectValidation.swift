@@ -6,7 +6,7 @@ import Foundation
     /// Validate if a class is a valid NSObject and if it's not nil
     ///
     /// - Returns: Bool value
-    @objc public func wp_isValidObject() -> Bool {
+    @objc func wp_isValidObject() -> Bool {
         return !(self is NSNull)
     }
 }
@@ -17,7 +17,7 @@ import Foundation
     ///  Validate if a class is a valid NSString and if it's not nil
     ///
     /// - Returns: Bool value
-    @objc public func wp_isValidString() -> Bool {
+    @objc func wp_isValidString() -> Bool {
         return wp_isValidObject() && self != ""
     }
 }
