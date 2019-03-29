@@ -2,7 +2,7 @@ import Foundation
 
 
 public extension PostServiceRemoteREST {
-    public func getPostRevisions(for siteId: Int,
+    func getPostRevisions(for siteId: Int,
                                  postId: Int,
                                  success: @escaping ([RemoteRevision]?) -> Void,
                                  failure: @escaping (Error?) -> Void) {

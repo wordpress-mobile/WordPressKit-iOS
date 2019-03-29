@@ -231,7 +231,7 @@ private extension BlogJetpackSettingsServiceRemote {
 
 public extension BlogJetpackSettingsServiceRemote {
 
-    public enum Keys {
+    enum Keys {
 
         // RemoteBlogJetpackSettings keys
         public static let monitorEnabled = "monitor"
@@ -252,7 +252,7 @@ public extension BlogJetpackSettingsServiceRemote {
 
     }
 
-    public enum ModuleOptionKeys {
+    enum ModuleOptionKeys {
 
         // Whether or not the module is currently active
         public static let active = "active"
