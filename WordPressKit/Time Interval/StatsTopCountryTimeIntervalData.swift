@@ -41,14 +41,15 @@ extension StatsTopCountryTimeIntervalData: StatsTimeIntervalData {
 
     public init?(date: Date, period: StatsPeriodUnit, jsonDictionary: [String : AnyObject]) {
         guard
-            let countryInfo = jsonDictionary["country-info"] as? [String: AnyObject],
             let unwrappedDays = type(of: self).unwrapDaysDictionary(jsonDictionary: jsonDictionary),
-            let totalViews = unwrappedDays["total_views"] as? Int,
-            let otherViews = unwrappedDays["other_views"] as? Int,
             let countriesViews = unwrappedDays["views"] as? [[String: AnyObject]]
             else {
                 return nil
         }
+
+        let countryInfo = jsonDictionary["country-info"] as? [String: AnyObject] ?? [:]
+        let totalViews = unwrappedDays["total_views"] as? Int ?? 0
+        let otherViews = unwrappedDays["other_views"] as? Int ?? 0
 
         self.periodEndDate = date
         self.period = period
