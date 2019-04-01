@@ -23,7 +23,7 @@ public struct DomainSuggestionRequest: Encodable {
     public let query: String
     public let segmentID: Int64
     
-    init(query: String, segmentID: Int64) {
+    public init(query: String, segmentID: Int64) {
         self.query = query
         self.segmentID = segmentID
     }
