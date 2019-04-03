@@ -44,8 +44,8 @@ open class WordPressComRestApi: NSObject {
     public typealias SuccessResponseBlock = (_ responseObject: AnyObject, _ httpResponse: HTTPURLResponse?) -> ()
     public typealias FailureReponseBlock = (_ error: NSError, _ httpResponse: HTTPURLResponse?) -> ()
 
-    @objc public static let apiBaseURLString: String = "https://public-api.wordpress.com/"
-    
+    @objc public static let BaseURLStringDefault = "https://public-api.wordpress.com"
+
     @objc public static let defaultBackgroundSessionIdentifier = "org.wordpress.wpcomrestapi"
     
     private let oAuthToken: String?
@@ -59,6 +59,8 @@ open class WordPressComRestApi: NSObject {
     private let backgroundUploads: Bool
 
     private let localeKey: String
+
+    @objc public let baseURLString: String
 
     private var invalidTokenHandler: (() -> Void)? = nil
 
@@ -122,6 +124,7 @@ open class WordPressComRestApi: NSObject {
     ///   - backgroundSessionIdentifier: The session identifier to use for the background session. This must be unique in the system.
     ///   - sharedContainerIdentifier: An optional string used when setting up background sessions for use in an app extension. Default is nil.
     ///   - localeKey: The key with which to specify locale in the parameters of a request.
+    ///   - baseURLString: The base url to use for API requests. Default is https://public-api.wordpress.com
     ///
     /// - Discussion: When backgroundUploads are activated any request done by the multipartPOST method will use background session. This background session is shared for all multipart
     ///   requests and the identifier used must be unique in the system, Apple recomends to use invert DNS base on your bundle ID. Keep in mind these requests will continue even
@@ -132,13 +135,15 @@ open class WordPressComRestApi: NSObject {
                 backgroundUploads: Bool = false,
                 backgroundSessionIdentifier: String = WordPressComRestApi.defaultBackgroundSessionIdentifier,
                 sharedContainerIdentifier: String? = nil,
-                localeKey: String = WordPressComRestApi.LocaleKeyDefault) {
+                localeKey: String = WordPressComRestApi.LocaleKeyDefault,
+                baseUrlString: String = WordPressComRestApi.BaseURLStringDefault) {
         self.oAuthToken = oAuthToken
         self.userAgent = userAgent
         self.backgroundUploads = backgroundUploads
         self.backgroundSessionIdentifier = backgroundSessionIdentifier
         self.sharedContainerIdentifier = sharedContainerIdentifier
         self.localeKey = localeKey
+        self.baseURLString = baseUrlString
 
         super.init()
     }
@@ -337,7 +342,7 @@ open class WordPressComRestApi: NSObject {
     ///
     func buildRequestURLFor(path: String, parameters: [String: AnyObject]? = [:]) -> String? {
 
-        let baseURL = URL(string: WordPressComRestApi.apiBaseURLString)
+        let baseURL = URL(string: self.baseURLString)
 
         guard let requestURLString = URL(string: path, relativeTo: baseURL)?.absoluteString,
             let urlComponents = URLComponents(string: requestURLString) else {

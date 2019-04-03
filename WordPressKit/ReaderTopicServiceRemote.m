@@ -301,7 +301,7 @@ static NSString * const DeliveryMethodNotificationKey = @"notification";
 - (NSString *)endpointUrlForPath:(NSString *)endpoint
 {
     NSString *absolutePath = [self pathForEndpoint:endpoint withVersion:ServiceRemoteWordPressComRESTApiVersion_1_2];
-    NSURL *url = [NSURL URLWithString:absolutePath relativeToURL:[NSURL URLWithString:WordPressComRestApi.apiBaseURLString]];
+    NSURL *url = [NSURL URLWithString:absolutePath relativeToURL:[NSURL URLWithString:self.wordPressComRestApi.baseURLString]];
     return [url absoluteString];
 }
 

@@ -10,7 +10,7 @@
 @import NSObject_SafeExpectations;
 #import <WordPressKit/WordPressKit-Swift.h>
 
-static NSString *const WordPressComApiClientEndpointURL = @"https://public-api.wordpress.com/rest/v1.1";
+static NSString *const WordPressComApiClientDefaultBaseURLString = @"https://public-api.wordpress.com";
 static NSInteger const NumberOfDays = 12;
 
 typedef void (^TaskUpdateHandler)(NSURLSessionTask *, NSArray<NSURLSessionTask*> *);
@@ -34,19 +34,20 @@ typedef void (^TaskUpdateHandler)(NSURLSessionTask *, NSArray<NSURLSessionTask*>
 
 @implementation WPStatsServiceRemote
 
-- (instancetype)initWithOAuth2Token:(NSString *)oauth2Token siteId:(NSNumber *)siteId andSiteTimeZone:(NSTimeZone *)timeZone
+- (instancetype)initWithOAuth2Token:(NSString *)oauth2Token siteId:(NSNumber *)siteId andSiteTimeZone:(NSTimeZone *)timeZone baseUrlString:(NSString *)baseUrlString
 {
     NSParameterAssert(oauth2Token.length > 0);
     NSParameterAssert(siteId != nil);
     NSParameterAssert(timeZone != nil);
+    NSParameterAssert(baseUrlString != nil);
     
     self = [super init];
     if (self) {
         _oauth2Token = oauth2Token;
         _siteId = siteId;
         _siteTimeZone = timeZone;
-        _sitesPathPrefix = [NSString stringWithFormat:@"%@/sites/%@", WordPressComApiClientEndpointURL, _siteId];
-        _statsPathPrefix = [NSString stringWithFormat:@"%@/sites/%@/stats", WordPressComApiClientEndpointURL, _siteId];
+        _sitesPathPrefix = [NSString stringWithFormat:@"%@/rest/v1.1/sites/%@", baseUrlString, _siteId];
+        _statsPathPrefix = [NSString stringWithFormat:@"%@/rest/v1.1/sites/%@/stats", baseUrlString, _siteId];
         
         _deviceDateFormatter = [NSDateFormatter new];
         _deviceDateFormatter.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];
@@ -69,6 +70,11 @@ typedef void (^TaskUpdateHandler)(NSURLSessionTask *, NSArray<NSURLSessionTask*>
     }
     
     return self;
+}
+
+- (instancetype)initWithOAuth2Token:(NSString *)oauth2Token siteId:(NSNumber *)siteId andSiteTimeZone:(NSTimeZone *)timeZone
+{
+    return [self initWithOAuth2Token:oauth2Token siteId:siteId andSiteTimeZone:timeZone baseUrlString:WordPressComApiClientDefaultBaseURLString];
 }
 
 
