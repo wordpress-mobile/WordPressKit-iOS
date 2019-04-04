@@ -32,7 +32,6 @@ public final class WordPressComOAuthClient: NSObject {
         case socialLogin = "/wp-login.php?action=social-login-endpoint&version=1.0"
         case socialLogin2FA = "/wp-login.php?action=two-step-authentication-endpoint&version=1.0"
         case socialLoginNewSMS2FA = "/wp-login.php?action=send-sms-code-endpoint"
-        case oAuthRedirect = "/"
 
         func url(base: String) -> URL {
             return URL(string: self.rawValue, relativeTo: URL(string: base))!
@@ -79,7 +78,7 @@ public final class WordPressComOAuthClient: NSObject {
         return client
     }
 
-    /// Creates a WordPresComOAuthClient initialized with the clientID, secretand base urls provided
+    /// Creates a WordPresComOAuthClient initialized with the clientID, secret and base urls provided
     ///
     @objc public class func client(clientID: String,
                                    secret: String,
@@ -97,6 +96,8 @@ public final class WordPressComOAuthClient: NSObject {
     /// - Parameters:
     ///     - clientID: the app oauth clientID
     ///     - secret: the app secret
+    ///     - wordPressComBaseUrl: The base url to use for WordPress.com requests. Defaults to https://wordpress.com
+    ///     - wordPressComApiBaseUrl: The base url to use for WordPress.com API requests. Defaults to https://public-api-wordpress.com
     ///
     @objc public init(clientID: String,
                       secret: String,
