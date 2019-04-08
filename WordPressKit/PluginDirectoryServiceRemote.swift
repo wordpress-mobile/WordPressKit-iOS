@@ -37,9 +37,9 @@ public enum PluginDirectoryFeedType: Hashable {
             return "search:\(term)"
         }
     }
-
-    public var hashValue: Int {
-        return slug.hashValue
+    
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(slug)
     }
 
     public static func ==(lhs: PluginDirectoryFeedType, rhs: PluginDirectoryFeedType) -> Bool {

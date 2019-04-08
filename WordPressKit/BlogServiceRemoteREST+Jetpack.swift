@@ -16,7 +16,7 @@ public enum JetpackInstallError: String, Error {
 }
 
 public extension BlogServiceRemoteREST {
-    public func installJetpack(url: String,
+    func installJetpack(url: String,
                                username: String,
                                password: String,
                                completion: @escaping (Bool, JetpackInstallError?) -> Void) {
