@@ -22,7 +22,7 @@ public class JetpackServiceRemote: ServiceRemoteWordPressComREST {
         case decodingFailed
     }
 
-    @objc public func checkSiteHasJetpack(_ url: URL,
+    public func checkSiteHasJetpack(_ url: URL,
                                           success: @escaping (Bool) -> Void,
                                           failure: @escaping (Error?) -> Void) {
         let path = self.path(forEndpoint: "connect/site-info", withVersion: ._1_0)
@@ -41,7 +41,7 @@ public class JetpackServiceRemote: ServiceRemoteWordPressComREST {
         }
     }
 
-    func installJetpack(url: String,
+    public func installJetpack(url: String,
                         username: String,
                         password: String,
                         completion: @escaping (Bool, JetpackInstallError?) -> Void) {
