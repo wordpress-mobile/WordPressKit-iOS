@@ -74,7 +74,7 @@ typedef void (^TaskUpdateHandler)(NSURLSessionTask *, NSArray<NSURLSessionTask*>
 
 - (instancetype)initWithOAuth2Token:(NSString *)oauth2Token siteId:(NSNumber *)siteId andSiteTimeZone:(NSTimeZone *)timeZone
 {
-    return [self initWithOAuth2Token:oauth2Token siteId:siteId andSiteTimeZone:timeZone baseUrlString:WordPressComRestApi.BaseURLStringDefault];
+    return [self initWithOAuth2Token:oauth2Token siteId:siteId andSiteTimeZone:timeZone baseUrlString:WordPressComRestApi.apiBaseURLString];
 }
 
 

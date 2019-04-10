@@ -81,7 +81,7 @@ class WordPressComRestApiTests: XCTestCase {
     
     func testBaseUrl() {
         let defaultApi = WordPressComRestApi()
-        XCTAssertEqual(defaultApi.baseURLString, "https://public-api.wordpress.com")
+        XCTAssertEqual(defaultApi.baseURLString, "https://public-api.wordpress.com/")
         XCTAssertTrue(defaultApi.buildRequestURLFor(path: "/path")!.hasPrefix("https://public-api.wordpress.com/path"))
 
         let localhostApi = WordPressComRestApi(baseUrlString: "http://localhost:8080")
