@@ -22,8 +22,13 @@ class JetpackServiceRemoteTests: RemoteTestCase, RESTTestable {
     let jetpackRemoteErrorActivationResponseMockFilename = "jetpack-service-error-activation-response.json"
     let jetpackRemoteErrorActivationFailureMockFilename = "jetpack-service-error-activation-failure.json"
     
+    let jetpackRemoteCheckSiteSuccessMockFilename = "jetpack-service-check-site-success.json"
+    let jetpackRemoteCheckSiteFailureMockFilename = "jetpack-service-check-site-success-no-jetpack.json"
+    let jetpackRemoteCheckSiteDataFailureMockFilename = "jetpack-service-check-site-failure-data.json"
+
     var endpoint: String { return "jetpack-install/\(encodedURL)/" }
-    
+    var checkSiteEndpoint: String { return "connect/site-info" }
+
     var remote: JetpackServiceRemote!
     
     // MARK: - Overridden Methods
@@ -38,6 +43,65 @@ class JetpackServiceRemoteTests: RemoteTestCase, RESTTestable {
         super.tearDown()
         
         remote = nil
+    }
+    
+    func testCheckSiteHasJetpackSuccess() {
+        let expect = expectation(description: "Check if the site has Jetpack success")
+        
+        stubRemoteResponse(checkSiteEndpoint, filename: jetpackRemoteCheckSiteSuccessMockFilename, contentType: .ApplicationJSON, status: 200)
+        remote.checkSiteHasJetpack(URL(string: url)!, success: { (success) in
+            XCTAssertTrue(success, "Success should be true")
+            expect.fulfill()
+        }) { (error) in
+            XCTFail("This callback shouldn't get called")
+            expect.fulfill()
+        }
+        
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+
+    func testCheckSiteHasJetpackSuccessNoJetpack() {
+        let expect = expectation(description: "Check if the site has Jetpack failure")
+
+        stubRemoteResponse(checkSiteEndpoint, filename: jetpackRemoteCheckSiteFailureMockFilename, contentType: .ApplicationJSON, status: 200)
+        remote.checkSiteHasJetpack(URL(string: url)!, success: { (success) in
+            XCTAssertFalse(success, "Success should be false")
+            expect.fulfill()
+        }) { (error) in
+            XCTFail("This callback shouldn't get called")
+            expect.fulfill()
+        }
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+
+    func testCheckSiteHasJetpackFailureNetwork() {
+        let expect = expectation(description: "Check if the site has Jetpack network failure")
+
+        stubRemoteResponse(checkSiteEndpoint, filename: jetpackRemoteCheckSiteSuccessMockFilename, contentType: .ApplicationJSON, status: 400)
+        remote.checkSiteHasJetpack(URL(string: url)!, success: { (success) in
+            XCTFail("This callback shouldn't get called")
+            expect.fulfill()
+        }) { (error) in
+            XCTAssertNotNil(error, "Error shouldn't be nil")
+            expect.fulfill()
+        }
+        
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+
+    func testCheckSiteHasJetpackFailureData() {
+        let expect = expectation(description: "Check if the site has Jetpack data failure")
+
+        stubRemoteResponse(checkSiteEndpoint, filename: jetpackRemoteCheckSiteDataFailureMockFilename, contentType: .ApplicationJSON, status: 200)
+        remote.checkSiteHasJetpack(URL(string: url)!, success: { (success) in
+            XCTFail("This callback shouldn't get called")
+            expect.fulfill()
+        }) { (error) in
+            XCTAssertNotNil(error, "Error shouldn't be nil")
+            expect.fulfill()
+        }
+
+        waitForExpectations(timeout: timeout, handler: nil)
     }
     
     func testJetpackRemoteInstallationSuccess() {

@@ -421,6 +421,9 @@
 		93F50A481F227F3600B5BEBA /* xmlrpc-response-valid-but-unexpected-dictionary.xml in Resources */ = {isa = PBXBuildFile; fileRef = 93F50A461F227F3600B5BEBA /* xmlrpc-response-valid-but-unexpected-dictionary.xml */; };
 		9A2D0B28225E0119009E585F /* JetpackServiceRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2D0B27225E0119009E585F /* JetpackServiceRemote.swift */; };
 		9A2D0B2B225E0E22009E585F /* JetpackServiceRemoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2D0B2A225E0E22009E585F /* JetpackServiceRemoteTests.swift */; };
+		9A2D0B2F225E1245009E585F /* jetpack-service-check-site-success.json in Resources */ = {isa = PBXBuildFile; fileRef = 9A2D0B2C225E1038009E585F /* jetpack-service-check-site-success.json */; };
+		9A2D0B30225E1245009E585F /* jetpack-service-check-site-success-no-jetpack.json in Resources */ = {isa = PBXBuildFile; fileRef = 9A2D0B2D225E104E009E585F /* jetpack-service-check-site-success-no-jetpack.json */; };
+		9A2D0B31225E1245009E585F /* jetpack-service-check-site-failure-data.json in Resources */ = {isa = PBXBuildFile; fileRef = 9A2D0B2E225E10AE009E585F /* jetpack-service-check-site-failure-data.json */; };
 		9A88174C223C01E400A3AB20 /* jetpack-service-success.json in Resources */ = {isa = PBXBuildFile; fileRef = 9AD75C7A223BEF7A00AED6F4 /* jetpack-service-success.json */; };
 		9A88174D223C01E400A3AB20 /* jetpack-service-failure.json in Resources */ = {isa = PBXBuildFile; fileRef = 9A881738223BFC8E00A3AB20 /* jetpack-service-failure.json */; };
 		9A88174E223C01E400A3AB20 /* jetpack-service-error-unknown.json in Resources */ = {isa = PBXBuildFile; fileRef = 9A88173A223BFE5100A3AB20 /* jetpack-service-error-unknown.json */; };
@@ -934,6 +937,9 @@
 		93F50A461F227F3600B5BEBA /* xmlrpc-response-valid-but-unexpected-dictionary.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "xmlrpc-response-valid-but-unexpected-dictionary.xml"; sourceTree = "<group>"; };
 		9A2D0B27225E0119009E585F /* JetpackServiceRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JetpackServiceRemote.swift; sourceTree = "<group>"; };
 		9A2D0B2A225E0E22009E585F /* JetpackServiceRemoteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JetpackServiceRemoteTests.swift; sourceTree = "<group>"; };
+		9A2D0B2C225E1038009E585F /* jetpack-service-check-site-success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "jetpack-service-check-site-success.json"; sourceTree = "<group>"; };
+		9A2D0B2D225E104E009E585F /* jetpack-service-check-site-success-no-jetpack.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "jetpack-service-check-site-success-no-jetpack.json"; sourceTree = "<group>"; };
+		9A2D0B2E225E10AE009E585F /* jetpack-service-check-site-failure-data.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "jetpack-service-check-site-failure-data.json"; sourceTree = "<group>"; };
 		9A881738223BFC8E00A3AB20 /* jetpack-service-failure.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "jetpack-service-failure.json"; sourceTree = "<group>"; };
 		9A88173A223BFE5100A3AB20 /* jetpack-service-error-unknown.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "jetpack-service-error-unknown.json"; sourceTree = "<group>"; };
 		9A88173C223BFF0400A3AB20 /* jetpack-service-error-forbidden.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "jetpack-service-error-forbidden.json"; sourceTree = "<group>"; };
@@ -1618,6 +1624,9 @@
 				93BD27461EE73442002BB00B /* auth-send-login-email-success.json */,
 				40F88F5F1F85723400AE3FAF /* auth-send-verification-email-already-verified-failure.json */,
 				40F88F611F85799A00AE3FAF /* auth-send-verification-email-success.json */,
+				9A2D0B2C225E1038009E585F /* jetpack-service-check-site-success.json */,
+				9A2D0B2D225E104E009E585F /* jetpack-service-check-site-success-no-jetpack.json */,
+				9A2D0B2E225E10AE009E585F /* jetpack-service-check-site-failure-data.json */,
 				9AD75C7A223BEF7A00AED6F4 /* jetpack-service-success.json */,
 				9A881738223BFC8E00A3AB20 /* jetpack-service-failure.json */,
 				9ABE13EA223F8D62006A8806 /* jetpack-service-error-invalid-credentials.json */,
@@ -2114,12 +2123,14 @@
 				17BF9A6C20C7DC3300BF57D2 /* reader-site-search-success.json in Resources */,
 				73A2F38E21E7FD9B00388609 /* site-verticals-prompt.json in Resources */,
 				74D67F141F15C2D70010C5ED /* site-roles-bad-json-failure.json in Resources */,
+				9A2D0B31225E1245009E585F /* jetpack-service-check-site-failure-data.json in Resources */,
 				40E4698B2017C2840030DB5F /* plugin-directory-popular.json in Resources */,
 				93AC8ED01ED32FD000900F5A /* stats-v1.1-post-details.json in Resources */,
 				74C473B91EF325F6009918F2 /* site-delete-missing-status-failure.json in Resources */,
 				7403A2FD1EF06FEB00DED7DC /* me-settings-change-primary-site-success.json in Resources */,
 				93AC8ED41ED32FD000900F5A /* stats-v1.1-summary.json in Resources */,
 				74C473B71EF3229B009918F2 /* site-delete-unexpected-json-failure.json in Resources */,
+				9A2D0B30225E1245009E585F /* jetpack-service-check-site-success-no-jetpack.json in Resources */,
 				9A88174E223C01E400A3AB20 /* jetpack-service-error-unknown.json in Resources */,
 				40819771221DFDB700A298E4 /* stats-posts-data.json in Resources */,
 				93AC8ECD1ED32FD000900F5A /* stats-v1.1-insights.json in Resources */,
@@ -2161,6 +2172,7 @@
 				93BD275E1EE73442002BB00B /* me-bad-json-failure.json in Resources */,
 				FFE247AF20C891E6002DF3A2 /* WordPressComOAuthWrongPasswordFail.json in Resources */,
 				731BA83A21DED358000FDFCD /* site-creation-success.json in Resources */,
+				9A2D0B2F225E1245009E585F /* jetpack-service-check-site-success.json in Resources */,
 				829BA4301FACF187003ADEEA /* activity-rewind-status-restore-failure.json in Resources */,
 				74D67F391F15C3740010C5ED /* site-viewers-delete-bad-json.json in Resources */,
 				93BD27631EE73442002BB00B /* me-sites-visibility-bad-json-failure.json in Resources */,
