@@ -22,10 +22,13 @@ public class JetpackServiceRemote: ServiceRemoteWordPressComREST {
         case decodingFailed
     }
 
-    @objc public func checkSiteHasJetpack(_ url: URL, success: @escaping (Bool) -> Void, failure: @escaping (Error?) -> Void) {
+    @objc public func checkSiteHasJetpack(_ url: URL,
+                                          success: @escaping (Bool) -> Void,
+                                          failure: @escaping (Error?) -> Void) {
         let path = self.path(forEndpoint: "connect/site-info", withVersion: ._1_0)
+        let parameters = ["url": url.absoluteString as AnyObject]
         wordPressComRestApi.GET(path,
-                                parameters: ["url": url.absoluteString as AnyObject],
+                                parameters: parameters,
                                 success: { [weak self] (response: AnyObject, httpResponse: HTTPURLResponse?) in
                                     do {
                                         let hasJetpack = try self?.hasJetpackMapping(object: response)
