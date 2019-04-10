@@ -27,7 +27,6 @@ FOUNDATION_EXPORT const unsigned char WordPressKitVersionString[];
 #import "CommentServiceRemote.h"
 #import "CommentServiceRemoteREST.h"
 #import "CommentServiceRemoteXMLRPC.h"
-#import "JetpackServiceRemote.h"
 #import "MediaServiceRemote.h"
 #import "MediaServiceRemoteREST.h"
 #import "MediaServiceRemoteXMLRPC.h"
