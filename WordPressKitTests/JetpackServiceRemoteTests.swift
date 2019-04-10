@@ -2,37 +2,36 @@ import Foundation
 import XCTest
 @testable import WordPressKit
 
-class BlogServiceRemoteRESTTests_Jetpack: RemoteTestCase, RESTTestable {
-    let siteId = 12345
+class JetpackServiceRemoteTests: RemoteTestCase, RESTTestable {
     let url = "http://www.wordpress.com"
     let encodedURL = "http%3A%2F%2Fwww.wordpress.com"
     let username = "username"
     let password = "qwertyuiop"
     
-    let jetpackRemoteSuccessMockFilename = "blog-service-jetpack-remote-success.json"
-    let jetpackRemoteFailureMockFilename = "blog-service-jetpack-remote-failure.json"
-
-    let jetpackRemoteErrorUnknownMockFilename = "blog-service-jetpack-remote-error-unknown.json"
-    let jetpackRemoteErrorInvalidCredentialsMockFilename = "blog-service-jetpack-remote-error-invalid-credentials.json"
-    let jetpackRemoteErrorForbiddenMockFilename = "blog-service-jetpack-remote-error-forbidden.json"
-    let jetpackRemoteErrorInstallFailureMockFilename = "blog-service-jetpack-remote-error-install-failure.json"
-    let jetpackRemoteErrorInstallResponseMockFilename = "blog-service-jetpack-remote-error-install-response.json"
-    let jetpackRemoteErrorLoginFailureMockFilename = "blog-service-jetpack-remote-error-login-failure.json"
-    let jetpackRemoteErrorSiteIsJetpackMockFilename = "blog-service-jetpack-remote-error-site-is-jetpack.json"
-    let jetpackRemoteErrorActivationInstallMockFilename = "blog-service-jetpack-remote-error-activation-install.json"
-    let jetpackRemoteErrorActivationResponseMockFilename = "blog-service-jetpack-remote-error-activation-response.json"
-    let jetpackRemoteErrorActivationFailureMockFilename = "blog-service-jetpack-remote-error-activation-failure.json"
+    let jetpackRemoteSuccessMockFilename = "jetpack-service-success.json"
+    let jetpackRemoteFailureMockFilename = "jetpack-service-failure.json"
+    
+    let jetpackRemoteErrorUnknownMockFilename = "jetpack-service-error-unknown.json"
+    let jetpackRemoteErrorInvalidCredentialsMockFilename = "jetpack-service-error-invalid-credentials.json"
+    let jetpackRemoteErrorForbiddenMockFilename = "jetpack-service-error-forbidden.json"
+    let jetpackRemoteErrorInstallFailureMockFilename = "jetpack-service-error-install-failure.json"
+    let jetpackRemoteErrorInstallResponseMockFilename = "jetpack-service-error-install-response.json"
+    let jetpackRemoteErrorLoginFailureMockFilename = "jetpack-service-error-login-failure.json"
+    let jetpackRemoteErrorSiteIsJetpackMockFilename = "jetpack-service-error-site-is-jetpack.json"
+    let jetpackRemoteErrorActivationInstallMockFilename = "jetpack-service-error-activation-install.json"
+    let jetpackRemoteErrorActivationResponseMockFilename = "jetpack-service-error-activation-response.json"
+    let jetpackRemoteErrorActivationFailureMockFilename = "jetpack-service-error-activation-failure.json"
     
     var endpoint: String { return "jetpack-install/\(encodedURL)/" }
     
-    var remote: BlogServiceRemoteREST!
+    var remote: JetpackServiceRemote!
     
     // MARK: - Overridden Methods
     
     override func setUp() {
         super.setUp()
-
-        remote = BlogServiceRemoteREST(wordPressComRestApi: getRestApi(), siteID: NSNumber(value: siteId))
+        
+        remote = JetpackServiceRemote(wordPressComRestApi: getRestApi())
     }
     
     override func tearDown() {
@@ -40,7 +39,7 @@ class BlogServiceRemoteRESTTests_Jetpack: RemoteTestCase, RESTTestable {
         
         remote = nil
     }
-
+    
     func testJetpackRemoteInstallationSuccess() {
         let expect = expectation(description: "Install Jetpack success")
         
@@ -100,7 +99,7 @@ class BlogServiceRemoteRESTTests_Jetpack: RemoteTestCase, RESTTestable {
             XCTAssertEqual(error, .forbidden)
             expect.fulfill()
         }
-
+        
         waitForExpectations(timeout: timeout, handler: nil)
     }
     
