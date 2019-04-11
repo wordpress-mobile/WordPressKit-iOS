@@ -78,6 +78,16 @@ class WordPressComRestApiTests: XCTestCase {
         )
         self.waitForExpectations(timeout: 2, handler: nil)
     }
+    
+    func testBaseUrl() {
+        let defaultApi = WordPressComRestApi()
+        XCTAssertEqual(defaultApi.baseURLString, "https://public-api.wordpress.com/")
+        XCTAssertTrue(defaultApi.buildRequestURLFor(path: "/path")!.hasPrefix("https://public-api.wordpress.com/path"))
+
+        let localhostApi = WordPressComRestApi(baseUrlString: "http://localhost:8080")
+        XCTAssertEqual(localhostApi.baseURLString, "http://localhost:8080")
+        XCTAssertTrue(localhostApi.buildRequestURLFor(path: "/path")!.hasPrefix("http://localhost:8080/path"))
+    }
 
     func testInvalidTokenFailedCall() {
         stub(condition: isRestAPIRequest()) { request in

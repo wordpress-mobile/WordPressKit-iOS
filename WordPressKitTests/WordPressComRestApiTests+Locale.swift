@@ -12,11 +12,12 @@ extension WordPressComRestApiTests {
         let preferredLanguageIdentifier = WordPressComLanguageDatabase().deviceLanguage.slug
 
         // When
-        let localeAppendedPath = WordPressComRestApi().buildRequestURLFor(path: path)
+        let api = WordPressComRestApi()
+        let localeAppendedPath = api.buildRequestURLFor(path: path)
 
         // Then
         XCTAssertNotNil(localeAppendedPath)
-        let actualURL = URL(string: localeAppendedPath!, relativeTo: URL(string: WordPressComRestApi.apiBaseURLString))
+        let actualURL = URL(string: localeAppendedPath!, relativeTo: URL(string: api.baseURLString))
         XCTAssertNotNil(actualURL)
 
         let actualURLComponents = URLComponents(url: actualURL!, resolvingAgainstBaseURL: false)
@@ -55,11 +56,12 @@ extension WordPressComRestApiTests {
         ]
 
         // When
-        let localeAppendedPath = WordPressComRestApi().buildRequestURLFor(path: path, parameters: params)
+        let api = WordPressComRestApi()
+        let localeAppendedPath = api.buildRequestURLFor(path: path, parameters: params)
 
         // Then
         XCTAssertNotNil(localeAppendedPath)
-        let actualURL = URL(string: localeAppendedPath!, relativeTo: URL(string: WordPressComRestApi.apiBaseURLString))
+        let actualURL = URL(string: localeAppendedPath!, relativeTo: URL(string: api.baseURLString))
         XCTAssertNotNil(actualURL)
 
         let actualURLComponents = URLComponents(url: actualURL!, resolvingAgainstBaseURL: false)
@@ -89,11 +91,12 @@ extension WordPressComRestApiTests {
         let path = "/path/path?locale=\(preferredLanguageIdentifier)"
 
         // When
-        let localeAppendedPath = WordPressComRestApi().buildRequestURLFor(path: path)
+        let api = WordPressComRestApi()
+        let localeAppendedPath = api.buildRequestURLFor(path: path)
 
         // Then
         XCTAssertNotNil(localeAppendedPath)
-        let actualURL = URL(string: localeAppendedPath!, relativeTo: URL(string: WordPressComRestApi.apiBaseURLString))
+        let actualURL = URL(string: localeAppendedPath!, relativeTo: URL(string: api.baseURLString))
         XCTAssertNotNil(actualURL)
 
         let actualURLComponents = URLComponents(url: actualURL!, resolvingAgainstBaseURL: false)
@@ -151,7 +154,7 @@ extension WordPressComRestApiTests {
 
         // Then
         XCTAssertNotNil(localeAppendedPath)
-        let actualURL = URL(string: localeAppendedPath!, relativeTo: URL(string: WordPressComRestApi.apiBaseURLString))
+        let actualURL = URL(string: localeAppendedPath!, relativeTo: URL(string: api.baseURLString))
         XCTAssertNotNil(actualURL)
 
         let actualURLComponents = URLComponents(url: actualURL!, resolvingAgainstBaseURL: false)
@@ -176,7 +179,7 @@ extension WordPressComRestApiTests {
 
         // Then
         XCTAssertNotNil(localeAppendedPath)
-        let actualURL = URL(string: localeAppendedPath!, relativeTo: URL(string: WordPressComRestApi.apiBaseURLString))
+        let actualURL = URL(string: localeAppendedPath!, relativeTo: URL(string: api.baseURLString))
         XCTAssertNotNil(actualURL)
 
         let actualURLComponents = URLComponents(url: actualURL!, resolvingAgainstBaseURL: false)
@@ -206,11 +209,12 @@ extension WordPressComRestApiTests {
         let preferredLanguageIdentifier = WordPressComLanguageDatabase().deviceLanguage.slug
 
         // When
+        let api = WordPressComRestApi()
         let localeAppendedPath = WordPressComRestApi().buildRequestURLFor(path: path, parameters: nil)
 
         // Then
         XCTAssertNotNil(localeAppendedPath)
-        let actualURL = URL(string: localeAppendedPath!, relativeTo: URL(string: WordPressComRestApi.apiBaseURLString))
+        let actualURL = URL(string: localeAppendedPath!, relativeTo: URL(string: api.baseURLString))
         XCTAssertNotNil(actualURL)
 
         let actualURLComponents = URLComponents(url: actualURL!, resolvingAgainstBaseURL: false)
@@ -252,7 +256,7 @@ extension WordPressComRestApiTests {
 
         // Then
         XCTAssertNotNil(localeAppendedPath)
-        let actualURL = URL(string: localeAppendedPath!, relativeTo: URL(string: WordPressComRestApi.apiBaseURLString))
+        let actualURL = URL(string: localeAppendedPath!, relativeTo: URL(string: api.baseURLString))
         XCTAssertNotNil(actualURL)
 
         let actualURLComponents = URLComponents(url: actualURL!, resolvingAgainstBaseURL: false)

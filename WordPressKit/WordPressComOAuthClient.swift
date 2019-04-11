@@ -24,15 +24,17 @@ public final class WordPressComOAuthClient: NSObject {
     @objc public static let WordPressComOAuthErrorNewNonceKey = "WordPressComOAuthErrorNewNonceKey"
     @objc public static let WordPressComOAuthErrorDomain = "WordPressComOAuthError"
 
-    enum WordPressComURL: String {
-        case oAuthBase = "https://public-api.wordpress.com/oauth2/token"
-        case socialLogin = "https://wordpress.com/wp-login.php?action=social-login-endpoint&version=1.0"
-        case socialLogin2FA = "https://wordpress.com/wp-login.php?action=two-step-authentication-endpoint&version=1.0"
-        case socialLoginNewSMS2FA = "https://wordpress.com/wp-login.php?action=send-sms-code-endpoint"
-        case oAuthRedirect = "https://wordpress.com/"
+    @objc public static let WordPressComOAuthDefaultBaseUrl = "https://wordpress.com"
+    @objc public static let WordPressComOAuthDefaultApiBaseUrl = "https://public-api.wordpress.com"
 
-        var url: URL {
-            return URL(string: self.rawValue)!
+    enum WordPressComURL: String {
+        case oAuthBase = "/oauth2/token"
+        case socialLogin = "/wp-login.php?action=social-login-endpoint&version=1.0"
+        case socialLogin2FA = "/wp-login.php?action=two-step-authentication-endpoint&version=1.0"
+        case socialLoginNewSMS2FA = "/wp-login.php?action=send-sms-code-endpoint"
+
+        func url(base: String) -> URL {
+            return URL(string: self.rawValue, relativeTo: URL(string: base))!
         }
     }
 
@@ -41,6 +43,9 @@ public final class WordPressComOAuthClient: NSObject {
 
     private let clientID: String
     private let secret: String
+    
+    private let wordPressComBaseUrl: String
+    private let wordPressComApiBaseUrl: String
 
     private let oauth2SessionManager: SessionManager = {
         return WordPressComOAuthClient.sessionManager()
@@ -66,11 +71,23 @@ public final class WordPressComOAuthClient: NSObject {
         return sessionManager
     }
 
-    /// Creates a WordPresComOAuthClient initialized with the clientID and secret constants defined in the
-    /// ApiCredentials singleton
+    /// Creates a WordPresComOAuthClient initialized with the clientID and secrets provided
     ///
     @objc public class func client(clientID: String, secret: String) -> WordPressComOAuthClient {
         let client = WordPressComOAuthClient(clientID: clientID, secret: secret)
+        return client
+    }
+
+    /// Creates a WordPresComOAuthClient initialized with the clientID, secret and base urls provided
+    ///
+    @objc public class func client(clientID: String,
+                                   secret: String,
+                                   wordPressComBaseUrl: String,
+                                   wordPressComApiBaseUrl: String) -> WordPressComOAuthClient {
+        let client = WordPressComOAuthClient(clientID: clientID,
+                                             secret: secret,
+                                             wordPressComBaseUrl: wordPressComBaseUrl,
+                                             wordPressComApiBaseUrl: wordPressComApiBaseUrl)
         return client
     }
 
@@ -79,10 +96,17 @@ public final class WordPressComOAuthClient: NSObject {
     /// - Parameters:
     ///     - clientID: the app oauth clientID
     ///     - secret: the app secret
+    ///     - wordPressComBaseUrl: The base url to use for WordPress.com requests. Defaults to https://wordpress.com
+    ///     - wordPressComApiBaseUrl: The base url to use for WordPress.com API requests. Defaults to https://public-api-wordpress.com
     ///
-    @objc public init(clientID: String, secret: String) {
+    @objc public init(clientID: String,
+                      secret: String,
+                      wordPressComBaseUrl: String = WordPressComOAuthClient.WordPressComOAuthDefaultBaseUrl,
+                      wordPressComApiBaseUrl: String = WordPressComOAuthClient.WordPressComOAuthDefaultApiBaseUrl) {
         self.clientID = clientID
         self.secret = secret
+        self.wordPressComBaseUrl = wordPressComBaseUrl
+        self.wordPressComApiBaseUrl = wordPressComApiBaseUrl
     }
 
     /// Authenticates on WordPress.com with Multifactor code.
@@ -112,7 +136,7 @@ public final class WordPressComOAuthClient: NSObject {
             parameters["wpcom_otp"] = multifactorCode as AnyObject?
         }
 
-        oauth2SessionManager.request(WordPressComURL.oAuthBase.url, method: .post, parameters: parameters)
+        oauth2SessionManager.request(WordPressComURL.oAuthBase.url(base: wordPressComApiBaseUrl), method: .post, parameters: parameters)
             .validate()
             .responseJSON(completionHandler: { response in
                 switch response.result {
@@ -155,7 +179,7 @@ public final class WordPressComOAuthClient: NSObject {
             "wpcom_resend_otp": true
         ] as [String : Any]
 
-        oauth2SessionManager.request(WordPressComURL.oAuthBase.url, method: .post, parameters: parameters)
+        oauth2SessionManager.request(WordPressComURL.oAuthBase.url(base: wordPressComApiBaseUrl), method: .post, parameters: parameters)
             .validate()
             .responseJSON(completionHandler: { response in
                 switch response.result {
@@ -190,7 +214,7 @@ public final class WordPressComOAuthClient: NSObject {
             "wpcom_resend_otp": true
             ] as [String : Any]
 
-        socialNewSMS2FASessionManager.request(WordPressComURL.socialLoginNewSMS2FA.url, method: .post, parameters: parameters)
+        socialNewSMS2FASessionManager.request(WordPressComURL.socialLoginNewSMS2FA.url(base: wordPressComBaseUrl), method: .post, parameters: parameters)
             .validate()
             .responseJSON(completionHandler: { response in
                 switch response.result {
@@ -242,7 +266,7 @@ public final class WordPressComOAuthClient: NSObject {
             ] as [String : Any]
 
         // Passes an empty string for the path. The session manager was composed with the full endpoint path.
-        socialSessionManager.request(WordPressComURL.socialLogin.url, method: .post, parameters: parameters)
+        socialSessionManager.request(WordPressComURL.socialLogin.url(base: wordPressComBaseUrl), method: .post, parameters: parameters)
             .validate()
             .responseJSON(completionHandler: { response in
                 switch response.result {
@@ -367,7 +391,7 @@ public final class WordPressComOAuthClient: NSObject {
             ] as [String : Any]
 
         // Passes an empty string for the path. The session manager was composed with the full endpoint path.
-        social2FASessionManager.request(WordPressComURL.socialLogin2FA.url, method: .post, parameters: parameters)
+        social2FASessionManager.request(WordPressComURL.socialLogin2FA.url(base: wordPressComBaseUrl), method: .post, parameters: parameters)
             .validate()
             .responseJSON(completionHandler: { response in
                 switch response.result {

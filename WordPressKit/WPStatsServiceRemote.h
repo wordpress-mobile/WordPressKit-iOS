@@ -19,6 +19,11 @@ typedef NS_ENUM(NSUInteger, StatsFollowerType) {
 
 @interface WPStatsServiceRemote : NSObject
 
+- (instancetype)initWithOAuth2Token:(NSString *)oauth2Token
+                             siteId:(NSNumber *)siteId
+                    andSiteTimeZone:(NSTimeZone *)timeZone
+                      baseUrlString:(NSString *)baseUrlString;
+
 - (instancetype)initWithOAuth2Token:(NSString *)oauth2Token siteId:(NSNumber *)siteId andSiteTimeZone:(NSTimeZone *)timeZone;
 
 /**

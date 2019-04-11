@@ -127,8 +127,7 @@ static NSString * const UserDictionaryEmailVerifiedKey = @"email_verified";
 
 - (void)isEmailAvailable:(NSString *)email success:(void (^)(BOOL available))success failure:(void (^)(NSError *error))failure
 {
-    NSString *path = @"https://public-api.wordpress.com/is-available/email";
-    [self.wordPressComRestApi GET:path
+    [self.wordPressComRestApi GET:@"is-available/email"
        parameters:@{ @"q": email, @"format": @"json"}
           success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
               if (!success) {
@@ -159,8 +158,7 @@ static NSString * const UserDictionaryEmailVerifiedKey = @"email_verified";
                     success:(void (^)(BOOL available))success
                     failure:(void (^)(NSError *error))failure
 {
-    NSString *path = @"https://public-api.wordpress.com/is-available/username";
-    [self.wordPressComRestApi GET:path
+    [self.wordPressComRestApi GET:@"is-available/username"
                        parameters:@{ @"q": username, @"format": @"json"}
                           success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
                               if (!success) {
