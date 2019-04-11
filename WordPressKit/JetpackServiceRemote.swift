@@ -1,3 +1,5 @@
+import Foundation
+
 public enum JetpackInstallError: String, Error {
     case invalidCredentials = "INVALID_CREDENTIALS"
     case forbidden = "FORBIDDEN"
@@ -9,17 +11,40 @@ public enum JetpackInstallError: String, Error {
     case activationResponseError = "ACTIVATION_RESPONSE_ERROR"
     case activationFailure = "ACTIVATION_FAILURE"
     case unknown
-
+    
     init(error key: String) {
         self = JetpackInstallError(rawValue: key) ?? .unknown
     }
 }
 
-public extension BlogServiceRemoteREST {
-    func installJetpack(url: String,
-                               username: String,
-                               password: String,
-                               completion: @escaping (Bool, JetpackInstallError?) -> Void) {
+public class JetpackServiceRemote: ServiceRemoteWordPressComREST {
+    public enum ResponseError: Error {
+        case decodingFailed
+    }
+
+    public func checkSiteHasJetpack(_ url: URL,
+                                          success: @escaping (Bool) -> Void,
+                                          failure: @escaping (Error?) -> Void) {
+        let path = self.path(forEndpoint: "connect/site-info", withVersion: ._1_0)
+        let parameters = ["url": url.absoluteString as AnyObject]
+        wordPressComRestApi.GET(path,
+                                parameters: parameters,
+                                success: { [weak self] (response: AnyObject, httpResponse: HTTPURLResponse?) in
+                                    do {
+                                        let hasJetpack = try self?.hasJetpackMapping(object: response)
+                                        success(hasJetpack ?? false)
+                                    } catch {
+                                        failure(error)
+                                    }
+        }) { (error: NSError, httpResponse: HTTPURLResponse?) in
+            failure(error)
+        }
+    }
+
+    public func installJetpack(url: String,
+                        username: String,
+                        password: String,
+                        completion: @escaping (Bool, JetpackInstallError?) -> Void) {
         guard let escapedURL = url.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) else {
             completion(false, .unknown)
             return
@@ -48,6 +73,17 @@ public extension BlogServiceRemoteREST {
     }
 
     private enum Constants {
+        static let hasJetpack = "hasJetpack"
         static let status = "status"
+    }
+}
+
+private extension JetpackServiceRemote {
+    func hasJetpackMapping(object: AnyObject) throws -> Bool {
+        guard let response = object as? [String: AnyObject],
+            let hasJetpack = response[Constants.hasJetpack] as? NSNumber else {
+                throw ResponseError.decodingFailed
+        }
+        return hasJetpack.boolValue
     }
 }

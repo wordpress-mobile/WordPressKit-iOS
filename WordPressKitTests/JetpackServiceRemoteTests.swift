@@ -2,37 +2,41 @@ import Foundation
 import XCTest
 @testable import WordPressKit
 
-class BlogServiceRemoteRESTTests_Jetpack: RemoteTestCase, RESTTestable {
-    let siteId = 12345
+class JetpackServiceRemoteTests: RemoteTestCase, RESTTestable {
     let url = "http://www.wordpress.com"
     let encodedURL = "http%3A%2F%2Fwww.wordpress.com"
     let username = "username"
     let password = "qwertyuiop"
     
-    let jetpackRemoteSuccessMockFilename = "blog-service-jetpack-remote-success.json"
-    let jetpackRemoteFailureMockFilename = "blog-service-jetpack-remote-failure.json"
+    let jetpackRemoteSuccessMockFilename = "jetpack-service-success.json"
+    let jetpackRemoteFailureMockFilename = "jetpack-service-failure.json"
+    
+    let jetpackRemoteErrorUnknownMockFilename = "jetpack-service-error-unknown.json"
+    let jetpackRemoteErrorInvalidCredentialsMockFilename = "jetpack-service-error-invalid-credentials.json"
+    let jetpackRemoteErrorForbiddenMockFilename = "jetpack-service-error-forbidden.json"
+    let jetpackRemoteErrorInstallFailureMockFilename = "jetpack-service-error-install-failure.json"
+    let jetpackRemoteErrorInstallResponseMockFilename = "jetpack-service-error-install-response.json"
+    let jetpackRemoteErrorLoginFailureMockFilename = "jetpack-service-error-login-failure.json"
+    let jetpackRemoteErrorSiteIsJetpackMockFilename = "jetpack-service-error-site-is-jetpack.json"
+    let jetpackRemoteErrorActivationInstallMockFilename = "jetpack-service-error-activation-install.json"
+    let jetpackRemoteErrorActivationResponseMockFilename = "jetpack-service-error-activation-response.json"
+    let jetpackRemoteErrorActivationFailureMockFilename = "jetpack-service-error-activation-failure.json"
+    
+    let jetpackRemoteCheckSiteSuccessMockFilename = "jetpack-service-check-site-success.json"
+    let jetpackRemoteCheckSiteFailureMockFilename = "jetpack-service-check-site-success-no-jetpack.json"
+    let jetpackRemoteCheckSiteDataFailureMockFilename = "jetpack-service-check-site-failure-data.json"
 
-    let jetpackRemoteErrorUnknownMockFilename = "blog-service-jetpack-remote-error-unknown.json"
-    let jetpackRemoteErrorInvalidCredentialsMockFilename = "blog-service-jetpack-remote-error-invalid-credentials.json"
-    let jetpackRemoteErrorForbiddenMockFilename = "blog-service-jetpack-remote-error-forbidden.json"
-    let jetpackRemoteErrorInstallFailureMockFilename = "blog-service-jetpack-remote-error-install-failure.json"
-    let jetpackRemoteErrorInstallResponseMockFilename = "blog-service-jetpack-remote-error-install-response.json"
-    let jetpackRemoteErrorLoginFailureMockFilename = "blog-service-jetpack-remote-error-login-failure.json"
-    let jetpackRemoteErrorSiteIsJetpackMockFilename = "blog-service-jetpack-remote-error-site-is-jetpack.json"
-    let jetpackRemoteErrorActivationInstallMockFilename = "blog-service-jetpack-remote-error-activation-install.json"
-    let jetpackRemoteErrorActivationResponseMockFilename = "blog-service-jetpack-remote-error-activation-response.json"
-    let jetpackRemoteErrorActivationFailureMockFilename = "blog-service-jetpack-remote-error-activation-failure.json"
-    
     var endpoint: String { return "jetpack-install/\(encodedURL)/" }
-    
-    var remote: BlogServiceRemoteREST!
+    var checkSiteEndpoint: String { return "connect/site-info" }
+
+    var remote: JetpackServiceRemote!
     
     // MARK: - Overridden Methods
     
     override func setUp() {
         super.setUp()
-
-        remote = BlogServiceRemoteREST(wordPressComRestApi: getRestApi(), siteID: NSNumber(value: siteId))
+        
+        remote = JetpackServiceRemote(wordPressComRestApi: getRestApi())
     }
     
     override func tearDown() {
@@ -40,7 +44,66 @@ class BlogServiceRemoteRESTTests_Jetpack: RemoteTestCase, RESTTestable {
         
         remote = nil
     }
+    
+    func testCheckSiteHasJetpackSuccess() {
+        let expect = expectation(description: "Check if the site has Jetpack success")
+        
+        stubRemoteResponse(checkSiteEndpoint, filename: jetpackRemoteCheckSiteSuccessMockFilename, contentType: .ApplicationJSON, status: 200)
+        remote.checkSiteHasJetpack(URL(string: url)!, success: { (success) in
+            XCTAssertTrue(success, "Success should be true")
+            expect.fulfill()
+        }) { (error) in
+            XCTFail("This callback shouldn't get called")
+            expect.fulfill()
+        }
+        
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
 
+    func testCheckSiteHasJetpackSuccessNoJetpack() {
+        let expect = expectation(description: "Check if the site has Jetpack failure")
+
+        stubRemoteResponse(checkSiteEndpoint, filename: jetpackRemoteCheckSiteFailureMockFilename, contentType: .ApplicationJSON, status: 200)
+        remote.checkSiteHasJetpack(URL(string: url)!, success: { (success) in
+            XCTAssertFalse(success, "Success should be false")
+            expect.fulfill()
+        }) { (error) in
+            XCTFail("This callback shouldn't get called")
+            expect.fulfill()
+        }
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+
+    func testCheckSiteHasJetpackFailureNetwork() {
+        let expect = expectation(description: "Check if the site has Jetpack network failure")
+
+        stubRemoteResponse(checkSiteEndpoint, filename: jetpackRemoteCheckSiteSuccessMockFilename, contentType: .ApplicationJSON, status: 400)
+        remote.checkSiteHasJetpack(URL(string: url)!, success: { (success) in
+            XCTFail("This callback shouldn't get called")
+            expect.fulfill()
+        }) { (error) in
+            XCTAssertNotNil(error, "Error shouldn't be nil")
+            expect.fulfill()
+        }
+        
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+
+    func testCheckSiteHasJetpackFailureData() {
+        let expect = expectation(description: "Check if the site has Jetpack data failure")
+
+        stubRemoteResponse(checkSiteEndpoint, filename: jetpackRemoteCheckSiteDataFailureMockFilename, contentType: .ApplicationJSON, status: 200)
+        remote.checkSiteHasJetpack(URL(string: url)!, success: { (success) in
+            XCTFail("This callback shouldn't get called")
+            expect.fulfill()
+        }) { (error) in
+            XCTAssertNotNil(error, "Error shouldn't be nil")
+            expect.fulfill()
+        }
+
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+    
     func testJetpackRemoteInstallationSuccess() {
         let expect = expectation(description: "Install Jetpack success")
         
@@ -100,7 +163,7 @@ class BlogServiceRemoteRESTTests_Jetpack: RemoteTestCase, RESTTestable {
             XCTAssertEqual(error, .forbidden)
             expect.fulfill()
         }
-
+        
         waitForExpectations(timeout: timeout, handler: nil)
     }
     
