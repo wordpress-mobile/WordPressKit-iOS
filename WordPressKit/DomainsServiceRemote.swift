@@ -17,6 +17,18 @@ public struct DomainSuggestion: Codable {
     }
 }
 
+/// Allows the construction of a request for domain suggestions.
+///
+public struct DomainSuggestionRequest: Encodable {
+    public let query: String
+    public let segmentID: Int64
+    
+    public init(query: String, segmentID: Int64) {
+        self.query = query
+        self.segmentID = segmentID
+    }
+}
+
 public class DomainsServiceRemote: ServiceRemoteWordPressComREST {
     public enum ResponseError: Error {
         case decodingFailed
@@ -154,6 +166,33 @@ public class DomainsServiceRemote: ServiceRemoteWordPressComREST {
         }) { (error, response) in
             failure(error)
         }
+    }
+
+    public func getDomainSuggestions(request: DomainSuggestionRequest,
+                                     success: @escaping ([DomainSuggestion]) -> Void,
+                                     failure: @escaping (Error) -> Void) {
+        let endPoint = "domains/suggestions"
+        let servicePath = path(forEndpoint: endPoint, withVersion: ._1_1)
+        let parameters: [String: AnyObject] = [
+            "segment_id": request.segmentID as AnyObject,
+            "query": request.query as AnyObject
+        ]
+
+        wordPressComRestApi.GET(servicePath,
+                                parameters: parameters,
+                                success: {
+                                    response, _ in
+                                    do {
+                                        let suggestions = try map(suggestions: response)
+                                        success(suggestions)
+                                    } catch {
+                                        DDLogError("Error parsing domains response (\(error)): \(response)")
+                                        failure(error)
+                                    }
+        }, failure: {
+            error, _ in
+            failure(error)
+        })
     }
 
     public func getDomainSuggestions(base query: String,
