@@ -12,9 +12,9 @@ public struct StatsDotComFollowersInsight {
 extension StatsDotComFollowersInsight: StatsInsightData {
 
     //MARK: - StatsInsightData Conformance
-    public static var queryProperties: [String: String] {
+    public static func queryProperties(with maxCount: Int) -> [String: String] {
         return ["type": "wpcom",
-                "max": "7"]
+                "max": String(maxCount)]
     }
 
     public static var pathComponent: String {

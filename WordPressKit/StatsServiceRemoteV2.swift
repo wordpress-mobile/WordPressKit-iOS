@@ -29,8 +29,11 @@ public class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
     /// Responsible for fetching Stats data for Insights — latest data about a site,
     /// in general — not considering a specific slice of time.
     /// For a possible set of returned types, see objects that conform to `StatsInsightData`.
-    public func getInsight<InsightType: StatsInsightData>(completion: @escaping ((InsightType?, Error?) -> Void)) {
-        let properties = InsightType.queryProperties as [String: AnyObject]
+    /// - parameters:
+    ///   - limit: Limit of how many objects you want returned for your query. Default is `10`. `0` means no limit.
+    public func getInsight<InsightType: StatsInsightData>(limit: Int = 10,
+                                                          completion: @escaping ((InsightType?, Error?) -> Void)) {
+        let properties = InsightType.queryProperties(with: limit) as [String: AnyObject]
         let pathComponent = InsightType.pathComponent
 
         let path = self.path(forEndpoint: "sites/\(siteID)/\(pathComponent)/", withVersion: ._1_1)
@@ -59,9 +62,9 @@ public class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
     ///    ending date of `Feb 17 2019`.
     ///   - limit: Limit of how many objects you want returned for your query. Default is `10`. `0` means no limit.
     public func getData<TimeStatsType: StatsTimeIntervalData>(for period: StatsPeriodUnit,
-                                                          endingOn: Date,
-                                                          limit: Int = 10,
-                                                          completion: @escaping ((TimeStatsType?, Error?) -> Void)) {
+                                                              endingOn: Date,
+                                                              limit: Int = 10,
+                                                              completion: @escaping ((TimeStatsType?, Error?) -> Void)) {
         let pathComponent = TimeStatsType.pathComponent
         let path = self.path(forEndpoint: "sites/\(siteID)/\(pathComponent)/", withVersion: ._1_1)
 
@@ -127,12 +130,12 @@ public class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
 extension StatsServiceRemoteV2 {
     // "Last Post" Insights are "fun" in the way that they require multiple requests to actually create them,
     // so we do this "fun" dance in a separate method.
-    public func getInsight(completion: @escaping ((StatsLastPostInsight?, Error?) -> Void)) {
+    public func getInsight(limit: Int = 10, completion: @escaping ((StatsLastPostInsight?, Error?) -> Void)) {
          getLastPostInsight(completion: completion)
     }
 
-    private func getLastPostInsight(completion: @escaping ((StatsLastPostInsight?, Error?) -> Void)) {
-        let properties = StatsLastPostInsight.queryProperties as [String: AnyObject]
+    private func getLastPostInsight(limit: Int = 10, completion: @escaping ((StatsLastPostInsight?, Error?) -> Void)) {
+        let properties = StatsLastPostInsight.queryProperties(with: limit) as [String: AnyObject]
         let pathComponent = StatsLastPostInsight.pathComponent
 
         let path = self.path(forEndpoint: "sites/\(siteID)/\(pathComponent)", withVersion: ._1_1)
@@ -246,7 +249,7 @@ extension StatsServiceRemoteV2 {
 // This serves both as a way to get the query properties in a "nice" way,
 // but also as a way to narrow down the generic type in `getInsight(completion:)` method.
 public protocol StatsInsightData {
-    static var queryProperties: [String: String] { get }
+    static func queryProperties(with maxCount: Int) -> [String: String] 
     static var pathComponent: String { get }
 
     init?(jsonDictionary: [String: AnyObject])
@@ -320,8 +323,8 @@ extension StatsInsightData {
 
     // A big chunk of those use the same endpoint and queryProperties.. Let's simplify the protocol conformance in those cases.
 
-    public static var queryProperties: [String: String] {
-        return [:]
+    public static func queryProperties(with maxCount: Int) -> [String: String] {
+        return ["max": String(maxCount)]
     }
 
     public static var pathComponent: String {

@@ -27,7 +27,7 @@ public struct StatsLastPostInsight {
 extension StatsLastPostInsight: StatsInsightData {
 
     //MARK: - StatsInsightData Conformance
-    public static var queryProperties: [String: String] {
+    public static func queryProperties(with maxCount: Int) -> [String: String] {
         return ["order_by": "date",
                 "number": "1",
                 "type": "post",
