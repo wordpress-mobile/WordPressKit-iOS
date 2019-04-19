@@ -34,7 +34,7 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
     var siteVisitsDataEndpoint: String { return "sites/\(siteID)/stats/visits/" }
     var sitePostsDataEndpoint: String { return "sites/\(siteID)/stats/top-posts/" }
     var sitePublishedPostsEndpoint: String { return "sites/\(siteID)/posts/" }
-    var sitePostDetailsEndpoint: String { return "sites/\(siteID)/post/9001" }
+    var sitePostDetailsEndpoint: String { return "sites/\(siteID)/stats/post/9001" }
 
 
     var remote: StatsServiceRemoteV2!
