@@ -63,6 +63,17 @@
            failure:(void (^)(NSError *error))failure;
 
 /**
+ *  @brief      Saves a post.
+ *
+ *  @param      post        The post to update.  Cannot be nil.
+ *  @param      success     The block that will be executed on success.  Can be nil.
+ *  @param      failure     The block that will be executed on failure.  Can be nil.
+ */
+- (void)savePost:(RemotePost *)post
+           success:(void (^)(RemotePost *post, NSString *previewURL))success
+           failure:(void (^)(NSError *error))failure;
+
+/**
  *  @brief      Deletes a post.
  *
  *  @param      post        The post to delete.  Cannot be nil.
