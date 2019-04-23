@@ -108,7 +108,7 @@ public class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
     }
 
     public func getDetails(forPostID postID: Int, completion: @escaping ((StatsPostDetails?, Error?) -> Void)) {
-        let path = self.path(forEndpoint: "sites/\(siteID)/post/\(postID)/", withVersion: ._1_1)
+        let path = self.path(forEndpoint: "sites/\(siteID)/stats/post/\(postID)/", withVersion: ._1_1)
 
         wordPressComRestApi.GET(path, parameters: [:], success: { (response, _) in
             guard
