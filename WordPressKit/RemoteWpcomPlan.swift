@@ -36,3 +36,8 @@ public struct RemotePlanFeature {
     // Deprecated.  An icon associeated with the feature.
     public let iconURL: URL?
 }
+
+public struct RemotePlanSimpleDescription {
+    public let planID: Int
+    public let name: String
+}
