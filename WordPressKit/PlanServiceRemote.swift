@@ -16,6 +16,10 @@ public class PlanServiceRemote: ServiceRemoteWordPressComREST {
         case noActivePlan
     }
 
+    // MARK - Endpoints
+
+    /// Get the list of WordPress.com plans, their descriptions, and their features.
+    ///
     public func getWpcomPlans(_ success: @escaping (AvailablePlans) -> Void, failure: @escaping (Error) -> Void) {
         let endpoint = "plans/mobile"
         let path = self.path(forEndpoint: endpoint, withVersion: ._2_0)
@@ -39,6 +43,79 @@ public class PlanServiceRemote: ServiceRemoteWordPressComREST {
             error, _ in
             failure(error)
         })
+    }
+
+
+    /// Fetch the plan ID and name for each of the user's sites.
+    /// Accepts locale as a parameter in order to override automatic localization
+    /// and return non-localized results when needed.
+    ///
+    public func getPlanDescriptionsForAllSitesForLocale(_ locale: String, success: @escaping ([Int: RemotePlanSimpleDescription]) -> Void, failure: @escaping (Error) -> Void) {
+        let endpoint = "me/sites"
+        let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
+        let parameters:[String: String] = [
+            "fields": "ID, plan",
+            "locale": locale
+        ]
+
+        wordPressComRestApi.GET(path,
+                                parameters: parameters as [String: AnyObject],
+                                success: {
+                                    response, _ in
+
+                                    guard let response = response as? EndpointResponse else {
+                                        failure(PlanServiceRemote.ResponseError.decodingFailure)
+                                        return
+                                    }
+
+                                    let result = self.parsePlanDescriptionsForSites(response)
+                                    success(result)
+        },
+                                failure: {
+                                    error, _ in
+                                    failure(error)
+        })
+    }
+
+
+    // MARK - Non-public methods
+
+    func parsePlanDescriptionsForSites(_ response: EndpointResponse) -> [Int: RemotePlanSimpleDescription] {
+        var result = [Int: RemotePlanSimpleDescription]()
+
+        guard let sites = response["sites"] as? [EndpointResponse] else {
+            return result
+        }
+
+        for site in sites {
+            guard
+                let tpl = parsePlanDescriptionForSite(site)
+            else {
+                continue
+            }
+            result[tpl.siteID] = tpl.plan
+        }
+
+        return result
+    }
+
+
+    func parsePlanDescriptionForSite(_ site: EndpointResponse) -> (siteID: Int, plan: RemotePlanSimpleDescription)? {
+        guard
+            let siteID = site["ID"] as? Int,
+            let plan = site["plan"] as? EndpointResponse,
+            let planID = plan["product_id"] as? Int,
+            let planName = plan["product_name_short"] as? String,
+            let planSlug = plan["product_slug"] as? String else {
+                return nil
+        }
+
+        var name = planName
+        if planSlug.contains("jetpack") {
+            name = name + " (Jetpack)"
+        }
+
+        return (siteID, RemotePlanSimpleDescription(planID: planID, name: name))
     }
 
 
