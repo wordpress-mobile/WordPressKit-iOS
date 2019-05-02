@@ -3,7 +3,7 @@
 #import <XCTest/XCTest.h>
 #import "PostServiceRemoteREST.h"
 #import "RemotePost.h"
-#import <WordPressKit/WordPressKit-Swift.h>
+#import "WPKit-Swift.h"
 
 @interface PostServiceRemoteRESTTests : XCTestCase
 @end

@@ -1,5 +1,5 @@
 #import "ServiceRemoteWordPressComREST.h"
-#import <WordPressKit/WordPressKit-Swift.h>
+#import "WPKit-Swift.h"
 
 ServiceRemoteWordPressComRESTApiVersion const ServiceRemoteWordPressComRESTApiVersion_1_0 = 1000;
 ServiceRemoteWordPressComRESTApiVersion const ServiceRemoteWordPressComRESTApiVersion_1_1 = 1001;

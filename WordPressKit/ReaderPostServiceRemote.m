@@ -2,7 +2,7 @@
 #import "RemoteReaderPost.h"
 #import "RemoteSourcePostAttribution.h"
 #import "ReaderTopicServiceRemote.h"
-#import <WordPressKit/WordPressKit-Swift.h>
+#import "WPKit-Swift.h"
 @import NSObject_SafeExpectations;
 @import WordPressShared;
 

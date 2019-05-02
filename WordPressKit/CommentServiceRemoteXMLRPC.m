@@ -1,5 +1,5 @@
 #import "CommentServiceRemoteXMLRPC.h"
-#import <WordPressKit/WordPressKit-Swift.h>
+#import "WPKit-Swift.h"
 #import "RemoteComment.h"
 
 @import wpxmlrpc;

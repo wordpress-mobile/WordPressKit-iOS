@@ -3,7 +3,7 @@
 #import "RemoteReaderTopic.h"
 #import "ReaderPostServiceRemote.h"
 #import "RemoteReaderPost.h"
-#import <WordPressKit/WordPressKit-Swift.h>
+#import "WPKit-Swift.h"
 @import WordPressShared;
 
 @interface ReaderPostServiceRemote ()
