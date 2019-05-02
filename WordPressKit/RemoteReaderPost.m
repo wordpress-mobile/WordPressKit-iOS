@@ -1,6 +1,6 @@
 #import "RemoteReaderPost.h"
 #import "RemoteSourcePostAttribution.h"
-#import <WordPressKit/WordPressKit-Swift.h>
+#import "WPKit-Swift.h"
 
 @implementation RemoteReaderPost
 

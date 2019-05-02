@@ -15,6 +15,7 @@
 		17CD0CC320C58A0D000D9620 /* ReaderSiteSearchServiceRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CD0CC220C58A0D000D9620 /* ReaderSiteSearchServiceRemote.swift */; };
 		17CE77F120C6EB41001DEA5A /* ReaderFeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CE77F020C6EB41001DEA5A /* ReaderFeed.swift */; };
 		17CE77F420C701C8001DEA5A /* ReaderSiteSearchServiceRemoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CE77F320C701C8001DEA5A /* ReaderSiteSearchServiceRemoteTests.swift */; };
+		1A4F98672279A87D00D86E8E /* WPKit-Swift.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A4F98662279A87D00D86E8E /* WPKit-Swift.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		240315B0A1D6C2B981572B5B /* Pods_WordPressKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED05C8FF3E61D93CE5BA527E /* Pods_WordPressKitTests.framework */; };
 		40247DFA2120D8E100AE1C3C /* AutomatedTransferService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40247DF92120D8E100AE1C3C /* AutomatedTransferService.swift */; };
 		40247DFC2120E69600AE1C3C /* AutomatedTransferStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40247DFB2120E69600AE1C3C /* AutomatedTransferStatus.swift */; };
@@ -526,6 +527,7 @@
 		17CD0CC220C58A0D000D9620 /* ReaderSiteSearchServiceRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderSiteSearchServiceRemote.swift; sourceTree = "<group>"; };
 		17CE77F020C6EB41001DEA5A /* ReaderFeed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderFeed.swift; sourceTree = "<group>"; };
 		17CE77F320C701C8001DEA5A /* ReaderSiteSearchServiceRemoteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderSiteSearchServiceRemoteTests.swift; sourceTree = "<group>"; };
+		1A4F98662279A87D00D86E8E /* WPKit-Swift.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "WPKit-Swift.h"; sourceTree = "<group>"; };
 		264F5C834541BBF2018F4964 /* Pods-WordPressKitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WordPressKitTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WordPressKitTests/Pods-WordPressKitTests.debug.xcconfig"; sourceTree = "<group>"; };
 		40247DF92120D8E100AE1C3C /* AutomatedTransferService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutomatedTransferService.swift; sourceTree = "<group>"; };
 		40247DFB2120E69600AE1C3C /* AutomatedTransferStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutomatedTransferStatus.swift; sourceTree = "<group>"; };
@@ -1853,6 +1855,7 @@
 				B5A4822C20AC6C19009D95F6 /* WPKitLogging.m */,
 				B5A4822620AC6BA8009D95F6 /* WPKitLoggingPrivate.h */,
 				B5A4822720AC6BA9009D95F6 /* WPKitLoggingPrivate.m */,
+				1A4F98662279A87D00D86E8E /* WPKit-Swift.h */,
 			);
 			path = Private;
 			sourceTree = "<group>";
@@ -1957,6 +1960,7 @@
 				740B23C41F17EE8000067A2A /* RemotePost.h in Headers */,
 				740B23C21F17EE8000067A2A /* RemotePostCategory.h in Headers */,
 				9309995B1F16616A00F006A1 /* RemoteTheme.h in Headers */,
+				1A4F98672279A87D00D86E8E /* WPKit-Swift.h in Headers */,
 				93F50A371F226B9300B5BEBA /* WordPressComServiceRemote.h in Headers */,
 				93C674EB1EE8348F00BFAF05 /* RemoteBlogOptionsHelper.h in Headers */,
 				9368C7B91EC630270092CE8E /* StatsSummary.h in Headers */,
