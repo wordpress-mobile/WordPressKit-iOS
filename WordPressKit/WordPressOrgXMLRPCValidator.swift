@@ -41,8 +41,6 @@ import CocoaLumberjack
 /// WordPress XMLRPC sites.
 open class WordPressOrgXMLRPCValidator: NSObject {
 
-    @objc public static let UserInfoHasJetpackKey = "UserInfoHasJetpackKey"
-
     // The documentation for NSURLErrorHTTPTooManyRedirects says that 16
     // is the default threshold for allowable redirects.
     private let redirectLimit = 16
@@ -133,20 +131,8 @@ open class WordPressOrgXMLRPCValidator: NSObject {
                 // Fetch the original url and look for the RSD link
                 self.guessXMLRPCURLFromHTMLURL(originalXMLRPCURL, success: success, failure: { (error) in
                     DDLogError(error.localizedDescription)
-                    // See if this is a Jetpack site that's having problems.
-                    let service = JetpackServiceRemote(wordPressComRestApi: WordPressComRestApi.anonymousApi(userAgent: userAgent))
-                    service.checkSiteHasJetpack(originalXMLRPCURL, success: { (hasJetpack) in
-                        var err = error
-                        if hasJetpack {
-                            var userInfo = err.userInfo
-                            userInfo[WordPressOrgXMLRPCValidator.UserInfoHasJetpackKey] = true
-                            err = NSError(domain: err.domain, code: err.code, userInfo: userInfo)
-                        }
-                        errorHandler(err)
-                    }, failure: { (_) in
-                        // Return the previous error, not an error when checking for jp.
-                        errorHandler(error)
-                    })
+                    
+                    errorHandler(error)
                 })
             })
         })
