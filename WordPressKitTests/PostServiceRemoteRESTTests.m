@@ -38,7 +38,7 @@
     NSNumber *postID = @1;
     NSString *endpoint = [NSString stringWithFormat:@"sites/%@/posts/%@", dotComID, postID];
     NSString *url = [service pathForEndpoint:endpoint
-                                 withVersion:ServiceRemoteWordPressComRESTApiVersion_1_2];
+                                 withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
 
     OCMStub([api GET:[OCMArg isEqual:url]
           parameters:[OCMArg isNotNil]

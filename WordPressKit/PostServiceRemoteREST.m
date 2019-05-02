@@ -34,7 +34,7 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
 
     NSString *path = [NSString stringWithFormat:@"sites/%@/posts/%@", self.siteID, postID];
     NSString *requestUrl = [self pathForEndpoint:path
-                                     withVersion:ServiceRemoteWordPressComRESTApiVersion_1_2];
+                                     withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
     
     NSDictionary *parameters = @{ @"context": @"edit" };
     
