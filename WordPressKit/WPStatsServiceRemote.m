@@ -8,7 +8,7 @@
 #import <WordPressShared/NSString+XMLExtensions.h>
 #import <WordPressShared/WPAnalytics.h>
 @import NSObject_SafeExpectations;
-#import <WordPressKit/WordPressKit-Swift.h>
+#import "WPKit-Swift.h"
 
 static NSString *const WordPressComApiClientVersionPrefix = @"rest/v1.1";
 static NSInteger const NumberOfDays = 12;
