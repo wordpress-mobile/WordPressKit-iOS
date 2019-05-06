@@ -154,6 +154,14 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
                  }];
 }
 
+- (void)savePost:(RemotePost *)post
+         success:(void (^)(RemotePost *, NSString *))success
+         failure:(void (^)(NSError *))failure
+{
+    // Method is declared in PostServiceRemote protocol and implemented in PostServiceRemoteREST.
+    // At this time the endpoint /autosave is not available in PostServiceRemoteXMLRPC
+}
+
 - (void)deletePost:(RemotePost *)post
            success:(void (^)(void))success
            failure:(void (^)(NSError *))failure
