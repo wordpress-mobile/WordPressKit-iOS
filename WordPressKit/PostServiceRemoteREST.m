@@ -183,7 +183,7 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
            }];
 }
 
-- (void)savePost:(RemotePost *)post
+- (void)autoSave:(RemotePost *)post
          success:(void (^)(RemotePost *, NSString *))success
          failure:(void (^)(NSError *))failure
 {

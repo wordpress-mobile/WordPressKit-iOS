@@ -96,17 +96,6 @@
             failure:(void (^)(NSError *error))failure;
 
 /**
- *  @brief      Saves a post.
- *
- *  @param      post        The post to save.  Cannot be nil.
- *  @param      success     The block that will be executed on success.  Can be nil.
- *  @param      failure     The block that will be executed on failure.  Can be nil.
- */
-- (void)savePost:(RemotePost *)post
-         success:(void (^)(RemotePost *post, NSString *previewURL))success
-         failure:(void (^)(NSError *error))failure;
-
-/**
  *  @brief      Returns a dictionary set with option parameters of the PostServiceRemoteOptions protocol.
  *
  *  @param      options  The object with set remote options.  Cannot be nil.
