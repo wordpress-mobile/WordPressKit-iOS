@@ -218,6 +218,51 @@
                                 failure:^(NSError *error) {}]);
 }
 
+#pragma mark - Autosaving posts
+
+- (void)testThatAutoSavePostWorks
+{
+    NSNumber *dotComID = @10;
+    WordPressComRestApi *api = OCMStrictClassMock([WordPressComRestApi class]);
+    PostServiceRemoteREST *service = nil;
+    
+    RemotePost *post = OCMClassMock([RemotePost class]);
+    OCMStub([post postID]).andReturn(@1);
+    OCMStub([post title]).andReturn(@"Title");
+    OCMStub([post content]).andReturn(@"Content");
+    OCMStub([post status]).andReturn(@"Status");
+    OCMStub([post password]).andReturn(@"Password");
+    OCMStub([post type]).andReturn(@"Type");
+    OCMStub([post metadata]).andReturn(@[]);
+    OCMStub([post isStickyPost]).andReturn(@0);
+    OCMStub([post parentID]).andReturn(nil);
+    
+    XCTAssertNoThrow(service = [[PostServiceRemoteREST alloc] initWithWordPressComRestApi:api siteID:dotComID]);
+    
+    NSString *endpoint = [NSString stringWithFormat:@"sites/%@/posts/%@/autosave", dotComID, post.postID];
+    NSString *url = [service pathForEndpoint:endpoint
+                                 withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
+    
+    OCMStub([api POST:[OCMArg isEqual:url]
+           parameters:[OCMArg isKindOfClass:[NSDictionary class]]
+              success:[OCMArg isNotNil]
+              failure:[OCMArg isNotNil]]);
+    
+    [service autoSave:post
+                success:^(RemotePost *post, NSString *previewURL) {}
+                failure:^(NSError *error) {}];
+}
+
+- (void)testThatAutoSavePostThrowsExceptionWithoutPost
+{
+    PostServiceRemoteREST *service = nil;
+    
+    XCTAssertNoThrow(service = [self service]);
+    XCTAssertThrows([service autoSave:nil
+                                success:^(RemotePost *post, NSString *previewURL) {}
+                                failure:^(NSError *error) {}]);
+}
+
 #pragma mark - Deleting posts
 
 - (void)testThatDeletePostWorks
