@@ -24,4 +24,19 @@
            success:(void (^)(RemotePost *))success
            failure:(void (^)(NSError *))failure;
 
+/**
+ *  @brief      Saves a post.
+ *
+ *
+ *  @discussion Drafts and auto-drafts are just overwritten by autosave for the same
+                user if the post is not locked.
+ *              Non drafts or other users drafts are not overwritten.
+ *  @param      post        The post to save.  Cannot be nil.
+ *  @param      success     The block that will be executed on success.  Can be nil.
+ *  @param      failure     The block that will be executed on failure.  Can be nil.
+ */
+- (void)autoSave:(RemotePost *)post
+         success:(void (^)(RemotePost *post, NSString *previewURL))success
+         failure:(void (^)(NSError *error))failure;
+
 @end

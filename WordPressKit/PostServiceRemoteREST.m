@@ -183,6 +183,33 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
            }];
 }
 
+- (void)autoSave:(RemotePost *)post
+         success:(void (^)(RemotePost *, NSString *))success
+         failure:(void (^)(NSError *))failure
+{
+    NSParameterAssert([post isKindOfClass:[RemotePost class]]);
+    
+    NSString *path = [NSString stringWithFormat:@"sites/%@/posts/%@/autosave", self.siteID, post.postID];
+    NSString *requestUrl = [self pathForEndpoint:path
+                                     withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
+    
+    NSDictionary *parameters = [self parametersWithRemotePost:post];
+    
+    [self.wordPressComRestApi POST:requestUrl
+                        parameters:parameters
+                           success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
+                               RemotePost *post = [self remotePostFromJSONDictionary:responseObject];
+                               NSString *previewURL = responseObject[@"preview_URL"];
+                               if (success) {
+                                   success(post, previewURL);
+                               }
+                           } failure:^(NSError *error, NSHTTPURLResponse *httpResponse) {
+                               if (failure) {
+                                   failure(error);
+                               }
+                           }];
+}
+
 - (void)deletePost:(RemotePost *)post
            success:(void (^)(void))success
            failure:(void (^)(NSError *))failure
