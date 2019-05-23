@@ -42,10 +42,9 @@ extension StatsSummaryTimeIntervalData: StatsTimeIntervalData {
         return "stats/visits"
     }
 
-    public static func queryProperties(with date: Date, period: StatsPeriodUnit) -> [String: String] {
-        return ["quantity": "10",
-                "stat_fields": "views,visitors,likes,comments",
-                "unit": period.stringValue]
+    public static func queryProperties(with date: Date, period: StatsPeriodUnit, maxCount: Int) -> [String : String] {
+        return ["unit": period.stringValue,
+                "quantity": String(maxCount)]
     }
 
     public init?(date: Date, period: StatsPeriodUnit, jsonDictionary: [String : AnyObject]) {
