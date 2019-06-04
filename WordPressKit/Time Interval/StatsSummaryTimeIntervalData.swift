@@ -42,10 +42,10 @@ extension StatsSummaryTimeIntervalData: StatsTimeIntervalData {
         return "stats/visits"
     }
 
-    public static func queryProperties(with date: Date, period: StatsPeriodUnit) -> [String: String] {
-        return ["quantity": "10",
-                "stat_fields": "views,visitors,likes,comments",
-                "unit": period.stringValue]
+    public static func queryProperties(with date: Date, period: StatsPeriodUnit, maxCount: Int) -> [String : String] {
+        return ["unit": period.stringValue,
+                "quantity": String(maxCount),
+                "stat_fields": "views,visitors,comments"]
     }
 
     public init?(date: Date, period: StatsPeriodUnit, jsonDictionary: [String : AnyObject]) {
@@ -70,7 +70,6 @@ extension StatsSummaryTimeIntervalData: StatsTimeIntervalData {
             let periodIndex = fieldsArray.firstIndex(of: "period"),
             let viewsIndex = fieldsArray.firstIndex(of: "views"),
             let visitorsIndex = fieldsArray.firstIndex(of: "visitors"),
-            let likesIndex = fieldsArray.firstIndex(of: "likes"),
             let commentsIndex = fieldsArray.firstIndex(of: "comments")
             else {
                 return nil
@@ -83,7 +82,7 @@ extension StatsSummaryTimeIntervalData: StatsTimeIntervalData {
                                                               periodIndex: periodIndex,
                                                               viewsIndex: viewsIndex,
                                                               visitorsIndex: visitorsIndex,
-                                                              likesIndex: likesIndex,
+                                                              likesIndex: nil,
                                                               commentsIndex: commentsIndex) }
     }
 }
@@ -92,23 +91,61 @@ private extension StatsSummaryData {
     init?(dataArray: [Any],
           period: StatsPeriodUnit,
           periodIndex: Int,
-          viewsIndex: Int,
-          visitorsIndex: Int,
-          likesIndex: Int,
-          commentsIndex: Int) {
+          viewsIndex: Int?,
+          visitorsIndex: Int?,
+          likesIndex: Int?,
+          commentsIndex: Int?) {
+
         guard
             let periodString = dataArray[periodIndex] as? String,
-            let periodStart = type(of: self).parsedDate(from: periodString, for: period),
-            let viewsCount = dataArray[viewsIndex] as? Int,
-            let visitorsCount = dataArray[visitorsIndex] as? Int,
-            let likesCount = dataArray[likesIndex] as? Int,
-            let commentsCount = dataArray[commentsIndex] as? Int
-            else {
+            let periodStart = type(of: self).parsedDate(from: periodString, for: period) else {
                 return nil
+        }
+
+        let viewsCount: Int
+        let visitorsCount: Int
+        let likesCount: Int
+        let commentsCount: Int
+
+        if let viewsIndex = viewsIndex {
+            guard let count = dataArray[viewsIndex] as? Int else {
+                return nil
+            }
+            viewsCount = count
+        } else {
+            viewsCount = 0
+        }
+
+        if let visitorsIndex = visitorsIndex {
+            guard let count = dataArray[visitorsIndex] as? Int else {
+                return nil
+            }
+            visitorsCount = count
+        } else {
+            visitorsCount = 0
+        }
+
+        if let likesIndex = likesIndex {
+            guard let count = dataArray[likesIndex] as? Int else {
+                return nil
+            }
+            likesCount = count
+        } else {
+            likesCount = 0
+        }
+
+        if let commentsIndex = commentsIndex {
+            guard let count = dataArray[commentsIndex] as? Int else {
+                return nil
+            }
+            commentsCount = count
+        } else {
+            commentsCount = 0
         }
 
         self.period = period
         self.periodStartDate = periodStart
+
         self.viewsCount = viewsCount
         self.visitorsCount = visitorsCount
         self.likesCount = likesCount
@@ -147,3 +184,63 @@ private extension StatsSummaryData {
         return df
     }
 }
+
+
+/// So this is very awkward and neccessiated by our API. Turns out, calculating likes
+/// for long periods of times (months/years) on large sites takes _ages_ (up to a minute sometimes).
+/// Thankfully, calculating views/visitors/comments takes a much shorter time. (~2s, which is still suuuuuper long, but acceptable.)
+/// We don't want to wait a whole minute to display the rest of the data, so we fetch the likes separately.
+public struct StatsLikesSummaryTimeIntervalData {
+
+    public let period: StatsPeriodUnit
+    public let periodEndDate: Date
+
+    public let summaryData: [StatsSummaryData]
+
+    public init(period: StatsPeriodUnit,
+                periodEndDate: Date,
+                summaryData: [StatsSummaryData]) {
+        self.period = period
+        self.periodEndDate = periodEndDate
+        self.summaryData = summaryData
+    }
+}
+
+extension StatsLikesSummaryTimeIntervalData: StatsTimeIntervalData {
+
+    public static var pathComponent: String {
+        return "stats/visits"
+    }
+
+    public static func queryProperties(with date: Date, period: StatsPeriodUnit, maxCount: Int) -> [String : String] {
+        return ["unit": period.stringValue,
+                "quantity": String(maxCount),
+                "stat_fields": "likes"]
+    }
+
+    public init?(date: Date, period: StatsPeriodUnit, jsonDictionary: [String : AnyObject]) {
+        guard
+            let fieldsArray = jsonDictionary["fields"] as? [String],
+            let data = jsonDictionary["data"] as? [[Any]]
+            else {
+                return nil
+        }
+
+        guard
+            let periodIndex = fieldsArray.firstIndex(of: "period"),
+            let likesIndex = fieldsArray.firstIndex(of: "likes") else {
+                return nil
+        }
+
+        self.period = period
+        self.periodEndDate = date
+        self.summaryData = data.compactMap { StatsSummaryData(dataArray: $0,
+                                                              period: period,
+                                                              periodIndex: periodIndex,
+                                                              viewsIndex: nil,
+                                                              visitorsIndex: nil,
+                                                              likesIndex: likesIndex,
+                                                              commentsIndex: nil) }
+    }
+}
+

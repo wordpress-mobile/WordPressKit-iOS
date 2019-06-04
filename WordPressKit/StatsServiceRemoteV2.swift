@@ -69,10 +69,9 @@ public class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
         let path = self.path(forEndpoint: "sites/\(siteID)/\(pathComponent)/", withVersion: ._1_1)
 
         let staticProperties = ["period": period.stringValue,
-                                "date": periodDataQueryDateFormatter.string(from: endingOn),
-                                "max": limit as AnyObject] as [String: AnyObject]
+                                "date": periodDataQueryDateFormatter.string(from: endingOn)] as [String: AnyObject]
 
-        let classProperties = TimeStatsType.queryProperties(with: endingOn, period: period) as [String: AnyObject]
+        let classProperties = TimeStatsType.queryProperties(with: endingOn, period: period, maxCount: limit) as [String: AnyObject]
 
         let properties = staticProperties.merging(classProperties) { val1, _ in
             return val1
@@ -263,13 +262,13 @@ public protocol StatsTimeIntervalData {
 
     init?(date: Date, period: StatsPeriodUnit, jsonDictionary: [String: AnyObject])
 
-    static func queryProperties(with date: Date, period: StatsPeriodUnit) -> [String: String]
+    static func queryProperties(with date: Date, period: StatsPeriodUnit, maxCount: Int) -> [String: String]
 }
 
 extension StatsTimeIntervalData {
 
-    public static func queryProperties(with date: Date, period: StatsPeriodUnit) -> [String: String] {
-        return [:]
+    public static func queryProperties(with date: Date, period: StatsPeriodUnit, maxCount: Int) -> [String: String] {
+        return ["max": String(maxCount)]
     }
 
     // Most of the responses for time data come in a unwieldy format, that requires awkwkard unwrapping
