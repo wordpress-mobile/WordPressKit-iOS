@@ -125,7 +125,8 @@ public class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
     }
 }
 
-// MARK: - StatsLastPostInsight-specific hack
+// MARK: - StatsLastPostInsight Handling
+
 extension StatsServiceRemoteV2 {
     // "Last Post" Insights are "fun" in the way that they require multiple requests to actually create them,
     // so we do this "fun" dance in a separate method.
@@ -187,7 +188,8 @@ extension StatsServiceRemoteV2 {
     }
 }
 
-// MARK - StatsPublishedPostsTimeIntervalData-specific hack
+// MARK - StatsPublishedPostsTimeIntervalData Handling
+
 extension StatsServiceRemoteV2 {
 
     // StatsPublishedPostsTimeIntervalData hit a different endpoint and with different parameters
