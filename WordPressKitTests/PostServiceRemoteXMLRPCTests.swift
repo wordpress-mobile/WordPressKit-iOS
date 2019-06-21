@@ -259,7 +259,7 @@ class PostServiceRemoteXMLRPCTests: RemoteTestCase, XMLRPCTestable {
         let expect = expectation(description: "Update post success")
 
         stubRemoteResponse(XMLRPCTestableConstants.xmlRpcUrl,
-                           filename: updatePostSuccessMockFilename,
+                           files: [updatePostSuccessMockFilename, getPostSuccessMockFilename],
                            contentType: .XML)
 
         if let remoteInstance = remote as? PostServiceRemote {
