@@ -143,10 +143,16 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
     [self.api callMethod:@"metaWeblog.editPost"
               parameters:parameters
                  success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
-                     // TODO: fetch individual post
-                     if (success) {
-                         success(post);
-                     }
+                     [self getPostWithID:post.postID success:^(RemotePost *fetchedPost) {
+                         if (success) {
+                             success(fetchedPost);
+                         }
+                     } failure:^(NSError *error) {
+                         //We failed to fetch the post but the update was successful
+                         if (success) {
+                             success(post);
+                         }
+                     }];
                  } failure:^(NSError *error, NSHTTPURLResponse *httpResponse) {
                      if (failure) {
                          failure(error);
