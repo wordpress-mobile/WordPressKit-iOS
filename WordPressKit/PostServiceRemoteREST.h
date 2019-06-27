@@ -39,4 +39,18 @@
          success:(void (^)(RemotePost *post, NSString *previewURL))success
          failure:(void (^)(NSError *error))failure;
 
+/**
+ *  @brief      Get autosave revision of a post.
+ *
+ *
+ *  @discussion retrieve the latest autosave revision of a post
+ 
+ *  @param      post        The post to save.  Cannot be nil.
+ *  @param      success     The block that will be executed on success.  Can be nil.
+ *  @param      failure     The block that will be executed on failure.  Can be nil.
+ */
+- (void)getAutoSaveForPost:(RemotePost *)post
+                   success:(void (^)(RemotePost *))success
+                   failure:(void (^)(NSError *error))failure;
+
 @end
