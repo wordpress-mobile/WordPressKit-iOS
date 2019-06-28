@@ -418,10 +418,6 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
         postParams[@"custom_fields"] = post.metadata;
     }
 
-    if (post.isStickyPost != nil) {
-        postParams[@"sticky"] = post.isStickyPost.boolValue ? @"true" : @"false";
-    }
-
     postParams[@"wp_page_parent_id"] = post.parentID ? post.parentID.stringValue : @"0";
 
     // Scheduled posts need to sync with a status of 'publish'.
@@ -431,6 +427,21 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
     // https://codex.wordpress.org/Post_Status_Transitions
     if (post.status == nil || [post.status isEqualToString:PostStatusScheduled]) {
         post.status = PostStatusPublish;
+    }
+
+    // At least as of 5.2.2, Private and/or Password Protected posts can't be stickied.
+    // However, the code used on the backend doesn't check the value of the `sticky` field,
+    // instead doing a simple `! empty( $post_data['sticky'] )` check.
+    //
+    // This means we have to omit this field entirely for those posts from the payload we're sending
+    // to the XML-RPC sevices.
+    //
+    // https://github.com/WordPress/WordPress/blob/master/wp-includes/class-wp-xmlrpc-server.php
+    //
+    BOOL shouldIncludeStickyField = ![post.status isEqualToString:PostStatusPrivate] && post.password == nil;
+
+    if (post.isStickyPost != nil && shouldIncludeStickyField) {
+        postParams[@"sticky"] = post.isStickyPost.boolValue ? @"true" : @"false";
     }
 
     if ([post.type isEqualToString:@"page"]) {
