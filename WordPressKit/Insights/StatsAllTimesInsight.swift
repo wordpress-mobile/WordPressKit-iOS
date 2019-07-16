@@ -25,20 +25,16 @@ extension StatsAllTimesInsight: StatsInsightData {
     public init?(jsonDictionary: [String: AnyObject]) {
         guard
             let statsDict = jsonDictionary["stats"] as? [String: AnyObject],
-            let postsCount = statsDict["posts"] as? Int,
-            let viewsCount = statsDict["views"] as? Int,
-            let visitorsCount = statsDict["visitors"] as? Int,
-            let bestViewsPerDayCount = statsDict["views_best_day_total"] as? Int,
             let bestViewsDayString = statsDict["views_best_day"] as? String,
             let bestViewsDay = StatsAllTimesInsight.dateFormatter.date(from: bestViewsDayString)
             else {
                 return nil
         }
 
-        self.postsCount = postsCount
-        self.bestViewsPerDayCount = bestViewsPerDayCount
-        self.visitorsCount = visitorsCount
-        self.viewsCount = viewsCount
+        self.postsCount = statsDict["posts"] as? Int ?? 0
+        self.bestViewsPerDayCount = statsDict["views_best_day_total"] as? Int ?? 0
+        self.visitorsCount = statsDict["visitors"] as? Int ?? 0
+        self.viewsCount = statsDict["views"] as? Int ?? 0
         self.bestViewsDay = bestViewsDay
     }
 
