@@ -17,7 +17,7 @@ class EditorServiceRemoteTests: XCTestCase {
         XCTAssertTrue(mockRemoteApi.postMethodCalled)
     }
 
-    func testPostDesignateMobileEditorSuccess() {
+    func testPostDesignateMobileEditorSuccessSettingGutenberg() {
         let expec = expectation(description: "success")
         let response: [String: String] = [
             "editor_mobile": "gutenberg",
@@ -26,6 +26,25 @@ class EditorServiceRemoteTests: XCTestCase {
 
         editorServiceRemote.postDesignateMobileEditor(siteID, editor: EditorSettings.gutenberg, success: { editor in
             XCTAssertEqual(editor, .gutenberg)
+            expec.fulfill()
+        }) { (error) in
+            XCTFail("This call should succeed. Error: \(error)")
+            expec.fulfill()
+        }
+        mockRemoteApi.successBlockPassedIn?(response as AnyObject, HTTPURLResponse())
+
+        wait(for: [expec], timeout: 0.1)
+    }
+
+    func testPostDesignateMobileEditorSuccessSettingAztec() {
+        let expec = expectation(description: "success")
+        let response: [String: String] = [
+            "editor_mobile": "aztec",
+            "editor_web": "gutenberg",
+        ]
+
+        editorServiceRemote.postDesignateMobileEditor(siteID, editor: EditorSettings.aztec, success: { editor in
+            XCTAssertEqual(editor, .aztec)
             expec.fulfill()
         }) { (error) in
             XCTFail("This call should succeed. Error: \(error)")
