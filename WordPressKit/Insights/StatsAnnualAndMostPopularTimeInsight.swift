@@ -74,16 +74,7 @@ extension StatsAnnualAndMostPopularTimeInsight: StatsInsightData {
             let yearlyInsights = jsonDictionary["years"] as? [[String: AnyObject]],
             let latestYearlyInsight = yearlyInsights.last,
             let yearString = latestYearlyInsight["year"] as? String,
-            let currentYear = Int(yearString),
-            let postCount = latestYearlyInsight["total_posts"] as? Int,
-            let wordsCount = latestYearlyInsight["total_words"] as? Int,
-            let wordsAverage = latestYearlyInsight["avg_words"] as? Double,
-            let likesCount = latestYearlyInsight["total_likes"] as? Int,
-            let likesAverage = latestYearlyInsight["avg_likes"] as? Double,
-            let commentsCount = latestYearlyInsight["total_comments"] as? Int,
-            let commentsAverage = latestYearlyInsight["avg_comments"] as? Double,
-            let imagesCount = latestYearlyInsight["total_images"] as? Int,
-            let imagesAverage = latestYearlyInsight["avg_images"] as? Double
+            let currentYear = Int(yearString)
             else {
                 return nil
         }
@@ -105,17 +96,17 @@ extension StatsAnnualAndMostPopularTimeInsight: StatsInsightData {
 
         self.annualInsightsYear = currentYear
 
-        self.annualInsightsTotalPostsCount = postCount
-        self.annualInsightsTotalWordsCount = wordsCount
-        self.annualInsightsAverageWordsCount = wordsAverage
+        self.annualInsightsTotalPostsCount = latestYearlyInsight["total_posts"] as? Int ?? 0
+        self.annualInsightsTotalWordsCount = latestYearlyInsight["total_words"] as? Int ?? 0
+        self.annualInsightsAverageWordsCount = latestYearlyInsight["avg_words"] as? Double ?? 0
 
-        self.annualInsightsTotalLikesCount = likesCount
-        self.annualInsightsAverageLikesCount = likesAverage
+        self.annualInsightsTotalLikesCount = latestYearlyInsight["total_likes"] as? Int ?? 0
+        self.annualInsightsAverageLikesCount = latestYearlyInsight["avg_likes"] as? Double ?? 0
 
-        self.annualInsightsTotalCommentsCount = commentsCount
-        self.annualInsightsAverageCommentsCount = commentsAverage
+        self.annualInsightsTotalCommentsCount = latestYearlyInsight["total_comments"] as? Int ?? 0
+        self.annualInsightsAverageCommentsCount = latestYearlyInsight["avg_comments"] as? Double ?? 0
 
-        self.annualInsightsTotalImagesCount = imagesCount
-        self.annualInsightsAverageImagesCount = imagesAverage
+        self.annualInsightsTotalImagesCount = latestYearlyInsight["total_images"] as? Int ?? 0
+        self.annualInsightsAverageImagesCount = latestYearlyInsight["avg_images"] as? Double ?? 0
     }
 }

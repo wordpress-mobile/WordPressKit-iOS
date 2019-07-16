@@ -23,18 +23,9 @@ extension StatsTodayInsight: StatsInsightData {
     }
 
     public init?(jsonDictionary: [String: AnyObject]) {
-        guard
-            let viewsCount = jsonDictionary["views"] as? Int,
-            let visitorsCount = jsonDictionary["visitors"] as? Int,
-            let likesCount = jsonDictionary["likes"] as? Int,
-            let commentsCount = jsonDictionary["comments"] as? Int
-            else {
-                return nil
-        }
-
-        self.visitorsCount = visitorsCount
-        self.viewsCount = viewsCount
-        self.likesCount = likesCount
-        self.commentsCount = commentsCount
+        self.visitorsCount = jsonDictionary["visitors"] as? Int ?? 0
+        self.viewsCount = jsonDictionary["views"] as? Int ?? 0
+        self.likesCount = jsonDictionary["likes"] as? Int ?? 0
+        self.commentsCount = jsonDictionary["comments"] as? Int ?? 0
     }
 }
