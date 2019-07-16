@@ -51,18 +51,13 @@ extension StatsLastPostInsight: StatsInsightData {
         guard
             let title = jsonDictionary["title"] as? String,
             let dateString = jsonDictionary["date"] as? String,
+            let date = StatsLastPostInsight.dateFormatter.date(from: dateString),
             let urlString = jsonDictionary["URL"] as? String,
+            let url = URL(string: urlString),
             let likesCount = jsonDictionary["like_count"] as? Int,
             let postID = jsonDictionary["ID"] as? Int,
             let discussionDict = jsonDictionary["discussion"] as? [String: Any],
             let commentsCount = discussionDict["comment_count"] as? Int
-            else {
-                return nil
-        }
-
-        guard
-            let url = URL(string: urlString),
-            let date = StatsLastPostInsight.dateFormatter.date(from: dateString)
             else {
                 return nil
         }
