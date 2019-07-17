@@ -39,6 +39,7 @@ public class DomainsServiceRemote: ServiceRemoteWordPressComREST {
         case includeWordPressDotCom
         case onlyWordPressDotCom
         case wordPressDotComAndDotBlogSubdomains
+        case whitelistedTopLevelDomains([String])
         
         fileprivate func parameters() -> [String: AnyObject] {
             switch self {
@@ -54,6 +55,8 @@ public class DomainsServiceRemote: ServiceRemoteWordPressComREST {
                         "vendor": "dot" as AnyObject,
                         "only_wordpressdotcom": true as AnyObject,
                         "include_wordpressdotcom": true as AnyObject]
+            case .whitelistedTopLevelDomains(let whitelistedTLDs):
+                return ["tlds": whitelistedTLDs.joined(separator: ",") as AnyObject]
             }
         }
     }
