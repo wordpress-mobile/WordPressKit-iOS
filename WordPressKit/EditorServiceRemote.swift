@@ -2,7 +2,7 @@ import Foundation
 import WordPressShared
 
 public class EditorServiceRemote: ServiceRemoteWordPressComREST {
-    public func postDesignateMobileEditor(_ siteID: Int, editor: EditorSettings, success: @escaping (EditorSettings) -> Void, failure: @escaping (Error) -> Void) {
+    public func postDesignateMobileEditor(_ siteID: Int, editor: EditorSettings.Mobile, success: @escaping (EditorSettings) -> Void, failure: @escaping (Error) -> Void) {
         let endpoint = "sites/\(siteID)/gutenberg?platform=mobile&editor=\(editor.rawValue)"
         let path = self.path(forEndpoint: endpoint, withVersion: ._2_0)
 

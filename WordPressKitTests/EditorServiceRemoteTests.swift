@@ -24,8 +24,9 @@ class EditorServiceRemoteTests: XCTestCase {
             "editor_web": "gutenberg",
         ]
 
-        editorServiceRemote.postDesignateMobileEditor(siteID, editor: EditorSettings.gutenberg, success: { editor in
-            XCTAssertEqual(editor, .gutenberg)
+        editorServiceRemote.postDesignateMobileEditor(siteID, editor: .gutenberg, success: { editor in
+            XCTAssertEqual(editor.mobile, .gutenberg)
+            XCTAssertEqual(editor.web, .gutenberg)
             expec.fulfill()
         }) { (error) in
             XCTFail("This call should succeed. Error: \(error)")
@@ -40,11 +41,12 @@ class EditorServiceRemoteTests: XCTestCase {
         let expec = expectation(description: "success")
         let response: [String: String] = [
             "editor_mobile": "aztec",
-            "editor_web": "gutenberg",
+            "editor_web": "classic",
         ]
 
-        editorServiceRemote.postDesignateMobileEditor(siteID, editor: EditorSettings.aztec, success: { editor in
-            XCTAssertEqual(editor, .aztec)
+        editorServiceRemote.postDesignateMobileEditor(siteID, editor: .aztec, success: { editor in
+            XCTAssertEqual(editor.mobile, .aztec)
+            XCTAssertEqual(editor.web, .classic)
             expec.fulfill()
         }) { (error) in
             XCTFail("This call should succeed. Error: \(error)")
@@ -62,7 +64,7 @@ class EditorServiceRemoteTests: XCTestCase {
             "editor_web": "gutenberg",
         ]
 
-        editorServiceRemote.postDesignateMobileEditor(siteID, editor: EditorSettings.gutenberg, success: { editor in
+        editorServiceRemote.postDesignateMobileEditor(siteID, editor: .gutenberg, success: { editor in
             XCTFail("This should fail")
             expec.fulfill()
         }) { (error) in
@@ -75,15 +77,16 @@ class EditorServiceRemoteTests: XCTestCase {
         wait(for: [expec], timeout: 0.1)
     }
 
-    func testPostDesignateMobileEditorDefaultsToAztecWithBadValueResponse() {
+    func testPostDesignateMobileEditorDefaultsWithBadValueResponse() {
         let expec = expectation(description: "success")
         let response: [String: String] = [
             "editor_mobile": "guten_BORG",
-            "editor_web": "gutenberg",
+            "editor_web": "guten_WRONG",
         ]
 
-        editorServiceRemote.postDesignateMobileEditor(siteID, editor: EditorSettings.gutenberg, success: { editor in
-            XCTAssertEqual(editor, .aztec)
+        editorServiceRemote.postDesignateMobileEditor(siteID, editor: .gutenberg, success: { editor in
+            XCTAssertEqual(editor.mobile, .aztec)
+            XCTAssertEqual(editor.web, .classic)
             expec.fulfill()
         }) { (error) in
             XCTFail("This should not error")
@@ -97,7 +100,7 @@ class EditorServiceRemoteTests: XCTestCase {
     func testPostDesignateMobileEditorError() {
         let expec = expectation(description: "success")
         let errorExpec = NSError(domain: NSURLErrorDomain, code: NSURLErrorUnknown, userInfo: nil)
-        editorServiceRemote.postDesignateMobileEditor(siteID, editor: EditorSettings.gutenberg, success: { _ in
+        editorServiceRemote.postDesignateMobileEditor(siteID, editor: .gutenberg, success: { _ in
             XCTFail("This call should error")
             expec.fulfill()
         }) { (error) in
@@ -106,6 +109,7 @@ class EditorServiceRemoteTests: XCTestCase {
         }
         mockRemoteApi.failureBlockPassedIn?(errorExpec, nil)
         XCTAssertTrue(mockRemoteApi.postMethodCalled)
+
         wait(for: [expec], timeout: 0.1)
     }
 }

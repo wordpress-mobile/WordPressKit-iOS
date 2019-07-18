@@ -3,11 +3,21 @@ private struct RemoteEditorSettings: Codable {
     let editorWeb: String
 }
 
-public enum EditorSettings: String {
-    case gutenberg
-    case aztec
+public struct EditorSettings {
+    public enum Mobile: String {
+        case gutenberg
+        case aztec
+        static let `default` = Mobile.aztec
+    }
 
-    static let `default` = EditorSettings.aztec
+    public enum Web: String {
+        case classic
+        case gutenberg
+        static let `default` = Web.classic
+    }
+
+    let mobile: Mobile
+    let web: Web
 }
 
 extension EditorSettings {
@@ -22,6 +32,8 @@ extension EditorSettings {
     }
 
     private init(with remote: RemoteEditorSettings) {
-        self = EditorSettings(rawValue: remote.editorMobile) ?? .default
+        let mobile = Mobile(rawValue: remote.editorMobile) ?? .default
+        let web = Web(rawValue: remote.editorWeb) ?? .default
+        self = EditorSettings(mobile: mobile, web: web)
     }
 }
