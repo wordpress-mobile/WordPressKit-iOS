@@ -76,11 +76,6 @@ extension StatsPostingStreakInsight: StatsInsightData {
             let streaks = jsonDictionary["streak"] as? [String: AnyObject],
             let longestData = streaks["long"] as? [String: AnyObject],
             let currentData = streaks["current"] as? [String: AnyObject],
-            let longestStart = longestData["start"] as? String,
-            let longestStartDate = StatsPostingStreakInsight.dateFormatter.date(from: longestStart),
-            let longestEnd = longestData["end"] as? String,
-            let longestEndDate = StatsPostingStreakInsight.dateFormatter.date(from: longestEnd),
-            let longestLength = longestData["length"] as? Int,
             let currentStart = currentData["start"] as? String,
             let currentStartDate = StatsPostingStreakInsight.dateFormatter.date(from: currentStart),
             let currentEnd = currentData["end"] as? String,
@@ -101,13 +96,25 @@ extension StatsPostingStreakInsight: StatsInsightData {
             PostingStreakEvent(date: $0 as! Date, postCount: countedPosts.count(for: $0))
         }
 
+        self.postingEvents = postingEvents
         self.currentStreakStart = currentStartDate
         self.currentStreakEnd = currentEndDate
         self.currentStreakLength = currentLength
-        self.longestStreakStart = longestStartDate
-        self.longestStreakEnd = longestEndDate
-        self.longestStreakLength = longestLength
-        self.postingEvents = postingEvents
+
+        // If there is no longest streak, use the current.
+        if let longestStart = longestData["start"] as? String,
+            let longestStartDate = StatsPostingStreakInsight.dateFormatter.date(from: longestStart),
+            let longestEnd = longestData["end"] as? String,
+            let longestEndDate = StatsPostingStreakInsight.dateFormatter.date(from: longestEnd),
+            let longestLength = longestData["length"] as? Int {
+            self.longestStreakStart = longestStartDate
+            self.longestStreakEnd = longestEndDate
+            self.longestStreakLength = longestLength
+        } else {
+            self.longestStreakStart = currentStartDate
+            self.longestStreakEnd = currentEndDate
+            self.longestStreakLength = currentLength
+        }
     }
 
     private static var dateFormatter: DateFormatter {
@@ -116,6 +123,4 @@ extension StatsPostingStreakInsight: StatsInsightData {
         return formatter
     }
 
-
-    
 }
