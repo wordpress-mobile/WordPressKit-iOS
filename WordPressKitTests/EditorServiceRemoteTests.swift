@@ -12,6 +12,8 @@ class EditorServiceRemoteTests: XCTestCase {
         editorServiceRemote = EditorServiceRemote(wordPressComRestApi: mockRemoteApi)
     }
 
+    // MARK: - POST tests
+
     func testPostDesignateMobileEditorPostMethodIsCalled() {
         editorServiceRemote.postDesignateMobileEditor(siteID, editor: .gutenberg, success: { _ in }, failure: { _ in })
         XCTAssertTrue(mockRemoteApi.postMethodCalled)
@@ -19,10 +21,7 @@ class EditorServiceRemoteTests: XCTestCase {
 
     func testPostDesignateMobileEditorSuccessSettingGutenberg() {
         let expec = expectation(description: "success")
-        let response: [String: String] = [
-            "editor_mobile": "gutenberg",
-            "editor_web": "gutenberg",
-        ]
+        let response = mockResponse(forMobile: .gutenberg, andWeb: .gutenberg)
 
         editorServiceRemote.postDesignateMobileEditor(siteID, editor: .gutenberg, success: { editor in
             XCTAssertEqual(editor.mobile, .gutenberg)
@@ -39,10 +38,7 @@ class EditorServiceRemoteTests: XCTestCase {
 
     func testPostDesignateMobileEditorSuccessSettingAztec() {
         let expec = expectation(description: "success")
-        let response: [String: String] = [
-            "editor_mobile": "aztec",
-            "editor_web": "classic",
-        ]
+        let response = mockResponse(forMobile: .aztec, andWeb: .classic)
 
         editorServiceRemote.postDesignateMobileEditor(siteID, editor: .aztec, success: { editor in
             XCTAssertEqual(editor.mobile, .aztec)
@@ -83,7 +79,6 @@ class EditorServiceRemoteTests: XCTestCase {
             "editor_mobile": "guten_BORG",
             "editor_web": "guten_WRONG",
         ]
-
         editorServiceRemote.postDesignateMobileEditor(siteID, editor: .gutenberg, success: { editor in
             XCTAssertEqual(editor.mobile, .aztec)
             XCTAssertEqual(editor.web, .classic)
@@ -111,5 +106,69 @@ class EditorServiceRemoteTests: XCTestCase {
         XCTAssertTrue(mockRemoteApi.postMethodCalled)
 
         wait(for: [expec], timeout: 0.1)
+    }
+
+    // MARK: - GET tests
+
+    func testGetEditorSettingsGutenberg() {
+        let expec = expectation(description: "success")
+        let response = mockResponse(forMobile: .gutenberg, andWeb: .gutenberg)
+
+        editorServiceRemote.getEditorSettings(siteID, success: { (editor) in
+            XCTAssertEqual(editor.mobile, .gutenberg)
+            XCTAssertEqual(editor.web, .gutenberg)
+            expec.fulfill()
+        }) { (error) in
+            XCTFail("This call should succeed. Error: \(error)")
+            expec.fulfill()
+        }
+        mockRemoteApi.successBlockPassedIn?(response as AnyObject, HTTPURLResponse())
+        XCTAssertTrue(mockRemoteApi.getMethodCalled)
+
+        wait(for: [expec], timeout: 0.1)
+    }
+
+    func testGetEditorSettingsClassic() {
+        let expec = expectation(description: "success")
+        let response = mockResponse(forMobile: .aztec, andWeb: .classic)
+
+        editorServiceRemote.getEditorSettings(siteID, success: { (editor) in
+            XCTAssertEqual(editor.mobile, .aztec)
+            XCTAssertEqual(editor.web, .classic)
+            expec.fulfill()
+        }) { (error) in
+            XCTFail("This call should succeed. Error: \(error)")
+            expec.fulfill()
+        }
+        mockRemoteApi.successBlockPassedIn?(response as AnyObject, HTTPURLResponse())
+        XCTAssertTrue(mockRemoteApi.getMethodCalled)
+
+        wait(for: [expec], timeout: 0.1)
+    }
+
+    func testGetEditorSettingsFailure() {
+        let expec = expectation(description: "success")
+        let errorExpec = NSError(domain: NSURLErrorDomain, code: NSURLErrorUnknown, userInfo: nil)
+
+        editorServiceRemote.getEditorSettings(siteID, success: { (editor) in
+            XCTFail("This call should error")
+            expec.fulfill()
+        }) { (error) in
+             XCTAssertEqual(error as NSError, errorExpec)
+            expec.fulfill()
+        }
+        mockRemoteApi.failureBlockPassedIn?(errorExpec, nil)
+        XCTAssertTrue(mockRemoteApi.getMethodCalled)
+
+        wait(for: [expec], timeout: 0.1)
+    }
+}
+
+extension EditorServiceRemoteTests {
+    func mockResponse(forMobile mobile: EditorSettings.Mobile, andWeb web: EditorSettings.Web) -> [String: String] {
+        return [
+            "editor_mobile": mobile.rawValue,
+            "editor_web": web.rawValue,
+        ]
     }
 }
