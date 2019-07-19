@@ -16,8 +16,8 @@ public struct EditorSettings {
         static let `default` = Web.classic
     }
 
-    let mobile: Mobile
-    let web: Web
+    public let mobile: Mobile
+    public let web: Web
 }
 
 extension EditorSettings {
