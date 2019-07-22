@@ -20,6 +20,12 @@ public class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
         return df
     }()
 
+    private lazy var calendarForSite: Calendar = {
+        var cal = Calendar(identifier: .iso8601)
+        cal.timeZone = siteTimezone
+        return cal
+    }()
+    
     public init(wordPressComRestApi api: WordPressComRestApi, siteID: Int, siteTimezone: TimeZone) {
         self.siteID = siteID
         self.siteTimezone = siteTimezone
@@ -198,9 +204,7 @@ extension StatsServiceRemoteV2 {
                         endingOn: Date,
                         limit: Int = 10,
                         completion: @escaping ((StatsPublishedPostsTimeIntervalData?, Error?) -> Void)) {
-
         let pathComponent = StatsLastPostInsight.pathComponent
-
         let path = self.path(forEndpoint: "sites/\(siteID)/\(pathComponent)", withVersion: ._1_1)
 
         let properties = ["number": limit,
@@ -227,21 +231,19 @@ extension StatsServiceRemoteV2 {
     private func startDate(for period: StatsPeriodUnit, endDate: Date) -> Date {
         switch  period {
         case .day:
-            return Calendar.autoupdatingCurrent.startOfDay(for: endDate)
+            return calendarForSite.startOfDay(for: endDate)
         case .week:
-            let weekAgo = Calendar.autoupdatingCurrent.date(byAdding: .day, value: -6, to: endDate)!
-            return Calendar.autoupdatingCurrent.startOfDay(for: weekAgo)
+            let weekAgo = calendarForSite.date(byAdding: .day, value: -6, to: endDate)!
+            return calendarForSite.startOfDay(for: weekAgo)
         case .month:
-            let monthAgo = Calendar.autoupdatingCurrent.date(byAdding: .month, value: -1, to: endDate)!
-            let firstOfMonth = Calendar.autoupdatingCurrent.date(bySetting: .day, value: 1, of: monthAgo)!
-
-            return Calendar.autoupdatingCurrent.startOfDay(for: firstOfMonth)
+            let monthAgo = calendarForSite.date(byAdding: .month, value: -1, to: endDate)!
+            let firstOfMonth = calendarForSite.date(bySetting: .day, value: 1, of: monthAgo)!
+            return calendarForSite.startOfDay(for: firstOfMonth)
         case .year:
-            let yearAgo = Calendar.autoupdatingCurrent.date(byAdding: .year, value: -1, to: endDate)!
-            let january = Calendar.autoupdatingCurrent.date(bySetting: .month, value: 1, of: yearAgo)!
-            let jan1 = Calendar.autoupdatingCurrent.date(bySetting: .day, value: 1, of: january)!
-
-            return Calendar.autoupdatingCurrent.startOfDay(for: jan1)
+            let yearAgo = calendarForSite.date(byAdding: .year, value: -1, to: endDate)!
+            let january = calendarForSite.date(bySetting: .month, value: 1, of: yearAgo)!
+            let jan1 = calendarForSite.date(bySetting: .day, value: 1, of: january)!
+            return calendarForSite.startOfDay(for: jan1)
         }
     }
 
