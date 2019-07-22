@@ -73,18 +73,17 @@ class EditorServiceRemoteTests: XCTestCase {
         wait(for: [expec], timeout: 0.1)
     }
 
-    func testPostDesignateMobileEditorDefaultsWithBadValueResponse() {
+    func testPostDesignateMobileEditorThrowsErrorWithBadValueResponse() {
         let expec = expectation(description: "success")
         let response: [String: String] = [
             "editor_mobile": "guten_BORG",
             "editor_web": "guten_WRONG",
         ]
         editorServiceRemote.postDesignateMobileEditor(siteID, editor: .gutenberg, success: { editor in
-            XCTAssertEqual(editor.mobile, .aztec)
-            XCTAssertEqual(editor.web, .classic)
+            XCTFail("This should throw an error")
             expec.fulfill()
         }) { (error) in
-            XCTFail("This should not error")
+            XCTAssertEqual(error as NSError, EditorSettings.Error.decodingFailed as NSError)
             expec.fulfill()
         }
         mockRemoteApi.successBlockPassedIn?(response as AnyObject, HTTPURLResponse())
@@ -116,6 +115,24 @@ class EditorServiceRemoteTests: XCTestCase {
 
         editorServiceRemote.getEditorSettings(siteID, success: { (editor) in
             XCTAssertEqual(editor.mobile, .gutenberg)
+            XCTAssertEqual(editor.web, .gutenberg)
+            expec.fulfill()
+        }) { (error) in
+            XCTFail("This call should succeed. Error: \(error)")
+            expec.fulfill()
+        }
+        mockRemoteApi.successBlockPassedIn?(response as AnyObject, HTTPURLResponse())
+        XCTAssertTrue(mockRemoteApi.getMethodCalled)
+
+        wait(for: [expec], timeout: 0.1)
+    }
+
+    func testGetEditorSettingsNotSetForMobile() {
+        let expec = expectation(description: "success")
+        let response = mockResponse(forMobile: .notSet, andWeb: .gutenberg)
+
+        editorServiceRemote.getEditorSettings(siteID, success: { (editor) in
+            XCTAssertEqual(editor.mobile, .notSet)
             XCTAssertEqual(editor.web, .gutenberg)
             expec.fulfill()
         }) { (error) in

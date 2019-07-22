@@ -4,16 +4,29 @@ private struct RemoteEditorSettings: Codable {
 }
 
 public struct EditorSettings {
+    public enum Error: Swift.Error {
+        case decodingFailed
+    }
+
+    /// Editor choosen by the user to be used on Mobile
+    ///
+    /// - gutenberg: The block editor
+    /// - aztec: The mobile "classic" editor
+    /// - notSet: The user has never saved they preference on remote
     public enum Mobile: String {
         case gutenberg
         case aztec
-        static let `default` = Mobile.aztec
+        case notSet = ""
     }
 
+
+    /// Editor choosen by the user to be used on Web
+    ///
+    /// - classic: The classic editor
+    /// - gutenberg: The block editor
     public enum Web: String {
         case classic
         case gutenberg
-        static let `default` = Web.classic
     }
 
     public let mobile: Mobile
@@ -28,12 +41,16 @@ extension EditorSettings {
 
         let data = try JSONSerialization.data(withJSONObject: response, options: .prettyPrinted)
         let editorPreferenesRemote = try JSONDecoder.apiDecoder.decode(RemoteEditorSettings.self, from: data)
-        self.init(with: editorPreferenesRemote)
+        try self.init(with: editorPreferenesRemote)
     }
 
-    private init(with remote: RemoteEditorSettings) {
-        let mobile = Mobile(rawValue: remote.editorMobile) ?? .default
-        let web = Web(rawValue: remote.editorWeb) ?? .default
+    private init(with remote: RemoteEditorSettings) throws {
+        guard
+            let mobile = Mobile(rawValue: remote.editorMobile),
+            let web = Web(rawValue: remote.editorWeb)
+        else {
+            throw Error.decodingFailed
+        }
         self = EditorSettings(mobile: mobile, web: web)
     }
 }
