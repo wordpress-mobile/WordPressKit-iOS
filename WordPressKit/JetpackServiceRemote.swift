@@ -1,19 +1,39 @@
 import Foundation
 
-public enum JetpackInstallError: String, Error {
-    case invalidCredentials = "INVALID_CREDENTIALS"
-    case forbidden = "FORBIDDEN"
-    case installFailure = "INSTALL_FAILURE"
-    case installResponseError = "INSTALL_RESPONSE_ERROR"
-    case loginFailure = "LOGIN_FAILURE"
-    case siteIsJetpack = "SITE_IS_JETPACK"
-    case activationOnInstallFailure = "ACTIVATION_ON_INSTALL_FAILURE"
-    case activationResponseError = "ACTIVATION_RESPONSE_ERROR"
-    case activationFailure = "ACTIVATION_FAILURE"
-    case unknown
-    
-    init(error key: String) {
-        self = JetpackInstallError(rawValue: key) ?? .unknown
+public struct JetpackInstallError: LocalizedError {
+    enum ErrorType: String {
+        case invalidCredentials = "INVALID_CREDENTIALS"
+        case forbidden = "FORBIDDEN"
+        case installFailure = "INSTALL_FAILURE"
+        case installResponseError = "INSTALL_RESPONSE_ERROR"
+        case loginFailure = "LOGIN_FAILURE"
+        case siteIsJetpack = "SITE_IS_JETPACK"
+        case activationOnInstallFailure = "ACTIVATION_ON_INSTALL_FAILURE"
+        case activationResponseError = "ACTIVATION_RESPONSE_ERROR"
+        case activationFailure = "ACTIVATION_FAILURE"
+        case unknown
+
+        init(error key: String) {
+            self = ErrorType(rawValue: key) ?? .unknown
+        }
+    }
+
+    var title: String?
+    var code: Int
+    var type: ErrorType
+
+    static var unknown: JetpackInstallError {
+        return JetpackInstallError(type: .unknown)
+    }
+
+    init(title: String? = nil, code: Int = 0, key: String) {
+        self.init(title: title, code: code, type: ErrorType(error: key))
+    }
+
+    init(title: String? = nil, code: Int = 0, type: ErrorType = .unknown) {
+        self.title = title
+        self.code = code
+        self.type = type
     }
 }
 
@@ -61,11 +81,11 @@ public class JetpackServiceRemote: ServiceRemoteWordPressComREST {
                                         let success = response[Constants.status] {
                                         completion(success, nil)
                                     } else {
-                                        completion(false, .installResponseError)
+                                        completion(false, JetpackInstallError(type: .installResponseError))
                                     }
         }) { (error: NSError, httpResponse: HTTPURLResponse?) in
             if let key = error.userInfo[WordPressComRestApi.ErrorKeyErrorCode] as? String {
-                completion(false, JetpackInstallError(error: key))
+                completion(false, JetpackInstallError(title: error.localizedDescription, code: error.code, key: key))
             } else {
                 completion(false, .unknown)
             }
