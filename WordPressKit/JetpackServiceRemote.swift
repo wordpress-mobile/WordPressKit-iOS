@@ -1,7 +1,7 @@
 import Foundation
 
 public struct JetpackInstallError: LocalizedError {
-    enum ErrorType: String {
+    public enum ErrorType: String {
         case invalidCredentials = "INVALID_CREDENTIALS"
         case forbidden = "FORBIDDEN"
         case installFailure = "INSTALL_FAILURE"
@@ -18,19 +18,19 @@ public struct JetpackInstallError: LocalizedError {
         }
     }
 
-    var title: String?
-    var code: Int
-    var type: ErrorType
+    public var title: String?
+    public var code: Int
+    public var type: ErrorType
 
-    static var unknown: JetpackInstallError {
+    public static var unknown: JetpackInstallError {
         return JetpackInstallError(type: .unknown)
     }
 
-    init(title: String? = nil, code: Int = 0, key: String) {
+    public init(title: String? = nil, code: Int = 0, key: String) {
         self.init(title: title, code: code, type: ErrorType(error: key))
     }
 
-    init(title: String? = nil, code: Int = 0, type: ErrorType = .unknown) {
+    public init(title: String? = nil, code: Int = 0, type: ErrorType = .unknown) {
         self.title = title
         self.code = code
         self.type = type
