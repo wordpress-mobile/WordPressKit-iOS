@@ -26,8 +26,8 @@ public struct JetpackInstallError: LocalizedError, Equatable {
         return JetpackInstallError(type: .unknown)
     }
 
-    public init(title: String? = nil, code: Int = 0, key: String) {
-        self.init(title: title, code: code, type: ErrorType(error: key))
+    public init(title: String? = nil, code: Int = 0, key: String? = nil) {
+        self.init(title: title, code: code, type: ErrorType(error: key ?? ""))
     }
 
     public init(title: String? = nil, code: Int = 0, type: ErrorType = .unknown) {
@@ -84,11 +84,11 @@ public class JetpackServiceRemote: ServiceRemoteWordPressComREST {
                                         completion(false, JetpackInstallError(type: .installResponseError))
                                     }
         }) { (error: NSError, httpResponse: HTTPURLResponse?) in
-            if let key = error.userInfo[WordPressComRestApi.ErrorKeyErrorCode] as? String {
-                completion(false, JetpackInstallError(title: error.localizedDescription, code: error.code, key: key))
-            } else {
-                completion(false, .unknown)
-            }
+            let key = error.userInfo[WordPressComRestApi.ErrorKeyErrorCode] as? String
+            let jetpackError = JetpackInstallError(title: error.localizedDescription,
+                                                   code: error.code,
+                                                   key: key)
+            completion(false, jetpackError)
         }
     }
 
