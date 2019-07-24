@@ -1,6 +1,6 @@
 import Foundation
 
-public struct JetpackInstallError: LocalizedError {
+public struct JetpackInstallError: LocalizedError, Equatable {
     public enum ErrorType: String {
         case invalidCredentials = "INVALID_CREDENTIALS"
         case forbidden = "FORBIDDEN"
