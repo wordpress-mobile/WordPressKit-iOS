@@ -9,6 +9,7 @@ public struct AccountSettings {
 
     // MARK: - Account Settings
     public let username: String    // user_login
+    public let usernameCanBeChanged: Bool // user_login_can_be_changed
     public let email: String       // user_email
     public let emailPendingAddress: String? // new_user_email
     public let emailPendingChange: Bool // user_email_change_pending
@@ -22,6 +23,7 @@ public struct AccountSettings {
                 displayName: String,
                 aboutMe: String,
                 username: String,
+                usernameCanBeChanged: Bool,
                 email: String,
                 emailPendingAddress: String?,
                 emailPendingChange: Bool,
@@ -34,6 +36,7 @@ public struct AccountSettings {
         self.displayName = displayName
         self.aboutMe = aboutMe
         self.username = username
+        self.usernameCanBeChanged = usernameCanBeChanged
         self.email = email
         self.emailPendingAddress = emailPendingAddress
         self.emailPendingChange = emailPendingChange
