@@ -62,6 +62,7 @@ class AccountSettingsRemoteTests: RemoteTestCase, RESTTestable {
         stubRemoteResponse(meSettingsEndpoint, filename: getAccountSettingsSuccessMockFilename, contentType: .ApplicationJSON)
         remote.getSettings(success: { settings in
             XCTAssertEqual(settings.username, self.username, "The usernames should be equal.")
+            XCTAssertEqual(settings.usernameCanBeChanged, false, "The usernames should be equal.")
             XCTAssertEqual(settings.email, self.email, "The email addresses should be equal.")
             XCTAssertEqual(settings.webAddress, self.userURL, "The web addresses should be equal.")
             XCTAssertEqual(settings.primarySiteID, self.siteID, "The primary site ID's should be equal.")
