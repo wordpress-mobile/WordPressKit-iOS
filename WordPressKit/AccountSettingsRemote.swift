@@ -90,6 +90,26 @@ public class AccountSettingsRemote: ServiceRemoteWordPressComREST {
                                  })
     }
 
+    /// Validate the current user's username
+    ///
+    /// - Parameters:
+    ///   - username: The new username
+    ///   - success: block for success
+    ///   - failure: block for failure
+    public func validateUsername(to username: String, success: @escaping () -> Void, failure: @escaping (Error) -> Void) {
+        let endpoint = "me/username/validate/\(username)"
+        let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
+        
+        wordPressComRestApi.GET(path,
+                                parameters: nil,
+                                success: { responseObject, httpResponse in
+                                    success()
+        },
+                                 failure: { error, httpResponse in
+                                    failure(error)
+        })
+    }
+
     public func suggestUsernames(base: String, finished: @escaping ([String]) -> Void) {
         let endpoint = "wpcom/v2/users/username/suggestions"
         let parameters = ["name": base]
