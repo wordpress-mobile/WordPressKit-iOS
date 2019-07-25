@@ -103,6 +103,9 @@ public class AccountSettingsRemote: ServiceRemoteWordPressComREST {
         wordPressComRestApi.GET(path,
                                 parameters: nil,
                                 success: { responseObject, httpResponse in
+                                    // The success block needs to be changed if
+                                    // any allowed_actions is required
+                                    // by the changeUsername API
                                     success()
         },
                                  failure: { error, httpResponse in
