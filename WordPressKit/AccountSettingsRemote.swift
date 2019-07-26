@@ -90,6 +90,29 @@ public class AccountSettingsRemote: ServiceRemoteWordPressComREST {
                                  })
     }
 
+    /// Validate the current user's username
+    ///
+    /// - Parameters:
+    ///   - username: The new username
+    ///   - success: block for success
+    ///   - failure: block for failure
+    public func validateUsername(to username: String, success: @escaping () -> Void, failure: @escaping (Error) -> Void) {
+        let endpoint = "me/username/validate/\(username)"
+        let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
+        
+        wordPressComRestApi.GET(path,
+                                parameters: nil,
+                                success: { responseObject, httpResponse in
+                                    // The success block needs to be changed if
+                                    // any allowed_actions is required
+                                    // by the changeUsername API
+                                    success()
+        },
+                                 failure: { error, httpResponse in
+                                    failure(error)
+        })
+    }
+
     public func suggestUsernames(base: String, finished: @escaping ([String]) -> Void) {
         let endpoint = "wpcom/v2/users/username/suggestions"
         let parameters = ["name": base]
@@ -131,6 +154,7 @@ public class AccountSettingsRemote: ServiceRemoteWordPressComREST {
             let displayName = response["display_name"] as? String,
             let aboutMe = response["description"] as? String,
             let username = response["user_login"] as? String,
+            let usernameCanBeChanged = response["user_login_can_be_changed"] as? Bool,
             let email = response["user_email"] as? String,
             let emailPendingAddress = response["new_user_email"] as? String?,
             let emailPendingChange = response["user_email_change_pending"] as? Bool,
@@ -149,6 +173,7 @@ public class AccountSettingsRemote: ServiceRemoteWordPressComREST {
                                displayName: displayName,
                                aboutMe: aboutMeText!,
                                username: username,
+                               usernameCanBeChanged: usernameCanBeChanged,
                                email: email,
                                emailPendingAddress: emailPendingAddress,
                                emailPendingChange: emailPendingChange,
