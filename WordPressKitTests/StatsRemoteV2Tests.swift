@@ -20,6 +20,7 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
     let getVisitsMonthMockFilename = "stats-visits-month.json"
     let getPostsMockFilename = "stats-posts-data.json"
     let getPublishedPostsFilename = "stats-published-posts.json"
+    let getDownloadsDataFilename = "stats-file-downloads.json"
     let getPostsDetailsFilename = "stats-post-details.json"
 
     // MARK: - Properties
@@ -34,8 +35,8 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
     var siteVisitsDataEndpoint: String { return "sites/\(siteID)/stats/visits/" }
     var sitePostsDataEndpoint: String { return "sites/\(siteID)/stats/top-posts/" }
     var sitePublishedPostsEndpoint: String { return "sites/\(siteID)/posts/" }
+    var siteDownloadsDataEndpoint: String { return "sites/\(siteID)/stats/file-downloads/" }
     var sitePostDetailsEndpoint: String { return "sites/\(siteID)/stats/post/9001" }
-
 
     var remote: StatsServiceRemoteV2!
 
@@ -364,7 +365,35 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
 
         waitForExpectations(timeout: timeout, handler: nil)
     }
-  
+
+    func testFetchDownloadsData() {
+
+        // TODO: update with real data once endpoint is live
+
+        let expect = expectation(description: "It should return file download data for a month")
+        
+        let dateComponents = DateComponents(year: 2019, month: 7, day: 29)
+        let date = Calendar.autoupdatingCurrent.date(from: dateComponents)!
+
+        stubRemoteResponse(siteDownloadsDataEndpoint, filename: getDownloadsDataFilename, contentType: .ApplicationJSON)
+
+        remote.getData(for: .month, endingOn: date) { (fileDownloads: StatsFileDownloadsTimeIntervalData?, error: Error?) in
+            XCTAssertNil(error)
+            XCTAssertNotNil(fileDownloads)
+
+            XCTAssertEqual(fileDownloads?.otherDownloadsCount, 0)
+            XCTAssertEqual(fileDownloads?.totalDownloadsCount, 0)
+
+            XCTAssertEqual(fileDownloads?.fileDownloads.count, 0)
+//            XCTAssertEqual(fileDownloads?.fileDownloads.first!.file, "")
+//            XCTAssertEqual(fileDownloads?.fileDownloads.first!.downloadCount, 666)
+
+            expect.fulfill()
+        }
+
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+    
   func testVisitsForDay() {
         let expect = expectation(description: "It should return visits data for a day")
 

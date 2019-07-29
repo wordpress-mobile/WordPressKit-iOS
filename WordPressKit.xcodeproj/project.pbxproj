@@ -423,6 +423,8 @@
 		93F50A441F227CFB00B5BEBA /* UsersServiceRemoteXMLRPCTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F50A431F227CFB00B5BEBA /* UsersServiceRemoteXMLRPCTests.swift */; };
 		93F50A471F227F3600B5BEBA /* xmlrpc-response-getprofile.xml in Resources */ = {isa = PBXBuildFile; fileRef = 93F50A451F227F3600B5BEBA /* xmlrpc-response-getprofile.xml */; };
 		93F50A481F227F3600B5BEBA /* xmlrpc-response-valid-but-unexpected-dictionary.xml in Resources */ = {isa = PBXBuildFile; fileRef = 93F50A461F227F3600B5BEBA /* xmlrpc-response-valid-but-unexpected-dictionary.xml */; };
+		984E34EB22EF7209005C3F92 /* StatsFileDownloadsTimeIntervalData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 984E34EA22EF7209005C3F92 /* StatsFileDownloadsTimeIntervalData.swift */; };
+		984E34F422EF9465005C3F92 /* stats-file-downloads.json in Resources */ = {isa = PBXBuildFile; fileRef = 984E34F322EF9464005C3F92 /* stats-file-downloads.json */; };
 		98DC787522BAEBF200267279 /* StatsAllAnnualInsight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98DC787422BAEBF100267279 /* StatsAllAnnualInsight.swift */; };
 		9A2D0B28225E0119009E585F /* JetpackServiceRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2D0B27225E0119009E585F /* JetpackServiceRemote.swift */; };
 		9A2D0B2B225E0E22009E585F /* JetpackServiceRemoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2D0B2A225E0E22009E585F /* JetpackServiceRemoteTests.swift */; };
@@ -945,6 +947,8 @@
 		93F50A431F227CFB00B5BEBA /* UsersServiceRemoteXMLRPCTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UsersServiceRemoteXMLRPCTests.swift; sourceTree = "<group>"; };
 		93F50A451F227F3600B5BEBA /* xmlrpc-response-getprofile.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "xmlrpc-response-getprofile.xml"; sourceTree = "<group>"; };
 		93F50A461F227F3600B5BEBA /* xmlrpc-response-valid-but-unexpected-dictionary.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "xmlrpc-response-valid-but-unexpected-dictionary.xml"; sourceTree = "<group>"; };
+		984E34EA22EF7209005C3F92 /* StatsFileDownloadsTimeIntervalData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatsFileDownloadsTimeIntervalData.swift; sourceTree = "<group>"; };
+		984E34F322EF9464005C3F92 /* stats-file-downloads.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "stats-file-downloads.json"; sourceTree = "<group>"; };
 		98DC787422BAEBF100267279 /* StatsAllAnnualInsight.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatsAllAnnualInsight.swift; sourceTree = "<group>"; };
 		9A2D0B27225E0119009E585F /* JetpackServiceRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JetpackServiceRemote.swift; sourceTree = "<group>"; };
 		9A2D0B2A225E0E22009E585F /* JetpackServiceRemoteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JetpackServiceRemoteTests.swift; sourceTree = "<group>"; };
@@ -1078,15 +1082,16 @@
 		404057C3221B30140060250C /* Time Interval */ = {
 			isa = PBXGroup;
 			children = (
-				404057C4221B30400060250C /* StatsSearchTermTimeIntervalData.swift */,
-				404057C8221B789B0060250C /* StatsTopAuthorsTimeIntervalData.swift */,
-				4081976E221DDE9B00A298E4 /* StatsTopPostsTimeIntervalData.swift */,
-				404057CD221C38130060250C /* StatsTopVideosTimeIntervalData.swift */,
-				404057D1221C56AB0060250C /* StatsTopCountryTimeIntervalData.swift */,
-				404057D5221C92660060250C /* StatsTopClicksTimeIntervalData.swift */,
-				404057D9221C9D560060250C /* StatsTopReferrersTimeIntervalData.swift */,
-				40819777221F00E600A298E4 /* StatsSummaryTimeIntervalData.swift */,
+				984E34EA22EF7209005C3F92 /* StatsFileDownloadsTimeIntervalData.swift */,
 				40819772221E10C900A298E4 /* StatsPublishedPostsTimeIntervalData.swift */,
+				404057C4221B30400060250C /* StatsSearchTermTimeIntervalData.swift */,
+				40819777221F00E600A298E4 /* StatsSummaryTimeIntervalData.swift */,
+				404057C8221B789B0060250C /* StatsTopAuthorsTimeIntervalData.swift */,
+				404057D5221C92660060250C /* StatsTopClicksTimeIntervalData.swift */,
+				404057D1221C56AB0060250C /* StatsTopCountryTimeIntervalData.swift */,
+				4081976E221DDE9B00A298E4 /* StatsTopPostsTimeIntervalData.swift */,
+				404057D9221C9D560060250C /* StatsTopReferrersTimeIntervalData.swift */,
+				404057CD221C38130060250C /* StatsTopVideosTimeIntervalData.swift */,
 			);
 			path = "Time Interval";
 			sourceTree = "<group>";
@@ -1631,6 +1636,7 @@
 				404057CA221B80BC0060250C /* stats-top-authors.json */,
 				40F9880D221ACFB400B7B369 /* stats-streak-result.json */,
 				404057C6221B36070060250C /* stats-search-term-result.json */,
+				984E34F322EF9464005C3F92 /* stats-file-downloads.json */,
 				826016F61F9FAF6300533B6C /* activity-log-auth-failure.json */,
 				826016F81F9FAF6300533B6C /* activity-log-bad-json-failure.json */,
 				826016F51F9FAF6300533B6C /* activity-log-success-1.json */,
@@ -2184,6 +2190,7 @@
 				7403A2F91EF06FEB00DED7DC /* me-settings-change-email-success.json in Resources */,
 				439A44DC2107CE3C00795ED7 /* site-plans-v3-empty-failure.json in Resources */,
 				9AB6D64F218731AB0008F274 /* post-revisions-failure.json in Resources */,
+				984E34F422EF9465005C3F92 /* stats-file-downloads.json in Resources */,
 				93F50A3C1F226C0100B5BEBA /* WordPressComRestApiFailThrottled.json in Resources */,
 				740B23ED1F17FB7E00067A2A /* xmlrpc-bad-username-password-error.xml in Resources */,
 				9A881754223C01E400A3AB20 /* jetpack-service-error-activation-install.json in Resources */,
@@ -2486,6 +2493,7 @@
 				93188D1F1F2262BF0028ED4D /* RemotePostTag.m in Sources */,
 				9368C7BC1EC630270092CE8E /* StatsVisits.m in Sources */,
 				74D67F081F15BEB70010C5ED /* RemotePerson.swift in Sources */,
+				984E34EB22EF7209005C3F92 /* StatsFileDownloadsTimeIntervalData.swift in Sources */,
 				40AB1ADA200FED25009B533D /* PluginDirectoryFeedPage.swift in Sources */,
 				436D56352118D85800CEAA33 /* Country.swift in Sources */,
 				74A44DCB1F13C533006CD8F4 /* NotificationSettingsServiceRemote.swift in Sources */,
