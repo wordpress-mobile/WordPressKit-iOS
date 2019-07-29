@@ -277,10 +277,13 @@
 		74FC6F411F191C1D00112505 /* notifications-last-seen.json in Resources */ = {isa = PBXBuildFile; fileRef = 74FC6F3D1F191C1D00112505 /* notifications-last-seen.json */; };
 		74FC6F421F191C1D00112505 /* notifications-load-hash.json in Resources */ = {isa = PBXBuildFile; fileRef = 74FC6F3E1F191C1D00112505 /* notifications-load-hash.json */; };
 		74FC6F431F191C1D00112505 /* notifications-load-all.json in Resources */ = {isa = PBXBuildFile; fileRef = 74FC6F3F1F191C1D00112505 /* notifications-load-all.json */; };
+		7E0D64FF22D855700092AD10 /* EditorServiceRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E0D64FE22D855700092AD10 /* EditorServiceRemote.swift */; };
 		7E3E7A4520E443060075D159 /* NSAttributedString+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3E7A4420E443050075D159 /* NSAttributedString+extensions.swift */; };
 		7E3E7A4820E443370075D159 /* NSMutableAttributedString+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3E7A4720E443370075D159 /* NSMutableAttributedString+extensions.swift */; };
 		7E3E7A4A20E443890075D159 /* Scanner+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3E7A4920E443890075D159 /* Scanner+extensions.swift */; };
 		7E3E7A4C20E443AA0075D159 /* NSMutableParagraphStyle+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3E7A4B20E443AA0075D159 /* NSMutableParagraphStyle+extensions.swift */; };
+		7EC60EBE22DC4F9000FB0336 /* EditorServiceRemoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EC60EBD22DC4F9000FB0336 /* EditorServiceRemoteTests.swift */; };
+		7EC60EC022DC5D7C00FB0336 /* EditorSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EC60EBF22DC5D7C00FB0336 /* EditorSettings.swift */; };
 		8236EB4D2024B9F8007C7CF9 /* RemoteBlogJetpackModulesSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8236EB4C2024B9F8007C7CF9 /* RemoteBlogJetpackModulesSettings.swift */; };
 		826016F11F9FA13A00533B6C /* ActivityServiceRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826016F01F9FA13A00533B6C /* ActivityServiceRemote.swift */; };
 		826016F31F9FA17B00533B6C /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826016F21F9FA17B00533B6C /* Activity.swift */; };
@@ -792,10 +795,13 @@
 		74FC6F3D1F191C1D00112505 /* notifications-last-seen.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "notifications-last-seen.json"; sourceTree = "<group>"; };
 		74FC6F3E1F191C1D00112505 /* notifications-load-hash.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "notifications-load-hash.json"; sourceTree = "<group>"; };
 		74FC6F3F1F191C1D00112505 /* notifications-load-all.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "notifications-load-all.json"; sourceTree = "<group>"; };
+		7E0D64FE22D855700092AD10 /* EditorServiceRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorServiceRemote.swift; sourceTree = "<group>"; };
 		7E3E7A4420E443050075D159 /* NSAttributedString+extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+extensions.swift"; sourceTree = "<group>"; };
 		7E3E7A4720E443370075D159 /* NSMutableAttributedString+extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+extensions.swift"; sourceTree = "<group>"; };
 		7E3E7A4920E443890075D159 /* Scanner+extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Scanner+extensions.swift"; sourceTree = "<group>"; };
 		7E3E7A4B20E443AA0075D159 /* NSMutableParagraphStyle+extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableParagraphStyle+extensions.swift"; sourceTree = "<group>"; };
+		7EC60EBD22DC4F9000FB0336 /* EditorServiceRemoteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorServiceRemoteTests.swift; sourceTree = "<group>"; };
+		7EC60EBF22DC5D7C00FB0336 /* EditorSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorSettings.swift; sourceTree = "<group>"; };
 		8236EB4C2024B9F8007C7CF9 /* RemoteBlogJetpackModulesSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteBlogJetpackModulesSettings.swift; sourceTree = "<group>"; };
 		826016F01F9FA13A00533B6C /* ActivityServiceRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityServiceRemote.swift; sourceTree = "<group>"; };
 		826016F21F9FA17B00533B6C /* Activity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Activity.swift; sourceTree = "<group>"; };
@@ -1239,6 +1245,14 @@
 			name = Extensions;
 			sourceTree = "<group>";
 		};
+		7EC60EBC22DC4F5A00FB0336 /* Editor */ = {
+			isa = PBXGroup;
+			children = (
+				7EC60EBD22DC4F9000FB0336 /* EditorServiceRemoteTests.swift */,
+			);
+			name = Editor;
+			sourceTree = "<group>";
+		};
 		826016FE1F9FD59400533B6C /* Activity */ = {
 			isa = PBXGroup;
 			children = (
@@ -1293,6 +1307,7 @@
 				826016FE1F9FD59400533B6C /* Activity */,
 				74B5F0DF1EF82AAB00B411E7 /* Blog */,
 				74585B911F0D520700E7E667 /* Domains */,
+				7EC60EBC22DC4F5A00FB0336 /* Editor */,
 				9A2D0B29225E0DF7009E585F /* Jetpack */,
 				74FA25F81F1FDA240044BC54 /* Media */,
 				74D97CB91F1CF6E200AC49B7 /* Menu */,
@@ -1418,6 +1433,7 @@
 				74A44DC81F13C533006CD8F4 /* NotificationSettingsServiceRemote.swift */,
 				74A44DC91F13C533006CD8F4 /* NotificationSyncServiceRemote.swift */,
 				74D67F051F1528470010C5ED /* PeopleServiceRemote.swift */,
+				7E0D64FE22D855700092AD10 /* EditorServiceRemote.swift */,
 				7433BBFF1EFC4505002D9E92 /* PlanServiceRemote.swift */,
 				439A44D72107C85E00795ED7 /* PlanServiceRemote_ApiVersion1_3.swift */,
 				439A44D52107C66A00795ED7 /* JSONDecoderExtension.swift */,
@@ -1484,6 +1500,7 @@
 				9AF4F2FD2183345D00570E4B /* Revisions */,
 				930F52B91ECF8A44002F921B /* Stats */,
 				7403A3011EF0726E00DED7DC /* AccountSettings.swift */,
+				7EC60EBF22DC5D7C00FB0336 /* EditorSettings.swift */,
 				74E229591F1E77290085F7F2 /* KeyringConnection.swift */,
 				74E2295A1F1E77290085F7F2 /* KeyringConnectionExternalUser.swift */,
 				40247DFB2120E69600AE1C3C /* AutomatedTransferStatus.swift */,
@@ -2432,6 +2449,7 @@
 				93F50A381F226B9300B5BEBA /* WordPressComServiceRemote.m in Sources */,
 				9F4E52002088E38200424676 /* ObjectValidation.swift in Sources */,
 				7430C9B81F1927C50051B8E6 /* RemoteReaderTopic.m in Sources */,
+				7EC60EC022DC5D7C00FB0336 /* EditorSettings.swift in Sources */,
 				7403A3021EF0726E00DED7DC /* AccountSettings.swift in Sources */,
 				40E7FEA9220FA4060032834E /* StatsEmailFollowersInsight.swift in Sources */,
 				404057DA221C9D560060250C /* StatsTopReferrersTimeIntervalData.swift in Sources */,
@@ -2472,6 +2490,7 @@
 				436D56352118D85800CEAA33 /* Country.swift in Sources */,
 				74A44DCB1F13C533006CD8F4 /* NotificationSettingsServiceRemote.swift in Sources */,
 				404057CE221C38130060250C /* StatsTopVideosTimeIntervalData.swift in Sources */,
+				7E0D64FF22D855700092AD10 /* EditorServiceRemote.swift in Sources */,
 				E182BF6A1FD961810001D850 /* Endpoint.swift in Sources */,
 				9AF4F2FF2183346B00570E4B /* RemoteRevision.swift in Sources */,
 				74BA04F41F06DC0A00ED5CD8 /* CommentServiceRemoteREST.m in Sources */,
@@ -2581,6 +2600,7 @@
 				74C473AF1EF2F7D1009918F2 /* SiteManagementServiceRemoteTests.swift in Sources */,
 				74A44DD51F13C6D8006CD8F4 /* PushAuthenticationServiceRemoteTests.swift in Sources */,
 				731BA83621DECD61000FDFCD /* SiteCreationRequestEncodingTests.swift in Sources */,
+				7EC60EBE22DC4F9000FB0336 /* EditorServiceRemoteTests.swift in Sources */,
 				931924241F1662FA0069CBCC /* JSONLoader.swift in Sources */,
 				93AC8EE21ED32FD000900F5A /* WPStatsServiceRemoteTests.m in Sources */,
 				E1787DB2200E5690004CB3AF /* TimeZoneServiceRemoteTests.swift in Sources */,
