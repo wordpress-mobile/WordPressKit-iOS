@@ -134,7 +134,7 @@ class JetpackServiceRemoteTests: RemoteTestCase, RESTTestable {
         stubRemoteResponse(endpoint, filename: jetpackRemoteErrorInvalidCredentialsMockFilename, contentType: .ApplicationJSON, status: 400)
         remote.installJetpack(url: url, username: username, password: password) { (success, error) in
             XCTAssertFalse(success, "Success should be false")
-            XCTAssertEqual(error, .invalidCredentials)
+            XCTAssertEqual(error?.type, .invalidCredentials)
             expect.fulfill()
         }
         
@@ -147,7 +147,7 @@ class JetpackServiceRemoteTests: RemoteTestCase, RESTTestable {
         stubRemoteResponse(endpoint, filename: jetpackRemoteErrorUnknownMockFilename, contentType: .ApplicationJSON, status: 400)
         remote.installJetpack(url: url, username: username, password: password) { (success, error) in
             XCTAssertFalse(success, "Success should be false")
-            XCTAssertEqual(error, .unknown)
+            XCTAssertEqual(error?.type, .unknown)
             expect.fulfill()
         }
         
@@ -160,7 +160,7 @@ class JetpackServiceRemoteTests: RemoteTestCase, RESTTestable {
         stubRemoteResponse(endpoint, filename: jetpackRemoteErrorForbiddenMockFilename, contentType: .ApplicationJSON, status: 400)
         remote.installJetpack(url: url, username: username, password: password) { (success, error) in
             XCTAssertFalse(success, "Success should be false")
-            XCTAssertEqual(error, .forbidden)
+            XCTAssertEqual(error?.type, .forbidden)
             expect.fulfill()
         }
         
@@ -173,7 +173,7 @@ class JetpackServiceRemoteTests: RemoteTestCase, RESTTestable {
         stubRemoteResponse(endpoint, filename: jetpackRemoteErrorInstallFailureMockFilename, contentType: .ApplicationJSON, status: 400)
         remote.installJetpack(url: url, username: username, password: password) { (success, error) in
             XCTAssertFalse(success, "Success should be false")
-            XCTAssertEqual(error, .installFailure)
+            XCTAssertEqual(error?.type, .installFailure)
             expect.fulfill()
         }
         
@@ -186,7 +186,7 @@ class JetpackServiceRemoteTests: RemoteTestCase, RESTTestable {
         stubRemoteResponse(endpoint, filename: jetpackRemoteErrorInstallResponseMockFilename, contentType: .ApplicationJSON, status: 400)
         remote.installJetpack(url: url, username: username, password: password) { (success, error) in
             XCTAssertFalse(success, "Success should be false")
-            XCTAssertEqual(error, .installResponseError)
+            XCTAssertEqual(error?.type, .installResponseError)
             expect.fulfill()
         }
         
@@ -199,7 +199,7 @@ class JetpackServiceRemoteTests: RemoteTestCase, RESTTestable {
         stubRemoteResponse(endpoint, filename: jetpackRemoteErrorLoginFailureMockFilename, contentType: .ApplicationJSON, status: 400)
         remote.installJetpack(url: url, username: username, password: password) { (success, error) in
             XCTAssertFalse(success, "Success should be false")
-            XCTAssertEqual(error, .loginFailure)
+            XCTAssertEqual(error?.type, .loginFailure)
             expect.fulfill()
         }
         
@@ -212,7 +212,7 @@ class JetpackServiceRemoteTests: RemoteTestCase, RESTTestable {
         stubRemoteResponse(endpoint, filename: jetpackRemoteErrorSiteIsJetpackMockFilename, contentType: .ApplicationJSON, status: 400)
         remote.installJetpack(url: url, username: username, password: password) { (success, error) in
             XCTAssertFalse(success, "Success should be false")
-            XCTAssertEqual(error, .siteIsJetpack)
+            XCTAssertEqual(error?.type, .siteIsJetpack)
             expect.fulfill()
         }
         
@@ -225,7 +225,7 @@ class JetpackServiceRemoteTests: RemoteTestCase, RESTTestable {
         stubRemoteResponse(endpoint, filename: jetpackRemoteErrorActivationInstallMockFilename, contentType: .ApplicationJSON, status: 400)
         remote.installJetpack(url: url, username: username, password: password) { (success, error) in
             XCTAssertFalse(success, "Success should be false")
-            XCTAssertEqual(error, .activationOnInstallFailure)
+            XCTAssertEqual(error?.type, .activationOnInstallFailure)
             expect.fulfill()
         }
         
@@ -238,7 +238,7 @@ class JetpackServiceRemoteTests: RemoteTestCase, RESTTestable {
         stubRemoteResponse(endpoint, filename: jetpackRemoteErrorActivationResponseMockFilename, contentType: .ApplicationJSON, status: 400)
         remote.installJetpack(url: url, username: username, password: password) { (success, error) in
             XCTAssertFalse(success, "Success should be false")
-            XCTAssertEqual(error, .activationResponseError)
+            XCTAssertEqual(error?.type, .activationResponseError)
             expect.fulfill()
         }
         
@@ -251,7 +251,7 @@ class JetpackServiceRemoteTests: RemoteTestCase, RESTTestable {
         stubRemoteResponse(endpoint, filename: jetpackRemoteErrorActivationFailureMockFilename, contentType: .ApplicationJSON, status: 400)
         remote.installJetpack(url: url, username: username, password: password) { (success, error) in
             XCTAssertFalse(success, "Success should be false")
-            XCTAssertEqual(error, .activationFailure)
+            XCTAssertEqual(error?.type, .activationFailure)
             expect.fulfill()
         }
         
