@@ -385,8 +385,10 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
             XCTAssertEqual(fileDownloads?.totalDownloadsCount, 0)
 
             XCTAssertEqual(fileDownloads?.fileDownloads.count, 0)
-//            XCTAssertEqual(fileDownloads?.fileDownloads.first!.file, "")
-//            XCTAssertEqual(fileDownloads?.fileDownloads.first!.downloadCount, 666)
+            
+            // TODO: enable these (with valid tests) when endpoint is live
+            // XCTAssertEqual(fileDownloads?.fileDownloads.first!.file, "")
+            // XCTAssertEqual(fileDownloads?.fileDownloads.first!.downloadCount, 666)
 
             expect.fulfill()
         }
