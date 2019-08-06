@@ -367,9 +367,6 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
     }
 
     func testFetchDownloadsData() {
-
-        // TODO: update with real data once endpoint is live
-
         let expect = expectation(description: "It should return file download data for a month")
         
         let dateComponents = DateComponents(year: 2019, month: 7, day: 29)
@@ -382,13 +379,12 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
             XCTAssertNotNil(fileDownloads)
 
             XCTAssertEqual(fileDownloads?.otherDownloadsCount, 0)
-            XCTAssertEqual(fileDownloads?.totalDownloadsCount, 0)
+            XCTAssertEqual(fileDownloads?.totalDownloadsCount, 15)
 
-            XCTAssertEqual(fileDownloads?.fileDownloads.count, 0)
+            XCTAssertEqual(fileDownloads?.fileDownloads.count, 2)
             
-            // TODO: enable these (with valid tests) when endpoint is live
-            // XCTAssertEqual(fileDownloads?.fileDownloads.first!.file, "")
-            // XCTAssertEqual(fileDownloads?.fileDownloads.first!.downloadCount, 666)
+            XCTAssertEqual(fileDownloads?.fileDownloads.first!.file, "/2019/07/test.pdf")
+            XCTAssertEqual(fileDownloads?.fileDownloads.first!.downloadCount, 11)
 
             expect.fulfill()
         }
