@@ -49,8 +49,7 @@ extension StatsFileDownloadsTimeIntervalData: StatsTimeIntervalData {
         }
         
         let fileDownloads: [StatsFileDownload] = fileDownloadsDict.compactMap {
-            // TODO: these keys are a total guess. Verify/update when the endpoint is actually live.
-            guard let file = $0["file"] as? String, let downloads = $0["downloads"] as? Int else {
+            guard let file = $0["filename"] as? String, let downloads = $0["downloads"] as? Int else {
                 return nil
             }
             
