@@ -18,17 +18,25 @@ public class EditorServiceRemote: ServiceRemoteWordPressComREST {
         }
     }
 
-    public func postDesignateMobileEditorForAllSites(_ editor: EditorSettings.Mobile, success: @escaping () -> Void, failure: @escaping (Error) -> Void) {
+    public func postDesignateMobileEditorForAllSites(_ editor: EditorSettings.Mobile, setOnlyIfEmptu: Bool = true, success: @escaping ([Int: EditorSettings.Mobile]) -> Void, failure: @escaping (Error) -> Void) {
         let endpoint = "me/gutenberg"
         let path = self.path(forEndpoint: endpoint, withVersion: ._2_0)
 
         let parameters = [
             "platform": "mobile",
             "editor": editor.rawValue,
+            "set_only_if_empty": setOnlyIfEmptu,
         ] as [String: AnyObject]
 
         wordPressComRestApi.POST(path, parameters: parameters, success: { (responseObject, httpResponse) in
-            success()
+            guard let response = responseObject as? [Int: String] else {
+                if let boolResponse = responseObject as? Bool, boolResponse == false {
+                    return failure(EditorSettings.Error.badRequest)
+                }
+                return failure(EditorSettings.Error.badResponse)
+            }
+            let mappedResponse = response.compactMapValues(EditorSettings.Mobile.init)
+            success(mappedResponse)
         }) { (error, httpError) in
             failure(error)
         }

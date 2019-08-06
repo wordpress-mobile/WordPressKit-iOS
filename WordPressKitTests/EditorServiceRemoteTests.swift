@@ -180,13 +180,52 @@ class EditorServiceRemoteTests: XCTestCase {
         wait(for: [expec], timeout: 0.1)
     }
 
-    func testPostDesignateMobileEditorForAllSites() {
+    func testPostDesignateGutenbergMobileEditorForAllSites() {
         let expec = expectation(description: "success")
+        let editor = EditorSettings.Mobile.gutenberg
 
         //TODO: Response not yet clear
-        let response = [String: AnyObject]()
+        let response: [Int: String] = [
+            1: editor.rawValue,
+            2: editor.rawValue,
+        ]
 
-        editorServiceRemote.postDesignateMobileEditorForAllSites(.gutenberg, success: {
+        let expected: [Int: EditorSettings.Mobile] = [
+            1: editor,
+            2: editor
+        ]
+
+        editorServiceRemote.postDesignateMobileEditorForAllSites(editor, success: {
+            XCTAssertEqual($0, expected)
+            expec.fulfill()
+        }) { (error) in
+            XCTFail("This call should error")
+            expec.fulfill()
+        }
+
+        mockRemoteApi.successBlockPassedIn?(response as AnyObject, HTTPURLResponse())
+        XCTAssertTrue(mockRemoteApi.postMethodCalled)
+
+        wait(for: [expec], timeout: 0.1)
+    }
+
+    func testPostDesignateAztecMobileEditorForAllSites() {
+        let expec = expectation(description: "success")
+        let editor = EditorSettings.Mobile.aztec
+
+        //TODO: Response not yet clear
+        let response: [Int: String] = [
+            1: editor.rawValue,
+            2: editor.rawValue,
+        ]
+
+        let expected: [Int: EditorSettings.Mobile] = [
+            1: editor,
+            2: editor
+        ]
+
+        editorServiceRemote.postDesignateMobileEditorForAllSites(editor, success: {
+            XCTAssertEqual($0, expected)
             expec.fulfill()
         }) { (error) in
             XCTFail("This call should error")
