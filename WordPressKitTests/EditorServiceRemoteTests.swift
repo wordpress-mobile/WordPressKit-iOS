@@ -179,6 +179,25 @@ class EditorServiceRemoteTests: XCTestCase {
 
         wait(for: [expec], timeout: 0.1)
     }
+
+    func testPostDesignateMobileEditorForAllSites() {
+        let expec = expectation(description: "success")
+
+        //TODO: Response not yet clear
+        let response = [String: AnyObject]()
+
+        editorServiceRemote.postDesignateMobileEditorForAllSites(.gutenberg, success: {
+            expec.fulfill()
+        }) { (error) in
+            XCTFail("This call should error")
+            expec.fulfill()
+        }
+
+        mockRemoteApi.successBlockPassedIn?(response as AnyObject, HTTPURLResponse())
+        XCTAssertTrue(mockRemoteApi.postMethodCalled)
+
+        wait(for: [expec], timeout: 0.1)
+    }
 }
 
 extension EditorServiceRemoteTests {
