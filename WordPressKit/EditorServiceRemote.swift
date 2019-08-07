@@ -25,7 +25,7 @@ public class EditorServiceRemote: ServiceRemoteWordPressComREST {
         let parameters = [
             "platform": "mobile",
             "editor": editor.rawValue,
-            "set_only_if_empty": setOnlyIfEmptu,
+            "set_only_if_empty": setOnlyIfEmpty,
         ] as [String: AnyObject]
 
         wordPressComRestApi.POST(path, parameters: parameters, success: { (responseObject, httpResponse) in
