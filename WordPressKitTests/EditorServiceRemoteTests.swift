@@ -184,10 +184,9 @@ class EditorServiceRemoteTests: XCTestCase {
         let expec = expectation(description: "success")
         let editor = EditorSettings.Mobile.gutenberg
 
-        //TODO: Response not yet clear
-        let response: [Int: String] = [
-            1: editor.rawValue,
-            2: editor.rawValue,
+        let response: [String: String] = [
+            "1": editor.rawValue,
+            "2": editor.rawValue,
         ]
 
         let expected: [Int: EditorSettings.Mobile] = [
@@ -199,7 +198,7 @@ class EditorServiceRemoteTests: XCTestCase {
             XCTAssertEqual($0, expected)
             expec.fulfill()
         }) { (error) in
-            XCTFail("This call should error")
+            XCTFail("This call should NOT error")
             expec.fulfill()
         }
 
@@ -213,10 +212,9 @@ class EditorServiceRemoteTests: XCTestCase {
         let expec = expectation(description: "success")
         let editor = EditorSettings.Mobile.aztec
 
-        //TODO: Response not yet clear
-        let response: [Int: String] = [
-            1: editor.rawValue,
-            2: editor.rawValue,
+        let response: [String: String] = [
+            "1": editor.rawValue,
+            "2": editor.rawValue,
         ]
 
         let expected: [Int: EditorSettings.Mobile] = [
@@ -228,7 +226,7 @@ class EditorServiceRemoteTests: XCTestCase {
             XCTAssertEqual($0, expected)
             expec.fulfill()
         }) { (error) in
-            XCTFail("This call should error")
+            XCTFail("This call should NOT error")
             expec.fulfill()
         }
 

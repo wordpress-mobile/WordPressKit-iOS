@@ -29,13 +29,18 @@ public class EditorServiceRemote: ServiceRemoteWordPressComREST {
         ] as [String: AnyObject]
 
         wordPressComRestApi.POST(path, parameters: parameters, success: { (responseObject, httpResponse) in
-            guard let response = responseObject as? [Int: String] else {
+            guard let response = responseObject as? [String: String] else {
                 if let boolResponse = responseObject as? Bool, boolResponse == false {
                     return failure(EditorSettings.Error.badRequest)
                 }
                 return failure(EditorSettings.Error.badResponse)
             }
-            let mappedResponse = response.compactMapValues(EditorSettings.Mobile.init)
+
+            let mappedResponse = response.reduce(into: [Int: EditorSettings.Mobile](), { (result, response) in
+                if let id = Int(response.key), let editor = EditorSettings.Mobile(rawValue: response.value) {
+                    result[id] = editor
+                }
+            })
             success(mappedResponse)
         }) { (error, httpError) in
             failure(error)
