@@ -18,7 +18,7 @@ public class EditorServiceRemote: ServiceRemoteWordPressComREST {
         }
     }
 
-    public func postDesignateMobileEditorForAllSites(_ editor: EditorSettings.Mobile, setOnlyIfEmptu: Bool = true, success: @escaping ([Int: EditorSettings.Mobile]) -> Void, failure: @escaping (Error) -> Void) {
+    public func postDesignateMobileEditorForAllSites(_ editor: EditorSettings.Mobile, setOnlyIfEmpty: Bool = true, success: @escaping ([Int: EditorSettings.Mobile]) -> Void, failure: @escaping (Error) -> Void) {
         let endpoint = "me/gutenberg"
         let path = self.path(forEndpoint: endpoint, withVersion: ._2_0)
 
