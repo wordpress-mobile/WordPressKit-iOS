@@ -6,6 +6,9 @@ private struct RemoteEditorSettings: Codable {
 public struct EditorSettings {
     public enum Error: Swift.Error {
         case decodingFailed
+        case unknownEditor(String)
+        case badRequest
+        case badResponse
     }
 
     /// Editor choosen by the user to be used on Mobile

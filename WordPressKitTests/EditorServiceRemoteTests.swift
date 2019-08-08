@@ -179,6 +179,62 @@ class EditorServiceRemoteTests: XCTestCase {
 
         wait(for: [expec], timeout: 0.1)
     }
+
+    func testPostDesignateGutenbergMobileEditorForAllSites() {
+        let expec = expectation(description: "success")
+        let editor = EditorSettings.Mobile.gutenberg
+
+        let response: [String: String] = [
+            "1": editor.rawValue,
+            "2": editor.rawValue,
+        ]
+
+        let expected: [Int: EditorSettings.Mobile] = [
+            1: editor,
+            2: editor
+        ]
+
+        editorServiceRemote.postDesignateMobileEditorForAllSites(editor, success: {
+            XCTAssertEqual($0, expected)
+            expec.fulfill()
+        }) { (error) in
+            XCTFail("This call should NOT error")
+            expec.fulfill()
+        }
+
+        mockRemoteApi.successBlockPassedIn?(response as AnyObject, HTTPURLResponse())
+        XCTAssertTrue(mockRemoteApi.postMethodCalled)
+
+        wait(for: [expec], timeout: 0.1)
+    }
+
+    func testPostDesignateAztecMobileEditorForAllSites() {
+        let expec = expectation(description: "success")
+        let editor = EditorSettings.Mobile.aztec
+
+        let response: [String: String] = [
+            "1": editor.rawValue,
+            "2": editor.rawValue,
+        ]
+
+        let expected: [Int: EditorSettings.Mobile] = [
+            1: editor,
+            2: editor
+        ]
+
+        editorServiceRemote.postDesignateMobileEditorForAllSites(editor, success: {
+            XCTAssertEqual($0, expected)
+            expec.fulfill()
+        }) { (error) in
+            XCTFail("This call should NOT error")
+            expec.fulfill()
+        }
+
+        mockRemoteApi.successBlockPassedIn?(response as AnyObject, HTTPURLResponse())
+        XCTAssertTrue(mockRemoteApi.postMethodCalled)
+
+        wait(for: [expec], timeout: 0.1)
+    }
 }
 
 extension EditorServiceRemoteTests {
