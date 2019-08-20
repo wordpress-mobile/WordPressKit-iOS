@@ -865,7 +865,6 @@
          XCTAssertNotNil(monthsYearsItems);
          XCTAssertTrue([[monthsYearsItems[0] label] isEqualToString:@"2014"]);
          XCTAssertTrue([[monthsYearsItems[1] label] isEqualToString:@"2015"]);
-         XCTAssertTrue([[[monthsYearsItems[0] children][0] label] isEqualToString:@"June"]);
          
          XCTAssertNotNil(averagePerDayItems);
          XCTAssertEqual(2, averagePerDayItems.count);
