@@ -64,12 +64,47 @@
     [self.wordPressComRestApi POST:requestUrl parameters:params success:successBlock failure:failureBlock];
 }
 
-// API v1 POST /users/social/new
 - (void)createWPComAccountWithGoogle:(NSString *)token
                          andClientID:(NSString *)clientID
                      andClientSecret:(NSString *)clientSecret
                              success:(WordPressComServiceSuccessBlock)success
                              failure:(WordPressComServiceFailureBlock)failure
+{
+    NSDictionary *params = @{
+        @"client_id": clientID,
+        @"client_secret": clientSecret,
+        @"id_token": token,
+        @"service": @"google",
+        @"signup_flow_name": @"social",
+    };
+
+    [self createSocialWPComAccountWithParams:params success:success failure:failure];
+}
+
+- (void)createWPComAccountWithApple:(NSString *)token
+                           andEmail:(NSString *)email
+                        andFullName:(NSString *)fullName
+                        andClientID:(NSString *)clientID
+                    andClientSecret:(NSString *)clientSecret
+                            success:(WordPressComServiceSuccessBlock)success
+                            failure:(WordPressComServiceFailureBlock)failure
+{
+    NSDictionary *params = @{
+        @"client_id": clientID,
+        @"client_secret": clientSecret,
+        @"id_token": token,
+        @"service": @"apple",
+        @"signup_flow_name": @"social",
+        @"user_email": email,
+        @"user_name": fullName,
+    };
+
+    [self createSocialWPComAccountWithParams:params success:success failure:failure];
+}
+
+- (void)createSocialWPComAccountWithParams:(NSDictionary *)params
+                                   success:(WordPressComServiceSuccessBlock)success
+                                   failure:(WordPressComServiceFailureBlock)failure
 {
     void (^successBlock)(id, NSHTTPURLResponse *) = ^(id responseObject, NSHTTPURLResponse *httpResponse) {
         success(responseObject);
@@ -80,16 +115,7 @@
         failure(errorWithLocalizedMessage);
     };
 
-    NSDictionary *params = @{
-                             @"client_id": clientID,
-                             @"client_secret": clientSecret,
-                             @"id_token": token,
-                             @"service": @"google",
-                             @"signup_flow_name": @"social",
-                             };
-
     NSString *requestUrl = [self pathForEndpoint:@"users/social/new" withVersion:ServiceRemoteWordPressComRESTApiVersion_1_0];
-
     [self.wordPressComRestApi POST:requestUrl parameters:params success:successBlock failure:failureBlock];
 }
 
