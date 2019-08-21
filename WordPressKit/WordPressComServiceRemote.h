@@ -53,7 +53,8 @@ typedef void(^WordPressComServiceFailureBlock)(NSError *error);
  *
  * @param token          Token provided by Apple.
  * @param email          Apple email to use for new account.
- * @param userName       The username for the new account. Formed from the Apple ID fullname.
+ * @param fullName       The user's full name for the new account. Formed from the fullname
+ *                       property in the Apple ID credential.
  * @param clientID       wpcom client ID.
  * @param clientSecret   wpcom secret.
  * @param success        success block.
@@ -61,7 +62,7 @@ typedef void(^WordPressComServiceFailureBlock)(NSError *error);
  */
 - (void)createWPComAccountWithApple:(NSString *)token
                            andEmail:(NSString *)email
-                        andUserName:(NSString *)userName
+                        andFullName:(NSString *)fullName
                         andClientID:(NSString *)clientID
                     andClientSecret:(NSString *)clientSecret
                             success:(WordPressComServiceSuccessBlock)success

@@ -83,7 +83,7 @@
 
 - (void)createWPComAccountWithApple:(NSString *)token
                            andEmail:(NSString *)email
-                        andUserName:(NSString *)userName
+                        andFullName:(NSString *)fullName
                         andClientID:(NSString *)clientID
                     andClientSecret:(NSString *)clientSecret
                             success:(WordPressComServiceSuccessBlock)success
@@ -96,7 +96,7 @@
         @"service": @"apple",
         @"signup_flow_name": @"social",
         @"user_email": email,
-        @"user_name": userName,
+        @"user_name": fullName,
     };
 
     [self createSocialWPComAccountWithParams:params success:success failure:failure];
