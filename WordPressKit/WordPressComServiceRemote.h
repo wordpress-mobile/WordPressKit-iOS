@@ -49,6 +49,26 @@ typedef void(^WordPressComServiceFailureBlock)(NSError *error);
                              failure:(WordPressComServiceFailureBlock)failure;
 
 /**
+ * @brief Create a new WordPress.com account from Apple ID credentials.
+ *
+ * @param token          Token provided by Apple.
+ * @param email          Apple email to use for new account.
+ * @param fullName       The user's full name for the new account. Formed from the fullname
+ *                       property in the Apple ID credential.
+ * @param clientID       wpcom client ID.
+ * @param clientSecret   wpcom secret.
+ * @param success        success block.
+ * @param failure        failure block.
+ */
+- (void)createWPComAccountWithApple:(NSString *)token
+                           andEmail:(NSString *)email
+                        andFullName:(NSString *)fullName
+                        andClientID:(NSString *)clientID
+                    andClientSecret:(NSString *)clientSecret
+                            success:(WordPressComServiceSuccessBlock)success
+                            failure:(WordPressComServiceFailureBlock)failure;
+
+/**
  *  @brief      Validates a WordPress.com blog with the specified parameters.
  *
  *  @param      blogUrl     The url of the blog to validate.  Cannot be nil.
