@@ -13,16 +13,14 @@ extension AccountServiceRemoteREST {
     /// - Parameters:
     ///     - service The name of the social service.
     ///     - token The OpenID Connect (JWT) ID token identifying the user on the social service.
-    ///     - appleEmail The email address associated with an Apple ID. Optional.
-    ///     - appleFullName The full name associated with an Apple ID. Optional.
+    ///     - appleConnectParameters Dictionary containing endpoint parameters specific to connecting to Apple service.
     ///     - oAuthClientID The WPCOM REST API client ID.
     ///     - oAuthClientSecret The WPCOM REST API client secret.
     ///     - success The block that will be executed on success.
     ///     - failure The block that will be executed on failure.
     public func connectToSocialService(_ service: SocialServiceName,
                                        serviceIDToken token: String,
-                                       appleEmail: String? = nil,
-                                       appleFullName: String? = nil,
+                                       appleConnectParameters: [String:AnyObject]? = nil,
                                        oAuthClientID: String,
                                        oAuthClientSecret: String,
                                        success:@escaping (() -> Void),
@@ -37,9 +35,8 @@ extension AccountServiceRemoteREST {
         ] as [String: AnyObject]
         
         // Append Apple specific parameters
-        if service == .apple {
-            params["user_email"] = appleEmail as AnyObject
-            params["user_name"] = appleFullName as AnyObject
+        if service == .apple, let appleConnectParameters = appleConnectParameters {
+            params.merge(appleConnectParameters, uniquingKeysWith: { (current, _) in current })
         }
         
         wordPressComRestApi.POST(path, parameters: params, success: { (responseObject, httpResponse) in
@@ -49,6 +46,19 @@ extension AccountServiceRemoteREST {
         })
     }
 
+    /// Get Apple connect parameters from provided account information.
+    ///
+    /// - Parameters:
+    ///     - email Email from Apple account.
+    ///     - fullName User's full name from Apple account.
+    /// - Returns: Dictionary with endpoint parameters, to be used when connecting to social service.
+    static public func appleSignInParameters(email: String, fullName: String) -> [String:AnyObject] {
+        return [
+            "user_email": email as AnyObject,
+            "user_name": fullName as AnyObject
+        ]
+    }
+    
     /// Disconnect fromm the specified social service.
     ///
     /// - Parameters:
