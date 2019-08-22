@@ -13,14 +13,14 @@ extension AccountServiceRemoteREST {
     /// - Parameters:
     ///     - service The name of the social service.
     ///     - token The OpenID Connect (JWT) ID token identifying the user on the social service.
-    ///     - appleConnectParameters Dictionary containing endpoint parameters specific to connecting to Apple service.
+    ///     - connectParameters Dictionary containing additional endpoint parameters. Currently only used for the Apple service.
     ///     - oAuthClientID The WPCOM REST API client ID.
     ///     - oAuthClientSecret The WPCOM REST API client secret.
     ///     - success The block that will be executed on success.
     ///     - failure The block that will be executed on failure.
     public func connectToSocialService(_ service: SocialServiceName,
                                        serviceIDToken token: String,
-                                       appleConnectParameters: [String:AnyObject]? = nil,
+                                       connectParameters: [String:AnyObject]? = nil,
                                        oAuthClientID: String,
                                        oAuthClientSecret: String,
                                        success:@escaping (() -> Void),
@@ -33,10 +33,9 @@ extension AccountServiceRemoteREST {
             "service": service.rawValue,
             "id_token": token,
         ] as [String: AnyObject]
-        
-        // Append Apple specific parameters
-        if service == .apple, let appleConnectParameters = appleConnectParameters {
-            params.merge(appleConnectParameters, uniquingKeysWith: { (current, _) in current })
+
+        if let connectParameters = connectParameters {
+            params.merge(connectParameters, uniquingKeysWith: { (current, _) in current })
         }
         
         wordPressComRestApi.POST(path, parameters: params, success: { (responseObject, httpResponse) in
