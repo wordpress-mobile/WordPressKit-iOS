@@ -34,6 +34,7 @@ open class WordPressComRestApi: NSObject {
 
     @objc public static let ErrorKeyErrorCode       = "WordPressComRestApiErrorCodeKey"
     @objc public static let ErrorKeyErrorMessage    = "WordPressComRestApiErrorMessageKey"
+    @objc public static let ErrorKeyErrorData       = "WordPressComRestApiErrorDataKey"
 
     @objc public static let LocaleKeyDefault        = "locale"  // locale is specified with this for v1 endpoints
     @objc public static let LocaleKeyV2             = "_locale" // locale is prefixed with an underscore for v2
@@ -464,6 +465,11 @@ extension WordPressComRestApi {
         userInfo[WordPressComRestApi.ErrorKeyErrorCode] = errorCode
         userInfo[WordPressComRestApi.ErrorKeyErrorMessage] = errorDescription
         userInfo[NSLocalizedDescriptionKey] =  errorDescription
+
+        if let errorData = errorEntry["data"] {
+            userInfo[WordPressComRestApi.ErrorKeyErrorData] = errorData
+        }
+
         let nserror = mappedError as NSError
         let resultError = NSError(domain: nserror.domain,
                                code: nserror.code,
