@@ -2,7 +2,7 @@ version: 2.1
 
 orbs:
   # This uses the iOS Orb located at https://github.com/wordpress-mobile/circleci-orbs
-  ios: wordpress-mobile/ios@0.0.35
+  ios: wordpress-mobile/ios@0.0.36
 
 workflows:
   test_and_validate:
@@ -18,7 +18,6 @@ workflows:
           name: Validate Podspec
           xcode-version: "10.2.0"
           podspec-path: WordPressKit.podspec
-          update-specs-repo: true
       - ios/publish-podspec:
           name: Publish to Trunk
           xcode-version: "10.2.0"
