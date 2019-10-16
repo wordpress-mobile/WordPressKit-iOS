@@ -120,6 +120,10 @@ open class WordPressComRestApi: NSObject {
     @objc convenience public init(oAuthToken: String? = nil, userAgent: String? = nil, baseUrlString: String = WordPressComRestApi.apiBaseURLString) {
         self.init(oAuthToken: oAuthToken, userAgent: userAgent, backgroundUploads: false, backgroundSessionIdentifier: WordPressComRestApi.defaultBackgroundSessionIdentifier, baseUrlString: baseUrlString)
     }
+
+    public var headers: [AnyHashable: Any] {
+        return sessionManager.session.configuration.httpAdditionalHeaders ?? [:]
+    }
     
     /// Creates a new API object to connect to the WordPress Rest API.
     ///
