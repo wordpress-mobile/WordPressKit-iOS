@@ -55,7 +55,8 @@
                              @"password": password,
                              @"validate": @(validate),
                              @"client_id": clientID,
-                             @"client_secret": clientSecret
+                             @"client_secret": clientSecret,
+                             @"signup_flow_name": @"mobile-ios"
                              };
     
     NSString *requestUrl = [self pathForEndpoint:@"users/new"
