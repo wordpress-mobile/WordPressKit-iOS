@@ -74,7 +74,6 @@ typedef NS_ENUM(NSUInteger, PostServiceResultsOrdering) {
 
 /**
  The metadata to include in the returned results.
- @attention Not supported in XML-RPC.
  */
 - (NSString *)meta;
 
