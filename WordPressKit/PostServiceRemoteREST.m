@@ -438,11 +438,9 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
     post.revisions = [jsonPost arrayForKey:@"revisions"];
 
     NSDictionary *autosave = jsonPost[@"meta"][@"data"][@"autosave"];
-    if (autosave) {
-        post.autosaveTitle = autosave[@"title"];
-        post.autosaveContent = autosave[@"content"];
-        post.autosaveExcerpt = autosave[@"excerpt"];
-    }
+    post.autosaveTitle = autosave[@"title"];
+    post.autosaveContent = autosave[@"content"];
+    post.autosaveExcerpt = autosave[@"excerpt"];
     
     // Pick an image to use for display
     if (post.postThumbnailPath) {
