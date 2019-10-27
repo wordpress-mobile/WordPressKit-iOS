@@ -441,6 +441,7 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
     post.autosaveTitle = autosave[@"title"];
     post.autosaveContent = autosave[@"content"];
     post.autosaveExcerpt = autosave[@"excerpt"];
+    post.autosaveModifiedDate = autosave[@"modified"];
     
     // Pick an image to use for display
     if (post.postThumbnailPath) {
