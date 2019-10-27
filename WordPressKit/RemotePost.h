@@ -34,6 +34,9 @@ extern NSString * const PostStatusDeleted;
 @property (nonatomic, strong) NSString *postThumbnailPath;
 @property (nonatomic, strong) NSString *type;
 @property (nonatomic, strong) NSString *format;
+@property (nonatomic, copy, nullable) NSString *autosaveTitle;
+@property (nonatomic, copy, nullable) NSString *autosaveContent;
+@property (nonatomic, copy, nullable) NSString *autosaveExcerpt;
 
 @property (nonatomic, strong) NSNumber *commentCount;
 @property (nonatomic, strong) NSNumber *likeCount;

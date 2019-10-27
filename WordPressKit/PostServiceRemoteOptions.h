@@ -72,4 +72,10 @@ typedef NS_ENUM(NSUInteger, PostServiceResultsOrdering) {
  */
 - (NSString *)search;
 
+/**
+ The metadata to include in the returned results.
+ @attention Not supported in XML-RPC.
+ */
+- (NSString *)meta;
+
 @end

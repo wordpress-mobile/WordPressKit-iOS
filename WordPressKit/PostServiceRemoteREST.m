@@ -15,6 +15,7 @@ static NSString * const RemoteOptionKeyOrderBy = @"order_by";
 static NSString * const RemoteOptionKeyStatus = @"status";
 static NSString * const RemoteOptionKeySearch = @"search";
 static NSString * const RemoteOptionKeyAuthor = @"author";
+static NSString * const RemoteOptionKeyMeta = @"meta";
 
 static NSString * const RemoteOptionValueOrderAscending = @"ASC";
 static NSString * const RemoteOptionValueOrderDescending = @"DESC";
@@ -365,6 +366,9 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
     if (options.search.length > 0) {
         [remoteParams setObject:options.search forKey:RemoteOptionKeySearch];
     }
+    if (options.meta.length > 0) {
+        [remoteParams setObject:options.meta forKey:RemoteOptionKeyMeta];
+    }
     
     return remoteParams.count ? [NSDictionary dictionaryWithDictionary:remoteParams] : nil;
 }
@@ -432,6 +436,13 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
     post.tags = [self tagNamesFromJSONDictionary:jsonPost[@"tags"]];
 
     post.revisions = [jsonPost arrayForKey:@"revisions"];
+
+    NSDictionary *autosave = jsonPost[@"meta"][@"data"][@"autosave"];
+    if (autosave) {
+        post.autosaveTitle = autosave[@"title"];
+        post.autosaveContent = autosave[@"content"];
+        post.autosaveExcerpt = autosave[@"excerpt"];
+    }
     
     // Pick an image to use for display
     if (post.postThumbnailPath) {
