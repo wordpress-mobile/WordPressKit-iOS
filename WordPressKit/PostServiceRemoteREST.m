@@ -441,8 +441,8 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
     post.autosaveTitle = autosave[@"title"];
     post.autosaveContent = autosave[@"content"];
     post.autosaveExcerpt = autosave[@"excerpt"];
-    post.autosaveModifiedDate = autosave[@"modified"];
-    
+    post.autosaveModifiedDate = [NSDate dateWithWordPressComJSONString:autosave[@"modified"]];
+
     // Pick an image to use for display
     if (post.postThumbnailPath) {
         post.pathForDisplayImage = post.postThumbnailPath;
