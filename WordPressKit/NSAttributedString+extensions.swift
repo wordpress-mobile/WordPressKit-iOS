@@ -4,7 +4,7 @@ extension NSAttributedString {
     /// This helper method returns a new NSAttributedString instance, with all of the the leading / trailing newLines
     /// characters removed.
     ///
-    @objc func trimNewlines() -> NSAttributedString {
+    @objc public func trimNewlines() -> NSAttributedString {
         guard let trimmed = mutableCopy() as? NSMutableAttributedString else {
             return self
         }
