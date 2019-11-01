@@ -437,11 +437,19 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
 
     post.revisions = [jsonPost arrayForKey:@"revisions"];
 
-    NSDictionary *autosave = jsonPost[@"meta"][@"data"][@"autosave"];
-    post.autosaveTitle = autosave[@"title"];
-    post.autosaveContent = autosave[@"content"];
-    post.autosaveExcerpt = autosave[@"excerpt"];
-    post.autosaveModifiedDate = [NSDate dateWithWordPressComJSONString:autosave[@"modified"]];
+    NSDictionary *autosaveAttributes = jsonPost[@"meta"][@"data"][@"autosave"];
+    if (autosaveAttributes) {
+        RemotePostAutosave *autosave = [[RemotePostAutosave alloc] init];
+        autosave.title = autosaveAttributes[@"title"];
+        autosave.content = autosaveAttributes[@"content"];
+        autosave.excerpt = autosaveAttributes[@"excerpt"];
+        autosave.modifiedDate = [NSDate dateWithWordPressComJSONString:autosaveAttributes[@"modified"]];
+        autosave.identifier = autosaveAttributes[@"ID"];
+        autosave.authorID = autosaveAttributes[@"author_ID"];
+        autosave.postID = autosaveAttributes[@"post_ID"];
+        autosave.previewURL = autosaveAttributes[@"preview_URL"];
+        post.autosave = autosave;
+    }
 
     // Pick an image to use for display
     if (post.postThumbnailPath) {
