@@ -2,7 +2,7 @@
 #import <CommonCrypto/CommonDigest.h>
 
 
-@implementation NSString (Gravatar)
+@implementation NSString (MD5)
 
 - (NSString *)md5
 {
