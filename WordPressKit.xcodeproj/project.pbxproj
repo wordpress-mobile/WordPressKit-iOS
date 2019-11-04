@@ -323,10 +323,6 @@
 		931924241F1662FA0069CBCC /* JSONLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 931924231F1662FA0069CBCC /* JSONLoader.swift */; };
 		9368C7851EC5EF1B0092CE8E /* WordPressKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9368C77B1EC5EF1B0092CE8E /* WordPressKit.framework */; };
 		9368C78C1EC5EF1B0092CE8E /* WordPressKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 9368C77E1EC5EF1B0092CE8E /* WordPressKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		9368C7B51EC630270092CE8E /* StatsStreak.h in Headers */ = {isa = PBXBuildFile; fileRef = 9368C7A91EC630270092CE8E /* StatsStreak.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		9368C7B61EC630270092CE8E /* StatsStreak.m in Sources */ = {isa = PBXBuildFile; fileRef = 9368C7AA1EC630270092CE8E /* StatsStreak.m */; };
-		9368C7B71EC630270092CE8E /* StatsStreakItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 9368C7AB1EC630270092CE8E /* StatsStreakItem.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		9368C7B81EC630270092CE8E /* StatsStreakItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 9368C7AC1EC630270092CE8E /* StatsStreakItem.m */; };
 		9368C7B91EC630270092CE8E /* StatsSummary.h in Headers */ = {isa = PBXBuildFile; fileRef = 9368C7AD1EC630270092CE8E /* StatsSummary.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9368C7BA1EC630270092CE8E /* StatsSummary.m in Sources */ = {isa = PBXBuildFile; fileRef = 9368C7AE1EC630270092CE8E /* StatsSummary.m */; };
 		9368C7BB1EC630270092CE8E /* StatsVisits.h in Headers */ = {isa = PBXBuildFile; fileRef = 9368C7AF1EC630270092CE8E /* StatsVisits.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -840,10 +836,6 @@
 		9368C77F1EC5EF1B0092CE8E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9368C7841EC5EF1B0092CE8E /* WordPressKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WordPressKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9368C78B1EC5EF1B0092CE8E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		9368C7A91EC630270092CE8E /* StatsStreak.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatsStreak.h; sourceTree = "<group>"; };
-		9368C7AA1EC630270092CE8E /* StatsStreak.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatsStreak.m; sourceTree = "<group>"; };
-		9368C7AB1EC630270092CE8E /* StatsStreakItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatsStreakItem.h; sourceTree = "<group>"; };
-		9368C7AC1EC630270092CE8E /* StatsStreakItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatsStreakItem.m; sourceTree = "<group>"; };
 		9368C7AD1EC630270092CE8E /* StatsSummary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatsSummary.h; sourceTree = "<group>"; };
 		9368C7AE1EC630270092CE8E /* StatsSummary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatsSummary.m; sourceTree = "<group>"; };
 		9368C7AF1EC630270092CE8E /* StatsVisits.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatsVisits.h; sourceTree = "<group>"; };
@@ -1266,10 +1258,6 @@
 			isa = PBXGroup;
 			children = (
 				40B01BF3220E534900036D10 /* V2 */,
-				9368C7A91EC630270092CE8E /* StatsStreak.h */,
-				9368C7AA1EC630270092CE8E /* StatsStreak.m */,
-				9368C7AB1EC630270092CE8E /* StatsStreakItem.h */,
-				9368C7AC1EC630270092CE8E /* StatsStreakItem.m */,
 				9368C7AD1EC630270092CE8E /* StatsSummary.h */,
 				9368C7AE1EC630270092CE8E /* StatsSummary.m */,
 				9368C7AF1EC630270092CE8E /* StatsVisits.h */,
@@ -1922,8 +1910,6 @@
 				93BD27691EE736A8002BB00B /* RemoteUser.h in Headers */,
 				9368C7BF1EC630CE0092CE8E /* StatsStringUtilities.h in Headers */,
 				9368C7BB1EC630270092CE8E /* StatsVisits.h in Headers */,
-				9368C7B51EC630270092CE8E /* StatsStreak.h in Headers */,
-				9368C7B71EC630270092CE8E /* StatsStreakItem.h in Headers */,
 				74B5F0DC1EF829B800B411E7 /* BlogServiceRemote.h in Headers */,
 				74B5F0D71EF8299B00B411E7 /* BlogServiceRemoteREST.h in Headers */,
 				74B5F0E61EF8699C00B411E7 /* RemotePostType.h in Headers */,
@@ -2423,7 +2409,6 @@
 				404057D6221C92660060250C /* StatsTopClicksTimeIntervalData.swift in Sources */,
 				9AF4F2FC218331DC00570E4B /* PostServiceRemoteREST+Revisions.swift in Sources */,
 				E13EE1471F33258E00C15787 /* PluginServiceRemote.swift in Sources */,
-				9368C7B61EC630270092CE8E /* StatsStreak.m in Sources */,
 				93BD276A1EE736A8002BB00B /* RemoteUser.m in Sources */,
 				742362D71F10250600BD0A7F /* MenusServiceRemote.m in Sources */,
 				9368C7BA1EC630270092CE8E /* StatsSummary.m in Sources */,
@@ -2457,7 +2442,6 @@
 				7E3E7A4A20E443890075D159 /* Scanner+extensions.swift in Sources */,
 				742362E31F1025B400BD0A7F /* RemoteMenuLocation.m in Sources */,
 				82FFBF561F460DD400F4573F /* BlogJetpackSettingsServiceRemote.swift in Sources */,
-				9368C7B81EC630270092CE8E /* StatsStreakItem.m in Sources */,
 				404057C9221B789B0060250C /* StatsTopAuthorsTimeIntervalData.swift in Sources */,
 				74BA04F61F06DC0A00ED5CD8 /* CommentServiceRemoteXMLRPC.m in Sources */,
 				40819778221F00E600A298E4 /* StatsSummaryTimeIntervalData.swift in Sources */,
