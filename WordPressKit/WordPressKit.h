@@ -11,7 +11,6 @@ FOUNDATION_EXPORT const unsigned char WordPressKitVersionString[];
 #import "ServiceRemoteWordPressXMLRPC.h"
 #import "SiteServiceRemoteWordPressComREST.h"
 
-#import "StatsItemAction.h"
 #import "StatsStreak.h"
 #import "StatsStreakItem.h"
 #import "StatsStringUtilities.h"
