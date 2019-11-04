@@ -323,8 +323,6 @@
 		931924241F1662FA0069CBCC /* JSONLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 931924231F1662FA0069CBCC /* JSONLoader.swift */; };
 		9368C7851EC5EF1B0092CE8E /* WordPressKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9368C77B1EC5EF1B0092CE8E /* WordPressKit.framework */; };
 		9368C78C1EC5EF1B0092CE8E /* WordPressKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 9368C77E1EC5EF1B0092CE8E /* WordPressKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		9368C7A31EC62F800092CE8E /* WPStatsServiceRemote.h in Headers */ = {isa = PBXBuildFile; fileRef = 9368C7A11EC62F800092CE8E /* WPStatsServiceRemote.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		9368C7A41EC62F800092CE8E /* WPStatsServiceRemote.m in Sources */ = {isa = PBXBuildFile; fileRef = 9368C7A21EC62F800092CE8E /* WPStatsServiceRemote.m */; };
 		9368C7B11EC630270092CE8E /* StatsItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 9368C7A51EC630270092CE8E /* StatsItem.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9368C7B21EC630270092CE8E /* StatsItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 9368C7A61EC630270092CE8E /* StatsItem.m */; };
 		9368C7B31EC630270092CE8E /* StatsItemAction.h in Headers */ = {isa = PBXBuildFile; fileRef = 9368C7A71EC630270092CE8E /* StatsItemAction.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -846,8 +844,6 @@
 		9368C77F1EC5EF1B0092CE8E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9368C7841EC5EF1B0092CE8E /* WordPressKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WordPressKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9368C78B1EC5EF1B0092CE8E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		9368C7A11EC62F800092CE8E /* WPStatsServiceRemote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WPStatsServiceRemote.h; sourceTree = "<group>"; };
-		9368C7A21EC62F800092CE8E /* WPStatsServiceRemote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WPStatsServiceRemote.m; sourceTree = "<group>"; };
 		9368C7A51EC630270092CE8E /* StatsItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatsItem.h; sourceTree = "<group>"; };
 		9368C7A61EC630270092CE8E /* StatsItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatsItem.m; sourceTree = "<group>"; };
 		9368C7A71EC630270092CE8E /* StatsItemAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatsItemAction.h; sourceTree = "<group>"; };
@@ -1488,9 +1484,7 @@
 				D816857021EDACD10049883E /* WordPressComServiceRemote+SiteSegments.swift */,
 				730E869E21E44EFD00753E1A /* WordPressComServiceRemote+SiteVerticals.swift */,
 				73A2F38921E7F81E00388609 /* WordPressComServiceRemote+SiteVerticalsPrompt.swift */,
-				9368C7A11EC62F800092CE8E /* WPStatsServiceRemote.h */,
 				40A71C6D220E1D8E002E3D25 /* StatsServiceRemoteV2.swift */,
-				9368C7A21EC62F800092CE8E /* WPStatsServiceRemote.m */,
 				E182BF691FD961810001D850 /* Endpoint.swift */,
 				17CD0CC220C58A0D000D9620 /* ReaderSiteSearchServiceRemote.swift */,
 			);
@@ -1932,7 +1926,6 @@
 				9368C78C1EC5EF1B0092CE8E /* WordPressKit.h in Headers */,
 				9368C7B11EC630270092CE8E /* StatsItem.h in Headers */,
 				93C674F11EE8351E00BFAF05 /* NSMutableDictionary+Helpers.h in Headers */,
-				9368C7A31EC62F800092CE8E /* WPStatsServiceRemote.h in Headers */,
 				9368C7B31EC630270092CE8E /* StatsItemAction.h in Headers */,
 				B5A4822820AC6BA9009D95F6 /* WPKitLoggingPrivate.h in Headers */,
 				93BD273C1EE73282002BB00B /* AccountServiceRemoteREST.h in Headers */,
@@ -2516,7 +2509,6 @@
 				439A44D62107C66A00795ED7 /* JSONDecoderExtension.swift in Sources */,
 				B5A4822B20AC6C0B009D95F6 /* CocoaLumberjack.swift in Sources */,
 				9368C7B21EC630270092CE8E /* StatsItem.m in Sources */,
-				9368C7A41EC62F800092CE8E /* WPStatsServiceRemote.m in Sources */,
 				B5A4822E20AC6C1A009D95F6 /* WPKitLogging.m in Sources */,
 				7430C9A61F1927180051B8E6 /* ReaderSiteServiceRemote.m in Sources */,
 				7430C9B21F1927C50051B8E6 /* RemoteReaderPost.m in Sources */,
