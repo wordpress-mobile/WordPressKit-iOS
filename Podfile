@@ -1,10 +1,9 @@
-source 'https://github.com/CocoaPods/Specs.git'
+source 'https://cdn.cocoapods.org/'
 
 inhibit_all_warnings!
 use_frameworks!
 
 platform :ios, '11.0'
-plugin 'cocoapods-repo-update'
 
 def wordpresskit_pods
   pod 'Alamofire', '~> 4.7.3'

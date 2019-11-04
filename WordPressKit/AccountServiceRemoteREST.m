@@ -202,6 +202,7 @@ static NSString * const UserDictionaryEmailVerifiedKey = @"email_verified";
                                    path:path
                                clientID:clientID
                            clientSecret:clientSecret
+                            extraParams: nil
                             wpcomScheme:scheme
                                 success:success
                                 failure:failure];
@@ -217,11 +218,14 @@ static NSString * const UserDictionaryEmailVerifiedKey = @"email_verified";
     
     NSString *path = [self pathForEndpoint:@"auth/send-signup-email"
                                withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
-    
+
+    NSDictionary *signupFlowParam = @{@"signup_flow_name": @"mobile-ios"};
+
     [self requestWPComMagicLinkForEmail:email
                                    path:path
                                clientID:clientID
                            clientSecret:clientSecret
+                            extraParams:signupFlowParam
                             wpcomScheme:scheme
                                 success:success
                                 failure:failure];
@@ -231,6 +235,7 @@ static NSString * const UserDictionaryEmailVerifiedKey = @"email_verified";
                                  path:(NSString *)path
                              clientID:(NSString *)clientID
                          clientSecret:(NSString *)clientSecret
+                          extraParams:(nullable NSDictionary *)extraParams
                           wpcomScheme:(NSString *)scheme
                               success:(void (^)(void))success
                               failure:(void (^)(NSError *error))failure
@@ -241,9 +246,14 @@ static NSString * const UserDictionaryEmailVerifiedKey = @"email_verified";
                                                                                   @"email": email,
                                                                                   @"client_id": clientID,
                                                                                   @"client_secret": clientSecret
-                                                                                  }];
+    }];
+
     if (![@"wordpress" isEqualToString:scheme]) {
         [params setObject:scheme forKey:@"scheme"];
+    }
+    
+    if (extraParams != nil) {
+        [params addEntriesFromDictionary:extraParams];
     }
 
     [self.wordPressComRestApi POST:path
