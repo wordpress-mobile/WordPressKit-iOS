@@ -323,8 +323,6 @@
 		931924241F1662FA0069CBCC /* JSONLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 931924231F1662FA0069CBCC /* JSONLoader.swift */; };
 		9368C7851EC5EF1B0092CE8E /* WordPressKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9368C77B1EC5EF1B0092CE8E /* WordPressKit.framework */; };
 		9368C78C1EC5EF1B0092CE8E /* WordPressKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 9368C77E1EC5EF1B0092CE8E /* WordPressKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		9368C7BF1EC630CE0092CE8E /* StatsStringUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 9368C7BD1EC630CE0092CE8E /* StatsStringUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		9368C7C01EC630CE0092CE8E /* StatsStringUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 9368C7BE1EC630CE0092CE8E /* StatsStringUtilities.m */; };
 		93AB06041EE8838400EF8764 /* RemoteTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93AB06031EE8838400EF8764 /* RemoteTestCase.swift */; };
 		93AC8EC41ED32FD000900F5A /* emptyarray.json in Resources */ = {isa = PBXBuildFile; fileRef = 93AC8EA51ED32FD000900F5A /* emptyarray.json */; };
 		93AC8EC51ED32FD000900F5A /* stats-batch.json in Resources */ = {isa = PBXBuildFile; fileRef = 93AC8EA61ED32FD000900F5A /* stats-batch.json */; };
@@ -832,8 +830,6 @@
 		9368C77F1EC5EF1B0092CE8E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9368C7841EC5EF1B0092CE8E /* WordPressKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WordPressKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9368C78B1EC5EF1B0092CE8E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		9368C7BD1EC630CE0092CE8E /* StatsStringUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatsStringUtilities.h; sourceTree = "<group>"; };
-		9368C7BE1EC630CE0092CE8E /* StatsStringUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatsStringUtilities.m; sourceTree = "<group>"; };
 		93AB06031EE8838400EF8764 /* RemoteTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteTestCase.swift; sourceTree = "<group>"; };
 		93AC8EA51ED32FD000900F5A /* emptyarray.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = emptyarray.json; sourceTree = "<group>"; };
 		93AC8EA61ED32FD000900F5A /* stats-batch.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "stats-batch.json"; sourceTree = "<group>"; };
@@ -1430,8 +1426,6 @@
 				74C473AB1EF2F75E009918F2 /* SiteManagementServiceRemote.swift */,
 				74B5F0E01EF82D2100B411E7 /* SiteServiceRemoteWordPressComREST.h */,
 				74B5F0E11EF82D2100B411E7 /* SiteServiceRemoteWordPressComREST.m */,
-				9368C7BD1EC630CE0092CE8E /* StatsStringUtilities.h */,
-				9368C7BE1EC630CE0092CE8E /* StatsStringUtilities.m */,
 				9311A6801F22625A00704AC9 /* TaxonomyServiceRemote.h */,
 				9311A6811F22625A00704AC9 /* TaxonomyServiceRemoteREST.h */,
 				9311A6821F22625A00704AC9 /* TaxonomyServiceRemoteREST.m */,
@@ -1896,7 +1890,6 @@
 				93BD277D1EE73944002BB00B /* NSDate+WordPressJSON.h in Headers */,
 				93BD273B1EE73282002BB00B /* AccountServiceRemote.h in Headers */,
 				93BD27691EE736A8002BB00B /* RemoteUser.h in Headers */,
-				9368C7BF1EC630CE0092CE8E /* StatsStringUtilities.h in Headers */,
 				74B5F0DC1EF829B800B411E7 /* BlogServiceRemote.h in Headers */,
 				74B5F0D71EF8299B00B411E7 /* BlogServiceRemoteREST.h in Headers */,
 				74B5F0E61EF8699C00B411E7 /* RemotePostType.h in Headers */,
@@ -2408,7 +2401,6 @@
 				7403A3021EF0726E00DED7DC /* AccountSettings.swift in Sources */,
 				40E7FEA9220FA4060032834E /* StatsEmailFollowersInsight.swift in Sources */,
 				404057DA221C9D560060250C /* StatsTopReferrersTimeIntervalData.swift in Sources */,
-				9368C7C01EC630CE0092CE8E /* StatsStringUtilities.m in Sources */,
 				826016F11F9FA13A00533B6C /* ActivityServiceRemote.swift in Sources */,
 				74BA04FA1F06DC3900ED5CD8 /* RemoteComment.m in Sources */,
 				7E3E7A4C20E443AA0075D159 /* NSMutableParagraphStyle+extensions.swift in Sources */,
