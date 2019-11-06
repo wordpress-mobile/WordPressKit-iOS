@@ -438,7 +438,7 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
     post.revisions = [jsonPost arrayForKey:@"revisions"];
 
     NSDictionary *autosaveAttributes = jsonPost[@"meta"][@"data"][@"autosave"];
-    if (autosaveAttributes) {
+    if ([autosaveAttributes wp_isValidObject]) {
         RemotePostAutosave *autosave = [[RemotePostAutosave alloc] init];
         autosave.title = autosaveAttributes[@"title"];
         autosave.content = autosaveAttributes[@"content"];
