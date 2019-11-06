@@ -15,6 +15,7 @@ static NSString * const RemoteOptionKeyOrderBy = @"order_by";
 static NSString * const RemoteOptionKeyStatus = @"status";
 static NSString * const RemoteOptionKeySearch = @"search";
 static NSString * const RemoteOptionKeyAuthor = @"author";
+static NSString * const RemoteOptionKeyMeta = @"meta";
 
 static NSString * const RemoteOptionValueOrderAscending = @"ASC";
 static NSString * const RemoteOptionValueOrderDescending = @"DESC";
@@ -365,6 +366,9 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
     if (options.search.length > 0) {
         [remoteParams setObject:options.search forKey:RemoteOptionKeySearch];
     }
+    if (options.meta.length > 0) {
+        [remoteParams setObject:options.meta forKey:RemoteOptionKeyMeta];
+    }
     
     return remoteParams.count ? [NSDictionary dictionaryWithDictionary:remoteParams] : nil;
 }
@@ -432,7 +436,21 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
     post.tags = [self tagNamesFromJSONDictionary:jsonPost[@"tags"]];
 
     post.revisions = [jsonPost arrayForKey:@"revisions"];
-    
+
+    NSDictionary *autosaveAttributes = jsonPost[@"meta"][@"data"][@"autosave"];
+    if ([autosaveAttributes wp_isValidObject]) {
+        RemotePostAutosave *autosave = [[RemotePostAutosave alloc] init];
+        autosave.title = autosaveAttributes[@"title"];
+        autosave.content = autosaveAttributes[@"content"];
+        autosave.excerpt = autosaveAttributes[@"excerpt"];
+        autosave.modifiedDate = [NSDate dateWithWordPressComJSONString:autosaveAttributes[@"modified"]];
+        autosave.identifier = autosaveAttributes[@"ID"];
+        autosave.authorID = autosaveAttributes[@"author_ID"];
+        autosave.postID = autosaveAttributes[@"post_ID"];
+        autosave.previewURL = autosaveAttributes[@"preview_URL"];
+        post.autosave = autosave;
+    }
+
     // Pick an image to use for display
     if (post.postThumbnailPath) {
         post.pathForDisplayImage = post.postThumbnailPath;

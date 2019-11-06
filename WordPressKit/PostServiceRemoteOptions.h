@@ -72,4 +72,9 @@ typedef NS_ENUM(NSUInteger, PostServiceResultsOrdering) {
  */
 - (NSString *)search;
 
+/**
+ The metadata to include in the returned results.
+ */
+- (NSString *)meta;
+
 @end
