@@ -119,7 +119,7 @@
     NSParameterAssert(comment.commentID != nil);
     NSNumber *commentID = comment.commentID;
     NSArray *extraParameters = @[
-                                 comment.commentID,
+                                 commentID,
                                  @{@"status": comment.status},
                                  ];
     NSArray *parameters = [self XMLRPCArgumentsWithExtra:extraParameters];
