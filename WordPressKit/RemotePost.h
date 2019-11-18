@@ -1,4 +1,5 @@
 #import <Foundation/Foundation.h>
+@class RemotePostAutosave;
 
 extern NSString * const PostStatusDraft;
 extern NSString * const PostStatusPending;
@@ -34,6 +35,13 @@ extern NSString * const PostStatusDeleted;
 @property (nonatomic, strong) NSString *postThumbnailPath;
 @property (nonatomic, strong) NSString *type;
 @property (nonatomic, strong) NSString *format;
+
+/**
+* A snapshot of the post at the last autosave.
+*
+* This is nullable.
+*/
+@property (nonatomic, strong) RemotePostAutosave *autosave;
 
 @property (nonatomic, strong) NSNumber *commentCount;
 @property (nonatomic, strong) NSNumber *likeCount;
