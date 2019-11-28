@@ -1,28 +1,40 @@
 import Alamofire
 import Foundation
 
-open class WordPressOrgRestApi {
+@objc
+open class WordPressOrgRestApi: NSObject {
     public typealias Completion = (Swift.Result<Any, Error>, HTTPURLResponse?) -> Void
     private let apiBase: URL
+    private let authenticator: Authenticator?
     private let userAgent: String?
 
-    public init(apiBase: URL, userAgent: String? = nil) {
+    public init(apiBase: URL, authenticator: Authenticator?, userAgent: String? = nil) {
         self.apiBase = apiBase
+        self.authenticator = authenticator
         self.userAgent = userAgent
+        super.init()
     }
 
     @discardableResult
     open func GET(_ path: String,
                   parameters: [String: AnyObject]?,
-                  completion: @escaping Completion) -> Progress {
+                  completion: @escaping Completion) -> Progress? {
         return request(method: .get, path: path, parameters: parameters, completion: completion)
     }
 
     private func request(method: HTTPMethod,
                          path: String,
                          parameters: [String: AnyObject]?,
-                         completion: @escaping Completion) -> Progress {
-        let url = apiBase.appendingPathComponent(path)
+                         completion: @escaping Completion) -> Progress? {
+        let relativePath = path.removingPrefix("/")
+        guard let url = URL(string: relativePath, relativeTo: apiBase) else {
+            // FIXME: make tese .org errors
+            let error = NSError(domain: String(describing: WordPressComRestApiError.self),
+                    code: WordPressComRestApiError.requestSerializationFailed.rawValue,
+                    userInfo: [NSLocalizedDescriptionKey: NSLocalizedString("Failed to serialize request to the REST API.", comment: "Error message to show when wrong URL format is used to access the REST API")])
+            completion(.failure(error), nil)
+            return nil
+        }
 
         let progress = Progress(totalUnitCount: 1)
         let progressUpdater = {(taskProgress: Progress) in
@@ -46,7 +58,15 @@ open class WordPressOrgRestApi {
         progress.cancellationHandler = {
             dataRequest.cancel()
         }
-        return progress    }
+        return progress
+    }
+
+    /**
+     Cancels all ongoing and makes the session so the object will not fullfil any more request
+     */
+    @objc open func invalidateAndCancelTasks() {
+        sessionManager.session.invalidateAndCancel()
+    }
 
     private lazy var sessionManager: Alamofire.SessionManager = {
         let sessionConfiguration = URLSessionConfiguration.default
@@ -61,8 +81,10 @@ open class WordPressOrgRestApi {
         }
 
         sessionConfiguration.httpAdditionalHeaders = additionalHeaders
-        let sessionManager = Alamofire.SessionManager(configuration: sessionConfiguration)
 
+        let sessionManager = Alamofire.SessionManager(configuration: sessionConfiguration)
+        sessionManager.adapter = authenticator?.adapter
+        sessionManager.retrier = authenticator?.retrier
         return sessionManager
     }
 }
