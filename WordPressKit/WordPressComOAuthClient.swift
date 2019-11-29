@@ -417,13 +417,17 @@ public final class WordPressComOAuthClient: NSObject {
     }
 
     private func cleanedUpResponseForLogging(_ response: AnyObject) -> AnyObject {
-        guard var responseDictionary = response as? [String: AnyObject],
-            let _ = responseDictionary["access_token"]
-            else {
+        guard var responseDictionary = response as? [String: AnyObject] else {
                 return response
         }
 
-        responseDictionary["access_token"] = "*** REDACTED ***" as AnyObject?
+        let keys = ["access_token", "bearer_token"]
+        for key in keys {
+            if responseDictionary[key] != nil {
+                responseDictionary[key] = "*** REDACTED ***" as AnyObject?
+            }
+        }
+
         return responseDictionary as AnyObject
     }
 
