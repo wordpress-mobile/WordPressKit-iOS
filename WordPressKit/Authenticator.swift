@@ -1,5 +1,6 @@
-import Foundation
 import Alamofire
+import CocoaLumberjack
+import Foundation
 
 public typealias RequestAuthenticationValidator = (URLRequest) -> Bool
 
@@ -62,6 +63,11 @@ public class CookieNonceAuthenticator: RequestAdapter, RequestRetrier {
     private let loginURL: URL
     private let adminURL: URL
     private var nonce: Secret<String>? = nil
+    // If we can't get this to work once, don't retry for the same site
+    // It is likely that there is something preventing us from extracting a nonce
+    private var canRetry = true
+    private var isAuthenticating = false
+    private var requestsToRetry = [RequestRetryCompletion]()
 
     public init(username: String, password: String, loginURL: URL, adminURL: URL) {
         self.username = username
@@ -82,38 +88,88 @@ public class CookieNonceAuthenticator: RequestAdapter, RequestRetrier {
     }
 
     // MARK: Retrier
-    public func should(_ manager: SessionManager, retry request: Request, with error: Error, completion: @escaping RequestRetryCompletion) {
+    public func should(_ manager: SessionManager, retry request: Request, with error: Swift.Error, completion: @escaping RequestRetryCompletion) {
         guard
+            canRetry,
             // Only retry once
             request.retryCount == 0,
             // And don't retry the login request
             request.request?.url != loginURL,
-            // Ensure we have an editor URL to extract the nonce
-            let newPostURL = URL(string: "post-new.php", relativeTo: adminURL),
             // Only retry because of failed authorization
             case .responseValidationFailed(reason: .unacceptableStatusCode(code: 401)) = error as? AFError
         else {
             return completion(false, 0.0)
         }
 
-        let request = authenticatedRequest(redirectURL: newPostURL)
-        manager.request(request)
-            .validate()
-            .responseString { (response) in
-                guard case let .success(page) = response.result,
-                    let nonce = self.extractNonce(html: page) else {
-                    return completion(false, 0.0)
-                }
-
-                self.nonce = Secret(nonce)
-
-                completion(true, 0.0)
+        requestsToRetry.append(completion)
+        if !isAuthenticating {
+            startLoginSequence(manager: manager)
         }
     }
 
-    // MARK: Private helpers
+    enum Error: Swift.Error {
+        case invalidNewPostURL
+        case postLoginFailed(Swift.Error)
+        case missingNonce
+        case unknown(Swift.Error)
 
-    private func authenticatedRequest(redirectURL: URL) -> URLRequest {
+        var retriable: Bool {
+            return false
+        }
+    }
+}
+
+    // MARK: Private helpers
+private extension CookieNonceAuthenticator {
+    func startLoginSequence(manager: SessionManager) {
+        DDLogInfo("Starting Cookie+Nonce login sequence for \(loginURL)")
+        guard let newPostURL = buildNewPostURL() else {
+            return invalidateLoginSequence(error: .invalidNewPostURL)
+        }
+        let request = authenticatedRequest(redirectURL: newPostURL)
+        manager.request(request)
+            .validate()
+            .responseString { [weak self] (response) in
+                guard let self = self else {
+                    return
+                }
+                switch response.result {
+                case .failure(let error):
+                    self.invalidateLoginSequence(error: .postLoginFailed(error))
+                case .success(let page):
+                    let redirectedTo = response.response?.url?.absoluteString ?? "nil"
+                    DDLogInfo("Posted Login to \(self.loginURL), redirected to \(redirectedTo)")
+                    guard let nonce = self.extractNonce(html: page) else {
+                        return self.invalidateLoginSequence(error: .missingNonce)
+                    }
+                    self.nonce = Secret(nonce)
+                    self.successfulLoginSequence()
+                }
+        }
+    }
+
+    func successfulLoginSequence() {
+        DDLogInfo("Completed Cookie+Nonce login sequence for \(loginURL)")
+        requestsToRetry.forEach { (completion) in
+            completion(true, 0.0)
+        }
+    }
+
+    func invalidateLoginSequence(error: Error) {
+        canRetry = error.retriable
+        let retryMessage = canRetry ? "will retry" : "will not retry"
+        DDLogError("Aborting Cookie+Nonce login sequence for \(loginURL), \(retryMessage)")
+        requestsToRetry.forEach { (completion) in
+            completion(false, 0.0)
+        }
+        isAuthenticating = false
+    }
+
+    func buildNewPostURL() -> URL? {
+        return URL(string: "post-new.php", relativeTo: adminURL)
+    }
+
+    func authenticatedRequest(redirectURL: URL) -> URLRequest {
         var request = URLRequest(url: loginURL)
 
         request.httpMethod = "POST"
@@ -130,7 +186,7 @@ public class CookieNonceAuthenticator: RequestAdapter, RequestRetrier {
         return request
     }
 
-    private func extractNonce(html: String) -> String? {
+    func extractNonce(html: String) -> String? {
         guard let regex = try? NSRegularExpression(pattern: "apiFetch.createNonceMiddleware\\(\\s*['\"](?<nonce>\\w+)['\"]\\s*\\)", options: []),
             let match = regex.firstMatch(in: html, options: [], range: NSMakeRange(0, html.count)) else {
                 return nil
