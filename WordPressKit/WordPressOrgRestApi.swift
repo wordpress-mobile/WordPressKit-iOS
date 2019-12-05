@@ -1,6 +1,15 @@
 import Alamofire
 import Foundation
 
+/**
+ Error constants for the WordPress.org REST API
+
+ - RequestSerializationFailed:     The serialization of the request failed
+ */
+@objc public enum WordPressOrgRestApiError: Int, Error {
+    case requestSerializationFailed
+}
+
 @objc
 open class WordPressOrgRestApi: NSObject {
     public typealias Completion = (Swift.Result<Any, Error>, HTTPURLResponse?) -> Void
@@ -28,9 +37,8 @@ open class WordPressOrgRestApi: NSObject {
                          completion: @escaping Completion) -> Progress? {
         let relativePath = path.removingPrefix("/")
         guard let url = URL(string: relativePath, relativeTo: apiBase) else {
-            // FIXME: make tese .org errors
-            let error = NSError(domain: String(describing: WordPressComRestApiError.self),
-                    code: WordPressComRestApiError.requestSerializationFailed.rawValue,
+            let error = NSError(domain: String(describing: WordPressOrgRestApiError.self),
+                    code: WordPressOrgRestApiError.requestSerializationFailed.rawValue,
                     userInfo: [NSLocalizedDescriptionKey: NSLocalizedString("Failed to serialize request to the REST API.", comment: "Error message to show when wrong URL format is used to access the REST API")])
             completion(.failure(error), nil)
             return nil
