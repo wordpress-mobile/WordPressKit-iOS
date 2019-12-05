@@ -5,7 +5,7 @@ import OHHTTPStubs
 
 class WordPressOrgRestApiTests: XCTestCase {
 
-    let apiBase = URL(string: "https://wordpress.org/wp-json")!
+    let apiBase = URL(string: "https://wordpress.org/wp-json/")!
 
     override func setUp() {
         super.setUp()

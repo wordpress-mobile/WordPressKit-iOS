@@ -17,7 +17,7 @@ open class WordPressOrgRestApi: NSObject {
     private let authenticator: Authenticator?
     private let userAgent: String?
 
-    public init(apiBase: URL, authenticator: Authenticator?, userAgent: String? = nil) {
+    public init(apiBase: URL, authenticator: Authenticator? = nil, userAgent: String? = nil) {
         self.apiBase = apiBase
         self.authenticator = authenticator
         self.userAgent = userAgent
