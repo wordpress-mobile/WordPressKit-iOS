@@ -32,7 +32,7 @@ public struct TokenAuthenticator: RequestAdapter {
     fileprivate let token: Secret<String>
     fileprivate let shouldAuthenticate: RequestAuthenticationValidator
 
-    public init(token: String, shouldAuthenticate: RequestAuthenticationValidator?) {
+    public init(token: String, shouldAuthenticate: RequestAuthenticationValidator? = nil) {
         self.token = Secret(token)
         self.shouldAuthenticate = shouldAuthenticate ?? { _ in true }
     }
@@ -69,11 +69,12 @@ public class CookieNonceAuthenticator: RequestAdapter, RequestRetrier {
     private var isAuthenticating = false
     private var requestsToRetry = [RequestRetryCompletion]()
 
-    public init(username: String, password: String, loginURL: URL, adminURL: URL) {
+    public init(username: String, password: String, loginURL: URL, adminURL: URL, nonce: String? = nil) {
         self.username = username
         self.password = Secret(password)
         self.loginURL = loginURL
         self.adminURL = adminURL
+        self.nonce = nonce.map(Secret.init)
     }
 
     // MARK: Request Adapter
@@ -150,19 +151,22 @@ private extension CookieNonceAuthenticator {
 
     func successfulLoginSequence() {
         DDLogInfo("Completed Cookie+Nonce login sequence for \(loginURL)")
-        requestsToRetry.forEach { (completion) in
-            completion(true, 0.0)
-        }
+        completeRequests(true)
     }
 
     func invalidateLoginSequence(error: Error) {
         canRetry = error.retriable
         let retryMessage = canRetry ? "will retry" : "will not retry"
         DDLogError("Aborting Cookie+Nonce login sequence for \(loginURL), \(retryMessage)")
-        requestsToRetry.forEach { (completion) in
-            completion(false, 0.0)
-        }
+        completeRequests(false)
         isAuthenticating = false
+    }
+
+    func completeRequests(_ shouldRetry: Bool) {
+        requestsToRetry.forEach { (completion) in
+            completion(shouldRetry, 0.0)
+        }
+        requestsToRetry.removeAll()
     }
 
     func buildNewPostURL() -> URL? {
