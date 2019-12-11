@@ -1,10 +1,10 @@
 #import "WPKitLogging.h"
 #import "WPKitLoggingPrivate.h"
 
-int WPKitGetLoggingLevel() {
+DDLogLevel WPKitGetLoggingLevel() {
     return ddLogLevel;
 }
 
-void WPKitSetLoggingLevel(int level) {
+void WPKitSetLoggingLevel(DDLogLevel level) {
     ddLogLevel = level;
 }

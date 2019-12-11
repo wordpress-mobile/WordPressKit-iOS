@@ -1,2 +1,4 @@
-int WPKitGetLoggingLevel(void);
-void WPKitSetLoggingLevel(int level);
+@import CocoaLumberjack;
+
+DDLogLevel WPKitGetLoggingLevel(void);
+void WPKitSetLoggingLevel(DDLogLevel level);
