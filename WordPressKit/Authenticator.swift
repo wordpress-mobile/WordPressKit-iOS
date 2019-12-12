@@ -1,6 +1,7 @@
 import Alamofire
 import CocoaLumberjack
 import Foundation
+import WordPressShared
 
 public typealias RequestAuthenticationValidator = (URLRequest) -> Bool
 

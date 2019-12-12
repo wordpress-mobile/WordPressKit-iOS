@@ -445,7 +445,6 @@
 		E1A6605F1FD694ED00BAC339 /* PluginDirectoryEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A6605E1FD694ED00BAC339 /* PluginDirectoryEntry.swift */; };
 		E1BD95151FD5A2B800CD5CE3 /* PluginDirectoryServiceRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1BD95141FD5A2B800CD5CE3 /* PluginDirectoryServiceRemote.swift */; };
 		E1C2E7D0238FB3ED00C688AF /* Authenticator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C2E7CF238FB3ED00C688AF /* Authenticator.swift */; };
-		E1C2E7D2238FBB7C00C688AF /* Secret.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C2E7D1238FBB7C00C688AF /* Secret.swift */; };
 		E1D6B556200E46F300325669 /* WPTimeZone.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1D6B555200E46F200325669 /* WPTimeZone.swift */; };
 		E1D6B558200E473A00325669 /* TimeZoneServiceRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1D6B557200E473A00325669 /* TimeZoneServiceRemote.swift */; };
 		E1E62192238F1D5E00D9A4D7 /* WordPressOrgRestApiTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E62191238F1D5E00D9A4D7 /* WordPressOrgRestApiTests.swift */; };
@@ -938,7 +937,6 @@
 		E1A6605E1FD694ED00BAC339 /* PluginDirectoryEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PluginDirectoryEntry.swift; sourceTree = "<group>"; };
 		E1BD95141FD5A2B800CD5CE3 /* PluginDirectoryServiceRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PluginDirectoryServiceRemote.swift; sourceTree = "<group>"; };
 		E1C2E7CF238FB3ED00C688AF /* Authenticator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Authenticator.swift; sourceTree = "<group>"; };
-		E1C2E7D1238FBB7C00C688AF /* Secret.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secret.swift; sourceTree = "<group>"; };
 		E1D6B555200E46F200325669 /* WPTimeZone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WPTimeZone.swift; sourceTree = "<group>"; };
 		E1D6B557200E473A00325669 /* TimeZoneServiceRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeZoneServiceRemote.swift; sourceTree = "<group>"; };
 		E1E62191238F1D5E00D9A4D7 /* WordPressOrgRestApiTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordPressOrgRestApiTests.swift; sourceTree = "<group>"; };
@@ -1727,7 +1725,6 @@
 				93C674EF1EE8351E00BFAF05 /* NSMutableDictionary+Helpers.h */,
 				93C674F01EE8351E00BFAF05 /* NSMutableDictionary+Helpers.m */,
 				9F4E51FF2088E38200424676 /* ObjectValidation.swift */,
-				E1C2E7D1238FBB7C00C688AF /* Secret.swift */,
 			);
 			name = Utility;
 			sourceTree = "<group>";
@@ -2261,7 +2258,6 @@
 				436D56332118D7AA00CEAA33 /* TransactionsServiceRemote.swift in Sources */,
 				93BD27721EE737A9002BB00B /* ServiceRemoteWordPressXMLRPC.m in Sources */,
 				E1D6B556200E46F300325669 /* WPTimeZone.swift in Sources */,
-				E1C2E7D2238FBB7C00C688AF /* Secret.swift in Sources */,
 				93F50A3F1F227C8900B5BEBA /* UsersServiceRemoteXMLRPC.swift in Sources */,
 				9F3E0BA32087345F009CB5BA /* ReaderTopicServiceRemote+Subscription.swift in Sources */,
 				9F3E0B9E208733C3009CB5BA /* ReaderServiceDeliveryFrequency.swift in Sources */,
