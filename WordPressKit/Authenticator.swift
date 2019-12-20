@@ -101,10 +101,6 @@ public class CookieNonceAuthenticator: Authenticator {
         case postLoginFailed(Swift.Error)
         case missingNonce
         case unknown(Swift.Error)
-
-        var retriable: Bool {
-            return false
-        }
     }
 }
 
@@ -143,9 +139,8 @@ private extension CookieNonceAuthenticator {
     }
 
     func invalidateLoginSequence(error: Error) {
-        canRetry = error.retriable
-        let retryMessage = canRetry ? "will retry" : "will not retry"
-        DDLogError("Aborting Cookie+Nonce login sequence for \(loginURL), \(retryMessage)")
+        canRetry = false
+        DDLogError("Aborting Cookie+Nonce login sequence for \(loginURL)")
         completeRequests(false)
         isAuthenticating = false
     }
