@@ -7,29 +7,17 @@ public typealias RequestAuthenticationValidator = (URLRequest) -> Bool
 
 // MARK: - Authenticator
 
-public struct Authenticator {
-    let adapter: RequestAdapter?
-    let retrier: RequestRetrier?
+public protocol Authenticator: RequestRetrier & RequestAdapter {}
 
-    public init(authenticator: RequestRetrier & RequestAdapter) {
-        adapter = authenticator
-        retrier = authenticator
-    }
-
-    public init(authenticator: RequestRetrier) {
-        adapter = nil
-        retrier = authenticator
-    }
-
-    public init(authenticator: RequestAdapter) {
-        adapter = authenticator
-        retrier = nil
+public extension Authenticator {
+    func should(_ manager: SessionManager, retry request: Request, with error: Error, completion: @escaping RequestRetryCompletion) {
+        completion(false, 0.0)
     }
 }
 
 // MARK: - Token Auth
 
-public struct TokenAuthenticator: RequestAdapter {
+public struct TokenAuthenticator: Authenticator {
     fileprivate let token: Secret<String>
     fileprivate let shouldAuthenticate: RequestAuthenticationValidator
 
@@ -50,15 +38,14 @@ public struct TokenAuthenticator: RequestAdapter {
 
 public extension Authenticator {
     static func token(_ token: String, shouldAuthenticate: RequestAuthenticationValidator? = nil) -> Authenticator {
-        let authenticator = TokenAuthenticator(token: token, shouldAuthenticate: shouldAuthenticate)
-        return Authenticator(authenticator: authenticator)
+        return TokenAuthenticator(token: token, shouldAuthenticate: shouldAuthenticate)
     }
 
 }
 
 // MARK: - Cookie Nonce Auth
 
-public class CookieNonceAuthenticator: RequestAdapter, RequestRetrier {
+public class CookieNonceAuthenticator: Authenticator {
     private let username: String
     private let password: Secret<String>
     private let loginURL: URL
@@ -121,7 +108,7 @@ public class CookieNonceAuthenticator: RequestAdapter, RequestRetrier {
     }
 }
 
-    // MARK: Private helpers
+// MARK: Private helpers
 private extension CookieNonceAuthenticator {
     func startLoginSequence(manager: SessionManager) {
         DDLogInfo("Starting Cookie+Nonce login sequence for \(loginURL)")
@@ -207,7 +194,6 @@ private extension CookieNonceAuthenticator {
 
 public extension Authenticator {
     static func cookieNonce(username: String, password: String, loginURL: URL, adminURL: URL) -> Authenticator {
-        let authenticator = CookieNonceAuthenticator(username: username, password: password, loginURL: loginURL, adminURL: adminURL)
-        return Authenticator(authenticator: authenticator)
+        return CookieNonceAuthenticator(username: username, password: password, loginURL: loginURL, adminURL: adminURL)
     }
 }

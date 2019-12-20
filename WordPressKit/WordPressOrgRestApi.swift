@@ -91,8 +91,8 @@ open class WordPressOrgRestApi: NSObject {
         sessionConfiguration.httpAdditionalHeaders = additionalHeaders
 
         let sessionManager = Alamofire.SessionManager(configuration: sessionConfiguration)
-        sessionManager.adapter = authenticator?.adapter
-        sessionManager.retrier = authenticator?.retrier
+        sessionManager.adapter = authenticator
+        sessionManager.retrier = authenticator
         return sessionManager
     }
 }
