@@ -196,10 +196,10 @@ open class WordPressComRestApi: NSObject {
 
         let dataRequest = sessionManager.request(URLString, method: method, parameters: parameters, encoding:encoding)
             .validate()
-            .responseJSON(completionHandler: { (response) in
+            .responseJSON(completionHandler: { [weak progress] (response) in
             switch response.result {
             case .success(let responseObject):
-                progress.completedUnitCount = progress.totalUnitCount
+                progress?.completedUnitCount = progress?.totalUnitCount ?? 0
                 success(responseObject as AnyObject, response.response)
             case .failure(let error):
                 let nserror = self.processError(response: response, originalError: error)
