@@ -208,8 +208,8 @@ open class WordPressComRestApi: NSObject {
 
         }).downloadProgress(closure: progressUpdater)
         progress.sessionTask = dataRequest.task
-        progress.cancellationHandler = {
-            dataRequest.cancel()
+        progress.cancellationHandler = { [weak dataRequest] in
+            dataRequest?.cancel()
         }
         return progress
     }
