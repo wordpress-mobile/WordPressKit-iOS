@@ -189,27 +189,26 @@ open class WordPressComRestApi: NSObject {
         }
 
         let progress = Progress(totalUnitCount: 1)
-        let progressUpdater = {(taskProgress: Progress) in
-            progress.totalUnitCount = taskProgress.totalUnitCount
-            progress.completedUnitCount = taskProgress.completedUnitCount
+        let progressUpdater = { [weak progress] (taskProgress: Progress) in
+            progress?.totalUnitCount = taskProgress.totalUnitCount
+            progress?.completedUnitCount = taskProgress.completedUnitCount
         }
 
         let dataRequest = sessionManager.request(URLString, method: method, parameters: parameters, encoding:encoding)
             .validate()
-            .responseJSON(completionHandler: { (response) in
+            .responseJSON(completionHandler: { [weak progress] (response) in
             switch response.result {
             case .success(let responseObject):
-                progress.completedUnitCount = progress.totalUnitCount
+                progress?.completedUnitCount = progress?.totalUnitCount ?? 0
                 success(responseObject as AnyObject, response.response)
             case .failure(let error):
                 let nserror = self.processError(response: response, originalError: error)
                 failure(nserror, response.response)
             }
-
         }).downloadProgress(closure: progressUpdater)
         progress.sessionTask = dataRequest.task
-        progress.cancellationHandler = {
-            dataRequest.cancel()
+        progress.cancellationHandler = { [weak dataRequest] in
+            dataRequest?.cancel()
         }
         return progress
     }
