@@ -146,6 +146,7 @@ class WordPressComOAuthTests: XCTestCase {
         let expect = self.expectation(description: "One callback should be invoked")
         let client = WordPressComOAuthClient(clientID: "Fake", secret: "Fake")
         client.authenticateWithIDToken("token",
+                                       service: "google",
                                        success: { (token) in
                                         expect.fulfill()
                                         XCTAssert(!token!.isEmpty, "There should be a token available")
@@ -173,6 +174,7 @@ class WordPressComOAuthTests: XCTestCase {
         let expect = self.expectation(description: "One callback should be invoked")
         let client = WordPressComOAuthClient(clientID: "Fake", secret: "Fake")
         client.authenticateWithIDToken("token",
+                                       service: "google",
                                        success: { (token) in
                                         expect.fulfill()
                                         XCTFail("This call should need multifactor")
@@ -200,6 +202,7 @@ class WordPressComOAuthTests: XCTestCase {
         let expect = self.expectation(description: "One callback should be invoked")
         let client = WordPressComOAuthClient(clientID: "Fake", secret: "Fake")
         client.authenticateWithIDToken("token",
+                                       service: "google",
                                        success: { (token) in
                                         expect.fulfill()
                                         XCTFail("This call should invoke user needs connection")

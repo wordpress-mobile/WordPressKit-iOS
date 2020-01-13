@@ -11,7 +11,7 @@ def wordpresskit_pods
   pod 'WordPressShared', '~> 1.8.3-beta'
   pod 'NSObject-SafeExpectations', '~> 0.0.3'
   pod 'wpxmlrpc', '0.8.4'
-  pod 'UIDeviceIdentifier', '~> 1.1.4'
+  pod 'UIDeviceIdentifier', '~> 1'
 end
 
 ## WordPress Kit

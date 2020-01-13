@@ -244,15 +244,16 @@ public final class WordPressComOAuthClient: NSObject {
     }
 
     /// Authenticate on WordPress.com with a social service's ID token.
-    /// Only google is supported at this time.
     ///
     /// - Parameters:
     ///     - token: A social ID token obtained from a supported social service.
+    ///     - service: The social service type (ex: "google" or "apple").
     ///     - success: block to be called if authentication was successful. The OAuth2 token is passed as a parameter.
     ///     - needsMultifactor: block to be called if a 2fa token is needed to complete the auth process.
     ///     - failure: block to be called if authentication failed. The error object is passed as a parameter.
     ///
     @objc public func authenticateWithIDToken(_ token: String,
+                                              service: String,
                                               success: @escaping (_ authToken: String?) -> Void,
                                               needsMultifactor: @escaping (_ userID: Int, _ nonceInfo: SocialLogin2FANonceInfo) -> Void,
                                               existingUserNeedsConnection: @escaping (_ email: String) -> Void,
@@ -260,7 +261,7 @@ public final class WordPressComOAuthClient: NSObject {
         let parameters = [
             "client_id": clientID,
             "client_secret": secret,
-            "service": "google",
+            "service": service,
             "get_bearer_token": true,
             "id_token" : token,
             ] as [String : Any]
@@ -416,13 +417,17 @@ public final class WordPressComOAuthClient: NSObject {
     }
 
     private func cleanedUpResponseForLogging(_ response: AnyObject) -> AnyObject {
-        guard var responseDictionary = response as? [String: AnyObject],
-            let _ = responseDictionary["access_token"]
-            else {
+        guard var responseDictionary = response as? [String: AnyObject] else {
                 return response
         }
 
-        responseDictionary["access_token"] = "*** REDACTED ***" as AnyObject?
+        let keys = ["access_token", "bearer_token"]
+        for key in keys {
+            if responseDictionary[key] != nil {
+                responseDictionary[key] = "*** REDACTED ***" as AnyObject?
+            }
+        }
+
         return responseDictionary as AnyObject
     }
 
