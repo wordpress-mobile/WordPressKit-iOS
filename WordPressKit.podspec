@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name          = "WordPressKit"
-  s.version       = "4.5.6"
+  s.version       = "4.5.7-beta.1"
   s.summary       = "WordPressKit offers a clean and simple WordPress.com and WordPress.org API."
 
   s.description   = <<-DESC
@@ -21,7 +21,7 @@ Pod::Spec.new do |s|
 
   s.dependency 'Alamofire', '~> 4.7.3'
   s.dependency 'CocoaLumberjack', '~> 3.4'
-  s.dependency 'WordPressShared', '~> 1.8.0'
+  s.dependency 'WordPressShared', '~> 1.8.13-beta'
   s.dependency 'NSObject-SafeExpectations', '0.0.3'
   s.dependency 'wpxmlrpc', '0.8.4'
   s.dependency 'UIDeviceIdentifier', '~> 1'
