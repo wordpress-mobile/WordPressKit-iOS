@@ -50,19 +50,25 @@ public class CookieNonceAuthenticator: Authenticator {
     private let password: Secret<String>
     private let loginURL: URL
     private let adminURL: URL
+    private let version: String
     private var nonce: Secret<String>? = nil
     // If we can't get this to work once, don't retry for the same site
     // It is likely that there is something preventing us from extracting a nonce
     private var canRetry = true
     private var isAuthenticating = false
     private var requestsToRetry = [RequestRetryCompletion]()
+    private var nonceRetrievalMethod: NonceRetrievalMethod = .newPostScrap
 
-    public init(username: String, password: String, loginURL: URL, adminURL: URL, nonce: String? = nil) {
+    public init(username: String, password: String, loginURL: URL, adminURL: URL, version: String = "5.0", nonce: String? = nil) {
         self.username = username
         self.password = Secret(password)
         self.loginURL = loginURL
         self.adminURL = adminURL
         self.nonce = nonce.map(Secret.init)
+        self.version = version
+        if version >= "5.3.0" {
+            nonceRetrievalMethod = .ajaxNonceRequest
+        }
     }
 
     // MARK: Request Adapter
@@ -106,12 +112,13 @@ public class CookieNonceAuthenticator: Authenticator {
 
 // MARK: Private helpers
 private extension CookieNonceAuthenticator {
+
     func startLoginSequence(manager: SessionManager) {
         DDLogInfo("Starting Cookie+Nonce login sequence for \(loginURL)")
-        guard let newPostURL = buildNewPostURL() else {
+        guard let nonceRetrievalURL = nonceRetrievalMethod.buildURL(base: adminURL) else {
             return invalidateLoginSequence(error: .invalidNewPostURL)
         }
-        let request = authenticatedRequest(redirectURL: newPostURL)
+        let request = authenticatedRequest(redirectURL: nonceRetrievalURL)
         manager.request(request)
             .validate()
             .responseString { [weak self] (response) in
@@ -124,7 +131,7 @@ private extension CookieNonceAuthenticator {
                 case .success(let page):
                     let redirectedTo = response.response?.url?.absoluteString ?? "nil"
                     DDLogInfo("Posted Login to \(self.loginURL), redirected to \(redirectedTo)")
-                    guard let nonce = self.extractNonce(html: page) else {
+                    guard let nonce = self.nonceRetrievalMethod.retrieveNonce(from: page) else {
                         return self.invalidateLoginSequence(error: .missingNonce)
                     }
                     self.nonce = Secret(nonce)
@@ -152,10 +159,6 @@ private extension CookieNonceAuthenticator {
         requestsToRetry.removeAll()
     }
 
-    func buildNewPostURL() -> URL? {
-        return URL(string: "post-new.php", relativeTo: adminURL)
-    }
-
     func authenticatedRequest(redirectURL: URL) -> URLRequest {
         var request = URLRequest(url: loginURL)
 
@@ -173,22 +176,55 @@ private extension CookieNonceAuthenticator {
         return request
     }
 
-    func extractNonce(html: String) -> String? {
-        guard let regex = try? NSRegularExpression(pattern: "apiFetch.createNonceMiddleware\\(\\s*['\"](?<nonce>\\w+)['\"]\\s*\\)", options: []),
-            let match = regex.firstMatch(in: html, options: [], range: NSMakeRange(0, html.count)) else {
-                return nil
-        }
-        let nsrange = match.range(withName: "nonce")
-        let nonce = Range(nsrange, in: html)
-            .map( { html[$0] })
-            .map( String.init )
-
-        return nonce
-    }
 }
 
 public extension CookieNonceAuthenticator {
-    static func cookieNonce(username: String, password: String, loginURL: URL, adminURL: URL) -> Authenticator {
-        return CookieNonceAuthenticator(username: username, password: password, loginURL: loginURL, adminURL: adminURL)
+    static func cookieNonce(username: String, password: String, loginURL: URL, adminURL: URL, version: String) -> Authenticator {
+        return CookieNonceAuthenticator(username: username, password: password, loginURL: loginURL, adminURL: adminURL, version: version)
+    }
+}
+
+private extension CookieNonceAuthenticator {
+    enum NonceRetrievalMethod {
+        case newPostScrap
+        case ajaxNonceRequest
+
+        func buildURL(base: URL) -> URL? {
+            switch self {
+                case .newPostScrap:
+                    return URL(string: "post-new.php", relativeTo: base)
+                case .ajaxNonceRequest:
+                    return URL(string: "admin-ajax.php?action=rest-nonce", relativeTo: base)
+            }
+        }
+
+        func retrieveNonce(from html: String) -> String? {
+            switch self {
+                case .newPostScrap:
+                    return scrapNonceFromNewPost(html: html)
+                case .ajaxNonceRequest:
+                    return readNonceFromAjaxAction(html: html)
+            }
+        }
+
+        func scrapNonceFromNewPost(html: String) -> String? {
+            guard let regex = try? NSRegularExpression(pattern: "apiFetch.createNonceMiddleware\\(\\s*['\"](?<nonce>\\w+)['\"]\\s*\\)", options: []),
+                let match = regex.firstMatch(in: html, options: [], range: NSMakeRange(0, html.count)) else {
+                    return nil
+            }
+            let nsrange = match.range(withName: "nonce")
+            let nonce = Range(nsrange, in: html)
+                .map( { html[$0] })
+                .map( String.init )
+
+            return nonce
+        }
+
+        func readNonceFromAjaxAction(html: String) -> String? {
+            guard !html.isEmpty else {
+                return nil
+            }
+            return html
+        }
     }
 }
