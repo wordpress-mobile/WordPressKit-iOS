@@ -36,7 +36,7 @@ public struct TokenAuthenticator: Authenticator {
     }
 }
 
-public extension Authenticator {
+public extension TokenAuthenticator {
     static func token(_ token: String, shouldAuthenticate: RequestAuthenticationValidator? = nil) -> Authenticator {
         return TokenAuthenticator(token: token, shouldAuthenticate: shouldAuthenticate)
     }
@@ -187,7 +187,7 @@ private extension CookieNonceAuthenticator {
     }
 }
 
-public extension Authenticator {
+public extension CookieNonceAuthenticator {
     static func cookieNonce(username: String, password: String, loginURL: URL, adminURL: URL) -> Authenticator {
         return CookieNonceAuthenticator(username: username, password: password, loginURL: loginURL, adminURL: adminURL)
     }
