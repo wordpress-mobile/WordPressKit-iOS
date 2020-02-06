@@ -66,7 +66,8 @@ public class CookieNonceAuthenticator: Authenticator {
         self.adminURL = adminURL
         self.nonce = nonce.map(Secret.init)
         self.version = version
-        if version >= "5.3.0" {
+        let isVersionAtLeast5_3_0 = version.compare("5.3.0", options: .numeric) != .orderedAscending
+        if  isVersionAtLeast5_3_0 {
             nonceRetrievalMethod = .ajaxNonceRequest
         }
     }
