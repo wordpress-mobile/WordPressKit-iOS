@@ -1,5 +1,5 @@
 PODS:
-  - Alamofire (4.7.3)
+  - Alamofire (4.9.1)
   - CocoaLumberjack (3.4.2):
     - CocoaLumberjack/Default (= 3.4.2)
     - CocoaLumberjack/Extensions (= 3.4.2)
@@ -33,7 +33,7 @@ PODS:
   - wpxmlrpc (0.8.4)
 
 DEPENDENCIES:
-  - Alamofire (~> 4.7.3)
+  - Alamofire (~> 4.9.0)
   - CocoaLumberjack (= 3.4.2)
   - NSObject-SafeExpectations (~> 0.0.3)
   - OCMock (~> 3.4.2)
@@ -56,7 +56,7 @@ SPEC REPOS:
     - wpxmlrpc
 
 SPEC CHECKSUMS:
-  Alamofire: c7287b6e5d7da964a70935e5db17046b7fde6568
+  Alamofire: 85e8a02c69d6020a0d734f6054870d7ecb75cf18
   CocoaLumberjack: db7cc9e464771f12054c22ff6947c5a58d43a0fd
   FormatterKit: 4b8f29acc9b872d5d12a63efb560661e8f2e1b98
   NSObject-SafeExpectations: b989b68a8a9b7b9f2b264a8b52ba9d7aab8f3129
@@ -66,6 +66,6 @@ SPEC CHECKSUMS:
   WordPressShared: 98ebacf932b8f7b99a6ccb9f61b3fb1792f82d55
   wpxmlrpc: 6ba55c773cfa27083ae4a2173e69b19f46da98e2
 
-PODFILE CHECKSUM: 56903d059e5f680ccd38ce56869428680fff2615
+PODFILE CHECKSUM: d008cca8a8bb9dcef697ff8d19c21bd048a8c27a
 
-COCOAPODS: 1.8.3
+COCOAPODS: 1.8.4
