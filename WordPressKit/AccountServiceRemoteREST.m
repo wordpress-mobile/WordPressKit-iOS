@@ -133,10 +133,6 @@ static NSString * const UserDictionaryEmailVerifiedKey = @"email_verified";
     [self.wordPressComRestApi GET:@"is-available/email"
                        parameters:@{ @"q": email, @"format": @"json"}
                           success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
-        if (!success) {
-            return;
-        }
-
         if ([responseObject isKindOfClass:[NSDictionary class]]) {
             NSString *error = [responseObject objectForKey:@"error"];
             NSString *message = [responseObject objectForKey:@"message"];
@@ -148,7 +144,9 @@ static NSString * const UserDictionaryEmailVerifiedKey = @"email_verified";
                                                             @"response": responseObject,
                                                             NSLocalizedDescriptionKey: message,
                                                         }];
-                failure(error);
+                if failure {
+                    failure(error);
+                }
                 return;
             } else if ([error isEqualToString:errorEmailAddressTaken]) {
                 NSError* error = [[NSError alloc] initWithDomain:AccountServiceRemoteErrorDomain
@@ -157,18 +155,24 @@ static NSString * const UserDictionaryEmailVerifiedKey = @"email_verified";
                                                             @"response": responseObject,
                                                             NSLocalizedDescriptionKey: message,
                                                         }];
-                failure(error);
+                if failure {
+                    failure(error);
+                }
                 return;
             }
             
-            BOOL available = [[responseObject numberForKey:@"available"] boolValue];
-            success(available);
+            if success {
+                BOOL available = [[responseObject numberForKey:@"available"] boolValue];
+                success(available);
+            }
         } else {
             NSError* error = [[NSError alloc] initWithDomain:AccountServiceRemoteErrorDomain
                                                         code:AccountServiceRemoteCantReadServerResponse
                                                     userInfo:@{@"response": responseObject}];
 
-            failure(error);
+            if failure {
+                failure(error);
+            }
         }
     } failure:^(NSError *error, NSHTTPURLResponse *httpResponse) {
         if (failure) {
