@@ -30,7 +30,8 @@
                                           @"jetpack_version",
                                           @"is_automated_transfer",
                                           @"blog_public",
-                                          @"max_upload_size"
+                                          @"max_upload_size",
+                                          @"is_wpcom_atomic",
                                           ];
 
         for (NSString *key in optionsDirectMapKeys) {
