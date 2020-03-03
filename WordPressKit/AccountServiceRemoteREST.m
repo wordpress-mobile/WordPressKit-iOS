@@ -144,7 +144,7 @@ static NSString * const UserDictionaryEmailVerifiedKey = @"email_verified";
                                                             @"response": responseObject,
                                                             NSLocalizedDescriptionKey: message,
                                                         }];
-                if failure {
+                if (failure) {
                     failure(error);
                 }
                 return;
@@ -155,13 +155,13 @@ static NSString * const UserDictionaryEmailVerifiedKey = @"email_verified";
                                                             @"response": responseObject,
                                                             NSLocalizedDescriptionKey: message,
                                                         }];
-                if failure {
+                if (failure) {
                     failure(error);
                 }
                 return;
             }
             
-            if success {
+            if (success) {
                 BOOL available = [[responseObject numberForKey:@"available"] boolValue];
                 success(available);
             }
@@ -170,7 +170,7 @@ static NSString * const UserDictionaryEmailVerifiedKey = @"email_verified";
                                                         code:AccountServiceRemoteCantReadServerResponse
                                                     userInfo:@{@"response": responseObject}];
 
-            if failure {
+            if (failure) {
                 failure(error);
             }
         }
