@@ -406,10 +406,9 @@ class AccountServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
 
         stubRemoteResponse(emailEndpoint, filename: isEmailAvailableFailureMockFilename, contentType: .JavaScript)
         remote.isEmailAvailable(email, success: { isAvailable in
-            XCTAssertFalse(isAvailable)
-            expect.fulfill()
-        }, failure: { error in
             XCTFail("This callback shouldn't get called")
+        }, failure: { error in
+            expect.fulfill()
         })
 
         waitForExpectations(timeout: timeout, handler: nil)

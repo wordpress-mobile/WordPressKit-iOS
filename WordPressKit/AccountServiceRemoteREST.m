@@ -127,31 +127,58 @@ static NSString * const UserDictionaryEmailVerifiedKey = @"email_verified";
 
 - (void)isEmailAvailable:(NSString *)email success:(void (^)(BOOL available))success failure:(void (^)(NSError *error))failure
 {
+    static NSString * const errorEmailAddressInvalid = @"invalid";
+    static NSString * const errorEmailAddressTaken = @"taken";
+    
     [self.wordPressComRestApi GET:@"is-available/email"
-       parameters:@{ @"q": email, @"format": @"json"}
-          success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
-              if (!success) {
-                  return;
-              }
+                       parameters:@{ @"q": email, @"format": @"json"}
+                          success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
+        if ([responseObject isKindOfClass:[NSDictionary class]]) {
+            NSString *error = [responseObject objectForKey:@"error"];
+            NSString *message = [responseObject objectForKey:@"message"];
+            
+            if ([error isEqualToString:errorEmailAddressInvalid]) {
+                NSError* error = [[NSError alloc] initWithDomain:AccountServiceRemoteErrorDomain
+                                                            code:AccountServiceRemoteEmailAddressInvalid
+                                                        userInfo:@{
+                                                            @"response": responseObject,
+                                                            NSLocalizedDescriptionKey: message,
+                                                        }];
+                if (failure) {
+                    failure(error);
+                }
+                return;
+            } else if ([error isEqualToString:errorEmailAddressTaken]) {
+                NSError* error = [[NSError alloc] initWithDomain:AccountServiceRemoteErrorDomain
+                                                            code:AccountServiceRemoteEmailAddressTaken
+                                                        userInfo:@{
+                                                            @"response": responseObject,
+                                                            NSLocalizedDescriptionKey: message,
+                                                        }];
+                if (failure) {
+                    failure(error);
+                }
+                return;
+            }
+            
+            if (success) {
+                BOOL available = [[responseObject numberForKey:@"available"] boolValue];
+                success(available);
+            }
+        } else {
+            NSError* error = [[NSError alloc] initWithDomain:AccountServiceRemoteErrorDomain
+                                                        code:AccountServiceRemoteCantReadServerResponse
+                                                    userInfo:@{@"response": responseObject}];
 
-              // If the email address is not available (has already been used)
-              // the endpoint will reply with a 200 status code and an JSON
-              // object describing an error.
-              // The error is that the queried email address is not available,
-              // which is our failure case. Test the error response for the
-              // "taken" reason to confirm the email address exists.
-              BOOL available = NO;
-              if ([responseObject isKindOfClass:[NSDictionary class]]) {
-                  NSDictionary *dict = (NSDictionary *)responseObject;
-                  available = [[dict numberForKey:@"available"] boolValue];
-              }
-              success(available);
-
-          } failure:^(NSError *error, NSHTTPURLResponse *httpResponse) {
-              if (failure) {
-                  failure(error);
-              }
-          }];
+            if (failure) {
+                failure(error);
+            }
+        }
+    } failure:^(NSError *error, NSHTTPURLResponse *httpResponse) {
+        if (failure) {
+            failure(error);
+        }
+    }];
 }
 
 - (void)isUsernameAvailable:(NSString *)username
