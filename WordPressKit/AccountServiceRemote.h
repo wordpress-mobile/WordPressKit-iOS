@@ -3,6 +3,14 @@
 
 @class WPAccount;
 
+static NSString * const AccountServiceRemoteErrorDomain = @"AccountServiceErrorDomain";
+
+typedef NS_ERROR_ENUM(AccountServiceRemoteErrorDomain, AccountServiceRemoteError) {
+    AccountServiceRemoteCantReadServerResponse,
+    AccountServiceRemoteEmailAddressInvalid,
+    AccountServiceRemoteEmailAddressTaken,
+};
+
 @protocol AccountServiceRemote <NSObject>
 
 /**

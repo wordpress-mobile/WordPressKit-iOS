@@ -19,7 +19,7 @@ class RemoteTestCase: XCTestCase {
 
     // MARK: - Constants
 
-    let timeout = TimeInterval(1000)
+    let timeout = TimeInterval(5)
 
 
     // MARK: - Overridden Methods
