@@ -11,7 +11,8 @@ def wordpresskit_pods
   pod 'WordPressShared', '~> 1.8.13-beta'
   # pod 'WordPressShared', :git => 'https://github.com/wordpress-mobile/WordPress-iOS-Shared.git', :commit  => 'efe5a065f3ace331353595ef85eef502baa23497'
   pod 'NSObject-SafeExpectations', '~> 0.0.3'
-  pod 'wpxmlrpc', '0.8.4'
+  #pod 'wpxmlrpc', '0.8.5-beta.1' // update to use this once wpxmlrpc has been merged.
+  pod 'wpxmlrpc', :git => 'https://github.com/wordpress-mobile/wpxmlrpc.git', :branch => 'feature/update-xcode-settings'
   pod 'UIDeviceIdentifier', '~> 1'
 end
 
