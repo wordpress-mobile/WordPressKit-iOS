@@ -27,14 +27,16 @@
                  }];
 }
 
-- (void)getMediaLibraryWithSuccess:(void (^)(NSArray *))success
+- (void)getMediaLibraryWithPageLoad:(void (^)(NSArray *))pageLoad
+                           success:(void (^)(NSArray *))success
                            failure:(void (^)(NSError *))failure
 {
-    [self getMediaLibraryStartOffset:0 media:@[] success:success failure:failure];
+    [self getMediaLibraryStartOffset:0 media:@[] pageLoad:pageLoad success:success failure:failure];
 }
 
 - (void)getMediaLibraryStartOffset:(NSUInteger)offset
                              media:(NSArray *)media
+                          pageLoad:(void (^)(NSArray *))pageLoad
                            success:(void (^)(NSArray *))success
                            failure:(void (^)(NSError *))failure
 {
@@ -53,6 +55,9 @@
                          return;
                      }
                      NSArray *pageMedia = [self remoteMediaFromXMLRPCArray:responseObject];
+                     if(pageLoad) {
+                         pageLoad(pageMedia);
+                     }
                      NSArray *resultMedia = [media arrayByAddingObjectsFromArray:pageMedia];
                      // Did we got all the items we requested or it's finished?
                      if (pageMedia.count < pageSize) {
@@ -60,7 +65,7 @@
                          return;
                      }
                      NSUInteger newOffset = offset + pageSize;
-                     [self getMediaLibraryStartOffset:newOffset media:resultMedia success: success failure: failure];                     
+                     [self getMediaLibraryStartOffset:newOffset media:resultMedia pageLoad:pageLoad success: success failure: failure];                     
                  }
                  failure:^(NSError *error, NSHTTPURLResponse *httpResponse) {
                      if (failure) {

@@ -31,7 +31,8 @@ const NSInteger WPRestErrorCodeMediaNew = 10;
     }];
 }
 
-- (void)getMediaLibraryWithSuccess:(void (^)(NSArray *))success
+- (void)getMediaLibraryWithPageLoad:(void (^)(NSArray *))pageLoad
+                           success:(void (^)(NSArray *))success
                            failure:(void (^)(NSError *))failure
 {
     NSMutableArray *media = [NSMutableArray array];
@@ -39,6 +40,7 @@ const NSInteger WPRestErrorCodeMediaNew = 10;
     [self getMediaLibraryPage:nil
                         media:media
                          path:path
+                     pageLoad:pageLoad
                       success:success
                       failure:failure];
 }
@@ -46,6 +48,7 @@ const NSInteger WPRestErrorCodeMediaNew = 10;
 - (void)getMediaLibraryPage:(NSString *)pageHandle
                       media:(NSMutableArray *)media
                        path:(NSString *)path
+                   pageLoad:(void (^)(NSArray *))pageLoad
                     success:(void (^)(NSArray *))success
                     failure:(void (^)(NSError *))failure
 {
@@ -65,6 +68,9 @@ const NSInteger WPRestErrorCodeMediaNew = 10;
               NSArray *pageItems = [MediaServiceRemoteREST remoteMediaFromJSONArray:mediaItems];
               if (pageItems.count) {
                   [media addObjectsFromArray:pageItems];
+                  if(pageLoad) {
+                      pageLoad(pageItems);
+                  }
               }
               NSDictionary *meta = responseObject[@"meta"];
               NSString *nextPage = meta[@"next_page"];
@@ -72,6 +78,7 @@ const NSInteger WPRestErrorCodeMediaNew = 10;
                   [self getMediaLibraryPage:nextPage
                                       media:media
                                        path:path
+                                   pageLoad:pageLoad
                                     success:success
                                     failure:failure];
               } else if (success) {
