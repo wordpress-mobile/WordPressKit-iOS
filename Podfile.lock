@@ -41,7 +41,7 @@ DEPENDENCIES:
   - OHHTTPStubs/Swift (= 6.1.0)
   - UIDeviceIdentifier (~> 1)
   - WordPressShared (~> 1.8.13-beta)
-  - wpxmlrpc (from `https://github.com/wordpress-mobile/wpxmlrpc.git`, branch `feature/update-xcode-settings`)
+  - wpxmlrpc (= 0.8.5-beta.1)
 
 SPEC REPOS:
   trunk:
@@ -53,16 +53,7 @@ SPEC REPOS:
     - OHHTTPStubs
     - UIDeviceIdentifier
     - WordPressShared
-
-EXTERNAL SOURCES:
-  wpxmlrpc:
-    :branch: feature/update-xcode-settings
-    :git: https://github.com/wordpress-mobile/wpxmlrpc.git
-
-CHECKOUT OPTIONS:
-  wpxmlrpc:
-    :commit: e38de51ce2fed06e9d5807a0cc238ea43384135e
-    :git: https://github.com/wordpress-mobile/wpxmlrpc.git
+    - wpxmlrpc
 
 SPEC CHECKSUMS:
   Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
@@ -75,6 +66,6 @@ SPEC CHECKSUMS:
   WordPressShared: 98ebacf932b8f7b99a6ccb9f61b3fb1792f82d55
   wpxmlrpc: d758b6ad17723d31d06493acc932f6d9b340de95
 
-PODFILE CHECKSUM: 68629fe6a9b8d416e3c8be904a4dc969372f8b33
+PODFILE CHECKSUM: 5ce92d370c62c207679b4db9f2eb470dfa1f6e78
 
 COCOAPODS: 1.8.3
