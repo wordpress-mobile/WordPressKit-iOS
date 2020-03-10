@@ -1942,7 +1942,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				32A29A1F236BE4CC009488C2 /* post-autosave-mapping-success.json in Resources */,
-				93AC8EC61ED32FD000900F5A /* stats-v1.1-alltime.json in Resources */,
 				7403A2FC1EF06FEB00DED7DC /* me-settings-change-lastname-success.json in Resources */,
 				40F88F601F85723500AE3FAF /* auth-send-verification-email-already-verified-failure.json in Resources */,
 				74D67F211F15C3240010C5ED /* people-validate-invitation-success.json in Resources */,
@@ -2221,7 +2220,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				32E1DD23236AA09A008914B0 /* RemotePostAutosave.swift in Sources */,
-				9368C7B41EC630270092CE8E /* StatsItemAction.m in Sources */,
 				7430C9B41F1927C50051B8E6 /* RemoteReaderSite.m in Sources */,
 				74585B8E1F0D51A100E7E667 /* DomainsServiceRemote.swift in Sources */,
 				7430C9A41F1927180051B8E6 /* ReaderPostServiceRemote.m in Sources */,
