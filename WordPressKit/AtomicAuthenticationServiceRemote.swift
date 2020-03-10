@@ -1,13 +1,5 @@
 import Foundation
 
-struct RemoteCookie {
-    let name: String
-    let value: String
-    let domain: String
-    let expirationDate: Date
-    let path: String
-}
-
 class AtomicAuthenticationServiceRemote: ServiceRemoteWordPressComREST {
     
     enum ResponseError: Error {
