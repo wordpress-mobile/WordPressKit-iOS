@@ -66,11 +66,11 @@ const NSInteger WPRestErrorCodeMediaNew = 10;
           success:^(id responseObject, NSHTTPURLResponse *response) {
               NSArray *mediaItems = responseObject[@"media"];
               NSArray *pageItems = [MediaServiceRemoteREST remoteMediaFromJSONArray:mediaItems];
+              [media addObjectsFromArray:pageItems];
               NSDictionary *meta = responseObject[@"meta"];
               NSString *nextPage = meta[@"next_page"];
               if (nextPage.length) {
                   if (pageItems.count) {
-                      [media addObjectsFromArray:pageItems];
                       if(pageLoad) {
                           pageLoad(pageItems);
                       }
