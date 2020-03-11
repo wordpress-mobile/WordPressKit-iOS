@@ -162,7 +162,7 @@ class MediaServiceRemoteRESTTests: XCTestCase {
 
     func testGetMediaLibraryPath() {
         let expectedPath = mediaServiceRemote.path(forEndpoint: "sites/\(siteID)/media", withVersion: ._1_1)
-        mediaServiceRemote.getMediaLibrary(success: nil, failure: nil)
+        mediaServiceRemote.getMediaLibrary(pageLoad: nil, success: nil, failure: nil)
         XCTAssertTrue(mockRemoteApi.getMethodCalled, "Wrong method, expected GET got \(mockRemoteApi.methodCalled())")
         XCTAssertEqual(mockRemoteApi.URLStringPassedIn, expectedPath, "Wrong path")
     }
@@ -171,7 +171,7 @@ class MediaServiceRemoteRESTTests: XCTestCase {
 
         let response = ["media": []]
         var remoteMedias = [RemoteMedia]()
-        mediaServiceRemote.getMediaLibrary(success: { (medias) in
+        mediaServiceRemote.getMediaLibrary(pageLoad: nil, success: { (medias) in
             if let medias = medias as? [RemoteMedia] {
                 remoteMedias = medias
             }
@@ -184,7 +184,7 @@ class MediaServiceRemoteRESTTests: XCTestCase {
 
         let response = ["media": [["ID": 2]]]
         var remoteMedias = [RemoteMedia]()
-        mediaServiceRemote.getMediaLibrary(success: { (medias) in
+        mediaServiceRemote.getMediaLibrary(pageLoad: nil, success: { (medias) in
             if let medias = medias as? [RemoteMedia] {
                 remoteMedias = medias
             }
@@ -197,7 +197,7 @@ class MediaServiceRemoteRESTTests: XCTestCase {
 
         let response = ["media": [["ID": 2], ["ID": 3], ["ID": 4]]]
         var remoteMedias = [RemoteMedia]()
-        mediaServiceRemote.getMediaLibrary(success: { (medias) in
+        mediaServiceRemote.getMediaLibrary(pageLoad: nil, success: { (medias) in
             if let medias = medias as? [RemoteMedia] {
                 remoteMedias = medias
             }

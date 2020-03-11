@@ -39,11 +39,13 @@
 /**
  *  Get Media items from blog using the options parameter.
  *
+ *  @param pageLoad a block to be executed when each page of media is loaded.
  *  @param success a block to be executed when the request finishes with success.
  *  @param failure a block to be execute when the request fails.
  */
-- (void)getMediaLibraryWithSuccess:(void (^)(NSArray *))success
-                           failure:(void (^)(NSError *))failure;
+- (void)getMediaLibraryWithPageLoad:(void (^)(NSArray *))pageLoad
+                            success:(void (^)(NSArray *))success
+                            failure:(void (^)(NSError *))failure;
 
 /**
  *  Get the number of media items available in the blog
