@@ -55,14 +55,14 @@
                          return;
                      }
                      NSArray *pageMedia = [self remoteMediaFromXMLRPCArray:responseObject];
-                     if(pageLoad) {
-                         pageLoad(pageMedia);
-                     }
                      NSArray *resultMedia = [media arrayByAddingObjectsFromArray:pageMedia];
                      // Did we got all the items we requested or it's finished?
                      if (pageMedia.count < pageSize) {
                          success(resultMedia);
                          return;
+                     }
+                     if(pageLoad) {
+                        pageLoad(pageMedia);
                      }
                      NSUInteger newOffset = offset + pageSize;
                      [self getMediaLibraryStartOffset:newOffset media:resultMedia pageLoad:pageLoad success: success failure: failure];                     
