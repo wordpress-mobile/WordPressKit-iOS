@@ -35,12 +35,12 @@ PODS:
 DEPENDENCIES:
   - Alamofire (~> 4.8.0)
   - CocoaLumberjack (= 3.4.2)
-  - NSObject-SafeExpectations (~> 0.0.3)
+  - NSObject-SafeExpectations (~> 0.0.4)
   - OCMock (~> 3.4.2)
   - OHHTTPStubs (= 6.1.0)
   - OHHTTPStubs/Swift (= 6.1.0)
   - UIDeviceIdentifier (~> 1)
-  - WordPressShared (~> 1.8.13-beta)
+  - WordPressShared (~> 1.8.15-beta)
   - wpxmlrpc (= 0.8.5-beta.1)
 
 SPEC REPOS:
@@ -66,6 +66,6 @@ SPEC CHECKSUMS:
   WordPressShared: 02e0947034648cbd7251ffcc10f64d512f93a53b
   wpxmlrpc: d758b6ad17723d31d06493acc932f6d9b340de95
 
-PODFILE CHECKSUM: 5ce92d370c62c207679b4db9f2eb470dfa1f6e78
+PODFILE CHECKSUM: f9aa630fd36cfb01c9eea628263740a2703d39e9
 
 COCOAPODS: 1.8.4
