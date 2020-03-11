@@ -331,7 +331,7 @@ class ReaderSiteServiceRemoteTests: XCTestCase {
         let testURLString = "http://www.wordpress.com"
         let testURL = URL(string: testURLString)!
         stub(condition:{request in request.url?.absoluteString == testURLString}) { request in
-            return OHHTTPStubsResponse(error: NSError(domain: NSURLErrorDomain, code: NSURLErrorUnknown, userInfo: nil))
+            return HTTPStubsResponse(error: NSError(domain: NSURLErrorDomain, code: NSURLErrorUnknown, userInfo: nil))
         }
 
         let expect = self.expectation(description: "One callback should be invoked")
