@@ -12,7 +12,7 @@ Pod::Spec.new do |s|
   s.license       = "GPLv2"
   s.author        = { "WordPress" => "mobile@automattic.com" }
   s.platform      = :ios, "11.0"
-  s.swift_version = '4.2'
+  s.swift_version = '5.0'
   s.source        = { :git => "https://github.com/wordpress-mobile/WordPressKit-iOS.git", :tag => s.version.to_s }
   s.source_files  = 'WordPressKit/**/*.{h,m,swift}'
   s.private_header_files = "WordPressKit/Private/*.h"
