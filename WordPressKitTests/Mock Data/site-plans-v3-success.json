@@ -6,7 +6,7 @@
         "product_slug" : "value_bundle",
         "interval" : 365,
         "is_domain_upgrade" : null,
-        "raw_discount" : 0,
+        "raw_discount" : 0.5,
         "currency_code" : "USD",
         "can_start_trial" : false,
         "raw_price" : 96.6,
