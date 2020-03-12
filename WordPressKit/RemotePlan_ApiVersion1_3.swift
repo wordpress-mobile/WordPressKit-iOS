@@ -7,8 +7,8 @@ import Foundation
     public var autoRenew: Bool?
     public var freeTrial: Bool?
     public var interval: Int?
-    public var rawDiscount: Int?
-    public var rawPrice: Int?
+    public var rawDiscount: Double?
+    public var rawPrice: Double?
     public var hasDomainCredit: Bool?
     public var currentPlan: Bool?
     public var userIsOwner: Bool?
