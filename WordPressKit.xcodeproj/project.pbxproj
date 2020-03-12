@@ -1915,7 +1915,7 @@
 				TargetAttributes = {
 					9368C77A1EC5EF1B0092CE8E = {
 						CreatedOnToolsVersion = 8.3.2;
-						LastSwiftMigration = 0910;
+						LastSwiftMigration = 1130;
 						ProvisioningStyle = Automatic;
 					};
 					9368C7831EC5EF1B0092CE8E = {
@@ -2610,6 +2610,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -2635,6 +2636,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.automattic.WordPressKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -2758,6 +2760,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.automattic.WordPressKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
 			};
 			name = "Release-Internal";
 		};
@@ -2860,6 +2863,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.automattic.WordPressKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
 			};
 			name = "Release-Alpha";
 		};
