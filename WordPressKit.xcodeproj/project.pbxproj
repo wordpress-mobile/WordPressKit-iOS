@@ -1927,11 +1927,11 @@
 			};
 			buildConfigurationList = 9368C7751EC5EF1B0092CE8E /* Build configuration list for PBXProject "WordPressKit" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				English,
 				en,
+				Base,
 			);
 			mainGroup = 9368C7711EC5EF1B0092CE8E;
 			productRefGroup = 9368C77C1EC5EF1B0092CE8E /* Products */;
