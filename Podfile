@@ -10,7 +10,7 @@ def wordpresskit_pods
   pod 'CocoaLumberjack', '3.4.2'
   pod 'WordPressShared', '~> 1.8.13-beta'
   # pod 'WordPressShared', :git => 'https://github.com/wordpress-mobile/WordPress-iOS-Shared.git', :commit  => 'efe5a065f3ace331353595ef85eef502baa23497'
-  pod 'NSObject-SafeExpectations', '~> 0.0.3'
+  pod 'NSObject-SafeExpectations', '~> 0.0.4'
   pod 'wpxmlrpc', '0.8.5-beta.1'
   #pod 'wpxmlrpc', :git => 'https://github.com/wordpress-mobile/wpxmlrpc.git', :branch => 'feature/update-xcode-settings'
   pod 'UIDeviceIdentifier', '~> 1'
