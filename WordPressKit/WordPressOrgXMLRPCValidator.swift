@@ -325,7 +325,7 @@ open class WordPressOrgXMLRPCValidator: NSObject {
             guard let data = data,
                 let responseString = String(data: data, encoding: String.Encoding.utf8),
                 let parser = WordPressRSDParser(xmlString: responseString),
-                let endpoint = (try? parser.parsedEndpoint()),
+                let endpoint = (((try? parser.parsedEndpoint()) as String??)),
                 let xmlrpc = endpoint,
                 let xmlrpcURL = URL(string: xmlrpc)
                 else {
