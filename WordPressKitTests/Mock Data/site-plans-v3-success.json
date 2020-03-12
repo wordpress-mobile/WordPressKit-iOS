@@ -9,7 +9,7 @@
         "raw_discount" : 0,
         "currency_code" : "USD",
         "can_start_trial" : false,
-        "raw_price" : 96,
+        "raw_price" : 96.6,
         "formatted_original_price" : "$0",
         "formatted_price" : "$96"
     },
