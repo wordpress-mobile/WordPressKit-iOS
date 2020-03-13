@@ -11,23 +11,23 @@ PODS:
     - FormatterKit/Resources
   - NSObject-SafeExpectations (0.0.4)
   - OCMock (3.4.3)
-  - OHHTTPStubs (6.1.0):
-    - OHHTTPStubs/Default (= 6.1.0)
-  - OHHTTPStubs/Core (6.1.0)
-  - OHHTTPStubs/Default (6.1.0):
+  - OHHTTPStubs (9.0.0):
+    - OHHTTPStubs/Default (= 9.0.0)
+  - OHHTTPStubs/Core (9.0.0)
+  - OHHTTPStubs/Default (9.0.0):
     - OHHTTPStubs/Core
     - OHHTTPStubs/JSON
     - OHHTTPStubs/NSURLSession
     - OHHTTPStubs/OHPathHelpers
-  - OHHTTPStubs/JSON (6.1.0):
+  - OHHTTPStubs/JSON (9.0.0):
     - OHHTTPStubs/Core
-  - OHHTTPStubs/NSURLSession (6.1.0):
+  - OHHTTPStubs/NSURLSession (9.0.0):
     - OHHTTPStubs/Core
-  - OHHTTPStubs/OHPathHelpers (6.1.0)
-  - OHHTTPStubs/Swift (6.1.0):
+  - OHHTTPStubs/OHPathHelpers (9.0.0)
+  - OHHTTPStubs/Swift (9.0.0):
     - OHHTTPStubs/Default
   - UIDeviceIdentifier (1.4.0)
-  - WordPressShared (1.8.13-beta.3):
+  - WordPressShared (1.8.15):
     - CocoaLumberjack (~> 3.4)
     - FormatterKit/TimeIntervalFormatter (= 1.8.2)
   - wpxmlrpc (0.8.5-beta.1)
@@ -37,10 +37,10 @@ DEPENDENCIES:
   - CocoaLumberjack (= 3.4.2)
   - NSObject-SafeExpectations (~> 0.0.4)
   - OCMock (~> 3.4.2)
-  - OHHTTPStubs (= 6.1.0)
-  - OHHTTPStubs/Swift (= 6.1.0)
+  - OHHTTPStubs (= 9.0)
+  - OHHTTPStubs/Swift (= 9.0)
   - UIDeviceIdentifier (~> 1)
-  - WordPressShared (~> 1.8.13-beta)
+  - WordPressShared (~> 1.8.15-beta)
   - wpxmlrpc (= 0.8.5-beta.1)
 
 SPEC REPOS:
@@ -61,11 +61,11 @@ SPEC CHECKSUMS:
   FormatterKit: 4b8f29acc9b872d5d12a63efb560661e8f2e1b98
   NSObject-SafeExpectations: ab8fe623d36b25aa1f150affa324e40a2f3c0374
   OCMock: 43565190abc78977ad44a61c0d20d7f0784d35ab
-  OHHTTPStubs: 1e21c7d2c084b8153fc53d48400d8919d2d432d0
+  OHHTTPStubs: cb29d2a9d09a828ecb93349a2b0c64f99e0db89f
   UIDeviceIdentifier: 44f805037d21b94394821828f4fcaba34b38c2d0
-  WordPressShared: 98ebacf932b8f7b99a6ccb9f61b3fb1792f82d55
+  WordPressShared: 02e0947034648cbd7251ffcc10f64d512f93a53b
   wpxmlrpc: d758b6ad17723d31d06493acc932f6d9b340de95
 
-PODFILE CHECKSUM: fab42fa1edfada850c4e7c8cda4f3c8748eaa9ca
+PODFILE CHECKSUM: f9aa630fd36cfb01c9eea628263740a2703d39e9
 
 COCOAPODS: 1.8.4

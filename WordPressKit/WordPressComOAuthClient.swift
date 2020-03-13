@@ -272,7 +272,7 @@ public final class WordPressComOAuthClient: NSObject {
             .responseJSON(completionHandler: { response in
                 switch response.result {
                 case .success(let responseObject):
-                    DDLogVerbose("Received Social Login Oauth response: \(self.cleanedUpResponseForLogging(responseObject as AnyObject? ?? "nil" as AnyObject))")
+                    DDLogVerbose("Received Social Login Oauth response.")
 
                     let defaultError = NSError(domain: WordPressComOAuthClient.WordPressComOAuthErrorDomain,
                                                code: WordPressComOAuthError.unknown.rawValue,
