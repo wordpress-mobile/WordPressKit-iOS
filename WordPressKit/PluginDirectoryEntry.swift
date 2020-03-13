@@ -83,17 +83,19 @@ extension PluginDirectoryEntry: Codable {
         lastUpdated = try? container.decode(Date.self, forKey: .lastUpdated)
         rating = try container.decode(Int.self, forKey: .rating)
 
-        let icons = ((try? container.decodeIfPresent([String: String].self, forKey: .icons)) as [String : String]??)
-        icon = icons??["2x"].flatMap(URL.init(string:))
+        let icons = try? container.decodeIfPresent([String: String].self, forKey: .icons)
+        icon = icons?["2x"].flatMap({ (s) -> URL? in
+            URL(string: s)
+        })
 
         // If there's no hi-res version of the banner, the API returns `high: false`, instead of something more logical,
         // like an empty string or `null`, hence the dance below.
         let banners = try? container.nestedContainer(keyedBy: BannersKeys.self, forKey: .banners)
 
-        if let highRes = ((try? banners?.decodeIfPresent(String.self, forKey: .high)) as String??) {
-            banner = highRes.flatMap(URL.init(string:))
-        } else if let lowRes = ((try? banners?.decodeIfPresent(String.self, forKey: .low)) as String??) {
-            banner = lowRes.flatMap(URL.init(string:))
+        if let highRes = try? banners?.decodeIfPresent(String.self, forKey: .high) {
+            banner = URL(string: highRes)
+        } else if let lowRes = try? banners?.decodeIfPresent(String.self, forKey: .low) {
+            banner = URL(string: lowRes)
         } else {
             banner = nil
         }
