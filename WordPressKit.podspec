@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name          = "WordPressKit"
-  s.version       = "4.5.9-beta.2"
+  s.version       = "4.6.0-beta.6"
   s.summary       = "WordPressKit offers a clean and simple WordPress.com and WordPress.org API."
 
   s.description   = <<-DESC
@@ -12,7 +12,7 @@ Pod::Spec.new do |s|
   s.license       = "GPLv2"
   s.author        = { "WordPress" => "mobile@automattic.com" }
   s.platform      = :ios, "11.0"
-  s.swift_version = '4.2'
+  s.swift_version = '5.0'
   s.source        = { :git => "https://github.com/wordpress-mobile/WordPressKit-iOS.git", :tag => s.version.to_s }
   s.source_files  = 'WordPressKit/**/*.{h,m,swift}'
   s.private_header_files = "WordPressKit/Private/*.h"
@@ -21,8 +21,8 @@ Pod::Spec.new do |s|
 
   s.dependency 'Alamofire', '~> 4.8.0'
   s.dependency 'CocoaLumberjack', '~> 3.4'
-  s.dependency 'WordPressShared', '~> 1.8.13-beta'
-  s.dependency 'NSObject-SafeExpectations', '0.0.3'
-  s.dependency 'wpxmlrpc', '0.8.4'
+  s.dependency 'WordPressShared', '~> 1.8.15-beta'
+  s.dependency 'NSObject-SafeExpectations', '0.0.4'
+  s.dependency 'wpxmlrpc', '0.8.5-beta.1'
   s.dependency 'UIDeviceIdentifier', '~> 1'
 end

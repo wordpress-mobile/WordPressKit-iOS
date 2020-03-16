@@ -31,7 +31,8 @@ const NSInteger WPRestErrorCodeMediaNew = 10;
     }];
 }
 
-- (void)getMediaLibraryWithSuccess:(void (^)(NSArray *))success
+- (void)getMediaLibraryWithPageLoad:(void (^)(NSArray *))pageLoad
+                           success:(void (^)(NSArray *))success
                            failure:(void (^)(NSError *))failure
 {
     NSMutableArray *media = [NSMutableArray array];
@@ -39,6 +40,7 @@ const NSInteger WPRestErrorCodeMediaNew = 10;
     [self getMediaLibraryPage:nil
                         media:media
                          path:path
+                     pageLoad:pageLoad
                       success:success
                       failure:failure];
 }
@@ -46,6 +48,7 @@ const NSInteger WPRestErrorCodeMediaNew = 10;
 - (void)getMediaLibraryPage:(NSString *)pageHandle
                       media:(NSMutableArray *)media
                        path:(NSString *)path
+                   pageLoad:(void (^)(NSArray *))pageLoad
                     success:(void (^)(NSArray *))success
                     failure:(void (^)(NSError *))failure
 {
@@ -63,15 +66,19 @@ const NSInteger WPRestErrorCodeMediaNew = 10;
           success:^(id responseObject, NSHTTPURLResponse *response) {
               NSArray *mediaItems = responseObject[@"media"];
               NSArray *pageItems = [MediaServiceRemoteREST remoteMediaFromJSONArray:mediaItems];
-              if (pageItems.count) {
-                  [media addObjectsFromArray:pageItems];
-              }
+              [media addObjectsFromArray:pageItems];
               NSDictionary *meta = responseObject[@"meta"];
               NSString *nextPage = meta[@"next_page"];
               if (nextPage.length) {
+                  if (pageItems.count) {
+                      if(pageLoad) {
+                          pageLoad(pageItems);
+                      }
+                  }
                   [self getMediaLibraryPage:nextPage
                                       media:media
                                        path:path
+                                   pageLoad:pageLoad
                                     success:success
                                     failure:failure];
               } else if (success) {

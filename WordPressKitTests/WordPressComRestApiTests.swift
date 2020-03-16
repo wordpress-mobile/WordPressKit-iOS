@@ -17,10 +17,10 @@ class WordPressComRestApiTests: XCTestCase {
 
     override func tearDown() {
         super.tearDown()
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
     }
 
-    private func isRestAPIRequest() -> OHHTTPStubsTestBlock {
+    private func isRestAPIRequest() -> HTTPStubsTestBlock {
         return { request in
             guard let requestURL = request.url, let components = URLComponents(string: requestURL.absoluteString) else {
                 return false
@@ -40,7 +40,7 @@ class WordPressComRestApiTests: XCTestCase {
         }
     }
 
-    private func isRestAPIMediaNewRequest() -> OHHTTPStubsTestBlock {
+    private func isRestAPIMediaNewRequest() -> HTTPStubsTestBlock {
         return { request in
             guard let requestURL = request.url, let components = URLComponents(string: requestURL.absoluteString) else {
                 return false
@@ -253,7 +253,7 @@ class WordPressComRestApiTests: XCTestCase {
 
     func testCancelationOfRequest() {
         stub(condition: isRestAPIMediaNewRequest()) { request in
-            return OHHTTPStubsResponse.init(error: NSError(domain: NSURLErrorDomain, code: NSURLErrorCancelled, userInfo: nil))
+            return HTTPStubsResponse.init(error: NSError(domain: NSURLErrorDomain, code: NSURLErrorCancelled, userInfo: nil))
         }
         let expect = self.expectation(description: "One callback should be invoked")
         let api = WordPressComRestApi(oAuthToken: "fakeToken")

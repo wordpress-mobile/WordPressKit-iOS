@@ -18,7 +18,7 @@ static NSTimeInterval const TestExpectationTimeout = 5;
 - (void)tearDown
 {
     [super tearDown];
-    [OHHTTPStubs removeAllStubs];
+    [HTTPStubs removeAllStubs];
 }
 
 
@@ -136,10 +136,10 @@ static NSTimeInterval const TestExpectationTimeout = 5;
     BlogServiceRemoteREST *service  = [[BlogServiceRemoteREST alloc] initWithWordPressComRestApi:api siteID:blogID];
     XCTAssertNotNil(service, @"Error while creating the new service");
 
-    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+    [HTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return [[request.URL absoluteString] containsString:endpoint];
-    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-        return [OHHTTPStubsResponse responseWithFileAtPath:responsePath
+    } withStubResponse:^HTTPStubsResponse *(NSURLRequest *request) {
+        return [HTTPStubsResponse responseWithFileAtPath:responsePath
                                                 statusCode:200
                                                    headers:@{@"Content-Type":@"application/json"}];
     }];
