@@ -13,10 +13,10 @@ class WordPressOrgRestApiTests: XCTestCase {
 
     override func tearDown() {
         super.tearDown()
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
     }
 
-    private func isAPIRequest() -> OHHTTPStubsTestBlock {
+    private func isAPIRequest() -> HTTPStubsTestBlock {
         return { request in
             return request.url?.absoluteString.hasPrefix(self.apiBase.absoluteString) ?? false
         }

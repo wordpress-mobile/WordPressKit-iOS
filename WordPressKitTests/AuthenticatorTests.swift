@@ -18,7 +18,7 @@ class AuthenticatorTests: XCTestCase {
     }
 
     override func tearDown() {
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
         manager.session.invalidateAndCancel()
     }
 
@@ -77,7 +77,7 @@ class AuthenticatorTests: XCTestCase {
 }
 
 private extension AuthenticatorTests {
-    func isLoginRequest() -> OHHTTPStubsTestBlock {
+    func isLoginRequest() -> HTTPStubsTestBlock {
         return { request in
             return request.url?.absoluteString.hasPrefix(loginURL.absoluteString) ?? false
         }
