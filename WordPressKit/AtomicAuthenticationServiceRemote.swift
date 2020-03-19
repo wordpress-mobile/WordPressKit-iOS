@@ -1,14 +1,14 @@
 import Foundation
 
-class AtomicAuthenticationServiceRemote: ServiceRemoteWordPressComREST {
+public class AtomicAuthenticationServiceRemote: ServiceRemoteWordPressComREST {
     
-    enum ResponseError: Error {
+    public enum ResponseError: Error {
         case responseIsNotADictionary(response: AnyObject)
         case decodingFailure(response: [String: AnyObject])
         case couldNotInstantiateCookie(name: String, value: String, domain: String, path: String, expires: Date)
     }
     
-    func getAuthCookie(
+    public func getAuthCookie(
         siteID: Int,
         success: @escaping (_ cookie: HTTPCookie) -> Void,
         failure: @escaping (Error) -> Void) {

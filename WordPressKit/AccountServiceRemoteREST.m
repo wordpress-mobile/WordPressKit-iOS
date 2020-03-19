@@ -137,27 +137,34 @@ static NSString * const UserDictionaryEmailVerifiedKey = @"email_verified";
             NSString *error = [responseObject objectForKey:@"error"];
             NSString *message = [responseObject objectForKey:@"message"];
             
-            if ([error isEqualToString:errorEmailAddressInvalid]) {
-                NSError* error = [[NSError alloc] initWithDomain:AccountServiceRemoteErrorDomain
-                                                            code:AccountServiceRemoteEmailAddressInvalid
-                                                        userInfo:@{
-                                                            @"response": responseObject,
-                                                            NSLocalizedDescriptionKey: message,
-                                                        }];
-                if (failure) {
-                    failure(error);
+            if (error != NULL) {
+                if ([error isEqualToString:errorEmailAddressTaken]) {
+                    // While this is informed as an error by the endpoint, for the purpose of this method
+                    // it's a success case.  We just need to inform the caller that the email is not
+                    // available.
+                    success(false);
+                } else if ([error isEqualToString:errorEmailAddressInvalid]) {
+                    NSError* error = [[NSError alloc] initWithDomain:AccountServiceRemoteErrorDomain
+                                                                code:AccountServiceRemoteEmailAddressInvalid
+                                                            userInfo:@{
+                                                                @"response": responseObject,
+                                                                NSLocalizedDescriptionKey: message,
+                                                            }];
+                    if (failure) {
+                        failure(error);
+                    }
+                } else {
+                    NSError* error = [[NSError alloc] initWithDomain:AccountServiceRemoteErrorDomain
+                                                                code:AccountServiceRemoteEmailAddressCheckError
+                                                            userInfo:@{
+                                                                @"response": responseObject,
+                                                                NSLocalizedDescriptionKey: message,
+                                                            }];
+                    if (failure) {
+                        failure(error);
+                    }
                 }
-                return;
-            } else if ([error isEqualToString:errorEmailAddressTaken]) {
-                NSError* error = [[NSError alloc] initWithDomain:AccountServiceRemoteErrorDomain
-                                                            code:AccountServiceRemoteEmailAddressTaken
-                                                        userInfo:@{
-                                                            @"response": responseObject,
-                                                            NSLocalizedDescriptionKey: message,
-                                                        }];
-                if (failure) {
-                    failure(error);
-                }
+                
                 return;
             }
             

@@ -8,7 +8,7 @@ static NSString * const AccountServiceRemoteErrorDomain = @"AccountServiceErrorD
 typedef NS_ERROR_ENUM(AccountServiceRemoteErrorDomain, AccountServiceRemoteError) {
     AccountServiceRemoteCantReadServerResponse,
     AccountServiceRemoteEmailAddressInvalid,
-    AccountServiceRemoteEmailAddressTaken,
+    AccountServiceRemoteEmailAddressCheckError,
 };
 
 @protocol AccountServiceRemote <NSObject>
