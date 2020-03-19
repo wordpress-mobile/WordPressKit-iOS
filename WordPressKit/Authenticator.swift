@@ -141,6 +141,12 @@ private extension CookieNonceAuthenticator {
 
     func invalidateLoginSequence(error: Error) {
         canRetry = false
+        if case .postLoginFailed(let originalError) = error {
+            let nsError = originalError as NSError
+            if nsError.domain == NSURLErrorDomain, nsError.code == NSURLErrorNotConnectedToInternet {
+                canRetry = true
+            }
+        }
         DDLogError("Aborting Cookie+Nonce login sequence for \(loginURL)")
         completeRequests(false)
         isAuthenticating = false
