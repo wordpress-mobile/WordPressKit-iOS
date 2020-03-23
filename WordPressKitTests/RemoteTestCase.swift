@@ -32,7 +32,7 @@ class RemoteTestCase: XCTestCase {
     override func tearDown() {
         super.tearDown()
 
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
     }
 }
 
@@ -80,7 +80,7 @@ extension RemoteTestCase {
             if contentType != .NoContentType {
                 headers = ["Content-Type" as NSObject: contentType.rawValue as AnyObject]
             }
-            return OHHTTPStubsResponse(data: data, statusCode: status, headers: headers)
+            return HTTPStubsResponse(data: data, statusCode: status, headers: headers)
         }
     }
 
@@ -107,7 +107,7 @@ extension RemoteTestCase {
                 // An extra call was made to this stub and no corresponding response file existed.
                 XCTFail("Unexpected network request was made to: \(response.url!.absoluteString)")
                 let notConnectedError = NSError(domain:NSURLErrorDomain, code:Int(CFNetworkErrors.cfurlErrorNotConnectedToInternet.rawValue), userInfo:nil)
-                return OHHTTPStubsResponse(error:notConnectedError)
+                return HTTPStubsResponse(error:notConnectedError)
             }
             
             let stubPath = OHPathForFile(files[callCounter], type(of: self))
@@ -126,7 +126,7 @@ extension RemoteTestCase {
     /// error. In the response, prior to returning the error, XCTFail will also be called logging the endpoint
     /// which was called.
     /// 
-    /// - Note: Remember that order is important when stubbing requests with OHHTTPStubs. Therefore, it is important
+    /// - Note: Remember that order is important when stubbing requests with HTTPStubs. Therefore, it is important
     ///         this is called **before** stubbing out a specific endpoint you are testing. See: 
     ///         https://github.com/AliSoftware/OHHTTPStubs/wiki/Usage-Examples#stack-multiple-stubs-and-remove-installed-stubs
     ///
@@ -136,7 +136,7 @@ extension RemoteTestCase {
         }) { response in
             XCTFail("Unexpected network request was made to: \(response.url!.absoluteString)")
             let notConnectedError = NSError(domain:NSURLErrorDomain, code:Int(CFNetworkErrors.cfurlErrorNotConnectedToInternet.rawValue), userInfo:nil)
-            return OHHTTPStubsResponse(error:notConnectedError)
+            return HTTPStubsResponse(error:notConnectedError)
         }
     }
 

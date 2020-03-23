@@ -19,10 +19,10 @@ class WordPressComOAuthTests: XCTestCase {
 
     override func tearDown() {
         super.tearDown()
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
     }
 
-    private func isOauthTokenRequest(url: OAuthURL) -> OHHTTPStubsTestBlock {
+    private func isOauthTokenRequest(url: OAuthURL) -> HTTPStubsTestBlock {
         return { request in
             return request.url?.absoluteString == url.rawValue
         }

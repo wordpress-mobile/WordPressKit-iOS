@@ -13,10 +13,10 @@ class WordPressOrgXMLRPCApiTests: XCTestCase {
 
     override func tearDown() {
         super.tearDown()
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
     }
 
-    private func isXmlRpcAPIRequest() -> OHHTTPStubsTestBlock {
+    private func isXmlRpcAPIRequest() -> HTTPStubsTestBlock {
         return { request in
             return request.url?.absoluteString == self.xmlrpcEndpoint
         }
