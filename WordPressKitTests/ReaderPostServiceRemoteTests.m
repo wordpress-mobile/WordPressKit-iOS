@@ -9,6 +9,7 @@
 @interface ReaderPostServiceRemote ()
 
 - (RemoteReaderPost *)formatPostDictionary:(NSDictionary *)dict;
+- (BOOL)siteIsAtomicFromPostDictionary:(NSDictionary *)dict;
 - (BOOL)siteIsPrivateFromPostDictionary:(NSDictionary *)dict;
 - (NSString *)siteURLFromPostDictionary:(NSDictionary *)dict;
 - (NSString *)siteNameFromPostDictionary:(NSDictionary *)dict;
@@ -119,6 +120,25 @@
     NSDictionary *dict = @{@"excerpt": strWithHTML};
     NSString *sanatizedStr = [remoteService postSummaryFromPostDictionary:dict orPostContent:strWithHTML];
     XCTAssertTrue([str isEqualToString:sanatizedStr], @"The post summary was not plain text.");
+}
+
+- (void)testSiteIsAtomic {
+    NSString *key = @"site_is_atomic";
+    
+    ReaderPostServiceRemote *remoteService = nil;
+    XCTAssertNoThrow(remoteService = [self service]);
+
+    NSDictionary *dict = @{key: @"1"};
+    BOOL isAtomic = [remoteService siteIsAtomicFromPostDictionary:dict];
+    XCTAssertTrue(isAtomic, @"Site should be atomic.");
+
+    dict = @{key: @"0"};
+    isAtomic = [remoteService siteIsAtomicFromPostDictionary:dict];
+    XCTAssertFalse(isAtomic, @"Site should not be atomic.");
+    
+    dict = @{};
+    isAtomic = [remoteService siteIsAtomicFromPostDictionary:dict];
+    XCTAssertFalse(isAtomic, @"Site should not be atomic.");
 }
 
 - (void)testSiteIsPrivate {

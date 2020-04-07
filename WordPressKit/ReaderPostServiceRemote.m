@@ -43,6 +43,7 @@ NSString * const PostRESTKeyPosts = @"posts";
 NSString * const PostRESTKeyScore = @"score";
 NSString * const PostRESTKeySharingEnabled = @"sharing_enabled";
 NSString * const PostRESTKeySiteID = @"site_ID";
+NSString * const PostRESTKeySiteIsAtomic = @"site_is_atomic";
 NSString * const PostRESTKeySiteIsPrivate = @"site_is_private";
 NSString * const PostRESTKeySiteName = @"site_name";
 NSString * const PostRESTKeySiteURL = @"site_URL";
@@ -348,6 +349,7 @@ static const NSUInteger ReaderPostTitleLength = 30;
     post.feedID = [dict numberForKey:PostRESTKeyFeedID];
     post.feedItemID = [dict numberForKey:PostRESTKeyFeedItemID];
     post.globalID = [self stringOrEmptyString:[dict stringForKey:PostRESTKeyGlobalID]];
+    post.isBlogAtomic = [self siteIsAtomicFromPostDictionary:dict];
     post.isBlogPrivate = [self siteIsPrivateFromPostDictionary:dict];
     post.isFollowing = [[dict numberForKey:PostRESTKeyIsFollowing] boolValue];
     post.isLiked = [[dict numberForKey:PostRESTKeyILike] boolValue];
@@ -869,6 +871,13 @@ static const NSUInteger ReaderPostTitleLength = 30;
         summary = [self createSummaryFromContent:content];
     }
     return summary;
+}
+
+- (BOOL)siteIsAtomicFromPostDictionary:(NSDictionary *)dict
+{
+    NSNumber *isAtomic = [dict numberForKey:PostRESTKeySiteIsAtomic];
+
+    return [isAtomic boolValue];
 }
 
 /**
