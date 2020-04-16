@@ -35,15 +35,24 @@ open class GravatarServiceRemote {
             }
             do {
                 let jsonData = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
-                if let jsonDictionary = jsonData as? [String: Array<Any>],
+                
+                guard let jsonDictionary = jsonData as? [String: Array<Any>],
                     let entry = jsonDictionary["entry"],
-                    let profileData = entry.first as? NSDictionary {
-                    let profile = RemoteGravatarProfile(dictionary: profileData)
-                    DispatchQueue.main.async {
-                        success(profile)
-                    }
-                    return
+                    let profileData = entry.first as? NSDictionary else {
+                        DispatchQueue.main.async {
+                            // This case typically happens when the endpoint does
+                            // successfully return but doesn't find the user.
+                            failure(nil)
+                        }
+                        return
                 }
+                
+                let profile = RemoteGravatarProfile(dictionary: profileData)
+                DispatchQueue.main.async {
+                    success(profile)
+                }
+                return
+
             } catch {
                 failure (error)
                 return
