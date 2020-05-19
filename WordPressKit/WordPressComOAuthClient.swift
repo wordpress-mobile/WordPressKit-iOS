@@ -421,6 +421,20 @@ public final class WordPressComOAuthClient: NSObject {
                 return response
         }
 
+        // If the response is wrapped in a "data" field, clean up tokens inside it.
+        if var dataDictionary = responseDictionary["data"] as? [String: AnyObject] {
+            let keys = ["access_token", "bearer_token", "token_links"]
+            for key in keys {
+                if dataDictionary[key] != nil {
+                    dataDictionary[key] = "*** REDACTED ***" as AnyObject?
+                }
+            }
+
+            responseDictionary.updateValue(dataDictionary as AnyObject, forKey: "data")
+
+            return responseDictionary as AnyObject
+        }
+
         let keys = ["access_token", "bearer_token"]
         for key in keys {
             if responseDictionary[key] != nil {
