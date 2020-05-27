@@ -32,6 +32,9 @@
                                           @"blog_public",
                                           @"max_upload_size",
                                           @"is_wpcom_atomic",
+                                          @"show_on_front",
+                                          @"page_on_front",
+                                          @"page_for_posts"
                                           ];
 
         for (NSString *key in optionsDirectMapKeys) {
