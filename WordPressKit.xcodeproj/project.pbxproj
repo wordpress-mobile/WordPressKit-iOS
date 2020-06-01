@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1769DEAA24729AFF00F42EFC /* HomepageSettingsServiceRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1769DEA924729AFF00F42EFC /* HomepageSettingsServiceRemote.swift */; };
 		17BF9A6C20C7DC3300BF57D2 /* reader-site-search-success.json in Resources */ = {isa = PBXBuildFile; fileRef = 17BF9A6B20C7DC3300BF57D2 /* reader-site-search-success.json */; };
 		17BF9A7220C7E18200BF57D2 /* reader-site-search-success-hasmore.json in Resources */ = {isa = PBXBuildFile; fileRef = 17BF9A6D20C7E18100BF57D2 /* reader-site-search-success-hasmore.json */; };
 		17BF9A7320C7E18200BF57D2 /* reader-site-search-failure.json in Resources */ = {isa = PBXBuildFile; fileRef = 17BF9A6E20C7E18200BF57D2 /* reader-site-search-failure.json */; };
@@ -15,6 +16,7 @@
 		17CD0CC320C58A0D000D9620 /* ReaderSiteSearchServiceRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CD0CC220C58A0D000D9620 /* ReaderSiteSearchServiceRemote.swift */; };
 		17CE77F120C6EB41001DEA5A /* ReaderFeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CE77F020C6EB41001DEA5A /* ReaderFeed.swift */; };
 		17CE77F420C701C8001DEA5A /* ReaderSiteSearchServiceRemoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CE77F320C701C8001DEA5A /* ReaderSiteSearchServiceRemoteTests.swift */; };
+		17D936252475D8AB008B2205 /* RemoteHomepageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D936242475D8AB008B2205 /* RemoteHomepageType.swift */; };
 		1A4F98672279A87D00D86E8E /* WPKit-Swift.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A4F98662279A87D00D86E8E /* WPKit-Swift.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		240315B0A1D6C2B981572B5B /* Pods_WordPressKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED05C8FF3E61D93CE5BA527E /* Pods_WordPressKitTests.framework */; };
 		32A29A1F236BE4CC009488C2 /* post-autosave-mapping-success.json in Resources */ = {isa = PBXBuildFile; fileRef = 32A29A1E236BE4CC009488C2 /* post-autosave-mapping-success.json */; };
@@ -491,6 +493,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1769DEA924729AFF00F42EFC /* HomepageSettingsServiceRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomepageSettingsServiceRemote.swift; sourceTree = "<group>"; };
 		17BF9A6B20C7DC3300BF57D2 /* reader-site-search-success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "reader-site-search-success.json"; sourceTree = "<group>"; };
 		17BF9A6D20C7E18100BF57D2 /* reader-site-search-success-hasmore.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "reader-site-search-success-hasmore.json"; sourceTree = "<group>"; };
 		17BF9A6E20C7E18200BF57D2 /* reader-site-search-failure.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "reader-site-search-failure.json"; sourceTree = "<group>"; };
@@ -499,6 +502,7 @@
 		17CD0CC220C58A0D000D9620 /* ReaderSiteSearchServiceRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderSiteSearchServiceRemote.swift; sourceTree = "<group>"; };
 		17CE77F020C6EB41001DEA5A /* ReaderFeed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderFeed.swift; sourceTree = "<group>"; };
 		17CE77F320C701C8001DEA5A /* ReaderSiteSearchServiceRemoteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderSiteSearchServiceRemoteTests.swift; sourceTree = "<group>"; };
+		17D936242475D8AB008B2205 /* RemoteHomepageType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteHomepageType.swift; sourceTree = "<group>"; };
 		1A4F98662279A87D00D86E8E /* WPKit-Swift.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "WPKit-Swift.h"; sourceTree = "<group>"; };
 		264F5C834541BBF2018F4964 /* Pods-WordPressKitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WordPressKitTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WordPressKitTests/Pods-WordPressKitTests.debug.xcconfig"; sourceTree = "<group>"; };
 		32A29A1E236BE4CC009488C2 /* post-autosave-mapping-success.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "post-autosave-mapping-success.json"; sourceTree = "<group>"; };
@@ -1346,6 +1350,7 @@
 				74BA04F11F06DC0A00ED5CD8 /* CommentServiceRemoteXMLRPC.m */,
 				74585B8D1F0D51A100E7E667 /* DomainsServiceRemote.swift */,
 				74650F711F0EA1A700188EDB /* GravatarServiceRemote.swift */,
+				1769DEA924729AFF00F42EFC /* HomepageSettingsServiceRemote.swift */,
 				9A2D0B27225E0119009E585F /* JetpackServiceRemote.swift */,
 				74DA56361F06EB0500FE9BF4 /* MediaServiceRemote.h */,
 				74DA562E1F06EAF000FE9BF4 /* MediaServiceRemoteREST.h */,
@@ -1439,6 +1444,7 @@
 				74BA04F81F06DC3900ED5CD8 /* RemoteComment.m */,
 				74585B961F0D54B400E7E667 /* RemoteDomain.swift */,
 				74650F731F0EA1E200188EDB /* RemoteGravatarProfile.swift */,
+				17D936242475D8AB008B2205 /* RemoteHomepageType.swift */,
 				74DA56381F06EB3000FE9BF4 /* RemoteMedia.h */,
 				74DA56391F06EB3000FE9BF4 /* RemoteMedia.m */,
 				742362D81F1025B400BD0A7F /* RemoteMenu.h */,
@@ -2368,11 +2374,13 @@
 				7E0D64FF22D855700092AD10 /* EditorServiceRemote.swift in Sources */,
 				E182BF6A1FD961810001D850 /* Endpoint.swift in Sources */,
 				9AF4F2FF2183346B00570E4B /* RemoteRevision.swift in Sources */,
+				17D936252475D8AB008B2205 /* RemoteHomepageType.swift in Sources */,
 				74BA04F41F06DC0A00ED5CD8 /* CommentServiceRemoteREST.m in Sources */,
 				74C473AC1EF2F75E009918F2 /* SiteManagementServiceRemote.swift in Sources */,
 				74585B971F0D54B400E7E667 /* RemoteDomain.swift in Sources */,
 				74A44DD01F13C64B006CD8F4 /* RemoteNotification.swift in Sources */,
 				E1D6B558200E473A00325669 /* TimeZoneServiceRemote.swift in Sources */,
+				1769DEAA24729AFF00F42EFC /* HomepageSettingsServiceRemote.swift in Sources */,
 				93BD273D1EE73282002BB00B /* AccountServiceRemoteREST.m in Sources */,
 				82FFBF501F45EFD100F4573F /* RemoteBlogJetpackSettings.swift in Sources */,
 				74650F741F0EA1E200188EDB /* RemoteGravatarProfile.swift in Sources */,
