@@ -6,9 +6,12 @@ class PluginServiceRemoteTests: RemoteTestCase, RESTTestable {
     let siteID = 123
     let getPluginsSuccessMockFilename = "site-plugins-success.json"
     let getPluginsErrorMockFilename = "site-plugins-error.json"
+    let getFeaturedPluginsMockFile = "plugin-service-remote-featured.json"
+    let remoteFeaturedPluginsEndpoint = "wpcom/v2/plugins/featured"
     var sitePluginsEndpoint: String {
         return "sites/\(siteID)/plugins"
     }
+    
 
     var remote: PluginServiceRemote!
 
@@ -63,6 +66,26 @@ class PluginServiceRemoteTests: RemoteTestCase, RESTTestable {
             expect.fulfill()
         })
 
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+    
+    func testGetFeaturedPluginSucceeds() {
+        let expect = expectation(description: "Get Featured Plugins Succeeds")
+        
+        stubRemoteResponse(remoteFeaturedPluginsEndpoint,
+                           filename: getFeaturedPluginsMockFile,
+                           contentType: .ApplicationJSON)
+        
+        remote.getFeaturedPlugins(success: { (featuredPlugins) in
+            XCTAssertEqual(featuredPlugins.count, 6)
+            XCTAssertEqual(featuredPlugins[1].name, "Yoast SEO")
+            XCTAssertEqual(featuredPlugins[3].slug, "tinymce-advanced")
+            expect.fulfill()
+        }) { (error) in
+            XCTFail("This callback shouldn't get called")
+            expect.fulfill()
+        }
+        
         waitForExpectations(timeout: timeout, handler: nil)
     }
 }
