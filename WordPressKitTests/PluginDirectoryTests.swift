@@ -143,4 +143,34 @@ class PluginDirectoryTests: XCTestCase {
             XCTFail("Failed decoding plugin \(error)")
         }
     }
+    
+    func testPluginFeedPageDirectoryEquatable() {
+        let popularFeedMockPath = Bundle(for: type(of: self)).path(forResource: "plugin-directory-popular", ofType: "json")!
+        let data = try! Data(contentsOf: URL(fileURLWithPath: popularFeedMockPath))
+        let endpoint = PluginDirectoryFeedEndpoint(feedType: .popular)
+        
+        do {
+            let response = try endpoint.parseResponse(data: data)
+            XCTAssertTrue(response == response)
+        } catch {
+            XCTFail("Equal Equatable check failed")
+        }
+    }
+    
+    func testPluginFeedPageDirectoryNotEquatable() {
+        let popularFeedMockPath = Bundle(for: type(of: self)).path(forResource: "plugin-directory-popular", ofType: "json")!
+        let popularData = try! Data(contentsOf: URL(fileURLWithPath: popularFeedMockPath))
+        let popularEndpoint = PluginDirectoryFeedEndpoint(feedType: .popular)
+        let newFeedMockPath = Bundle(for: type(of: self)).path(forResource: "plugin-directory-new", ofType: "json")!
+        let newData = try! Data(contentsOf: URL(fileURLWithPath: newFeedMockPath))
+        let neWEndpoint = PluginDirectoryFeedEndpoint(feedType: .newest)
+        
+        do {
+            let popularResponse = try popularEndpoint.parseResponse(data: popularData)
+            let newResponse = try neWEndpoint.parseResponse(data: newData)
+            XCTAssertFalse(popularResponse == newResponse)
+        } catch {
+            XCTFail("Equal Equatable check failed")
+        }
+    }
 }
