@@ -151,7 +151,8 @@ class PluginDirectoryTests: XCTestCase {
         
         do {
             let response = try endpoint.parseResponse(data: data)
-            XCTAssertTrue(response == response)
+            let sameResponse = try endpoint.parseResponse(data: data)
+            XCTAssertTrue(response == sameResponse)
         } catch {
             XCTFail("Equal Equatable check failed")
         }
