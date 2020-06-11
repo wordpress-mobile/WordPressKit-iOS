@@ -40,7 +40,7 @@ DEPENDENCIES:
   - OHHTTPStubs (= 9.0)
   - OHHTTPStubs/Swift (= 9.0)
   - UIDeviceIdentifier (~> 1)
-  - WordPressShared (from `https://github.com/wordpress-mobile/WordPress-iOS-Shared.git`, branch `issue/remove_giphy_tracks`)
+  - WordPressShared (~> 1.9.0-beta.1)
   - wpxmlrpc (= 0.8.5)
 
 SPEC REPOS:
@@ -52,17 +52,8 @@ SPEC REPOS:
     - OCMock
     - OHHTTPStubs
     - UIDeviceIdentifier
+    - WordPressShared
     - wpxmlrpc
-
-EXTERNAL SOURCES:
-  WordPressShared:
-    :branch: issue/remove_giphy_tracks
-    :git: https://github.com/wordpress-mobile/WordPress-iOS-Shared.git
-
-CHECKOUT OPTIONS:
-  WordPressShared:
-    :commit: d67ca763c83e561f7058db626c0d99779c1f18fc
-    :git: https://github.com/wordpress-mobile/WordPress-iOS-Shared.git
 
 SPEC CHECKSUMS:
   Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
@@ -75,6 +66,6 @@ SPEC CHECKSUMS:
   WordPressShared: bc1a056b5d4da040e3addf4f510c0de67651ab1b
   wpxmlrpc: 6a9bdd6ab9d1b159b384b0df0f3f39de9af4fecf
 
-PODFILE CHECKSUM: c68588af7f52889953c2ebb71a1601b4b81ecb6c
+PODFILE CHECKSUM: e65e084eed3ad1501f8d26dbb33be26bd8d8a498
 
 COCOAPODS: 1.8.4
