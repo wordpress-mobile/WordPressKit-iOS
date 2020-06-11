@@ -27,7 +27,7 @@ PODS:
   - OHHTTPStubs/Swift (9.0.0):
     - OHHTTPStubs/Default
   - UIDeviceIdentifier (1.4.0)
-  - WordPressShared (1.8.16):
+  - WordPressShared (1.9.0-beta.1):
     - CocoaLumberjack (~> 3.4)
     - FormatterKit/TimeIntervalFormatter (= 1.8.2)
   - wpxmlrpc (0.8.5)
@@ -40,7 +40,7 @@ DEPENDENCIES:
   - OHHTTPStubs (= 9.0)
   - OHHTTPStubs/Swift (= 9.0)
   - UIDeviceIdentifier (~> 1)
-  - WordPressShared (~> 1.8.16)
+  - WordPressShared (from `https://github.com/wordpress-mobile/WordPress-iOS-Shared.git`, branch `issue/remove_giphy_tracks`)
   - wpxmlrpc (= 0.8.5)
 
 SPEC REPOS:
@@ -52,8 +52,17 @@ SPEC REPOS:
     - OCMock
     - OHHTTPStubs
     - UIDeviceIdentifier
-    - WordPressShared
     - wpxmlrpc
+
+EXTERNAL SOURCES:
+  WordPressShared:
+    :branch: issue/remove_giphy_tracks
+    :git: https://github.com/wordpress-mobile/WordPress-iOS-Shared.git
+
+CHECKOUT OPTIONS:
+  WordPressShared:
+    :commit: d67ca763c83e561f7058db626c0d99779c1f18fc
+    :git: https://github.com/wordpress-mobile/WordPress-iOS-Shared.git
 
 SPEC CHECKSUMS:
   Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
@@ -63,9 +72,9 @@ SPEC CHECKSUMS:
   OCMock: 43565190abc78977ad44a61c0d20d7f0784d35ab
   OHHTTPStubs: cb29d2a9d09a828ecb93349a2b0c64f99e0db89f
   UIDeviceIdentifier: 44f805037d21b94394821828f4fcaba34b38c2d0
-  WordPressShared: 1bc316ed162f42af4e0fa2869437e9e28b532b01
+  WordPressShared: bc1a056b5d4da040e3addf4f510c0de67651ab1b
   wpxmlrpc: 6a9bdd6ab9d1b159b384b0df0f3f39de9af4fecf
 
-PODFILE CHECKSUM: c118a2a371f6c1c49231939b145ae4b52eefa18f
+PODFILE CHECKSUM: c68588af7f52889953c2ebb71a1601b4b81ecb6c
 
 COCOAPODS: 1.8.4
