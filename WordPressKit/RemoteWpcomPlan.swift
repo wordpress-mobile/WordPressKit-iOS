@@ -17,6 +17,12 @@ public struct RemoteWpcomPlan {
     public let features: String
     // An icon representing the plan.
     public let icon: String
+    // The plan priority in Zendesk
+    public let supportPriority: Int
+    // The name of the plan in Zendesk
+    public let supportName: String
+    // Non localized version of the shortened name
+    public let nonLocalizedShortname: String
 }
 
 public struct RemotePlanGroup {
