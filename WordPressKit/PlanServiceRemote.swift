@@ -159,7 +159,10 @@ public class PlanServiceRemote: ServiceRemoteWordPressComREST {
             let tagline = item["tagline"] as? String,
             let description = item["description"] as? String,
             let features = (item["features"] as? [String])?.joined(separator: ","),
-            let icon = item["icon"] as? String else {
+            let icon = item["icon"] as? String,
+            let supportPriority = item["support_priority"] as? Int,
+            let supportName = item["support_name"] as? String,
+            let nonLocalizedShortname = item["nonlocalized_short_name"] as? String else {
                 return nil
         }
 
@@ -172,7 +175,10 @@ public class PlanServiceRemote: ServiceRemoteWordPressComREST {
                                      tagline: tagline,
                                      description: description,
                                      features: features,
-                                     icon: icon)
+                                     icon: icon,
+                                     supportPriority: supportPriority,
+                                     supportName: supportName,
+                                     nonLocalizedShortname: nonLocalizedShortname)
     }
 
 

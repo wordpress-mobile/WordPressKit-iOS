@@ -159,6 +159,9 @@ class PlanServiceRemoteTests: RemoteTestCase, RESTTestable {
             ],
             "name": "WordPress.com Premium",
             "short_name": "Premium",
+            "support_priority": 4,
+            "support_name": "premium",
+            "nonlocalized_short_name": "Premium",
             "tagline": "Best for Entrepreneurs and Freelancers",
             "description": "Build a unique website with advanced design tools, CSS editing, lots of space for audio and video, and the ability to monetize your site with ads.",
             "features": [
