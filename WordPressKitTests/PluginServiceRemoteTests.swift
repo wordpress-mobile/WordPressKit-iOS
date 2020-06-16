@@ -7,7 +7,9 @@ class PluginServiceRemoteTests: RemoteTestCase, RESTTestable {
     let getPluginsSuccessMockFilename = "site-plugins-success.json"
     let getPluginsErrorMockFilename = "site-plugins-error.json"
     let getFeaturedPluginsMockFile = "plugin-service-remote-featured.json"
-    let remoteFeaturedPluginsEndpoint = "wpcom/v2/plugins/featured"
+    let getRemoteFeaturedPluginsEndpoint = "wpcom/v2/plugins/featured"
+    let postRemotePluginUpdateJetpack = "plugin-update-jetpack-already-updated.json"
+    let postRemotePluginUpdateGutenberg = "plugin-update-gutenberg-needs-update.json"
     var sitePluginsEndpoint: String {
         return "sites/\(siteID)/plugins"
     }
@@ -72,7 +74,7 @@ class PluginServiceRemoteTests: RemoteTestCase, RESTTestable {
     func testGetFeaturedPluginSucceeds() {
         let expect = expectation(description: "Get Featured Plugins Succeeds")
         
-        stubRemoteResponse(remoteFeaturedPluginsEndpoint,
+        stubRemoteResponse(getRemoteFeaturedPluginsEndpoint,
                            filename: getFeaturedPluginsMockFile,
                            contentType: .ApplicationJSON)
         
@@ -80,6 +82,60 @@ class PluginServiceRemoteTests: RemoteTestCase, RESTTestable {
             XCTAssertEqual(featuredPlugins.count, 6)
             XCTAssertEqual(featuredPlugins[1].name, "Yoast SEO")
             XCTAssertEqual(featuredPlugins[3].slug, "tinymce-advanced")
+            expect.fulfill()
+        }) { (error) in
+            XCTFail("This callback shouldn't get called")
+            expect.fulfill()
+        }
+        
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+    
+    func testPluginIDEncoding() {
+        
+    }
+    
+    func testUpdatePluginPluginUpToDate() {
+        let escapedPluginID = "/jetpack%2Fjetpack"
+        let updatePluginJetpackEndpoint = sitePluginsEndpoint + escapedPluginID + "/update"
+        let expect = expectation(description: "Plugin is already up to date")
+        
+        stubRemoteResponse(updatePluginJetpackEndpoint,
+                           filename: postRemotePluginUpdateJetpack,
+                           contentType: .ApplicationJSON)
+        
+        remote.updatePlugin(pluginID: "jetpack/jetpack", siteID: siteID, success: { (pluginState) in
+            XCTAssertEqual(pluginState.slug, "jetpack")
+            XCTAssertEqual(pluginState.name, "Jetpack by WordPress.com")
+            XCTAssertEqual(pluginState.version, "8.6.1")
+            XCTAssertEqual(pluginState.autoupdate, false)
+            XCTAssertEqual(pluginState.updateState, PluginState.UpdateState.updated)
+            
+            expect.fulfill()
+        }) { (error) in
+            XCTFail("This callback shouldn't get called")
+            expect.fulfill()
+        }
+        
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+    
+    func testUpdatePluginNeedsUpdate() {
+        let escapedPluginID = "/gutenberg%2Fgutenberg"
+        let updatePluginGutenbergEndpoint = sitePluginsEndpoint + escapedPluginID + "/update"
+        let expect = expectation(description: "Plugin is updated successfully")
+        
+        stubRemoteResponse(updatePluginGutenbergEndpoint,
+                           filename: postRemotePluginUpdateGutenberg,
+                           contentType: .ApplicationJSON)
+        
+        remote.updatePlugin(pluginID: "gutenberg/gutenberg", siteID: siteID, success: { (pluginState) in
+            XCTAssertEqual(pluginState.slug, "gutenberg")
+            XCTAssertEqual(pluginState.name, "Gutenberg")
+            XCTAssertEqual(pluginState.version, "7.2.1")
+            XCTAssertEqual(pluginState.autoupdate, false)
+            XCTAssertEqual(pluginState.updateState, PluginState.UpdateState.available("8.3.0"))
+            
             expect.fulfill()
         }) { (error) in
             XCTFail("This callback shouldn't get called")
