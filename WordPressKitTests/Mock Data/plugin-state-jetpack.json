@@ -1,4 +1,5 @@
 {
+    "id" : "123",
     "slug": "jetpack",
     "active": true,
     "name": "jetpack/jetpack",
@@ -10,5 +11,10 @@
     "author_url": "https://jetpack.com",
     "network": false,
     "autoupdate": false,
-    "uninstallable": false
+    "uninstallable": false,
+    "updateState" : {
+        "updated" : true
+    },
+    "automanaged": true
+    
 }
