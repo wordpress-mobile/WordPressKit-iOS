@@ -228,4 +228,24 @@ class PluginStateTests: RemoteTestCase, RESTTestable {
         waitForExpectations(timeout: timeout, handler: nil)
     }
     
+    func testSitePluginCapabilitiesEquatable() {
+        let expect = expectation(description: "Site Plugin Capabilities Equatable")
+        
+        stubRemoteResponse(sitePluginsEndpoint,
+                           filename: getPluginsSuccessMockFilename,
+                           contentType: .ApplicationJSON)
+        remote.getPlugins(siteID: siteID, success: { (sitePlugins) in
+            let capabilities = sitePlugins.capabilities
+            
+            XCTAssertEqual(capabilities, capabilities)
+            expect.fulfill()
+        }) { (error) in
+            XCTFail("This callback shouldn't get called")
+            expect.fulfill()
+        }
+        
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
 }
+
+
