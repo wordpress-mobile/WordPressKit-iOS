@@ -7,6 +7,8 @@ class PluginServiceRemoteTests: RemoteTestCase, RESTTestable {
     let getPluginsSuccessMockFilename = "site-plugins-success.json"
     let getPluginsErrorMockFilename = "site-plugins-error.json"
     let getFeaturedPluginsMockFile = "plugin-service-remote-featured.json"
+    let getFeaturedPluginsMalformedMockFile = "plugin-service-remote-featured-malformed.json"
+    let getFeaturedPluginsInvalidResponse = "plugin-service-remote-featured-plugins-invalid.json"
     let getRemoteFeaturedPluginsEndpoint = "wpcom/v2/plugins/featured"
     let postRemotePluginUpdateJetpack = "plugin-update-jetpack-already-updated.json"
     let postRemotePluginUpdateGutenberg = "plugin-update-gutenberg-needs-update.json"
@@ -85,6 +87,48 @@ class PluginServiceRemoteTests: RemoteTestCase, RESTTestable {
             expect.fulfill()
         }) { (error) in
             XCTFail("This callback shouldn't get called")
+            expect.fulfill()
+        }
+        
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+    
+    func testGetFeaturedPluginFailsMalformedJson() {
+        let expect = expectation(description: "Get Featured Plugins Fails")
+        
+        stubRemoteResponse(getRemoteFeaturedPluginsEndpoint,
+                           filename: getFeaturedPluginsMalformedMockFile,
+                           contentType: .ApplicationJSON)
+        
+        remote.getFeaturedPlugins(success: { (featuredPlugins) in
+            XCTFail("Callback should not get called")
+            expect.fulfill()
+        }) { (error) in
+            let error = error as NSError
+            let expected = WordPressComRestApiError.responseSerializationFailed as NSError
+            XCTAssertEqual(error, expected)
+            
+            expect.fulfill()
+        }
+        
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+    
+    func testGetFeaturedPluginFailsInvalidResponse() {
+        let expect = expectation(description: "Get Featured Plugins Fails")
+        
+        stubRemoteResponse(getRemoteFeaturedPluginsEndpoint,
+                           filename: getFeaturedPluginsInvalidResponse,
+                           contentType: .ApplicationJSON)
+        
+        remote.getFeaturedPlugins(success: { (featuredPlugins) in
+            XCTFail("Callback should not get called")
+            expect.fulfill()
+        }) { (error) in
+            let error = error as NSError
+            let expected = PluginServiceRemote.ResponseError.decodingFailure as NSError
+            XCTAssertEqual(error, expected)
+            
             expect.fulfill()
         }
         
