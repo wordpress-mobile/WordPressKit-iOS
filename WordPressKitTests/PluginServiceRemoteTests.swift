@@ -15,6 +15,8 @@ class PluginServiceRemoteTests: RemoteTestCase, RESTTestable {
     let postRemotePluginUpdateGutenberg = "plugin-update-gutenberg-needs-update.json"
     let postRemotePluginUpdateAuthFailure = "plugin-service-remote-auth-failure.json"
     let postRemotePluginUpdateMalformed = "plugin-update-response-malformed.json"
+    let postRemotePluginModifyActivate = "plugin-modify-activate.json"
+    let postPluginInstallSucceeds = "plugin-install-succeeds.json"
     var sitePluginsEndpoint: String {
         return "sites/\(siteID)/plugins"
     }
@@ -188,13 +190,12 @@ class PluginServiceRemoteTests: RemoteTestCase, RESTTestable {
     }
     
     func testUpdatePluginUpToDate() {
-        let escapedPluginID = "/jetpack%2Fjetpack"
-        let updatePluginJetpackEndpoint = sitePluginsEndpoint + escapedPluginID + "/update"
         let expect = expectation(description: "Plugin is already up to date")
         
-        stubRemoteResponse(updatePluginJetpackEndpoint,
-                           filename: postRemotePluginUpdateJetpack,
-                           contentType: .ApplicationJSON)
+        preparePostStubRemoteResponseWith(plugID: "jetpack/jetpack",
+                                      pluginSlug: "jetpack",
+                                      endpointAction: .update,
+                                      responseFile: postRemotePluginUpdateJetpack)
         
         remote.updatePlugin(pluginID: "jetpack/jetpack", siteID: siteID, success: { (pluginState) in
             XCTAssertEqual(pluginState.slug, "jetpack")
@@ -213,13 +214,12 @@ class PluginServiceRemoteTests: RemoteTestCase, RESTTestable {
     }
     
     func testUpdatePluginNeedsUpdate() {
-        let escapedPluginID = "/gutenberg%2Fgutenberg"
-        let updatePluginGutenbergEndpoint = sitePluginsEndpoint + escapedPluginID + "/update"
         let expect = expectation(description: "Plugin is updated successfully")
         
-        stubRemoteResponse(updatePluginGutenbergEndpoint,
-                           filename: postRemotePluginUpdateGutenberg,
-                           contentType: .ApplicationJSON)
+        preparePostStubRemoteResponseWith(plugID: "gutenberg/gutenberg",
+                                      pluginSlug: "gutenberg",
+                                      endpointAction: .update,
+                                      responseFile: postRemotePluginUpdateGutenberg)
         
         remote.updatePlugin(pluginID: "gutenberg/gutenberg", siteID: siteID, success: { (pluginState) in
             XCTAssertEqual(pluginState.slug, "gutenberg")
@@ -238,13 +238,12 @@ class PluginServiceRemoteTests: RemoteTestCase, RESTTestable {
     }
     
     func testUpdatePluginAuthFails() {
-        let escapedPluginID = "/gutenberg%2Fgutenberg"
-        let updatePluginGutenbergEndpoint = sitePluginsEndpoint + escapedPluginID + "/update"
         let expect = expectation(description: "Plugin is updated successfully")
         
-        stubRemoteResponse(updatePluginGutenbergEndpoint,
-                           filename: postRemotePluginUpdateAuthFailure,
-                           contentType: .ApplicationJSON)
+        preparePostStubRemoteResponseWith(plugID: "gutenberg/gutenberg",
+                                      pluginSlug: "gutenberg",
+                                      endpointAction: .update,
+                                      responseFile: postRemotePluginUpdateAuthFailure)
         
         remote.updatePlugin(pluginID: "gutenberg/gutenberg", siteID: siteID, success: { (pluginState) in
             XCTFail("This callback should not be called")
@@ -261,13 +260,12 @@ class PluginServiceRemoteTests: RemoteTestCase, RESTTestable {
     }
     
     func testUpdatePluginFailsMalformedJSON() {
-        let escapedPluginID = "/gutenberg%2Fgutenberg"
-        let updatePluginGutenbergEndpoint = sitePluginsEndpoint + escapedPluginID + "/update"
         let expect = expectation(description: "Plugin is updated successfully")
         
-        stubRemoteResponse(updatePluginGutenbergEndpoint,
-                           filename: postRemotePluginUpdateMalformed,
-                           contentType: .ApplicationJSON)
+        preparePostStubRemoteResponseWith(plugID: "gutenberg/gutenberg",
+                                      pluginSlug: "gutenberg",
+                                      endpointAction: .update,
+                                      responseFile: postRemotePluginUpdateMalformed)
         
         remote.updatePlugin(pluginID: "gutenberg/gutenberg", siteID: siteID, success: { (pluginState) in
             XCTFail("This callback shouldn't get called")
@@ -282,5 +280,55 @@ class PluginServiceRemoteTests: RemoteTestCase, RESTTestable {
         waitForExpectations(timeout: timeout, handler: nil)
     }
     
+    func testInstallPluginSucceeds() {
+        let expect = expectation(description: "Plugin install succeeds")
+        preparePostStubRemoteResponseWith(plugID: "code-snippets/code-snippets",
+                                      pluginSlug: "code-snippets",
+                                      endpointAction: .install,
+                                      responseFile: postPluginInstallSucceeds)
+        
+        
+        remote.install(pluginSlug: "code-snippets",siteID: siteID, success: { (pluginState) in
+            XCTAssertEqual(pluginState.slug, "code-snippets")
+            XCTAssertEqual(pluginState.name, "Code Snippets")
+            XCTAssertEqual(pluginState.version, "2.14.0")
+            XCTAssertEqual(pluginState.autoupdate, false)
+            
+            expect.fulfill()
+        }) { (error) in
+            XCTFail("This callback shouldn't get called")
+            expect.fulfill()
+        }
+        
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
     
+    
+}
+
+extension PluginServiceRemoteTests {
+    enum EndpointAction: String {
+        case update = "update"
+        case install = "install"
+        case remove = "delete"
+        case none = ""
+    }
+    
+    func preparePostStubRemoteResponseWith(plugID: String, pluginSlug: String, endpointAction: EndpointAction, responseFile: String) {
+        guard let escapedPluginID = remote.encoded(pluginID: plugID) else {
+            return
+        }
+        var pluginEndpoint = ""
+        
+        switch endpointAction {
+        case .install:
+            pluginEndpoint = sitePluginsEndpoint + "/\(pluginSlug)" + "/\(endpointAction.rawValue)"
+        default:
+            pluginEndpoint = sitePluginsEndpoint + "/\(escapedPluginID)" + "/\(endpointAction.rawValue)"
+        }
+
+        stubRemoteResponse(pluginEndpoint,
+                           filename: responseFile,
+                           contentType: .ApplicationJSON)
+    }
 }
