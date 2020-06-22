@@ -1,11 +1,12 @@
 import Foundation
 import XCTest
-import WordPressKit
+@testable import WordPressKit
 
 class PluginServiceRemoteTests: RemoteTestCase, RESTTestable {
     let siteID = 123
     let getPluginsSuccessMockFilename = "site-plugins-success.json"
     let getPluginsErrorMockFilename = "site-plugins-error.json"
+    let getPluginsMalformedMockFile = "site-plugins-malformed.json"
     let getFeaturedPluginsMockFile = "plugin-service-remote-featured.json"
     let getFeaturedPluginsMalformedMockFile = "plugin-service-remote-featured-malformed.json"
     let getFeaturedPluginsInvalidResponse = "plugin-service-remote-featured-plugins-invalid.json"
@@ -66,6 +67,25 @@ class PluginServiceRemoteTests: RemoteTestCase, RESTTestable {
         }, failure: { (error) in
             let error = error as NSError
             let expected = PluginServiceRemote.ResponseError.unauthorized as NSError
+            XCTAssertEqual(error, expected)
+            expect.fulfill()
+        })
+
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+    
+    func testGetSitePluginFailsMalformed() {
+        let expect = expectation(description: "Get site plugins fails")
+
+        stubRemoteResponse(sitePluginsEndpoint,
+                           filename: getPluginsMalformedMockFile,
+                           contentType: .ApplicationJSON)
+        remote.getPlugins(siteID: siteID, success: { (_)  in
+            XCTFail("This callback shouldn't get called")
+            expect.fulfill()
+        }, failure: { (error) in
+            let error = error as NSError
+            let expected = WordPressComRestApiError.responseSerializationFailed as NSError
             XCTAssertEqual(error, expected)
             expect.fulfill()
         })
@@ -157,10 +177,15 @@ class PluginServiceRemoteTests: RemoteTestCase, RESTTestable {
     }
     
     func testPluginIDEncoding() {
+        let pluginID = "jetpack/jetpack"
+        let encoded = remote.encoded(pluginID: pluginID)
         
+        let escapedPluginID = "jetpack%2Fjetpack"
+        
+        XCTAssertEqual(encoded, escapedPluginID)
     }
     
-    func testUpdatePluginPluginUpToDate() {
+    func testUpdatePluginUpToDate() {
         let escapedPluginID = "/jetpack%2Fjetpack"
         let updatePluginJetpackEndpoint = sitePluginsEndpoint + escapedPluginID + "/update"
         let expect = expectation(description: "Plugin is already up to date")
