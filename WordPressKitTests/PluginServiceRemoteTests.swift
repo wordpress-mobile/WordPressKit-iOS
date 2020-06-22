@@ -13,6 +13,8 @@ class PluginServiceRemoteTests: RemoteTestCase, RESTTestable {
     let getRemoteFeaturedPluginsEndpoint = "wpcom/v2/plugins/featured"
     let postRemotePluginUpdateJetpack = "plugin-update-jetpack-already-updated.json"
     let postRemotePluginUpdateGutenberg = "plugin-update-gutenberg-needs-update.json"
+    let postRemotePluginUpdateAuthFailure = "plugin-service-remote-auth-failure.json"
+    let postRemotePluginUpdateMalformed = "plugin-update-response-malformed.json"
     var sitePluginsEndpoint: String {
         return "sites/\(siteID)/plugins"
     }
@@ -113,7 +115,7 @@ class PluginServiceRemoteTests: RemoteTestCase, RESTTestable {
         waitForExpectations(timeout: timeout, handler: nil)
     }
     
-    func testGetFeaturedPluginFailsMalformedJson() {
+    func testGetFeaturedPluginFailsMalformedJSON() {
         let expect = expectation(description: "Get Featured Plugins Fails")
         
         stubRemoteResponse(getRemoteFeaturedPluginsEndpoint,
@@ -229,6 +231,51 @@ class PluginServiceRemoteTests: RemoteTestCase, RESTTestable {
             expect.fulfill()
         }) { (error) in
             XCTFail("This callback shouldn't get called")
+            expect.fulfill()
+        }
+        
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+    
+    func testUpdatePluginAuthFails() {
+        let escapedPluginID = "/gutenberg%2Fgutenberg"
+        let updatePluginGutenbergEndpoint = sitePluginsEndpoint + escapedPluginID + "/update"
+        let expect = expectation(description: "Plugin is updated successfully")
+        
+        stubRemoteResponse(updatePluginGutenbergEndpoint,
+                           filename: postRemotePluginUpdateAuthFailure,
+                           contentType: .ApplicationJSON)
+        
+        remote.updatePlugin(pluginID: "gutenberg/gutenberg", siteID: siteID, success: { (pluginState) in
+            XCTFail("This callback should not be called")
+            expect.fulfill()
+        }) { (error) in
+            let error = error as NSError
+            let expected = PluginServiceRemote.ResponseError.unauthorized as NSError
+            
+            XCTAssertEqual(error, expected)
+            expect.fulfill()
+        }
+        
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+    
+    func testUpdatePluginFailsMalformedJSON() {
+        let escapedPluginID = "/gutenberg%2Fgutenberg"
+        let updatePluginGutenbergEndpoint = sitePluginsEndpoint + escapedPluginID + "/update"
+        let expect = expectation(description: "Plugin is updated successfully")
+        
+        stubRemoteResponse(updatePluginGutenbergEndpoint,
+                           filename: postRemotePluginUpdateMalformed,
+                           contentType: .ApplicationJSON)
+        
+        remote.updatePlugin(pluginID: "gutenberg/gutenberg", siteID: siteID, success: { (pluginState) in
+            XCTFail("This callback shouldn't get called")
+            expect.fulfill()
+        }) { (error) in
+            let error = error as NSError
+            let expected = WordPressComRestApiError.responseSerializationFailed as NSError
+            XCTAssertEqual(error, expected)
             expect.fulfill()
         }
         
