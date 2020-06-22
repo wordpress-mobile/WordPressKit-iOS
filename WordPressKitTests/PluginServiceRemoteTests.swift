@@ -135,6 +135,27 @@ class PluginServiceRemoteTests: RemoteTestCase, RESTTestable {
         waitForExpectations(timeout: timeout, handler: nil)
     }
     
+    func testGetFeaturedPluginFailsIncorrectResponse() {
+        let expect = expectation(description: "Get Featured Plugins Fails")
+        
+        stubRemoteResponse(getRemoteFeaturedPluginsEndpoint,
+                           filename: getPluginsErrorMockFilename,
+                           contentType: .ApplicationJSON)
+        
+        remote.getFeaturedPlugins(success: { (featuredPlugins) in
+            XCTFail("Callback should not get called")
+            expect.fulfill()
+        }) { (error) in
+            let error = error as NSError
+            let expected = PluginServiceRemote.ResponseError.decodingFailure as NSError
+            XCTAssertEqual(error, expected)
+            
+            expect.fulfill()
+        }
+        
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+    
     func testPluginIDEncoding() {
         
     }
