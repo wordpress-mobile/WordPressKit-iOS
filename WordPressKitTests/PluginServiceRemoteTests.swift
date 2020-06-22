@@ -17,6 +17,11 @@ class PluginServiceRemoteTests: RemoteTestCase, RESTTestable {
     let postRemotePluginUpdateMalformed = "plugin-update-response-malformed.json"
     let postRemotePluginModifyActivate = "plugin-modify-activate.json"
     let postPluginInstallSucceeds = "plugin-install-succeeds.json"
+    let postPluginInstallAlreadyInstalled = "plugin-install-already-installed.json"
+    let postPluginInstallGenericError = "plugin-install-generic-error.json"
+    let postPluginInstallMalformed = "plugin-install-malformed-response.json"
+    let postPluginRemoveMalformed = "plugin-delete-malformed-response.json"
+    let postPluginActivateMalformed = "plugin-activate-malformed-response.json"
     var sitePluginsEndpoint: String {
         return "sites/\(siteID)/plugins"
     }
@@ -303,7 +308,105 @@ class PluginServiceRemoteTests: RemoteTestCase, RESTTestable {
         waitForExpectations(timeout: timeout, handler: nil)
     }
     
+    func testInstallPluginAlreadyInstalled() {
+        let expect = expectation(description: "Plugin install fails.  Plugin already installed")
+         preparePostStubRemoteResponseWith(plugID: "code-snippets/code-snippets",
+                                             pluginSlug: "code-snippets",
+                                             endpointAction: .install,
+                                             responseFile: postPluginInstallAlreadyInstalled)
+        
+        remote.install(pluginSlug: "code-snippets",siteID: siteID, success: { (pluginState) in
+           XCTFail("This callback shouldn't get called")
+            expect.fulfill()
+        }) { (error) in
+            let error = error as NSError
+            let expected = PluginServiceRemote.ResponseError.unknownError as NSError
+            XCTAssertEqual(error, expected)
+            expect.fulfill()
+        }
+        
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
     
+    func testInstallPluginGenericError() {
+        let expect = expectation(description: "Plugin install fails.  Generic Error")
+         preparePostStubRemoteResponseWith(plugID: "code-snippets/code-snippets",
+                                             pluginSlug: "code-snippets",
+                                             endpointAction: .install,
+                                             responseFile: postPluginInstallGenericError)
+        
+        remote.install(pluginSlug: "code-snippets",siteID: siteID, success: { (pluginState) in
+           XCTFail("This callback shouldn't get called")
+            expect.fulfill()
+        }) { (error) in
+            let error = error as NSError
+            let expected = PluginServiceRemote.ResponseError.unknownError as NSError
+            XCTAssertEqual(error, expected)
+            expect.fulfill()
+        }
+        
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+    
+    func testInstallPluginMalformed() {
+        let expect = expectation(description: "Plugin Install returns malformed JSON")
+         preparePostStubRemoteResponseWith(plugID: "code-snippets/code-snippets",
+                                             pluginSlug: "code-snippets",
+                                             endpointAction: .install,
+                                             responseFile: postPluginInstallMalformed)
+        
+        remote.install(pluginSlug: "code-snippets",siteID: siteID, success: { (pluginState) in
+           XCTFail("This callback shouldn't get called")
+            expect.fulfill()
+        }) { (error) in
+            let error = error as NSError
+            let expected = WordPressComRestApiError.responseSerializationFailed as NSError
+            XCTAssertEqual(error, expected)
+            expect.fulfill()
+        }
+        
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+    
+    func testRemovePluginMalformed() {
+        let expect = expectation(description: "Plugin Remove returns malformed JSON")
+         preparePostStubRemoteResponseWith(plugID: "code-snippets/code-snippets",
+                                             pluginSlug: "code-snippets",
+                                             endpointAction: .remove,
+                                             responseFile: postPluginRemoveMalformed)
+        
+        remote.remove(pluginID: "code-snippets/code-snippets", siteID: siteID, success: {
+            XCTFail("This callback shouldn't get called")
+            expect.fulfill()
+        }) { (error) in
+            let error = error as NSError
+            let expected = WordPressComRestApiError.responseSerializationFailed as NSError
+            XCTAssertEqual(error, expected)
+            expect.fulfill()
+        }
+        
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+    
+    func testActivatePluginMalformed() {
+        let expect = expectation(description: "Plugin Activate returns malformed JSON")
+         preparePostStubRemoteResponseWith(plugID: "code-snippets/code-snippets",
+                                             pluginSlug: "code-snippets",
+                                             endpointAction: .modify,
+                                             responseFile: postPluginRemoveMalformed)
+        
+        remote.activatePlugin(pluginID: "code-snippets/code-snippets", siteID: siteID, success: {
+            XCTFail("This callback shouldn't get called")
+            expect.fulfill()
+        }) { (error) in
+            let error = error as NSError
+            let expected = WordPressComRestApiError.responseSerializationFailed as NSError
+            XCTAssertEqual(error, expected)
+            expect.fulfill()
+        }
+
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
 }
 
 extension PluginServiceRemoteTests {
@@ -311,7 +414,7 @@ extension PluginServiceRemoteTests {
         case update = "update"
         case install = "install"
         case remove = "delete"
-        case none = ""
+        case modify
     }
     
     func preparePostStubRemoteResponseWith(plugID: String, pluginSlug: String, endpointAction: EndpointAction, responseFile: String) {
@@ -323,6 +426,8 @@ extension PluginServiceRemoteTests {
         switch endpointAction {
         case .install:
             pluginEndpoint = sitePluginsEndpoint + "/\(pluginSlug)" + "/\(endpointAction.rawValue)"
+        case .modify:
+            pluginEndpoint = sitePluginsEndpoint + "/\(escapedPluginID)"
         default:
             pluginEndpoint = sitePluginsEndpoint + "/\(escapedPluginID)" + "/\(endpointAction.rawValue)"
         }
