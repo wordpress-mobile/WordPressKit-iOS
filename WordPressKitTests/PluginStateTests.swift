@@ -1,6 +1,6 @@
 import Foundation
 import XCTest
-import WordPressKit
+@testable import WordPressKit
 
 class PluginStateTests: RemoteTestCase, RESTTestable {
     let siteID = 123
@@ -12,21 +12,13 @@ class PluginStateTests: RemoteTestCase, RESTTestable {
     
     var sitePlugins: SitePlugins!
     var remote: PluginServiceRemote!
+    var pluginADictionary: [String : AnyObject]!
     
     
     override func setUp() {
         super.setUp()
         
         remote = PluginServiceRemote(wordPressComRestApi: getRestApi())
-        //        stubRemoteResponse(sitePluginsEndpoint,
-        //                       filename: getPluginsSuccessMockFilename,
-        //                       contentType: .ApplicationJSON)
-        //        remote.getPlugins(siteID: siteID, success: { (plugins) in
-        //            self.sitePlugins = plugins
-        //        }) { (error) in
-        //            print(error)
-        //        }
-        
     }
     
     override func tearDown() {
