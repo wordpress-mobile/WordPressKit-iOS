@@ -125,6 +125,30 @@
             "action_links": [],
             "autoupdate": true,
             "uninstallable": false,
+        },
+        {
+            "slug": "akismet",
+            "active": false,
+            "name": "akismet\/akismet",
+            "display_name": "Akismet Anti-Spam",
+            "plugin_url": "https:\/\/akismet.com\/",
+            "version": "3.3.4",
+            "description": "Used by millions, Akismet is quite possibly the best way in the world to <strong>protect your blog from spam<\/strong>. It keeps your site protected even while you sleep. To get started: activate the Akismet plugin and then go to your Akismet Settings page to set up your API key.",
+            "author": "Automattic",
+            "author_url": "https:\/\/automattic.com\/wordpress-plugins\/",
+            "network": false,
+            "update": {
+                "id": "w.org\/plugins\/akismet",
+                "slug": "akismet",
+                "plugin": "akismet\/akismet.php",
+                "new_version": "4.0",
+                "url": "https:\/\/wordpress.org\/plugins\/akismet\/",
+                "package": "https:\/\/downloads.wordpress.org\/plugin\/akismet.4.0.zip",
+                "tested": "4.8.1"
+            },
+            "action_links": [],
+            "autoupdate": false,
+            "uninstallable": false
         }
     ],
     "file_mod_capabilities": {

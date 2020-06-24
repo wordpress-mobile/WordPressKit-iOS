@@ -52,7 +52,7 @@ class PluginServiceRemoteTests: RemoteTestCase, RESTTestable {
                            filename: getPluginsSuccessMockFilename,
                            contentType: .ApplicationJSON)
         remote.getPlugins(siteID: siteID, success: { (sitePlugins) in
-            XCTAssertEqual(sitePlugins.plugins.count, 7)
+            XCTAssertEqual(sitePlugins.plugins.count, 8)
             XCTAssertTrue(sitePlugins.capabilities.autoupdate)
             XCTAssertTrue(sitePlugins.capabilities.modify)
             expect.fulfill()
