@@ -1,5 +1,5 @@
 import XCTest
-import WordPressKit
+@testable import WordPressKit
 
 class PluginDirectoryTests: XCTestCase {
     
@@ -173,5 +173,35 @@ class PluginDirectoryTests: XCTestCase {
         } catch {
             XCTFail("Equal Equatable check failed")
         }
+    }
+    
+    func testDescriptionTextVariableReturnsConvertedHTML() {
+        //Not very good... return to this one after thinking about it
+        let jetpack = getJetpackPluginDirectoryEntry()
+        
+        let descriptionText = jetpack.descriptionText!.attributedSubstring(from: NSRange(location: 0, length: 74))
+        
+        let expected = NSAttributedString(string: "Keep any WordPress site secure, increase traffic, and engage your readers.")
+        
+        XCTAssertEqual(descriptionText.string, expected.string)
+    
+    }
+}
+
+extension PluginDirectoryTests {
+    func getJetpackPluginDirectoryEntry() -> PluginDirectoryEntry {
+        var plugin: PluginDirectoryEntry!
+        
+        let jetpackMockPath = Bundle(for: type(of: self)).path(forResource: "plugin-directory-jetpack", ofType: "json")!
+        let data = try! Data(contentsOf: URL(fileURLWithPath: jetpackMockPath))
+        let endpoint = PluginDirectoryGetInformationEndpoint(slug: "jetpack")
+
+        do {
+            plugin = try endpoint.parseResponse(data: data)
+        } catch {
+            print("Couldn't decode Plugin \(error)")
+        }
+        
+        return plugin
     }
 }
