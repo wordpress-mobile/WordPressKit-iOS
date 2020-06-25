@@ -12,22 +12,22 @@ public struct PluginDirectoryEntry {
     public let author: String
     public let authorURL: URL?
 
-    private let descriptionHTML: String?
-    private let installationHTML: String?
-    private let faqHTML: String?
-    private let changelogHTML: String?
+    internal let descriptionHTML: String?
+    internal let installationHTML: String?
+    internal let faqHTML: String?
+    internal let changelogHTML: String?
 
     public var descriptionText: NSAttributedString? {
-        return extractHTMLText(self.descriptionHTML)
+        return PluginDirectoryEntry.extractHTMLText(self.descriptionHTML)
     }
     public var installationText: NSAttributedString? {
-        return extractHTMLText(self.installationHTML)
+        return PluginDirectoryEntry.extractHTMLText(self.installationHTML)
     }
     public var faqText: NSAttributedString? {
-        return extractHTMLText(self.faqHTML)
+        return PluginDirectoryEntry.extractHTMLText(self.faqHTML)
     }
     public var changelogText: NSAttributedString? {
-        return extractHTMLText(self.changelogHTML)
+        return PluginDirectoryEntry.extractHTMLText(self.changelogHTML)
     }
 
     private let rating: Int
@@ -100,16 +100,16 @@ extension PluginDirectoryEntry: Codable {
             banner = nil
         }
 
-        (author, authorURL) = try extractAuthor(container.decode(String.self, forKey: .author))
+        (author, authorURL) = try PluginDirectoryEntry.extractAuthor(container.decode(String.self, forKey: .author))
 
         let sections = try? container.nestedContainer(keyedBy: SectionKeys.self, forKey: .sections)
 
-        descriptionHTML = try trimTags(sections?.decodeIfPresent(String.self, forKey: .description))
-        installationHTML = try trimTags(sections?.decodeIfPresent(String.self, forKey: .installation))
-        faqHTML = try trimTags(sections?.decodeIfPresent(String.self, forKey: .faq))
+        descriptionHTML = try PluginDirectoryEntry.trimTags(sections?.decodeIfPresent(String.self, forKey: .description))
+        installationHTML = try PluginDirectoryEntry.trimTags(sections?.decodeIfPresent(String.self, forKey: .installation))
+        faqHTML = try PluginDirectoryEntry.trimTags(sections?.decodeIfPresent(String.self, forKey: .faq))
 
         let changelog = try sections?.decodeIfPresent(String.self, forKey: .changelog)
-        changelogHTML = trimTags(trimChangelog(changelog))
+        changelogHTML = PluginDirectoryEntry.trimTags(PluginDirectoryEntry.trimChangelog(changelog))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -165,7 +165,7 @@ extension PluginDirectoryEntry: Codable {
         self.name = name
         self.slug = slug
         self.rating = rating
-        self.author = extractAuthor(authorString).name
+        self.author = PluginDirectoryEntry.extractAuthor(authorString).name
 
         if let icon = (responseObject["icons"]?["2x"] as? String).flatMap({ URL(string: $0) }) {
             self.icon = icon
@@ -184,96 +184,100 @@ extension PluginDirectoryEntry: Codable {
     }
 }
 
-// Since the WPOrg API returns `author` as a HTML string (or freeform text), we need to get ugly and parse out the important bits out of it ourselves.
-// Using the built-in NSAttributedString API for it is too slow — it's required to run on main thread and it calls out to WebKit APIs,
-// making the context switches excessively expensive when trying to display a list of plugins.
-typealias Author = (name: String, link: URL?)
 
-private func extractAuthor(_ author: String) -> Author {
-    // Because the `author` field is so free-form, there's cases of it being
-    // * regular string ("Gutenberg")
-    // * URL ("https://wordpress.org/plugins/gutenberg/#reviews&arg=1")
-    // * HTML link ("<a href="https://wordpress.org/plugins/gutenberg/#reviews">Gutenberg</a>"
-    // but also fun things like
-    // * malformed HTML: "<a href="">Gutenberg</a>".
-    // To save ourselves a headache of trying to support all those edge-cases when parsing out the
-    // user-facing name, let's just employ honest to god XMLParser and be done with it.
-    // (h/t @koke for suggesting and writing the XMLParser approach)
+extension PluginDirectoryEntry {
+        
+    // Since the WPOrg API returns `author` as a HTML string (or freeform text), we need to get ugly and parse out the important bits out of it ourselves.
+    // Using the built-in NSAttributedString API for it is too slow — it's required to run on main thread and it calls out to WebKit APIs,
+    // making the context switches excessively expensive when trying to display a list of plugins.
+    typealias Author = (name: String, link: URL?)
 
-    guard let data = author
-        .replacingOccurrences(of: "&", with: "&amp;") // can't have naked "&" in XML, but they're valid in URLs.
-        .data(using: .utf8) else {
-        return (author, nil)
-    }
+    internal static func extractAuthor(_ author: String) -> Author {
+        // Because the `author` field is so free-form, there's cases of it being
+        // * regular string ("Gutenberg")
+        // * URL ("https://wordpress.org/plugins/gutenberg/#reviews&arg=1")
+        // * HTML link ("<a href="https://wordpress.org/plugins/gutenberg/#reviews">Gutenberg</a>"
+        // but also fun things like
+        // * malformed HTML: "<a href="">Gutenberg</a>".
+        // To save ourselves a headache of trying to support all those edge-cases when parsing out the
+        // user-facing name, let's just employ honest to god XMLParser and be done with it.
+        // (h/t @koke for suggesting and writing the XMLParser approach)
 
-    let parser = XMLParser(data: data)
-    let delegate = AuthorParser()
-
-    parser.delegate = delegate
-
-    guard parser.parse() else {
-        if let url = URL(string: author),
-            url.scheme != nil {
-            return (author, url)
-        } else {
+        guard let data = author
+            .replacingOccurrences(of: "&", with: "&amp;") // can't have naked "&" in XML, but they're valid in URLs.
+            .data(using: .utf8) else {
             return (author, nil)
         }
-    }
 
-    return (delegate.author, delegate.url)
-}
+        let parser = XMLParser(data: data)
+        let delegate = AuthorParser()
 
-private func extractHTMLText(_ text: String?) -> NSAttributedString? {
-    guard Thread.isMainThread,
-        let data = text?.data(using: .utf16),
-        let attributedString = try? NSAttributedString(data: data, options: [.documentType : NSAttributedString.DocumentType.html], documentAttributes: nil) else {
-            return nil
-    }
+        parser.delegate = delegate
 
-    return attributedString
-}
-
-private func trimTags(_ htmlString: String?) -> String? {
-    // Because the HTML we get from backend can contain literally anything, we need to set some limits as to what we won't even try to parse.
-    let tagsToRemove = ["script", "iframe"]
-
-    guard var html = htmlString else { return nil }
-
-    for tag in tagsToRemove {
-        let openingTag = "<\(tag)"
-        let closingTag  = "/\(tag)>"
-
-        if let openingRange = html.range(of: openingTag),
-           let closingRange = html.range(of: closingTag) {
-
-            let rangeToRemove = openingRange.lowerBound..<closingRange.upperBound
-            html.removeSubrange(rangeToRemove)
+        guard parser.parse() else {
+            if let url = URL(string: author),
+                url.scheme != nil {
+                return (author, url)
+            } else {
+                return (author, nil)
+            }
         }
+
+        return (delegate.author, delegate.url)
     }
 
-    return html
-}
+    internal static func extractHTMLText(_ text: String?) -> NSAttributedString? {
+        guard Thread.isMainThread,
+            let data = text?.data(using: .utf16),
+            let attributedString = try? NSAttributedString(data: data, options: [.documentType : NSAttributedString.DocumentType.html], documentAttributes: nil) else {
+                return nil
+        }
 
-private func trimChangelog(_ changelog: String?) -> String? {
-    // The changelog that some plugins return is HUGE — Gutenberg as of 2.0 for example returns over 50KiB of text and 1000s of lines,
-    // Akismet has changelog going back to 2009, etc — there isn't any backend-enforced limit, but thankfully there is backend-enforced structure.
-    // Showing more than last versions rel-notes seems somewhat poinless (and unlike how, e.g. App Store works), so we trim it to just the
-    // latest version here. If the user wants to see the whole thing, they can open the plugin's page in WPOrg directory in a browser.
-    guard let log = changelog else { return nil }
-
-    guard let firstOccurence = log.range(of: "<h4>") else {
-        // Each "version" in the changelog is delineated by the version number wrapped in `<h4>`.
-        // If the payload doesn't follow the format we're expecting, let's not trim it and return what we received.
-        return log
+        return attributedString
     }
 
-    let rangeAfterFirstOccurence = firstOccurence.upperBound ..< log.endIndex
-    guard let secondOccurence = log.range(of: "<h4>", range: rangeAfterFirstOccurence) else {
-        // Same as above. If the data doesn't the format we're expecting, bail.
-        return log
+    internal static func trimTags(_ htmlString: String?) -> String? {
+        // Because the HTML we get from backend can contain literally anything, we need to set some limits as to what we won't even try to parse.
+        let tagsToRemove = ["script", "iframe"]
+
+        guard var html = htmlString else { return nil }
+
+        for tag in tagsToRemove {
+            let openingTag = "<\(tag)"
+            let closingTag  = "/\(tag)>"
+
+            if let openingRange = html.range(of: openingTag),
+               let closingRange = html.range(of: closingTag) {
+
+                let rangeToRemove = openingRange.lowerBound..<closingRange.upperBound
+                html.removeSubrange(rangeToRemove)
+            }
+        }
+
+        return html
     }
 
-    return String(log[log.startIndex ..< secondOccurence.lowerBound])
+    internal static func trimChangelog(_ changelog: String?) -> String? {
+        // The changelog that some plugins return is HUGE — Gutenberg as of 2.0 for example returns over 50KiB of text and 1000s of lines,
+        // Akismet has changelog going back to 2009, etc — there isn't any backend-enforced limit, but thankfully there is backend-enforced structure.
+        // Showing more than last versions rel-notes seems somewhat poinless (and unlike how, e.g. App Store works), so we trim it to just the
+        // latest version here. If the user wants to see the whole thing, they can open the plugin's page in WPOrg directory in a browser.
+        guard let log = changelog else { return nil }
+
+        guard let firstOccurence = log.range(of: "<h4>") else {
+            // Each "version" in the changelog is delineated by the version number wrapped in `<h4>`.
+            // If the payload doesn't follow the format we're expecting, let's not trim it and return what we received.
+            return log
+        }
+
+        let rangeAfterFirstOccurence = firstOccurence.upperBound ..< log.endIndex
+        guard let secondOccurence = log.range(of: "<h4>", range: rangeAfterFirstOccurence) else {
+            // Same as above. If the data doesn't the format we're expecting, bail.
+            return log
+        }
+
+        return String(log[log.startIndex ..< secondOccurence.lowerBound])
+    }
 }
 
 private final class AuthorParser: NSObject, XMLParserDelegate {
