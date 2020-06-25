@@ -116,15 +116,15 @@ public struct PluginDirectoryFeedEndpoint: Endpoint {
 
         let request = URLRequest(url: PluginDirectoryRemoteConstants.feedEndpoint)
         let encodedRequest = try URLEncoding.default.encode(request, with: parameters)
-
+        
         return encodedRequest
     }
-
+    
     public func parseResponse(data: Data) throws -> PluginDirectoryFeedPage {
         return try PluginDirectoryRemoteConstants.jsonDecoder.decode(PluginDirectoryFeedPage.self, from: data)
     }
-
-   public func validate(request: URLRequest?, response: HTTPURLResponse, data: Data?) throws {
+    
+    public func validate(request: URLRequest?, response: HTTPURLResponse, data: Data?) throws {
         if response.statusCode != 200 { throw Error.genericError}
     }
 }
@@ -144,3 +144,4 @@ public struct PluginDirectoryServiceRemote {
         PluginDirectoryGetInformationEndpoint(slug: slug).request(completion: completion)
     }
 }
+
