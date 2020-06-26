@@ -1,0 +1,18 @@
+{
+    "is_eligible": false,
+    "errors": [
+        {
+            "code": "no_business_plan",
+            "message": "Only sites with a business plan can be transferred."
+        },
+        {
+            "code": "no_jetpack_sites",
+            "message": "Jetpack sites cannot be transferred."
+        }
+    ],
+    "warnings": {
+        "plugins": [],
+        "widgets": [],
+        "subdomain": []
+    }
+}
