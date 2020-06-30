@@ -8,15 +8,7 @@ class PluginStateTests: RemoteTestCase, RESTTestable {
     var sitePluginsEndpoint: String {
         return "sites/\(siteID)/plugins"
     }
-    
-    override func setUp() {
-        super.setUp()
-    }
-    
-    override func tearDown() {
-        super.tearDown()
-    }
-    
+
     func testPluginStateEquatable() {
         
         let lhs = akismetPlugin
