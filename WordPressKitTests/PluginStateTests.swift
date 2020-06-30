@@ -3,12 +3,7 @@ import XCTest
 @testable import WordPressKit
 
 class PluginStateTests: RemoteTestCase, RESTTestable {
-    let siteID = 123
     
-    var sitePluginsEndpoint: String {
-        return "sites/\(siteID)/plugins"
-    }
-
     func testPluginStateEquatable() {
         
         let lhs = akismetPlugin
