@@ -2,7 +2,7 @@ import Foundation
 import XCTest
 @testable import WordPressKit
 
-class SitePluginTests: RemoteTestCase, RESTTestable {
+class SitePluginTests: XCTest {
     func testSitePluginCapabilitiesEquatableSucceeds() {
         let sitePluginCapabilitiesA = SitePluginCapabilities(modify: true, autoupdate: true)
         let sitePluginCapabilitiesB = SitePluginCapabilities(modify: true, autoupdate: true)
