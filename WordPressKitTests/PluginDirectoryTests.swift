@@ -144,6 +144,26 @@ class PluginDirectoryTests: XCTestCase {
         }
     }
     
+    func testPluginDirectoryFeedPageDecoderSucceeds() {
+        let newFeedMockPath = Bundle(for: type(of: self)).path(forResource: "plugin-directory-new", ofType: "json")!
+        let data = try! Data(contentsOf: URL(fileURLWithPath: newFeedMockPath))
+
+        do {
+             let response = try JSONDecoder().decode(PluginDirectoryFeedPage.self, from: data)
+            XCTAssertEqual(response.pageMetadata.page, 1)
+            XCTAssertEqual(response.plugins.count, 48)
+            XCTAssertEqual(response.pageMetadata.pluginSlugs.count, 48)
+            XCTAssertEqual(response.plugins.first!.name, "NapoleonCat Chat Widget for Facebook")
+            XCTAssertEqual(response.plugins.last!.name, "Woomizer")
+
+            let slugs = response.plugins.map { $0.slug }
+            XCTAssertEqual(response.pageMetadata.pluginSlugs, slugs)
+            
+        } catch {
+            XCTFail("Failed decoding plugin \(error)")
+        }
+    }
+    
     func testPluginFeedPageDirectoryEquatable() {
         let popularFeedMockPath = Bundle(for: type(of: self)).path(forResource: "plugin-directory-popular", ofType: "json")!
         let data = try! Data(contentsOf: URL(fileURLWithPath: popularFeedMockPath))
