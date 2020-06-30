@@ -121,69 +121,88 @@ class PluginStateTests: RemoteTestCase, RESTTestable {
         }
     }
     
+    func testUpdateStateDecodeSucceeds() {
+        let data = updateStateJSON
+        
+        let decoder = JSONDecoder()
+        do {
+            XCTAssertNoThrow(try decoder.decode(PluginState.UpdateState.self, from: data), "Decode from JSON successful")
+            let decoder = try decoder.decode(PluginState.UpdateState.self, from: data)
+        } catch {
+            XCTFail("Could not decode")
+        }
+    }
 }
 
 private let akismetPlugin = PluginState(id: "akismet/akismet",
-    slug: "akismet",
-    active: false,
-    name: "Akismet Anti-Spam",
-    author: "Automattic",
-    version: "3.3.4",
-    updateState: PluginState.UpdateState.updated,
-    autoupdate: false,
-    automanaged: false,
-    url: URL(string: "https://akismet.com/"),
-    settingsURL: nil
+                                        slug: "akismet",
+                                        active: false,
+                                        name: "Akismet Anti-Spam",
+                                        author: "Automattic",
+                                        version: "3.3.4",
+                                        updateState: PluginState.UpdateState.updated,
+                                        autoupdate: false,
+                                        automanaged: false,
+                                        url: URL(string: "https://akismet.com/"),
+                                        settingsURL: nil
 )
 
 private let jetpackBetaPlugin = PluginState(id: "jetpack-beta/jetpack-beta",
-    slug: "jetpack-beta",
-    active: true,
-    name: "Jetpack Beta Tester",
-    author: "Automattic",
-    version: "2.0.3",
-    updateState: PluginState.UpdateState.updated,
-    autoupdate: false,
-    automanaged: false,
-    url: URL(string: "https://jetpack.com/"),
-    settingsURL: URL(string: "https://example.com/wp-admin/admin.php?page=jetpack-beta")
+                                            slug: "jetpack-beta",
+                                            active: true,
+                                            name: "Jetpack Beta Tester",
+                                            author: "Automattic",
+                                            version: "2.0.3",
+                                            updateState: PluginState.UpdateState.updated,
+                                            autoupdate: false,
+                                            automanaged: false,
+                                            url: URL(string: "https://jetpack.com/"),
+                                            settingsURL: URL(string: "https://example.com/wp-admin/admin.php?page=jetpack-beta")
 )
 
 private let mailchimpPlugin = PluginState(id: "mailchimp-for-wp/mailchimp-for-wp",
-    slug: "mailchimp-for-wp",
-    active: false,
-    name: "MC4WP: Mailchimp for WordPress",
-    author: "ibericode",
-    version: "4.7.8",
-    updateState: PluginState.UpdateState.updated,
-    autoupdate: true,
-    automanaged: false,
-    url: URL(string: "https://ibericode.com"),
-    settingsURL: nil
+                                          slug: "mailchimp-for-wp",
+                                          active: false,
+                                          name: "MC4WP: Mailchimp for WordPress",
+                                          author: "ibericode",
+                                          version: "4.7.8",
+                                          updateState: PluginState.UpdateState.updated,
+                                          autoupdate: true,
+                                          automanaged: false,
+                                          url: URL(string: "https://ibericode.com"),
+                                          settingsURL: nil
 )
 
 private let buddypressPlugin = PluginState(id: "buddypress/bp-loader",
-    slug: "buddypress",
-    active: true,
-    name: "BuddyPress",
-    author: "The BuddyPress Community",
-    version: "6.0.0",
-    updateState: PluginState.UpdateState.updated,
-    autoupdate: true,
-    automanaged: false,
-    url: URL(string: "https://buddypress.org"),
-    settingsURL: nil
+                                           slug: "buddypress",
+                                           active: true,
+                                           name: "BuddyPress",
+                                           author: "The BuddyPress Community",
+                                           version: "6.0.0",
+                                           updateState: PluginState.UpdateState.updated,
+                                           autoupdate: true,
+                                           automanaged: false,
+                                           url: URL(string: "https://buddypress.org"),
+                                           settingsURL: nil
 )
 
 private let jetpackDevPlugin = PluginState(id: "jetpack-dev/jetpack",
-    slug: "jetpack-dev",
-    active: true,
-    name: "Jetpack by WordPress.com",
-    author: "Automattic",
-    version: "5.4",
-    updateState: PluginState.UpdateState.updated,
-    autoupdate: false,
-    automanaged: false,
-    url: URL(string: "https://jetpack.com/"),
-    settingsURL: URL(string: "https://example.com/wp-admin/admin.php?page=jetpack#/settings")
+                                           slug: "jetpack-dev",
+                                           active: true,
+                                           name: "Jetpack by WordPress.com",
+                                           author: "Automattic",
+                                           version: "5.4",
+                                           updateState: PluginState.UpdateState.updated,
+                                           autoupdate: false,
+                                           automanaged: false,
+                                           url: URL(string: "https://jetpack.com/"),
+                                           settingsURL: URL(string: "https://example.com/wp-admin/admin.php?page=jetpack#/settings")
 )
+
+private let updateStateJSON = Data("""
+    {
+    "update": {
+            "new_version": "4.0"
+        }
+    }
+    """.utf8)
