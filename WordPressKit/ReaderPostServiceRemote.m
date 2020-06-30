@@ -225,7 +225,7 @@ NSString * const ParamKeyMetaValue = @"site,feed";
                               offset++;
                               return post;
                           }
-                          return [[RemoteReaderPost alloc] initWithDictionary:(NSDictionary *)responseObject];
+                          return [[RemoteReaderPost alloc] initWithDictionary:jsonPost];
                       }];
 
                       // Now call success on the main thread.
