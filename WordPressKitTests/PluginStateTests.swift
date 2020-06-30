@@ -104,15 +104,4 @@ class PluginStateTests: RemoteTestCase, RESTTestable {
         XCTAssertEqual(plugin.deactivateAllowed, false)
     }
     
-    func testUpdateStateEncodableDecodableReturnsCorrectly() {
-        let plugin = sitePlugins[0]
-        let updateState = plugin.updateState
-        let decoder = JSONDecoder()
-        let encoder = JSONEncoder()
-        
-        let data = try! encoder.encode(updateState)
-        let decoded = try! decoder.decode(PluginState.UpdateState.self, from: data)
-        
-        XCTAssertEqual(plugin.updateState, decoded)
-    }
 }
