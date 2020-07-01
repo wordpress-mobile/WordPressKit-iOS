@@ -313,6 +313,7 @@
 		8B2F4BEB24ABCA700056C08A /* reader-cards-success.json in Resources */ = {isa = PBXBuildFile; fileRef = 8B2F4BEA24ABCA6F0056C08A /* reader-cards-success.json */; };
 		8B2F4BED24ABCAEF0056C08A /* Decodable+Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2F4BEC24ABCAEF0056C08A /* Decodable+Dictionary.swift */; };
 		8B2F4BEF24ACCC120056C08A /* RemoteReaderCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2F4BEE24ACCC120056C08A /* RemoteReaderCard.swift */; };
+		8B2F4BF124ACE3C30056C08A /* RemoteReaderInterest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2F4BF024ACE3C30056C08A /* RemoteReaderInterest.swift */; };
 		9309994D1F1657C600F006A1 /* ThemeServiceRemote.h in Headers */ = {isa = PBXBuildFile; fileRef = 9309994B1F1657C600F006A1 /* ThemeServiceRemote.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9309994E1F1657C600F006A1 /* ThemeServiceRemote.m in Sources */ = {isa = PBXBuildFile; fileRef = 9309994C1F1657C600F006A1 /* ThemeServiceRemote.m */; };
 		930999521F1658F800F006A1 /* ThemeServiceRemoteTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 930999511F1658F800F006A1 /* ThemeServiceRemoteTests.m */; };
@@ -807,6 +808,7 @@
 		8B2F4BEA24ABCA6F0056C08A /* reader-cards-success.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "reader-cards-success.json"; sourceTree = "<group>"; };
 		8B2F4BEC24ABCAEF0056C08A /* Decodable+Dictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Decodable+Dictionary.swift"; sourceTree = "<group>"; };
 		8B2F4BEE24ACCC120056C08A /* RemoteReaderCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteReaderCard.swift; sourceTree = "<group>"; };
+		8B2F4BF024ACE3C30056C08A /* RemoteReaderInterest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteReaderInterest.swift; sourceTree = "<group>"; };
 		9309994B1F1657C600F006A1 /* ThemeServiceRemote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThemeServiceRemote.h; sourceTree = "<group>"; };
 		9309994C1F1657C600F006A1 /* ThemeServiceRemote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThemeServiceRemote.m; sourceTree = "<group>"; };
 		930999511F1658F800F006A1 /* ThemeServiceRemoteTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThemeServiceRemoteTests.m; sourceTree = "<group>"; };
@@ -1488,6 +1490,7 @@
 				7430C9D61F1933200051B8E6 /* RemoteReaderCrossPostMeta.swift */,
 				7430C9A91F1927C50051B8E6 /* RemoteReaderPost.h */,
 				8B2F4BEE24ACCC120056C08A /* RemoteReaderCard.swift */,
+				8B2F4BF024ACE3C30056C08A /* RemoteReaderInterest.swift */,
 				7430C9AA1F1927C50051B8E6 /* RemoteReaderPost.m */,
 				7430C9AB1F1927C50051B8E6 /* RemoteReaderSite.h */,
 				7430C9AC1F1927C50051B8E6 /* RemoteReaderSite.m */,
@@ -2384,6 +2387,7 @@
 				74D67F061F1528470010C5ED /* PeopleServiceRemote.swift in Sources */,
 				98DC787522BAEBF200267279 /* StatsAllAnnualInsight.swift in Sources */,
 				740B23C31F17EE8000067A2A /* RemotePostCategory.m in Sources */,
+				8B2F4BF124ACE3C30056C08A /* RemoteReaderInterest.swift in Sources */,
 				74B5F0E71EF8699C00B411E7 /* RemotePostType.m in Sources */,
 				93188D1F1F2262BF0028ED4D /* RemotePostTag.m in Sources */,
 				74D67F081F15BEB70010C5ED /* RemotePerson.swift in Sources */,

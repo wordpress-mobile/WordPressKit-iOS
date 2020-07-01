@@ -40,6 +40,22 @@ class ReaderPostServiceRemoteCardTests: RemoteTestCase, RESTTestable {
         waitForExpectations(timeout: timeout, handler: nil)
     }
 
+    // All cards have the correct type
+    //
+    func testReturnCorrectCardType() {
+        let expect = expectation(description: "Get cards successfully")
+        stubRemoteResponse("read/tags/cards?tags%5B%5D=cats", filename: "reader-cards-success.json", contentType: .ApplicationJSON)
+
+        readerPostServiceRemote.fetchCards(for: ["cats"], success: { cards in
+            let postTypes = cards.map { $0.type }
+            let expectedPostTypes: [RemoteReaderCard.CardType] = [.interests, .unknown, .post, .post, .post, .post, .post, .post, .post, .post]
+            XCTAssertTrue(postTypes == expectedPostTypes)
+            expect.fulfill()
+        }, failure: { _ in })
+
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+
     // Calls the failure block when an error happens
     //
     func testReturnError() {
