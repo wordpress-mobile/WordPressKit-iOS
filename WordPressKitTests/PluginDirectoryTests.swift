@@ -283,8 +283,31 @@ class PluginDirectoryTests: XCTestCase {
         } catch {
             XCTFail("Convert to JSON Failed")
         }
-        
     }
+    
+    func testPluginDirectoryFeedTypeSlugReturn() {
+        let pluginDirectoryFeedTypeNewest = PluginDirectoryFeedType.newest
+        let pluginDirectoryFeedTypePopular = PluginDirectoryFeedType.popular
+        let pluginDirectoryFeedTypeSearch = PluginDirectoryFeedType.search(term: "blocks")
+        
+        let expectedNewest = "newest"
+        let expectedPopular = "popular"
+        let expectedSearch = "search:blocks"
+        
+        XCTAssertEqual(pluginDirectoryFeedTypeNewest.slug, expectedNewest)
+        XCTAssertEqual(pluginDirectoryFeedTypePopular.slug, expectedPopular)
+        XCTAssertEqual(pluginDirectoryFeedTypeSearch.slug, expectedSearch)
+    }
+    
+    func testPluginDirectoryFeedTypeEquatable() {
+        let lhs = PluginDirectoryFeedType.newest
+        let rhs = PluginDirectoryFeedType.newest
+        
+        XCTAssertTrue(lhs == rhs)
+    }
+    
+    
+    
 }
 
 extension PluginDirectoryTests {
