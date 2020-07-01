@@ -312,6 +312,7 @@
 		8B2F4BE924ABC9DC0056C08A /* ReaderPostServiceRemote+CardsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2F4BE824ABC9DC0056C08A /* ReaderPostServiceRemote+CardsTests.swift */; };
 		8B2F4BEB24ABCA700056C08A /* reader-cards-success.json in Resources */ = {isa = PBXBuildFile; fileRef = 8B2F4BEA24ABCA6F0056C08A /* reader-cards-success.json */; };
 		8B2F4BED24ABCAEF0056C08A /* Decodable+Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2F4BEC24ABCAEF0056C08A /* Decodable+Dictionary.swift */; };
+		8B2F4BEF24ACCC120056C08A /* RemoteReaderCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2F4BEE24ACCC120056C08A /* RemoteReaderCard.swift */; };
 		9309994D1F1657C600F006A1 /* ThemeServiceRemote.h in Headers */ = {isa = PBXBuildFile; fileRef = 9309994B1F1657C600F006A1 /* ThemeServiceRemote.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9309994E1F1657C600F006A1 /* ThemeServiceRemote.m in Sources */ = {isa = PBXBuildFile; fileRef = 9309994C1F1657C600F006A1 /* ThemeServiceRemote.m */; };
 		930999521F1658F800F006A1 /* ThemeServiceRemoteTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 930999511F1658F800F006A1 /* ThemeServiceRemoteTests.m */; };
@@ -805,6 +806,7 @@
 		8B2F4BE824ABC9DC0056C08A /* ReaderPostServiceRemote+CardsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReaderPostServiceRemote+CardsTests.swift"; sourceTree = "<group>"; };
 		8B2F4BEA24ABCA6F0056C08A /* reader-cards-success.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "reader-cards-success.json"; sourceTree = "<group>"; };
 		8B2F4BEC24ABCAEF0056C08A /* Decodable+Dictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Decodable+Dictionary.swift"; sourceTree = "<group>"; };
+		8B2F4BEE24ACCC120056C08A /* RemoteReaderCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteReaderCard.swift; sourceTree = "<group>"; };
 		9309994B1F1657C600F006A1 /* ThemeServiceRemote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThemeServiceRemote.h; sourceTree = "<group>"; };
 		9309994C1F1657C600F006A1 /* ThemeServiceRemote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThemeServiceRemote.m; sourceTree = "<group>"; };
 		930999511F1658F800F006A1 /* ThemeServiceRemoteTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThemeServiceRemoteTests.m; sourceTree = "<group>"; };
@@ -1485,6 +1487,7 @@
 				74E2294D1F1E73FE0085F7F2 /* RemotePublicizeService.swift */,
 				7430C9D61F1933200051B8E6 /* RemoteReaderCrossPostMeta.swift */,
 				7430C9A91F1927C50051B8E6 /* RemoteReaderPost.h */,
+				8B2F4BEE24ACCC120056C08A /* RemoteReaderCard.swift */,
 				7430C9AA1F1927C50051B8E6 /* RemoteReaderPost.m */,
 				7430C9AB1F1927C50051B8E6 /* RemoteReaderSite.h */,
 				7430C9AC1F1927C50051B8E6 /* RemoteReaderSite.m */,
@@ -2367,6 +2370,7 @@
 				826016F31F9FA17B00533B6C /* Activity.swift in Sources */,
 				40819783221F5C8200A298E4 /* StatsPostDetails.swift in Sources */,
 				7397F01A220A072500C723F3 /* ActivityServiceRemote_ApiVersion1_0.swift in Sources */,
+				8B2F4BEF24ACCC120056C08A /* RemoteReaderCard.swift in Sources */,
 				40E7FEB1220FB3B60032834E /* StatsAnnualAndMostPopularTimeInsight.swift in Sources */,
 				7E3E7A4A20E443890075D159 /* Scanner+extensions.swift in Sources */,
 				742362E31F1025B400BD0A7F /* RemoteMenuLocation.m in Sources */,
