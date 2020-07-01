@@ -15,6 +15,7 @@ struct JSONCodingKeys: CodingKey {
 
 
 /// Add support do decode to a Dictionary
+/// From: https://stackoverflow.com/q/44603248
 extension KeyedDecodingContainer {
 
     func decode(_ type: Dictionary<String, Any>.Type, forKey key: K) throws -> Dictionary<String, Any> {
