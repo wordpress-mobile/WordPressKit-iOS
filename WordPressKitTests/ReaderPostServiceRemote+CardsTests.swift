@@ -20,7 +20,7 @@ class ReaderPostServiceRemoteCardTests: RemoteTestCase, RESTTestable {
         readerPostServiceRemote.fetchCards(for: ["dogs"], success: { cards in
             XCTAssertTrue(cards.count == 10)
             expect.fulfill()
-        })
+        }, failure: { _ in })
 
         waitForExpectations(timeout: timeout, handler: nil)
     }
@@ -34,6 +34,20 @@ class ReaderPostServiceRemoteCardTests: RemoteTestCase, RESTTestable {
         readerPostServiceRemote.fetchCards(for: ["cats"], success: { cards in
             let postCards = cards.filter { $0.type == .post }
             XCTAssertTrue(postCards.allSatisfy { $0.post != nil })
+            expect.fulfill()
+        }, failure: { _ in })
+
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+
+    // Calls the failure block when an error happens
+    //
+    func testReturnError() {
+        let expect = expectation(description: "Get cards successfully")
+        stubRemoteResponse("read/tags/cards?tags%5B%5D=cats", filename: "reader-cards-success.json", contentType: .ApplicationJSON, status: 503)
+
+        readerPostServiceRemote.fetchCards(for: ["cats"], success: { _ in }, failure: { error in
+            XCTAssertNotNil(error)
             expect.fulfill()
         })
 

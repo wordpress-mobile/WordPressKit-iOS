@@ -1,6 +1,7 @@
 extension ReaderPostServiceRemote {
     func fetchCards(for interests: [String],
-                    success: @escaping ([RemoteReaderCard]) -> Void) {
+                    success: @escaping ([RemoteReaderCard]) -> Void,
+                    failure: @escaping (Error) -> Void) {
         guard let requestUrl = cardsEndpoint(for: interests) else {
             return
         }
@@ -17,10 +18,11 @@ extension ReaderPostServiceRemote {
                                         success(envelope.cards)
                                     } catch {
                                         DDLogError("\(error)")
-                                        DDLogDebug("Full response: \(response)")
+                                        failure(error)
                                     }
         }, failure: { error, _ in
             DDLogError("\(error)")
+            failure(error)
         })
     }
 
