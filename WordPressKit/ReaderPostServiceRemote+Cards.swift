@@ -30,7 +30,8 @@ extension ReaderPostServiceRemote {
                                         failure(error)
                                     }
         }, failure: { error, _ in
-            DDLogError("\(error)")
+            DDLogError("Error fetching reader cards: \(error)")
+            
             failure(error)
         })
     }
