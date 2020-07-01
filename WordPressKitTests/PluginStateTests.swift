@@ -2,7 +2,7 @@ import Foundation
 import XCTest
 @testable import WordPressKit
 
-class PluginStateTests: XCTest {
+class PluginStateTests: XCTestCase {
     
     func testPluginStateEquatable() {
         
