@@ -1,4 +1,13 @@
 extension ReaderPostServiceRemote {
+    /// Returns a collection of RemoteReaderCard
+    /// a Reader Card can represent an item for the reader feed, such as
+    /// - Reader Post
+    /// - Interests you may like
+    /// - Blogs you may like and so on
+    ///
+    /// - Parameter interests: an array of String representing the interests
+    /// - Parameter success: Called when the request succeeds and the data returned is valid
+    /// - Parameter failure: Called if the request fails for any reason, or the response data is invalid
     func fetchCards(for interests: [String],
                     success: @escaping ([RemoteReaderCard]) -> Void,
                     failure: @escaping (Error) -> Void) {
@@ -8,7 +17,7 @@ extension ReaderPostServiceRemote {
 
         wordPressComRestApi.GET(requestUrl,
                                 parameters: nil,
-                                success: { (response, _) in
+                                success: { response, _ in
 
                                     do {
                                         let decoder = JSONDecoder()
