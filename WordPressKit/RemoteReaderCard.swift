@@ -4,7 +4,7 @@ struct ReaderCardEnvelope: Decodable {
     var cards: [RemoteReaderCard]
 }
 
-struct RemoteReaderCard: Decodable {
+public struct RemoteReaderCard: Decodable {
     enum CardType: String {
         case post
         case interests = "interests_you_may_like"
@@ -20,7 +20,7 @@ struct RemoteReaderCard: Decodable {
         case data
     }
 
-    init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         let typeString = try container.decode(String.self, forKey: .type)
         type = CardType(rawValue: typeString) ?? .unknown

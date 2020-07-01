@@ -8,7 +8,7 @@ extension ReaderPostServiceRemote {
     /// - Parameter interests: an array of String representing the interests
     /// - Parameter success: Called when the request succeeds and the data returned is valid
     /// - Parameter failure: Called if the request fails for any reason, or the response data is invalid
-    func fetchCards(for interests: [String],
+    public func fetchCards(for interests: [String],
                     success: @escaping ([RemoteReaderCard]) -> Void,
                     failure: @escaping (Error) -> Void) {
         guard let requestUrl = cardsEndpoint(for: interests) else {
