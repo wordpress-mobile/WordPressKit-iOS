@@ -26,7 +26,7 @@ extension ReaderPostServiceRemote {
 
                                         success(envelope.cards)
                                     } catch {
-                                        DDLogError("\(error)")
+                                        DDLogError("Error parsing the reader cards response: \(error)")
                                         failure(error)
                                     }
         }, failure: { error, _ in
