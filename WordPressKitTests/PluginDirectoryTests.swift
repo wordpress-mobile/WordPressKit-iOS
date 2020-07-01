@@ -273,6 +273,18 @@ class PluginDirectoryTests: XCTestCase {
         XCTAssertEqual(plugin.rating, decoded.rating)
     }
     
+    func testPluginStateDirectoryEncodeNoThrow() {
+        let plugin = pluginDirectoryEntryJetpack
+        let encoder = JSONEncoder()
+        
+        do {
+            XCTAssertNoThrow(try encoder.encode(plugin), "Could not encode plugin to Json")
+            let data = try encoder.encode(plugin)
+        } catch {
+            XCTFail("Convert to JSON Failed")
+        }
+        
+    }
 }
 
 extension PluginDirectoryTests {
