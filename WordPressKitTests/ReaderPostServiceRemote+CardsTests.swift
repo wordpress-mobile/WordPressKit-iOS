@@ -15,9 +15,9 @@ class ReaderPostServiceRemoteCardTests: RemoteTestCase, RESTTestable {
     //
     func testReturnCards() {
         let expect = expectation(description: "Get cards successfully")
-        stubRemoteResponse("read/cards", filename: "reader-cards-success.json", contentType: .ApplicationJSON)
+        stubRemoteResponse("read/tags/cards?tags%5B%5D=dogs", filename: "reader-cards-success.json", contentType: .ApplicationJSON)
 
-        readerPostServiceRemote.fetchCards(success: { cards in
+        readerPostServiceRemote.fetchCards(for: ["dogs"], success: { cards in
             XCTAssertTrue(cards.count == 10)
             expect.fulfill()
         })
@@ -29,9 +29,9 @@ class ReaderPostServiceRemoteCardTests: RemoteTestCase, RESTTestable {
     //
     func testReturnPosts() {
         let expect = expectation(description: "Get cards successfully")
-        stubRemoteResponse("read/cards", filename: "reader-cards-success.json", contentType: .ApplicationJSON)
+        stubRemoteResponse("read/tags/cards?tags%5B%5D=cats", filename: "reader-cards-success.json", contentType: .ApplicationJSON)
 
-        readerPostServiceRemote.fetchCards(success: { cards in
+        readerPostServiceRemote.fetchCards(for: ["cats"], success: { cards in
             let postCards = cards.filter { $0.type == .post }
             XCTAssertTrue(postCards.allSatisfy { $0.post != nil })
             expect.fulfill()
