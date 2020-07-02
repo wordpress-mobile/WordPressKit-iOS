@@ -2,22 +2,22 @@ import Foundation
 import XCTest
 @testable import WordPressKit
 
+
 class PluginStateTests: XCTestCase {
     
     func testPluginStateEquatable() {
         
-        let lhs = akismetPlugin
-        let rhs = akismetPlugin
+        let lhs = MockPluginStateProvider.getPluginState()
+        let rhs = MockPluginStateProvider.getPluginState()
         
         XCTAssertEqual(lhs, rhs)
     }
     
     func testSiteDescriptionNotActiveNotAutoupdated() {
-        let plugin = akismetPlugin
+        let plugin = MockPluginStateProvider.getPluginState(setToActive:false, autoupdate:false)
         
         let expected = "Inactive, Autoupdates off"
         
-        XCTAssertEqual(plugin.slug, "akismet")
         XCTAssertEqual(plugin.active, false)
         XCTAssertEqual(plugin.autoupdate, false)
         XCTAssertEqual(plugin.stateDescription, expected)
@@ -25,40 +25,37 @@ class PluginStateTests: XCTestCase {
     }
     
     func testSiteDescriptionNotActiveAutoupdated() {
-        let plugin = mailchimpPlugin
+        let plugin = MockPluginStateProvider.getPluginState(setToActive: false, autoupdate: true)
         
         let expected = "Inactive, Autoupdates on"
         
-        XCTAssertEqual(plugin.slug, "mailchimp-for-wp")
         XCTAssertEqual(plugin.active, false)
         XCTAssertEqual(plugin.autoupdate, true)
         XCTAssertEqual(plugin.stateDescription, expected)
     }
     
     func testSiteDescriptionActiveNotAutoupdated() {
-        let plugin = jetpackBetaPlugin
+        let plugin = MockPluginStateProvider.getPluginState(setToActive:true, autoupdate: false)
         
         let expected = "Active, Autoupdates off"
         
-        XCTAssertEqual(plugin.slug, "jetpack-beta")
         XCTAssertEqual(plugin.active, true)
         XCTAssertEqual(plugin.autoupdate, false)
         XCTAssertEqual(plugin.stateDescription, expected)
     }
     
     func testSiteDescriptionActiveAutoupdated() {
-        let plugin = buddypressPlugin
+        let plugin = MockPluginStateProvider.getPluginState(setToActive:true, autoupdate: true)
         
         let expected = "Active, Autoupdates on"
         
-        XCTAssertEqual(plugin.slug, "buddypress")
         XCTAssertEqual(plugin.active, true)
         XCTAssertEqual(plugin.autoupdate, true)
         XCTAssertEqual(plugin.stateDescription, expected)
     }
     
     func testPluginHomeURLEqualsPluginURL() {
-        let plugin = akismetPlugin
+        let plugin = MockPluginStateProvider.getPluginState()
         
         let expected = URL(string: "https://akismet.com/")
         
@@ -68,7 +65,7 @@ class PluginStateTests: XCTestCase {
     }
     
     func testPluginDirectoryURL() {
-        let plugin = akismetPlugin
+        let plugin = MockPluginStateProvider.getPluginState()
         
         let expected = URL(string: "https://wordpress.org/plugins/\(plugin.slug)")
         
@@ -77,7 +74,7 @@ class PluginStateTests: XCTestCase {
     }
     
     func testDeactivateAlowed() {
-        let plugin = akismetPlugin
+        let plugin = MockPluginStateProvider.getPluginState()
         
         let expected = true
         
@@ -87,7 +84,7 @@ class PluginStateTests: XCTestCase {
     }
     
     func testDeactivateNotAlowed() {
-        let plugin = jetpackDevPlugin
+        let plugin = MockPluginStateProvider.getNotDisableablePlugin()
         
         let expected = false
         
@@ -109,87 +106,16 @@ class PluginStateTests: XCTestCase {
     }
     
     func testUpdateStateDecodeSucceeds() {
-        let data = updateStateJSON
+        let data = MockPluginStateProvider.getEncodedUpdateState(state: PluginState.UpdateState.available("4.0"))
         
         let decoder = JSONDecoder()
         do {
             XCTAssertNoThrow(try decoder.decode(PluginState.UpdateState.self, from: data), "Decode from JSON successful")
-            let decoder = try decoder.decode(PluginState.UpdateState.self, from: data)
+            let decoded = try decoder.decode(PluginState.UpdateState.self, from: data)
+            
+            XCTAssertEqual(decoded, PluginState.UpdateState.available("4.0"))
         } catch {
             XCTFail("Could not decode")
         }
     }
 }
-
-private let akismetPlugin = PluginState(id: "akismet/akismet",
-                                        slug: "akismet",
-                                        active: false,
-                                        name: "Akismet Anti-Spam",
-                                        author: "Automattic",
-                                        version: "3.3.4",
-                                        updateState: PluginState.UpdateState.updated,
-                                        autoupdate: false,
-                                        automanaged: false,
-                                        url: URL(string: "https://akismet.com/"),
-                                        settingsURL: nil
-)
-
-private let jetpackBetaPlugin = PluginState(id: "jetpack-beta/jetpack-beta",
-                                            slug: "jetpack-beta",
-                                            active: true,
-                                            name: "Jetpack Beta Tester",
-                                            author: "Automattic",
-                                            version: "2.0.3",
-                                            updateState: PluginState.UpdateState.updated,
-                                            autoupdate: false,
-                                            automanaged: false,
-                                            url: URL(string: "https://jetpack.com/"),
-                                            settingsURL: URL(string: "https://example.com/wp-admin/admin.php?page=jetpack-beta")
-)
-
-private let mailchimpPlugin = PluginState(id: "mailchimp-for-wp/mailchimp-for-wp",
-                                          slug: "mailchimp-for-wp",
-                                          active: false,
-                                          name: "MC4WP: Mailchimp for WordPress",
-                                          author: "ibericode",
-                                          version: "4.7.8",
-                                          updateState: PluginState.UpdateState.updated,
-                                          autoupdate: true,
-                                          automanaged: false,
-                                          url: URL(string: "https://ibericode.com"),
-                                          settingsURL: nil
-)
-
-private let buddypressPlugin = PluginState(id: "buddypress/bp-loader",
-                                           slug: "buddypress",
-                                           active: true,
-                                           name: "BuddyPress",
-                                           author: "The BuddyPress Community",
-                                           version: "6.0.0",
-                                           updateState: PluginState.UpdateState.updated,
-                                           autoupdate: true,
-                                           automanaged: false,
-                                           url: URL(string: "https://buddypress.org"),
-                                           settingsURL: nil
-)
-
-private let jetpackDevPlugin = PluginState(id: "jetpack-dev/jetpack",
-                                           slug: "jetpack-dev",
-                                           active: true,
-                                           name: "Jetpack by WordPress.com",
-                                           author: "Automattic",
-                                           version: "5.4",
-                                           updateState: PluginState.UpdateState.updated,
-                                           autoupdate: false,
-                                           automanaged: false,
-                                           url: URL(string: "https://jetpack.com/"),
-                                           settingsURL: URL(string: "https://example.com/wp-admin/admin.php?page=jetpack#/settings")
-)
-
-private let updateStateJSON = Data("""
-    {
-    "update": {
-            "new_version": "4.0"
-        }
-    }
-    """.utf8)
