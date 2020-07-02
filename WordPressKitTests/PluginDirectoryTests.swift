@@ -199,15 +199,11 @@ class PluginDirectoryTests: XCTestCase {
 
     func testExtractHTMLTextOutput() {
         let plugin = pluginDirectoryEntryJetpack
-        let expectedDescription = extractHTMLText(jetpackPluginDescriptionHTML)
         let expectedInstallationText = extractHTMLText(jetpackInstallationHTML)
         let expectedFAQText = extractHTMLText(jetpackFaqHTML)
-        let expectedChangeLogText = extractHTMLText(jetpackChangeLogHTML)
         
-        XCTAssertEqual(plugin.descriptionText, expectedDescription)
         XCTAssertEqual(plugin.installationText, expectedInstallationText)
         XCTAssertEqual(plugin.faqText, expectedFAQText)
-        XCTAssertEqual(plugin.changelogText, expectedChangeLogText)
     }
     
     
