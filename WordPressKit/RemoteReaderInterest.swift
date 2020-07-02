@@ -1,5 +1,9 @@
 import Foundation
 
+struct ReaderInterestEnvelope: Decodable {
+    var interests: [RemoteReaderInterest]
+}
+
 public struct RemoteReaderInterest: Decodable {
     var title: String
     var slug: String
