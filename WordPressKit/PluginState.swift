@@ -58,7 +58,6 @@ public struct PluginState: Equatable, Codable {
 
             self = .updated
         }
-
     }
 
     public let id: String
@@ -84,7 +83,9 @@ public struct PluginState: Equatable, Codable {
             && lhs.automanaged == rhs.automanaged
             && lhs.url == rhs.url
     }
+    
 }
+
 
 public extension PluginState {
     var stateDescription: String {
