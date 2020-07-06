@@ -10,7 +10,6 @@ class PluginServiceRemoteTests: RemoteTestCase, RESTTestable {
     let getFeaturedPluginsMockFile = "plugin-service-remote-featured.json"
     let getFeaturedPluginsMalformedMockFile = "plugin-service-remote-featured-malformed.json"
     let getFeaturedPluginsInvalidResponse = "plugin-service-remote-featured-plugins-invalid.json"
-    let getRemoteFeaturedPluginsEndpoint = "wpcom/v2/plugins/featured"
     let postRemotePluginUpdateJetpack = "plugin-update-jetpack-already-updated.json"
     let postRemotePluginUpdateGutenberg = "plugin-update-gutenberg-needs-update.json"
     let postRemotePluginUpdateAuthFailure = "plugin-service-remote-auth-failure.json"
@@ -22,6 +21,9 @@ class PluginServiceRemoteTests: RemoteTestCase, RESTTestable {
     let postPluginInstallMalformed = "plugin-install-malformed-response.json"
     let postPluginRemoveMalformed = "plugin-delete-malformed-response.json"
     let postPluginActivateMalformed = "plugin-activate-malformed-response.json"
+    let getPluginDirectoryNew = "plugin-directory-new.json"
+    
+    let remoteFeaturedPluginsEndpoint = "wpcom/v2/plugins/featured"
     var sitePluginsEndpoint: String {
         return "sites/\(siteID)/plugins"
     }
@@ -105,7 +107,7 @@ class PluginServiceRemoteTests: RemoteTestCase, RESTTestable {
     func testGetFeaturedPluginSucceeds() {
         let expect = expectation(description: "Get Featured Plugins Succeeds")
         
-        stubRemoteResponse(getRemoteFeaturedPluginsEndpoint,
+        stubRemoteResponse(remoteFeaturedPluginsEndpoint,
                            filename: getFeaturedPluginsMockFile,
                            contentType: .ApplicationJSON)
         
@@ -125,7 +127,7 @@ class PluginServiceRemoteTests: RemoteTestCase, RESTTestable {
     func testGetFeaturedPluginFailsMalformedJSON() {
         let expect = expectation(description: "Get Featured Plugins Fails")
         
-        stubRemoteResponse(getRemoteFeaturedPluginsEndpoint,
+        stubRemoteResponse(remoteFeaturedPluginsEndpoint,
                            filename: getFeaturedPluginsMalformedMockFile,
                            contentType: .ApplicationJSON)
         
@@ -146,7 +148,7 @@ class PluginServiceRemoteTests: RemoteTestCase, RESTTestable {
     func testGetFeaturedPluginFailsInvalidResponse() {
         let expect = expectation(description: "Get Featured Plugins Fails")
         
-        stubRemoteResponse(getRemoteFeaturedPluginsEndpoint,
+        stubRemoteResponse(remoteFeaturedPluginsEndpoint,
                            filename: getFeaturedPluginsInvalidResponse,
                            contentType: .ApplicationJSON)
         
@@ -167,7 +169,7 @@ class PluginServiceRemoteTests: RemoteTestCase, RESTTestable {
     func testGetFeaturedPluginFailsIncorrectResponse() {
         let expect = expectation(description: "Get Featured Plugins Fails")
         
-        stubRemoteResponse(getRemoteFeaturedPluginsEndpoint,
+        stubRemoteResponse(remoteFeaturedPluginsEndpoint,
                            filename: getPluginsErrorMockFilename,
                            contentType: .ApplicationJSON)
         

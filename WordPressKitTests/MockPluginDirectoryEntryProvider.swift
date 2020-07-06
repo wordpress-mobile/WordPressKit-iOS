@@ -1,6 +1,6 @@
 @testable import WordPressKit
 
-class MockPluginDirectoryProvider {
+struct MockPluginDirectoryProvider {
     static func getPluginDirectoryEntry() -> PluginDirectoryEntry {
         let plugin = PluginDirectoryEntry(name: "Jetpack by WordPress.com",
                                           slug: "jetpack",
@@ -19,29 +19,6 @@ class MockPluginDirectoryProvider {
 
         return plugin
     }
-
-//    static func getPluginDirectoryFeedPage(ofType feedType: PluginDirectoryFeedType) -> PluginDirectoryFeedPage? {
-//        var fileName = ""
-//
-//        switch feedType {
-//        case .popular:
-//            fileName = "plugin-directory-popular"
-//        case .newest:
-//            fileName = "plugin-directory-new"
-//        default:
-//            fileName = ""
-//        }
-//
-//        let feedMockPath = Bundle(for: type(of: self)).path(forResource: fileName, ofType: "json")!
-//        let data = try! Data(contentsOf: URL(fileURLWithPath: feedMockPath))
-//        let endpoint = PluginDirectoryFeedEndpoint(feedType: feedType)
-//
-//        do {
-//            let resonse = try endpoint.parseResponse(data: data)
-//            return resonse
-//        } catch {
-//            return nil
-//        }
 
     static func getJetpackDescriptionHTML() -> String {
         let description = "<p>Keep any WordPress site secure, increase traffic, and engage your readers.</p>\n<h4>Traffic and SEO Tools</h4>\n<p>Traffic is the lifeblood of any website. Jetpack includes:</p>\n<ul>\n<li>[free] Site stats and analytics</li>\n<li>[free] Automatic sharing on Facebook, Twitter, LinkedIn, Tumblr, Reddit, and WhatsApp</li>\n<li>[free] Related posts</li>\n<li>[paid] Search engine optimization tools for Google, Bing, Twitter, Facebook, and WordPress.com</li>\n<li>[paid] Advertising program that includes the best of AdSense, Facebook Ads, AOL, Amazon, Google AdX, and Yahoo</li>\n</ul>\n<h4>Security and Backup Services</h4>\n<p>Stop worrying about data loss, downtime, and hacking. Jetpack provides:</p>\n<ul>\n<li>[free] Brute force attack protection</li>\n<li>[free] Downtime and uptime monitoring</li>\n<li>[free] Secured logins and two-factor authentication</li>\n<li>[paid] Malware scanning, code scanning, and threat resolution</li>\n<li>[paid] Site backups, restores, and migrations</li>\n</ul>\n<h4>Content Creation</h4>\n<p>Add rich, beautifully-presented media &#8212; no graphic design expertise necessary:</p>\n<ul>\n<li>[free] A high-speed CDN for your images</li>\n<li>[free] Carousels, slideshows, and tiled galleries</li>\n<li>[free] Simple embeds from YouTube, Google Documents, Spotify and more</li>\n<li>[free] Sidebar customization including Facebook, Twitter, and RSS feeds</li>\n<li>[free] Extra sidebar widgets including blog stats, calendar, and author widgets</li>\n<li>[paid] High-speed, ad-free, and high-definition video hosting</li>\n</ul>\n<h4>Discussion and Community</h4>\n<p>Create a connection with your readers and keep them coming back to your site with:</p>\n<ul>\n<li>[free] Email subscriptions</li>\n<li>[free] Comment login with Facebook, Twitter, and Google</li>\n<li>[free] Fully-customizable contact forms</li>\n<li>[free] Infinite scroll for your posts</li>\n</ul>\n<h4>Expert Support</h4>\n<p>We have an entire team of Happiness Engineers ready to help you. Ask your questions in the support forum, or <a href=\"https://jetpack.com/contact-support\" rel=\"nofollow\">contact us directly</a>.</p>\n<h4>Paid Services</h4>\n<p>Most of Jetpack&#8217;s features and services are free. Jetpack also provides advanced security and backup services, video hosting, site monetization, priority support, and more SEO tools in three <a href=\"https://jetpack.com/pricing?from=wporg\" rel=\"nofollow\">simple and affordable plans</a>.</p>\n<h4>Get Started</h4>\n<p>Installation is free, quick, and easy. Set up <a href=\"https://jetpack.com/install?from=wporg\" rel=\"nofollow\">the free plan</a> in minutes.</p>\n"

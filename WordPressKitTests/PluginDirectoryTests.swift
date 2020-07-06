@@ -77,6 +77,28 @@ class PluginDirectoryTests: XCTestCase {
             XCTFail(error.localizedDescription)
         }
     }
+    
+    func testValidatePluginDirectoryFeedResponseSucceeds() {
+        let endpoint = PluginDirectoryFeedEndpoint(feedType: .popular)
+        do {
+            let request = try endpoint.buildRequest()
+            let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: "1.1", headerFields: nil)!
+            XCTAssertNoThrow(try endpoint.validate(request: request, response: response, data: "null".data(using: .utf8)))
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
+    
+    func testValidatePluginDirectoryFeedResponseFails() {
+        let endpoint = PluginDirectoryFeedEndpoint(feedType: .popular)
+        do {
+            let request = try endpoint.buildRequest()
+            let response = HTTPURLResponse(url: request.url!, statusCode: 403, httpVersion: "1.1", headerFields: nil)!
+            XCTAssertThrowsError(try endpoint.validate(request: request, response: response, data: "null".data(using: .utf8)))
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
 
     func testNewDirectoryFeedRequest() {
         let endpoint = PluginDirectoryFeedEndpoint(feedType: .newest)
