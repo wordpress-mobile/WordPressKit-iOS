@@ -388,7 +388,7 @@ class PluginServiceRemoteTests: RemoteTestCase, RESTTestable {
         waitForExpectations(timeout: timeout, handler: nil)
     }
     
-    func testActivatePluginMalformed() {
+    func testActivatePluginFailsWithMalformedJSON() {
         let expect = expectation(description: "Plugin Activate returns malformed JSON")
          preparePostStubRemoteResponseWith(plugID: "code-snippets/code-snippets",
                                              pluginSlug: "code-snippets",
@@ -396,6 +396,86 @@ class PluginServiceRemoteTests: RemoteTestCase, RESTTestable {
                                              responseFile: postPluginRemoveMalformed)
         
         remote.activatePlugin(pluginID: "code-snippets/code-snippets", siteID: siteID, success: {
+            XCTFail("This callback shouldn't get called")
+            expect.fulfill()
+        }) { (error) in
+            let error = error as NSError
+            let expected = WordPressComRestApiError.responseSerializationFailed as NSError
+            XCTAssertEqual(error, expected)
+            expect.fulfill()
+        }
+
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+    
+    func testDeactivePluginFailsWithMalformedJSON() {
+        let expect = expectation(description: "Plugin Deactivate returns malformed JSON")
+         preparePostStubRemoteResponseWith(plugID: "code-snippets/code-snippets",
+                                             pluginSlug: "code-snippets",
+                                             endpointAction: .modify,
+                                             responseFile: postPluginRemoveMalformed)
+        
+        remote.deactivatePlugin(pluginID: "code-snippets/code-snippets", siteID: siteID, success: {
+            XCTFail("This callback shouldn't get called")
+            expect.fulfill()
+        }) { (error) in
+            let error = error as NSError
+            let expected = WordPressComRestApiError.responseSerializationFailed as NSError
+            XCTAssertEqual(error, expected)
+            expect.fulfill()
+        }
+
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+    
+    func testEnableAutoupdatesFailsWithMalformedJSON() {
+        let expect = expectation(description: "Plugin Enable Auto Updates returns malformed JSON")
+         preparePostStubRemoteResponseWith(plugID: "code-snippets/code-snippets",
+                                             pluginSlug: "code-snippets",
+                                             endpointAction: .modify,
+                                             responseFile: postPluginRemoveMalformed)
+        
+        remote.enableAutoupdates(pluginID: "code-snippets/code-snippets", siteID: siteID, success: {
+            XCTFail("This callback shouldn't get called")
+            expect.fulfill()
+        }) { (error) in
+            let error = error as NSError
+            let expected = WordPressComRestApiError.responseSerializationFailed as NSError
+            XCTAssertEqual(error, expected)
+            expect.fulfill()
+        }
+
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+    
+    func testDisableAutoupdatesFailsWithMalformedJSON() {
+        let expect = expectation(description: "Plugin Disable Auto Updates returns malformed JSON")
+         preparePostStubRemoteResponseWith(plugID: "code-snippets/code-snippets",
+                                             pluginSlug: "code-snippets",
+                                             endpointAction: .modify,
+                                             responseFile: postPluginRemoveMalformed)
+        
+        remote.disableAutoupdates(pluginID: "code-snippets/code-snippets", siteID: siteID, success: {
+            XCTFail("This callback shouldn't get called")
+            expect.fulfill()
+        }) { (error) in
+            let error = error as NSError
+            let expected = WordPressComRestApiError.responseSerializationFailed as NSError
+            XCTAssertEqual(error, expected)
+            expect.fulfill()
+        }
+
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+    
+    func testActivateAndEnableAutoUpdatedFailsWithMalformedJSON() {
+        let expect = expectation(description: "Plugin Activate and Enable Auto Updates returns malformed JSON")
+         preparePostStubRemoteResponseWith(plugID: "code-snippets/code-snippets",
+                                             pluginSlug: "code-snippets",
+                                             endpointAction: .modify,
+                                             responseFile: postPluginRemoveMalformed)
+        
+        remote.activateAndEnableAutoupdated(pluginID: "code-snippets/code-snippets", siteID: siteID, success: {
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         }) { (error) in
