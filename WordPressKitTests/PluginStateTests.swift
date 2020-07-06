@@ -105,7 +105,21 @@ class PluginStateTests: XCTestCase {
         }
     }
     
-    func testUpdateStateDecodeSucceeds() {
+    func testUpdateStateUpdatedDecodeSucceeds() {
+        let data = MockPluginStateProvider.getEncodedUpdateState(state: PluginState.UpdateState.updated)
+        
+        let decoder = JSONDecoder()
+        do {
+            XCTAssertNoThrow(try decoder.decode(PluginState.UpdateState.self, from: data), "Decode from JSON successful")
+            let decoded = try decoder.decode(PluginState.UpdateState.self, from: data)
+            
+            XCTAssertEqual(decoded, PluginState.UpdateState.updated)
+        } catch {
+            XCTFail("Could not decode")
+        }
+    }
+    
+    func testUpdateStateAvailableDecodeSucceeds() {
         let data = MockPluginStateProvider.getEncodedUpdateState(state: PluginState.UpdateState.available("4.0"))
         
         let decoder = JSONDecoder()
@@ -117,5 +131,55 @@ class PluginStateTests: XCTestCase {
         } catch {
             XCTFail("Could not decode")
         }
+    }
+    
+    func testUpdateStateUpdatingDecodeSucceeds() {
+        let data = MockPluginStateProvider.getEncodedUpdateState(state: PluginState.UpdateState.updating("4.0"))
+        
+        let decoder = JSONDecoder()
+        do {
+            XCTAssertNoThrow(try decoder.decode(PluginState.UpdateState.self, from: data), "Decode from JSON successful")
+            let decoded = try decoder.decode(PluginState.UpdateState.self, from: data)
+            
+            XCTAssertEqual(decoded, PluginState.UpdateState.updating("4.0"))
+        } catch {
+            XCTFail("Could not decode")
+        }
+    }
+
+    
+    func testUpdateStateEquatableWhenAvailable() {
+        let lhs = PluginState.UpdateState.available("4.4.1")
+        let rhs = PluginState.UpdateState.available("4.4.1")
+        
+        XCTAssertTrue(lhs == rhs)
+    }
+    
+    func testUpdateStateNotEquatableWhenAvailableDifferentVersion() {
+        let lhs = PluginState.UpdateState.available("4.4.1")
+        let rhs = PluginState.UpdateState.available("3.4.1")
+        
+        XCTAssertFalse(lhs == rhs)
+    }
+    
+    func testUpdateStateEquatableWhenUpdating() {
+        let lhs = PluginState.UpdateState.updating("4.4.1")
+        let rhs = PluginState.UpdateState.updating("4.4.1")
+        
+        XCTAssertTrue(lhs == rhs)
+    }
+    
+    func testUpdateStateNotEquatableWhenUpdatingDifferentVersion() {
+        let lhs = PluginState.UpdateState.updating("4.4.1")
+        let rhs = PluginState.UpdateState.updating("3.4.1")
+        
+        XCTAssertFalse(lhs == rhs)
+    }
+    
+    func testUpdateStateNotEquatable() {
+        let lhs = PluginState.UpdateState.updated
+        let rhs = PluginState.UpdateState.available("4.4.1")
+        
+        XCTAssertFalse(lhs == rhs)
     }
 }
