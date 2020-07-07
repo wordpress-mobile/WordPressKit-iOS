@@ -5,15 +5,15 @@ struct ReaderCardEnvelope: Decodable {
 }
 
 public struct RemoteReaderCard: Decodable {
-    enum CardType: String {
+    public enum CardType: String {
         case post
         case interests = "interests_you_may_like"
         case unknown
     }
 
-    var type: CardType
-    var post: RemoteReaderPost?
-    var interests: [RemoteReaderInterest]?
+    public var type: CardType
+    public var post: RemoteReaderPost?
+    public var interests: [RemoteReaderInterest]?
 
     private enum CodingKeys: String, CodingKey {
         case type
