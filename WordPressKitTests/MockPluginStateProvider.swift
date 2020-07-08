@@ -1,6 +1,6 @@
 @testable import WordPressKit
 
-struct MockPluginStateProvider {
+struct MockPluginStateProvider: DynamicMockProvider {
     static func getPluginState(setToActive active: Bool = false, autoupdate: Bool = false) -> PluginState {
         let akismetPlugin = PluginState(id: "akismet/akismet",
                                         slug: "akismet",
@@ -34,6 +34,53 @@ struct MockPluginStateProvider {
         )
         
         return jetpackDevPlugin
+    }
+    
+    static func getDynamicValuePluginState(setToActive active: Bool = false, autoupdate: Bool = false, automanaged: Bool = false, updateState: PluginState.UpdateState = PluginState.UpdateState.updated) -> PluginState {
+        return PluginState(id: MockPluginStateProvider.getDynamicPluginID(),
+                           slug: MockPluginStateProvider.randomIntAsString(limit: 25),
+                           active: active,
+                           name: MockPluginStateProvider.randomString(length: 25),
+                           author: MockPluginStateProvider.randomString(length: 15),
+                           version: MockPluginStateProvider.randomIntAsString(limit: 5),
+                           updateState: updateState,
+                           autoupdate: autoupdate,
+                           automanaged: false,
+                           url: URL(string: MockPluginStateProvider.randomURLAsString()),
+                           settingsURL: nil
+        )
+    }
+    
+    static func getDynamicPluginStateJSON() -> Data {
+        let jsonString = """
+        {
+            \"id\": \"\(randomString())\",
+            \"slug\": \"\(randomString())\",
+            \"active\": false,
+            \"name\": \"\(randomIntAsString())\",
+            \"display_name\": \"\(randomIntAsString())\",
+            \"plugin_url\": \"\(randomURLAsString())\",
+            \"version\": \"\(randomIntAsString())\",
+            \"description\": \"\(randomIntAsString())\",
+            \"author\": \"\(randomIntAsString())\",
+            \"author_url\": \"\(randomURLAsString())\",
+            \"network\": false,
+            \"autoupdate\": false,
+            \"uninstallable\": false,
+            \"updateState\": {
+                \"updated\": true,
+            },
+            \"automanaged\": false
+        }
+        """
+        
+        return jsonString.data(using: .utf8)!
+    }
+    
+    private static func getDynamicPluginID() -> String {
+        let id = MockPluginStateProvider.randomString(length: 10)
+        
+        return id + "/" + id
     }
     
     

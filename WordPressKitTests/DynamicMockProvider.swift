@@ -1,13 +1,13 @@
 import UIKit
 
-protocol DynamicProvider {
+protocol DynamicMockProvider {
     static func randomString(length: Int) -> String
     static func randomInt(limit: Int) -> Int
     static func randomURLAsString(length: Int) -> String
     static func randomIntAsString(limit: Int) -> String
 }
 
-internal extension DynamicProvider {
+internal extension DynamicMockProvider {
     static func randomString(length: Int = 50) -> String {
       let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
       return String((0..<length).map{ _ in letters.randomElement()! })

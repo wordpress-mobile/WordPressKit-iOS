@@ -105,6 +105,53 @@ class PluginStateTests: XCTestCase {
         }
     }
     
+    func testDynmicValuePluginStateEncodeDoesNotThrow() {
+        let plugin = MockPluginStateProvider.getDynamicValuePluginState()
+        let encoder = JSONEncoder()
+        
+        do {
+            XCTAssertNoThrow(try encoder.encode(plugin), "encode did not throw an error")
+            let data = try encoder.encode(plugin)
+        } catch {
+            XCTFail("Ecode Threw an Error")
+        }
+    }
+    
+    func testDynmicValuePluginStateDecodeSucceeds() {
+        let plugin = MockPluginStateProvider.getDynamicValuePluginState()
+        let encoder = JSONEncoder()
+        let decoder = JSONDecoder()
+        
+        let expectedSlug = plugin.slug
+        let expectedVersion = plugin.version
+        let expectedid = plugin.id
+        
+        do {
+            let data = try encoder.encode(plugin)
+            
+            XCTAssertNoThrow(try decoder.decode(PluginState.self, from: data))
+            let decoded = try decoder.decode(PluginState.self, from: data)
+            
+            XCTAssertEqual(decoded.slug, expectedSlug)
+            XCTAssertEqual(decoded.version, expectedVersion)
+            XCTAssertEqual(decoded.id, expectedid)
+        } catch {
+            XCTFail("Ecode Threw an Error")
+        }
+    }
+    
+    func testPluginStateDecodeFromDynamicJSON() {
+        let data = MockPluginStateProvider.getDynamicPluginStateJSON()
+        let decoder = JSONDecoder()
+        
+        do {
+            XCTAssertNoThrow(try decoder.decode(PluginState.self, from: data))
+            let decoded = try decoder.decode(PluginState.self, from: data)
+        } catch {
+            XCTFail("Could not decode \(error.localizedDescription)")
+        }
+    }
+    
     func testUpdateStateUpdatedDecodeSucceeds() {
         let data = MockPluginStateProvider.getEncodedUpdateState(state: PluginState.UpdateState.updated)
         
