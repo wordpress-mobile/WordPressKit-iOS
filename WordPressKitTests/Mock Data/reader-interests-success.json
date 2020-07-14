@@ -1,7 +1,7 @@
 {"success":true,"interests":[
-    {"title":"One","slug-en":"one"},
-    {"title":"Two","slug-en":"two"},
-    {"title":"Three","slug-en":"three"},
-    {"title":"Four","slug-en":"four"},
-    {"title":"Five","slug-en":"five"}
+    {"title":"One","slug":"one"},
+    {"title":"Two","slug":"two"},
+    {"title":"Three","slug":"three"},
+    {"title":"Four","slug":"four"},
+    {"title":"Five","slug":"five"}
 ]}
