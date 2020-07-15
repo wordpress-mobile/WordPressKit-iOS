@@ -10,7 +10,7 @@ public struct RemoteReaderInterest: Decodable {
 
     private enum CodingKeys: String, CodingKey {
         case title
-        case slug = "slug-en"
+        case slug = "slug"
     }
 
     public init(from decoder: Decoder) throws {
