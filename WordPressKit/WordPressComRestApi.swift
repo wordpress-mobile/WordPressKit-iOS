@@ -76,15 +76,7 @@ open class WordPressComRestApi: NSObject {
         let sessionManager = self.makeSessionManager(configuration: sessionConfiguration)
         return sessionManager
     }()
-
-    @objc public var allTasks: [URLSessionTask] {
-        var result = [URLSessionTask]()
-        sessionManager.session.getAllTasks { (tasks) in
-            result = tasks
-        }
-        return result
-    }
-
+    
     private lazy var uploadSessionManager: Alamofire.SessionManager = {
         if self.backgroundUploads {
             let sessionConfiguration = URLSessionConfiguration.background(withIdentifier: self.backgroundSessionIdentifier)
@@ -157,6 +149,13 @@ open class WordPressComRestApi: NSObject {
     deinit {
         sessionManager.session.finishTasksAndInvalidate()
         uploadSessionManager.session.finishTasksAndInvalidate()
+    }
+    
+    /// Cancels all outgoing tasks asynchronously without invalidating the session.
+    public func cancelTasks() {
+        sessionManager.session.getAllTasks { tasks in
+            tasks.forEach({ $0.cancel() })
+        }
     }
 
     /**
