@@ -50,13 +50,13 @@ open class WordPressOrgXMLRPCApi: NSObject {
         sessionConfiguration.httpAdditionalHeaders = additionalHeaders
         let sessionManager = Alamofire.SessionManager(configuration: sessionConfiguration)
 
-        let sessionDidReceiveChallengeWithCompletion: ((URLSession, URLAuthenticationChallenge, @escaping(URLSession.AuthChallengeDisposition, URLCredential?) -> Void) -> Void) = { session, authenticationChallenge, completionHandler in
-            return self.urlSession(session, didReceive: authenticationChallenge, completionHandler: completionHandler)
+        let sessionDidReceiveChallengeWithCompletion: ((URLSession, URLAuthenticationChallenge, @escaping(URLSession.AuthChallengeDisposition, URLCredential?) -> Void) -> Void) = { [weak self] session, authenticationChallenge, completionHandler in
+            return self?.urlSession(session, didReceive: authenticationChallenge, completionHandler: completionHandler)
         }
         sessionManager.delegate.sessionDidReceiveChallengeWithCompletion = sessionDidReceiveChallengeWithCompletion
 
-        let  taskDidReceiveChallengeWithCompletion: ((URLSession, URLSessionTask, URLAuthenticationChallenge,  @escaping(URLSession.AuthChallengeDisposition, URLCredential?) -> Void) -> Void) = { session, task, authenticationChallenge, completionHandler in
-            return self.urlSession(session, task: task, didReceive: authenticationChallenge, completionHandler: completionHandler)
+        let  taskDidReceiveChallengeWithCompletion: ((URLSession, URLSessionTask, URLAuthenticationChallenge,  @escaping(URLSession.AuthChallengeDisposition, URLCredential?) -> Void) -> Void) = { [weak self] session, task, authenticationChallenge, completionHandler in
+            return self?.urlSession(session, task: task, didReceive: authenticationChallenge, completionHandler: completionHandler)
         }
         sessionManager.delegate.taskDidReceiveChallengeWithCompletion = taskDidReceiveChallengeWithCompletion
         return sessionManager
