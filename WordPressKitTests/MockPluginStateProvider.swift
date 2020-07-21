@@ -2,13 +2,6 @@
 
 struct MockPluginStateProvider: DynamicMockProvider {
 
-    enum MockPluginStateOption {
-        case standard
-        case intAsNSNumber
-        case intAsDouble
-        case withMultiBiteCharacters
-    }
-
     static func getPluginState(setToActive active: Bool = false, autoupdate: Bool = false) -> PluginState {
         let jetpackDevPlugin = PluginState(id: "jetpack-dev/jetpack",
                                            slug: "jetpack-dev",
@@ -25,8 +18,9 @@ struct MockPluginStateProvider: DynamicMockProvider {
 
         return jetpackDevPlugin
     }
+
     
-    static func getDynamicValuePluginState(setToActive active: Bool = false, autoupdate: Bool = false, automanaged: Bool = false, updateState: PluginState.UpdateState = PluginState.UpdateState.updated, options: MockPluginStateOption = .standard) -> PluginState {
+    static func getDynamicValuePluginState(setToActive active: Bool = false, autoupdate: Bool = false, automanaged: Bool = false, updateState: PluginState.UpdateState = PluginState.UpdateState.updated) -> PluginState {
         return PluginState(id: MockPluginStateProvider.getDynamicPluginID(),
                            slug: MockPluginStateProvider.randomIntAsString(limit: 25),
                            active: active,
@@ -87,19 +81,6 @@ struct MockPluginStateProvider: DynamicMockProvider {
         let id = MockPluginStateProvider.randomString(length: 10)
         
         return id + "/" + id
-    }
-    
-    
-    static func getUpdateStateJSON() -> Data {
-        let updateStateJSON = Data("""
-    {
-    "update": {
-            "new_version": "4.0"
-        }
-    }
-    """.utf8)
-        
-        return updateStateJSON
     }
     
     static func getEncodedUpdateState(state: PluginState.UpdateState) throws -> Data {

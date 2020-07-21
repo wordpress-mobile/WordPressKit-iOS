@@ -247,7 +247,7 @@ class PluginDirectoryTests: XCTestCase {
         let changeLog = jetpack.changelogHTML
 
         let firstOccurence = trimChangelog(changeLog)
-        let expectation = MockPluginDirectoryProvider.getJetackLogFistOccurence()
+        let expectation = "<h4>5.5.1</h4>\n<ul>\n<li>Release date: November 21, 2017</li>\n<li>Release post: https://wp.me/p1moTy-6Bd</li>\n</ul>\n<p><strong>Bug fixes</strong><br />\n* In Jetpack 5.5 we made some changes that created errors if you were using other plugins that added custom links to the Plugins menu. This is now fixed.<br />\n* We have fixed a problem that did not allow to upload plugins using API requests.<br />\n* Open Graph links in post headers are no longer invalid in some special cases.<br />\n* We fixed warnings happening when syncing users with WordPress.com.<br />\n* We updated the way the Google+ button is loaded to match changes made by Google, to ensure the button is always displayed properly.<br />\n* We fixed conflicts between Jetpack&#8217;s Responsive Videos and the updates made to Video players in WordPress 4.9.<br />\n* We updated Publicize&#8217;s message length to match Twitter&#8217;s new 280 character limit.</p>"
 
         XCTAssertNotEqual(firstOccurence, expectation)
     }
@@ -291,7 +291,7 @@ class PluginDirectoryTests: XCTestCase {
         XCTAssertEqual(plugin.descriptionHTML, decoded.descriptionHTML)
         XCTAssertEqual(plugin.installationHTML, decoded.installationHTML)
         XCTAssertEqual(plugin.faqHTML, decoded.faqHTML)
-        XCTAssertEqual(plugin.changelogHTML, decoded.changelogHTML)
+        XCTAssertEqual(trimTags(trimChangelog(plugin.changelogHTML)), decoded.changelogHTML)
         XCTAssertEqual(plugin.rating, decoded.rating)
     }
 
@@ -301,7 +301,7 @@ class PluginDirectoryTests: XCTestCase {
 
         do {
             XCTAssertNoThrow(try encoder.encode(plugin), "Could not encode plugin to Json")
-            let data = try encoder.encode(plugin)
+            let _ = try encoder.encode(plugin)
         } catch {
             XCTFail("Convert to JSON Failed")
         }
