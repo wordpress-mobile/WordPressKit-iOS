@@ -18,9 +18,7 @@ class PluginServiceRemoteTests: RemoteTestCase, RESTTestable {
     let postPluginInstallSucceeds = "plugin-install-succeeds.json"
     let postPluginInstallAlreadyInstalled = "plugin-install-already-installed.json"
     let postPluginInstallGenericError = "plugin-install-generic-error.json"
-    let postPluginInstallMalformed = "plugin-install-malformed-response.json"
-    let postPluginRemoveMalformed = "plugin-delete-malformed-response.json"
-    let postPluginActivateMalformed = "plugin-activate-malformed-response.json"
+    let postPluginModifyMalformed = "plugin-modify-malformed-response.json"
     let getPluginDirectoryNew = "plugin-directory-new.json"
     
     let remoteFeaturedPluginsEndpoint = "wpcom/v2/plugins/featured"
@@ -355,7 +353,7 @@ class PluginServiceRemoteTests: RemoteTestCase, RESTTestable {
          preparePostStubRemoteResponseWith(plugID: "code-snippets/code-snippets",
                                              pluginSlug: "code-snippets",
                                              endpointAction: .install,
-                                             responseFile: postPluginInstallMalformed)
+                                             responseFile: postPluginModifyMalformed)
         
         remote.install(pluginSlug: "code-snippets",siteID: siteID, success: { (pluginState) in
            XCTFail("This callback shouldn't get called")
@@ -375,7 +373,7 @@ class PluginServiceRemoteTests: RemoteTestCase, RESTTestable {
          preparePostStubRemoteResponseWith(plugID: "code-snippets/code-snippets",
                                              pluginSlug: "code-snippets",
                                              endpointAction: .remove,
-                                             responseFile: postPluginRemoveMalformed)
+                                             responseFile: postPluginModifyMalformed)
         
         remote.remove(pluginID: "code-snippets/code-snippets", siteID: siteID, success: {
             XCTFail("This callback shouldn't get called")
@@ -395,7 +393,7 @@ class PluginServiceRemoteTests: RemoteTestCase, RESTTestable {
          preparePostStubRemoteResponseWith(plugID: "code-snippets/code-snippets",
                                              pluginSlug: "code-snippets",
                                              endpointAction: .modify,
-                                             responseFile: postPluginRemoveMalformed)
+                                             responseFile: postPluginModifyMalformed)
         
         remote.activatePlugin(pluginID: "code-snippets/code-snippets", siteID: siteID, success: {
             XCTFail("This callback shouldn't get called")
@@ -415,7 +413,7 @@ class PluginServiceRemoteTests: RemoteTestCase, RESTTestable {
          preparePostStubRemoteResponseWith(plugID: "code-snippets/code-snippets",
                                              pluginSlug: "code-snippets",
                                              endpointAction: .modify,
-                                             responseFile: postPluginRemoveMalformed)
+                                             responseFile: postPluginModifyMalformed)
         
         remote.deactivatePlugin(pluginID: "code-snippets/code-snippets", siteID: siteID, success: {
             XCTFail("This callback shouldn't get called")
@@ -435,7 +433,7 @@ class PluginServiceRemoteTests: RemoteTestCase, RESTTestable {
          preparePostStubRemoteResponseWith(plugID: "code-snippets/code-snippets",
                                              pluginSlug: "code-snippets",
                                              endpointAction: .modify,
-                                             responseFile: postPluginRemoveMalformed)
+                                             responseFile: postPluginModifyMalformed)
         
         remote.enableAutoupdates(pluginID: "code-snippets/code-snippets", siteID: siteID, success: {
             XCTFail("This callback shouldn't get called")
@@ -455,7 +453,7 @@ class PluginServiceRemoteTests: RemoteTestCase, RESTTestable {
          preparePostStubRemoteResponseWith(plugID: "code-snippets/code-snippets",
                                              pluginSlug: "code-snippets",
                                              endpointAction: .modify,
-                                             responseFile: postPluginRemoveMalformed)
+                                             responseFile: postPluginModifyMalformed)
         
         remote.disableAutoupdates(pluginID: "code-snippets/code-snippets", siteID: siteID, success: {
             XCTFail("This callback shouldn't get called")
@@ -475,7 +473,7 @@ class PluginServiceRemoteTests: RemoteTestCase, RESTTestable {
          preparePostStubRemoteResponseWith(plugID: "code-snippets/code-snippets",
                                              pluginSlug: "code-snippets",
                                              endpointAction: .modify,
-                                             responseFile: postPluginRemoveMalformed)
+                                             responseFile: postPluginModifyMalformed)
         
         remote.activateAndEnableAutoupdated(pluginID: "code-snippets/code-snippets", siteID: siteID, success: {
             XCTFail("This callback shouldn't get called")
@@ -524,7 +522,7 @@ extension PluginServiceRemoteTests {
         
         do {
             XCTAssertNoThrow(try remote.pluginState(response: data))
-            let plugin = try remote.pluginState(response: data)
+            let _ = try remote.pluginState(response: data)
         } catch {
             XCTFail("Could not decode plugin")
         }
