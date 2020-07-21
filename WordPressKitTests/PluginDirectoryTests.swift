@@ -292,17 +292,17 @@ class PluginDirectoryTests: XCTestCase {
     }
 
     func testPluginDirectoryFeedTypeSlugReturn() {
-        let pluginDirectoryFeedTypeNewest = PluginDirectoryFeedType.newest
-        let pluginDirectoryFeedTypePopular = PluginDirectoryFeedType.popular
-        let pluginDirectoryFeedTypeSearch = PluginDirectoryFeedType.search(term: "blocks")
+        let pluginDirectoryFeedTypeNewest = PluginDirectoryFeedType.newest.slug
+        let pluginDirectoryFeedTypePopular = PluginDirectoryFeedType.popular.slug
+        let pluginDirectoryFeedTypeSearch = PluginDirectoryFeedType.search(term: "blocks").slug
 
         let expectedNewest = "newest"
         let expectedPopular = "popular"
         let expectedSearch = "search:blocks"
 
-        XCTAssertEqual(pluginDirectoryFeedTypeNewest.slug, expectedNewest)
-        XCTAssertEqual(pluginDirectoryFeedTypePopular.slug, expectedPopular)
-        XCTAssertEqual(pluginDirectoryFeedTypeSearch.slug, expectedSearch)
+        XCTAssertEqual(pluginDirectoryFeedTypeNewest, expectedNewest)
+        XCTAssertEqual(pluginDirectoryFeedTypePopular, expectedPopular)
+        XCTAssertEqual(pluginDirectoryFeedTypeSearch, expectedSearch)
     }
 
     func testPluginDirectoryFeedTypeEquatable() {
