@@ -1,42 +1,32 @@
 @testable import WordPressKit
 
 struct MockPluginStateProvider: DynamicMockProvider {
-    static func getPluginState(setToActive active: Bool = false, autoupdate: Bool = false) -> PluginState {
-        let akismetPlugin = PluginState(id: "akismet/akismet",
-                                        slug: "akismet",
-                                        active: active,
-                                        name: "Akismet Anti-Spam",
-                                        author: "Automattic",
-                                        version: "3.3.4",
-                                        updateState: PluginState.UpdateState.updated,
-                                        autoupdate: autoupdate,
-                                        automanaged: false,
-                                        url: URL(string: "https://akismet.com/"),
-                                        settingsURL: nil
-        )
-        
-        return akismetPlugin
+
+    enum MockPluginStateOption {
+        case standard
+        case intAsNSNumber
+        case intAsDouble
+        case withMultiBiteCharacters
     }
-    
-    static func getNotDisableablePlugin() -> PluginState{
-        
+
+    static func getPluginState(setToActive active: Bool = false, autoupdate: Bool = false) -> PluginState {
         let jetpackDevPlugin = PluginState(id: "jetpack-dev/jetpack",
                                            slug: "jetpack-dev",
-                                           active: true,
+                                           active: active,
                                            name: "Jetpack by WordPress.com",
                                            author: "Automattic",
                                            version: "5.4",
                                            updateState: PluginState.UpdateState.updated,
-                                           autoupdate: false,
+                                           autoupdate: autoupdate,
                                            automanaged: false,
                                            url: URL(string: "https://jetpack.com/"),
                                            settingsURL: URL(string: "https://example.com/wp-admin/admin.php?page=jetpack#/settings")
         )
-        
+
         return jetpackDevPlugin
     }
     
-    static func getDynamicValuePluginState(setToActive active: Bool = false, autoupdate: Bool = false, automanaged: Bool = false, updateState: PluginState.UpdateState = PluginState.UpdateState.updated) -> PluginState {
+    static func getDynamicValuePluginState(setToActive active: Bool = false, autoupdate: Bool = false, automanaged: Bool = false, updateState: PluginState.UpdateState = PluginState.UpdateState.updated, options: MockPluginStateOption = .standard) -> PluginState {
         return PluginState(id: MockPluginStateProvider.getDynamicPluginID(),
                            slug: MockPluginStateProvider.randomIntAsString(limit: 25),
                            active: active,
@@ -51,31 +41,47 @@ struct MockPluginStateProvider: DynamicMockProvider {
         )
     }
     
-    static func getDynamicPluginStateJSON() -> Data {
-        let jsonString = """
-        {
-            \"id\": \"\(randomString())\",
-            \"slug\": \"\(randomString())\",
-            \"active\": false,
-            \"name\": \"\(randomIntAsString())\",
-            \"display_name\": \"\(randomIntAsString())\",
-            \"plugin_url\": \"\(randomURLAsString())\",
-            \"version\": \"\(randomIntAsString())\",
-            \"description\": \"\(randomIntAsString())\",
-            \"author\": \"\(randomIntAsString())\",
-            \"author_url\": \"\(randomURLAsString())\",
-            \"network\": false,
-            \"autoupdate\": false,
-            \"uninstallable\": false,
-            \"updateState\": {
-                \"updated\": true,
-            },
-            \"automanaged\": false
-        }
-        """
+    static func getDynamicPluginStateJSONResponse() throws -> Data {
+        let slug = randomString(length: 10)
+
+        let pluginState = EncodableMockPluginState(id: "\(slug)/\(slug)",
+                                      slug: slug,
+                                      active: randomBool(),
+                                      name: randomString(length: 20),
+                                      author: randomString(length: 15),
+                                      version: getRandomVersionNumber(),
+                                      updateState: PluginState.UpdateState.updated,
+                                      autoupdate: randomBool(),
+                                      automanaged: randomBool(),
+                                      url: URL(string: randomURLAsString(length: 15)),
+                                      settingsURL: URL(string: randomURLAsString(length: 15)))
+
+        let jsonEncoder = JSONEncoder()
+        let data = try jsonEncoder.encode(pluginState)
         
-        return jsonString.data(using: .utf8)!
+        return data
     }
+
+        static func getEncodedDynamicPluginState() throws -> Data {
+            let slug = randomString(length: 10)
+
+            let pluginState = PluginState(id: "\(slug)/\(slug)",
+                                          slug: slug,
+                                          active: randomBool(),
+                                          name: randomString(length: 20),
+                                          author: randomString(length: 15),
+                                          version: getRandomVersionNumber(),
+                                          updateState: PluginState.UpdateState.updated,
+                                          autoupdate: randomBool(),
+                                          automanaged: randomBool(),
+                                          url: URL(string: randomURLAsString(length: 15)),
+                                          settingsURL: URL(string: randomURLAsString(length: 15)))
+
+            let jsonEncoder = JSONEncoder()
+            let data = try jsonEncoder.encode(pluginState)
+
+            return data
+        }
     
     private static func getDynamicPluginID() -> String {
         let id = MockPluginStateProvider.randomString(length: 10)
@@ -104,4 +110,41 @@ struct MockPluginStateProvider: DynamicMockProvider {
         
         return data
     }
+
+    static func getRandomVersionNumber() -> String {
+        let majorRelease = randomIntAsString(limit: 99)
+        let subRelease = randomIntAsString(limit: 99)
+        let pointRelease = randomIntAsString(limit: 99)
+
+        return "\(majorRelease).\(subRelease).\(pointRelease)"
+    }
 }
+
+struct EncodableMockPluginState: Encodable {
+    let id: String
+    let slug: String
+    let active: Bool
+    let name: String
+    let author: String
+    let version: String?
+    let updateState: PluginState.UpdateState
+    let autoupdate: Bool
+    let automanaged: Bool?
+    let url: URL?
+    let settingsURL: URL?
+
+    enum CodingKeys: String, CodingKey {
+        case id = "name"
+        case slug
+        case active
+        case name = "display_name"
+        case author
+        case version
+        case updateState
+        case autoupdate
+        case automanaged
+        case url = "plugin_url"
+        case settingsURL = "Settings"
+    }
+}
+

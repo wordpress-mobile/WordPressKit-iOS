@@ -57,9 +57,9 @@ class PluginStateTests: XCTestCase {
     func testPluginHomeURLEqualsPluginURL() {
         let plugin = MockPluginStateProvider.getPluginState()
         
-        let expected = URL(string: "https://akismet.com/")
+        let expected = URL(string: "https://jetpack.com/")
         
-        XCTAssertEqual(plugin.slug, "akismet")
+        XCTAssertEqual(plugin.slug, "jetpack-dev")
         XCTAssertEqual(plugin.homeURL, plugin.url)
         XCTAssertEqual(plugin.homeURL, expected)
     }
@@ -69,22 +69,13 @@ class PluginStateTests: XCTestCase {
         
         let expected = URL(string: "https://wordpress.org/plugins/\(plugin.slug)")
         
-        XCTAssertEqual(plugin.slug, "akismet")
+        XCTAssertEqual(plugin.slug, "jetpack-dev")
         XCTAssertEqual(plugin.directoryURL, expected)
     }
-    
-    func testDeactivateAlowed() {
-        let plugin = MockPluginStateProvider.getPluginState()
-        
-        let expected = true
-        
-        XCTAssertEqual(plugin.slug, "akismet")
-        XCTAssertEqual(plugin.automanaged, false)
-        XCTAssertEqual(plugin.deactivateAllowed, expected)
-    }
+
     
     func testDeactivateNotAlowed() {
-        let plugin = MockPluginStateProvider.getNotDisableablePlugin()
+        let plugin = MockPluginStateProvider.getPluginState(setToActive: true, autoupdate: false)
         
         let expected = false
         
@@ -140,13 +131,13 @@ class PluginStateTests: XCTestCase {
         }
     }
     
-    func testPluginStateDecodeFromDynamicJSON() {
-        let data = MockPluginStateProvider.getDynamicPluginStateJSON()
+    func testPluginStateDecodeFromDynamicPluginState() {
+        let data = try! MockPluginStateProvider.getEncodedDynamicPluginState()
         let decoder = JSONDecoder()
         
         do {
             XCTAssertNoThrow(try decoder.decode(PluginState.self, from: data))
-            let decoded = try decoder.decode(PluginState.self, from: data)
+            let _ = try decoder.decode(PluginState.self, from: data)
         } catch {
             XCTFail("Could not decode \(error.localizedDescription)")
         }

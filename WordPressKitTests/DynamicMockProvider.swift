@@ -43,4 +43,8 @@ internal extension DynamicMockProvider {
     static func randomIntAsString(limit: Int = 10000) -> String {
         return String(randomInt(limit: limit))
     }
+
+    static func randomBool() -> Bool {
+        return Bool.random()
+    }
 }

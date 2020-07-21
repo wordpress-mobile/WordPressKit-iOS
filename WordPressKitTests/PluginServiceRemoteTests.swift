@@ -518,11 +518,12 @@ extension PluginServiceRemoteTests {
     }
     
     func testPluginStateDecodingWitnDynamicJSON() {
-        let data = try! JSONSerialization.jsonObject(with: MockPluginStateProvider.getDynamicPluginStateJSON(), options: []) as! [String : AnyObject]
-        
+        let data = try! MockPluginStateProvider.getDynamicPluginStateJSONResponse()
+        let json = try! JSONSerialization.jsonObject(with: data, options: []) as! [String : AnyObject]
+
         do {
-            XCTAssertNoThrow(try remote.pluginState(response: data))
-            let _ = try remote.pluginState(response: data)
+            XCTAssertNoThrow(try remote.pluginState(response: json))
+            let _ = try remote.pluginState(response: json)
         } catch {
             XCTFail("Could not decode plugin")
         }
