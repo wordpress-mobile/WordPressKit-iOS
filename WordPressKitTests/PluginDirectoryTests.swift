@@ -69,35 +69,29 @@ class PluginDirectoryTests: XCTestCase {
 
     func testValidateResponseNotFound() {
         let endpoint = PluginDirectoryGetInformationEndpoint(slug: "howdy")
-        do {
-            let request = try endpoint.buildRequest()
-            let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: "1.1", headerFields: nil)!
-            XCTAssertThrowsError(try endpoint.validate(request: request, response: response, data: "null".data(using: .utf8)))
-        } catch {
-            XCTFail(error.localizedDescription)
-        }
+
+        let request = try! endpoint.buildRequest()
+        let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: "1.1", headerFields: nil)!
+
+        XCTAssertThrowsError(try endpoint.validate(request: request, response: response, data: "null".data(using: .utf8)))
     }
     
-    func testValidatePluginDirectoryFeedResponseSucceeds() {
+    func testValidatePluginDirectoryFeedResponseSucceeds() throws {
         let endpoint = PluginDirectoryFeedEndpoint(feedType: .popular)
-        do {
-            let request = try endpoint.buildRequest()
-            let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: "1.1", headerFields: nil)!
-            XCTAssertNoThrow(try endpoint.validate(request: request, response: response, data: "null".data(using: .utf8)))
-        } catch {
-            XCTFail(error.localizedDescription)
-        }
+
+        let request = try endpoint.buildRequest()
+        let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: "1.1", headerFields: nil)!
+
+        XCTAssertNoThrow(try endpoint.validate(request: request, response: response, data: "null".data(using: .utf8)))
     }
     
     func testValidatePluginDirectoryFeedResponseFails() {
         let endpoint = PluginDirectoryFeedEndpoint(feedType: .popular)
-        do {
-            let request = try endpoint.buildRequest()
-            let response = HTTPURLResponse(url: request.url!, statusCode: 403, httpVersion: "1.1", headerFields: nil)!
-            XCTAssertThrowsError(try endpoint.validate(request: request, response: response, data: "null".data(using: .utf8)))
-        } catch {
-            XCTFail(error.localizedDescription)
-        }
+
+        let request = try! endpoint.buildRequest()
+        let response = HTTPURLResponse(url: request.url!, statusCode: 403, httpVersion: "1.1", headerFields: nil)!
+
+        XCTAssertThrowsError(try endpoint.validate(request: request, response: response, data: "null".data(using: .utf8)))
     }
 
     func testNewDirectoryFeedRequest() {
@@ -171,7 +165,7 @@ class PluginDirectoryTests: XCTestCase {
         let data = try! Data(contentsOf: URL(fileURLWithPath: newFeedMockPath))
 
         do {
-             let response = try JSONDecoder().decode(PluginDirectoryFeedPage.self, from: data)
+            let response = try JSONDecoder().decode(PluginDirectoryFeedPage.self, from: data)
             XCTAssertEqual(response.pageMetadata.page, 1)
             XCTAssertEqual(response.plugins.count, 48)
             XCTAssertEqual(response.pageMetadata.pluginSlugs.count, 48)

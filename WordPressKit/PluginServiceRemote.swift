@@ -16,7 +16,6 @@ public class PluginServiceRemote: ServiceRemoteWordPressComREST {
                 failure(ResponseError.decodingFailure)
                 return
             }
-            
             do {
                 let pluginEntries = try response.map { try PluginDirectoryEntry(responseObject: $0) }
                 success(pluginEntries)
