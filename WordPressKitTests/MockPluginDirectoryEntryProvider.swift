@@ -1,3 +1,4 @@
+import Foundation
 @testable import WordPressKit
 
 struct MockPluginDirectoryProvider {
@@ -43,6 +44,13 @@ struct MockPluginDirectoryProvider {
     static func getJetackLogFistOccurence() -> String {
         let first = ">5.5.1</h4>\n<ul>\n<li>Release date: November 21, 2017</li>\n<li>Release post: https://wp.me/p1moTy-6Bd</li>\n</ul>\n<p><strong>Bug fixes</strong><br />\n* In Jetpack 5.5 we made some changes that created errors if you were using other plugins that added custom links to the Plugins menu. This is now fixed.<br />\n* We have fixed a problem that did not allow to upload plugins using API requests.<br />\n* Open Graph links in post headers are no longer invalid in some special cases.<br />\n* We fixed warnings happening when syncing users with WordPress.com.<br />\n* We updated the way the Google+ button is loaded to match changes made by Google, to ensure the button is always displayed properly.<br />\n* We fixed conflicts between Jetpack&#8217;s Responsive Videos and the updates made to Video players in WordPress 4.9.<br />\n* We updated Publicize&#8217;s message length to match Twitter&#8217;s new 280 character limit.</p>\n"
         return first
+    }
+
+    static func getPluginDirectoryMockData(with mockName: String, sender: AnyClass, type: String = "json") throws -> Data {
+        let mockPath = Bundle(for: sender).path(forResource: mockName, ofType: type)!
+        let data = try Data(contentsOf: URL(fileURLWithPath: mockPath))
+
+        return data
     }
 
 }

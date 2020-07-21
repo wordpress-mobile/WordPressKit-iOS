@@ -4,8 +4,7 @@ import XCTest
 class PluginDirectoryTests: XCTestCase {
     
     func testPluginDirectoryEntryDecodingJetpack() {
-        let jetpackMockPath = Bundle(for: type(of: self)).path(forResource: "plugin-directory-jetpack", ofType: "json")!
-        let data = try! Data(contentsOf: URL(fileURLWithPath: jetpackMockPath))
+        let data = try! MockPluginDirectoryProvider.getPluginDirectoryMockData(with: "plugin-directory-jetpack", sender: type(of:self))
         let endpoint = PluginDirectoryGetInformationEndpoint(slug: "jetpack")
 
         do {
@@ -24,8 +23,7 @@ class PluginDirectoryTests: XCTestCase {
     }
 
     func testPluginDirectoryEntryDecodingRenameXmlrpc() {
-        let jetpackMockPath = Bundle(for: type(of: self)).path(forResource: "plugin-directory-rename-xml-rpc", ofType: "json")!
-        let data = try! Data(contentsOf: URL(fileURLWithPath: jetpackMockPath))
+        let data =  try! MockPluginDirectoryProvider.getPluginDirectoryMockData(with: "plugin-directory-rename-xml-rpc", sender: type(of: self))
         let endpoint = PluginDirectoryGetInformationEndpoint(slug: "rename-xml-rpc")
 
         do {
@@ -54,8 +52,7 @@ class PluginDirectoryTests: XCTestCase {
     }
 
     func testValidateResponseFound() {
-        let jetpackMockPath = Bundle(for: type(of: self)).path(forResource: "plugin-directory-rename-xml-rpc", ofType: "json")!
-        let data = try! Data(contentsOf: URL(fileURLWithPath: jetpackMockPath))
+        let data = try! MockPluginDirectoryProvider.getPluginDirectoryMockData(with: "plugin-directory-rename-xml-rpc", sender: type(of: self))
         let endpoint = PluginDirectoryGetInformationEndpoint(slug: "jetpack")
         do {
             let request = try endpoint.buildRequest()
@@ -117,8 +114,7 @@ class PluginDirectoryTests: XCTestCase {
     }
 
     func testPopularDirectoryFeedDecoding() {
-        let popularFeedMockPath = Bundle(for: type(of: self)).path(forResource: "plugin-directory-popular", ofType: "json")!
-        let data = try! Data(contentsOf: URL(fileURLWithPath: popularFeedMockPath))
+        let data = try! MockPluginDirectoryProvider.getPluginDirectoryMockData(with: "plugin-directory-popular", sender: type(of: self))
         let endpoint = PluginDirectoryFeedEndpoint(feedType: .popular)
 
         do {
@@ -140,8 +136,7 @@ class PluginDirectoryTests: XCTestCase {
     func testNewDirectoryFeedDecoding() {
         // This also tests parsing the "broken" response where `plugins` is a [Int: Object] Dictionary, instead of an Array.
 
-        let newFeedMockPath = Bundle(for: type(of: self)).path(forResource: "plugin-directory-new", ofType: "json")!
-        let data = try! Data(contentsOf: URL(fileURLWithPath: newFeedMockPath))
+        let data = try! MockPluginDirectoryProvider.getPluginDirectoryMockData(with: "plugin-directory-new", sender: type(of: self))
         let endpoint = PluginDirectoryFeedEndpoint(feedType: .newest)
 
         do {
@@ -161,8 +156,7 @@ class PluginDirectoryTests: XCTestCase {
     }
     
     func testPluginDirectoryFeedPageDecoderSucceeds() {
-        let newFeedMockPath = Bundle(for: type(of: self)).path(forResource: "plugin-directory-new", ofType: "json")!
-        let data = try! Data(contentsOf: URL(fileURLWithPath: newFeedMockPath))
+        let data = try! MockPluginDirectoryProvider.getPluginDirectoryMockData(with: "plugin-directory-new", sender: type(of: self))
 
         do {
             let response = try JSONDecoder().decode(PluginDirectoryFeedPage.self, from: data)
@@ -181,8 +175,7 @@ class PluginDirectoryTests: XCTestCase {
     }
     
     func testPluginFeedPageDirectoryEquatable() {
-        let jetpackMockPath = Bundle(for: type(of: self)).path(forResource: "plugin-directory-jetpack", ofType: "json")!
-        let data = try! Data(contentsOf: URL(fileURLWithPath: jetpackMockPath))
+        let data = try! MockPluginDirectoryProvider.getPluginDirectoryMockData(with: "plugin-directory-jetpack", sender: type(of: self))
         let endpoint = PluginDirectoryGetInformationEndpoint(slug: "jetpack")
         
         do {
@@ -195,12 +188,10 @@ class PluginDirectoryTests: XCTestCase {
     }
 
     func testPluginFeedPageDirectoryNotEquatable() {
-        let popularFeedMockPath = Bundle(for: type(of: self)).path(forResource: "plugin-directory-popular", ofType: "json")!
-        let popularData = try! Data(contentsOf: URL(fileURLWithPath: popularFeedMockPath))
+        let popularData = try! MockPluginDirectoryProvider.getPluginDirectoryMockData(with: "plugin-directory-popular", sender: type(of: self))
         let popularEndpoint = PluginDirectoryFeedEndpoint(feedType: .popular)
-        
-        let newFeedMockPath = Bundle(for: type(of: self)).path(forResource: "plugin-directory-new", ofType: "json")!
-        let newData = try! Data(contentsOf: URL(fileURLWithPath: newFeedMockPath))
+
+        let newData = try! MockPluginDirectoryProvider.getPluginDirectoryMockData(with: "plugin-directory-new", sender: type(of: self))
         let newEndpoint = PluginDirectoryFeedEndpoint(feedType: .newest)
         
         do {
@@ -321,4 +312,3 @@ class PluginDirectoryTests: XCTestCase {
         XCTAssertTrue(lhs == rhs)
     }
 }
-
