@@ -187,6 +187,22 @@ class PluginDirectoryTests: XCTestCase {
         }
     }
 
+    func testPluginFeedPageDirectoryNotEquatableWithSimilarData() {
+        let jetpackData = try! MockPluginDirectoryProvider.getPluginDirectoryMockData(with: "plugin-directory-jetpack", sender: type(of: self))
+        let jetpackEndpoint = PluginDirectoryGetInformationEndpoint(slug: "jetpack")
+        let jetpackBetaData = try! MockPluginDirectoryProvider.getPluginDirectoryMockData(with: "plugin-directory-jetpack-beta", sender: type(of: self))
+        let jetpackBetaEndpoint = PluginDirectoryGetInformationEndpoint(slug: "jetpack-beta")
+
+
+        do {
+            let jetpackResponse = try jetpackEndpoint.parseResponse(data: jetpackData)
+            let betaResponse = try jetpackBetaEndpoint.parseResponse(data: jetpackBetaData)
+            XCTAssertNotEqual(jetpackResponse, betaResponse)
+        } catch {
+            XCTFail("Could not fetch Plugin Directory")
+        }
+    }
+
     func testPluginFeedPageDirectoryNotEquatable() {
         let popularData = try! MockPluginDirectoryProvider.getPluginDirectoryMockData(with: "plugin-directory-popular", sender: type(of: self))
         let popularEndpoint = PluginDirectoryFeedEndpoint(feedType: .popular)
