@@ -12,10 +12,10 @@ public struct PluginDirectoryEntry {
     public let author: String
     public let authorURL: URL?
 
-    internal let descriptionHTML: String?
-    internal let installationHTML: String?
-    internal let faqHTML: String?
-    internal let changelogHTML: String?
+    let descriptionHTML: String?
+    let installationHTML: String?
+    let faqHTML: String?
+    let changelogHTML: String?
 
     public var descriptionText: NSAttributedString? {
         return extractHTMLText(self.descriptionHTML)
@@ -30,7 +30,7 @@ public struct PluginDirectoryEntry {
         return extractHTMLText(self.changelogHTML)
     }
 
-    internal let rating: Int
+    let rating: Int
     public var starRating: Double {
         return (Double(rating) / 10).rounded() / 2
         // rounded to nearest half.
