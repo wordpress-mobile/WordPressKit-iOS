@@ -90,7 +90,7 @@ class PluginStateTests: XCTestCase {
         
         do {
             XCTAssertNoThrow(try encoder.encode(updateState), "encode did not throw an error")
-            let data = try encoder.encode(updateState)
+            let _ = try encoder.encode(updateState)
         } catch {
             XCTFail("Ecode Threw an Error")
         }
@@ -102,7 +102,7 @@ class PluginStateTests: XCTestCase {
         
         do {
             XCTAssertNoThrow(try encoder.encode(plugin), "encode did not throw an error")
-            let data = try encoder.encode(plugin)
+            let _ = try encoder.encode(plugin)
         } catch {
             XCTFail("Ecode Threw an Error")
         }
