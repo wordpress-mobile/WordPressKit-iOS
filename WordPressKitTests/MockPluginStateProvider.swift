@@ -96,15 +96,11 @@ struct MockPluginStateProvider: DynamicMockProvider {
         return updateStateJSON
     }
     
-    static func getEncodedUpdateState(state: PluginState.UpdateState) -> Data {
+    static func getEncodedUpdateState(state: PluginState.UpdateState) throws -> Data {
         var data = Data()
         let encoder = JSONEncoder()
-        
-        do {
-            data = try encoder.encode(state)
-        } catch {
-            print(error)
-        }
+
+        data = try encoder.encode(state)
         
         return data
     }

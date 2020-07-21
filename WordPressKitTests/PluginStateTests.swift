@@ -153,7 +153,10 @@ class PluginStateTests: XCTestCase {
     }
     
     func testUpdateStateUpdatedDecodeSucceeds() {
-        let data = MockPluginStateProvider.getEncodedUpdateState(state: PluginState.UpdateState.updated)
+        guard let data = try? MockPluginStateProvider.getEncodedUpdateState(state: PluginState.UpdateState.updated) else {
+            XCTFail("Could not get update state")
+            return
+        }
         
         let decoder = JSONDecoder()
         do {
@@ -167,7 +170,10 @@ class PluginStateTests: XCTestCase {
     }
     
     func testUpdateStateAvailableDecodeSucceeds() {
-        let data = MockPluginStateProvider.getEncodedUpdateState(state: PluginState.UpdateState.available("4.0"))
+        guard let data = try? MockPluginStateProvider.getEncodedUpdateState(state: PluginState.UpdateState.available("4.0")) else {
+            XCTFail("Could not get update state")
+            return
+        }
         
         let decoder = JSONDecoder()
         do {
@@ -181,7 +187,10 @@ class PluginStateTests: XCTestCase {
     }
     
     func testUpdateStateUpdatingDecodeSucceeds() {
-        let data = MockPluginStateProvider.getEncodedUpdateState(state: PluginState.UpdateState.updating("4.0"))
+        guard let data = try? MockPluginStateProvider.getEncodedUpdateState(state: PluginState.UpdateState.updating("4.0")) else {
+            XCTFail("Could not get update state")
+            return
+        }
         
         let decoder = JSONDecoder()
         do {
