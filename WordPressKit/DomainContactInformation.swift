@@ -8,6 +8,7 @@ public struct ValidateDomainContactInformationResponse: Codable {
         public var countryCode: [String]?
         public var city: [String]?
         public var address1: [String]?
+        public var address2: [String]?
         public var firstName: [String]?
         public var lastName: [String]?
         public var state: [String]?
