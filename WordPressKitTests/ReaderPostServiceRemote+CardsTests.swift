@@ -73,7 +73,7 @@ class ReaderPostServiceRemoteCardTests: RemoteTestCase, RESTTestable {
     // Return the next page handle
     //
     func testReturnNextPageHandle() {
-        let expect = expectation(description: "Get cards successfully")
+        let expect = expectation(description: "Returns next page handle")
         stubRemoteResponse("read/tags/cards?tags%5B%5D=dogs", filename: "reader-cards-success.json", contentType: .ApplicationJSON)
 
         readerPostServiceRemote.fetchCards(for: ["dogs"], success: { cards, nextPageHandle in
@@ -82,5 +82,15 @@ class ReaderPostServiceRemoteCardTests: RemoteTestCase, RESTTestable {
         }, failure: { _ in })
 
         waitForExpectations(timeout: timeout, handler: nil)
+    }
+
+    // Calls the API with the given page handle
+    //
+    func testCallAPIWithTheGivenPageHandle() {
+        let readerPostServiceRemote = ReaderPostServiceRemote(wordPressComRestApi: mockRemoteApi)
+
+        readerPostServiceRemote.fetchCards(for: ["dogs"], page: "foobar", success: { _, _ in }, failure: { _ in })
+
+        XCTAssertTrue(mockRemoteApi.URLStringPassedIn?.contains("&page_handle=foobar") ?? false)
     }
 }

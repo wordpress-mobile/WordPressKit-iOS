@@ -9,9 +9,10 @@ extension ReaderPostServiceRemote {
     /// - Parameter success: Called when the request succeeds and the data returned is valid
     /// - Parameter failure: Called if the request fails for any reason, or the response data is invalid
     public func fetchCards(for interests: [String],
-                    success: @escaping ([RemoteReaderCard], String) -> Void,
-                    failure: @escaping (Error) -> Void) {
-        guard let requestUrl = cardsEndpoint(for: interests) else {
+                           page: String? = nil,
+                           success: @escaping ([RemoteReaderCard], String) -> Void,
+                           failure: @escaping (Error) -> Void) {
+        guard let requestUrl = cardsEndpoint(for: interests, page: page) else {
             return
         }
 
@@ -36,9 +37,19 @@ extension ReaderPostServiceRemote {
         })
     }
 
-    private func cardsEndpoint(for interests: [String]) -> String? {
+    private func cardsEndpoint(for interests: [String], page: String? = nil) -> String? {
         var path = URLComponents(string: "read/tags/cards")
+
         path?.queryItems = interests.map { URLQueryItem(name: "tags[]", value: $0) }
-        return self.path(forEndpoint: path!.string!, withVersion: ._2_0)
+
+        if let page = page {
+            path?.queryItems?.append(URLQueryItem(name: "page_handle", value: page))
+        }
+
+        guard let endpoint = path?.string else {
+            return nil
+        }
+
+        return self.path(forEndpoint: endpoint, withVersion: ._2_0)
     }
 }
