@@ -39,6 +39,6 @@ extension ReaderPostServiceRemote {
     private func cardsEndpoint(for interests: [String]) -> String? {
         var path = URLComponents(string: "read/tags/cards")
         path?.queryItems = interests.map { URLQueryItem(name: "tags[]", value: $0) }
-        return self.path(forEndpoint: path!.string!, withVersion: ._1_2)
+        return self.path(forEndpoint: path!.string!, withVersion: ._2_0)
     }
 }
