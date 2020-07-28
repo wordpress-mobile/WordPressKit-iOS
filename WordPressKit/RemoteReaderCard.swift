@@ -2,7 +2,7 @@ import Foundation
 
 struct ReaderCardEnvelope: Decodable {
     var cards: [RemoteReaderCard]
-    var nextPageHandle: String
+    var nextPageHandle: String?
 
     private enum CodingKeys: String, CodingKey {
         case cards
