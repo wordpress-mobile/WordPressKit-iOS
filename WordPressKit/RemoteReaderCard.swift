@@ -2,6 +2,12 @@ import Foundation
 
 struct ReaderCardEnvelope: Decodable {
     var cards: [RemoteReaderCard]
+    var nextPageHandle: String?
+
+    private enum CodingKeys: String, CodingKey {
+        case cards
+        case nextPageHandle = "next_page_handle"
+    }
 }
 
 public struct RemoteReaderCard: Decodable {
