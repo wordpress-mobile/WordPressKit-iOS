@@ -135,6 +135,28 @@ NSString * const ParamKeyMetaValue = @"site,feed";
                           }];
 }
 
+- (void)fetchSubscriptionStatusForPost:(NSUInteger)postID
+                              fromSite:(NSUInteger)siteID
+                               success:(void (^)(BOOL isSubscribed))success
+                               failure:(void (^)(NSError *))failure
+{
+    NSString *path = [NSString stringWithFormat:@"sites/%lu/posts/%lu/subscribers/mine", (unsigned long)siteID, (unsigned long)postID];
+    NSString *requestUrl = [self pathForEndpoint:path
+                                     withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
+    
+    [self.wordPressComRestApi GET:requestUrl
+                       parameters:nil
+                          success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
+        if (success) {
+            success([responseObject[@"i_subscribe"] boolValue]);
+        }
+    } failure:^(NSError *error, NSHTTPURLResponse *httpResponse) {
+        if (failure) {
+            failure(error);
+        }
+    }];
+}
+
 - (void)likePost:(NSUInteger)postID
          forSite:(NSUInteger)siteID
          success:(void (^)(void))success
