@@ -143,7 +143,7 @@ NSString * const ParamKeyMetaValue = @"site,feed";
     NSString *path = [NSString stringWithFormat:@"sites/%lu/posts/%lu/subscribers/mine", (unsigned long)siteID, (unsigned long)postID];
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
-    
+
     [self.wordPressComRestApi GET:requestUrl
                        parameters:nil
                           success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
@@ -156,6 +156,47 @@ NSString * const ParamKeyMetaValue = @"site,feed";
         }
     }];
 }
+
+- (void)subscribeToPost:(NSUInteger)postID
+                forSite:(NSUInteger)siteID
+                success:(void (^)(void))success
+                failure:(void (^)(NSError *))failure
+{
+    NSString *path = [NSString stringWithFormat:@"sites/%lu/posts/%lu/subscribers/new", (unsigned long)siteID, (unsigned long)postID];
+    NSString *requestUrl = [self pathForEndpoint:path
+                                     withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
+
+    [self.wordPressComRestApi POST:requestUrl parameters:nil success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
+        if (success) {
+            success();
+        }
+    } failure:^(NSError *error, NSHTTPURLResponse *httpResponse) {
+        if (failure) {
+            failure(error);
+        }
+    }];
+}
+
+- (void)unsubscribeFromPost:(NSUInteger)postID
+                    forSite:(NSUInteger)siteID
+                    success:(void (^)(void))success
+                    failure:(void (^)(NSError *))failure
+{
+    NSString *path = [NSString stringWithFormat:@"sites/%lu/posts/%lu/subscribers/mine/delete", (unsigned long)siteID, (unsigned long)postID];
+    NSString *requestUrl = [self pathForEndpoint:path
+                                     withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
+
+    [self.wordPressComRestApi POST:requestUrl parameters:nil success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
+        if (success) {
+            success();
+        }
+    } failure:^(NSError *error, NSHTTPURLResponse *httpResponse) {
+        if (failure) {
+            failure(error);
+        }
+    }];
+}
+
 
 - (void)likePost:(NSUInteger)postID
          forSite:(NSUInteger)siteID

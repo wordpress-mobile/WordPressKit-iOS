@@ -76,6 +76,32 @@ Fetches the subscription status of the specified post for the current user.
                                failure:(void (^)(NSError *))failure;
 
 /**
+ Mark a post as subscribed by the user.
+
+ @param postID The ID of the post.
+ @param siteID The ID of the site.
+ @param success block called on a successful fetch.
+ @param failure block called if there is any error. `error` can be any underlying network error.
+ */
+- (void)subscribeToPost:(NSUInteger)postID
+                forSite:(NSUInteger)siteID
+                success:(void (^)(void))success
+                failure:(void (^)(NSError *error))failure;
+
+/**
+ Mark a post as unsubscribed by the user.
+
+ @param postID The ID of the post.
+ @param siteID The ID of the site.
+ @param success block called on a successful fetch.
+ @param failure block called if there is any error. `error` can be any underlying network error.
+ */
+- (void)unsubscribeFromPost:(NSUInteger)postID
+                    forSite:(NSUInteger)siteID
+                    success:(void (^)(void))success
+                    failure:(void (^)(NSError *error))failure;
+
+/**
  Mark a post as liked by the user.
 
  @param postID The ID of the post.
