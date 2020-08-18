@@ -30,7 +30,7 @@ extension ReaderPostServiceRemote {
                         throw ReaderPostServiceRemote.ResponseError.decodingFailed
                 }
                 
-                success(isSubscribed ?? false)
+                success(isSubscribed)
             } catch {
                 failure(error)
             }
