@@ -6,8 +6,8 @@ class ReaderPostServiceRemoteSubscriptionTests: RemoteTestCase, RESTTestable {
     
     // MARK: - Constants
     
-    let siteID: UInt = 0
-    let postID: UInt = 0
+    let siteID: Int = 0
+    let postID: Int = 0
     let response = [String: AnyObject]()
     
     let fetchSubscriptionStatusEndpoint = "sites/0/posts/0/subscribers/mine"
@@ -31,16 +31,16 @@ class ReaderPostServiceRemoteSubscriptionTests: RemoteTestCase, RESTTestable {
         stubRemoteResponse(fetchSubscriptionStatusEndpoint,
                            filename: fetchSubscriptionStatusSuccessMockFilename,
                            contentType: .ApplicationJSON)
-        
+
         let expect = expectation(description: "Check for subscription status")
-        readerPostServiceRemote.fetchSubscriptionStatus(forPost: postID, fromSite: siteID, success: { (success) in
+        readerPostServiceRemote.fetchSubscriptionStatus(for: postID, from: siteID, success: { (success) in
             XCTAssertTrue(success, "Success should be true")
             expect.fulfill()
         }) { (error) in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         }
-        
+
         waitForExpectations(timeout: timeout, handler: nil)
     }
     
@@ -48,15 +48,15 @@ class ReaderPostServiceRemoteSubscriptionTests: RemoteTestCase, RESTTestable {
         stubRemoteResponse(subscribeToPostEndpoint,
                            filename: subscribeToPostSuccessMockFilename,
                            contentType: .ApplicationJSON)
-        
+
         let expect = expectation(description: "Subscribe to comments for a post")
-        readerPostServiceRemote.subscribe(toPost: postID, forSite: siteID, success: { () in
+        readerPostServiceRemote.subscribeToPost(with: postID, for: siteID,  success: { () in
             expect.fulfill()
         }) { (error) in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         }
-        
+
         waitForExpectations(timeout: timeout, handler: nil)
     }
     
@@ -64,15 +64,15 @@ class ReaderPostServiceRemoteSubscriptionTests: RemoteTestCase, RESTTestable {
         stubRemoteResponse(unsubscribeFromPostEndpoint,
                            filename: unsubscribeFromPostSuccessMockFilename,
                            contentType: .ApplicationJSON)
-        
+
         let expect = expectation(description: "Unsubscribe from comments for a post")
-        readerPostServiceRemote.unsubscribe(fromPost: postID, forSite: siteID, success: { () in
+        readerPostServiceRemote.unsubscribeFromPost(with: postID, for: siteID, success: { () in
             expect.fulfill()
         }) { (error) in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         }
-        
+
         waitForExpectations(timeout: timeout, handler: nil)
     }
 }

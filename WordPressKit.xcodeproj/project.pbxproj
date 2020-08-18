@@ -475,6 +475,7 @@
 		FA87FE0924EB3FEF003FBEE3 /* reader-post-comments-subscription-status-success.json in Resources */ = {isa = PBXBuildFile; fileRef = FA87FE0824EB3FEF003FBEE3 /* reader-post-comments-subscription-status-success.json */; };
 		FA87FE0B24EB4419003FBEE3 /* reader-post-comments-subscribe-success.json in Resources */ = {isa = PBXBuildFile; fileRef = FA87FE0A24EB4419003FBEE3 /* reader-post-comments-subscribe-success.json */; };
 		FA87FE0D24EB4450003FBEE3 /* reader-post-comments-unsubscribe-success.json in Resources */ = {isa = PBXBuildFile; fileRef = FA87FE0C24EB4450003FBEE3 /* reader-post-comments-unsubscribe-success.json */; };
+		FAB4F32324EC072700F259BA /* ReaderPostServiceRemote+Subscriptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB4F32224EC072700F259BA /* ReaderPostServiceRemote+Subscriptions.swift */; };
 		FF20AD2220B8471A00082398 /* WordPressKit.podspec in Resources */ = {isa = PBXBuildFile; fileRef = FF20AD2120B8471A00082398 /* WordPressKit.podspec */; };
 		FF807251241FB90E00809AF5 /* WordPressOrgRestApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF80724F241FB90E00809AF5 /* WordPressOrgRestApi.swift */; };
 		FF807252241FB90E00809AF5 /* Authenticator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF807250241FB90E00809AF5 /* Authenticator.swift */; };
@@ -990,6 +991,7 @@
 		FA87FE0824EB3FEF003FBEE3 /* reader-post-comments-subscription-status-success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "reader-post-comments-subscription-status-success.json"; sourceTree = "<group>"; };
 		FA87FE0A24EB4419003FBEE3 /* reader-post-comments-subscribe-success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "reader-post-comments-subscribe-success.json"; sourceTree = "<group>"; };
 		FA87FE0C24EB4450003FBEE3 /* reader-post-comments-unsubscribe-success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "reader-post-comments-unsubscribe-success.json"; sourceTree = "<group>"; };
+		FAB4F32224EC072700F259BA /* ReaderPostServiceRemote+Subscriptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReaderPostServiceRemote+Subscriptions.swift"; sourceTree = "<group>"; };
 		FF20AD2120B8471A00082398 /* WordPressKit.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = WordPressKit.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		FF80724F241FB90E00809AF5 /* WordPressOrgRestApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WordPressOrgRestApi.swift; sourceTree = "<group>"; };
 		FF807250241FB90E00809AF5 /* Authenticator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Authenticator.swift; sourceTree = "<group>"; };
@@ -1423,6 +1425,7 @@
 				7430C99D1F1927180051B8E6 /* ReaderPostServiceRemote.h */,
 				7430C99E1F1927180051B8E6 /* ReaderPostServiceRemote.m */,
 				8B2F4BE624ABC8A90056C08A /* ReaderPostServiceRemote+Cards.swift */,
+				FAB4F32224EC072700F259BA /* ReaderPostServiceRemote+Subscriptions.swift */,
 				7430C99F1F1927180051B8E6 /* ReaderSiteServiceRemote.h */,
 				7430C9A01F1927180051B8E6 /* ReaderSiteServiceRemote.m */,
 				7430C9A11F1927180051B8E6 /* ReaderTopicServiceRemote.h */,
@@ -2414,6 +2417,7 @@
 				40E7FEB1220FB3B60032834E /* StatsAnnualAndMostPopularTimeInsight.swift in Sources */,
 				7E3E7A4A20E443890075D159 /* Scanner+extensions.swift in Sources */,
 				742362E31F1025B400BD0A7F /* RemoteMenuLocation.m in Sources */,
+				FAB4F32324EC072700F259BA /* ReaderPostServiceRemote+Subscriptions.swift in Sources */,
 				82FFBF561F460DD400F4573F /* BlogJetpackSettingsServiceRemote.swift in Sources */,
 				404057C9221B789B0060250C /* StatsTopAuthorsTimeIntervalData.swift in Sources */,
 				74BA04F61F06DC0A00ED5CD8 /* CommentServiceRemoteXMLRPC.m in Sources */,
