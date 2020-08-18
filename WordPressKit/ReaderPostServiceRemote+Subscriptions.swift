@@ -23,9 +23,13 @@ extension ReaderPostServiceRemote {
                                         failure: @escaping (Error?) -> Void) {
         let path = self.path(forEndpoint: "sites/\(siteID)/posts/\(postID)/subscribers/mine", withVersion: ._1_1)
         
-        wordPressComRestApi.GET(path, parameters: nil, success: { [weak self] response, _ in
+        wordPressComRestApi.GET(path, parameters: nil, success: { response, _ in
             do {
-                let isSubscribed = try self?.isSubscribed(object: response)
+                guard let responseObject = response as? [String: AnyObject],
+                    let isSubscribed = responseObject[Constants.isSubscribed] as? Bool else {
+                        throw ReaderPostServiceRemote.ResponseError.decodingFailed
+                }
+                
                 success(isSubscribed ?? false)
             } catch {
                 failure(error)
@@ -76,16 +80,5 @@ extension ReaderPostServiceRemote {
             DDLogError("Error unsubscribing from comments in the post: \(error)")
             failure(error)
         }
-    }
-}
-
-extension ReaderPostServiceRemote {
-
-    private func isSubscribed(object: AnyObject) throws -> Bool {
-        guard let response = object as? [String: AnyObject],
-            let isSubscribed = response[Constants.isSubscribed] as? Bool else {
-                throw ReaderPostServiceRemote.ResponseError.decodingFailed
-        }
-        return isSubscribed
     }
 }
