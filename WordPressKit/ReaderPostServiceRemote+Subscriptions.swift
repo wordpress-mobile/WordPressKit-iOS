@@ -17,19 +17,19 @@ extension ReaderPostServiceRemote {
     ///   - siteID: The ID of the site.
     ///   - success: Success block called on a successful fetch.
     ///   - failure: Failure block called if there is any error.
-    public func fetchSubscriptionStatus(for postID: Int,
-                                        from siteID: Int,
-                                        success: @escaping (Bool) -> Void,
-                                        failure: @escaping (Error?) -> Void) {
+    @objc public func fetchSubscriptionStatus(for postID: Int,
+                                              from siteID: Int,
+                                              success: @escaping (Bool) -> Void,
+                                              failure: @escaping (Error?) -> Void) {
         let path = self.path(forEndpoint: "sites/\(siteID)/posts/\(postID)/subscribers/mine", withVersion: ._1_1)
-        
+
         wordPressComRestApi.GET(path, parameters: nil, success: { response, _ in
             do {
                 guard let responseObject = response as? [String: AnyObject],
                     let isSubscribed = responseObject[Constants.isSubscribed] as? Bool else {
                         throw ReaderPostServiceRemote.ResponseError.decodingFailed
                 }
-                
+
                 success(isSubscribed)
             } catch {
                 failure(error)
@@ -47,10 +47,10 @@ extension ReaderPostServiceRemote {
     ///   - siteID: The ID of the site.
     ///   - success: Success block called on a successful fetch.
     ///   - failure: Failure block called if there is any error.
-    public func subscribeToPost(with postID: Int,
-                                for siteID: Int,
-                                success: @escaping () -> Void,
-                                failure: @escaping (Error?) -> Void) {
+    @objc public func subscribeToPost(with postID: Int,
+                                      for siteID: Int,
+                                      success: @escaping () -> Void,
+                                      failure: @escaping (Error?) -> Void) {
         let path = self.path(forEndpoint: "sites/\(siteID)/posts/\(postID)/subscribers/new", withVersion: ._1_1)
 
         wordPressComRestApi.POST(path, parameters: nil, success: { response, _ in
@@ -68,10 +68,10 @@ extension ReaderPostServiceRemote {
     ///   - siteID: The ID of the site.
     ///   - success: Success block called on a successful fetch.
     ///   - failure: Failure block called if there is any error.
-    public func unsubscribeFromPost(with postID: Int,
-                                    for siteID: Int,
-                                    success: @escaping () -> Void,
-                                    failure: @escaping (Error) -> Void) {
+    @objc public func unsubscribeFromPost(with postID: Int,
+                                          for siteID: Int,
+                                          success: @escaping () -> Void,
+                                          failure: @escaping (Error) -> Void) {
         let path = self.path(forEndpoint: "sites/\(siteID)/posts/\(postID)/subscribers/mine/delete", withVersion: ._1_1)
 
         wordPressComRestApi.POST(path, parameters: nil, success: { response, _ in
