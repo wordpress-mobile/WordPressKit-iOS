@@ -21,6 +21,17 @@ open class GravatarServiceRemote {
             return
         }
 
+        fetchProfile(hash: hash, success: success, failure: failure)
+    }
+
+    /// This method fetches the Gravatar profile for the specified user hash value.
+    ///
+    /// - Parameters:
+    ///     - hash: The hash value of the email address of the gravatar profile to fetch.
+    ///     - success: A success block.
+    ///     - failure: A failure block.
+    ///
+    open func fetchProfile(hash: String, success:@escaping ((_ profile: RemoteGravatarProfile) -> Void), failure:@escaping ((_ error: Error?) -> Void)) {
         let path = baseGravatarURL + hash + ".json"
         guard let targetURL = URL(string: path) else {
             assertionFailure()
