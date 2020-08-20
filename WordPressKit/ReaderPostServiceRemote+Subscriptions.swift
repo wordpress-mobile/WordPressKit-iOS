@@ -17,7 +17,7 @@ extension ReaderPostServiceRemote {
     ///   - siteID: The ID of the site.
     ///   - success: Success block called on a successful fetch.
     ///   - failure: Failure block called if there is any error.
-    @objc public func fetchSubscriptionStatus(for postID: Int,
+    @objc open func fetchSubscriptionStatus(for postID: Int,
                                               from siteID: Int,
                                               success: @escaping (Bool) -> Void,
                                               failure: @escaping (Error?) -> Void) {
@@ -47,7 +47,7 @@ extension ReaderPostServiceRemote {
     ///   - siteID: The ID of the site.
     ///   - success: Success block called on a successful fetch.
     ///   - failure: Failure block called if there is any error.
-    @objc public func subscribeToPost(with postID: Int,
+    @objc open func subscribeToPost(with postID: Int,
                                       for siteID: Int,
                                       success: @escaping () -> Void,
                                       failure: @escaping (Error?) -> Void) {
@@ -68,7 +68,7 @@ extension ReaderPostServiceRemote {
     ///   - siteID: The ID of the site.
     ///   - success: Success block called on a successful fetch.
     ///   - failure: Failure block called if there is any error.
-    @objc public func unsubscribeFromPost(with postID: Int,
+    @objc open func unsubscribeFromPost(with postID: Int,
                                           for siteID: Int,
                                           success: @escaping () -> Void,
                                           failure: @escaping (Error) -> Void) {
