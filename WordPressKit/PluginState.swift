@@ -82,10 +82,8 @@ public struct PluginState: Equatable, Codable {
             && lhs.autoupdate == rhs.autoupdate
             && lhs.automanaged == rhs.automanaged
             && lhs.url == rhs.url
-    }
-    
+    }    
 }
-
 
 public extension PluginState {
     var stateDescription: String {
@@ -121,4 +119,3 @@ public extension PluginState {
             || slug == "jetpack-dev"
     }
 }
-

@@ -218,10 +218,7 @@ class PluginDirectoryTests: XCTestCase {
         } catch {
             XCTFail("Couldn't decode feed pages")
         }
-
-        
     }
-
 
     func testExtractHTMLTextOutput() {
         let plugin = MockPluginDirectoryProvider.getPluginDirectoryEntry()

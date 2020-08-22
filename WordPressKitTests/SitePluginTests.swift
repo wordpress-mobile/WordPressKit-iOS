@@ -17,5 +17,3 @@ class SitePluginTests: XCTestCase {
         XCTAssertNotEqual(sitePluginCapabilitiesA, sitePluginCapabilitiesB)
     }
 }
-
-

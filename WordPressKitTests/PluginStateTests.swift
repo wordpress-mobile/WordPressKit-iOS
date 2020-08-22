@@ -21,7 +21,6 @@ class PluginStateTests: XCTestCase {
         XCTAssertEqual(plugin.active, false)
         XCTAssertEqual(plugin.autoupdate, false)
         XCTAssertEqual(plugin.stateDescription, expected)
-        
     }
     
     func testSiteDescriptionNotActiveAutoupdated() {
@@ -72,7 +71,6 @@ class PluginStateTests: XCTestCase {
         XCTAssertEqual(plugin.slug, "jetpack-dev")
         XCTAssertEqual(plugin.directoryURL, expected)
     }
-
     
     func testDeactivateNotAlowed() {
         let plugin = MockPluginStateProvider.getPluginState(setToActive: true, autoupdate: false)
@@ -194,7 +192,6 @@ class PluginStateTests: XCTestCase {
         }
     }
 
-    
     func testUpdateStateEquatableWhenAvailable() {
         let lhs = PluginState.UpdateState.available("4.4.1")
         let rhs = PluginState.UpdateState.available("4.4.1")

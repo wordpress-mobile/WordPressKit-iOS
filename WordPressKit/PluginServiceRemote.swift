@@ -28,7 +28,6 @@ public class PluginServiceRemote: ServiceRemoteWordPressComREST {
         })
     }
 
-
     public func getPlugins(siteID: Int, success: @escaping (SitePlugins) -> Void, failure: @escaping (Error) -> Void) {
         let endpoint = "sites/\(siteID)/plugins"
         let path = self.path(forEndpoint: endpoint, withVersion: ._1_2)
@@ -231,7 +230,6 @@ internal extension PluginServiceRemote {
                            automanaged: false,
                            url: url,
                            settingsURL: settingsURL)
-
     }
 
     func pluginCapabilities(response: [String: AnyObject]) throws -> SitePluginCapabilities {

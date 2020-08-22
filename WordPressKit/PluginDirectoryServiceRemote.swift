@@ -45,7 +45,6 @@ public enum PluginDirectoryFeedType: Hashable {
     public static func ==(lhs: PluginDirectoryFeedType, rhs: PluginDirectoryFeedType) -> Bool {
         return lhs.slug == rhs.slug
     }
-
 }
 
 public struct PluginDirectoryGetInformationEndpoint: Endpoint {
@@ -144,4 +143,3 @@ public struct PluginDirectoryServiceRemote {
         PluginDirectoryGetInformationEndpoint(slug: slug).request(completion: completion)
     }
 }
-
