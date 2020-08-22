@@ -57,5 +57,6 @@
 @property (nonatomic, strong) NSString *postTitle;
 @property (nonatomic, strong) NSString *status;
 
+- (instancetype)initWithDictionary:(NSDictionary *)dict;
 
 @end
