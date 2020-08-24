@@ -11,9 +11,10 @@ extension ReaderPostServiceRemote {
     /// - Parameter failure: Called if the request fails for any reason, or the response data is invalid
     public func fetchCards(for interests: [String],
                            page: String? = nil,
+                           refreshCount: Int? = nil,
                            success: @escaping ([RemoteReaderCard], String?) -> Void,
                            failure: @escaping (Error) -> Void) {
-        guard let requestUrl = cardsEndpoint(for: interests, page: page) else {
+        guard let requestUrl = cardsEndpoint(for: interests, page: page, refreshCount: refreshCount) else {
             return
         }
 
@@ -38,13 +39,17 @@ extension ReaderPostServiceRemote {
         })
     }
 
-    private func cardsEndpoint(for interests: [String], page: String? = nil) -> String? {
+    private func cardsEndpoint(for interests: [String], page: String? = nil, refreshCount: Int? = nil) -> String? {
         var path = URLComponents(string: "read/tags/cards")
 
         path?.queryItems = interests.map { URLQueryItem(name: "tags[]", value: $0) }
 
         if let page = page {
             path?.queryItems?.append(URLQueryItem(name: "page_handle", value: page))
+        }
+
+        if let refreshCount = refreshCount {
+            path?.queryItems?.append(URLQueryItem(name: "refresh", value: String(refreshCount)))
         }
 
         guard let endpoint = path?.string else {
