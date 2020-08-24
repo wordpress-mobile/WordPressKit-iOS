@@ -211,15 +211,18 @@ private extension BlogJetpackSettingsServiceRemote {
                                                 serveImagesFromOurServers: serveImagesFromOurServersValue)
     }
 
-    func dictionaryFromJetpackSettings(_ settings: RemoteBlogJetpackSettings) -> [String: AnyObject] {
+    func dictionaryFromJetpackSettings(_ settings: RemoteBlogJetpackSettings) -> [String: Any] {
         let joinedIPs = settings.loginWhiteListedIPAddresses.joined(separator: ", ")
-        return [Keys.monitorEnabled: settings.monitorEnabled as AnyObject,
-                Keys.blockMaliciousLoginAttempts: settings.blockMaliciousLoginAttempts as AnyObject,
-                Keys.whiteListedIPAddresses: joinedIPs as AnyObject,
-                Keys.ssoEnabled: settings.ssoEnabled as AnyObject,
-                Keys.ssoMatchAccountsByEmail: settings.ssoMatchAccountsByEmail as AnyObject,
-                Keys.ssoRequireTwoStepAuthentication: settings.ssoRequireTwoStepAuthentication as AnyObject]
-
+        let shouldSendWhitelist = settings.blockMaliciousLoginAttempts
+        let settingsDictionary: [String: Any?] = [
+            Keys.monitorEnabled: settings.monitorEnabled,
+            Keys.blockMaliciousLoginAttempts: settings.blockMaliciousLoginAttempts,
+            Keys.whiteListedIPAddresses: shouldSendWhitelist ? joinedIPs : nil,
+            Keys.ssoEnabled: settings.ssoEnabled,
+            Keys.ssoMatchAccountsByEmail: settings.ssoMatchAccountsByEmail,
+            Keys.ssoRequireTwoStepAuthentication: settings.ssoRequireTwoStepAuthentication,
+        ]
+        return settingsDictionary.compactMapValues { $0 }
     }
 
     func dictionaryFromJetpackMonitorSettings(_ settings: RemoteBlogJetpackMonitorSettings) -> [String: AnyObject] {
