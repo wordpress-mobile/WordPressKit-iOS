@@ -9,6 +9,9 @@ public class RemoteGravatarProfile {
     public let thumbnailUrl: String
     public let name: String
     public let displayName: String
+    public let formattedName: String
+    public let aboutMe: String
+    public let currentLocation: String
 
     init(dictionary: NSDictionary) {
         profileID = dictionary.string(forKey: "id") ?? ""
@@ -19,5 +22,13 @@ public class RemoteGravatarProfile {
         thumbnailUrl = dictionary.string(forKey: "thumbnailUrl") ?? ""
         name = dictionary.string(forKey: "name") ?? ""
         displayName = dictionary.string(forKey: "displayName") ?? ""
+
+        if let nameDictionary = dictionary.value(forKey: "name") as? NSDictionary {
+            formattedName = nameDictionary.string(forKey: "formatted") ?? ""
+        } else {
+            formattedName = ""
+        }
+        aboutMe = dictionary.string(forKey: "aboutMe") ?? ""
+        currentLocation = dictionary.string(forKey: "currentLocation") ?? ""
     }
 }
