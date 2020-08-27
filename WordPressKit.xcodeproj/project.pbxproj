@@ -471,6 +471,9 @@
 		F194E1232417ED9F00874408 /* AtomicAuthenticationServiceRemoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F194E1222417ED9F00874408 /* AtomicAuthenticationServiceRemoteTests.swift */; };
 		F194E1252417EE7E00874408 /* atomic-get-auth-cookie-success.json in Resources */ = {isa = PBXBuildFile; fileRef = F194E1242417EE7E00874408 /* atomic-get-auth-cookie-success.json */; };
 		F1BB7806240FB90B0030ADDC /* AtomicAuthenticationServiceRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1BB7805240FB90B0030ADDC /* AtomicAuthenticationServiceRemote.swift */; };
+		F9E56DF624EB11EF00916770 /* FeatureFlag.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9E56DF524EB11EF00916770 /* FeatureFlag.swift */; };
+		F9E56DF824EB125600916770 /* FeatureFlagRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9E56DF724EB125600916770 /* FeatureFlagRemote.swift */; };
+		F9E56DFB24EB18C300916770 /* FeatureFlagRemoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9E56DFA24EB18C300916770 /* FeatureFlagRemoteTests.swift */; };
 		FA87FE0724EB39C4003FBEE3 /* ReaderPostServiceRemote+SubscriptionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA87FE0624EB39C4003FBEE3 /* ReaderPostServiceRemote+SubscriptionTests.swift */; };
 		FA87FE0924EB3FEF003FBEE3 /* reader-post-comments-subscription-status-success.json in Resources */ = {isa = PBXBuildFile; fileRef = FA87FE0824EB3FEF003FBEE3 /* reader-post-comments-subscription-status-success.json */; };
 		FA87FE0B24EB4419003FBEE3 /* reader-post-comments-subscribe-success.json in Resources */ = {isa = PBXBuildFile; fileRef = FA87FE0A24EB4419003FBEE3 /* reader-post-comments-subscribe-success.json */; };
@@ -987,6 +990,9 @@
 		F194E1222417ED9F00874408 /* AtomicAuthenticationServiceRemoteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtomicAuthenticationServiceRemoteTests.swift; sourceTree = "<group>"; };
 		F194E1242417EE7E00874408 /* atomic-get-auth-cookie-success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "atomic-get-auth-cookie-success.json"; sourceTree = "<group>"; };
 		F1BB7805240FB90B0030ADDC /* AtomicAuthenticationServiceRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtomicAuthenticationServiceRemote.swift; sourceTree = "<group>"; };
+		F9E56DF524EB11EF00916770 /* FeatureFlag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureFlag.swift; sourceTree = "<group>"; };
+		F9E56DF724EB125600916770 /* FeatureFlagRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureFlagRemote.swift; sourceTree = "<group>"; };
+		F9E56DFA24EB18C300916770 /* FeatureFlagRemoteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureFlagRemoteTests.swift; sourceTree = "<group>"; };
 		FA87FE0624EB39C4003FBEE3 /* ReaderPostServiceRemote+SubscriptionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReaderPostServiceRemote+SubscriptionTests.swift"; sourceTree = "<group>"; };
 		FA87FE0824EB3FEF003FBEE3 /* reader-post-comments-subscription-status-success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "reader-post-comments-subscription-status-success.json"; sourceTree = "<group>"; };
 		FA87FE0A24EB4419003FBEE3 /* reader-post-comments-subscribe-success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "reader-post-comments-subscribe-success.json"; sourceTree = "<group>"; };
@@ -1303,6 +1309,7 @@
 				93188D201F2264A80028ED4D /* Taxonomy */,
 				436D56362118DC2800CEAA33 /* Transactions */,
 				93F50A421F227CC400B5BEBA /* Users */,
+				F9E56DF924EB18A300916770 /* Utilities */,
 			);
 			name = Tests;
 			sourceTree = "<group>";
@@ -1462,6 +1469,7 @@
 				E182BF691FD961810001D850 /* Endpoint.swift */,
 				17CD0CC220C58A0D000D9620 /* ReaderSiteSearchServiceRemote.swift */,
 				3236F77724AE34B40088E8F3 /* ReaderTopicServiceRemote+Interests.swift */,
+				F9E56DF724EB125600916770 /* FeatureFlagRemote.swift */,
 			);
 			name = Services;
 			sourceTree = "<group>";
@@ -1544,6 +1552,7 @@
 				E632D7771F6E047400297F6D /* SocialLogin2FANonceInfo.swift */,
 				17CE77F020C6EB41001DEA5A /* ReaderFeed.swift */,
 				32E1DD22236AA09A008914B0 /* RemotePostAutosave.swift */,
+				F9E56DF524EB11EF00916770 /* FeatureFlag.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -1880,6 +1889,14 @@
 				F194E1222417ED9F00874408 /* AtomicAuthenticationServiceRemoteTests.swift */,
 			);
 			name = Authentication;
+			sourceTree = "<group>";
+		};
+		F9E56DF924EB18A300916770 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				F9E56DFA24EB18C300916770 /* FeatureFlagRemoteTests.swift */,
+			);
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -2334,6 +2351,7 @@
 				74585B8E1F0D51A100E7E667 /* DomainsServiceRemote.swift in Sources */,
 				7430C9A41F1927180051B8E6 /* ReaderPostServiceRemote.m in Sources */,
 				408197882220A35000A298E4 /* StatsLastPostInsight.swift in Sources */,
+				F9E56DF624EB11EF00916770 /* FeatureFlag.swift in Sources */,
 				8B2F4BE724ABC8A90056C08A /* ReaderPostServiceRemote+Cards.swift in Sources */,
 				74E2294E1F1E73FE0085F7F2 /* RemotePublicizeService.swift in Sources */,
 				9F3E0BA22087345F009CB5BA /* ServiceRequest.swift in Sources */,
@@ -2470,6 +2488,7 @@
 				74DA563B1F06EB3000FE9BF4 /* RemoteMedia.m in Sources */,
 				9311A6861F22625A00704AC9 /* RemoteTaxonomyPaging.m in Sources */,
 				93BD27821EE73944002BB00B /* WordPressOrgXMLRPCValidator.swift in Sources */,
+				F9E56DF824EB125600916770 /* FeatureFlagRemote.swift in Sources */,
 				40247DFC2120E69600AE1C3C /* AutomatedTransferStatus.swift in Sources */,
 				730E869F21E44EFD00753E1A /* WordPressComServiceRemote+SiteVerticals.swift in Sources */,
 				740B23C51F17EE8000067A2A /* RemotePost.m in Sources */,
@@ -2557,6 +2576,7 @@
 				E1787DB2200E5690004CB3AF /* TimeZoneServiceRemoteTests.swift in Sources */,
 				FFA4D4AB2423B10A00BF5180 /* AuthenticatorTests.swift in Sources */,
 				740B23D21F17F6BB00067A2A /* PostServiceRemoteRESTTests.m in Sources */,
+				F9E56DFB24EB18C300916770 /* FeatureFlagRemoteTests.swift in Sources */,
 				D813437621F6D70D0060D99A /* SiteSegmentsResponseDecodingTests.swift in Sources */,
 				436D56382118DC4B00CEAA33 /* TransactionsServiceRemoteTests.swift in Sources */,
 				9F3E0BA82087355E009CB5BA /* RemoteReaderSiteInfoSubscriptionTests.swift in Sources */,
