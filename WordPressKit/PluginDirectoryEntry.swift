@@ -12,10 +12,10 @@ public struct PluginDirectoryEntry {
     public let author: String
     public let authorURL: URL?
 
-    private let descriptionHTML: String?
-    private let installationHTML: String?
-    private let faqHTML: String?
-    private let changelogHTML: String?
+    let descriptionHTML: String?
+    let installationHTML: String?
+    let faqHTML: String?
+    let changelogHTML: String?
 
     public var descriptionText: NSAttributedString? {
         return extractHTMLText(self.descriptionHTML)
@@ -30,7 +30,7 @@ public struct PluginDirectoryEntry {
         return extractHTMLText(self.changelogHTML)
     }
 
-    private let rating: Int
+    let rating: Int
     public var starRating: Double {
         return (Double(rating) / 10).rounded() / 2
         // rounded to nearest half.
@@ -184,12 +184,13 @@ extension PluginDirectoryEntry: Codable {
     }
 }
 
+        
 // Since the WPOrg API returns `author` as a HTML string (or freeform text), we need to get ugly and parse out the important bits out of it ourselves.
 // Using the built-in NSAttributedString API for it is too slow — it's required to run on main thread and it calls out to WebKit APIs,
 // making the context switches excessively expensive when trying to display a list of plugins.
 typealias Author = (name: String, link: URL?)
 
-private func extractAuthor(_ author: String) -> Author {
+internal func extractAuthor(_ author: String) -> Author {
     // Because the `author` field is so free-form, there's cases of it being
     // * regular string ("Gutenberg")
     // * URL ("https://wordpress.org/plugins/gutenberg/#reviews&arg=1")
@@ -223,7 +224,7 @@ private func extractAuthor(_ author: String) -> Author {
     return (delegate.author, delegate.url)
 }
 
-private func extractHTMLText(_ text: String?) -> NSAttributedString? {
+internal func extractHTMLText(_ text: String?) -> NSAttributedString? {
     guard Thread.isMainThread,
         let data = text?.data(using: .utf16),
         let attributedString = try? NSAttributedString(data: data, options: [.documentType : NSAttributedString.DocumentType.html], documentAttributes: nil) else {
@@ -233,7 +234,7 @@ private func extractHTMLText(_ text: String?) -> NSAttributedString? {
     return attributedString
 }
 
-private func trimTags(_ htmlString: String?) -> String? {
+internal func trimTags(_ htmlString: String?) -> String? {
     // Because the HTML we get from backend can contain literally anything, we need to set some limits as to what we won't even try to parse.
     let tagsToRemove = ["script", "iframe"]
 
@@ -254,7 +255,7 @@ private func trimTags(_ htmlString: String?) -> String? {
     return html
 }
 
-private func trimChangelog(_ changelog: String?) -> String? {
+internal func trimChangelog(_ changelog: String?) -> String? {
     // The changelog that some plugins return is HUGE — Gutenberg as of 2.0 for example returns over 50KiB of text and 1000s of lines,
     // Akismet has changelog going back to 2009, etc — there isn't any backend-enforced limit, but thankfully there is backend-enforced structure.
     // Showing more than last versions rel-notes seems somewhat poinless (and unlike how, e.g. App Store works), so we trim it to just the
