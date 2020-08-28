@@ -3,7 +3,7 @@ import XCTest
 
 class FeatureFlagRemoteTests: RemoteTestCase, RESTTestable {
 
-    private let endpoint = "/wpcom/v2/mobile-feature-flags"
+    private let endpoint = "/wpcom/v2/mobile/feature-flags"
 
     func testThatResponsesAreHandledCorrectly() throws {
         let flags = [

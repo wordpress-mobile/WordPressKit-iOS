@@ -10,7 +10,7 @@ public class FeatureFlagRemote: ServiceRemoteWordPressComREST {
 
     public func getRemoteFeatureFlags(forDeviceId deviceId: String, callback: @escaping FeatureFlagResponseCallback) {
 
-        let endpoint = "mobile-feature-flags"
+        let endpoint = "mobile/feature-flags"
         let path = self.path(forEndpoint: endpoint, withVersion: ._2_0)
 
         let parameters: [String: AnyObject] = [
