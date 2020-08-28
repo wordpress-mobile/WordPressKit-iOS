@@ -16,8 +16,8 @@ public class FeatureFlagRemote: ServiceRemoteWordPressComREST {
         let parameters: [String: AnyObject] = [
             "device_id": deviceId as NSString,
             "platform": "apple" as NSString,
-            "build_number": NSString(string: Bundle.main.infoDictionary?["CFBundleName"] as? String ?? "Unknown"),
-            "marketing_version": NSString(string: Bundle.main.infoDictionary?["CFBundleDisplayName"] as? String ?? "Unknown"),
+            "build_number": NSString(string: Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "Unknown"),
+            "marketing_version": NSString(string: Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "Unknown"),
         ]
         
         wordPressComRestApi.GET(path,
