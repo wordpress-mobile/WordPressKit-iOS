@@ -1,8 +1,8 @@
 import Foundation
 
 public struct FeatureFlag {
-    let title: String
-    let value: Bool
+    public let title: String
+    public let value: Bool
 }
 
 // Codable Conformance is used to create mock objects in testing
