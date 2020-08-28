@@ -25,18 +25,20 @@ public class FeatureFlagRemote: ServiceRemoteWordPressComREST {
                                 parameters: parameters,
                                 success: { response, _ in
                                     
-                                    if let featureFlagList = response as? NSArray {
-                                        callback(.success(featureFlagList.compactMap { row -> FeatureFlag? in
-                                            guard let row = row as? NSDictionary,
-                                                let key = row.allKeys.first as? String,
-                                                let value = row.allValues.first as? Bool,
-                                                row.count == 1
+                                    if let featureFlagList = response as? NSDictionary {
+
+                                        let reconstitutedList = featureFlagList.compactMap { row -> FeatureFlag? in
+                                            guard
+                                                let title = row.key as? String,
+                                                let value = row.value as? Bool
                                                 else {
                                                     return nil
                                                 }
 
-                                            return FeatureFlag(title: key, value: value)
-                                        }))
+                                            return FeatureFlag(title: title, value: value)
+                                        }
+
+                                        callback(.success(reconstitutedList))
                                     } else {
                                         callback(.failure(FeatureFlagRemoteError.InvalidDataError))
                                     }

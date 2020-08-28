@@ -11,7 +11,7 @@ class FeatureFlagRemoteTests: RemoteTestCase, RESTTestable {
             FeatureFlag(title: UUID().uuidString, value: false),
         ]
 
-        let data = try JSONEncoder().encode(flags)
+        let data = try JSONEncoder().encode(flags.dictionaryValue)
         stubRemoteResponse(endpoint, data: data, contentType: .ApplicationJSON)
 
         let expectation = XCTestExpectation()
@@ -29,7 +29,7 @@ class FeatureFlagRemoteTests: RemoteTestCase, RESTTestable {
 
     func testThatEmptyResponsesAreHandledCorrectly() throws {
 
-        let data = try JSONEncoder().encode(FeatureFlagList())
+        let data = try JSONEncoder().encode(FeatureFlagList().dictionaryValue)
         stubRemoteResponse(endpoint, data: data, contentType: .ApplicationJSON)
 
         let expectation = XCTestExpectation()
@@ -54,8 +54,10 @@ class FeatureFlagRemoteTests: RemoteTestCase, RESTTestable {
         let expectation = XCTestExpectation()
 
         FeatureFlagRemote(wordPressComRestApi: getRestApi()).getRemoteFeatureFlags(forDeviceId: "Test") { result in
-            XCTAssertEqual(0, try! result.get().count)
-            expectation.fulfill()
+            switch result {
+                case .success: XCTFail()
+                case .failure: expectation.fulfill()
+            }
         }
 
         wait(for: [expectation], timeout: 1)

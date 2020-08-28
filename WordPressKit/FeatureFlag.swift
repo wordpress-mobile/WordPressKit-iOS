@@ -32,3 +32,11 @@ extension FeatureFlag: Codable {
 extension FeatureFlag: Equatable {}
 
 public typealias FeatureFlagList = [FeatureFlag]
+
+extension FeatureFlagList {
+    public var dictionaryValue: [String: Bool] {
+        self.reduce(into: [:]) {
+            $0[$1.title] = $1.value
+        }
+    }
+}
