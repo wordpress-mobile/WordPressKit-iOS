@@ -36,7 +36,7 @@ public class FeatureFlagRemote: ServiceRemoteWordPressComREST {
                                                 }
 
                                             return FeatureFlag(title: title, value: value)
-                                        }
+                                        }.sorted()
 
                                         callback(.success(reconstitutedList))
                                     } else {
