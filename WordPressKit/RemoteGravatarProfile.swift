@@ -12,6 +12,7 @@ public class RemoteGravatarProfile {
     public let formattedName: String
     public let aboutMe: String
     public let currentLocation: String
+    public let urls: [RemoteGravatarProfileUrl]
 
     init(dictionary: NSDictionary) {
         profileID = dictionary.string(forKey: "id") ?? ""
@@ -30,5 +31,20 @@ public class RemoteGravatarProfile {
         }
         aboutMe = dictionary.string(forKey: "aboutMe") ?? ""
         currentLocation = dictionary.string(forKey: "currentLocation") ?? ""
+        if let urlArray = dictionary.value(forKey: "urls") as? [NSDictionary] {
+            urls = urlArray.map { RemoteGravatarProfileUrl(dictionary: $0) }
+        } else {
+            urls = []
+        }
+    }
+}
+
+public class RemoteGravatarProfileUrl {
+    public let value: String
+    public let title: String
+
+    init(dictionary: NSDictionary) {
+        value = dictionary.string(forKey: "value") ?? ""
+        title = dictionary.string(forKey: "title") ?? ""
     }
 }
