@@ -10,6 +10,7 @@ public class AnnouncementServiceRemote: ServiceRemoteWordPressComREST {
                                  completion: @escaping (Result<[Announcement], Error>) -> Void) {
 
         guard let endPoint = makeEndpoint(appId: appId, appVersion: appVersion, locale: locale) else {
+            completion(.failure(AnnouncementError.endpointError))
             return
         }
 
@@ -48,7 +49,6 @@ private extension AnnouncementServiceRemote {
     }
 
     func decodeAnnouncements(from data: Data) throws -> [Announcement] {
-
         let container = try JSONDecoder().decode(AnnouncementsContainer.self, from: data)
         return container.announcements
     }
@@ -63,6 +63,18 @@ private extension AnnouncementServiceRemote {
         static let appIdKey = "app_id"
         static let appVersionKey = "app_version"
         static let localeKey = "_locale"
+    }
+
+    enum AnnouncementError: Error {
+        case endpointError
+
+        var localizedDescription: String {
+            switch self {
+            case .endpointError:
+                return NSLocalizedString("Invalid endpoint",
+                                         comment: "Error message generated when announcement service is unable to return a valid endpoint.")
+            }
+        }
     }
 }
 
