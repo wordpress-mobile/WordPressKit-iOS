@@ -1,6 +1,6 @@
 import UIKit
 
-public class FeatureFlagRemote: ServiceRemoteWordPressComREST {
+open class FeatureFlagRemote: ServiceRemoteWordPressComREST {
 
     public typealias FeatureFlagResponseCallback = (Result<FeatureFlagList, Error>) -> Void
 
@@ -8,34 +8,37 @@ public class FeatureFlagRemote: ServiceRemoteWordPressComREST {
         case InvalidDataError
     }
 
-    public func getRemoteFeatureFlags(forDeviceId deviceId: String, callback: @escaping FeatureFlagResponseCallback) {
+    open func getRemoteFeatureFlags(forDeviceId deviceId: String, callback: @escaping FeatureFlagResponseCallback) {
 
-        let endpoint = "mobile-feature-flags"
+        let endpoint = "mobile/feature-flags"
         let path = self.path(forEndpoint: endpoint, withVersion: ._2_0)
 
         let parameters: [String: AnyObject] = [
             "device_id": deviceId as NSString,
             "platform": "apple" as NSString,
-            "build_number": NSString(string: Bundle.main.infoDictionary?["CFBundleName"] as? String ?? "Unknown"),
-            "marketing_version": NSString(string: Bundle.main.infoDictionary?["CFBundleDisplayName"] as? String ?? "Unknown"),
+            "build_number": NSString(string: Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "Unknown"),
+            "marketing_version": NSString(string: Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "Unknown"),
+            "bundle_identifier": NSString(string: Bundle.main.bundleIdentifier ?? "Unknown")
         ]
-        
+
         wordPressComRestApi.GET(path,
                                 parameters: parameters,
                                 success: { response, _ in
                                     
-                                    if let featureFlagList = response as? NSArray {
-                                        callback(.success(featureFlagList.compactMap { row -> FeatureFlag? in
-                                            guard let row = row as? NSDictionary,
-                                                let key = row.allKeys.first as? String,
-                                                let value = row.allValues.first as? Bool,
-                                                row.count == 1
+                                    if let featureFlagList = response as? NSDictionary {
+
+                                        let reconstitutedList = featureFlagList.compactMap { row -> FeatureFlag? in
+                                            guard
+                                                let title = row.key as? String,
+                                                let value = row.value as? Bool
                                                 else {
                                                     return nil
                                                 }
 
-                                            return FeatureFlag(title: key, value: value)
-                                        }))
+                                            return FeatureFlag(title: title, value: value)
+                                        }.sorted()
+
+                                        callback(.success(reconstitutedList))
                                     } else {
                                         callback(.failure(FeatureFlagRemoteError.InvalidDataError))
                                     }
