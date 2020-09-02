@@ -10,7 +10,7 @@ public class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
         case decodingFailure
     }
 
-    private let siteID: Int
+    public let siteID: Int
     private let siteTimezone: TimeZone
 
     private lazy var periodDataQueryDateFormatter: DateFormatter = {

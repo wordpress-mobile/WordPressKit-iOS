@@ -16,7 +16,6 @@ public class PluginServiceRemote: ServiceRemoteWordPressComREST {
                 failure(ResponseError.decodingFailure)
                 return
             }
-
             do {
                 let pluginEntries = try response.map { try PluginDirectoryEntry(responseObject: $0) }
                 success(pluginEntries)
@@ -28,7 +27,6 @@ public class PluginServiceRemote: ServiceRemoteWordPressComREST {
             failure(error)
         })
     }
-
 
     public func getPlugins(siteID: Int, success: @escaping (SitePlugins) -> Void, failure: @escaping (Error) -> Void) {
         let endpoint = "sites/\(siteID)/plugins"
@@ -182,7 +180,7 @@ public class PluginServiceRemote: ServiceRemoteWordPressComREST {
     }
 }
 
-private extension PluginServiceRemote {
+internal extension PluginServiceRemote {
     func encoded(pluginID: String) -> String? {
         let allowedCharacters = CharacterSet.urlPathAllowed.subtracting(CharacterSet(charactersIn: "/"))
         guard let escapedPluginID = pluginID.addingPercentEncoding(withAllowedCharacters: allowedCharacters) else {
@@ -232,7 +230,6 @@ private extension PluginServiceRemote {
                            automanaged: false,
                            url: url,
                            settingsURL: settingsURL)
-
     }
 
     func pluginCapabilities(response: [String: AnyObject]) throws -> SitePluginCapabilities {
