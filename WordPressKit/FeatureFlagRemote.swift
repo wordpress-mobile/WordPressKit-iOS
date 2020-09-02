@@ -1,6 +1,6 @@
 import UIKit
 
-public class FeatureFlagRemote: ServiceRemoteWordPressComREST {
+open class FeatureFlagRemote: ServiceRemoteWordPressComREST {
 
     public typealias FeatureFlagResponseCallback = (Result<FeatureFlagList, Error>) -> Void
 
@@ -8,7 +8,7 @@ public class FeatureFlagRemote: ServiceRemoteWordPressComREST {
         case InvalidDataError
     }
 
-    public func getRemoteFeatureFlags(forDeviceId deviceId: String, callback: @escaping FeatureFlagResponseCallback) {
+    open func getRemoteFeatureFlags(forDeviceId deviceId: String, callback: @escaping FeatureFlagResponseCallback) {
 
         let endpoint = "mobile/feature-flags"
         let path = self.path(forEndpoint: endpoint, withVersion: ._2_0)
