@@ -115,7 +115,7 @@ static NSString * const UserDictionaryEmailVerifiedKey = @"email_verified";
                                   return;
                               }
                               NSDictionary *dict = (NSDictionary *)responseObject;
-                              BOOL passwordless = [[dict numberForKey:@"passwordlesss"] boolValue];
+                              BOOL passwordless = [[dict numberForKey:@"passwordless"] boolValue];
                               success(passwordless);
                               
                           } failure:^(NSError *error, NSHTTPURLResponse *httpResponse) {
