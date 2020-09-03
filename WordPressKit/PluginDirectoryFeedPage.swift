@@ -44,7 +44,6 @@ public struct PluginDirectoryFeedPage: Decodable, Equatable {
 
 }
 
-
 public struct PluginDirectoryPageMetadata: Equatable, Codable {
     public let page: Int
     public let pluginSlugs: [String]
@@ -54,5 +53,3 @@ public struct PluginDirectoryPageMetadata: Equatable, Codable {
             && lhs.pluginSlugs == rhs.pluginSlugs
     }
 }
-
-

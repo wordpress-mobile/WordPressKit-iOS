@@ -74,6 +74,8 @@ class AuthenticatorTests: XCTestCase {
         wait(for: [completionExpectation], timeout: 2)
         XCTAssertEqual(shouldRetry, true, "CookieNonceAuthenticator should retry request with 401 error if everything goes well")
     }
+    
+    
 }
 
 private extension AuthenticatorTests {
