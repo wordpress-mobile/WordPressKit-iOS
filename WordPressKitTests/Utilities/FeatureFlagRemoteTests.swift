@@ -3,15 +3,15 @@ import XCTest
 
 class FeatureFlagRemoteTests: RemoteTestCase, RESTTestable {
 
-    private let endpoint = "/wpcom/v2/mobile-feature-flags"
+    private let endpoint = "/wpcom/v2/mobile/feature-flags"
 
     func testThatResponsesAreHandledCorrectly() throws {
         let flags = [
             FeatureFlag(title: UUID().uuidString, value: true),
             FeatureFlag(title: UUID().uuidString, value: false),
-        ]
+        ].sorted()
 
-        let data = try JSONEncoder().encode(flags)
+        let data = try JSONEncoder().encode(flags.dictionaryValue)
         stubRemoteResponse(endpoint, data: data, contentType: .ApplicationJSON)
 
         let expectation = XCTestExpectation()
@@ -29,7 +29,7 @@ class FeatureFlagRemoteTests: RemoteTestCase, RESTTestable {
 
     func testThatEmptyResponsesAreHandledCorrectly() throws {
 
-        let data = try JSONEncoder().encode(FeatureFlagList())
+        let data = try JSONEncoder().encode(FeatureFlagList().dictionaryValue)
         stubRemoteResponse(endpoint, data: data, contentType: .ApplicationJSON)
 
         let expectation = XCTestExpectation()
@@ -43,19 +43,16 @@ class FeatureFlagRemoteTests: RemoteTestCase, RESTTestable {
     }
 
     func testThatMalformedResponsesReturnEmptyArray() throws {
-        let data = try toJSON(object: [
-            [
-                "key": "foo",
-                "value": true,
-            ]
-        ])
+        let data = try toJSON(object: ["Invalid"])
         stubRemoteResponse(endpoint, data: data, contentType: .ApplicationJSON)
 
         let expectation = XCTestExpectation()
 
         FeatureFlagRemote(wordPressComRestApi: getRestApi()).getRemoteFeatureFlags(forDeviceId: "Test") { result in
-            XCTAssertEqual(0, try! result.get().count)
-            expectation.fulfill()
+            switch result {
+                case .success: XCTFail()
+                case .failure: expectation.fulfill()
+            }
         }
 
         wait(for: [expectation], timeout: 1)
@@ -76,7 +73,9 @@ class FeatureFlagRemoteTests: RemoteTestCase, RESTTestable {
         wait(for: [expectation], timeout: 1)
     }
 
-    private func toJSON(object: Any) throws -> Data {
-        return try JSONSerialization.data(withJSONObject: object, options: .prettyPrinted)
+    private func toJSON<T: Codable>(object: T) throws -> Data {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = [.sortedKeys, .prettyPrinted]
+        return try encoder.encode(object)
     }
 }
