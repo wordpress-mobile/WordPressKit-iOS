@@ -26,6 +26,11 @@ import Alamofire
     case preconditionFailure
 }
 
+public enum ResponseType {
+    case json
+    case data
+}
+
 // MARK: - WordPressComRestApi
 
 open class WordPressComRestApi: NSObject {
@@ -180,10 +185,7 @@ open class WordPressComRestApi: NSObject {
                          failure: @escaping FailureReponseBlock) -> Progress? {
 
         guard let URLString = buildRequestURLFor(path: urlString, parameters: parameters) else {
-            let error = NSError(domain: String(describing: WordPressComRestApiError.self),
-                                code: WordPressComRestApiError.requestSerializationFailed.rawValue,
-                                userInfo: [NSLocalizedDescriptionKey: NSLocalizedString("Failed to serialize request to the REST API.", comment: "Error message to show when wrong URL format is used to access the REST API")])
-            failure(error, nil)
+            failure(Constants.buildRequestError, nil)
             return nil
         }
 
@@ -212,6 +214,30 @@ open class WordPressComRestApi: NSObject {
         return progress
     }
 
+    /// A request that produces a response in the form of a byte array
+    private func dataRequest(method: HTTPMethod,
+                             urlString: String,
+                             parameters: [String: AnyObject]?,
+                             encoding: ParameterEncoding,
+                             completion: @escaping (Swift.Result<(Data, HTTPURLResponse?), Error>) -> Void) {
+
+        guard let URLString = buildRequestURLFor(path: urlString, parameters: parameters) else {
+            completion(.failure(Constants.buildRequestError))
+            return
+        }
+
+        sessionManager.request(URLString, method: method, parameters: parameters, encoding:encoding)
+            .validate()
+            .responseData(completionHandler: { (response) in
+            switch response.result {
+            case .success(let data):
+                completion(.success((data, response.response)))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        })
+    }
+
     /**
      Executes a GET request to the specified endpoint defined on URLString
 
@@ -230,6 +256,17 @@ open class WordPressComRestApi: NSObject {
                      failure: @escaping FailureReponseBlock) -> Progress? {
 
         return request(method: .get, urlString: URLString, parameters: parameters, encoding: URLEncoding.default, success: success, failure: failure)
+    }
+
+    open func GETData(_ URLString: String,
+                                         parameters: [String: AnyObject]?,
+                                         completion: @escaping (Swift.Result<(Data, HTTPURLResponse?), Error>) -> Void) {
+
+        dataRequest(method: .get,
+                    urlString: URLString,
+                    parameters: parameters,
+                    encoding: URLEncoding.default,
+                    completion: completion)
     }
 
     /**
@@ -275,10 +312,7 @@ open class WordPressComRestApi: NSObject {
                               failure: @escaping FailureReponseBlock) -> Progress? {
 
         guard let URLString = buildRequestURLFor(path: URLString, parameters: parameters) else {
-            let error = NSError(domain: String(describing: WordPressComRestApiError.self),
-                                code: WordPressComRestApiError.requestSerializationFailed.rawValue,
-                                userInfo: [NSLocalizedDescriptionKey: NSLocalizedString("Failed to serialize request to the REST API.", comment: "Error message to show when wrong URL format is used to access the REST API")])
-            failure(error, nil)
+            failure(Constants.buildRequestError, nil)
             return nil
         }
 
@@ -509,6 +543,19 @@ extension WordPressComRestApi {
         return WordPressComRestApi(oAuthToken: nil, userAgent: userAgent, localeKey: localeKey)
     }
 }
+
+// MARK: - Constants
+
+private extension WordPressComRestApi {
+
+    enum Constants {
+        static let buildRequestError = NSError(domain: String(describing: WordPressComRestApiError.self),
+                                               code: WordPressComRestApiError.requestSerializationFailed.rawValue,
+                                               userInfo: [NSLocalizedDescriptionKey: NSLocalizedString("Failed to serialize request to the REST API.",
+                                                                                                       comment: "Error message to show when wrong URL format is used to access the REST API")])
+    }
+}
+
 
 // MARK: - Progress
 
