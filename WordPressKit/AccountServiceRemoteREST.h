@@ -1,6 +1,6 @@
 #import <Foundation/Foundation.h>
-#import "AccountServiceRemote.h"
-#import "ServiceRemoteWordPressComREST.h"
+#import <WordPressKit/AccountServiceRemote.h>
+#import <WordPressKit/ServiceRemoteWordPressComREST.h>
 
 @interface AccountServiceRemoteREST : ServiceRemoteWordPressComREST <AccountServiceRemote>
 

@@ -1,6 +1,6 @@
 #import <Foundation/Foundation.h>
-#import "BlogServiceRemote.h"
-#import "SiteServiceRemoteWordPressComREST.h"
+#import <WordPressKit/BlogServiceRemote.h>
+#import <WordPressKit/SiteServiceRemoteWordPressComREST.h>
 
 typedef void (^BlogDetailsHandler)(RemoteBlog *remoteBlog);
 typedef void (^SettingsHandler)(RemoteBlogSettings *settings);
