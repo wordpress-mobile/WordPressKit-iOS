@@ -1,6 +1,6 @@
 #import <Foundation/Foundation.h>
-#import "PostServiceRemote.h"
-#import "ServiceRemoteWordPressXMLRPC.h"
+#import <WordPressKit/PostServiceRemote.h>
+#import <WordPressKit/ServiceRemoteWordPressXMLRPC.h>
 
 @interface PostServiceRemoteXMLRPC : ServiceRemoteWordPressXMLRPC <PostServiceRemote>
 

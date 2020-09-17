@@ -1,5 +1,5 @@
 #import <Foundation/Foundation.h>
-#import "ServiceRemoteWordPressComREST.h"
+#import <WordPressKit/ServiceRemoteWordPressComREST.h>
 
 typedef NS_ENUM(NSUInteger, ReaderSiteServiceRemoteError) {
     ReaderSiteServiceRemoteInvalidHost,

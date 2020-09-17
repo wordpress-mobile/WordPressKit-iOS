@@ -1,6 +1,6 @@
 #import <Foundation/Foundation.h>
-#import "MediaServiceRemote.h"
-#import "SiteServiceRemoteWordPressComREST.h"
+#import <WordPressKit/MediaServiceRemote.h>
+#import <WordPressKit/SiteServiceRemoteWordPressComREST.h>
 
 @interface MediaServiceRemoteREST : SiteServiceRemoteWordPressComREST <MediaServiceRemote>
 

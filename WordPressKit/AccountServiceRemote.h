@@ -1,5 +1,5 @@
 #import <Foundation/Foundation.h>
-#import "RemoteUser.h"
+#import <WordPressKit/RemoteUser.h>
 
 @class WPAccount;
 

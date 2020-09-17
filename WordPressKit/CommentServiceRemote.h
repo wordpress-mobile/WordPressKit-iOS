@@ -1,5 +1,5 @@
 #import <Foundation/Foundation.h>
-#import "RemoteComment.h"
+#import <WordPressKit/RemoteComment.h>
 
 @protocol CommentServiceRemote <NSObject>
 
