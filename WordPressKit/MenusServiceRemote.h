@@ -1,5 +1,5 @@
 #import <Foundation/Foundation.h>
-#import "SiteServiceRemoteWordPressComREST.h"
+#import <WordPressKit/SiteServiceRemoteWordPressComREST.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

@@ -93,7 +93,7 @@ public struct AnnouncementsContainer: Decodable {
     }
 }
 
-public struct Announcement: Decodable {
+public struct Announcement: Codable {
     public let appVersionName: String
     public let minimumAppVersion: String
     public let maximumAppVersion: String
@@ -105,7 +105,7 @@ public struct Announcement: Decodable {
     public let features: [Feature]
 }
 
-public struct Feature: Decodable {
+public struct Feature: Codable {
     public let title: String
     public let subtitle: String
     public let iconUrl: String
