@@ -109,5 +109,5 @@ public struct Feature: Codable {
     public let title: String
     public let subtitle: String
     public let iconUrl: String
-    public let iconBase64: Data?
+    public let iconBase64: String?
 }
