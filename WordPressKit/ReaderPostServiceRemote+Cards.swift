@@ -2,19 +2,19 @@ extension ReaderPostServiceRemote {
     /// Returns a collection of RemoteReaderCard
     /// a Reader Card can represent an item for the reader feed, such as
     /// - Reader Post
-    /// - Interests you may like
+    /// - Topics you may like
     /// - Blogs you may like and so on
     ///
-    /// - Parameter interests: an array of String representing the interests
+    /// - Parameter topics: an array of String representing the topics
     /// - Parameter page: a String that represents a page handle
     /// - Parameter success: Called when the request succeeds and the data returned is valid
     /// - Parameter failure: Called if the request fails for any reason, or the response data is invalid
-    public func fetchCards(for interests: [String],
+    public func fetchCards(for topics: [String],
                            page: String? = nil,
                            refreshCount: Int? = nil,
                            success: @escaping ([RemoteReaderCard], String?) -> Void,
                            failure: @escaping (Error) -> Void) {
-        guard let requestUrl = cardsEndpoint(for: interests, page: page, refreshCount: refreshCount) else {
+        guard let requestUrl = cardsEndpoint(for: topics, page: page, refreshCount: refreshCount) else {
             return
         }
 
@@ -39,10 +39,10 @@ extension ReaderPostServiceRemote {
         })
     }
 
-    private func cardsEndpoint(for interests: [String], page: String? = nil, refreshCount: Int? = nil) -> String? {
+    private func cardsEndpoint(for topics: [String], page: String? = nil, refreshCount: Int? = nil) -> String? {
         var path = URLComponents(string: "read/tags/cards")
 
-        path?.queryItems = interests.map { URLQueryItem(name: "tags[]", value: $0) }
+        path?.queryItems = topics.map { URLQueryItem(name: "tags[]", value: $0) }
 
         if let page = page {
             path?.queryItems?.append(URLQueryItem(name: "page_handle", value: page))
