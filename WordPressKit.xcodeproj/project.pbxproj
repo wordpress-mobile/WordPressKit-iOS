@@ -312,6 +312,9 @@
 		82FFBF501F45EFD100F4573F /* RemoteBlogJetpackSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82FFBF4F1F45EFD100F4573F /* RemoteBlogJetpackSettings.swift */; };
 		82FFBF521F45F04100F4573F /* RemoteBlogJetpackMonitorSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82FFBF511F45F04100F4573F /* RemoteBlogJetpackMonitorSettings.swift */; };
 		82FFBF561F460DD400F4573F /* BlogJetpackSettingsServiceRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82FFBF551F460DD400F4573F /* BlogJetpackSettingsServiceRemote.swift */; };
+		8B16CE8E25250039007BE5A9 /* RemoteReaderPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B16CE8D25250039007BE5A9 /* RemoteReaderPost.swift */; };
+		8B16CE92252502C4007BE5A9 /* RemoteReaderPostTests+V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B16CE91252502C4007BE5A9 /* RemoteReaderPostTests+V2.swift */; };
+		8B16CE962525045F007BE5A9 /* reader-posts-success.json in Resources */ = {isa = PBXBuildFile; fileRef = 8B16CE952525045F007BE5A9 /* reader-posts-success.json */; };
 		8B2F4BE524ABB3C70056C08A /* RemoteReaderPostTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B2F4BE424ABB3C70056C08A /* RemoteReaderPostTests.m */; };
 		8B2F4BE724ABC8A90056C08A /* ReaderPostServiceRemote+Cards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2F4BE624ABC8A90056C08A /* ReaderPostServiceRemote+Cards.swift */; };
 		8B2F4BE924ABC9DC0056C08A /* ReaderPostServiceRemote+CardsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2F4BE824ABC9DC0056C08A /* ReaderPostServiceRemote+CardsTests.swift */; };
@@ -319,6 +322,7 @@
 		8B2F4BED24ABCAEF0056C08A /* Decodable+Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2F4BEC24ABCAEF0056C08A /* Decodable+Dictionary.swift */; };
 		8B2F4BEF24ACCC120056C08A /* RemoteReaderCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2F4BEE24ACCC120056C08A /* RemoteReaderCard.swift */; };
 		8B2F4BF124ACE3C30056C08A /* RemoteReaderInterest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2F4BF024ACE3C30056C08A /* RemoteReaderInterest.swift */; };
+		8BB66DB02523C181000B29DA /* ReaderPostServiceRemote+V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB66DAF2523C181000B29DA /* ReaderPostServiceRemote+V2.swift */; };
 		8BE67ED324AD05D3004DB4C9 /* Decodable+DictionaryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE67ED224AD05D3004DB4C9 /* Decodable+DictionaryTests.swift */; };
 		9309994D1F1657C600F006A1 /* ThemeServiceRemote.h in Headers */ = {isa = PBXBuildFile; fileRef = 9309994B1F1657C600F006A1 /* ThemeServiceRemote.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9309994E1F1657C600F006A1 /* ThemeServiceRemote.m in Sources */ = {isa = PBXBuildFile; fileRef = 9309994C1F1657C600F006A1 /* ThemeServiceRemote.m */; };
@@ -841,6 +845,9 @@
 		82FFBF4F1F45EFD100F4573F /* RemoteBlogJetpackSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteBlogJetpackSettings.swift; sourceTree = "<group>"; };
 		82FFBF511F45F04100F4573F /* RemoteBlogJetpackMonitorSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteBlogJetpackMonitorSettings.swift; sourceTree = "<group>"; };
 		82FFBF551F460DD400F4573F /* BlogJetpackSettingsServiceRemote.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlogJetpackSettingsServiceRemote.swift; sourceTree = "<group>"; };
+		8B16CE8D25250039007BE5A9 /* RemoteReaderPost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteReaderPost.swift; sourceTree = "<group>"; };
+		8B16CE91252502C4007BE5A9 /* RemoteReaderPostTests+V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RemoteReaderPostTests+V2.swift"; sourceTree = "<group>"; };
+		8B16CE952525045F007BE5A9 /* reader-posts-success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "reader-posts-success.json"; sourceTree = "<group>"; };
 		8B2F4BE424ABB3C70056C08A /* RemoteReaderPostTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RemoteReaderPostTests.m; sourceTree = "<group>"; };
 		8B2F4BE624ABC8A90056C08A /* ReaderPostServiceRemote+Cards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReaderPostServiceRemote+Cards.swift"; sourceTree = "<group>"; };
 		8B2F4BE824ABC9DC0056C08A /* ReaderPostServiceRemote+CardsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReaderPostServiceRemote+CardsTests.swift"; sourceTree = "<group>"; };
@@ -848,6 +855,7 @@
 		8B2F4BEC24ABCAEF0056C08A /* Decodable+Dictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Decodable+Dictionary.swift"; sourceTree = "<group>"; };
 		8B2F4BEE24ACCC120056C08A /* RemoteReaderCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteReaderCard.swift; sourceTree = "<group>"; };
 		8B2F4BF024ACE3C30056C08A /* RemoteReaderInterest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteReaderInterest.swift; sourceTree = "<group>"; };
+		8BB66DAF2523C181000B29DA /* ReaderPostServiceRemote+V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReaderPostServiceRemote+V2.swift"; sourceTree = "<group>"; };
 		8BE67ED224AD05D3004DB4C9 /* Decodable+DictionaryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Decodable+DictionaryTests.swift"; sourceTree = "<group>"; };
 		9309994B1F1657C600F006A1 /* ThemeServiceRemote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThemeServiceRemote.h; sourceTree = "<group>"; };
 		9309994C1F1657C600F006A1 /* ThemeServiceRemote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThemeServiceRemote.m; sourceTree = "<group>"; };
@@ -1175,6 +1183,7 @@
 				8B2F4BE824ABC9DC0056C08A /* ReaderPostServiceRemote+CardsTests.swift */,
 				FA87FE0624EB39C4003FBEE3 /* ReaderPostServiceRemote+SubscriptionTests.swift */,
 				3236F79924AE406D0088E8F3 /* ReaderTopicServiceRemote+InterestsTests.swift */,
+				8B16CE91252502C4007BE5A9 /* RemoteReaderPostTests+V2.swift */,
 			);
 			name = Reader;
 			sourceTree = "<group>";
@@ -1482,6 +1491,7 @@
 				7430C99E1F1927180051B8E6 /* ReaderPostServiceRemote.m */,
 				8B2F4BE624ABC8A90056C08A /* ReaderPostServiceRemote+Cards.swift */,
 				FAB4F32224EC072700F259BA /* ReaderPostServiceRemote+Subscriptions.swift */,
+				8BB66DAF2523C181000B29DA /* ReaderPostServiceRemote+V2.swift */,
 				7430C99F1F1927180051B8E6 /* ReaderSiteServiceRemote.h */,
 				7430C9A01F1927180051B8E6 /* ReaderSiteServiceRemote.m */,
 				7430C9A11F1927180051B8E6 /* ReaderTopicServiceRemote.h */,
@@ -1576,6 +1586,7 @@
 				74E2294F1F1E741B0085F7F2 /* RemotePublicizeConnection.swift */,
 				74E2294D1F1E73FE0085F7F2 /* RemotePublicizeService.swift */,
 				7430C9D61F1933200051B8E6 /* RemoteReaderCrossPostMeta.swift */,
+				8B16CE8D25250039007BE5A9 /* RemoteReaderPost.swift */,
 				7430C9A91F1927C50051B8E6 /* RemoteReaderPost.h */,
 				8B2F4BEE24ACCC120056C08A /* RemoteReaderCard.swift */,
 				8B2F4BF024ACE3C30056C08A /* RemoteReaderInterest.swift */,
@@ -1741,6 +1752,7 @@
 				17BF9A7020C7E18200BF57D2 /* reader-site-search-success-no-icon.json */,
 				17BF9A6B20C7DC3300BF57D2 /* reader-site-search-success.json */,
 				8B2F4BEA24ABCA6F0056C08A /* reader-cards-success.json */,
+				8B16CE952525045F007BE5A9 /* reader-posts-success.json */,
 				FA87FE0824EB3FEF003FBEE3 /* reader-post-comments-subscription-status-success.json */,
 				FA87FE0A24EB4419003FBEE3 /* reader-post-comments-subscribe-success.json */,
 				FA87FE0C24EB4450003FBEE3 /* reader-post-comments-unsubscribe-success.json */,
@@ -2252,6 +2264,7 @@
 				731BA83A21DED358000FDFCD /* site-creation-success.json in Resources */,
 				9A2D0B2F225E1245009E585F /* jetpack-service-check-site-success.json in Resources */,
 				829BA4301FACF187003ADEEA /* activity-rewind-status-restore-failure.json in Resources */,
+				8B16CE962525045F007BE5A9 /* reader-posts-success.json in Resources */,
 				74D67F391F15C3740010C5ED /* site-viewers-delete-bad-json.json in Resources */,
 				BA8EA71524A0610200D5CC9F /* plugin-service-remote-featured-plugins-invalid.json in Resources */,
 				93BD27631EE73442002BB00B /* me-sites-visibility-bad-json-failure.json in Resources */,
@@ -2442,6 +2455,7 @@
 				408197882220A35000A298E4 /* StatsLastPostInsight.swift in Sources */,
 				F9E56DF624EB11EF00916770 /* FeatureFlag.swift in Sources */,
 				8B2F4BE724ABC8A90056C08A /* ReaderPostServiceRemote+Cards.swift in Sources */,
+				8B16CE8E25250039007BE5A9 /* RemoteReaderPost.swift in Sources */,
 				74E2294E1F1E73FE0085F7F2 /* RemotePublicizeService.swift in Sources */,
 				9F3E0BA22087345F009CB5BA /* ServiceRequest.swift in Sources */,
 				E1A6605F1FD694ED00BAC339 /* PluginDirectoryEntry.swift in Sources */,
@@ -2464,6 +2478,7 @@
 				404057D2221C56AB0060250C /* StatsTopCountryTimeIntervalData.swift in Sources */,
 				E11C2AD21FA77FB90023BDE2 /* SitePlugin.swift in Sources */,
 				74A44DCC1F13C533006CD8F4 /* NotificationSyncServiceRemote.swift in Sources */,
+				8BB66DB02523C181000B29DA /* ReaderPostServiceRemote+V2.swift in Sources */,
 				74E229501F1E741B0085F7F2 /* RemotePublicizeConnection.swift in Sources */,
 				40E7FEB722106A8D0032834E /* StatsCommentsInsight.swift in Sources */,
 				9311A6891F22625A00704AC9 /* TaxonomyServiceRemoteREST.m in Sources */,
@@ -2658,6 +2673,7 @@
 				74B335DA1F06F3D60053A184 /* WordPressComRestApiTests.swift in Sources */,
 				FA87FE0724EB39C4003FBEE3 /* ReaderPostServiceRemote+SubscriptionTests.swift in Sources */,
 				7403A2E61EF06F7000DED7DC /* AccountSettingsRemoteTests.swift in Sources */,
+				8B16CE92252502C4007BE5A9 /* RemoteReaderPostTests+V2.swift in Sources */,
 				73D5930521E5541200E4CF84 /* WordPressComServiceRemoteTests+SiteVerticals.swift in Sources */,
 				17CE77F420C701C8001DEA5A /* ReaderSiteSearchServiceRemoteTests.swift in Sources */,
 				73A2F38D21E7FC8200388609 /* WordPressComServiceRemoteTests+SiteVerticalsPrompt.swift in Sources */,
