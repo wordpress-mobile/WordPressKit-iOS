@@ -213,18 +213,18 @@ static NSString * const TopicNotFoundMarker = @"-notfound-";
 - (RemoteReaderSiteInfo *)siteInfoFromFollowedSiteDictionary:(NSDictionary *)dict
 {
     NSDictionary *meta = [dict dictionaryForKeyPath:@"meta.data.site"];
-    RemoteReaderSiteInfo *obj;
+    RemoteReaderSiteInfo *siteInfo;
 
     if (meta) {
-        obj = [RemoteReaderSiteInfo siteInfoForSiteResponse:meta isFeed:NO];
+        siteInfo = [RemoteReaderSiteInfo siteInfoForSiteResponse:meta isFeed:NO];
     } else {
         meta = [dict dictionaryForKeyPath:@"meta.data.feed"];
-        obj = [RemoteReaderSiteInfo siteInfoForSiteResponse:meta isFeed:YES];
+        siteInfo = [RemoteReaderSiteInfo siteInfoForSiteResponse:meta isFeed:YES];
     }
 
-    obj.postsEndpoint = [self endpointUrlForPath:obj.endpointPath];
+    siteInfo.postsEndpoint = [self endpointUrlForPath:siteInfo.endpointPath];
     
-    return obj;
+    return siteInfo;
 }
 
 - (NSString *)endpointUrlForPath:(NSString *)endpoint
