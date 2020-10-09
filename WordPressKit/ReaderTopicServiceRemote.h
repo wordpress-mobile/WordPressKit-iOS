@@ -98,7 +98,9 @@ extern NSString * const WordPressComReaderEndpointURL;
  */
 - (NSString *)slugForTopicName:(NSString *)topicName;
 
-/// Returns a REST URL string for an endpoint path
-/// @param endpoint A partial path for the API
+/**
+ Returns a REST URL string for an endpoint path
+ @param path A partial path for the API call
+ */
 - (NSString *)endpointUrlForPath:(NSString *)path;
 @end
