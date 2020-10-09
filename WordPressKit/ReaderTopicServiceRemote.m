@@ -20,30 +20,6 @@ static NSString * const TopicDictionaryDisplayNameKey = @"display_name";
 static NSString * const TopicDictionaryURLKey = @"URL";
 static NSString * const TopicNotFoundMarker = @"-notfound-";
 
-// Site Topic Keys
-static NSString * const SiteDictionaryFeedIDKey = @"feed_ID";
-static NSString * const SiteDictionaryFeedURLKey = @"feed_URL";
-static NSString * const SiteDictionaryFollowingKey = @"is_following";
-static NSString * const SiteDictionaryJetpackKey = @"is_jetpack";
-static NSString * const SiteDictionaryPrivateKey = @"is_private";
-static NSString * const SiteDictionaryVisibleKey = @"visible";
-static NSString * const SiteDictionaryPostCountKey = @"post_count";
-static NSString * const SiteDictionaryIconPathKey = @"icon.img";
-static NSString * const SiteDictionaryDescriptionKey = @"description";
-static NSString * const SiteDictionaryIDKey = @"ID";
-static NSString * const SiteDictionaryNameKey = @"name";
-static NSString * const SiteDictionaryURLKey = @"URL";
-static NSString * const SiteDictionarySubscriptionsKey = @"subscribers_count";
-static NSString * const SiteDictionarySubscriptionKey = @"subscription";
-
-// Subscription keys
-static NSString * const SubscriptionDeliveryMethodsKey = @"delivery_methods";
-
-// Delivery methods keys
-static NSString * const DeliveryMethodEmailKey = @"email";
-static NSString * const DeliveryMethodNotificationKey = @"notification";
-
-
 @implementation ReaderTopicServiceRemote
 
 - (void)fetchReaderMenuWithSuccess:(void (^)(NSArray *topics))success failure:(void (^)(NSError *error))failure
@@ -218,13 +194,13 @@ static NSString * const DeliveryMethodNotificationKey = @"notification";
             return;
         }
 
-        RemoteReaderSiteInfo *siteInfo;
+
         NSDictionary *response = (NSDictionary *)responseObject;
-        if (isFeed) {
-            siteInfo = [self siteInfoForFeedResponse:response];
-        } else {
-            siteInfo = [self siteInfoForSiteResponse:response];
-        }
+        RemoteReaderSiteInfo *siteInfo = [RemoteReaderSiteInfo siteInfoForSiteResponse:response
+                                                                                isFeed:isFeed];
+
+        siteInfo.postsEndpoint = [self endpointUrlForPath:siteInfo.endpointPath];
+
         success(siteInfo);
 
     } failure:^(NSError *error, NSHTTPURLResponse *httpResponse) {
@@ -237,65 +213,18 @@ static NSString * const DeliveryMethodNotificationKey = @"notification";
 - (RemoteReaderSiteInfo *)siteInfoFromFollowedSiteDictionary:(NSDictionary *)dict
 {
     NSDictionary *meta = [dict dictionaryForKeyPath:@"meta.data.site"];
+    RemoteReaderSiteInfo *obj;
+
     if (meta) {
-        return [self siteInfoForSiteResponse:meta];
+        obj = [RemoteReaderSiteInfo siteInfoForSiteResponse:meta isFeed:NO];
     } else {
         meta = [dict dictionaryForKeyPath:@"meta.data.feed"];
-        return [self siteInfoForFeedResponse:meta];
+        obj = [RemoteReaderSiteInfo siteInfoForSiteResponse:meta isFeed:YES];
     }
-}
 
-- (RemoteReaderSiteInfo *)siteInfoForSiteResponse:(NSDictionary *)response
-{
-    RemoteReaderSiteInfo *siteInfo = [RemoteReaderSiteInfo new];
-    siteInfo.feedID = [response numberForKey:SiteDictionaryFeedIDKey];
-    siteInfo.feedURL = [response stringForKey:SiteDictionaryFeedURLKey];
-    siteInfo.isFollowing = [[response numberForKey:SiteDictionaryFollowingKey] boolValue];
-    siteInfo.isJetpack = [[response numberForKey:SiteDictionaryJetpackKey] boolValue];
-    siteInfo.isPrivate = [[response numberForKey:SiteDictionaryPrivateKey] boolValue];
-    siteInfo.isVisible = [[response numberForKey:SiteDictionaryVisibleKey] boolValue];
-    siteInfo.postCount = [response numberForKey:SiteDictionaryPostCountKey];
-    siteInfo.siteBlavatar = [response stringForKeyPath:SiteDictionaryIconPathKey];
-    siteInfo.siteDescription = [response stringForKey:SiteDictionaryDescriptionKey];
-    siteInfo.siteID = [response numberForKey:SiteDictionaryIDKey];
-    siteInfo.siteName = [response stringForKey:SiteDictionaryNameKey];
-    siteInfo.siteURL = [response stringForKey:SiteDictionaryURLKey];
-    siteInfo.subscriberCount = [response numberForKey:SiteDictionarySubscriptionsKey] ?: @0;
-    if (![siteInfo.siteName length] && [siteInfo.siteURL length] > 0) {
-        siteInfo.siteName = [[NSURL URLWithString:siteInfo.siteURL] host];
-    }
-    NSString *endpointPath = [NSString stringWithFormat:@"read/sites/%@/posts/", siteInfo.siteID];
-    siteInfo.postsEndpoint = [self endpointUrlForPath:endpointPath];
+    obj.postsEndpoint = [self endpointUrlForPath:obj.endpointPath];
     
-    NSDictionary *subscription = response[SiteDictionarySubscriptionKey];
-    siteInfo.postSubscription = [self postSubscriptionFor:subscription];
-    siteInfo.emailSubscription = [self emailSubscriptionFor:subscription];
-    
-    return siteInfo;
-}
-
-- (RemoteReaderSiteInfo *)siteInfoForFeedResponse:(NSDictionary *)response
-{
-    RemoteReaderSiteInfo *siteInfo = [RemoteReaderSiteInfo new];
-    siteInfo.feedID = [response numberForKey:SiteDictionaryFeedIDKey];
-    siteInfo.feedURL = [response stringForKey:SiteDictionaryFeedURLKey];
-    siteInfo.isFollowing = [[response numberForKey:SiteDictionaryFollowingKey] boolValue];
-    siteInfo.isJetpack = NO;
-    siteInfo.isPrivate = NO;
-    siteInfo.isVisible = YES;
-    siteInfo.postCount = @0;
-    siteInfo.siteBlavatar = @"";
-    siteInfo.siteDescription = @"";
-    siteInfo.siteID = @0;
-    siteInfo.siteName = [response stringForKey:SiteDictionaryNameKey];
-    siteInfo.siteURL = [response stringForKey:SiteDictionaryURLKey];
-    siteInfo.subscriberCount = [response numberForKey:SiteDictionarySubscriptionsKey] ?: @0;
-    if (![siteInfo.siteName length] && [siteInfo.siteURL length] > 0) {
-        siteInfo.siteName = [[NSURL URLWithString:siteInfo.siteURL] host];
-    }
-    NSString *endpointPath = [NSString stringWithFormat:@"read/feed/%@/posts/", siteInfo.feedID];
-    siteInfo.postsEndpoint = [self endpointUrlForPath:endpointPath];
-    return siteInfo;
+    return obj;
 }
 
 - (NSString *)endpointUrlForPath:(NSString *)endpoint
@@ -307,50 +236,6 @@ static NSString * const DeliveryMethodNotificationKey = @"notification";
 
 
 #pragma mark - Private Methods
-
-
-/**
- Generate an Site Info Post Subscription object
-
- @param subscription A dictionary object for the site subscription
- @return A nullable Site Info Post Subscription
- */
-- (RemoteReaderSiteInfoSubscriptionPost *)postSubscriptionFor:(NSDictionary *)subscription
-{
-    if (![subscription wp_isValidObject]) {
-        return nil;
-    }
-    
-    NSDictionary *method = [[subscription dictionaryForKey: SubscriptionDeliveryMethodsKey] dictionaryForKey: DeliveryMethodNotificationKey];
-    
-    if (![method wp_isValidObject]) {
-        return nil;
-    }
-    
-    return [[RemoteReaderSiteInfoSubscriptionPost alloc] initWithDictionary:method];
-}
-
-/**
- Generate an Site Info Email Subscription object
- 
- @param subscription A dictionary object for the site subscription
- @return A nullable Site Info Email Subscription
- */
-
-- (RemoteReaderSiteInfoSubscriptionEmail *)emailSubscriptionFor:(NSDictionary *)subscription
-{
-    if (![subscription wp_isValidObject]) {
-        return nil;
-    }
-
-    NSDictionary *method = [[subscription dictionaryForKey: SubscriptionDeliveryMethodsKey] dictionaryForKey: DeliveryMethodEmailKey];
-
-    if (![method wp_isValidObject]) {
-        return nil;
-    }
-    
-    return [[RemoteReaderSiteInfoSubscriptionEmail alloc] initWithDictionary:method];
-}
 
 /**
  Formats the specified string for use as part of the URL path for the tags endpoints
