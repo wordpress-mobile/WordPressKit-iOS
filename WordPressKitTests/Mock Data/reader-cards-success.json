@@ -20,9 +20,32 @@
                 }
             ]
         },
-        {
-            "type": "recommended_blogs",
-            "data": []
+    {
+        "type": "recommended_blogs",
+        "data": [{
+            "description": "Lorem Ipsum Sit Dolor Amet",
+            "feed_ID": 123456789,
+            "feed_URL": "http://loremipsum.wordpress.com",
+            "icon": {
+                "img": "http://loremipsum.wordpress.com/wp-content/uploads/2020/10/example.png",
+                "ico": "http://loremipsum.wordpress.com/wp-content/uploads/2020/10/example.png?w=16",
+            },
+            "ID": 987654321,
+            "is_private": false,
+            "jetpack": false,
+            "name": "Lipsum's Blog",
+            "prefer_feed": false,
+            "subscribers_count": 123,
+            "subscription": {
+                "delivery_methods": {
+                    "email": null,
+                    "notification": {
+                        "send_posts": false
+                    },
+                }
+            },
+            "URL": "http://loremipsum.wordpress.com",
+        }]
         }, {
             "type": "post",
             "data": {
