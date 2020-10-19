@@ -48,7 +48,7 @@ class ReaderPostServiceRemoteCardTests: RemoteTestCase, RESTTestable {
 
         readerPostServiceRemote.fetchCards(for: ["cats"], success: { cards, _ in
             let postTypes = cards.map { $0.type }
-            let expectedPostTypes: [RemoteReaderCard.CardType] = [.interests, .unknown, .post, .post, .post, .post, .post, .post, .post, .post]
+            let expectedPostTypes: [RemoteReaderCard.CardType] = [.interests, .sites, .post, .post, .post, .post, .post, .post, .post, .post]
             XCTAssertTrue(postTypes == expectedPostTypes)
             expect.fulfill()
         }, failure: { _ in })

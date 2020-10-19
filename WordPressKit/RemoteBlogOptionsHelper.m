@@ -20,6 +20,7 @@
                                           @"active_modules",
                                           @"admin_url",
                                           @"login_url",
+                                          @"unmapped_url",
                                           @"image_default_link_type",
                                           @"software_version",
                                           @"videopress_enabled",

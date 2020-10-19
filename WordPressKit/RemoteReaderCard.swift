@@ -14,12 +14,14 @@ public struct RemoteReaderCard: Decodable {
     public enum CardType: String {
         case post
         case interests = "interests_you_may_like"
+        case sites = "recommended_blogs"
         case unknown
     }
 
     public var type: CardType
     public var post: RemoteReaderPost?
     public var interests: [RemoteReaderInterest]?
+    public var sites: [RemoteReaderSiteInfo]?
 
     private enum CodingKeys: String, CodingKey {
         case type
@@ -37,6 +39,19 @@ public struct RemoteReaderCard: Decodable {
             post = RemoteReaderPost(dictionary: postDictionary)
         case .interests:
             interests = try container.decode([RemoteReaderInterest].self, forKey: .data)
+        case .sites:
+            let sitesArray = try container.decode([Any].self, forKey: .data)
+
+            sites = sitesArray.compactMap {
+                // Since RemoteReaderSiteInfo is written in Obj-C and doesn't support decoding
+                // attempt to recast the response as a dictionary value to be passed to the init below
+                guard let dict = $0 as? [AnyHashable : Any] else {
+                    return nil
+                }
+
+                return RemoteReaderSiteInfo(forSiteResponse: dict, isFeed: false)
+            }
+
         default:
             post = nil
         }
