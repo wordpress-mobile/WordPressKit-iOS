@@ -52,7 +52,12 @@ NSString * const PostStatusDeleted = @"deleted"; // Returned by wpcom REST API w
 ///
 /// This hash must remain constant regardless of iOS version, app restarts or instances used. `Hasher` or NSObject's `hash` were not used for these reasons.
 ///
-/// - Note: `dateModified` is not included within the hash as it is prone to change wihout the content having been changed and is the reason this hash is necessary.
+/// `dateModified` is not included within the hash as it is prone to change wihout the content having been changed and is the reason this hash is necessary.
+///
+/// `autosave` properties are intentionally omitted as remote autosaves are always discarded in favor of local autosaves (aka `revision`s)
+///
+/// - Note: At the time of writing the backend will occasionally create updates that neither come from autosaves or user initiated saves, these will modify the hash
+/// and at present are treated as genuine updates as they are triggered by the user changing their posts content.
 - (NSString *)contentHash
 {
     NSString *hashedContents = [NSString stringWithFormat:@"%@/%@/%@%@/%@/%@%@/%@/%@%@/%@/%@%@/%@/%@%@/%@/%@%@/%@/%@%@/%@/%@%@/%@/%@",
