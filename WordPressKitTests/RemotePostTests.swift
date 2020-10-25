@@ -38,12 +38,6 @@ class RemotePostTests: XCTestCase {
         let expectedHash = "729a3df7c916699c5efb548dc4f53f43dec11d5516dd63ff6787c81904d464f1"
         XCTAssertEqual(post.contentHash(), expectedHash)
     }
-
-    func testHashSpeed() {
-        measure {
-            noNullPropertyPost.contentHash()
-        }
-    }
 }
 
 private extension RemotePostTests {
