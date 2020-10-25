@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		14233D0F253DAEF7001C9E2E /* RemotePostTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14233D0E253DAEF7001C9E2E /* RemotePostTests.swift */; };
 		14233D35253F6B51001C9E2E /* SHAHasher.m in Sources */ = {isa = PBXBuildFile; fileRef = 14233D34253F6B51001C9E2E /* SHAHasher.m */; };
 		1769DEAA24729AFF00F42EFC /* HomepageSettingsServiceRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1769DEA924729AFF00F42EFC /* HomepageSettingsServiceRemote.swift */; };
 		17BF9A6C20C7DC3300BF57D2 /* reader-site-search-success.json in Resources */ = {isa = PBXBuildFile; fileRef = 17BF9A6B20C7DC3300BF57D2 /* reader-site-search-success.json */; };
@@ -539,6 +540,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		14233D0E253DAEF7001C9E2E /* RemotePostTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemotePostTests.swift; sourceTree = "<group>"; };
 		14233D34253F6B51001C9E2E /* SHAHasher.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SHAHasher.m; sourceTree = "<group>"; };
 		14233D39253F6B99001C9E2E /* SHAHasher.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SHAHasher.h; sourceTree = "<group>"; };
 		1769DEA924729AFF00F42EFC /* HomepageSettingsServiceRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomepageSettingsServiceRemote.swift; sourceTree = "<group>"; };
@@ -1168,6 +1170,7 @@
 				9AB6D649218727D60008F274 /* PostServiceRemoteRESTRevisionsTest.swift */,
 				740B23D01F17F6BB00067A2A /* PostServiceRemoteRESTTests.m */,
 				740B23D11F17F6BB00067A2A /* PostServiceRemoteXMLRPCTests.swift */,
+				14233D0E253DAEF7001C9E2E /* RemotePostTests.swift */,
 			);
 			name = Post;
 			sourceTree = "<group>";
@@ -2660,6 +2663,7 @@
 				93188D221F2264E60028ED4D /* TaxonomyServiceRemoteRESTTests.m in Sources */,
 				F194E1232417ED9F00874408 /* AtomicAuthenticationServiceRemoteTests.swift in Sources */,
 				74FC6F3B1F191BB400112505 /* NotificationSyncServiceRemoteTests.swift in Sources */,
+				14233D0F253DAEF7001C9E2E /* RemotePostTests.swift in Sources */,
 				731BA83821DECD97000FDFCD /* SiteCreationResponseDecodingTests.swift in Sources */,
 				9A2D0B2B225E0E22009E585F /* JetpackServiceRemoteTests.swift in Sources */,
 				74FA25F71F1FDA200044BC54 /* MediaServiceRemoteRESTTests.swift in Sources */,
