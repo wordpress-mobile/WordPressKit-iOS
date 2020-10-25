@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		14233D0F253DAEF7001C9E2E /* RemotePostTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14233D0E253DAEF7001C9E2E /* RemotePostTests.swift */; };
+		14233D35253F6B51001C9E2E /* SHAHasher.m in Sources */ = {isa = PBXBuildFile; fileRef = 14233D34253F6B51001C9E2E /* SHAHasher.m */; };
+		14C42DBD2545EE3B0091712B /* SHAHasher.h in Headers */ = {isa = PBXBuildFile; fileRef = 14233D39253F6B99001C9E2E /* SHAHasher.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1769DEAA24729AFF00F42EFC /* HomepageSettingsServiceRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1769DEA924729AFF00F42EFC /* HomepageSettingsServiceRemote.swift */; };
 		17BF9A6C20C7DC3300BF57D2 /* reader-site-search-success.json in Resources */ = {isa = PBXBuildFile; fileRef = 17BF9A6B20C7DC3300BF57D2 /* reader-site-search-success.json */; };
 		17BF9A7220C7E18200BF57D2 /* reader-site-search-success-hasmore.json in Resources */ = {isa = PBXBuildFile; fileRef = 17BF9A6D20C7E18100BF57D2 /* reader-site-search-success-hasmore.json */; };
@@ -538,6 +541,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		14233D0E253DAEF7001C9E2E /* RemotePostTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemotePostTests.swift; sourceTree = "<group>"; };
+		14233D34253F6B51001C9E2E /* SHAHasher.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SHAHasher.m; sourceTree = "<group>"; };
+		14233D39253F6B99001C9E2E /* SHAHasher.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SHAHasher.h; sourceTree = "<group>"; };
 		1769DEA924729AFF00F42EFC /* HomepageSettingsServiceRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomepageSettingsServiceRemote.swift; sourceTree = "<group>"; };
 		17BF9A6B20C7DC3300BF57D2 /* reader-site-search-success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "reader-site-search-success.json"; sourceTree = "<group>"; };
 		17BF9A6D20C7E18100BF57D2 /* reader-site-search-success-hasmore.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "reader-site-search-success-hasmore.json"; sourceTree = "<group>"; };
@@ -1165,6 +1171,7 @@
 				9AB6D649218727D60008F274 /* PostServiceRemoteRESTRevisionsTest.swift */,
 				740B23D01F17F6BB00067A2A /* PostServiceRemoteRESTTests.m */,
 				740B23D11F17F6BB00067A2A /* PostServiceRemoteXMLRPCTests.swift */,
+				14233D0E253DAEF7001C9E2E /* RemotePostTests.swift */,
 			);
 			name = Post;
 			sourceTree = "<group>";
@@ -1881,6 +1888,8 @@
 				93C674EF1EE8351E00BFAF05 /* NSMutableDictionary+Helpers.h */,
 				93C674F01EE8351E00BFAF05 /* NSMutableDictionary+Helpers.m */,
 				9F4E51FF2088E38200424676 /* ObjectValidation.swift */,
+				14233D39253F6B99001C9E2E /* SHAHasher.h */,
+				14233D34253F6B51001C9E2E /* SHAHasher.m */,
 			);
 			name = Utility;
 			sourceTree = "<group>";
@@ -2018,6 +2027,7 @@
 				742362E01F1025B400BD0A7F /* RemoteMenuItem.h in Headers */,
 				7430C9B51F1927C50051B8E6 /* RemoteReaderSiteInfo.h in Headers */,
 				7430C9A71F1927180051B8E6 /* ReaderTopicServiceRemote.h in Headers */,
+				14C42DBD2545EE3B0091712B /* SHAHasher.h in Headers */,
 				7430C9B71F1927C50051B8E6 /* RemoteReaderTopic.h in Headers */,
 				7430C9B31F1927C50051B8E6 /* RemoteReaderSite.h in Headers */,
 				7430C9B11F1927C50051B8E6 /* RemoteReaderPost.h in Headers */,
@@ -2576,6 +2586,7 @@
 				74650F741F0EA1E200188EDB /* RemoteGravatarProfile.swift in Sources */,
 				40E7FEB4221063480032834E /* StatsTodayInsight.swift in Sources */,
 				436D563C2118E18D00CEAA33 /* State.swift in Sources */,
+				14233D35253F6B51001C9E2E /* SHAHasher.m in Sources */,
 				439A44DA2107C93000795ED7 /* RemotePlan_ApiVersion1_3.swift in Sources */,
 				93BD27811EE73944002BB00B /* WordPressOrgXMLRPCApi.swift in Sources */,
 				439A44D62107C66A00795ED7 /* JSONDecoderExtension.swift in Sources */,
@@ -2654,6 +2665,7 @@
 				93188D221F2264E60028ED4D /* TaxonomyServiceRemoteRESTTests.m in Sources */,
 				F194E1232417ED9F00874408 /* AtomicAuthenticationServiceRemoteTests.swift in Sources */,
 				74FC6F3B1F191BB400112505 /* NotificationSyncServiceRemoteTests.swift in Sources */,
+				14233D0F253DAEF7001C9E2E /* RemotePostTests.swift in Sources */,
 				731BA83821DECD97000FDFCD /* SiteCreationResponseDecodingTests.swift in Sources */,
 				9A2D0B2B225E0E22009E585F /* JetpackServiceRemoteTests.swift in Sources */,
 				74FA25F71F1FDA200044BC54 /* MediaServiceRemoteRESTTests.swift in Sources */,

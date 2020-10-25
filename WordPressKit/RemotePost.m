@@ -1,5 +1,6 @@
 #import "RemotePost.h"
 #import <objc/runtime.h>
+#import "SHAHasher.h"
 
 NSString * const PostStatusDraft = @"draft";
 NSString * const PostStatusPending = @"pending";
@@ -45,6 +46,50 @@ NSString * const PostStatusDeleted = @"deleted"; // Returned by wpcom REST API w
     }
     free(properties);
     return [NSDictionary dictionaryWithDictionary:debugProperties];
+}
+
+/// A hash used to determine if the remote content has changed.
+///
+/// This hash must remain constant regardless of iOS version, app restarts or instances used. `Hasher` or NSObject's `hash` were not used for these reasons.
+///
+/// `dateModified` is not included within the hash as it is prone to change wihout the content having been changed and is the reason this hash is necessary.
+///
+/// `autosave` properties are intentionally omitted as remote autosaves are always discarded in favor of local autosaves (aka `revision`s)
+///
+/// - Note: At the time of writing the backend will occasionally create updates that neither come from autosaves or user initiated saves, these will modify the hash
+/// and at present are treated as genuine updates as they are triggered by the user changing their posts content.
+- (NSString *)contentHash
+{
+    NSString *hashedContents = [NSString stringWithFormat:@"%@/%@/%@%@/%@/%@%@/%@/%@%@/%@/%@%@/%@/%@%@/%@/%@%@/%@/%@%@/%@/%@%@/%@/%@",
+        self.postID.stringValue,
+        self.siteID.stringValue,
+        self.authorAvatarURL,
+        self.authorDisplayName,
+        self.authorEmail,
+        self.authorURL,
+        self.authorID.stringValue,
+        self.date.description,
+        self.title,
+        self.URL.absoluteString,
+        self.shortURL.absoluteString,
+        self.content,
+        self.excerpt,
+        self.slug,
+        self.suggestedSlug,
+        self.status,
+        self.parentID.stringValue,
+        self.postThumbnailID.stringValue,
+        self.postThumbnailPath,
+        self.type,
+        self.format,
+        self.commentCount.stringValue,
+        self.likeCount.stringValue,
+        [self.tags componentsJoinedByString:@""],
+        self.pathForDisplayImage,
+        self.isStickyPost.stringValue,
+        self.isFeaturedImageChanged ? @"1" : @"2"];
+    NSData *hashData = [SHAHasher hashForString:hashedContents];
+    return [SHAHasher sha256StringFromData:hashData];
 }
 
 @end
