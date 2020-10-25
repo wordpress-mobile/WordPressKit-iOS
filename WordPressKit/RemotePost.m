@@ -1,5 +1,6 @@
 #import "RemotePost.h"
 #import <objc/runtime.h>
+#import "SHAHasher.h"
 
 NSString * const PostStatusDraft = @"draft";
 NSString * const PostStatusPending = @"pending";
@@ -45,6 +46,43 @@ NSString * const PostStatusDeleted = @"deleted"; // Returned by wpcom REST API w
     }
     free(properties);
     return [NSDictionary dictionaryWithDictionary:debugProperties];
+}
+
+/// A hash used to determine if the remote content has changed.
+///
+/// This hash must remain constant regardless of iOS version, app restarts or instances used
+- (NSString *)contentHash
+{
+    NSString *hashedContents = [NSString stringWithFormat:@"%@/%@/%@%@/%@/%@%@/%@/%@%@/%@/%@%@/%@/%@%@/%@/%@%@/%@/%@%@/%@/%@%@/%@/%@",
+        self.postID.stringValue,
+        self.siteID.stringValue,
+        self.authorAvatarURL,
+        self.authorDisplayName,
+        self.authorEmail,
+        self.authorURL,
+        self.authorID.stringValue,
+        self.date.description,
+        self.title,
+        self.URL.absoluteString,
+        self.shortURL.absoluteString,
+        self.content,
+        self.excerpt,
+        self.slug,
+        self.suggestedSlug,
+        self.status,
+        self.parentID.stringValue,
+        self.postThumbnailID.stringValue,
+        self.postThumbnailPath,
+        self.type,
+        self.format,
+        self.commentCount.stringValue,
+        self.likeCount.stringValue,
+        [self.tags componentsJoinedByString:@""],
+        self.pathForDisplayImage,
+        self.isStickyPost.stringValue,
+        self.isFeaturedImageChanged ? @"1" : @"2"];
+    NSData *hashData = [SHAHasher hashForString:hashedContents];
+    return [SHAHasher sha256StringFromData:hashData];
 }
 
 @end

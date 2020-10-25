@@ -11,6 +11,7 @@ extern NSString * const PostStatusDeleted;
 
 @interface RemotePost : NSObject
 - (id)initWithSiteID:(NSNumber *)siteID status:(NSString *)status title:(NSString *)title content:(NSString *)content;
+- (NSString *)contentHash;
 
 @property (nonatomic, strong) NSNumber *postID;
 @property (nonatomic, strong) NSNumber *siteID;
