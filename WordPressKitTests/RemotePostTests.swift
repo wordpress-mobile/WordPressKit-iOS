@@ -38,6 +38,14 @@ class RemotePostTests: XCTestCase {
         let expectedHash = "729a3df7c916699c5efb548dc4f53f43dec11d5516dd63ff6787c81904d464f1"
         XCTAssertEqual(post.contentHash(), expectedHash)
     }
+
+    func testAutosaveDoesntAlterHash() {
+        let post = RemotePost()
+        let hash = RemotePost().contentHash()
+        post.autosave = RemotePostAutosave()
+        let autosavedPostHash = post.contentHash()
+        XCTAssertEqual(hash, autosavedPostHash)
+    }
 }
 
 private extension RemotePostTests {
