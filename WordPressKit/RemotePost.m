@@ -50,7 +50,9 @@ NSString * const PostStatusDeleted = @"deleted"; // Returned by wpcom REST API w
 
 /// A hash used to determine if the remote content has changed.
 ///
-/// This hash must remain constant regardless of iOS version, app restarts or instances used
+/// This hash must remain constant regardless of iOS version, app restarts or instances used. `Hasher` or NSObject's `hash` were not used for these reasons.
+///
+/// - Note: `dateModified` is not included within the hash as it is prone to change wihout the content having been changed and is the reason this hash is necessary.
 - (NSString *)contentHash
 {
     NSString *hashedContents = [NSString stringWithFormat:@"%@/%@/%@%@/%@/%@%@/%@/%@%@/%@/%@%@/%@/%@%@/%@/%@%@/%@/%@%@/%@/%@%@/%@/%@",
