@@ -2,9 +2,9 @@ import Foundation
 
 public struct SiteDesignRequest: Encodable {
     public let previewSize: CGSize?
-    public let scale: Int?
+    public let scale: CGFloat?
 
-    public init(previewSize: CGSize? = nil, scale: Int? = nil) {
+    public init(previewSize: CGSize? = nil, scale: CGFloat? = nil) {
         self.previewSize = previewSize
         self.scale = scale
     }
@@ -13,7 +13,7 @@ public struct SiteDesignRequest: Encodable {
         var parameters: [String: AnyObject] = [:]
 
         if let previewWidth = previewSize?.width {
-            parameters["preview_width"] = Int(previewWidth) as AnyObject
+            parameters["preview_width"] = previewWidth as AnyObject
         }
 
         if let scale = scale {
