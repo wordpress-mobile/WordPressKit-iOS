@@ -1,5 +1,29 @@
 import Foundation
 
+public struct SiteDesignRequest: Encodable {
+    public let previewSize: CGSize?
+    public let scale: Int?
+
+    public init(previewSize: CGSize? = nil, scale: Int? = nil) {
+        self.previewSize = previewSize
+        self.scale = scale
+    }
+
+    public func asParameters() -> [String: AnyObject] {
+        var parameters: [String: AnyObject] = [:]
+
+        if let previewWidth = previewSize?.width {
+            parameters["preview_width"] = Int(previewWidth) as AnyObject
+        }
+
+        if let scale = scale {
+            parameters["scale"] = scale as AnyObject
+        }
+
+        return parameters
+    }
+}
+
 public class SiteDesignServiceRemote {
 
     public typealias CompletionHandler = (Swift.Result<[RemoteSiteDesign], Error>) -> Void
@@ -16,8 +40,8 @@ public class SiteDesignServiceRemote {
         })
     }
 
-    public static func fetchSiteDesigns(_ api: WordPressComRestApi, additionalParameters: [String: AnyObject]?, completion: @escaping CompletionHandler) {
-        let combinedParameters: [String: AnyObject] = joinParameters(parameters, additionalParameters: additionalParameters)
+    public static func fetchSiteDesigns(_ api: WordPressComRestApi, request: SiteDesignRequest? = nil, completion: @escaping CompletionHandler) {
+        let combinedParameters: [String: AnyObject] = joinParameters(parameters, additionalParameters: request?.asParameters())
         api.GET(endpoint, parameters: combinedParameters, success: { (responseObject, _) in
             do {
                 let result = try parseLayouts(fromResponse: responseObject)

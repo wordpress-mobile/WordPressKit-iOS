@@ -9,7 +9,7 @@ class SiteDesignServiceRemoteTests: RemoteTestCase, RESTTestable {
     let endpoint = "rest/v1.1/nux/starter-designs"
 
     var restAPI: WordPressComRestApi!
-    let expectedParameters: [String: AnyObject] = [ "scale": "2" as AnyObject, "preview_width": "400" as AnyObject]
+    let request = SiteDesignRequest(previewSize: CGSize(width: 400, height: 800), scale: 2)
 
     // MARK: - Overridden Methods
     override func setUp() {
@@ -26,7 +26,7 @@ class SiteDesignServiceRemoteTests: RemoteTestCase, RESTTestable {
     func testFetchSiteDesigns() {
         let expect = expectation(description: "Fetch available site designs")
         stubRemoteResponse(endpoint, filename: successMockFilename, contentType: .ApplicationJSON)
-        SiteDesignServiceRemote.fetchSiteDesigns(restAPI, additionalParameters: expectedParameters) { (result) in
+        SiteDesignServiceRemote.fetchSiteDesigns(restAPI, request: request) { (result) in
             switch result {
             case .success(let siteDesigns):
                 XCTAssertNotNil(siteDesigns)
@@ -43,7 +43,7 @@ class SiteDesignServiceRemoteTests: RemoteTestCase, RESTTestable {
         let expect = expectation(description: "Fetch available site designs")
         let responseData = "[]".data(using: .utf8)!
         stubRemoteResponse(endpoint, data: responseData, contentType: .ApplicationJSON)
-        SiteDesignServiceRemote.fetchSiteDesigns(restAPI, additionalParameters: expectedParameters) { (result) in
+        SiteDesignServiceRemote.fetchSiteDesigns(restAPI) { (result) in
             switch result {
             case .success(let siteDesigns):
                 XCTAssertNotNil(siteDesigns)
@@ -55,36 +55,12 @@ class SiteDesignServiceRemoteTests: RemoteTestCase, RESTTestable {
         }
         waitForExpectations(timeout: timeout, handler: nil)
     }
-
-    func testFetchSiteDesignsConflictingParameters() {
-        let expect = expectation(description: "Fetch available site designs")
-        let expectedParameters: [String: AnyObject] = [
-            "type": "test" as AnyObject, // This conficts with the default parameter.
-            "scale": "2" as AnyObject,
-            "preview_width": "400" as AnyObject
-        ]
-
-        stubRemoteResponse(endpoint, filename: successMockFilename, contentType: .ApplicationJSON)
-        SiteDesignServiceRemote.fetchSiteDesigns(restAPI, additionalParameters: expectedParameters) { (result) in
-            switch result {
-            case .success(let siteDesigns):
-                XCTAssertNotNil(siteDesigns)
-                expect.fulfill()
-            case .failure:
-                XCTFail("This callback shouldn't get called")
-                expect.fulfill()
-            }
-        }
-        waitForExpectations(timeout: timeout, handler: nil)
-    }
-
-
 
     // MARK: - Malformed Data Tests
     func testMalformedData() {
         let expect = expectation(description: "Fetch available site designs")
         stubRemoteResponse(endpoint, filename: malformedMockFilename, contentType: .ApplicationJSON)
-        SiteDesignServiceRemote.fetchSiteDesigns(restAPI, additionalParameters: nil) { (result) in
+        SiteDesignServiceRemote.fetchSiteDesigns(restAPI) { (result) in
             switch result {
             case .success:
                 XCTFail("This callback shouldn't get called")
