@@ -89,7 +89,7 @@ NSString * const PostStatusDeleted = @"deleted"; // Returned by wpcom REST API w
         self.isStickyPost.stringValue,
         self.isFeaturedImageChanged ? @"1" : @"2"];
     NSData *hashData = [SHAHasher hashForString:hashedContents];
-    return [SHAHasher sha256StringFromData:hashData];
+    return [SHAHasher hexStringFromData:hashData];
 }
 
 @end

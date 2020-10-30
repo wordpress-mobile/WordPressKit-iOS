@@ -14,5 +14,5 @@
 + (NSData *)hashForNSInteger:(NSInteger)integer;
 + (NSData *)hashForDouble:(double)dbl;
 + (NSData *)hashForBool:(BOOL)boolean;
-+ (NSString *)sha256StringFromData:(NSData *)data;
++ (NSString *)hexStringFromData:(NSData *)data;
 @end

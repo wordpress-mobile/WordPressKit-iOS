@@ -21,7 +21,7 @@
 
     CC_SHA256(mutableData.bytes, (CC_LONG)mutableData.length, finalDigest);
 
-    return [self sha256StringFromData:[NSData dataWithBytes:finalDigest length:CC_SHA256_DIGEST_LENGTH]];
+    return [self hexStringFromData:[NSData dataWithBytes:finalDigest length:CC_SHA256_DIGEST_LENGTH]];
 }
 
 + (NSData *)hashForStringArray:(NSArray *) array {
@@ -66,7 +66,7 @@
     return [NSData dataWithBytes:digest length:CC_SHA256_DIGEST_LENGTH];
 }
 
-+ (NSString *)sha256StringFromData:(NSData *)data {
++ (NSString *)hexStringFromData:(NSData *)data {
     NSMutableString *mutableString = [NSMutableString string];
 
     const char *hashBytes = [data bytes];
