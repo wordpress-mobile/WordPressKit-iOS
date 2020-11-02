@@ -6,7 +6,7 @@ use_frameworks!
 platform :ios, '11.0'
 
 def wordpresskit_pods
-  pod 'Alamofire', '~> 4.8.0'
+  pod 'Alamofire', '~> 5.3.0'
   pod 'CocoaLumberjack', '~> 3.4'
   pod 'WordPressShared', '~> 1.12'
   pod 'NSObject-SafeExpectations', '~> 0.0.4'
