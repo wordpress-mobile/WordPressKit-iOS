@@ -49,7 +49,7 @@ open class WordPressComRestApi: NSObject {
 
     public typealias RequestEnqueuedBlock = (_ taskID : NSNumber) -> Void
     public typealias SuccessResponseBlock = (_ responseObject: AnyObject, _ httpResponse: HTTPURLResponse?) -> ()
-    public typealias FailureReponseBlock = (_ error: NSError, _ httpResponse: HTTPURLResponse?) -> ()
+    public typealias FailureResponseBlock = (_ error: NSError, _ httpResponse: HTTPURLResponse?) -> ()
 
     @objc public static let apiBaseURLString: String = "https://public-api.wordpress.com/"
 
@@ -76,13 +76,13 @@ open class WordPressComRestApi: NSObject {
      */
     @objc open var appendsPreferredLanguageLocale = true
 
-    private lazy var sessionManager: Alamofire.SessionManager = {
+    private lazy var sessionManager: Alamofire.Session = {
         let sessionConfiguration = URLSessionConfiguration.default
         let sessionManager = self.makeSessionManager(configuration: sessionConfiguration)
         return sessionManager
     }()
     
-    private lazy var uploadSessionManager: Alamofire.SessionManager = {
+    private lazy var uploadSessionManager: Alamofire.Session = {
         if self.backgroundUploads {
             let sessionConfiguration = URLSessionConfiguration.background(withIdentifier: self.backgroundSessionIdentifier)
             sessionConfiguration.sharedContainerIdentifier = self.sharedContainerIdentifier
@@ -93,7 +93,7 @@ open class WordPressComRestApi: NSObject {
         return self.sessionManager
     }()
 
-    private func makeSessionManager(configuration sessionConfiguration: URLSessionConfiguration) -> Alamofire.SessionManager {
+    private func makeSessionManager(configuration sessionConfiguration: URLSessionConfiguration) -> Alamofire.Session {
         var additionalHeaders: [String : AnyObject] = [:]
         if let oAuthToken = self.oAuthToken {
             additionalHeaders["Authorization"] = "Bearer \(oAuthToken)" as AnyObject?
@@ -103,7 +103,7 @@ open class WordPressComRestApi: NSObject {
         }
 
         sessionConfiguration.httpAdditionalHeaders = additionalHeaders
-        let sessionManager = Alamofire.SessionManager(configuration: sessionConfiguration)
+        let sessionManager = Alamofire.Session(configuration: sessionConfiguration)
 
         return sessionManager
     }
@@ -182,7 +182,7 @@ open class WordPressComRestApi: NSObject {
                          parameters: [String: AnyObject]?,
                          encoding: ParameterEncoding,
                          success: @escaping SuccessResponseBlock,
-                         failure: @escaping FailureReponseBlock) -> Progress? {
+                         failure: @escaping FailureResponseBlock) -> Progress? {
 
         guard let URLString = buildRequestURLFor(path: urlString, parameters: parameters) else {
             failure(Constants.buildRequestError, nil)
@@ -253,7 +253,7 @@ open class WordPressComRestApi: NSObject {
     @objc @discardableResult open func GET(_ URLString: String,
                      parameters: [String: AnyObject]?,
                      success: @escaping SuccessResponseBlock,
-                     failure: @escaping FailureReponseBlock) -> Progress? {
+                     failure: @escaping FailureResponseBlock) -> Progress? {
 
         return request(method: .get, urlString: URLString, parameters: parameters, encoding: URLEncoding.default, success: success, failure: failure)
     }
@@ -284,7 +284,7 @@ open class WordPressComRestApi: NSObject {
     @objc @discardableResult open func POST(_ URLString: String,
                      parameters: [String: AnyObject]?,
                      success: @escaping SuccessResponseBlock,
-                     failure: @escaping FailureReponseBlock) -> Progress? {
+                     failure: @escaping FailureResponseBlock) -> Progress? {
 
         return request(method: .post, urlString: URLString, parameters: parameters, encoding: JSONEncoding.default, success: success, failure: failure)
     }
@@ -309,7 +309,7 @@ open class WordPressComRestApi: NSObject {
                               fileParts: [FilePart],
                               requestEnqueued: RequestEnqueuedBlock? = nil,
                               success: @escaping SuccessResponseBlock,
-                              failure: @escaping FailureReponseBlock) -> Progress? {
+                              failure: @escaping FailureResponseBlock) -> Progress? {
 
         guard let URLString = buildRequestURLFor(path: URLString, parameters: parameters) else {
             failure(Constants.buildRequestError, nil)
@@ -323,34 +323,29 @@ open class WordPressComRestApi: NSObject {
             progress.completedUnitCount = taskProgress.completedUnitCount
         }
 
-        uploadSessionManager.upload(multipartFormData: { (multipartFormData) in
+        let upload = uploadSessionManager.upload(multipartFormData: { (multipartFormData) in
             for filePart in fileParts {
                 multipartFormData.append(filePart.url, withName: filePart.parameterName, fileName: filePart.filename, mimeType: filePart.mimeType)
             }
-        }, to: URLString, encodingCompletion: { (encodingResult) in
-            switch encodingResult {
-            case .success(let upload, _, _):
-                if let taskIdentifier = upload.task?.taskIdentifier {
-                    requestEnqueued?(NSNumber(value: taskIdentifier))
-                }
-                let dataRequest = upload.validate().responseJSON(completionHandler: { response in                    
-                    switch response.result {
-                    case .success(let responseObject):
-                        progress.completedUnitCount = progress.totalUnitCount
-                        success(responseObject as AnyObject, response.response)
-                    case .failure(let error):
-                        let nserror = self.processError(response: response, originalError: error)
-                        failure(nserror, response.response)
-                    }
-                }).uploadProgress(closure: progressUpdater)
-
-                progress.cancellationHandler = {
-                    dataRequest.cancel()
-                }
-            case .failure(let encodingError):
-                failure(encodingError as NSError, nil)
+        }, to: URLString)
+        .uploadProgress(closure: progressUpdater)
+        .validate()
+        .responseJSON { (dataResponse) in
+            switch dataResponse.result {
+            case .success(_):
+                progress.completedUnitCount = progress.totalUnitCount
+                success(dataResponse as AnyObject, dataResponse.response)
+                return
+            case .failure(let error):
+                let nserror = self.processError(response: dataResponse, originalError: error)
+                failure(nserror, dataResponse.response)
+                return
             }
-        })
+        }
+        
+        progress.cancellationHandler = {
+            upload.cancel()
+        }
 
         return progress
     }
@@ -445,10 +440,10 @@ public final class FilePart: NSObject {
 extension WordPressComRestApi {
 
     /// A custom error processor to handle error responses when status codes are betwen 400 and 500
-    func processError(response: DataResponse<Any>, originalError: Error) -> NSError {
+    func processError(response: DataResponse<Any, AFError>, originalError: Error) -> NSError {
 
         let originalNSError = originalError as NSError
-        guard let afError = originalError as?  AFError, case AFError.responseValidationFailed(_) = afError, let httpResponse = response.response, (400...500).contains(httpResponse.statusCode), let data = response.data else {
+        guard let afError = originalError as? AFError, case AFError.responseValidationFailed(_) = afError, let httpResponse = response.response, (400...500).contains(httpResponse.statusCode), let data = response.data else {
             if let afError = originalError as? AFError, case AFError.responseSerializationFailed(_) = afError {
                 return WordPressComRestApiError.responseSerializationFailed as NSError
             }
