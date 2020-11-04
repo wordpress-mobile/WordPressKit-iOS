@@ -4,16 +4,12 @@ import Foundation
 import WordPressShared
 
 public typealias RequestAuthenticationValidator = (URLRequest) -> Bool
+private typealias RequestRetryCompletion = (RetryResult) -> Void
+
 
 // MARK: - Authenticator
 
 public protocol Authenticator: RequestRetrier & RequestAdapter {}
-
-public extension Authenticator {
-    func should(_ manager: SessionManager, retry request: Request, with error: Error, completion: @escaping RequestRetryCompletion) {
-        completion(false, 0.0)
-    }
-}
 
 // MARK: - Token Auth
 
@@ -25,14 +21,20 @@ public struct TokenAuthenticator: Authenticator {
         self.token = Secret(token)
         self.shouldAuthenticate = shouldAuthenticate ?? { _ in true }
     }
-
-    public func adapt(_ urlRequest: URLRequest) throws -> URLRequest {
+    
+    // MARK: Request Adapter
+    public func adapt(_ urlRequest: URLRequest, for session: Session, completion: @escaping (Result<URLRequest, Error>) -> Void) {
         guard shouldAuthenticate(urlRequest) else {
-            return urlRequest
+            return completion(.success(urlRequest))
         }
         var adaptedRequest = urlRequest
         adaptedRequest.addValue("Bearer \(token.secretValue)", forHTTPHeaderField: "Authorization")
-        return adaptedRequest
+        return completion(.success(adaptedRequest))
+    }
+    
+    // MARK: Retrier
+    public func retry(_ request: Request, for session: Session, dueTo error: Swift.Error, completion: @escaping (RetryResult) -> Void) {
+        completion(.doNotRetry)
     }
 }
 
@@ -66,18 +68,18 @@ public class CookieNonceAuthenticator: Authenticator {
     }
 
     // MARK: Request Adapter
-
-    public func adapt(_ urlRequest: URLRequest) throws -> URLRequest {
+    public func adapt(_ urlRequest: URLRequest, for session: Session, completion: @escaping (Result<URLRequest, Swift.Error>) -> Void) {
         guard let nonce = nonce else {
-            return urlRequest
+            return completion(.success(urlRequest))
         }
         var adaptedRequest = urlRequest
         adaptedRequest.addValue(nonce.secretValue, forHTTPHeaderField: "X-WP-Nonce")
-        return adaptedRequest
+        return completion(.success(adaptedRequest))
     }
-
+    
+    
     // MARK: Retrier
-    public func should(_ manager: SessionManager, retry request: Request, with error: Swift.Error, completion: @escaping RequestRetryCompletion) {
+    public func retry(_ request: Request, for session: Session, dueTo error: Swift.Error, completion: @escaping (RetryResult) -> Void) {
         guard
             canRetry,
             // Only retry once
@@ -87,12 +89,12 @@ public class CookieNonceAuthenticator: Authenticator {
             // Only retry because of failed authorization
             case .responseValidationFailed(reason: .unacceptableStatusCode(code: 401)) = error as? AFError
         else {
-            return completion(false, 0.0)
+            return completion(.doNotRetry)
         }
 
         requestsToRetry.append(completion)
         if !isAuthenticating {
-            startLoginSequence(manager: manager)
+            startLoginSequence(manager: session)
         }
     }
 
@@ -107,7 +109,7 @@ public class CookieNonceAuthenticator: Authenticator {
 // MARK: Private helpers
 private extension CookieNonceAuthenticator {
 
-    func startLoginSequence(manager: SessionManager) {
+    func startLoginSequence(manager: Alamofire.Session) {
         DDLogInfo("Starting Cookie+Nonce login sequence for \(loginURL)")
         guard let nonceRetrievalURL = nonceRetrievalMethod.buildURL(base: adminURL) else {
             return invalidateLoginSequence(error: .invalidNewPostURL)
@@ -153,9 +155,8 @@ private extension CookieNonceAuthenticator {
     }
 
     func completeRequests(_ shouldRetry: Bool) {
-        requestsToRetry.forEach { (completion) in
-            completion(shouldRetry, 0.0)
-        }
+        let result = shouldRetry ? RetryResult.retry : RetryResult.doNotRetry
+        requestsToRetry.forEach { $0(result) }
         requestsToRetry.removeAll()
     }
 
