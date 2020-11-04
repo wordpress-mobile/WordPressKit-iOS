@@ -47,26 +47,26 @@ public final class WordPressComOAuthClient: NSObject {
     private let wordPressComBaseUrl: String
     private let wordPressComApiBaseUrl: String
 
-    private let oauth2SessionManager: SessionManager = {
+    private let oauth2SessionManager: Session = {
         return WordPressComOAuthClient.sessionManager()
     }()
 
-    private let socialSessionManager: SessionManager = {
+    private let socialSessionManager: Session = {
         return WordPressComOAuthClient.sessionManager()
     }()
 
-    private let social2FASessionManager: SessionManager = {
+    private let social2FASessionManager: Session = {
         return WordPressComOAuthClient.sessionManager()
     }()
 
-    private let socialNewSMS2FASessionManager: SessionManager = {
+    private let socialNewSMS2FASessionManager: Session = {
         return WordPressComOAuthClient.sessionManager()
     }()
 
-    private class func sessionManager() -> SessionManager {
+    private class func sessionManager() -> Session {
         let configuration = URLSessionConfiguration.ephemeral
         configuration.httpAdditionalHeaders = ["Accept": "application/json"]
-        let sessionManager = SessionManager(configuration: .ephemeral)
+        let sessionManager = Session(configuration: .ephemeral)
 
         return sessionManager
     }
@@ -473,9 +473,9 @@ extension WordPressComOAuthClient {
     /// A error processor to handle error responses when status codes are betwen 400 and 500.
     /// Some HTTP requests include a response body even in a failure scenario. This method ensures
     /// it is available via an error's userInfo dictionary.
-    func processError(response: DataResponse<Any>, originalError: Error) -> NSError {
+    func processError(response: DataResponse<Any, AFError>, originalError: Error) -> NSError {
         let originalNSError = originalError as NSError
-        guard let afError = originalError as?  AFError,
+        guard let afError = originalError as? AFError,
             case AFError.responseValidationFailed(_) = afError,
             let httpResponse = response.response, (400...500).contains(httpResponse.statusCode),
             let data = response.data,
