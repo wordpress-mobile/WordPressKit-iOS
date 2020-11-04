@@ -1,4 +1,5 @@
 import Foundation
+import WordPressShared
 
 public struct SiteDesignRequest: Encodable {
     public let previewSize: CGSize?
@@ -30,7 +31,8 @@ public class SiteDesignServiceRemote {
 
     static let endpoint = "/rest/v1.1/nux/starter-designs"
     static let parameters: [String: AnyObject] = [
-        "type": ("mobile" as AnyObject)
+        "type": ("mobile" as AnyObject),
+        "language": (WordPressComLanguageDatabase().deviceLanguage.slug as AnyObject)
     ]
 
     private static func joinParameters(_ parameters: [String : AnyObject], additionalParameters: [String : AnyObject]?) -> [String: AnyObject] {
