@@ -202,8 +202,8 @@ open class WordPressComRestApi: NSObject {
             case .success(let responseObject):
                 progress?.completedUnitCount = progress?.totalUnitCount ?? 0
                 success(responseObject as AnyObject, response.response)
-            case .failure(let error):
-                let nserror = self.processError(response: response, originalError: error)
+            case .failure(_):
+                let nserror = self.processError(response: response)
                 failure(nserror, response.response)
             }
         }).downloadProgress(closure: progressUpdater)
@@ -336,8 +336,8 @@ open class WordPressComRestApi: NSObject {
                 progress.completedUnitCount = progress.totalUnitCount
                 success(dataResponse as AnyObject, dataResponse.response)
                 return
-            case .failure(let error):
-                let nserror = self.processError(response: dataResponse, originalError: error)
+            case .failure(_):
+                let nserror = self.processError(response: dataResponse)
                 failure(nserror, dataResponse.response)
                 return
             }
@@ -440,14 +440,17 @@ public final class FilePart: NSObject {
 extension WordPressComRestApi {
 
     /// A custom error processor to handle error responses when status codes are betwen 400 and 500
-    func processError(response: DataResponse<Any, AFError>, originalError: Error) -> NSError {
-
-        let originalNSError = originalError as NSError
-        guard let afError = originalError as? AFError, case AFError.responseValidationFailed(_) = afError, let httpResponse = response.response, (400...500).contains(httpResponse.statusCode), let data = response.data else {
-            if let afError = originalError as? AFError, case AFError.responseSerializationFailed(_) = afError {
+    func processError(response: DataResponse<Any, AFError>) -> NSError {
+        guard let originalNSError = response.error as NSError? else {
+            return WordPressComRestApiError.unknown as NSError
+        }
+        
+        guard let afError = response.error, case AFError.responseValidationFailed(_) = afError, let httpResponse = response.response, (400...500).contains(httpResponse.statusCode), let data = response.data else {
+            if let afError = response.error, case AFError.responseSerializationFailed(_) = afError {
                 return WordPressComRestApiError.responseSerializationFailed as NSError
             }
-            return originalNSError
+            
+            return response.error?.getNSError() ?? originalNSError
         }
 
         var userInfo: [String: Any] = originalNSError.userInfo
@@ -569,4 +572,48 @@ private extension WordPressComRestApi {
 
 extension ProgressUserInfoKey {
     public static let sessionTaskKey = ProgressUserInfoKey(rawValue: WordPressComRestApi.SessionTaskKey)
+}
+
+// MARK: - Conversion of AFError to NSError
+private extension AFError {
+    func getNSError() -> NSError {
+        switch self {
+        case .createUploadableFailed(let error as NSError):
+            return error
+        case .createURLRequestFailed(let error as NSError):
+            return error
+        case .downloadedFileMoveFailed(let error as NSError, _, _):
+            return error
+        case .explicitlyCancelled:
+            return WordPressComRestApiError.unknown as NSError
+        case .invalidURL(_):
+            return WordPressComRestApiError.unknown as NSError
+        case .multipartEncodingFailed(_):
+            return WordPressComRestApiError.unknown as NSError
+        case .parameterEncodingFailed(_):
+            return WordPressComRestApiError.unknown as NSError
+        case .parameterEncoderFailed(_):
+            return WordPressComRestApiError.unknown as NSError
+        case .requestAdaptationFailed(let error as NSError):
+            return error
+        case .requestRetryFailed(let retryError as NSError, _):
+            return retryError
+        case .responseValidationFailed(_):
+            return WordPressComRestApiError.unknown as NSError
+        case .responseSerializationFailed(_):
+            return WordPressComRestApiError.responseSerializationFailed as NSError
+        case .serverTrustEvaluationFailed(_):
+            return WordPressComRestApiError.unknown as NSError
+        case .sessionDeinitialized:
+            return WordPressComRestApiError.unknown as NSError
+        case .sessionInvalidated(let error as NSError):
+            return error
+        case .sessionTaskFailed(let error as NSError):
+            return error
+        case .urlRequestValidationFailed(_):
+            return WordPressComRestApiError.unknown as NSError
+        default:
+            return self as NSError
+        }
+    }
 }

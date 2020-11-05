@@ -151,8 +151,8 @@ public final class WordPressComOAuthClient: NSObject {
                             return
                     }
                     success(authToken)
-                case .failure(let error):
-                    let nserror = self.processError(response: response, originalError: error)
+                case .failure(_):
+                    let nserror = self.processError(response: response)
                     DDLogError("Error receiving OAuth2 token: \(nserror)")
                     failure(nserror)
                 }
@@ -185,8 +185,8 @@ public final class WordPressComOAuthClient: NSObject {
                 switch response.result {
                 case .success(_):
                     success()
-                case .failure(let error):
-                    let nserror = self.processError(response: response, originalError: error)
+                case .failure(_):
+                    let nserror = self.processError(response: response)
                     failure(nserror)
                 }
             }
@@ -232,8 +232,8 @@ public final class WordPressComOAuthClient: NSObject {
                     let nonceInfo = self.extractNonceInfo(data: responseData)
 
                     success(nonceInfo.nonceSMS)
-                case .failure(let error):
-                    let nserror = self.processError(response: response, originalError: error)
+                case .failure(_):
+                    let nserror = self.processError(response: response)
                     if let newNonce = nserror.userInfo[WordPressComOAuthClient.WordPressComOAuthErrorNewNonceKey] as? String {
                         failure(nserror, newNonce)
                     } else {
@@ -300,8 +300,8 @@ public final class WordPressComOAuthClient: NSObject {
 
                     let nonceInfo = self.extractNonceInfo(data: responseData)
                     needsMultifactor(userID, nonceInfo)
-                case .failure(let error):
-                    let err = self.processError(response: response, originalError: error)
+                case .failure(_):
+                    let err = self.processError(response: response)
 
                     // Inspect the error and handle the case of an existing user.
                     if err.code == WordPressComOAuthError.socialLoginExistingUserUnconnected.rawValue &&
@@ -409,8 +409,8 @@ public final class WordPressComOAuthClient: NSObject {
 
                     success(authToken)
 
-                case .failure(let error):
-                    let nserror = self.processError(response: response, originalError: error)
+                case .failure(_):
+                    let nserror = self.processError(response: response)
                     failure(nserror)
                 }
             })
@@ -473,9 +473,12 @@ extension WordPressComOAuthClient {
     /// A error processor to handle error responses when status codes are betwen 400 and 500.
     /// Some HTTP requests include a response body even in a failure scenario. This method ensures
     /// it is available via an error's userInfo dictionary.
-    func processError(response: DataResponse<Any, AFError>, originalError: Error) -> NSError {
-        let originalNSError = originalError as NSError
-        guard let afError = originalError as? AFError,
+    func processError(response: DataResponse<Any, AFError>) -> NSError {
+        guard let originalNSError = response.error as NSError? else {
+            return NSError()
+        }
+        
+        guard let afError = response.error,
             case AFError.responseValidationFailed(_) = afError,
             let httpResponse = response.response, (400...500).contains(httpResponse.statusCode),
             let data = response.data,
