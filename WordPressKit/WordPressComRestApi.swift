@@ -596,8 +596,8 @@ private extension AFError {
             return WordPressComRestApiError.unknown as NSError
         case .requestAdaptationFailed(let error as NSError):
             return error
-        case .requestRetryFailed(let retryError as NSError, _):
-            return retryError
+        case .requestRetryFailed(let error as NSError, _):
+            return error
         case .responseValidationFailed(_):
             return WordPressComRestApiError.unknown as NSError
         case .responseSerializationFailed(_):
