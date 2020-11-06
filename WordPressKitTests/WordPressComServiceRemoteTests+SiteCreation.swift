@@ -15,6 +15,7 @@ final class SiteCreationServiceTests: RemoteTestCase, RESTTestable {
 
         let request = SiteCreationRequest(
             segmentIdentifier: 1,
+            siteDesign: "default",
             verticalIdentifier: "p2v10",
             title: expectedTitle,
             tagline: "This is a site I like",
