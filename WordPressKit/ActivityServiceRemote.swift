@@ -14,6 +14,9 @@ public class ActivityServiceRemote: ServiceRemoteWordPressComREST {
     ///     - siteID: The target site's ID.
     ///     - offset: The first N activities to be skipped in the returned array.
     ///     - count: Number of objects to retrieve.
+    ///     - after: Only activies after the given Date will be returned
+    ///     - before: Only activies before the given Date will be returned
+    ///     - group: Array of strings of activity types, eg. post, attachment, user
     ///     - success: Closure to be executed on success
     ///     - failure: Closure to be executed on error.
     ///
@@ -22,15 +25,30 @@ public class ActivityServiceRemote: ServiceRemoteWordPressComREST {
     public func getActivityForSite(_ siteID: Int,
                                    offset: Int = 0,
                                    count: Int,
+                                   after: Date? = nil,
+                                   before: Date? = nil,
+                                   group: [String] = [],
                                    success: @escaping (_ activities: [Activity], _ hasMore: Bool) -> Void,
                                    failure: @escaping (Error) -> Void) {
         let endpoint = "sites/\(siteID)/activity"
         let path = self.path(forEndpoint: endpoint, withVersion: ._2_0)
         let pageNumber = (offset / count + 1)
-        let parameters: [String: AnyObject] = [
+        var parameters: [String: AnyObject] = [
             "number": count as AnyObject,
             "page": pageNumber as AnyObject
         ]
+
+        if !group.isEmpty {
+            parameters["group[]"] = group.joined(separator: ",") as AnyObject
+        }
+
+        if let after = after {
+            parameters["after"] = format(date: after) as AnyObject
+        }
+
+        if let before = before {
+            parameters["before"] = format(date: before) as AnyObject
+        }
 
         wordPressComRestApi.GET(path,
                                 parameters: parameters,
@@ -91,7 +109,20 @@ public class ActivityServiceRemote: ServiceRemoteWordPressComREST {
                                 })
     }
 
+    /// Formats a Date to yyyy-MM-dd
+    ///
+    /// - Parameters:
+    ///     - date: A Date
+    ///
+    /// - Returns: The given Date in a yyyy-MM-dd String format
+    ///
+    private func format(date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        return formatter.string(from: date)
     }
+
+}
 
 private extension ActivityServiceRemote {
 

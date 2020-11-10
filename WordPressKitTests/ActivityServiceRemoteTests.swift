@@ -106,6 +106,28 @@ class ActivityServiceRemoteTests: RemoteTestCase, RESTTestable {
         waitForExpectations(timeout: timeout, handler: nil)
     }
 
+    func testGetActivityWithParameters() {
+        let expect = expectation(description: "Get activity for site success when calling with after, before, and group")
+
+        stubRemoteResponse("after=1970-01-01&before=1970-01-02&group%5B%5D=post%2Cuser&number=20&page=6", filename: getActivitySuccessThreeMockFilename, contentType: .ApplicationJSON)
+        remote.getActivityForSite(siteID,
+                                  offset: 100,
+                                  count: 20,
+                                  after: Date(timeIntervalSince1970: 60 * 60 * 24),
+                                  before: Date(timeIntervalSince1970: 60 * 60 * 24 * 2),
+                                  group: ["post", "user"],
+                                  success: { (activities, hasMore) in
+                                      XCTAssertEqual(activities.count, 19, "The activity count should be 19")
+                                      XCTAssertEqual(hasMore, false, "The value of hasMore should be false")
+                                      expect.fulfill()
+                                  }, failure: { error in
+                                      XCTFail("This callback shouldn't get called")
+                                      expect.fulfill()
+                                  })
+
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+
     func testGetActivityWithBadAuthFails() {
         let expect = expectation(description: "Get activity with bad auth failure")
 
