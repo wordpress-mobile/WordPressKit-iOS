@@ -34,7 +34,7 @@ class MockWordPressComRestApi: WordPressComRestApi {
                                 fileParts: [FilePart],
                                 requestEnqueued: RequestEnqueuedBlock? = nil,
                                 success: @escaping SuccessResponseBlock,
-                                failure: @escaping FailureReponseBlock) -> Progress? {
+                                failure: @escaping FailureResponseBlock) -> Progress? {
 
         postMethodCalled = true
         URLStringPassedIn = URLString

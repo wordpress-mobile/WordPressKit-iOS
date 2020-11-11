@@ -262,8 +262,8 @@ class WordPressComRestApiTests: XCTestCase {
             XCTFail("This call should fail")
         }, failure: { (error, httpResponse) in
             expect.fulfill()
-            XCTAssert(error.domain == NSURLErrorDomain, "The error domain should be NSURLErrorDomain")
-            XCTAssert(error.code == NSURLErrorCancelled, "The error code should be NSURLErrorCancelled")
+            XCTAssertEqual(error.domain, NSURLErrorDomain, "The error domain should be NSURLErrorDomain")
+            XCTAssertEqual(error.code, NSURLErrorCancelled, "The error code should be NSURLErrorCancelled")
         })
         self.waitForExpectations(timeout: 2, handler: nil)
     }

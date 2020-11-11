@@ -27,29 +27,37 @@ public protocol Endpoint {
 }
 
 extension Endpoint {
-    func request(completion: @escaping (Result<Output>) -> Void) {
+    func request(completion: @escaping (Swift.Result<Output, AFError>) -> Void) {
         do {
             let request = try buildRequest()
-
-            Alamofire
+            
+            AF
                 .request(request)
                 .validate()
                 .validate({ (request, response, data) in
                     do {
                         try self.validate(request: request, response: response, data: data)
-                        return .success
+                        return .success(())
                     } catch {
                         return .failure(error)
                     }
                 })
                 .responseData(queue: DispatchQueue.global(qos: .utility), completionHandler: { (response) in
-                    let result = response.result.flatMap(self.parseResponse(data:))
+                    let result = response.result.flatMap({ (data) -> Result<Self.Output, AFError> in
+                        do {
+                            return .success(try self.parseResponse(data: data))
+                        }
+                        catch {
+                            return .failure(error as! AFError)
+                        }
+                        
+                    })
                     DispatchQueue.main.async {
                         completion(result)
                     }
                 })
         } catch {
-            completion(.failure(error))
+            completion(.failure(error as! AFError))
         }
     }
 }

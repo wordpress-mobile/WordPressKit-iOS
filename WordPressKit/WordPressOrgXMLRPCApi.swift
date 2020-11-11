@@ -13,21 +13,13 @@ open class WordPressOrgXMLRPCApi: NSObject {
     private var backgroundSessionIdentifier: String
     @objc public static let defaultBackgroundSessionIdentifier = "org.wordpress.wporgxmlrpcapi"
 
-    /// onChallenge's Callback Closure Signature. Host Apps should call this method, whenever a proper AuthChallengeDisposition has been
-    /// picked up (optionally with URLCredentials!).
-    ///
-    public typealias AuthenticationHandler = (URLSession.AuthChallengeDisposition, URLCredential?) -> Void
-
-    /// Closure to be executed whenever we receive a URLSession Authentication Challenge.
-    ///
-    public static var onChallenge: ((URLAuthenticationChallenge, @escaping AuthenticationHandler) -> Void)?
 
     /// Minimum WordPress.org Supported Version.
     ///
     @objc public static let minimumSupportedVersion = "4.0"
 
-    private var _sessionManager: Alamofire.SessionManager?
-    private var sessionManager: Alamofire.SessionManager {
+    private var _sessionManager: Alamofire.Session?
+    private var sessionManager: Alamofire.Session {
         guard let sessionManager = _sessionManager else {
             let sessionConfiguration = URLSessionConfiguration.default
             let sessionManager = self.makeSessionManager(configuration: sessionConfiguration)
@@ -37,8 +29,8 @@ open class WordPressOrgXMLRPCApi: NSObject {
         return sessionManager
     }
 
-    private var _uploadSessionManager: Alamofire.SessionManager?
-    private var uploadSessionManager: Alamofire.SessionManager {
+    private var _uploadSessionManager: Alamofire.Session?
+    private var uploadSessionManager: Alamofire.Session {
         if self.backgroundUploads {
             guard let uploadSessionManager = _uploadSessionManager else {
                 let sessionConfiguration = URLSessionConfiguration.background(withIdentifier: self.backgroundSessionIdentifier)
@@ -51,23 +43,15 @@ open class WordPressOrgXMLRPCApi: NSObject {
         return sessionManager
     }
 
-    private func makeSessionManager(configuration sessionConfiguration: URLSessionConfiguration) -> Alamofire.SessionManager {
+    private func makeSessionManager(configuration sessionConfiguration: URLSessionConfiguration) -> Alamofire.Session {
         var additionalHeaders: [String : AnyObject] = ["Accept-Encoding": "gzip, deflate" as AnyObject]
         if let userAgent = self.userAgent {
             additionalHeaders["User-Agent"] = userAgent as AnyObject?
         }
         sessionConfiguration.httpAdditionalHeaders = additionalHeaders
-        let sessionManager = Alamofire.SessionManager(configuration: sessionConfiguration)
-
-        let sessionDidReceiveChallengeWithCompletion: ((URLSession, URLAuthenticationChallenge, @escaping(URLSession.AuthChallengeDisposition, URLCredential?) -> Void) -> Void) = { [weak self] session, authenticationChallenge, completionHandler in
-            self?.urlSession(session, didReceive: authenticationChallenge, completionHandler: completionHandler)
-        }
-        sessionManager.delegate.sessionDidReceiveChallengeWithCompletion = sessionDidReceiveChallengeWithCompletion
-
-        let  taskDidReceiveChallengeWithCompletion: ((URLSession, URLSessionTask, URLAuthenticationChallenge,  @escaping(URLSession.AuthChallengeDisposition, URLCredential?) -> Void) -> Void) = { [weak self] session, task, authenticationChallenge, completionHandler in
-            self?.urlSession(session, task: task, didReceive: authenticationChallenge, completionHandler: completionHandler)
-        }
-        sessionManager.delegate.taskDidReceiveChallengeWithCompletion = taskDidReceiveChallengeWithCompletion
+        sessionConfiguration.urlCredentialStorage = .shared
+        
+        let sessionManager = Alamofire.Session(configuration: sessionConfiguration)
         return sessionManager
     }
 
@@ -308,68 +292,6 @@ open class WordPressOrgXMLRPCApi: NSObject {
             return NSError(domain: error.domain, code: error.code, userInfo: userInfo as? [String : Any])
         }
         return error
-    }
-}
-
-extension WordPressOrgXMLRPCApi {
-
-    @objc public func urlSession(_ session: URLSession,
-                           didReceive challenge: URLAuthenticationChallenge,
-                           completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
-
-        switch challenge.protectionSpace.authenticationMethod {
-        case NSURLAuthenticationMethodServerTrust:
-            if let credential = URLCredentialStorage.shared.defaultCredential(for: challenge.protectionSpace), challenge.previousFailureCount == 0 {
-                completionHandler(.useCredential, credential)
-                return
-            }
-
-            guard let serverTrust = challenge.protectionSpace.serverTrust else {
-                completionHandler(.performDefaultHandling, nil)
-                return
-            }
-
-            var result = SecTrustResultType.invalid
-            let certificateStatus = SecTrustEvaluate(serverTrust, &result)
-
-            guard let hostAppHandler = WordPressOrgXMLRPCApi.onChallenge, certificateStatus == 0, result == .recoverableTrustFailure else {
-                completionHandler(.performDefaultHandling, nil)
-                return
-            }
-
-            DispatchQueue.main.async {
-                hostAppHandler(challenge, completionHandler)
-            }
-
-        default:
-            completionHandler(.performDefaultHandling, nil)
-        }
-    }
-
-    @objc public func urlSession(_ session: URLSession,
-                           task: URLSessionTask,
-                           didReceive challenge: URLAuthenticationChallenge,
-                           completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
-
-        switch challenge.protectionSpace.authenticationMethod {
-        case NSURLAuthenticationMethodHTTPBasic:
-            if let credential = URLCredentialStorage.shared.defaultCredential(for: challenge.protectionSpace), challenge.previousFailureCount == 0 {
-                completionHandler(.useCredential, credential)
-                return
-            }
-
-            guard let hostAppHandler = WordPressOrgXMLRPCApi.onChallenge else {
-                completionHandler(.performDefaultHandling, nil)
-                return
-            }
-
-            DispatchQueue.main.async {
-                hostAppHandler(challenge, completionHandler)
-            }
-
-        default:
-            completionHandler(.performDefaultHandling, nil)
-        }
     }
 }
 
