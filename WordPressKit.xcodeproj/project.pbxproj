@@ -26,6 +26,7 @@
 		32A29A1F236BE4CC009488C2 /* post-autosave-mapping-success.json in Resources */ = {isa = PBXBuildFile; fileRef = 32A29A1E236BE4CC009488C2 /* post-autosave-mapping-success.json */; };
 		32AF21E3236DEB3C001C6502 /* PostServiceRemoteRESTAutosaveTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32AF21E2236DEB3C001C6502 /* PostServiceRemoteRESTAutosaveTests.swift */; };
 		32E1DD23236AA09A008914B0 /* RemotePostAutosave.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32E1DD22236AA09A008914B0 /* RemotePostAutosave.swift */; };
+		32FC1D28255C91ED00CD0A7B /* JetpackScan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32FC1D26255C91ED00CD0A7B /* JetpackScan.swift */; };
 		3F758FD324F6C68200BBA2FC /* AnnouncementServiceRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F758FD224F6C68200BBA2FC /* AnnouncementServiceRemote.swift */; };
 		40247DFA2120D8E100AE1C3C /* AutomatedTransferService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40247DF92120D8E100AE1C3C /* AutomatedTransferService.swift */; };
 		40247DFC2120E69600AE1C3C /* AutomatedTransferStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40247DFB2120E69600AE1C3C /* AutomatedTransferStatus.swift */; };
@@ -567,6 +568,7 @@
 		32A29A1E236BE4CC009488C2 /* post-autosave-mapping-success.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "post-autosave-mapping-success.json"; sourceTree = "<group>"; };
 		32AF21E2236DEB3C001C6502 /* PostServiceRemoteRESTAutosaveTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostServiceRemoteRESTAutosaveTests.swift; sourceTree = "<group>"; };
 		32E1DD22236AA09A008914B0 /* RemotePostAutosave.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemotePostAutosave.swift; sourceTree = "<group>"; };
+		32FC1D26255C91ED00CD0A7B /* JetpackScan.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JetpackScan.swift; sourceTree = "<group>"; };
 		3F758FD224F6C68200BBA2FC /* AnnouncementServiceRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnouncementServiceRemote.swift; sourceTree = "<group>"; };
 		40247DF92120D8E100AE1C3C /* AutomatedTransferService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutomatedTransferService.swift; sourceTree = "<group>"; };
 		40247DFB2120E69600AE1C3C /* AutomatedTransferStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutomatedTransferStatus.swift; sourceTree = "<group>"; };
@@ -1114,6 +1116,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		32FC1D25255C91ED00CD0A7B /* Jetpack Scan */ = {
+			isa = PBXGroup;
+			children = (
+				32FC1D26255C91ED00CD0A7B /* JetpackScan.swift */,
+			);
+			path = "Jetpack Scan";
+			sourceTree = "<group>";
+		};
 		38C6ABE94A27A12C9C4AD19D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -1499,6 +1509,7 @@
 				74585B8D1F0D51A100E7E667 /* DomainsServiceRemote.swift */,
 				74650F711F0EA1A700188EDB /* GravatarServiceRemote.swift */,
 				1769DEA924729AFF00F42EFC /* HomepageSettingsServiceRemote.swift */,
+				32FC1D25255C91ED00CD0A7B /* Jetpack Scan */,
 				9A2D0B27225E0119009E585F /* JetpackServiceRemote.swift */,
 				74DA56361F06EB0500FE9BF4 /* MediaServiceRemote.h */,
 				74DA562E1F06EAF000FE9BF4 /* MediaServiceRemoteREST.h */,
@@ -2576,6 +2587,7 @@
 				3236F77824AE34B40088E8F3 /* ReaderTopicServiceRemote+Interests.swift in Sources */,
 				93BD27831EE73944002BB00B /* WordPressRSDParser.swift in Sources */,
 				7328420421CD786C00126755 /* WordPressComServiceRemote+SiteCreation.swift in Sources */,
+				32FC1D28255C91ED00CD0A7B /* JetpackScan.swift in Sources */,
 				826016F31F9FA17B00533B6C /* Activity.swift in Sources */,
 				40819783221F5C8200A298E4 /* StatsPostDetails.swift in Sources */,
 				7397F01A220A072500C723F3 /* ActivityServiceRemote_ApiVersion1_0.swift in Sources */,
