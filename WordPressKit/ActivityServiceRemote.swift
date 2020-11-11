@@ -2,7 +2,7 @@ import Foundation
 import WordPressShared
 import CocoaLumberjack
 
-public class ActivityServiceRemote: ServiceRemoteWordPressComREST {
+open class ActivityServiceRemote: ServiceRemoteWordPressComREST {
 
     public enum ResponseError: Error {
         case decodingFailure
@@ -22,7 +22,7 @@ public class ActivityServiceRemote: ServiceRemoteWordPressComREST {
     ///
     /// - Returns: An array of activities and a boolean indicating if there's more activities to fetch.
     ///
-    public func getActivityForSite(_ siteID: Int,
+    open func getActivityForSite(_ siteID: Int,
                                    offset: Int = 0,
                                    count: Int,
                                    after: Date? = nil,
@@ -75,7 +75,7 @@ public class ActivityServiceRemote: ServiceRemoteWordPressComREST {
     ///
     /// - Returns: The current rewind status for the site.
     ///
-    public func getRewindStatus(_ siteID: Int,
+    open func getRewindStatus(_ siteID: Int,
                                 success: @escaping (RewindStatus) -> Void,
                                 failure: @escaping (Error) -> Void) {
         let endpoint = "sites/\(siteID)/rewind"
