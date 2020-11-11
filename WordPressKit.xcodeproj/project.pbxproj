@@ -27,6 +27,7 @@
 		32AF21E3236DEB3C001C6502 /* PostServiceRemoteRESTAutosaveTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32AF21E2236DEB3C001C6502 /* PostServiceRemoteRESTAutosaveTests.swift */; };
 		32E1DD23236AA09A008914B0 /* RemotePostAutosave.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32E1DD22236AA09A008914B0 /* RemotePostAutosave.swift */; };
 		32FC1D28255C91ED00CD0A7B /* JetpackScan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32FC1D26255C91ED00CD0A7B /* JetpackScan.swift */; };
+		32FC1D29255C91ED00CD0A7B /* JetpackScanServiceRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32FC1D27255C91ED00CD0A7B /* JetpackScanServiceRemote.swift */; };
 		3F758FD324F6C68200BBA2FC /* AnnouncementServiceRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F758FD224F6C68200BBA2FC /* AnnouncementServiceRemote.swift */; };
 		40247DFA2120D8E100AE1C3C /* AutomatedTransferService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40247DF92120D8E100AE1C3C /* AutomatedTransferService.swift */; };
 		40247DFC2120E69600AE1C3C /* AutomatedTransferStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40247DFB2120E69600AE1C3C /* AutomatedTransferStatus.swift */; };
@@ -569,6 +570,7 @@
 		32AF21E2236DEB3C001C6502 /* PostServiceRemoteRESTAutosaveTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostServiceRemoteRESTAutosaveTests.swift; sourceTree = "<group>"; };
 		32E1DD22236AA09A008914B0 /* RemotePostAutosave.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemotePostAutosave.swift; sourceTree = "<group>"; };
 		32FC1D26255C91ED00CD0A7B /* JetpackScan.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JetpackScan.swift; sourceTree = "<group>"; };
+		32FC1D27255C91ED00CD0A7B /* JetpackScanServiceRemote.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JetpackScanServiceRemote.swift; sourceTree = "<group>"; };
 		3F758FD224F6C68200BBA2FC /* AnnouncementServiceRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnouncementServiceRemote.swift; sourceTree = "<group>"; };
 		40247DF92120D8E100AE1C3C /* AutomatedTransferService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutomatedTransferService.swift; sourceTree = "<group>"; };
 		40247DFB2120E69600AE1C3C /* AutomatedTransferStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutomatedTransferStatus.swift; sourceTree = "<group>"; };
@@ -1120,6 +1122,7 @@
 			isa = PBXGroup;
 			children = (
 				32FC1D26255C91ED00CD0A7B /* JetpackScan.swift */,
+				32FC1D27255C91ED00CD0A7B /* JetpackScanServiceRemote.swift */,
 			);
 			path = "Jetpack Scan";
 			sourceTree = "<group>";
@@ -2581,6 +2584,7 @@
 				40F98809221AC88700B7B369 /* StatsPostingStreakInsight.swift in Sources */,
 				93C674EC1EE8348F00BFAF05 /* RemoteBlogOptionsHelper.m in Sources */,
 				E632D7781F6E047400297F6D /* SocialLogin2FANonceInfo.swift in Sources */,
+				32FC1D29255C91ED00CD0A7B /* JetpackScanServiceRemote.swift in Sources */,
 				9F3E0B9B208732B3009CB5BA /* RemoteReaderSiteInfoSubscription.swift in Sources */,
 				7403A2E41EF06ED500DED7DC /* AccountSettingsRemote.swift in Sources */,
 				93C674E81EE8345300BFAF05 /* RemoteBlog.m in Sources */,
