@@ -6,7 +6,7 @@ import Foundation
 /// This value type is intended to express a site creation request.
 ///
 public struct SiteCreationRequest: Encodable {
-    public let segmentIdentifier: Int64
+    public let segmentIdentifier: Int64?
     public let verticalIdentifier: String?
     public let title: String
     public let tagline: String?
@@ -16,8 +16,10 @@ public struct SiteCreationRequest: Encodable {
     public let shouldValidate: Bool
     public let clientIdentifier: String
     public let clientSecret: String
+    public let siteDesign: String?
 
-    public init(segmentIdentifier: Int64,
+    public init(segmentIdentifier: Int64?,
+                siteDesign: String?,
                 verticalIdentifier: String?,
                 title: String,
                 tagline: String?,
@@ -29,6 +31,7 @@ public struct SiteCreationRequest: Encodable {
                 clientSecret: String) {
 
         self.segmentIdentifier = segmentIdentifier
+        self.siteDesign = siteDesign
         self.verticalIdentifier = verticalIdentifier
         self.title = title
         self.tagline = tagline
@@ -59,7 +62,7 @@ public struct SiteCreationRequest: Encodable {
         } else {
             siteInfo = nil
         }
-        let options = SiteCreationOptions(segmentIdentifier: segmentIdentifier, verticalIdentifier: verticalIdentifier, siteInformation: siteInfo)
+        let options = SiteCreationOptions(segmentIdentifier: segmentIdentifier, verticalIdentifier: verticalIdentifier, siteInformation: siteInfo, siteDesign: siteDesign)
 
         try container.encode(options, forKey: .options)
     }
@@ -77,14 +80,16 @@ public struct SiteCreationRequest: Encodable {
 }
 
 private struct SiteCreationOptions: Encodable {
-    let segmentIdentifier: Int64
+    let segmentIdentifier: Int64?
     let verticalIdentifier: String?
     let siteInformation: SiteInformation?
+    let siteDesign: String?
 
     enum CodingKeys: String, CodingKey {
         case segmentIdentifier  = "site_segment"
         case verticalIdentifier = "site_vertical"
         case siteInformation    = "site_information"
+        case siteDesign         = "template"
     }
 }
 
