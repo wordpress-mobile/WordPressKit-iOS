@@ -68,10 +68,7 @@ public struct JetpackScanStatus: Decodable {
 
         isInitial = try container.decode(Bool.self, forKey: .isInitial)
         progress = try container.decode(Int.self, forKey: .progress)
-
-        let dateString = try container.decode(String.self, forKey: .timestamp)
-        startDate = dateFormatter.date(from: dateString)
-
+        startDate = try container.decode(ISO8601Date.self, forKey: .timestamp)
         duration = try? container.decode(TimeInterval.self, forKey: .duration)
 
         if duration == nil, let date = startDate {
@@ -81,13 +78,6 @@ public struct JetpackScanStatus: Decodable {
         error = try? container.decode(Bool.self, forKey: .error)
     }
 
-    private var dateFormatter: DateFormatter {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
-        return dateFormatter
-    }
-
-    // MARK: - Private: Decoable
     private enum CodingKeys: String, CodingKey {
         case isInitial = "is_initial"
         case timestamp
