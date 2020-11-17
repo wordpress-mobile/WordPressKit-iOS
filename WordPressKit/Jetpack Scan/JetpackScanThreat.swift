@@ -116,7 +116,7 @@ public struct JetpackScanThreat: Decodable {
         // context attr was present or not
         if let contextDict = try? container.decode([String: Any].self, forKey: .context) {
             context = JetpackThreatContext(with: contextDict)
-        } else if let contextString = try? container.decode(String.self, forKey: .context) {
+        } else if ((try? container.decode(String.self, forKey: .context)) != nil) {
             context = JetpackThreatContext.emptyObject()
         }
 
