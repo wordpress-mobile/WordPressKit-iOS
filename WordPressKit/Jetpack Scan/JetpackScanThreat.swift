@@ -18,25 +18,19 @@ public struct JetpackScanThreat: Decodable {
 
         case unknown
 
-        init?(threat: JetpackScanThreat) {
+        init(threat: JetpackScanThreat) {
             // Logic used from https://github.com/Automattic/wp-calypso/blob/5a6b257ad97b361fa6f6a6e496cbfc0ef952b921/client/components/jetpack/threat-item/utils.ts#L11
             if threat.diff != nil {
                 self = .core
-            }
-
-            if threat.context != nil {
+            } else if threat.context != nil {
                 self =  .file
-            }
-
-            if let ext = threat.extension {
+            } else if let ext = threat.extension {
                 self = ThreatType(rawValue: ext.type.rawValue) ?? .unknown
-            }
-
-            if threat.rows != nil || threat.signature.contains(Constants.databaseSignature) {
+            } else if threat.rows != nil || threat.signature.contains(Constants.databaseSignature) {
                 self = .database
+            } else {
+                self = .unknown
             }
-
-            return nil
         }
 
         private struct Constants {
@@ -121,7 +115,7 @@ public struct JetpackScanThreat: Decodable {
         }
 
         // Calculate the type of threat last
-        type = ThreatType(threat: self) ?? .unknown
+        type = ThreatType(threat: self)
     }
 
     private enum CodingKeys: String, CodingKey {
