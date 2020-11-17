@@ -5,6 +5,8 @@ public struct JetpackScanThreat: Decodable {
         case fixed
         case ignored
         case current
+
+        case unknown
     }
 
     public enum ThreatType: String {
@@ -89,16 +91,22 @@ public struct JetpackScanThreat: Decodable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
+        // Define a placeholder type
         type = .unknown
+
         id = try container.decode(Int.self, forKey: .id)
         signature = try container.decode(String.self, forKey: .signature)
+        fileName = try container.decode(String.self, forKey: .fileName)
         description = try container.decode(String.self, forKey: .description)
         firstDetected = try container.decode(ISO8601Date.self, forKey: .firstDetected)
-        signature = try container.decode(String.self, forKey: .signature)
+        fixedOn = try? container.decode(ISO8601Date.self, forKey: .fixedOn)
         fixable = try? container.decode(JetpackScanThreatFixer.self, forKey: .fixable)
         `extension` = try? container.decode(JetpackThreatExtension.self, forKey: .extension)
         diff = try? container.decode(String.self, forKey: .diff)
         rows = try? container.decode([String: Any].self, forKey: .rows)
+
+        let statusString = try container.decode(String.self, forKey: .status)
+        status = ThreatStatus(rawValue: statusString) ?? .unknown
 
         // Context obj can either be:
         // - not present
@@ -114,18 +122,22 @@ public struct JetpackScanThreat: Decodable {
 
         // Calculate the type of threat last
         type = ThreatType(threat: self) ?? .unknown
+
     }
 
     private enum CodingKeys: String, CodingKey {
         case id
         case signature
         case description
+        case fileName = "filename"
         case firstDetected = "first_detected"
         case fixable
         case `extension`
         case diff
         case context
         case rows
+        case status
+        case fixedOn = "fixed_on"
     }
 }
 
