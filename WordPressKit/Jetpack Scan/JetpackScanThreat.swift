@@ -100,8 +100,16 @@ public struct JetpackScanThreat: Decodable {
         diff = try? container.decode(String.self, forKey: .diff)
         rows = try? container.decode([String: Any].self, forKey: .rows)
 
+        // Context obj can either be:
+        // - not present
+        // - a dictionary
+        // - an empty string
+        // we can not just set to nil because the threat type logic needs to know if the
+        // context attr was present or not
         if let contextDict = try? container.decode([String: Any].self, forKey: .context) {
             context = JetpackThreatContext(with: contextDict)
+        } else if let contextString = try? container.decode(String.self, forKey: .context) {
+            context = JetpackThreatContext.emptyObject()
         }
 
         // Calculate the type of threat last
@@ -201,7 +209,15 @@ public struct JetpackThreatContext {
         var highlights: [NSRange]? = nil
     }
 
-    var lines: [ThreatContextLine]
+    let lines: [ThreatContextLine]
+
+    public static func emptyObject() -> JetpackThreatContext {
+        return JetpackThreatContext(with: [])
+    }
+
+    public init(with lines: [ThreatContextLine]) {
+        self.lines = lines
+    }
 
     public init?(with dict: [String: Any]){
         guard let marksDict = dict["marks"] as? [String: Any] else {
@@ -236,6 +252,7 @@ public struct JetpackThreatContext {
         // Since the dictionary keys are unsorted, resort by line number
         self.lines =  lines.sorted { $0.lineNumber < $1.lineNumber }
     }
+
 
     /// Parses the marks dictionary and converts them to an array of NSRange's
     private static func highlights(with dict: [String: Any], for key: String) -> [NSRange]? {
