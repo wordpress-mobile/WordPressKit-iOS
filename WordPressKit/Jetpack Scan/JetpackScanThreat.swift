@@ -31,6 +31,8 @@ public struct JetpackScanThreat: Decodable {
     /// The date the threat was fixed on
     var fixedOn: Date? = nil
 
+    /// More information if the threat is a extension type (plugin or theme)
+    var `extension`: JetpackThreatExtension? = nil
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -42,6 +44,7 @@ public struct JetpackScanThreat: Decodable {
         firstDetected = try container.decode(ISO8601Date.self, forKey: .firstDetected)
         signature = try container.decode(String.self, forKey: .signature)
         fixable = try? container.decode(JetpackScanThreatFixer.self, forKey: .fixable)
+        `extension` = try? container.decode(JetpackThreatExtension.self, forKey: .extension)
     }
 
     private enum CodingKeys: String, CodingKey {
@@ -50,6 +53,7 @@ public struct JetpackScanThreat: Decodable {
         case description
         case firstDetected = "first_detected"
         case fixable
+        case `extension`
 /// An object that describes how a threat can be fixed
 public struct JetpackScanThreatFixer: Decodable {
     public enum ThreatFixType: String {
@@ -84,6 +88,42 @@ public struct JetpackScanThreatFixer: Decodable {
         case type = "fixer"
         case file
         case target
+    }
+}
+
+/// Represents plugin or theme additional metadata
+public struct JetpackThreatExtension: Decodable {
+    public enum JetpackThreatExtensionType: String {
+        case plugin
+        case theme
+
+        case unknown
+    }
+
+    var slug: String
+    var name: String
+    var type: JetpackThreatExtensionType
+    var isPremium: Bool = false
+    var version: String
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        slug = try container.decode(String.self, forKey: .slug)
+        name = try container.decode(String.self, forKey: .name)
+        version = try container.decode(String.self, forKey: .version)
+        isPremium = try container.decode(Bool.self, forKey: .isPremium)
+        
+        let typeString = try container.decode(String.self, forKey: .type)
+        type = JetpackThreatExtensionType(rawValue: typeString) ?? .unknown
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case type
+        case slug
+        case name
+        case version
+        case isPremium
     }
 }
     }
