@@ -7,6 +7,41 @@ public struct JetpackScanThreat: Decodable {
         case current
     }
 
+    public enum ThreatType: String {
+        case core
+        case file
+        case plugin
+        case theme
+        case database
+
+        case unknown
+
+        init?(threat: JetpackScanThreat) {
+            // Logic used from https://github.com/Automattic/wp-calypso/blob/5a6b257ad97b361fa6f6a6e496cbfc0ef952b921/client/components/jetpack/threat-item/utils.ts#L11
+            if threat.diff != nil {
+                self = .core
+            }
+
+            if threat.context != nil {
+                self =  .file
+            }
+
+            if let ext = threat.extension {
+                self = ThreatType(rawValue: ext.type.rawValue) ?? .unknown
+            }
+
+            if threat.rows != nil || threat.signature.contains(Constants.databaseSignature) {
+                self = .database
+            }
+
+            return nil
+        }
+
+        private struct Constants {
+            static let databaseSignature = "Suspicious.Links"
+        }
+    }
+
     /// The ID of the threat
     var id: Int
 
@@ -33,6 +68,9 @@ public struct JetpackScanThreat: Decodable {
 
     /// More information if the threat is a extension type (plugin or theme)
     var `extension`: JetpackThreatExtension? = nil
+
+    /// The type of threat this is
+    var type: ThreatType
 
     /// If this is a file based threat this will provide code context to be displayed
     /// Context example:
@@ -66,6 +104,8 @@ public struct JetpackScanThreat: Decodable {
             context = JetpackThreatContext(with: contextDict)
         }
 
+        // Calculate the type of threat last
+        type = ThreatType(threat: self) ?? .unknown
     }
 
     private enum CodingKeys: String, CodingKey {
