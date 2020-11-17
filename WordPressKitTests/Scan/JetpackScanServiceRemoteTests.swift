@@ -82,6 +82,30 @@ class JetpackScanServiceRemoteTests: RemoteTestCase, RESTTestable {
         waitForExpectations(timeout: timeout, handler: nil)
     }
 
+    /// Most recent scan object is being set correctly
+    func testReturnCredentials() {
+        let expect = expectation(description: "Get the credentials object successfully")
+        stubRemoteResponse("wpcom/v2/sites/1/scan/", filename: "jetpack-scan-idle-success-no-threats.json", contentType: .ApplicationJSON)
+
+        service.getScanForSite(1, success: { scan in
+            XCTAssertNotNil(scan.credentials)
+
+            let credentials = scan.credentials?.first
+
+            XCTAssertTrue(credentials?.host == "example.com")
+            XCTAssertTrue(credentials?.port == 21)
+            XCTAssertTrue(credentials?.user == "example")
+            XCTAssertTrue(credentials?.path == "/")
+            XCTAssertTrue(credentials?.type == "ftp")
+            XCTAssertTrue(credentials?.role == "main")
+            XCTAssertTrue(credentials?.stillValid == true)
+
+            expect.fulfill()
+        }, failure: { _ in })
+
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+
     // MARK: - Start Scan
 
     /// The scan starts successfully
