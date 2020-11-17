@@ -23,11 +23,13 @@
 		3236F77824AE34B40088E8F3 /* ReaderTopicServiceRemote+Interests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3236F77724AE34B40088E8F3 /* ReaderTopicServiceRemote+Interests.swift */; };
 		3236F79A24AE406D0088E8F3 /* ReaderTopicServiceRemote+InterestsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3236F79924AE406D0088E8F3 /* ReaderTopicServiceRemote+InterestsTests.swift */; };
 		3236F79C24AE413A0088E8F3 /* reader-interests-success.json in Resources */ = {isa = PBXBuildFile; fileRef = 3236F79B24AE413A0088E8F3 /* reader-interests-success.json */; };
+		3297E0502564371F00287D21 /* Decodable+ISO8601.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3297E04F2564371F00287D21 /* Decodable+ISO8601.swift */; };
 		32A29A1F236BE4CC009488C2 /* post-autosave-mapping-success.json in Resources */ = {isa = PBXBuildFile; fileRef = 32A29A1E236BE4CC009488C2 /* post-autosave-mapping-success.json */; };
 		32AF21E3236DEB3C001C6502 /* PostServiceRemoteRESTAutosaveTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32AF21E2236DEB3C001C6502 /* PostServiceRemoteRESTAutosaveTests.swift */; };
 		32E1DD23236AA09A008914B0 /* RemotePostAutosave.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32E1DD22236AA09A008914B0 /* RemotePostAutosave.swift */; };
 		32FC1D28255C91ED00CD0A7B /* JetpackScan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32FC1D26255C91ED00CD0A7B /* JetpackScan.swift */; };
 		32FC1D29255C91ED00CD0A7B /* JetpackScanServiceRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32FC1D27255C91ED00CD0A7B /* JetpackScanServiceRemote.swift */; };
+		32FC20CE255DCC6100CD0A7B /* JetpackScanThreat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32FC20CD255DCC6100CD0A7B /* JetpackScanThreat.swift */; };
 		3F758FD324F6C68200BBA2FC /* AnnouncementServiceRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F758FD224F6C68200BBA2FC /* AnnouncementServiceRemote.swift */; };
 		40247DFA2120D8E100AE1C3C /* AutomatedTransferService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40247DF92120D8E100AE1C3C /* AutomatedTransferService.swift */; };
 		40247DFC2120E69600AE1C3C /* AutomatedTransferStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40247DFB2120E69600AE1C3C /* AutomatedTransferStatus.swift */; };
@@ -566,11 +568,13 @@
 		3236F77724AE34B40088E8F3 /* ReaderTopicServiceRemote+Interests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReaderTopicServiceRemote+Interests.swift"; sourceTree = "<group>"; };
 		3236F79924AE406D0088E8F3 /* ReaderTopicServiceRemote+InterestsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReaderTopicServiceRemote+InterestsTests.swift"; sourceTree = "<group>"; };
 		3236F79B24AE413A0088E8F3 /* reader-interests-success.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "reader-interests-success.json"; sourceTree = "<group>"; };
+		3297E04F2564371F00287D21 /* Decodable+ISO8601.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Decodable+ISO8601.swift"; sourceTree = "<group>"; };
 		32A29A1E236BE4CC009488C2 /* post-autosave-mapping-success.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "post-autosave-mapping-success.json"; sourceTree = "<group>"; };
 		32AF21E2236DEB3C001C6502 /* PostServiceRemoteRESTAutosaveTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostServiceRemoteRESTAutosaveTests.swift; sourceTree = "<group>"; };
 		32E1DD22236AA09A008914B0 /* RemotePostAutosave.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemotePostAutosave.swift; sourceTree = "<group>"; };
 		32FC1D26255C91ED00CD0A7B /* JetpackScan.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JetpackScan.swift; sourceTree = "<group>"; };
 		32FC1D27255C91ED00CD0A7B /* JetpackScanServiceRemote.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JetpackScanServiceRemote.swift; sourceTree = "<group>"; };
+		32FC20CD255DCC6100CD0A7B /* JetpackScanThreat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JetpackScanThreat.swift; sourceTree = "<group>"; };
 		3F758FD224F6C68200BBA2FC /* AnnouncementServiceRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnouncementServiceRemote.swift; sourceTree = "<group>"; };
 		40247DF92120D8E100AE1C3C /* AutomatedTransferService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutomatedTransferService.swift; sourceTree = "<group>"; };
 		40247DFB2120E69600AE1C3C /* AutomatedTransferStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutomatedTransferStatus.swift; sourceTree = "<group>"; };
@@ -1123,6 +1127,7 @@
 			children = (
 				32FC1D26255C91ED00CD0A7B /* JetpackScan.swift */,
 				32FC1D27255C91ED00CD0A7B /* JetpackScanServiceRemote.swift */,
+				32FC20CD255DCC6100CD0A7B /* JetpackScanThreat.swift */,
 			);
 			path = "Jetpack Scan";
 			sourceTree = "<group>";
@@ -1940,6 +1945,7 @@
 				93C674EF1EE8351E00BFAF05 /* NSMutableDictionary+Helpers.h */,
 				93C674F01EE8351E00BFAF05 /* NSMutableDictionary+Helpers.m */,
 				9F4E51FF2088E38200424676 /* ObjectValidation.swift */,
+				3297E04F2564371F00287D21 /* Decodable+ISO8601.swift */,
 			);
 			name = Utility;
 			sourceTree = "<group>";
@@ -2670,6 +2676,8 @@
 				439A44D82107C85E00795ED7 /* PlanServiceRemote_ApiVersion1_3.swift in Sources */,
 				93C674EE1EE834B700BFAF05 /* RemoteBlogSettings.swift in Sources */,
 				436D5641211B7F4400CEAA33 /* DomainContactInformation.swift in Sources */,
+				32FC20CE255DCC6100CD0A7B /* JetpackScanThreat.swift in Sources */,
+				3297E0502564371F00287D21 /* Decodable+ISO8601.swift in Sources */,
 				40A71C6E220E1D8E002E3D25 /* StatsServiceRemoteV2.swift in Sources */,
 				82FFBF521F45F04100F4573F /* RemoteBlogJetpackMonitorSettings.swift in Sources */,
 				462422292548B98A002B8A12 /* SiteDesignServiceRemote.swift in Sources */,
