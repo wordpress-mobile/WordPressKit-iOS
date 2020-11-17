@@ -26,23 +26,23 @@ public class JetpackScanServiceRemote: ServiceRemoteWordPressComREST {
     public func startScanForSite(_ siteID: Int, success: @escaping(Bool) -> Void, failure: @escaping(Error) -> Void) {
         let path = self.scanPath(for: siteID, with: "enqueue")
 
-        wordPressComRestApi.POST(path, parameters: nil) { (response, _) in
+        wordPressComRestApi.POST(path, parameters: nil, success: { (response, _) in
             guard let responseValue = response["success"] as? Bool else {
                 success(false)
                 return
             }
 
             success(responseValue)
-        } failure: { (error, _) in
+        }, failure: { (error, _) in
             failure(error)
-        }
+        })
     }
 
     /// Gets the main scan object
     public func getScanForSite(_ siteID: Int, success: @escaping(JetpackScan) -> Void, failure: @escaping(Error) -> Void) {
         let path = self.scanPath(for: siteID)
 
-        wordPressComRestApi.GET(path, parameters: nil) { (response, _) in
+        wordPressComRestApi.GET(path, parameters: nil, success: { (response, _) in
             do {
                 let decoder = JSONDecoder()
                 let data = try JSONSerialization.data(withJSONObject: response, options: [])
@@ -53,9 +53,9 @@ public class JetpackScanServiceRemote: ServiceRemoteWordPressComREST {
                 failure(error)
             }
 
-        } failure: { (error, _) in
+        }, failure: { (error, _) in
             failure(error)
-        }
+        })
     }
 
     // MARK: - Private
