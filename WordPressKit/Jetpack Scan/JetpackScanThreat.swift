@@ -34,6 +34,11 @@ public struct JetpackScanThreat: Decodable {
     /// More information if the threat is a extension type (plugin or theme)
     var `extension`: JetpackThreatExtension? = nil
 
+    // Core modification threats will contain a git diff string
+    var diff: String? = nil
+
+    // Database threats will contain row information
+    var rows: [String: Any]? = nil
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
@@ -45,6 +50,8 @@ public struct JetpackScanThreat: Decodable {
         signature = try container.decode(String.self, forKey: .signature)
         fixable = try? container.decode(JetpackScanThreatFixer.self, forKey: .fixable)
         `extension` = try? container.decode(JetpackThreatExtension.self, forKey: .extension)
+        diff = try? container.decode(String.self, forKey: .diff)
+        rows = try? container.decode([String: Any].self, forKey: .rows)
     }
 
     private enum CodingKeys: String, CodingKey {
@@ -54,6 +61,8 @@ public struct JetpackScanThreat: Decodable {
         case firstDetected = "first_detected"
         case fixable
         case `extension`
+        case diff
+        case rows
 /// An object that describes how a threat can be fixed
 public struct JetpackScanThreatFixer: Decodable {
     public enum ThreatFixType: String {
