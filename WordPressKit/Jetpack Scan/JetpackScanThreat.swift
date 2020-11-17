@@ -50,5 +50,41 @@ public struct JetpackScanThreat: Decodable {
         case description
         case firstDetected = "first_detected"
         case fixable
+/// An object that describes how a threat can be fixed
+public struct JetpackScanThreatFixer: Decodable {
+    public enum ThreatFixType: String {
+        case replace
+        case delete
+        case update
+        case edit
+
+        case unknown
+    }
+
+    /// The suggested threat fix type
+    var type: ThreatFixType
+
+    /// The file path of the file to be fixed
+    var file: String? = nil
+
+    /// The target version to fix to
+    var target: String? = nil
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        let typeString = try container.decode(String.self, forKey: .type)
+        type = ThreatFixType(rawValue: typeString) ?? .unknown
+
+        file = try? container.decode(String.self, forKey: .file)
+        target = try? container.decode(String.self, forKey: .target)
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case type = "fixer"
+        case file
+        case target
+    }
+}
     }
 }
