@@ -1124,11 +1124,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3297E1DC2564649D00287D21 /* Scan */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Scan;
+			sourceTree = "<group>";
+		};
 		32FC1D25255C91ED00CD0A7B /* Jetpack Scan */ = {
 			isa = PBXGroup;
 			children = (
 				32FC1D26255C91ED00CD0A7B /* JetpackScan.swift */,
-				32FC1D27255C91ED00CD0A7B /* JetpackScanServiceRemote.swift */,
 				32FC20CD255DCC6100CD0A7B /* JetpackScanThreat.swift */,
 				3297E15525645C7D00287D21 /* JetpackCredentials.swift */,
 			);
@@ -1520,8 +1526,8 @@
 				74585B8D1F0D51A100E7E667 /* DomainsServiceRemote.swift */,
 				74650F711F0EA1A700188EDB /* GravatarServiceRemote.swift */,
 				1769DEA924729AFF00F42EFC /* HomepageSettingsServiceRemote.swift */,
-				32FC1D25255C91ED00CD0A7B /* Jetpack Scan */,
 				9A2D0B27225E0119009E585F /* JetpackServiceRemote.swift */,
+				32FC1D27255C91ED00CD0A7B /* JetpackScanServiceRemote.swift */,
 				74DA56361F06EB0500FE9BF4 /* MediaServiceRemote.h */,
 				74DA562E1F06EAF000FE9BF4 /* MediaServiceRemoteREST.h */,
 				74DA562F1F06EAF000FE9BF4 /* MediaServiceRemoteREST.m */,
@@ -1601,6 +1607,7 @@
 				E1EF5D5E1F9F3CA700B6D53E /* Plugins */,
 				9AF4F2FD2183345D00570E4B /* Revisions */,
 				930F52B91ECF8A44002F921B /* Stats */,
+				32FC1D25255C91ED00CD0A7B /* Jetpack Scan */,
 				7403A3011EF0726E00DED7DC /* AccountSettings.swift */,
 				7EC60EBF22DC5D7C00FB0336 /* EditorSettings.swift */,
 				74E229591F1E77290085F7F2 /* KeyringConnection.swift */,
@@ -1964,6 +1971,7 @@
 		9A2D0B29225E0DF7009E585F /* Jetpack */ = {
 			isa = PBXGroup;
 			children = (
+				3297E1DC2564649D00287D21 /* Scan */,
 				9A2D0B2A225E0E22009E585F /* JetpackServiceRemoteTests.swift */,
 			);
 			name = Jetpack;

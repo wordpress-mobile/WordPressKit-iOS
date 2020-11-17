@@ -22,7 +22,11 @@ public struct JetpackScan: Decodable {
     /// This will be nil if there is currently a scan taking place
     var mostRecent: JetpackScanStatus? = nil
 
+    /// An array of the current threats
+    /// During a scan this will return the previous scans threats
     var threats: [JetpackScanThreat]? = nil
+
+    /// A limited representation of the users credientals for each role
     var credentials: [JetpackScanCredentials]? = nil
 
     public init(from decoder: Decoder) throws {
