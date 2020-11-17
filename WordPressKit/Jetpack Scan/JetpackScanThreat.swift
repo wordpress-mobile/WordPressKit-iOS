@@ -90,14 +90,14 @@ public struct JetpackScanThreat: Decodable {
 
         id = try container.decode(Int.self, forKey: .id)
         signature = try container.decode(String.self, forKey: .signature)
-        fileName = try container.decode(String.self, forKey: .fileName)
+        fileName = try container.decodeIfPresent(String.self, forKey: .fileName)
         description = try container.decode(String.self, forKey: .description)
-        firstDetected = try container.decode(ISO8601Date.self, forKey: .firstDetected)
-        fixedOn = try? container.decode(ISO8601Date.self, forKey: .fixedOn)
-        fixable = try? container.decode(JetpackScanThreatFixer.self, forKey: .fixable)
-        `extension` = try? container.decode(JetpackThreatExtension.self, forKey: .extension)
-        diff = try? container.decode(String.self, forKey: .diff)
-        rows = try? container.decode([String: Any].self, forKey: .rows)
+        firstDetected = try container.decode(ISO8601WithMSDate.self, forKey: .firstDetected)
+        fixedOn = try container.decodeIfPresent(ISO8601WithMSDate.self, forKey: .fixedOn)
+        fixable = try? container.decodeIfPresent(JetpackScanThreatFixer.self, forKey: .fixable)
+        `extension` = try container.decodeIfPresent(JetpackThreatExtension.self, forKey: .extension)
+        diff = try container.decodeIfPresent(String.self, forKey: .diff)
+        rows = try container.decodeIfPresent([String: Any].self, forKey: .rows)
 
         let statusString = try container.decode(String.self, forKey: .status)
         status = ThreatStatus(rawValue: statusString) ?? .unknown
@@ -108,9 +108,9 @@ public struct JetpackScanThreat: Decodable {
         // - an empty string
         // we can not just set to nil because the threat type logic needs to know if the
         // context attr was present or not
-        if let contextDict = try? container.decode([String: Any].self, forKey: .context) {
+        if let contextDict = try container.decodeIfPresent([String: Any].self, forKey: .context) {
             context = JetpackThreatContext(with: contextDict)
-        } else if ((try? container.decode(String.self, forKey: .context)) != nil) {
+        } else if ((try container.decodeIfPresent(String.self, forKey: .context)) != nil) {
             context = JetpackThreatContext.emptyObject()
         }
 
@@ -160,8 +160,8 @@ public struct JetpackScanThreatFixer: Decodable {
         let typeString = try container.decode(String.self, forKey: .type)
         type = ThreatFixType(rawValue: typeString) ?? .unknown
 
-        file = try? container.decode(String.self, forKey: .file)
-        target = try? container.decode(String.self, forKey: .target)
+        file = try container.decodeIfPresent(String.self, forKey: .file)
+        target = try container.decodeIfPresent(String.self, forKey: .target)
     }
 
     private enum CodingKeys: String, CodingKey {
