@@ -4,24 +4,27 @@ import CocoaLumberjack
 
 
 public class JetpackScanServiceRemote: ServiceRemoteWordPressComREST {
-    /// Gets whether the site has the scan feature enabled
-    public func getScanEnabledForSite(_ siteID: Int, success: @escaping(Bool) -> Void, failure: @escaping(Error) -> Void) {
+    public func getScanAvailableForSite(_ siteID: Int, success: @escaping(Bool) -> Void, failure: @escaping(Error) -> Void) {
         getScanForSite(siteID, success: { (scan) in
             success(scan.isEnabled)
         }, failure: failure)
     }
 
-    /// Gets the current scan status
     public func getCurrentScanStatusForSite(_ siteID: Int, success: @escaping(JetpackScanStatus?) -> Void, failure: @escaping(Error) -> Void) {
-        getScanForSite(siteID, success: { (scan) in
+        getScanForSite(siteID, success: { scan in
             success(scan.current)
+        }, failure: failure)
+    }
+
+    public func getThreatsForSite(_ siteID: Int, success: @escaping([JetpackScanThreat]?) -> Void, failure: @escaping(Error) -> Void) {
+        getScanForSite(siteID, success: { scan in
+            success(scan.threats)
         }, failure: failure)
     }
 
     /// Starts a scan for a site
     public func startScanForSite(_ siteID: Int, success: @escaping(Bool) -> Void, failure: @escaping(Error) -> Void) {
         let path = self.scanPath(for: siteID, with: "enqueue")
-
 
         wordPressComRestApi.POST(path, parameters: nil) { (response, _) in
             guard let responseValue = response["success"] as? Bool else {
@@ -54,7 +57,6 @@ public class JetpackScanServiceRemote: ServiceRemoteWordPressComREST {
             failure(error)
         }
     }
-
 
     // MARK: - Private
     private func scanPath(for siteID: Int, with path: String? = nil) -> String {
