@@ -122,7 +122,6 @@ public struct JetpackScanThreat: Decodable {
 
         // Calculate the type of threat last
         type = ThreatType(threat: self) ?? .unknown
-
     }
 
     private enum CodingKeys: String, CodingKey {
@@ -287,7 +286,6 @@ public struct JetpackThreatContext {
     /// - Parameter array: An array that contains 2 numbers [start, length]
     /// - Returns: Nil if the array fails validation, or an NSRange
     private static func range(with array: [Double]) -> NSRange? {
-
         guard array.count == 2,
               let location = array.first,
               let length = array.last

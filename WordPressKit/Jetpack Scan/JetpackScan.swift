@@ -23,6 +23,7 @@ public struct JetpackScan: Decodable {
     var mostRecent: JetpackScanStatus? = nil
 
     var threats: [JetpackScanThreat]? = nil
+    var credentials: [JetpackScanCredentials]? = nil
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -34,6 +35,7 @@ public struct JetpackScan: Decodable {
         current = try? container.decode(JetpackScanStatus.self, forKey: .current)
         mostRecent = try? container.decode(JetpackScanStatus.self, forKey: .mostRecent)
         threats = try? container.decode([JetpackScanThreat].self, forKey: .threats)
+        credentials = try? container.decode([JetpackScanCredentials].self, forKey: .credentials)
     }
 
     // MARK: - Private: Decodable
@@ -43,6 +45,7 @@ public struct JetpackScan: Decodable {
         case current
         case mostRecent = "most_recent"
         case threats
+        case credentials
     }
 }
 
