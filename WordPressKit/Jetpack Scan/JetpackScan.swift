@@ -10,24 +10,24 @@ public struct JetpackScan: Decodable {
     }
 
     /// Whether the scan feature is available or not
-    var isEnabled: Bool = false
+    public var isEnabled: Bool = false
 
     /// The state of the current scan
-    var state: JetpackScanState = .idle
+    public var state: JetpackScanState = .idle
 
     /// If there is a scan in progress, this will return its status
-    var current: JetpackScanStatus? = nil
+    public var current: JetpackScanStatus? = nil
 
     /// Scan Status for the most recent scan
     /// This will be nil if there is currently a scan taking place
-    var mostRecent: JetpackScanStatus? = nil
+    public var mostRecent: JetpackScanStatus? = nil
 
     /// An array of the current threats
     /// During a scan this will return the previous scans threats
-    var threats: [JetpackScanThreat]? = nil
+    public var threats: [JetpackScanThreat]? = nil
 
     /// A limited representation of the users credientals for each role
-    var credentials: [JetpackScanCredentials]? = nil
+    public var credentials: [JetpackScanCredentials]? = nil
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -55,20 +55,20 @@ public struct JetpackScan: Decodable {
 
 // MARK: - JetpackScanStatus
 public struct JetpackScanStatus: Decodable {
-    var isInitial: Bool = false
+    public var isInitial: Bool = false
 
     /// The date the scan started
-    var startDate: Date? = nil
+    public var startDate: Date? = nil
 
     /// The progress of the scan from 0 - 100
-    var progress: Int
+    public var progress: Int
 
     /// How long the scan took / is taking
-    var duration: TimeInterval? = nil
+    public var duration: TimeInterval? = nil
 
     /// If there was an error finishing the scan
     /// This will only be available for past scans
-    var error: Bool?
+    public var error: Bool?
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -76,7 +76,7 @@ public struct JetpackScanStatus: Decodable {
         isInitial = try container.decode(Bool.self, forKey: .isInitial)
         progress = try container.decode(Int.self, forKey: .progress)
         startDate = try container.decode(ISO8601Date.self, forKey: .timestamp)
-        duration = try? container.decode(TimeInterval.self, forKey: .duration)
+        duration = try container.decodeIfPresent(TimeInterval.self, forKey: .duration)
 
         if duration == nil, let date = startDate {
             duration = NSDate().timeIntervalSince(date)

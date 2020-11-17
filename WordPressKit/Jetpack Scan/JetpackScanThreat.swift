@@ -39,34 +39,34 @@ public struct JetpackScanThreat: Decodable {
     }
 
     /// The ID of the threat
-    var id: Int
+    public let id: Int
 
     /// The name of the threat signature
-    var signature: String
+    public let signature: String
 
     /// The description of the threat signature
-    var description: String
+    public let description: String
 
     /// The date the threat was first detected
-    var firstDetected: Date
+    public let firstDetected: Date
 
     /// Whether the threat can be automatically fixed
-    var fixable: JetpackScanThreatFixer? = nil
+    public let fixable: JetpackScanThreatFixer?
 
     /// The filename
-    var fileName: String? = nil
+    public let fileName: String?
 
     /// The status of the threat (fixed, ignored, current)
-    var status: ThreatStatus? = nil
+    public let status: ThreatStatus?
 
     /// The date the threat was fixed on
-    var fixedOn: Date? = nil
+    public let fixedOn: Date?
 
     /// More information if the threat is a extension type (plugin or theme)
-    var `extension`: JetpackThreatExtension? = nil
+    public let `extension`: JetpackThreatExtension?
 
     /// The type of threat this is
-    var type: ThreatType
+    private(set) var type: ThreatType
 
     /// If this is a file based threat this will provide code context to be displayed
     /// Context example:
@@ -74,13 +74,13 @@ public struct JetpackScanThreat: Decodable {
     /// 4: VIRUS_SIG
     /// 5: end test
     /// marks: 4: (0, 9)
-    var context: JetpackThreatContext? = nil
+    public let context: JetpackThreatContext?
 
     // Core modification threats will contain a git diff string
-    var diff: String? = nil
+    public let diff: String?
 
     // Database threats will contain row information
-    var rows: [String: Any]? = nil
+    public let rows: [String: Any]?
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -94,7 +94,7 @@ public struct JetpackScanThreat: Decodable {
         description = try container.decode(String.self, forKey: .description)
         firstDetected = try container.decode(ISO8601WithMSDate.self, forKey: .firstDetected)
         fixedOn = try container.decodeIfPresent(ISO8601WithMSDate.self, forKey: .fixedOn)
-        fixable = try? container.decodeIfPresent(JetpackScanThreatFixer.self, forKey: .fixable)
+        fixable = try? container.decodeIfPresent(JetpackScanThreatFixer.self, forKey: .fixable) ?? nil
         `extension` = try container.decodeIfPresent(JetpackThreatExtension.self, forKey: .extension)
         diff = try container.decodeIfPresent(String.self, forKey: .diff)
         rows = try container.decodeIfPresent([String: Any].self, forKey: .rows)
@@ -112,6 +112,8 @@ public struct JetpackScanThreat: Decodable {
             context = JetpackThreatContext(with: contextDict)
         } else if ((try container.decodeIfPresent(String.self, forKey: .context)) != nil) {
             context = JetpackThreatContext.emptyObject()
+        } else {
+            context = nil
         }
 
         // Calculate the type of threat last
@@ -146,13 +148,13 @@ public struct JetpackScanThreatFixer: Decodable {
     }
 
     /// The suggested threat fix type
-    var type: ThreatFixType
+    public let type: ThreatFixType
 
     /// The file path of the file to be fixed
-    var file: String? = nil
+    public var file: String? = nil
 
     /// The target version to fix to
-    var target: String? = nil
+    public var target: String? = nil
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -180,11 +182,11 @@ public struct JetpackThreatExtension: Decodable {
         case unknown
     }
 
-    var slug: String
-    var name: String
-    var type: JetpackThreatExtensionType
-    var isPremium: Bool = false
-    var version: String
+    public let slug: String
+    public let name: String
+    public let type: JetpackThreatExtensionType
+    public let isPremium: Bool
+    public let version: String
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -214,7 +216,7 @@ public struct JetpackThreatContext {
         var highlights: [NSRange]? = nil
     }
 
-    let lines: [ThreatContextLine]
+    public let lines: [ThreatContextLine]
 
     public static func emptyObject() -> JetpackThreatContext {
         return JetpackThreatContext(with: [])

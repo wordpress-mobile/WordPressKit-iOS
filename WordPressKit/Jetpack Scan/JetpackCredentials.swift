@@ -1,16 +1,16 @@
 import Foundation
 
 /// A limited representation of the users Jetpack credentials
-struct JetpackScanCredentials: Decodable {
-    var host: String
-    var port: Int
-    var user: String
-    var path: String
-    var type: String
-    var role: String
-    var stillValid: Bool
+public struct JetpackScanCredentials: Decodable {
+    public let host: String
+    public let port: Int
+    public let user: String
+    public let path: String
+    public let type: String
+    public let role: String
+    public let stillValid: Bool
 
-    init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         host = try container.decode(String.self, forKey: .host)
         port = try container.decode(Int.self, forKey: .port)
@@ -21,7 +21,7 @@ struct JetpackScanCredentials: Decodable {
         stillValid = try container.decode(Bool.self, forKey: .stillValid)
     }
 
-     enum CodingKeys: String, CodingKey {
+    private enum CodingKeys: String, CodingKey {
         case host
         case port
         case user
