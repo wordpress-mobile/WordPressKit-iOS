@@ -22,6 +22,8 @@ public struct JetpackScan: Decodable {
     /// This will be nil if there is currently a scan taking place
     var mostRecent: JetpackScanStatus? = nil
 
+    var threats: [JetpackScanThreat]? = nil
+
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
@@ -31,15 +33,16 @@ public struct JetpackScan: Decodable {
 
         current = try? container.decode(JetpackScanStatus.self, forKey: .current)
         mostRecent = try? container.decode(JetpackScanStatus.self, forKey: .mostRecent)
+        threats = try? container.decode([JetpackScanThreat].self, forKey: .threats)
     }
 
-    // MARK: - Private: Decoable
+    // MARK: - Private: Decodable
     private enum CodingKeys: String, CodingKey {
         case isEnabled = "has_cloud"
         case state
         case current
         case mostRecent = "most_recent"
-        case unknown
+        case threats
     }
 }
 
