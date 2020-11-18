@@ -1,7 +1,7 @@
 import Foundation
 
 public struct JetpackScanThreat: Decodable {
-    public enum ThreatStatus: String {
+    public enum ThreatStatus: String, Decodable {
         case fixed
         case ignored
         case current
@@ -85,7 +85,7 @@ public struct JetpackScanThreat: Decodable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        // Define a placeholder type
+        // Define a placeholder type to prevent the used before initialized error
         type = .unknown
 
         id = try container.decode(Int.self, forKey: .id)
@@ -98,9 +98,7 @@ public struct JetpackScanThreat: Decodable {
         `extension` = try container.decodeIfPresent(JetpackThreatExtension.self, forKey: .extension)
         diff = try container.decodeIfPresent(String.self, forKey: .diff)
         rows = try container.decodeIfPresent([String: Any].self, forKey: .rows)
-
-        let statusString = try container.decode(String.self, forKey: .status)
-        status = ThreatStatus(rawValue: statusString) ?? .unknown
+        status = (try? container.decode(ThreatStatus.self, forKey: .status)) ?? .unknown
 
         // Context obj can either be:
         // - not present
@@ -121,24 +119,18 @@ public struct JetpackScanThreat: Decodable {
     }
 
     private enum CodingKeys: String, CodingKey {
-        case id
-        case signature
-        case description
         case fileName = "filename"
         case firstDetected = "first_detected"
-        case fixable
-        case `extension`
-        case diff
-        case context
-        case rows
-        case status
         case fixedOn = "fixed_on"
+        
+        case id, signature, description, fixable
+        case `extension`, diff, context, rows, status
     }
 }
 
 /// An object that describes how a threat can be fixed
 public struct JetpackScanThreatFixer: Decodable {
-    public enum ThreatFixType: String {
+    public enum ThreatFixType: String, Decodable {
         case replace
         case delete
         case update
@@ -151,31 +143,28 @@ public struct JetpackScanThreatFixer: Decodable {
     public let type: ThreatFixType
 
     /// The file path of the file to be fixed
-    public var file: String? = nil
+    public var file: String?
 
     /// The target version to fix to
-    public var target: String? = nil
+    public var target: String?
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        let typeString = try container.decode(String.self, forKey: .type)
-        type = ThreatFixType(rawValue: typeString) ?? .unknown
-
+        type = (try? container.decode(ThreatFixType.self, forKey: .type)) ?? .unknown
         file = try container.decodeIfPresent(String.self, forKey: .file)
         target = try container.decodeIfPresent(String.self, forKey: .target)
     }
 
     private enum CodingKeys: String, CodingKey {
         case type = "fixer"
-        case file
-        case target
+        case file, target
     }
 }
 
 /// Represents plugin or theme additional metadata
 public struct JetpackThreatExtension: Decodable {
-    public enum JetpackThreatExtensionType: String {
+    public enum JetpackThreatExtensionType: String, Decodable {
         case plugin
         case theme
 
@@ -187,33 +176,13 @@ public struct JetpackThreatExtension: Decodable {
     public let type: JetpackThreatExtensionType
     public let isPremium: Bool
     public let version: String
-
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-
-        slug = try container.decode(String.self, forKey: .slug)
-        name = try container.decode(String.self, forKey: .name)
-        version = try container.decode(String.self, forKey: .version)
-        isPremium = try container.decode(Bool.self, forKey: .isPremium)
-        
-        let typeString = try container.decode(String.self, forKey: .type)
-        type = JetpackThreatExtensionType(rawValue: typeString) ?? .unknown
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case type
-        case slug
-        case name
-        case version
-        case isPremium
-    }
 }
 
 public struct JetpackThreatContext {
     public struct ThreatContextLine {
         var lineNumber: Int
         var contents: String
-        var highlights: [NSRange]? = nil
+        var highlights: [NSRange]?
     }
 
     public let lines: [ThreatContextLine]
