@@ -180,9 +180,9 @@ public struct JetpackThreatExtension: Decodable {
 
 public struct JetpackThreatContext {
     public struct ThreatContextLine {
-        var lineNumber: Int
-        var contents: String
-        var highlights: [NSRange]?
+        public var lineNumber: Int
+        public var contents: String
+        public var highlights: [NSRange]?
     }
 
     public let lines: [ThreatContextLine]
