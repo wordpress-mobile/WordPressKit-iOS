@@ -258,6 +258,6 @@ public struct JetpackThreatContext {
             return nil
         }
 
-        return NSRange(location: Int(location), length: Int(length))
+        return NSRange(location: Int(location), length: Int(length - location))
     }
 }
