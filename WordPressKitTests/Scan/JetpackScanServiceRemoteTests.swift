@@ -75,7 +75,7 @@ class JetpackScanServiceRemoteTests: RemoteTestCase, RESTTestable {
             XCTAssertNotNil(scan.mostRecent)
             XCTAssertTrue(scan.mostRecent?.duration == 24)
             XCTAssertTrue(scan.mostRecent?.progress == 100)
-            XCTAssertTrue(scan.mostRecent?.error == false)
+            XCTAssertTrue(scan.mostRecent?.didFail == false)
             XCTAssertNotNil(scan.mostRecent?.startDate)
             expect.fulfill()
         }, failure: { _ in })

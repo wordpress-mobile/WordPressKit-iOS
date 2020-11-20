@@ -55,10 +55,10 @@ public struct JetpackScanStatus: Decodable {
 
     /// If there was an error finishing the scan
     /// This will only be available for past scans
-    public var error: Bool?
+    public var didFail: Bool?
     
     private enum CodingKeys: String, CodingKey {
-        case startDate = "timestamp"
-        case duration, progress, error, isInitial
+        case startDate = "timestamp", didFail = "error"
+        case duration, progress, isInitial
     }
 }
