@@ -1,7 +1,7 @@
 import Foundation
 
 public struct JetpackScanThreat: Decodable {
-    public enum ThreatStatus: String, Decodable {
+    public enum ThreatStatus: String, Decodable, UnknownCaseRepresentable {
         case fixed
         case ignored
         case current
@@ -9,7 +9,7 @@ public struct JetpackScanThreat: Decodable {
         case unknown
     }
 
-    public enum ThreatType: String {
+    public enum ThreatType: String, UnknownCaseRepresentable {
         case core
         case file
         case plugin
@@ -25,7 +25,7 @@ public struct JetpackScanThreat: Decodable {
             } else if threat.context != nil {
                 self =  .file
             } else if let ext = threat.extension {
-                self = ThreatType(rawValue: ext.type.rawValue) ?? .unknown
+                self = ThreatType(rawValue: ext.type.rawValue)
             } else if threat.rows != nil || threat.signature.contains(Constants.databaseSignature) {
                 self = .database
             } else {
@@ -66,7 +66,7 @@ public struct JetpackScanThreat: Decodable {
     public let `extension`: JetpackThreatExtension?
 
     /// The type of threat this is
-    private(set) var type: ThreatType
+    private(set) var type: ThreatType = .unknown
 
     /// If this is a file based threat this will provide code context to be displayed
     /// Context example:
@@ -85,20 +85,17 @@ public struct JetpackScanThreat: Decodable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        // Define a placeholder type to prevent the used before initialized error
-        type = .unknown
-
         id = try container.decode(Int.self, forKey: .id)
         signature = try container.decode(String.self, forKey: .signature)
         fileName = try container.decodeIfPresent(String.self, forKey: .fileName)
         description = try container.decode(String.self, forKey: .description)
-        firstDetected = try container.decode(ISO8601WithMSDate.self, forKey: .firstDetected)
-        fixedOn = try container.decodeIfPresent(ISO8601WithMSDate.self, forKey: .fixedOn)
+        firstDetected = try container.decode(Date.self, forKey: .firstDetected)
+        fixedOn = try container.decodeIfPresent(Date.self, forKey: .fixedOn)
         fixable = try? container.decodeIfPresent(JetpackScanThreatFixer.self, forKey: .fixable) ?? nil
         `extension` = try container.decodeIfPresent(JetpackThreatExtension.self, forKey: .extension)
         diff = try container.decodeIfPresent(String.self, forKey: .diff)
         rows = try container.decodeIfPresent([String: Any].self, forKey: .rows)
-        status = (try? container.decode(ThreatStatus.self, forKey: .status)) ?? .unknown
+        status = try container.decode(ThreatStatus.self, forKey: .status)
 
         // Context obj can either be:
         // - not present
@@ -120,9 +117,7 @@ public struct JetpackScanThreat: Decodable {
 
     private enum CodingKeys: String, CodingKey {
         case fileName = "filename"
-        case firstDetected = "first_detected"
-        case fixedOn = "fixed_on"
-        
+        case firstDetected, fixedOn
         case id, signature, description, fixable
         case `extension`, diff, context, rows, status
     }
@@ -130,7 +125,7 @@ public struct JetpackScanThreat: Decodable {
 
 /// An object that describes how a threat can be fixed
 public struct JetpackScanThreatFixer: Decodable {
-    public enum ThreatFixType: String, Decodable {
+    public enum ThreatFixType: String, Decodable, UnknownCaseRepresentable {
         case replace
         case delete
         case update
@@ -148,23 +143,14 @@ public struct JetpackScanThreatFixer: Decodable {
     /// The target version to fix to
     public var target: String?
 
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-
-        type = (try? container.decode(ThreatFixType.self, forKey: .type)) ?? .unknown
-        file = try container.decodeIfPresent(String.self, forKey: .file)
-        target = try container.decodeIfPresent(String.self, forKey: .target)
-    }
-
     private enum CodingKeys: String, CodingKey {
-        case type = "fixer"
-        case file, target
+        case type = "fixer", file, target
     }
 }
 
 /// Represents plugin or theme additional metadata
 public struct JetpackThreatExtension: Decodable {
-    public enum JetpackThreatExtensionType: String, Decodable {
+    public enum JetpackThreatExtensionType: String, Decodable, UnknownCaseRepresentable {
         case plugin
         case theme
 

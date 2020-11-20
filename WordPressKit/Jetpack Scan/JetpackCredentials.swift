@@ -9,9 +9,4 @@ public struct JetpackScanCredentials: Decodable {
     public let type: String
     public let role: String
     public let stillValid: Bool
-
-    private enum CodingKeys: String, CodingKey {
-        case host, port, user, path, type, role
-        case stillValid = "still_valid"
-    }
 }

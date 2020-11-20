@@ -58,6 +58,7 @@ class JetpackScanServiceRemoteTests: RemoteTestCase, RESTTestable {
 
         service.getCurrentScanStatusForSite(1, success: { currentScan in
             XCTAssertNotNil(currentScan)
+            XCTAssertNotNil(currentScan?.startDate)
             XCTAssertTrue(currentScan?.progress == 78)
             expect.fulfill()
         }, failure: { _ in })
