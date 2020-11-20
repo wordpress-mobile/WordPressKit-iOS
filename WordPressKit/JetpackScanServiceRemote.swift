@@ -44,7 +44,7 @@ public class JetpackScanServiceRemote: ServiceRemoteWordPressComREST {
 
         wordPressComRestApi.GET(path, parameters: nil, success: { (response, _) in
             do {
-                let decoder = JSONDecoder()
+                let decoder = JSONDecoder.apiDecoder
                 let data = try JSONSerialization.data(withJSONObject: response, options: [])
                 let envelope = try decoder.decode(JetpackScan.self, from: data)
 
