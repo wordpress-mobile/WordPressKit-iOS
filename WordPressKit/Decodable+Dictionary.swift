@@ -13,11 +13,9 @@ struct JSONCodingKeys: CodingKey {
     }
 }
 
-
-/// Add support do decode to a Dictionary
+/// Add support to decode to a Dictionary
 /// From: https://stackoverflow.com/q/44603248
 extension KeyedDecodingContainer {
-
     func decode(_ type: Dictionary<String, Any>.Type, forKey key: K) throws -> Dictionary<String, Any> {
         let container = try self.nestedContainer(keyedBy: JSONCodingKeys.self, forKey: key)
         return try container.decode(type)
@@ -86,7 +84,7 @@ extension UnkeyedDecodingContainer {
                 array.append(value)
             } else if let nestedDictionary = try? decode(Dictionary<String, Any>.self) {
                 array.append(nestedDictionary)
-            } else if let nestedArray = try? decode(Array<Any>.self) {
+            } else if var nestedContainer = try? nestedUnkeyedContainer(), let nestedArray = try? nestedContainer.decode(Array<Any>.self) {
                 array.append(nestedArray)
             }
         }
