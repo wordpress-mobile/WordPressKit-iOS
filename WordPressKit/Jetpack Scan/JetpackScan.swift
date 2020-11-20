@@ -1,13 +1,14 @@
 import Foundation
 
 public struct JetpackScan: Decodable {
-    public enum JetpackScanState: String, Decodable {
+    public enum JetpackScanState: String, Decodable, UnknownCaseRepresentable {
         case idle
         case scanning
         case unavailable
         case provisioning
         
         case unknown
+        static let unknownCase: Self = .unknown
     }
 
     /// Whether the scan feature is available or not

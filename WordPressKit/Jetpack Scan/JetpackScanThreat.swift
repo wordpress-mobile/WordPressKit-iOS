@@ -7,6 +7,7 @@ public struct JetpackScanThreat: Decodable {
         case current
 
         case unknown
+        static let unknownCase: Self = .unknown
     }
 
     public enum ThreatType: String, UnknownCaseRepresentable {
@@ -17,6 +18,7 @@ public struct JetpackScanThreat: Decodable {
         case database
 
         case unknown
+        static let unknownCase: Self = .unknown
 
         init(threat: JetpackScanThreat) {
             // Logic used from https://github.com/Automattic/wp-calypso/blob/5a6b257ad97b361fa6f6a6e496cbfc0ef952b921/client/components/jetpack/threat-item/utils.ts#L11
@@ -132,6 +134,7 @@ public struct JetpackScanThreatFixer: Decodable {
         case edit
 
         case unknown
+        static let unknownCase: Self = .unknown
     }
 
     /// The suggested threat fix type
@@ -155,6 +158,7 @@ public struct JetpackThreatExtension: Decodable {
         case theme
 
         case unknown
+        static let unknownCase: Self = .unknown
     }
 
     public let slug: String
