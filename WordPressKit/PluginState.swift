@@ -106,8 +106,8 @@ public extension PluginState {
         return url
     }
 
-    var directoryURL: URL {
-        return URL(string: "https://wordpress.org/plugins/\(slug)")!
+    var directoryURL: URL? {
+        return URL(string: "https://wordpress.org/plugins/\(slug)")
     }
 
     var deactivateAllowed: Bool {
