@@ -15,6 +15,8 @@ class ActivityServiceRemoteTests: RemoteTestCase, RESTTestable {
     let getActivitySuccessThreeMockFilename = "activity-log-success-3.json"
     let getActivityBadJsonFailureMockFilename = "activity-log-bad-json-failure.json"
     let getActivityAuthFailureMockFilename = "activity-log-auth-failure.json"
+    let getActivityGroupsSuccessMockFilename = "activity-groups-success.json"
+    let getActivityGroupsBadJsonFailureMockFilename = "activity-groups-bad-json-failure.json"
     let restoreSuccessMockFilename = "activity-restore-success.json"
     let rewindStatusSuccessMockFilename = "activity-rewind-status-success.json"
     let rewindStatusRestoreFailureMockFilename = "activity-rewind-status-restore-failure.json"
@@ -25,6 +27,7 @@ class ActivityServiceRemoteTests: RemoteTestCase, RESTTestable {
     /// MARK: - Properties
 
     var siteActivityEndpoint: String { return "sites/\(siteID)/activity" }
+    var siteActivityGroupsEndpoint: String { return "sites/\(siteID)/activity/count/group" }
     var restoreEndpoint: String { return "activity-log/\(siteID)/rewind/to/\(rewindID)" }
     var rewindStatusEndpoint: String { return "sites/\(siteID)/rewind" }
 
@@ -155,6 +158,41 @@ class ActivityServiceRemoteTests: RemoteTestCase, RESTTestable {
         remote.getActivityForSite(siteID,
                                   count: 20,
                                   success: { (activities, hasMore) in
+                                      XCTFail("This callback shouldn't get called")
+                                      expect.fulfill()
+                                 }, failure: { error in
+                                      expect.fulfill()
+                                 })
+
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+    
+    func testGetActivityGroupsSucceeds() {
+        let expect = expectation(description: "Get activity groups success")
+        
+        stubRemoteResponse(siteActivityGroupsEndpoint, filename: getActivityGroupsSuccessMockFilename, contentType: .ApplicationJSON)
+        remote.getActivityGroupsForSite(siteID,
+                                        success: { groups in
+                                            XCTAssertEqual(groups.count, 4, "The activity group count should be 4")
+                                            XCTAssertTrue(groups.contains(where: { $0.name == "Posts and Pages" && $0.count == 69}))
+                                            XCTAssertTrue(groups.contains(where: { $0.name == "Media" && $0.count == 5}))
+                                            XCTAssertTrue(groups.contains(where: { $0.name == "People" && $0.count == 2}))
+                                            XCTAssertTrue(groups.contains(where: { $0.name == "Backups and Restores" && $0.count == 10}))
+                                            expect.fulfill()
+                                        },
+                                        failure: { error in
+                                            XCTFail("This callback shouldn't get called")
+                                            expect.fulfill()
+                                        })
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+    
+    func testGetActivityGroupsWithBadJsonFails() {
+        let expect = expectation(description: "Get activity groups with invalid json response failure")
+
+        stubRemoteResponse(siteActivityGroupsEndpoint, filename: getActivityGroupsBadJsonFailureMockFilename, contentType: .ApplicationJSON, status: 200)
+        remote.getActivityGroupsForSite(siteID,
+                                  success: { groups in
                                       XCTFail("This callback shouldn't get called")
                                       expect.fulfill()
                                  }, failure: { error in
