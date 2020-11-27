@@ -42,12 +42,11 @@ open class ActivityServiceRemote: ServiceRemoteWordPressComREST {
             parameters["group[]"] = group.joined(separator: ",") as AnyObject
         }
 
-        if let after = after {
+        if let after = after, let before = before {
             parameters["after"] = format(date: after) as AnyObject
-        }
-
-        if let before = before {
             parameters["before"] = format(date: before) as AnyObject
+        } else if let on = after ?? before {
+            parameters["on"] = format(date: on) as AnyObject
         }
 
         wordPressComRestApi.GET(path,
