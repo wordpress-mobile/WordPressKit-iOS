@@ -67,6 +67,38 @@ open class ActivityServiceRemote: ServiceRemoteWordPressComREST {
                                     failure(error)
                                 })
     }
+    
+    /// Retrieves activity groups associated with a site.
+    ///
+    /// - Parameters:
+    ///     - siteID: The target site's ID.
+    ///     - success: Closure to be executed on success.
+    ///     - failure: Closure to be executed on error.
+    ///
+    /// - Returns: An array of available activity groups for a site.
+    ///
+    open func getActivityGroupsForSite(_ siteID: Int,
+                                       success: @escaping (_ groups: [ActivityGroup]) -> Void,
+                                       failure: @escaping (Error) -> Void) {
+        let endpoint = "sites/\(siteID)/activity/count/group"
+        let path = self.path(forEndpoint: endpoint, withVersion: ._2_0)
+        
+        wordPressComRestApi.GET(path,
+                                parameters: nil,
+                                success: { response, _ in
+                                    do {
+                                        let groups = try self.mapActivityGroupsResponse(response)
+                                        success(groups)
+                                    } catch {
+                                        DDLogError("Error parsing activity groups for site \(siteID)")
+                                        DDLogError("\(error)")
+                                        DDLogDebug("Full response: \(response)")
+                                        failure(error)
+                                    }
+                                }, failure: { error, _ in
+                                    failure(error)
+                                })
+    }
 
     /// Retrieves the site current rewind state.
     ///
@@ -147,6 +179,23 @@ private extension ActivityServiceRemote {
         }
 
         return (activities, totalItems)
+    }
+    
+    func mapActivityGroupsResponse(_ response: AnyObject) throws -> ([ActivityGroup]) {
+        
+        guard let json = response as? [String: AnyObject],
+              let rawGroups = json["groups"] as? [String: AnyObject] else {
+                throw ActivityServiceRemote.ResponseError.decodingFailure
+        }
+        
+        let groups: [ActivityGroup] = try rawGroups.map { (_, value) -> ActivityGroup in
+            guard let group = value as? [String: AnyObject] else {
+                throw ActivityServiceRemote.ResponseError.decodingFailure
+            }
+            return try ActivityGroup(dictionary: group)
+        }
+        
+        return groups
     }
 
 }
