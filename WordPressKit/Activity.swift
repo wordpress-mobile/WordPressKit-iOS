@@ -162,7 +162,7 @@ public class ActivityGroup {
     public let key: String
     public let name: String
     public let count: Int
-    
+
     init(_ groupKey: String, dictionary: [String: AnyObject]) throws {
         guard let groupName = dictionary["name"] as? String else {
             throw Error.missingName
@@ -170,7 +170,7 @@ public class ActivityGroup {
         guard let groupCount = dictionary["count"] as? Int else {
             throw Error.missingCount
         }
-        
+
         key = groupKey
         name = groupName
         count = groupCount

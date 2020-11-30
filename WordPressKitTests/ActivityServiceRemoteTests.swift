@@ -184,10 +184,10 @@ class ActivityServiceRemoteTests: RemoteTestCase, RESTTestable {
 
         waitForExpectations(timeout: timeout, handler: nil)
     }
-    
+
     func testGetActivityGroupsSucceeds() {
         let expect = expectation(description: "Get activity groups success")
-        
+
         stubRemoteResponse(siteActivityGroupsEndpoint, filename: getActivityGroupsSuccessMockFilename, contentType: .ApplicationJSON)
         remote.getActivityGroupsForSite(siteID,
                                         success: { groups in
@@ -204,11 +204,11 @@ class ActivityServiceRemoteTests: RemoteTestCase, RESTTestable {
                                         })
         waitForExpectations(timeout: timeout, handler: nil)
     }
-    
+
     func testGetActivityGroupsWithParameters() {
         let expect = expectation(description: "Get activity groups for site success when calling with before, after")
         let dateFormatter = ISO8601DateFormatter()
-        
+
         stubRemoteResponse("after=1970-01-01&before=1970-01-02", filename: getActivityGroupsSuccessMockFilename, contentType: .ApplicationJSON)
         remote.getActivityGroupsForSite(siteID,
                                         after: dateFormatter.date(from: "1970-01-01T10:44:00+0000"),
@@ -240,7 +240,7 @@ class ActivityServiceRemoteTests: RemoteTestCase, RESTTestable {
 
         waitForExpectations(timeout: timeout, handler: nil)
     }
-    
+
     func testGetActivityGroupsWithBadJsonFails() {
         let expect = expectation(description: "Get activity groups with invalid json response failure")
 
