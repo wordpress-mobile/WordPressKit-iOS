@@ -132,8 +132,8 @@ class ActivityServiceRemoteTests: RemoteTestCase, RESTTestable {
         waitForExpectations(timeout: timeout, handler: nil)
     }
 
-    func testGetActivityWithParametersWithOnlyBefore() {
-        let expect = expectation(description: "Get activity for site success when calling with after, before, and group")
+    func testGetActivityWithParametersWithOnlyAfter() {
+        let expect = expectation(description: "Get activity for site success when calling with after")
         let dateFormatter = ISO8601DateFormatter()
 
         stubRemoteResponse("number=20&on=1970-01-01&page=1", filename: getActivitySuccessThreeMockFilename, contentType: .ApplicationJSON)
