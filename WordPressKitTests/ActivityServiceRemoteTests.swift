@@ -129,6 +129,24 @@ class ActivityServiceRemoteTests: RemoteTestCase, RESTTestable {
         waitForExpectations(timeout: timeout, handler: nil)
     }
 
+    func testGetActivityWithParametersWithOnlyBefore() {
+        let expect = expectation(description: "Get activity for site success when calling with after, before, and group")
+        let dateFormatter = ISO8601DateFormatter()
+
+        stubRemoteResponse("number=20&on=1970-01-01&page=1", filename: getActivitySuccessThreeMockFilename, contentType: .ApplicationJSON)
+        remote.getActivityForSite(siteID,
+                                  count: 20,
+                                  after: dateFormatter.date(from: "1970-01-01T10:44:00+0000"),
+                                  success: { (activities, hasMore) in
+                                      expect.fulfill()
+                                  }, failure: { error in
+                                      XCTFail("This callback shouldn't get called")
+                                      expect.fulfill()
+                                  })
+
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+
     func testGetActivityWithBadAuthFails() {
         let expect = expectation(description: "Get activity with bad auth failure")
 

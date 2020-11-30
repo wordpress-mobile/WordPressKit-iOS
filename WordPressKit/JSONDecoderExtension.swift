@@ -16,6 +16,7 @@ extension JSONDecoder.DateDecodingStrategy {
         case noTime = "yyyy-mm-dd"
         case dateWithTime = "yyyy-MM-dd HH:mm:ss"
         case iso8601 = "yyyy-MM-dd'T'HH:mm:ssZ"
+        case iso8601WithMilliseconds = "yyyy-MM-dd'T'HH:mm:ss.SSSXXXXX"
         
         var formatter: DateFormatter {
             let dateFormatter = DateFormatter()
