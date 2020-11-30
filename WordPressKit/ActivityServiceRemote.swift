@@ -71,19 +71,31 @@ open class ActivityServiceRemote: ServiceRemoteWordPressComREST {
     ///
     /// - Parameters:
     ///     - siteID: The target site's ID.
+    ///     - after: Only activity groups after the given Date will be returned.
+    ///     - before: Only activity groups before the given Date will be returned.
     ///     - success: Closure to be executed on success.
     ///     - failure: Closure to be executed on error.
     ///
     /// - Returns: An array of available activity groups for a site.
     ///
     open func getActivityGroupsForSite(_ siteID: Int,
+                                       after: Date? = nil,
+                                       before: Date? = nil,
                                        success: @escaping (_ groups: [ActivityGroup]) -> Void,
                                        failure: @escaping (Error) -> Void) {
         let endpoint = "sites/\(siteID)/activity/count/group"
         let path = self.path(forEndpoint: endpoint, withVersion: ._2_0)
+        var parameters: [String: AnyObject] = [:]
+        
+        if let after = after, let before = before {
+            parameters["after"] = format(date: after) as AnyObject
+            parameters["before"] = format(date: before) as AnyObject
+        } else if let on = after ?? before {
+            parameters["on"] = format(date: on) as AnyObject
+        }
         
         wordPressComRestApi.GET(path,
-                                parameters: nil,
+                                parameters: parameters,
                                 success: { response, _ in
                                     do {
                                         let groups = try self.mapActivityGroupsResponse(response)

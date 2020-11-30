@@ -205,6 +205,42 @@ class ActivityServiceRemoteTests: RemoteTestCase, RESTTestable {
         waitForExpectations(timeout: timeout, handler: nil)
     }
     
+    func testGetActivityGroupsWithParameters() {
+        let expect = expectation(description: "Get activity groups for site success when calling with before, after")
+        let dateFormatter = ISO8601DateFormatter()
+        
+        stubRemoteResponse("after=1970-01-01&before=1970-01-02", filename: getActivityGroupsSuccessMockFilename, contentType: .ApplicationJSON)
+        remote.getActivityGroupsForSite(siteID,
+                                        after: dateFormatter.date(from: "1970-01-01T10:44:00+0000"),
+                                        before: dateFormatter.date(from: "1970-01-02T10:44:00+0000"),
+                                        success: { groups in
+                                            expect.fulfill()
+                                        },
+                                        failure: { error in
+                                            XCTFail("This callback shouldn't get called")
+                                            expect.fulfill()
+                                        })
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+
+    func testGetActivityGroupsWithParametersWithOnlyAfter() {
+        let expect = expectation(description: "Get activity groups for site success when calling with after")
+        let dateFormatter = ISO8601DateFormatter()
+
+        stubRemoteResponse("on=1970-01-01", filename: getActivityGroupsSuccessMockFilename, contentType: .ApplicationJSON)
+        remote.getActivityGroupsForSite(siteID,
+                                        before: dateFormatter.date(from: "1970-01-01T10:44:00+0000"),
+                                        success: { groups in
+                                            XCTAssertEqual(groups.count, 4, "The activity count should be 4")
+                                            expect.fulfill()
+                                        }, failure: { error in
+                                            XCTFail("This callback shouldn't get called")
+                                            expect.fulfill()
+                                        })
+
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+    
     func testGetActivityGroupsWithBadJsonFails() {
         let expect = expectation(description: "Get activity groups with invalid json response failure")
 
