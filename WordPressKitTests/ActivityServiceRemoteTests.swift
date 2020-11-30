@@ -174,10 +174,10 @@ class ActivityServiceRemoteTests: RemoteTestCase, RESTTestable {
         remote.getActivityGroupsForSite(siteID,
                                         success: { groups in
                                             XCTAssertEqual(groups.count, 4, "The activity group count should be 4")
-                                            XCTAssertTrue(groups.contains(where: { $0.name == "Posts and Pages" && $0.count == 69}))
-                                            XCTAssertTrue(groups.contains(where: { $0.name == "Media" && $0.count == 5}))
-                                            XCTAssertTrue(groups.contains(where: { $0.name == "People" && $0.count == 2}))
-                                            XCTAssertTrue(groups.contains(where: { $0.name == "Backups and Restores" && $0.count == 10}))
+                                            XCTAssertTrue(groups.contains(where: { $0.key == "post" && $0.name == "Posts and Pages" && $0.count == 69}))
+                                            XCTAssertTrue(groups.contains(where: { $0.key == "attachment" && $0.name == "Media" && $0.count == 5}))
+                                            XCTAssertTrue(groups.contains(where: { $0.key == "user" && $0.name == "People" && $0.count == 2}))
+                                            XCTAssertTrue(groups.contains(where: { $0.key == "rewind" && $0.name == "Backups and Restores" && $0.count == 10}))
                                             expect.fulfill()
                                         },
                                         failure: { error in

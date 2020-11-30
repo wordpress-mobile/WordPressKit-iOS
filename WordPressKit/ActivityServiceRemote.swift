@@ -188,11 +188,11 @@ private extension ActivityServiceRemote {
                 throw ActivityServiceRemote.ResponseError.decodingFailure
         }
         
-        let groups: [ActivityGroup] = try rawGroups.map { (_, value) -> ActivityGroup in
+        let groups: [ActivityGroup] = try rawGroups.map { (key, value) -> ActivityGroup in
             guard let group = value as? [String: AnyObject] else {
                 throw ActivityServiceRemote.ResponseError.decodingFailure
             }
-            return try ActivityGroup(dictionary: group)
+            return try ActivityGroup(key, dictionary: group)
         }
         
         return groups

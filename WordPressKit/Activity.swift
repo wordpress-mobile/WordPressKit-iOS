@@ -159,10 +159,11 @@ public struct ActivityStatus {
 }
 
 public class ActivityGroup {
+    public let key: String
     public let name: String
     public let count: Int
     
-    init(dictionary: [String: AnyObject]) throws {
+    init(_ groupKey: String, dictionary: [String: AnyObject]) throws {
         guard let groupName = dictionary["name"] as? String else {
             throw Error.missingName
         }
@@ -170,6 +171,7 @@ public class ActivityGroup {
             throw Error.missingCount
         }
         
+        key = groupKey
         name = groupName
         count = groupCount
     }
