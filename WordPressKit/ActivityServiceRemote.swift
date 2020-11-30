@@ -8,6 +8,12 @@ open class ActivityServiceRemote: ServiceRemoteWordPressComREST {
         case decodingFailure
     }
 
+    private lazy var formatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = ("yyyy-MM-dd")
+        return formatter
+    }()
+
     /// Retrieves activity events associated to a site.
     ///
     /// - Parameters:
@@ -43,10 +49,10 @@ open class ActivityServiceRemote: ServiceRemoteWordPressComREST {
         }
 
         if let after = after, let before = before {
-            parameters["after"] = format(date: after) as AnyObject
-            parameters["before"] = format(date: before) as AnyObject
+            parameters["after"] = formatter.string(from: after) as AnyObject
+            parameters["before"] = formatter.string(from: before) as AnyObject
         } else if let on = after ?? before {
-            parameters["on"] = format(date: on) as AnyObject
+            parameters["on"] = formatter.string(from: on) as AnyObject
         }
 
         wordPressComRestApi.GET(path,
@@ -88,10 +94,10 @@ open class ActivityServiceRemote: ServiceRemoteWordPressComREST {
         var parameters: [String: AnyObject] = [:]
         
         if let after = after, let before = before {
-            parameters["after"] = format(date: after) as AnyObject
-            parameters["before"] = format(date: before) as AnyObject
+            parameters["after"] = formatter.string(from: after) as AnyObject
+            parameters["before"] = formatter.string(from: before) as AnyObject
         } else if let on = after ?? before {
-            parameters["on"] = format(date: on) as AnyObject
+            parameters["on"] = formatter.string(from: on) as AnyObject
         }
         
         wordPressComRestApi.GET(path,
@@ -150,19 +156,6 @@ open class ActivityServiceRemote: ServiceRemoteWordPressComREST {
                                     }
                                     failure(error)
                                 })
-    }
-
-    /// Formats a Date to yyyy-MM-dd
-    ///
-    /// - Parameters:
-    ///     - date: A Date
-    ///
-    /// - Returns: The given Date in a yyyy-MM-dd String format
-    ///
-    private func format(date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd"
-        return formatter.string(from: date)
     }
 
 }
