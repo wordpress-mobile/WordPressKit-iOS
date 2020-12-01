@@ -8,6 +8,12 @@ open class ActivityServiceRemote: ServiceRemoteWordPressComREST {
         case decodingFailure
     }
 
+    private lazy var formatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = ("yyyy-MM-dd")
+        return formatter
+    }()
+
     /// Retrieves activity events associated to a site.
     ///
     /// - Parameters:
@@ -43,10 +49,10 @@ open class ActivityServiceRemote: ServiceRemoteWordPressComREST {
         }
 
         if let after = after, let before = before {
-            parameters["after"] = format(date: after) as AnyObject
-            parameters["before"] = format(date: before) as AnyObject
+            parameters["after"] = formatter.string(from: after) as AnyObject
+            parameters["before"] = formatter.string(from: before) as AnyObject
         } else if let on = after ?? before {
-            parameters["on"] = format(date: on) as AnyObject
+            parameters["on"] = formatter.string(from: on) as AnyObject
         }
 
         wordPressComRestApi.GET(path,
@@ -58,6 +64,50 @@ open class ActivityServiceRemote: ServiceRemoteWordPressComREST {
                                         success(activities, hasMore)
                                     } catch {
                                         DDLogError("Error parsing activity response for site \(siteID)")
+                                        DDLogError("\(error)")
+                                        DDLogDebug("Full response: \(response)")
+                                        failure(error)
+                                    }
+                                }, failure: { error, _ in
+                                    failure(error)
+                                })
+    }
+
+    /// Retrieves activity groups associated with a site.
+    ///
+    /// - Parameters:
+    ///     - siteID: The target site's ID.
+    ///     - after: Only activity groups after the given Date will be returned.
+    ///     - before: Only activity groups before the given Date will be returned.
+    ///     - success: Closure to be executed on success.
+    ///     - failure: Closure to be executed on error.
+    ///
+    /// - Returns: An array of available activity groups for a site.
+    ///
+    open func getActivityGroupsForSite(_ siteID: Int,
+                                       after: Date? = nil,
+                                       before: Date? = nil,
+                                       success: @escaping (_ groups: [ActivityGroup]) -> Void,
+                                       failure: @escaping (Error) -> Void) {
+        let endpoint = "sites/\(siteID)/activity/count/group"
+        let path = self.path(forEndpoint: endpoint, withVersion: ._2_0)
+        var parameters: [String: AnyObject] = [:]
+
+        if let after = after, let before = before {
+            parameters["after"] = formatter.string(from: after) as AnyObject
+            parameters["before"] = formatter.string(from: before) as AnyObject
+        } else if let on = after ?? before {
+            parameters["on"] = formatter.string(from: on) as AnyObject
+        }
+
+        wordPressComRestApi.GET(path,
+                                parameters: parameters,
+                                success: { response, _ in
+                                    do {
+                                        let groups = try self.mapActivityGroupsResponse(response)
+                                        success(groups)
+                                    } catch {
+                                        DDLogError("Error parsing activity groups for site \(siteID)")
                                         DDLogError("\(error)")
                                         DDLogDebug("Full response: \(response)")
                                         failure(error)
@@ -108,19 +158,6 @@ open class ActivityServiceRemote: ServiceRemoteWordPressComREST {
                                 })
     }
 
-    /// Formats a Date to yyyy-MM-dd
-    ///
-    /// - Parameters:
-    ///     - date: A Date
-    ///
-    /// - Returns: The given Date in a yyyy-MM-dd String format
-    ///
-    private func format(date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd"
-        return formatter.string(from: date)
-    }
-
 }
 
 private extension ActivityServiceRemote {
@@ -146,6 +183,23 @@ private extension ActivityServiceRemote {
         }
 
         return (activities, totalItems)
+    }
+    
+    func mapActivityGroupsResponse(_ response: AnyObject) throws -> ([ActivityGroup]) {
+        
+        guard let json = response as? [String: AnyObject],
+              let rawGroups = json["groups"] as? [String: AnyObject] else {
+                throw ActivityServiceRemote.ResponseError.decodingFailure
+        }
+        
+        let groups: [ActivityGroup] = try rawGroups.map { (key, value) -> ActivityGroup in
+            guard let group = value as? [String: AnyObject] else {
+                throw ActivityServiceRemote.ResponseError.decodingFailure
+            }
+            return try ActivityGroup(key, dictionary: group)
+        }
+        
+        return groups
     }
 
 }
