@@ -49,9 +49,9 @@ open class ActivityServiceRemote: ServiceRemoteWordPressComREST {
         }
 
         if let after = after, let before = before,
-           let beforeMinusOneSecond = Calendar.current.date(byAdding: .second, value: -1, to: before) {
+           let lastSecondOfBeforeDay = Calendar.current.date(byAdding: .second, value: 86399, to: before) {
             parameters["after"] = formatter.string(from: after) as AnyObject
-            parameters["before"] = formatter.string(from: beforeMinusOneSecond) as AnyObject
+            parameters["before"] = formatter.string(from: lastSecondOfBeforeDay) as AnyObject
         } else if let on = after ?? before {
             parameters["on"] = formatter.string(from: on) as AnyObject
         }
@@ -95,9 +95,9 @@ open class ActivityServiceRemote: ServiceRemoteWordPressComREST {
         var parameters: [String: AnyObject] = [:]
 
         if let after = after, let before = before,
-           let beforeMinusOneSecond = Calendar.current.date(byAdding: .second, value: -1, to: before) {
+           let lastSecondOfBeforeDay = Calendar.current.date(byAdding: .second, value: 86399, to: before) {
             parameters["after"] = formatter.string(from: after) as AnyObject
-            parameters["before"] = formatter.string(from: beforeMinusOneSecond) as AnyObject
+            parameters["before"] = formatter.string(from: lastSecondOfBeforeDay) as AnyObject
         } else if let on = after ?? before {
             parameters["on"] = formatter.string(from: on) as AnyObject
         }
