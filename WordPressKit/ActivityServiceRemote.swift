@@ -10,7 +10,7 @@ open class ActivityServiceRemote: ServiceRemoteWordPressComREST {
 
     private lazy var formatter: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateFormat = ("yyyy-MM-dd")
+        formatter.dateFormat = ("yyyy-MM-dd HH:mm:ss")
         return formatter
     }()
 
@@ -48,9 +48,10 @@ open class ActivityServiceRemote: ServiceRemoteWordPressComREST {
             parameters["group[]"] = group.joined(separator: ",") as AnyObject
         }
 
-        if let after = after, let before = before {
+        if let after = after, let before = before,
+           let beforeMinusOneSecond = Calendar.current.date(byAdding: .second, value: -1, to: before) {
             parameters["after"] = formatter.string(from: after) as AnyObject
-            parameters["before"] = formatter.string(from: before) as AnyObject
+            parameters["before"] = formatter.string(from: beforeMinusOneSecond) as AnyObject
         } else if let on = after ?? before {
             parameters["on"] = formatter.string(from: on) as AnyObject
         }
@@ -93,9 +94,10 @@ open class ActivityServiceRemote: ServiceRemoteWordPressComREST {
         let path = self.path(forEndpoint: endpoint, withVersion: ._2_0)
         var parameters: [String: AnyObject] = [:]
 
-        if let after = after, let before = before {
+        if let after = after, let before = before,
+           let beforeMinusOneSecond = Calendar.current.date(byAdding: .second, value: -1, to: before) {
             parameters["after"] = formatter.string(from: after) as AnyObject
-            parameters["before"] = formatter.string(from: before) as AnyObject
+            parameters["before"] = formatter.string(from: beforeMinusOneSecond) as AnyObject
         } else if let on = after ?? before {
             parameters["on"] = formatter.string(from: on) as AnyObject
         }
