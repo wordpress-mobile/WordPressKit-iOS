@@ -43,12 +43,16 @@ class ActivityServiceRemoteTests: RemoteTestCase, RESTTestable {
 
         let v2RestApi = WordPressComRestApi(localeKey: WordPressComRestApi.LocaleKeyV2)
         remote = ActivityServiceRemote(wordPressComRestApi: v2RestApi)
+
+        NSTimeZone.default = NSTimeZone(forSecondsFromGMT: 0) as TimeZone
     }
 
     override func tearDown() {
         super.tearDown()
 
         remote = nil
+
+        NSTimeZone.default = NSTimeZone.local
     }
 
     /// MARK: - Get Activity Tests
@@ -113,7 +117,7 @@ class ActivityServiceRemoteTests: RemoteTestCase, RESTTestable {
         let expect = expectation(description: "Get activity for site success when calling with after, before, and group")
         let dateFormatter = ISO8601DateFormatter()
 
-        stubRemoteResponse("after=1970-01-01%2007%3A44%3A00&before=1970-01-03%2007%3A43%3A59&group%5B%5D=post%2Cuser&number=20&page=6", filename: getActivitySuccessThreeMockFilename, contentType: .ApplicationJSON)
+        stubRemoteResponse("after=1970-01-01%2010%3A44%3A00&before=1970-01-03%2010%3A43%3A59&group%5B%5D=post%2Cuser&number=20&page=6", filename: getActivitySuccessThreeMockFilename, contentType: .ApplicationJSON)
         remote.getActivityForSite(siteID,
                                   offset: 100,
                                   count: 20,
@@ -136,7 +140,7 @@ class ActivityServiceRemoteTests: RemoteTestCase, RESTTestable {
         let expect = expectation(description: "Get activity for site success when calling with after")
         let dateFormatter = ISO8601DateFormatter()
 
-        stubRemoteResponse("number=20&on=1970-01-01%2007%3A44%3A00&page=1", filename: getActivitySuccessThreeMockFilename, contentType: .ApplicationJSON)
+        stubRemoteResponse("number=20&on=1970-01-01%2010%3A44%3A00&page=1", filename: getActivitySuccessThreeMockFilename, contentType: .ApplicationJSON)
         remote.getActivityForSite(siteID,
                                   count: 20,
                                   after: dateFormatter.date(from: "1970-01-01T10:44:00+0000"),
@@ -209,7 +213,7 @@ class ActivityServiceRemoteTests: RemoteTestCase, RESTTestable {
         let expect = expectation(description: "Get activity groups for site success when calling with before, after")
         let dateFormatter = ISO8601DateFormatter()
 
-        stubRemoteResponse("1970-01-01%2007%3A44%3A00&before=1970-01-03%2007%3A43%3A59", filename: getActivityGroupsSuccessMockFilename, contentType: .ApplicationJSON)
+        stubRemoteResponse("1970-01-01%2010%3A44%3A00&before=1970-01-03%2010%3A43%3A59", filename: getActivityGroupsSuccessMockFilename, contentType: .ApplicationJSON)
         remote.getActivityGroupsForSite(siteID,
                                         after: dateFormatter.date(from: "1970-01-01T10:44:00+0000"),
                                         before: dateFormatter.date(from: "1970-01-02T10:44:00+0000"),
