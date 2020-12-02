@@ -11,6 +11,7 @@ open class ActivityServiceRemote: ServiceRemoteWordPressComREST {
     private lazy var formatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = ("yyyy-MM-dd HH:mm:ss")
+        formatter.timeZone = NSTimeZone(forSecondsFromGMT: 0) as TimeZone
         return formatter
     }()
 
