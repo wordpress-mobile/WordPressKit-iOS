@@ -19,6 +19,7 @@ static NSString * const SiteDictionaryNameKey = @"name";
 static NSString * const SiteDictionaryURLKey = @"URL";
 static NSString * const SiteDictionarySubscriptionsKey = @"subscribers_count";
 static NSString * const SiteDictionarySubscriptionKey = @"subscription";
+static NSString * const SiteDictionaryOptionsKey = @"options";
 
 // Subscription keys
 static NSString * const SubscriptionDeliveryMethodsKey = @"delivery_methods";
@@ -40,7 +41,6 @@ static NSString * const DeliveryMethodNotificationKey = @"notification";
     siteInfo.feedURL = [response stringForKey:SiteDictionaryFeedURLKey];
     siteInfo.isFollowing = [[response numberForKey:SiteDictionaryFollowingKey] boolValue];
     siteInfo.isJetpack = [[response numberForKey:SiteDictionaryJetpackKey] boolValue];
-    siteInfo.isWPForTeams = [[response numberForKey:SiteDictionaryIsWPForTeamsKey] boolValue];
     siteInfo.isPrivate = [[response numberForKey:SiteDictionaryPrivateKey] boolValue];
     siteInfo.isVisible = [[response numberForKey:SiteDictionaryVisibleKey] boolValue];
     siteInfo.postCount = [response numberForKey:SiteDictionaryPostCountKey];
@@ -50,6 +50,9 @@ static NSString * const DeliveryMethodNotificationKey = @"notification";
     siteInfo.siteName = [response stringForKey:SiteDictionaryNameKey];
     siteInfo.siteURL = [response stringForKey:SiteDictionaryURLKey];
     siteInfo.subscriberCount = [response numberForKey:SiteDictionarySubscriptionsKey] ?: @0;
+
+    NSDictionary *options = [response valueForKey:SiteDictionaryOptionsKey];
+    siteInfo.isWPForTeams = [[options numberForKey:SiteDictionaryIsWPForTeamsKey] boolValue];
 
     if (![siteInfo.siteName length] && [siteInfo.siteURL length] > 0) {
         siteInfo.siteName = [[NSURL URLWithString:siteInfo.siteURL] host];
