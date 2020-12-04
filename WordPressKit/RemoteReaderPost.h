@@ -26,6 +26,7 @@
 @property (nonatomic) BOOL isLiked;
 @property (nonatomic) BOOL isReblogged;
 @property (nonatomic) BOOL isWPCom;
+@property (nonatomic) BOOL isWPForTeams;
 @property (nonatomic, strong) NSNumber *likeCount;
 @property (nonatomic, strong) NSNumber *score;
 @property (nonatomic, strong) NSNumber *siteID;
