@@ -105,7 +105,7 @@ public struct JetpackScanThreat: Decodable {
         // - an empty string
         // we can not just set to nil because the threat type logic needs to know if the
         // context attr was present or not
-        if let contextDict = try container.decodeIfPresent([String: Any].self, forKey: .context) {
+        if let contextDict = try? container.decodeIfPresent([String: Any].self, forKey: .context) {
             context = JetpackThreatContext(with: contextDict)
         } else if ((try container.decodeIfPresent(String.self, forKey: .context)) != nil) {
             context = JetpackThreatContext.emptyObject()
