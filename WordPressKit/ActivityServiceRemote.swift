@@ -42,7 +42,7 @@ open class ActivityServiceRemote: ServiceRemoteWordPressComREST {
 
         path?.queryItems = group.map { URLQueryItem(name: "group[]", value: $0) }
 
-        let pageNumber = (offset / count + 1)
+        let pageNumber = (offset / count) + 1
         path?.queryItems?.append(URLQueryItem(name: "number", value: "\(count)"))
         path?.queryItems?.append(URLQueryItem(name: "page", value: "\(pageNumber)"))
 
