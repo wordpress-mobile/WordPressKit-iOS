@@ -343,6 +343,7 @@
 		8B2F4BED24ABCAEF0056C08A /* Decodable+Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2F4BEC24ABCAEF0056C08A /* Decodable+Dictionary.swift */; };
 		8B2F4BEF24ACCC120056C08A /* RemoteReaderCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2F4BEE24ACCC120056C08A /* RemoteReaderCard.swift */; };
 		8B2F4BF124ACE3C30056C08A /* RemoteReaderInterest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2F4BF024ACE3C30056C08A /* RemoteReaderInterest.swift */; };
+		8B52B901257AC5A200221663 /* Date+endOfDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B52B900257AC5A200221663 /* Date+endOfDay.swift */; };
 		8BB66DB02523C181000B29DA /* ReaderPostServiceRemote+V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB66DAF2523C181000B29DA /* ReaderPostServiceRemote+V2.swift */; };
 		8BE67ED324AD05D3004DB4C9 /* Decodable+DictionaryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE67ED224AD05D3004DB4C9 /* Decodable+DictionaryTests.swift */; };
 		8C5734F925681A6A005E61EE /* Enum+UnknownCaseRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C5734F825681A6A005E61EE /* Enum+UnknownCaseRepresentable.swift */; };
@@ -900,6 +901,7 @@
 		8B2F4BEC24ABCAEF0056C08A /* Decodable+Dictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Decodable+Dictionary.swift"; sourceTree = "<group>"; };
 		8B2F4BEE24ACCC120056C08A /* RemoteReaderCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteReaderCard.swift; sourceTree = "<group>"; };
 		8B2F4BF024ACE3C30056C08A /* RemoteReaderInterest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteReaderInterest.swift; sourceTree = "<group>"; };
+		8B52B900257AC5A200221663 /* Date+endOfDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+endOfDay.swift"; sourceTree = "<group>"; };
 		8BB66DAF2523C181000B29DA /* ReaderPostServiceRemote+V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReaderPostServiceRemote+V2.swift"; sourceTree = "<group>"; };
 		8BE67ED224AD05D3004DB4C9 /* Decodable+DictionaryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Decodable+DictionaryTests.swift"; sourceTree = "<group>"; };
 		8C5734F825681A6A005E61EE /* Enum+UnknownCaseRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Enum+UnknownCaseRepresentable.swift"; sourceTree = "<group>"; };
@@ -1362,6 +1364,7 @@
 				7E3E7A4B20E443AA0075D159 /* NSMutableParagraphStyle+extensions.swift */,
 				8B2F4BEC24ABCAEF0056C08A /* Decodable+Dictionary.swift */,
 				8C5734F825681A6A005E61EE /* Enum+UnknownCaseRepresentable.swift */,
+				8B52B900257AC5A200221663 /* Date+endOfDay.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -2684,6 +2687,7 @@
 				74C473AC1EF2F75E009918F2 /* SiteManagementServiceRemote.swift in Sources */,
 				74585B971F0D54B400E7E667 /* RemoteDomain.swift in Sources */,
 				74A44DD01F13C64B006CD8F4 /* RemoteNotification.swift in Sources */,
+				8B52B901257AC5A200221663 /* Date+endOfDay.swift in Sources */,
 				E1D6B558200E473A00325669 /* TimeZoneServiceRemote.swift in Sources */,
 				1769DEAA24729AFF00F42EFC /* HomepageSettingsServiceRemote.swift in Sources */,
 				93BD273D1EE73282002BB00B /* AccountServiceRemoteREST.m in Sources */,

@@ -47,7 +47,7 @@ open class ActivityServiceRemote: ServiceRemoteWordPressComREST {
         path?.queryItems?.append(URLQueryItem(name: "page", value: "\(pageNumber)"))
 
         if let after = after, let before = before,
-           let lastSecondOfBeforeDay = Calendar.current.date(byAdding: .second, value: 86399, to: before) {
+           let lastSecondOfBeforeDay = before.endOfDay() {
             path?.queryItems?.append(URLQueryItem(name: "after", value: formatter.string(from: after)))
             path?.queryItems?.append(URLQueryItem(name: "before", value: formatter.string(from: lastSecondOfBeforeDay)))
         } else if let on = after ?? before {
@@ -99,7 +99,7 @@ open class ActivityServiceRemote: ServiceRemoteWordPressComREST {
         var parameters: [String: AnyObject] = [:]
 
         if let after = after, let before = before,
-           let lastSecondOfBeforeDay = Calendar.current.date(byAdding: .second, value: 86399, to: before) {
+           let lastSecondOfBeforeDay = before.endOfDay() {
             parameters["after"] = formatter.string(from: after) as AnyObject
             parameters["before"] = formatter.string(from: lastSecondOfBeforeDay) as AnyObject
         } else if let on = after ?? before {
