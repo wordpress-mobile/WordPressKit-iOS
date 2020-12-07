@@ -54,14 +54,7 @@ NSString * const POSTRESTKeyTagDisplayName = @"display_name";
 NSString * const PostRESTKeyURL = @"URL";
 NSString * const PostRESTKeyWordCount = @"word_count";
 NSString * const PostRESTKeyRailcar = @"railcar";
-
-// isWPForTeams keys
-NSString * const PostRESTKeyMeta = @"meta";
-NSString * const PostRESTKeyData = @"data";
-NSString * const PostRESTKeySite = @"site";
-NSString * const PostRESTKeyOptions = @"options";
-NSString * const PostRESTKeyWPForTeams = @"is_wpforteams_site";
-
+NSString * const PostRESTKeyWPForTeams = @"meta.data.site.options.is_wpforteams_site";
 
 // Tag dictionary keys
 NSString * const TagKeyPrimary = @"primaryTag";
@@ -131,13 +124,7 @@ static const NSUInteger ReaderPostTitleLength = 30;
     self.tags = [self tagsFromPostDictionary:dict];
     self.isSharingEnabled = [[dict numberForKey:PostRESTKeySharingEnabled] boolValue];
     self.isLikesEnabled = [[dict numberForKey:PostRESTKeyLikesEnabled] boolValue];
-
-    // Get isWPForTeams from site options
-    NSDictionary *metaDict = [dict dictionaryForKey:PostRESTKeyMeta];
-    NSDictionary *dataDict = [metaDict dictionaryForKey:PostRESTKeyData];
-    NSDictionary *siteDict = [dataDict dictionaryForKey:PostRESTKeySite];
-    NSDictionary *optionsDict = [siteDict dictionaryForKey:PostRESTKeyOptions];
-    self.isWPForTeams = [[optionsDict numberForKey:PostRESTKeyWPForTeams] boolValue];
+    self.isWPForTeams = [[dict numberForKeyPath:PostRESTKeyWPForTeams] boolValue];
     
     // Construct a title if necessary.
     if ([self.postTitle length] == 0 && [self.summary length] > 0) {
