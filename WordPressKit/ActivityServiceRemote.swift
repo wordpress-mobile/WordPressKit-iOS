@@ -37,28 +37,31 @@ open class ActivityServiceRemote: ServiceRemoteWordPressComREST {
                                    group: [String] = [],
                                    success: @escaping (_ activities: [Activity], _ hasMore: Bool) -> Void,
                                    failure: @escaping (Error) -> Void) {
-        let endpoint = "sites/\(siteID)/activity"
-        let path = self.path(forEndpoint: endpoint, withVersion: ._2_0)
-        let pageNumber = (offset / count + 1)
-        var parameters: [String: AnyObject] = [
-            "number": count as AnyObject,
-            "page": pageNumber as AnyObject
-        ]
 
-        if !group.isEmpty {
-            parameters["group[]"] = group.joined(separator: ",") as AnyObject
-        }
+        var path = URLComponents(string: "sites/\(siteID)/activity")
+
+        path?.queryItems = group.map { URLQueryItem(name: "group[]", value: $0) }
+
+        let pageNumber = (offset / count) + 1
+        path?.queryItems?.append(URLQueryItem(name: "number", value: "\(count)"))
+        path?.queryItems?.append(URLQueryItem(name: "page", value: "\(pageNumber)"))
 
         if let after = after, let before = before,
-           let lastSecondOfBeforeDay = Calendar.current.date(byAdding: .second, value: 86399, to: before) {
-            parameters["after"] = formatter.string(from: after) as AnyObject
-            parameters["before"] = formatter.string(from: lastSecondOfBeforeDay) as AnyObject
+           let lastSecondOfBeforeDay = before.endOfDay() {
+            path?.queryItems?.append(URLQueryItem(name: "after", value: formatter.string(from: after)))
+            path?.queryItems?.append(URLQueryItem(name: "before", value: formatter.string(from: lastSecondOfBeforeDay)))
         } else if let on = after ?? before {
-            parameters["on"] = formatter.string(from: on) as AnyObject
+            path?.queryItems?.append(URLQueryItem(name: "on", value: formatter.string(from: on)))
         }
 
-        wordPressComRestApi.GET(path,
-                                parameters: parameters,
+        guard let endpoint = path?.string else {
+            return
+        }
+
+        let finalPath = self.path(forEndpoint: endpoint, withVersion: ._2_0)
+
+        wordPressComRestApi.GET(finalPath,
+                                parameters: nil,
                                 success: { response, _ in
                                     do {
                                         let (activities, totalItems) = try self.mapActivitiesResponse(response)
@@ -96,7 +99,7 @@ open class ActivityServiceRemote: ServiceRemoteWordPressComREST {
         var parameters: [String: AnyObject] = [:]
 
         if let after = after, let before = before,
-           let lastSecondOfBeforeDay = Calendar.current.date(byAdding: .second, value: 86399, to: before) {
+           let lastSecondOfBeforeDay = before.endOfDay() {
             parameters["after"] = formatter.string(from: after) as AnyObject
             parameters["before"] = formatter.string(from: lastSecondOfBeforeDay) as AnyObject
         } else if let on = after ?? before {
@@ -189,9 +192,12 @@ private extension ActivityServiceRemote {
     }
     
     func mapActivityGroupsResponse(_ response: AnyObject) throws -> ([ActivityGroup]) {
-        
         guard let json = response as? [String: AnyObject],
-              let rawGroups = json["groups"] as? [String: AnyObject] else {
+              let totalItems = json["totalItems"] as? Int, totalItems > 0 else {
+            return []
+        }
+        
+        guard let rawGroups = json["groups"] as? [String: AnyObject] else {
                 throw ActivityServiceRemote.ResponseError.decodingFailure
         }
         
