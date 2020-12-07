@@ -26,7 +26,7 @@ static NSString * const TopicNotFoundMarker = @"-notfound-";
 {
     NSString *path = @"read/menu";
     NSString *requestUrl = [self pathForEndpoint:path
-                                     withVersion:ServiceRemoteWordPressComRESTApiVersion_1_2];
+                                     withVersion:ServiceRemoteWordPressComRESTApiVersion_1_3];
 
     [self.wordPressComRestApi GET:requestUrl parameters:nil success:^(NSDictionary *response, NSHTTPURLResponse *httpResponse) {
         if (!success) {
