@@ -10,9 +10,9 @@
 @property (nonatomic, copy) NSString *feedURL;
 @property (nonatomic) BOOL isFollowing;
 @property (nonatomic) BOOL isJetpack;
-@property (nonatomic) BOOL isWPForTeams;
 @property (nonatomic) BOOL isPrivate;
 @property (nonatomic) BOOL isVisible;
+@property (nonatomic, copy) NSNumber *organizationID;
 @property (nonatomic, copy) NSNumber *postCount;
 @property (nonatomic, copy) NSString *siteBlavatar;
 @property (nonatomic, copy) NSString *siteDescription;
