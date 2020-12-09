@@ -49,7 +49,7 @@ static NSString * const DeliveryMethodNotificationKey = @"notification";
     siteInfo.siteName = [response stringForKey:SiteDictionaryNameKey];
     siteInfo.siteURL = [response stringForKey:SiteDictionaryURLKey];
     siteInfo.subscriberCount = [response numberForKey:SiteDictionarySubscriptionsKey] ?: @0;
-    siteInfo.organizationID = [response numberForKey:SiteDictionaryOrganizationID];
+    siteInfo.organizationID = [response numberForKey:SiteDictionaryOrganizationID] ?: @0;
 
     if (![siteInfo.siteName length] && [siteInfo.siteURL length] > 0) {
         siteInfo.siteName = [[NSURL URLWithString:siteInfo.siteURL] host];
