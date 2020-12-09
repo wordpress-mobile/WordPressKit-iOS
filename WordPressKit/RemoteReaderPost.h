@@ -20,13 +20,13 @@
 @property (nonatomic, strong) NSNumber *feedID;
 @property (nonatomic, strong) NSNumber *feedItemID;
 @property (nonatomic, strong) NSString *globalID;
+@property (nonatomic, strong) NSNumber *organizationID;
 @property (nonatomic) BOOL isBlogAtomic;
 @property (nonatomic) BOOL isBlogPrivate;
 @property (nonatomic) BOOL isFollowing;
 @property (nonatomic) BOOL isLiked;
 @property (nonatomic) BOOL isReblogged;
 @property (nonatomic) BOOL isWPCom;
-@property (nonatomic) BOOL isWPForTeams;
 @property (nonatomic, strong) NSNumber *likeCount;
 @property (nonatomic, strong) NSNumber *score;
 @property (nonatomic, strong) NSNumber *siteID;
