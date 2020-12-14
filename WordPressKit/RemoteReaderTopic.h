@@ -12,5 +12,6 @@
 @property (nonatomic, strong) NSNumber *topicID;
 @property (nonatomic, strong) NSString *type;
 @property (nonatomic, strong) NSString *owner;
+@property (nonatomic, strong) NSNumber *organizationID;
 
 @end
