@@ -36,7 +36,7 @@ DEPENDENCIES:
   - OCMock (~> 3.4.2)
   - OHHTTPStubs (= 9.0)
   - OHHTTPStubs/Swift (= 9.0)
-  - UIDeviceIdentifier (~> 1)
+  - UIDeviceIdentifier (~> 1.4)
   - WordPressShared (~> 1.12)
   - wpxmlrpc (~> 0.9.0)
 
@@ -63,6 +63,6 @@ SPEC CHECKSUMS:
   WordPressShared: 38cb62e9cb998d4dc3c1611f17934c6875a6b3e8
   wpxmlrpc: bf55a43a7e710bd2a4fb8c02dfe83b1246f14f13
 
-PODFILE CHECKSUM: e5ed84715019e5469e337b341c31acde295ae93b
+PODFILE CHECKSUM: 582165ae391d1de08731b5836534fe580556539f
 
 COCOAPODS: 1.9.3

@@ -8,6 +8,7 @@ static NSString * const SiteDictionaryFeedIDKey = @"feed_ID";
 static NSString * const SiteDictionaryFeedURLKey = @"feed_URL";
 static NSString * const SiteDictionaryFollowingKey = @"is_following";
 static NSString * const SiteDictionaryJetpackKey = @"is_jetpack";
+static NSString * const SiteDictionaryOrganizationID = @"organization_id";
 static NSString * const SiteDictionaryPrivateKey = @"is_private";
 static NSString * const SiteDictionaryVisibleKey = @"visible";
 static NSString * const SiteDictionaryPostCountKey = @"post_count";
@@ -48,6 +49,7 @@ static NSString * const DeliveryMethodNotificationKey = @"notification";
     siteInfo.siteName = [response stringForKey:SiteDictionaryNameKey];
     siteInfo.siteURL = [response stringForKey:SiteDictionaryURLKey];
     siteInfo.subscriberCount = [response numberForKey:SiteDictionarySubscriptionsKey] ?: @0;
+    siteInfo.organizationID = [response numberForKey:SiteDictionaryOrganizationID] ?: @0;
 
     if (![siteInfo.siteName length] && [siteInfo.siteURL length] > 0) {
         siteInfo.siteName = [[NSURL URLWithString:siteInfo.siteURL] host];

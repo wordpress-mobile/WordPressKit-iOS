@@ -158,6 +158,32 @@ public struct ActivityStatus {
     public static let warning = "warning"
 }
 
+public class ActivityGroup {
+    public let key: String
+    public let name: String
+    public let count: Int
+
+    init(_ groupKey: String, dictionary: [String: AnyObject]) throws {
+        guard let groupName = dictionary["name"] as? String else {
+            throw Error.missingName
+        }
+        guard let groupCount = dictionary["count"] as? Int else {
+            throw Error.missingCount
+        }
+
+        key = groupKey
+        name = groupName
+        count = groupCount
+    }
+}
+
+private extension ActivityGroup {
+    enum Error: Swift.Error {
+        case missingName
+        case missingCount
+    }
+}
+
 public class RewindStatus {
     public let state: State
     public let lastUpdated: Date

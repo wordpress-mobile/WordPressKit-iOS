@@ -6,20 +6,18 @@ public struct JetpackScan: Decodable {
         case scanning
         case unavailable
         case provisioning
-        
+
         case unknown
         static let unknownCase: Self = .unknown
     }
 
     /// Whether the scan feature is available or not
-    public var isEnabled: Bool = false
+    public var isEnabled: Bool {
+        return (state != .unavailable) && (state != .unknown)
+    }
 
     /// The state of the current scan
-    public var state: JetpackScanState {
-        didSet {
-            isEnabled = (state != .unavailable) && (state != .unknown)
-        }
-    }
+    public var state: JetpackScanState
 
     /// If there is a scan in progress, this will return its status
     public var current: JetpackScanStatus?
@@ -57,7 +55,7 @@ public struct JetpackScanStatus: Decodable {
     /// If there was an error finishing the scan
     /// This will only be available for past scans
     public var didFail: Bool?
-    
+
     private enum CodingKeys: String, CodingKey {
         case startDate = "timestamp", didFail = "error"
         case duration, progress, isInitial

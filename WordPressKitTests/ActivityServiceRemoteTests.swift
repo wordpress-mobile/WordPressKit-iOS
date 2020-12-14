@@ -15,6 +15,8 @@ class ActivityServiceRemoteTests: RemoteTestCase, RESTTestable {
     let getActivitySuccessThreeMockFilename = "activity-log-success-3.json"
     let getActivityBadJsonFailureMockFilename = "activity-log-bad-json-failure.json"
     let getActivityAuthFailureMockFilename = "activity-log-auth-failure.json"
+    let getActivityGroupsSuccessMockFilename = "activity-groups-success.json"
+    let getActivityGroupsBadJsonFailureMockFilename = "activity-groups-bad-json-failure.json"
     let restoreSuccessMockFilename = "activity-restore-success.json"
     let rewindStatusSuccessMockFilename = "activity-rewind-status-success.json"
     let rewindStatusRestoreFailureMockFilename = "activity-rewind-status-restore-failure.json"
@@ -25,6 +27,7 @@ class ActivityServiceRemoteTests: RemoteTestCase, RESTTestable {
     /// MARK: - Properties
 
     var siteActivityEndpoint: String { return "sites/\(siteID)/activity" }
+    var siteActivityGroupsEndpoint: String { return "sites/\(siteID)/activity/count/group" }
     var restoreEndpoint: String { return "activity-log/\(siteID)/rewind/to/\(rewindID)" }
     var rewindStatusEndpoint: String { return "sites/\(siteID)/rewind" }
 
@@ -40,12 +43,16 @@ class ActivityServiceRemoteTests: RemoteTestCase, RESTTestable {
 
         let v2RestApi = WordPressComRestApi(localeKey: WordPressComRestApi.LocaleKeyV2)
         remote = ActivityServiceRemote(wordPressComRestApi: v2RestApi)
+
+        NSTimeZone.default = NSTimeZone(forSecondsFromGMT: 0) as TimeZone
     }
 
     override func tearDown() {
         super.tearDown()
 
         remote = nil
+
+        NSTimeZone.default = NSTimeZone.local
     }
 
     /// MARK: - Get Activity Tests
@@ -110,7 +117,7 @@ class ActivityServiceRemoteTests: RemoteTestCase, RESTTestable {
         let expect = expectation(description: "Get activity for site success when calling with after, before, and group")
         let dateFormatter = ISO8601DateFormatter()
 
-        stubRemoteResponse("after=1970-01-01&before=1970-01-02&group%5B%5D=post%2Cuser&number=20&page=6", filename: getActivitySuccessThreeMockFilename, contentType: .ApplicationJSON)
+        stubRemoteResponse("group%5B%5D=post&group%5B%5D=user&number=20&page=6&after=1970-01-01%2010:44:00&before=1970-01-03%2010:43:59", filename: getActivitySuccessThreeMockFilename, contentType: .ApplicationJSON)
         remote.getActivityForSite(siteID,
                                   offset: 100,
                                   count: 20,
@@ -129,11 +136,11 @@ class ActivityServiceRemoteTests: RemoteTestCase, RESTTestable {
         waitForExpectations(timeout: timeout, handler: nil)
     }
 
-    func testGetActivityWithParametersWithOnlyBefore() {
-        let expect = expectation(description: "Get activity for site success when calling with after, before, and group")
+    func testGetActivityWithParametersWithOnlyAfter() {
+        let expect = expectation(description: "Get activity for site success when calling with after")
         let dateFormatter = ISO8601DateFormatter()
 
-        stubRemoteResponse("number=20&on=1970-01-01&page=1", filename: getActivitySuccessThreeMockFilename, contentType: .ApplicationJSON)
+        stubRemoteResponse("wpcom/v2/sites/321/activity?number=20&page=1&on=1970-01-01%2010:44:00", filename: getActivitySuccessThreeMockFilename, contentType: .ApplicationJSON)
         remote.getActivityForSite(siteID,
                                   count: 20,
                                   after: dateFormatter.date(from: "1970-01-01T10:44:00+0000"),
@@ -173,6 +180,77 @@ class ActivityServiceRemoteTests: RemoteTestCase, RESTTestable {
         remote.getActivityForSite(siteID,
                                   count: 20,
                                   success: { (activities, hasMore) in
+                                      XCTFail("This callback shouldn't get called")
+                                      expect.fulfill()
+                                 }, failure: { error in
+                                      expect.fulfill()
+                                 })
+
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+
+    func testGetActivityGroupsSucceeds() {
+        let expect = expectation(description: "Get activity groups success")
+
+        stubRemoteResponse(siteActivityGroupsEndpoint, filename: getActivityGroupsSuccessMockFilename, contentType: .ApplicationJSON)
+        remote.getActivityGroupsForSite(siteID,
+                                        success: { groups in
+                                            XCTAssertEqual(groups.count, 4, "The activity group count should be 4")
+                                            XCTAssertTrue(groups.contains(where: { $0.key == "post" && $0.name == "Posts and Pages" && $0.count == 69}))
+                                            XCTAssertTrue(groups.contains(where: { $0.key == "attachment" && $0.name == "Media" && $0.count == 5}))
+                                            XCTAssertTrue(groups.contains(where: { $0.key == "user" && $0.name == "People" && $0.count == 2}))
+                                            XCTAssertTrue(groups.contains(where: { $0.key == "rewind" && $0.name == "Backups and Restores" && $0.count == 10}))
+                                            expect.fulfill()
+                                        },
+                                        failure: { error in
+                                            XCTFail("This callback shouldn't get called")
+                                            expect.fulfill()
+                                        })
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+
+    func testGetActivityGroupsWithParameters() {
+        let expect = expectation(description: "Get activity groups for site success when calling with before, after")
+        let dateFormatter = ISO8601DateFormatter()
+
+        stubRemoteResponse("1970-01-01%2010%3A44%3A00&before=1970-01-03%2010%3A43%3A59", filename: getActivityGroupsSuccessMockFilename, contentType: .ApplicationJSON)
+        remote.getActivityGroupsForSite(siteID,
+                                        after: dateFormatter.date(from: "1970-01-01T10:44:00+0000"),
+                                        before: dateFormatter.date(from: "1970-01-02T10:44:00+0000"),
+                                        success: { groups in
+                                            expect.fulfill()
+                                        },
+                                        failure: { error in
+                                            XCTFail("This callback shouldn't get called")
+                                            expect.fulfill()
+                                        })
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+
+    func testGetActivityGroupsWithParametersWithOnlyAfter() {
+        let expect = expectation(description: "Get activity groups for site success when calling with after")
+        let dateFormatter = ISO8601DateFormatter()
+
+        stubRemoteResponse("on=1970-01-01", filename: getActivityGroupsSuccessMockFilename, contentType: .ApplicationJSON)
+        remote.getActivityGroupsForSite(siteID,
+                                        before: dateFormatter.date(from: "1970-01-01T10:44:00+0000"),
+                                        success: { groups in
+                                            XCTAssertEqual(groups.count, 4, "The activity count should be 4")
+                                            expect.fulfill()
+                                        }, failure: { error in
+                                            XCTFail("This callback shouldn't get called")
+                                            expect.fulfill()
+                                        })
+
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+
+    func testGetActivityGroupsWithBadJsonFails() {
+        let expect = expectation(description: "Get activity groups with invalid json response failure")
+
+        stubRemoteResponse(siteActivityGroupsEndpoint, filename: getActivityGroupsBadJsonFailureMockFilename, contentType: .ApplicationJSON, status: 200)
+        remote.getActivityGroupsForSite(siteID,
+                                  success: { groups in
                                       XCTFail("This callback shouldn't get called")
                                       expect.fulfill()
                                  }, failure: { error in

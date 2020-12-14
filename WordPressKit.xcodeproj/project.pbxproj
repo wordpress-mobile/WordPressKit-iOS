@@ -343,6 +343,7 @@
 		8B2F4BED24ABCAEF0056C08A /* Decodable+Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2F4BEC24ABCAEF0056C08A /* Decodable+Dictionary.swift */; };
 		8B2F4BEF24ACCC120056C08A /* RemoteReaderCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2F4BEE24ACCC120056C08A /* RemoteReaderCard.swift */; };
 		8B2F4BF124ACE3C30056C08A /* RemoteReaderInterest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2F4BF024ACE3C30056C08A /* RemoteReaderInterest.swift */; };
+		8B52B901257AC5A200221663 /* Date+endOfDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B52B900257AC5A200221663 /* Date+endOfDay.swift */; };
 		8BB66DB02523C181000B29DA /* ReaderPostServiceRemote+V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB66DAF2523C181000B29DA /* ReaderPostServiceRemote+V2.swift */; };
 		8BE67ED324AD05D3004DB4C9 /* Decodable+DictionaryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE67ED224AD05D3004DB4C9 /* Decodable+DictionaryTests.swift */; };
 		8C5734F925681A6A005E61EE /* Enum+UnknownCaseRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C5734F825681A6A005E61EE /* Enum+UnknownCaseRepresentable.swift */; };
@@ -522,6 +523,8 @@
 		F9E56DF624EB11EF00916770 /* FeatureFlag.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9E56DF524EB11EF00916770 /* FeatureFlag.swift */; };
 		F9E56DF824EB125600916770 /* FeatureFlagRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9E56DF724EB125600916770 /* FeatureFlagRemote.swift */; };
 		F9E56DFB24EB18C300916770 /* FeatureFlagRemoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9E56DFA24EB18C300916770 /* FeatureFlagRemoteTests.swift */; };
+		FA42615E2570C713003A01E2 /* activity-groups-success.json in Resources */ = {isa = PBXBuildFile; fileRef = FA42615D2570C712003A01E2 /* activity-groups-success.json */; };
+		FA4261722570CC91003A01E2 /* activity-groups-bad-json-failure.json in Resources */ = {isa = PBXBuildFile; fileRef = FA4261712570CC91003A01E2 /* activity-groups-bad-json-failure.json */; };
 		FA87FE0724EB39C4003FBEE3 /* ReaderPostServiceRemote+SubscriptionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA87FE0624EB39C4003FBEE3 /* ReaderPostServiceRemote+SubscriptionTests.swift */; };
 		FA87FE0924EB3FEF003FBEE3 /* reader-post-comments-subscription-status-success.json in Resources */ = {isa = PBXBuildFile; fileRef = FA87FE0824EB3FEF003FBEE3 /* reader-post-comments-subscription-status-success.json */; };
 		FA87FE0B24EB4419003FBEE3 /* reader-post-comments-subscribe-success.json in Resources */ = {isa = PBXBuildFile; fileRef = FA87FE0A24EB4419003FBEE3 /* reader-post-comments-subscribe-success.json */; };
@@ -898,6 +901,7 @@
 		8B2F4BEC24ABCAEF0056C08A /* Decodable+Dictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Decodable+Dictionary.swift"; sourceTree = "<group>"; };
 		8B2F4BEE24ACCC120056C08A /* RemoteReaderCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteReaderCard.swift; sourceTree = "<group>"; };
 		8B2F4BF024ACE3C30056C08A /* RemoteReaderInterest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteReaderInterest.swift; sourceTree = "<group>"; };
+		8B52B900257AC5A200221663 /* Date+endOfDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+endOfDay.swift"; sourceTree = "<group>"; };
 		8BB66DAF2523C181000B29DA /* ReaderPostServiceRemote+V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReaderPostServiceRemote+V2.swift"; sourceTree = "<group>"; };
 		8BE67ED224AD05D3004DB4C9 /* Decodable+DictionaryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Decodable+DictionaryTests.swift"; sourceTree = "<group>"; };
 		8C5734F825681A6A005E61EE /* Enum+UnknownCaseRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Enum+UnknownCaseRepresentable.swift"; sourceTree = "<group>"; };
@@ -1089,6 +1093,8 @@
 		F9E56DF524EB11EF00916770 /* FeatureFlag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureFlag.swift; sourceTree = "<group>"; };
 		F9E56DF724EB125600916770 /* FeatureFlagRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureFlagRemote.swift; sourceTree = "<group>"; };
 		F9E56DFA24EB18C300916770 /* FeatureFlagRemoteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureFlagRemoteTests.swift; sourceTree = "<group>"; };
+		FA42615D2570C712003A01E2 /* activity-groups-success.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "activity-groups-success.json"; sourceTree = "<group>"; };
+		FA4261712570CC91003A01E2 /* activity-groups-bad-json-failure.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "activity-groups-bad-json-failure.json"; sourceTree = "<group>"; };
 		FA87FE0624EB39C4003FBEE3 /* ReaderPostServiceRemote+SubscriptionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReaderPostServiceRemote+SubscriptionTests.swift"; sourceTree = "<group>"; };
 		FA87FE0824EB3FEF003FBEE3 /* reader-post-comments-subscription-status-success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "reader-post-comments-subscription-status-success.json"; sourceTree = "<group>"; };
 		FA87FE0A24EB4419003FBEE3 /* reader-post-comments-subscribe-success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "reader-post-comments-subscribe-success.json"; sourceTree = "<group>"; };
@@ -1358,6 +1364,7 @@
 				7E3E7A4B20E443AA0075D159 /* NSMutableParagraphStyle+extensions.swift */,
 				8B2F4BEC24ABCAEF0056C08A /* Decodable+Dictionary.swift */,
 				8C5734F825681A6A005E61EE /* Enum+UnknownCaseRepresentable.swift */,
+				8B52B900257AC5A200221663 /* Date+endOfDay.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -1741,6 +1748,8 @@
 				826016F51F9FAF6300533B6C /* activity-log-success-1.json */,
 				826016F71F9FAF6300533B6C /* activity-log-success-2.json */,
 				826016F41F9FAF6300533B6C /* activity-log-success-3.json */,
+				FA4261712570CC91003A01E2 /* activity-groups-bad-json-failure.json */,
+				FA42615D2570C712003A01E2 /* activity-groups-success.json */,
 				828A23FF201B671F004F6859 /* activity-restore-success.json */,
 				829BA42C1FACF185003ADEEA /* activity-rewind-status-restore-failure.json */,
 				829BA42E1FACF187003ADEEA /* activity-rewind-status-restore-finished.json */,
@@ -2341,9 +2350,11 @@
 				7403A2F91EF06FEB00DED7DC /* me-settings-change-email-success.json in Resources */,
 				439A44DC2107CE3C00795ED7 /* site-plans-v3-empty-failure.json in Resources */,
 				9AB6D64F218731AB0008F274 /* post-revisions-failure.json in Resources */,
+				FA42615E2570C713003A01E2 /* activity-groups-success.json in Resources */,
 				984E34F422EF9465005C3F92 /* stats-file-downloads.json in Resources */,
 				93F50A3C1F226C0100B5BEBA /* WordPressComRestApiFailThrottled.json in Resources */,
 				740B23ED1F17FB7E00067A2A /* xmlrpc-bad-username-password-error.xml in Resources */,
+				FA4261722570CC91003A01E2 /* activity-groups-bad-json-failure.json in Resources */,
 				3297E28C25647E0300287D21 /* jetpack-scan-enqueue-failure.json in Resources */,
 				9A881754223C01E400A3AB20 /* jetpack-service-error-activation-install.json in Resources */,
 				93BD275B1EE73442002BB00B /* is-available-username-failure.json in Resources */,
@@ -2676,6 +2687,7 @@
 				74C473AC1EF2F75E009918F2 /* SiteManagementServiceRemote.swift in Sources */,
 				74585B971F0D54B400E7E667 /* RemoteDomain.swift in Sources */,
 				74A44DD01F13C64B006CD8F4 /* RemoteNotification.swift in Sources */,
+				8B52B901257AC5A200221663 /* Date+endOfDay.swift in Sources */,
 				E1D6B558200E473A00325669 /* TimeZoneServiceRemote.swift in Sources */,
 				1769DEAA24729AFF00F42EFC /* HomepageSettingsServiceRemote.swift in Sources */,
 				93BD273D1EE73282002BB00B /* AccountServiceRemoteREST.m in Sources */,

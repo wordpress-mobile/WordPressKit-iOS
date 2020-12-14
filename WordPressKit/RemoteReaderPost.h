@@ -20,6 +20,7 @@
 @property (nonatomic, strong) NSNumber *feedID;
 @property (nonatomic, strong) NSNumber *feedItemID;
 @property (nonatomic, strong) NSString *globalID;
+@property (nonatomic, strong) NSNumber *organizationID;
 @property (nonatomic) BOOL isBlogAtomic;
 @property (nonatomic) BOOL isBlogPrivate;
 @property (nonatomic) BOOL isFollowing;
