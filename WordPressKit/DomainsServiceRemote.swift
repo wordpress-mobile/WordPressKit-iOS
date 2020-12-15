@@ -6,6 +6,10 @@ public struct DomainSuggestion: Codable {
     public let productID: Int?
     public let supportsPrivacy: Bool?
 
+    public var domainNameStrippingSubdomain: String {
+        return domainName.components(separatedBy: ".").first ?? domainName
+    }
+    
     public init(json: [String: AnyObject]) throws {
         guard let domain = json["domain_name"] as? String else {
              throw DomainsServiceRemote.ResponseError.decodingFailed
@@ -22,10 +26,12 @@ public struct DomainSuggestion: Codable {
 public struct DomainSuggestionRequest: Encodable {
     public let query: String
     public let segmentID: Int64
+    public let quantity: Int?
     
-    public init(query: String, segmentID: Int64) {
+    public init(query: String, segmentID: Int64, quantity: Int?) {
         self.query = query
         self.segmentID = segmentID
+        self.quantity = quantity
     }
 }
 
@@ -176,10 +182,14 @@ public class DomainsServiceRemote: ServiceRemoteWordPressComREST {
                                      failure: @escaping (Error) -> Void) {
         let endPoint = "domains/suggestions"
         let servicePath = path(forEndpoint: endPoint, withVersion: ._1_1)
-        let parameters: [String: AnyObject] = [
+        var parameters: [String: AnyObject] = [
             "segment_id": request.segmentID as AnyObject,
             "query": request.query as AnyObject
         ]
+
+        if let quantity = request.quantity {
+            parameters["quantity"] = quantity as AnyObject
+        }
 
         wordPressComRestApi.GET(servicePath,
                                 parameters: parameters,
@@ -199,6 +209,7 @@ public class DomainsServiceRemote: ServiceRemoteWordPressComREST {
     }
 
     public func getDomainSuggestions(base query: String,
+                                     quantity: Int? = nil,
                                      domainSuggestionType: DomainSuggestionType = .onlyWordPressDotCom,
                                      success: @escaping ([DomainSuggestion]) -> Void,
                                      failure: @escaping (Error) -> Void) {
@@ -206,6 +217,9 @@ public class DomainsServiceRemote: ServiceRemoteWordPressComREST {
         let servicePath = path(forEndpoint: endPoint, withVersion: ._1_1)
         var parameters: [String: AnyObject] = domainSuggestionType.parameters()
         parameters["query"] = query as AnyObject
+        if let quantity = quantity {
+            parameters["quantity"] = quantity as AnyObject
+        }
         
         wordPressComRestApi.GET(servicePath,
                                 parameters: parameters,
