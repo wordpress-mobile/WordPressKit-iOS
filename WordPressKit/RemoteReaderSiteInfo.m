@@ -19,6 +19,7 @@ static NSString * const SiteDictionaryNameKey = @"name";
 static NSString * const SiteDictionaryURLKey = @"URL";
 static NSString * const SiteDictionarySubscriptionsKey = @"subscribers_count";
 static NSString * const SiteDictionarySubscriptionKey = @"subscription";
+static NSString * const SiteDictionaryUnseenCountKey = @"unseen_count";
 
 // Subscription keys
 static NSString * const SubscriptionDeliveryMethodsKey = @"delivery_methods";
