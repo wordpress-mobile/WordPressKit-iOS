@@ -43,6 +43,7 @@ static NSString * const DeliveryMethodNotificationKey = @"notification";
     siteInfo.isJetpack = [[response numberForKey:SiteDictionaryJetpackKey] boolValue];
     siteInfo.isPrivate = [[response numberForKey:SiteDictionaryPrivateKey] boolValue];
     siteInfo.isVisible = [[response numberForKey:SiteDictionaryVisibleKey] boolValue];
+    siteInfo.organizationID = [response numberForKey:SiteDictionaryOrganizationID] ?: @0;
     siteInfo.postCount = [response numberForKey:SiteDictionaryPostCountKey];
     siteInfo.siteBlavatar = [response stringForKeyPath:SiteDictionaryIconPathKey];
     siteInfo.siteDescription = [response stringForKey:SiteDictionaryDescriptionKey];
@@ -51,7 +52,6 @@ static NSString * const DeliveryMethodNotificationKey = @"notification";
     siteInfo.siteURL = [response stringForKey:SiteDictionaryURLKey];
     siteInfo.subscriberCount = [response numberForKey:SiteDictionarySubscriptionsKey] ?: @0;
     siteInfo.unseenCount = [response stringForKeyPath: SiteDictionaryUnseenCountKey];
-    siteInfo.organizationID = [response numberForKey:SiteDictionaryOrganizationID] ?: @0;
 
     if (![siteInfo.siteName length] && [siteInfo.siteURL length] > 0) {
         siteInfo.siteName = [[NSURL URLWithString:siteInfo.siteURL] host];
