@@ -20,7 +20,7 @@
 @property (nonatomic, copy) NSString *siteName;
 @property (nonatomic, copy) NSString *siteURL;
 @property (nonatomic, copy) NSNumber *subscriberCount;
-@property (nonatomic, copy) NSString *unseenCount;
+@property (nonatomic, copy) NSNumber *unseenCount;
 @property (nonatomic, copy) NSString *postsEndpoint;
 @property (nonatomic, copy) NSString *endpointPath;
 
