@@ -224,19 +224,21 @@ static NSString * const UserDictionaryEmailVerifiedKey = @"email_verified";
 - (void)requestWPComAuthLinkForEmail:(NSString *)email
                             clientID:(NSString *)clientID
                         clientSecret:(NSString *)clientSecret
+                        jetpackLogin:(BOOL)jetpackLogin
                          wpcomScheme:(NSString *)scheme
                              success:(void (^)(void))success
                              failure:(void (^)(NSError *error))failure
 {
-    
     NSString *path = [self pathForEndpoint:@"auth/send-login-email"
-                               withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
+                               withVersion:ServiceRemoteWordPressComRESTApiVersion_1_3];
+    
+    NSDictionary *extraParams = jetpackLogin ? @{@"source": @"jetpack"} : nil;
     
     [self requestWPComMagicLinkForEmail:email
                                    path:path
                                clientID:clientID
                            clientSecret:clientSecret
-                            extraParams: nil
+                            extraParams:extraParams
                             wpcomScheme:scheme
                                 success:success
                                 failure:failure];

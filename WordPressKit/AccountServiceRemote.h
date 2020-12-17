@@ -98,6 +98,7 @@ typedef NS_ERROR_ENUM(AccountServiceRemoteErrorDomain, AccountServiceRemoteError
 - (void)requestWPComAuthLinkForEmail:(NSString *)email
                             clientID:(NSString *)clientID
                         clientSecret:(NSString *)clientSecret
+                        jetpackLogin:(BOOL)jetpackLogin
                          wpcomScheme:(NSString *)scheme
                              success:(void (^)(void))success
                              failure:(void (^)(NSError *error))failure;
