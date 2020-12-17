@@ -533,7 +533,7 @@ class AccountServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
         let expect = expectation(description: "Request WPCom Auth Link success")
 
         stubRemoteResponse(linkEndpoint, filename: requestLinkSuccessMockFilename, contentType: .ApplicationJSON)
-        remote.requestWPComAuthLink(forEmail: email, clientID: "client123", clientSecret: "shhh", wpcomScheme: "wordpress", success: {
+        remote.requestWPComAuthLink(forEmail: email, clientID: "client123", clientSecret: "shhh", jetpackLogin: false, wpcomScheme: "wordpress", success: {
             expect.fulfill()
         }, failure: { error in
             XCTFail("This callback shouldn't get called")
@@ -547,7 +547,7 @@ class AccountServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
         let expect = expectation(description: "Request WPCom Auth Link with bad email address fails")
 
         stubRemoteResponse(linkEndpoint, filename: requestLinkNoSuchUserFailureMockFilename, contentType: .ApplicationJSON, status: 404)
-        remote.requestWPComAuthLink(forEmail: email, clientID: "client123", clientSecret: "shhh", wpcomScheme: "wordpress", success: {
+        remote.requestWPComAuthLink(forEmail: email, clientID: "client123", clientSecret: "shhh", jetpackLogin: false, wpcomScheme: "wordpress", success: {
             expect.fulfill()
             XCTFail("This callback shouldn't get called")
         }, failure: { error in
@@ -568,7 +568,7 @@ class AccountServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
         let expect = expectation(description: "Request WPCom Auth Link with bad client ID fails")
 
         stubRemoteResponse(linkEndpoint, filename: requestLinkInvalidClientFailureMockFilename, contentType: .ApplicationJSON, status: 403)
-        remote.requestWPComAuthLink(forEmail: email, clientID: "client123", clientSecret: "shhh", wpcomScheme: "wordpress", success: {
+        remote.requestWPComAuthLink(forEmail: email, clientID: "client123", clientSecret: "shhh", jetpackLogin: false, wpcomScheme: "wordpress", success: {
             expect.fulfill()
             XCTFail("This callback shouldn't get called")
         }, failure: { error in
@@ -589,7 +589,7 @@ class AccountServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
         let expect = expectation(description: "Request WPCom Auth Link with bad secret fails")
 
         stubRemoteResponse(linkEndpoint, filename: requestLinkInvalidSecretFailureMockFilename, contentType: .ApplicationJSON, status: 403)
-        remote.requestWPComAuthLink(forEmail: email, clientID: "client123", clientSecret: "shhh", wpcomScheme: "wordpress", success: {
+        remote.requestWPComAuthLink(forEmail: email, clientID: "client123", clientSecret: "shhh", jetpackLogin: false, wpcomScheme: "wordpress", success: {
             expect.fulfill()
             XCTFail("This callback shouldn't get called")
         }, failure: { error in
@@ -611,7 +611,7 @@ class AccountServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
         let expect = expectation(description: "Request WPCom Auth Link with server error failure")
 
         stubRemoteResponse(linkEndpoint, data: Data(), contentType: .NoContentType, status: 500)
-        remote.requestWPComAuthLink(forEmail: email, clientID: "client123", clientSecret: "shhh", wpcomScheme: "wordpress", success: {
+        remote.requestWPComAuthLink(forEmail: email, clientID: "client123", clientSecret: "shhh", jetpackLogin: false, wpcomScheme: "wordpress", success: {
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         }, failure: { error in
