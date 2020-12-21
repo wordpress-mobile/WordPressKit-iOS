@@ -10,6 +10,7 @@
     /// - Parameters:
     ///     - siteID: The target site's ID.
     ///     - rewindID: The rewindID to restore to.
+    ///     - types: The types of items to restore.
     ///     - success: Closure to be executed on success
     ///     - failure: Closure to be executed on error.
     ///
