@@ -17,13 +17,26 @@
     ///
     @objc public func restoreSite(_ siteID: Int,
                                   rewindID: String,
+                                  types: RestoreTypes? = nil,
                                   success: @escaping (_ restoreID: String) -> Void,
                                   failure: @escaping (Error) -> Void) {
         let endpoint = "activity-log/\(siteID)/rewind/to/\(rewindID)"
         let path = self.path(forEndpoint: endpoint, withVersion: ._1_0)
-        
+        var parameters: [String: AnyObject] = [:]
+
+        if let types = types {
+            var restoreTypes: [String: AnyObject] = [:]
+            restoreTypes["themes"] = types.themes as AnyObject
+            restoreTypes["plugins"] = types.plugins as AnyObject
+            restoreTypes["uploads"] = types.uploads as AnyObject
+            restoreTypes["sqls"] = types.sqls as AnyObject
+            restoreTypes["roots"] = types.roots as AnyObject
+            restoreTypes["contents"] = types.contents as AnyObject
+            parameters["types"] = restoreTypes as AnyObject
+        }
+
         wordPressComRestApi.POST(path,
-                                 parameters: nil,
+                                 parameters: parameters,
                                  success: { response, _ in
                                     guard let restoreID = response["restore_id"] as? Int else {
                                         failure(ResponseError.decodingFailure)
