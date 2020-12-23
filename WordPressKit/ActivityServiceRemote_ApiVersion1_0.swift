@@ -26,14 +26,7 @@
         var parameters: [String: AnyObject] = [:]
 
         if let types = types {
-            var restoreTypes: [String: AnyObject] = [:]
-            restoreTypes["themes"] = types.themes as AnyObject
-            restoreTypes["plugins"] = types.plugins as AnyObject
-            restoreTypes["uploads"] = types.uploads as AnyObject
-            restoreTypes["sqls"] = types.sqls as AnyObject
-            restoreTypes["roots"] = types.roots as AnyObject
-            restoreTypes["contents"] = types.contents as AnyObject
-            parameters["types"] = restoreTypes as AnyObject
+            parameters["types"] = types.toDictionary() as AnyObject
         }
 
         wordPressComRestApi.POST(path,
