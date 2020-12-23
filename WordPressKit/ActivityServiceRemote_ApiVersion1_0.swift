@@ -16,7 +16,7 @@
     ///
     /// - Returns: A restoreID to check the status of the rewind request.
     ///
-    @objc public func restoreSite(_ siteID: Int,
+    public func restoreSite(_ siteID: Int,
                                   rewindID: String,
                                   types: JetpackRestoreTypes? = nil,
                                   success: @escaping (_ restoreID: String) -> Void,
