@@ -18,7 +18,7 @@
     ///
     @objc public func restoreSite(_ siteID: Int,
                                   rewindID: String,
-                                  types: RestoreTypes? = nil,
+                                  types: JetpackRestoreTypes? = nil,
                                   success: @escaping (_ restoreID: String) -> Void,
                                   failure: @escaping (Error) -> Void) {
         let endpoint = "activity-log/\(siteID)/rewind/to/\(rewindID)"

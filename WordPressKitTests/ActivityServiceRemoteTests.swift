@@ -282,12 +282,12 @@ class ActivityServiceRemoteTests: RemoteTestCase, RESTTestable {
 
         stubRemoteResponse(restoreEndpoint, filename: restoreSuccessMockFilename, contentType: .ApplicationJSON)
 
-        let restoreTypes = RestoreTypes(themes: true,
-                                        plugins: true,
-                                        uploads: true,
-                                        sqls: true,
-                                        roots: true,
-                                        contents: true)
+        let restoreTypes = JetpackRestoreTypes(themes: true,
+                                               plugins: true,
+                                               uploads: true,
+                                               sqls: true,
+                                               roots: true,
+                                               contents: true)
 
         remoteV1.restoreSite(siteID,
                              rewindID: rewindID,

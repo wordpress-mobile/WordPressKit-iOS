@@ -1,6 +1,6 @@
 import Foundation
 
-public class RestoreTypes: NSObject {
+public class JetpackRestoreTypes: NSObject {
     public let themes: Bool
     public let plugins: Bool
     public let uploads: Bool

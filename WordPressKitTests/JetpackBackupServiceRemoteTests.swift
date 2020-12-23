@@ -2,10 +2,10 @@ import XCTest
 
 @testable import WordPressKit
 
-class BackupServiceRemoteTests: RemoteTestCase, RESTTestable {
+class JetpackBackupServiceRemoteTests: RemoteTestCase, RESTTestable {
 
     let mockRemoteApi = MockWordPressComRestApi()
-    var service: BackupServiceRemote!
+    var service: JetpackBackupServiceRemote!
 
     /// MARK: - Constants
 
@@ -23,7 +23,7 @@ class BackupServiceRemoteTests: RemoteTestCase, RESTTestable {
     override func setUp() {
         super.setUp()
 
-        service = BackupServiceRemote(wordPressComRestApi: getRestApi())
+        service = JetpackBackupServiceRemote(wordPressComRestApi: getRestApi())
     }
 
     // MARK: - Prepare Backup
@@ -50,12 +50,12 @@ class BackupServiceRemoteTests: RemoteTestCase, RESTTestable {
                            filename: prepareBackupSuccessMockFilename,
                            contentType: .ApplicationJSON)
 
-        let restoreTypes = RestoreTypes(themes: true,
-                                        plugins: true,
-                                        uploads: true,
-                                        sqls: true,
-                                        roots: true,
-                                        contents: true)
+        let restoreTypes = JetpackRestoreTypes(themes: true,
+                                               plugins: true,
+                                               uploads: true,
+                                               sqls: true,
+                                               roots: true,
+                                               contents: true)
 
         service.prepareBackup(siteID, types: restoreTypes, success: { backup in
             XCTAssertEqual(backup.downloadID, 283844)

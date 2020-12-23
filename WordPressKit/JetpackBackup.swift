@@ -1,6 +1,6 @@
 import Foundation
 
-public struct Backup: Decodable {
+public struct JetpackBackup: Decodable {
     
     // Common
     public let backupPoint: Date

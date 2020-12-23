@@ -2,7 +2,7 @@ import Foundation
 import WordPressShared
 import CocoaLumberjack
 
-open class BackupServiceRemote: ServiceRemoteWordPressComREST {
+open class JetpackBackupServiceRemote: ServiceRemoteWordPressComREST {
     
     /// Prepare a downloadable backup snapshot for a site.
     ///
@@ -17,8 +17,8 @@ open class BackupServiceRemote: ServiceRemoteWordPressComREST {
     ///
     open func prepareBackup(_ siteID: Int,
                             rewindID: Int? = nil,
-                            types: RestoreTypes? = nil,
-                            success: @escaping (_ backup: Backup) -> Void,
+                            types: JetpackRestoreTypes? = nil,
+                            success: @escaping (_ backup: JetpackBackup) -> Void,
                             failure: @escaping (Error) -> Void) {
         let path = self.backupPath(for: siteID)
         var parameters: [String: AnyObject] = [:]
@@ -38,7 +38,7 @@ open class BackupServiceRemote: ServiceRemoteWordPressComREST {
             do {
                 let decoder = JSONDecoder.apiDecoder
                 let data = try JSONSerialization.data(withJSONObject: response, options: [])
-                let envelope = try decoder.decode(Backup.self, from: data)
+                let envelope = try decoder.decode(JetpackBackup.self, from: data)
                 success(envelope)
             } catch {
                 failure(error)
@@ -59,7 +59,7 @@ open class BackupServiceRemote: ServiceRemoteWordPressComREST {
     ///
     open func getBackupStatus(_ siteID: Int,
                               downloadID: Int? = nil,
-                              success: @escaping (_ backup: Backup) -> Void,
+                              success: @escaping (_ backup: JetpackBackup) -> Void,
                               failure: @escaping (Error) -> Void) {
         
         let path: String
@@ -73,7 +73,7 @@ open class BackupServiceRemote: ServiceRemoteWordPressComREST {
             do {
                 let decoder = JSONDecoder.apiDecoder
                 let data = try JSONSerialization.data(withJSONObject: response, options: [])
-                let envelope = try decoder.decode(Backup.self, from: data)
+                let envelope = try decoder.decode(JetpackBackup.self, from: data)
                 success(envelope)
             } catch {
                 failure(error)
