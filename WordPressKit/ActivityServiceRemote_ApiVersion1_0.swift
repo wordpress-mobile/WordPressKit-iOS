@@ -17,10 +17,10 @@
     /// - Returns: A restoreID to check the status of the rewind request.
     ///
     public func restoreSite(_ siteID: Int,
-                                  rewindID: String,
-                                  types: JetpackRestoreTypes? = nil,
-                                  success: @escaping (_ restoreID: String) -> Void,
-                                  failure: @escaping (Error) -> Void) {
+                            rewindID: String,
+                            types: JetpackRestoreTypes? = nil,
+                            success: @escaping (_ restoreID: String) -> Void,
+                            failure: @escaping (Error) -> Void) {
         let endpoint = "activity-log/\(siteID)/rewind/to/\(rewindID)"
         let path = self.path(forEndpoint: endpoint, withVersion: ._1_0)
         var parameters: [String: AnyObject] = [:]
