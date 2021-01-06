@@ -19,12 +19,12 @@ public class JetpackRestoreTypes: NSObject {
     
     func toDictionary() -> [String: AnyObject] {
         return [
-            "themes": self.themes as AnyObject,
-            "plugins": self.plugins as AnyObject,
-            "uploads": self.uploads as AnyObject,
-            "sqls": self.sqls as AnyObject,
-            "roots": self.roots as AnyObject,
-            "contents": self.contents as AnyObject
+            "themes": themes as AnyObject,
+            "plugins": plugins as AnyObject,
+            "uploads": uploads as AnyObject,
+            "sqls": sqls as AnyObject,
+            "roots": roots as AnyObject,
+            "contents": contents as AnyObject
         ]
     }
 }

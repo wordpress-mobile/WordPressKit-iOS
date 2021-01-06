@@ -20,7 +20,7 @@ open class JetpackBackupServiceRemote: ServiceRemoteWordPressComREST {
                             types: JetpackRestoreTypes? = nil,
                             success: @escaping (_ backup: JetpackBackup) -> Void,
                             failure: @escaping (Error) -> Void) {
-        let path = self.backupPath(for: siteID)
+        let path = backupPath(for: siteID)
         var parameters: [String: AnyObject] = [:]
 
         if let types = types {
@@ -57,9 +57,9 @@ open class JetpackBackupServiceRemote: ServiceRemoteWordPressComREST {
         
         let path: String
         if let downloadID = downloadID {
-            path = self.backupPath(for: siteID, with: "\(downloadID)")
+            path = backupPath(for: siteID, with: "\(downloadID)")
         } else {
-            path = self.backupPath(for: siteID)
+            path = backupPath(for: siteID)
         }
 
         wordPressComRestApi.GET(path, parameters: nil, success: { response, _ in
