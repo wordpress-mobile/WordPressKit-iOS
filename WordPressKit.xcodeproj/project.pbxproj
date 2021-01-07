@@ -523,13 +523,20 @@
 		F9E56DF624EB11EF00916770 /* FeatureFlag.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9E56DF524EB11EF00916770 /* FeatureFlag.swift */; };
 		F9E56DF824EB125600916770 /* FeatureFlagRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9E56DF724EB125600916770 /* FeatureFlagRemote.swift */; };
 		F9E56DFB24EB18C300916770 /* FeatureFlagRemoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9E56DFA24EB18C300916770 /* FeatureFlagRemoteTests.swift */; };
+		FA28A3D6259079960082C7B0 /* JetpackRestoreTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA28A3D5259079960082C7B0 /* JetpackRestoreTypes.swift */; };
 		FA42615E2570C713003A01E2 /* activity-groups-success.json in Resources */ = {isa = PBXBuildFile; fileRef = FA42615D2570C712003A01E2 /* activity-groups-success.json */; };
 		FA4261722570CC91003A01E2 /* activity-groups-bad-json-failure.json in Resources */ = {isa = PBXBuildFile; fileRef = FA4261712570CC91003A01E2 /* activity-groups-bad-json-failure.json */; };
+		FA79F1872591730D00D235A9 /* backup-get-backup-status-complete-success.json in Resources */ = {isa = PBXBuildFile; fileRef = FA79F1852591730D00D235A9 /* backup-get-backup-status-complete-success.json */; };
+		FA79F1882591730D00D235A9 /* backup-prepare-backup-success.json in Resources */ = {isa = PBXBuildFile; fileRef = FA79F1862591730D00D235A9 /* backup-prepare-backup-success.json */; };
+		FA79F1962591809C00D235A9 /* backup-get-backup-status-in-progress-success.json in Resources */ = {isa = PBXBuildFile; fileRef = FA79F1952591809C00D235A9 /* backup-get-backup-status-in-progress-success.json */; };
 		FA87FE0724EB39C4003FBEE3 /* ReaderPostServiceRemote+SubscriptionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA87FE0624EB39C4003FBEE3 /* ReaderPostServiceRemote+SubscriptionTests.swift */; };
 		FA87FE0924EB3FEF003FBEE3 /* reader-post-comments-subscription-status-success.json in Resources */ = {isa = PBXBuildFile; fileRef = FA87FE0824EB3FEF003FBEE3 /* reader-post-comments-subscription-status-success.json */; };
 		FA87FE0B24EB4419003FBEE3 /* reader-post-comments-subscribe-success.json in Resources */ = {isa = PBXBuildFile; fileRef = FA87FE0A24EB4419003FBEE3 /* reader-post-comments-subscribe-success.json */; };
 		FA87FE0D24EB4450003FBEE3 /* reader-post-comments-unsubscribe-success.json in Resources */ = {isa = PBXBuildFile; fileRef = FA87FE0C24EB4450003FBEE3 /* reader-post-comments-unsubscribe-success.json */; };
 		FAB4F32324EC072700F259BA /* ReaderPostServiceRemote+Subscriptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB4F32224EC072700F259BA /* ReaderPostServiceRemote+Subscriptions.swift */; };
+		FAD1344525908F5F00A8FEB1 /* JetpackBackupServiceRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD1344425908F5F00A8FEB1 /* JetpackBackupServiceRemote.swift */; };
+		FAD1344B259094C300A8FEB1 /* JetpackBackup.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD1344A259094C300A8FEB1 /* JetpackBackup.swift */; };
+		FAD1345125909DEA00A8FEB1 /* JetpackBackupServiceRemoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD1345025909DEA00A8FEB1 /* JetpackBackupServiceRemoteTests.swift */; };
 		FF20AD2220B8471A00082398 /* WordPressKit.podspec in Resources */ = {isa = PBXBuildFile; fileRef = FF20AD2120B8471A00082398 /* WordPressKit.podspec */; };
 		FF807251241FB90E00809AF5 /* WordPressOrgRestApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF80724F241FB90E00809AF5 /* WordPressOrgRestApi.swift */; };
 		FF807252241FB90E00809AF5 /* Authenticator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF807250241FB90E00809AF5 /* Authenticator.swift */; };
@@ -1093,13 +1100,20 @@
 		F9E56DF524EB11EF00916770 /* FeatureFlag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureFlag.swift; sourceTree = "<group>"; };
 		F9E56DF724EB125600916770 /* FeatureFlagRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureFlagRemote.swift; sourceTree = "<group>"; };
 		F9E56DFA24EB18C300916770 /* FeatureFlagRemoteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureFlagRemoteTests.swift; sourceTree = "<group>"; };
+		FA28A3D5259079960082C7B0 /* JetpackRestoreTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JetpackRestoreTypes.swift; sourceTree = "<group>"; };
 		FA42615D2570C712003A01E2 /* activity-groups-success.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "activity-groups-success.json"; sourceTree = "<group>"; };
 		FA4261712570CC91003A01E2 /* activity-groups-bad-json-failure.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "activity-groups-bad-json-failure.json"; sourceTree = "<group>"; };
+		FA79F1852591730D00D235A9 /* backup-get-backup-status-complete-success.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "backup-get-backup-status-complete-success.json"; path = "WordPressKitTests/backup-get-backup-status-complete-success.json"; sourceTree = SOURCE_ROOT; };
+		FA79F1862591730D00D235A9 /* backup-prepare-backup-success.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "backup-prepare-backup-success.json"; path = "WordPressKitTests/backup-prepare-backup-success.json"; sourceTree = SOURCE_ROOT; };
+		FA79F1952591809C00D235A9 /* backup-get-backup-status-in-progress-success.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "backup-get-backup-status-in-progress-success.json"; path = "WordPressKitTests/backup-get-backup-status-in-progress-success.json"; sourceTree = SOURCE_ROOT; };
 		FA87FE0624EB39C4003FBEE3 /* ReaderPostServiceRemote+SubscriptionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReaderPostServiceRemote+SubscriptionTests.swift"; sourceTree = "<group>"; };
 		FA87FE0824EB3FEF003FBEE3 /* reader-post-comments-subscription-status-success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "reader-post-comments-subscription-status-success.json"; sourceTree = "<group>"; };
 		FA87FE0A24EB4419003FBEE3 /* reader-post-comments-subscribe-success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "reader-post-comments-subscribe-success.json"; sourceTree = "<group>"; };
 		FA87FE0C24EB4450003FBEE3 /* reader-post-comments-unsubscribe-success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "reader-post-comments-unsubscribe-success.json"; sourceTree = "<group>"; };
 		FAB4F32224EC072700F259BA /* ReaderPostServiceRemote+Subscriptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReaderPostServiceRemote+Subscriptions.swift"; sourceTree = "<group>"; };
+		FAD1344425908F5F00A8FEB1 /* JetpackBackupServiceRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JetpackBackupServiceRemote.swift; sourceTree = "<group>"; };
+		FAD1344A259094C300A8FEB1 /* JetpackBackup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JetpackBackup.swift; sourceTree = "<group>"; };
+		FAD1345025909DEA00A8FEB1 /* JetpackBackupServiceRemoteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JetpackBackupServiceRemoteTests.swift; sourceTree = "<group>"; };
 		FF20AD2120B8471A00082398 /* WordPressKit.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = WordPressKit.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		FF80724F241FB90E00809AF5 /* WordPressOrgRestApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WordPressOrgRestApi.swift; sourceTree = "<group>"; };
 		FF807250241FB90E00809AF5 /* Authenticator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Authenticator.swift; sourceTree = "<group>"; };
@@ -1431,6 +1445,7 @@
 				F194E1212417ED7E00874408 /* Authentication */,
 				93BD273E1EE732CC002BB00B /* Accounts */,
 				826016FE1F9FD59400533B6C /* Activity */,
+				FAD1345425909DF500A8FEB1 /* Backup */,
 				74B5F0DF1EF82AAB00B411E7 /* Blog */,
 				74585B911F0D520700E7E667 /* Domains */,
 				7EC60EBC22DC4F5A00FB0336 /* Editor */,
@@ -1535,6 +1550,7 @@
 				3F758FD224F6C68200BBA2FC /* AnnouncementServiceRemote.swift */,
 				F1BB7805240FB90B0030ADDC /* AtomicAuthenticationServiceRemote.swift */,
 				40247DF92120D8E100AE1C3C /* AutomatedTransferService.swift */,
+				FAD1344425908F5F00A8FEB1 /* JetpackBackupServiceRemote.swift */,
 				82FFBF551F460DD400F4573F /* BlogJetpackSettingsServiceRemote.swift */,
 				74B5F0DB1EF829B800B411E7 /* BlogServiceRemote.h */,
 				74B5F0D31EF8299B00B411E7 /* BlogServiceRemoteREST.h */,
@@ -1631,6 +1647,8 @@
 				9AF4F2FD2183345D00570E4B /* Revisions */,
 				930F52B91ECF8A44002F921B /* Stats */,
 				32FC1D25255C91ED00CD0A7B /* Jetpack Scan */,
+				FAD1344A259094C300A8FEB1 /* JetpackBackup.swift */,
+				FA28A3D5259079960082C7B0 /* JetpackRestoreTypes.swift */,
 				7403A3011EF0726E00DED7DC /* AccountSettings.swift */,
 				7EC60EBF22DC5D7C00FB0336 /* EditorSettings.swift */,
 				74E229591F1E77290085F7F2 /* KeyringConnection.swift */,
@@ -1762,6 +1780,9 @@
 				93BD27461EE73442002BB00B /* auth-send-login-email-success.json */,
 				40F88F5F1F85723400AE3FAF /* auth-send-verification-email-already-verified-failure.json */,
 				40F88F611F85799A00AE3FAF /* auth-send-verification-email-success.json */,
+				FA79F1852591730D00D235A9 /* backup-get-backup-status-complete-success.json */,
+				FA79F1952591809C00D235A9 /* backup-get-backup-status-in-progress-success.json */,
+				FA79F1862591730D00D235A9 /* backup-prepare-backup-success.json */,
 				9A2D0B2C225E1038009E585F /* jetpack-service-check-site-success.json */,
 				9A2D0B2D225E104E009E585F /* jetpack-service-check-site-success-no-jetpack.json */,
 				9A2D0B2E225E10AE009E585F /* jetpack-service-check-site-failure-data.json */,
@@ -2084,6 +2105,14 @@
 			path = Utilities;
 			sourceTree = "<group>";
 		};
+		FAD1345425909DF500A8FEB1 /* Backup */ = {
+			isa = PBXGroup;
+			children = (
+				FAD1345025909DEA00A8FEB1 /* JetpackBackupServiceRemoteTests.swift */,
+			);
+			name = Backup;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -2288,6 +2317,7 @@
 				7403A2FB1EF06FEB00DED7DC /* me-settings-change-invalid-input-failure.json in Resources */,
 				93BD27641EE73442002BB00B /* me-sites-visibility-failure.json in Resources */,
 				93F50A471F227F3600B5BEBA /* xmlrpc-response-getprofile.xml in Resources */,
+				FA79F1962591809C00D235A9 /* backup-get-backup-status-in-progress-success.json in Resources */,
 				7403A2F51EF06FEB00DED7DC /* me-settings-bad-json-failure.json in Resources */,
 				9AB6D64E218731AB0008F274 /* post-revisions-mapping-success.json in Resources */,
 				404057C7221B36070060250C /* stats-search-term-result.json in Resources */,
@@ -2324,6 +2354,7 @@
 				74C473B71EF3229B009918F2 /* site-delete-unexpected-json-failure.json in Resources */,
 				3297E2852564746800287D21 /* jetpack-scan-unavailable.json in Resources */,
 				9A2D0B30225E1245009E585F /* jetpack-service-check-site-success-no-jetpack.json in Resources */,
+				FA79F1882591730D00D235A9 /* backup-prepare-backup-success.json in Resources */,
 				9A88174E223C01E400A3AB20 /* jetpack-service-error-unknown.json in Resources */,
 				40819771221DFDB700A298E4 /* stats-posts-data.json in Resources */,
 				740B23EE1F17FB7E00067A2A /* xmlrpc-malformed-request-xml-error.xml in Resources */,
@@ -2469,6 +2500,7 @@
 				74C473CB1EF33696009918F2 /* site-active-purchases-auth-failure.json in Resources */,
 				FFE247B520C891E6002DF3A2 /* WordPressComAuthenticateWithIDTokenExistingUserNeedsConnection.json in Resources */,
 				BA8EA71B24A07B2200D5CC9F /* plugin-service-remote-auth-failure.json in Resources */,
+				FA79F1872591730D00D235A9 /* backup-get-backup-status-complete-success.json in Resources */,
 				74D67F381F15C3740010C5ED /* site-viewers-delete-auth-failure.json in Resources */,
 				826016FA1F9FAF6300533B6C /* activity-log-success-1.json in Resources */,
 				9A881752223C01E400A3AB20 /* jetpack-service-error-login-failure.json in Resources */,
@@ -2677,6 +2709,7 @@
 				40AB1ADA200FED25009B533D /* PluginDirectoryFeedPage.swift in Sources */,
 				436D56352118D85800CEAA33 /* Country.swift in Sources */,
 				74A44DCB1F13C533006CD8F4 /* NotificationSettingsServiceRemote.swift in Sources */,
+				FAD1344525908F5F00A8FEB1 /* JetpackBackupServiceRemote.swift in Sources */,
 				F1BB7806240FB90B0030ADDC /* AtomicAuthenticationServiceRemote.swift in Sources */,
 				404057CE221C38130060250C /* StatsTopVideosTimeIntervalData.swift in Sources */,
 				7E0D64FF22D855700092AD10 /* EditorServiceRemote.swift in Sources */,
@@ -2728,11 +2761,13 @@
 				439A44D82107C85E00795ED7 /* PlanServiceRemote_ApiVersion1_3.swift in Sources */,
 				93C674EE1EE834B700BFAF05 /* RemoteBlogSettings.swift in Sources */,
 				436D5641211B7F4400CEAA33 /* DomainContactInformation.swift in Sources */,
+				FA28A3D6259079960082C7B0 /* JetpackRestoreTypes.swift in Sources */,
 				32FC20CE255DCC6100CD0A7B /* JetpackScanThreat.swift in Sources */,
 				40A71C6E220E1D8E002E3D25 /* StatsServiceRemoteV2.swift in Sources */,
 				82FFBF521F45F04100F4573F /* RemoteBlogJetpackMonitorSettings.swift in Sources */,
 				462422292548B98A002B8A12 /* SiteDesignServiceRemote.swift in Sources */,
 				9309994E1F1657C600F006A1 /* ThemeServiceRemote.m in Sources */,
+				FAD1344B259094C300A8FEB1 /* JetpackBackup.swift in Sources */,
 				74E229491F1E73060085F7F2 /* SharingServiceRemote.swift in Sources */,
 				9309995C1F16616A00F006A1 /* RemoteTheme.m in Sources */,
 			);
@@ -2758,6 +2793,7 @@
 				BAFA775624ADAB3C000F0D3A /* MockPluginDirectoryEntryProvider.swift in Sources */,
 				9AB6D64A218727D60008F274 /* PostServiceRemoteRESTRevisionsTest.swift in Sources */,
 				7430C9BD1F192C0F0051B8E6 /* ReaderPostServiceRemoteTests.m in Sources */,
+				FAD1345125909DEA00A8FEB1 /* JetpackBackupServiceRemoteTests.swift in Sources */,
 				8B2F4BE924ABC9DC0056C08A /* ReaderPostServiceRemote+CardsTests.swift in Sources */,
 				40F9880C221ACEEE00B7B369 /* StatsRemoteV2Tests.swift in Sources */,
 				4625BAEB253E118400C04AAD /* PageLayoutServiceRemoteTests.swift in Sources */,

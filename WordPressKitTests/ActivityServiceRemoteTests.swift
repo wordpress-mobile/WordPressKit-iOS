@@ -264,16 +264,41 @@ class ActivityServiceRemoteTests: RemoteTestCase, RESTTestable {
         let expect = expectation(description: "Trigger restore success")
 
         stubRemoteResponse(restoreEndpoint, filename: restoreSuccessMockFilename, contentType: .ApplicationJSON)
+        
+        remoteV1.restoreSite(siteID,
+                             rewindID: rewindID,
+                             success: { (restoreID) in
+                                XCTAssertEqual(restoreID, self.restoreID)
+                                expect.fulfill()
+                             }, failure: { error in
+                                XCTFail("This callback shouldn't get called")
+                                expect.fulfill()
+                             })
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+    
+    func testRestoreSucceedsWithParameters() {
+        let expect = expectation(description: "Trigger restore success")
+
+        stubRemoteResponse(restoreEndpoint, filename: restoreSuccessMockFilename, contentType: .ApplicationJSON)
+
+        let restoreTypes = JetpackRestoreTypes(themes: true,
+                                               plugins: true,
+                                               uploads: true,
+                                               sqls: true,
+                                               roots: true,
+                                               contents: true)
 
         remoteV1.restoreSite(siteID,
-                           rewindID: rewindID,
-                           success: { (restoreID) in
-                               XCTAssertEqual(restoreID, self.restoreID)
-                               expect.fulfill()
-                           }, failure: { error in
-                               XCTFail("This callback shouldn't get called")
-                               expect.fulfill()
-                           })
+                             rewindID: rewindID,
+                             types: restoreTypes,
+                             success: { (restoreID) in
+                                XCTAssertEqual(restoreID, self.restoreID)
+                                expect.fulfill()
+                             }, failure: { error in
+                                XCTFail("This callback shouldn't get called")
+                                expect.fulfill()
+                             })
         waitForExpectations(timeout: timeout, handler: nil)
     }
 
