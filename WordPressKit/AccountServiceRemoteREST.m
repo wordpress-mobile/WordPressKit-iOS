@@ -15,6 +15,15 @@ static NSString * const UserDictionaryAvatarURLKey = @"avatar_URL";
 static NSString * const UserDictionaryDateKey = @"date";
 static NSString * const UserDictionaryEmailVerifiedKey = @"email_verified";
 
+MagicLinkParameter const MagicLinkParameterFlow = @"flow";
+MagicLinkParameter const MagicLinkParameterSource = @"source";
+
+MagicLinkSource const MagicLinkSourceDefault = @"default";
+MagicLinkSource const MagicLinkSourceJetpackConnect = @"jetpack";
+
+MagicLinkFlow const MagicLinkFlowLogin = @"login";
+MagicLinkFlow const MagicLinkFlowSignup = @"signup";
+
 @interface AccountServiceRemoteREST ()
 
 @end
@@ -224,19 +233,24 @@ static NSString * const UserDictionaryEmailVerifiedKey = @"email_verified";
 - (void)requestWPComAuthLinkForEmail:(NSString *)email
                             clientID:(NSString *)clientID
                         clientSecret:(NSString *)clientSecret
+                              source:(MagicLinkSource)source
                          wpcomScheme:(NSString *)scheme
                              success:(void (^)(void))success
                              failure:(void (^)(NSError *error))failure
 {
-    
     NSString *path = [self pathForEndpoint:@"auth/send-login-email"
-                               withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
+                               withVersion:ServiceRemoteWordPressComRESTApiVersion_1_3];
+    
+    NSDictionary *extraParams = @{
+        MagicLinkParameterFlow: MagicLinkFlowLogin,
+        MagicLinkParameterSource: source
+    };
     
     [self requestWPComMagicLinkForEmail:email
                                    path:path
                                clientID:clientID
                            clientSecret:clientSecret
-                            extraParams: nil
+                            extraParams:extraParams
                             wpcomScheme:scheme
                                 success:success
                                 failure:failure];
@@ -252,14 +266,17 @@ static NSString * const UserDictionaryEmailVerifiedKey = @"email_verified";
     
     NSString *path = [self pathForEndpoint:@"auth/send-signup-email"
                                withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
-
-    NSDictionary *signupFlowParam = @{@"signup_flow_name": @"mobile-ios"};
+    
+    NSDictionary *extraParams = @{
+        @"signup_flow_name": @"mobile-ios",
+        MagicLinkParameterFlow: MagicLinkFlowSignup
+    };
 
     [self requestWPComMagicLinkForEmail:email
                                    path:path
                                clientID:clientID
                            clientSecret:clientSecret
-                            extraParams:signupFlowParam
+                            extraParams:extraParams
                             wpcomScheme:scheme
                                 success:success
                                 failure:failure];

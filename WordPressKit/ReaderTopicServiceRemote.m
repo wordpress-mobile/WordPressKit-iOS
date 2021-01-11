@@ -11,6 +11,7 @@ static NSString * const TopicMenuSectionRecommendedKey = @"recommended";
 static NSString * const TopicRemovedTagKey = @"removed_tag";
 static NSString * const TopicAddedTagKey = @"added_tag";
 static NSString * const TopicDictionaryIDKey = @"ID";
+static NSString * const TopicDictionaryOrganizationIDKey = @"organization_id";
 static NSString * const TopicDictionaryOwnerKey = @"owner";
 static NSString * const TopicDictionarySlugKey = @"slug";
 static NSString * const TopicDictionaryTagKey = @"tag";
@@ -335,6 +336,7 @@ static NSString * const TopicNotFoundMarker = @"-notfound-";
     topic.slug = [topicDict stringForKey:TopicDictionarySlugKey];
     topic.title = [topicDict stringForKey:TopicDictionaryDisplayNameKey] ?: [topicDict stringForKey:TopicDictionaryTitleKey];
     topic.type = [topicDict stringForKey:TopicDictionaryTypeKey];
+    topic.organizationID = [topicDict numberForKeyPath:TopicDictionaryOrganizationIDKey] ?: @0;
 
     return topic;
 }
