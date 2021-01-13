@@ -1,0 +1,13 @@
+{
+    "34197361": {
+        "capabilities": []
+    },
+    "107159616": {
+        "capabilities": [
+            "backup",
+            "backup-realtime",
+            "scan",
+            "antispam"
+        ]
+    }
+}
