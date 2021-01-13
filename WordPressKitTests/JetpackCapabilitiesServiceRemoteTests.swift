@@ -33,8 +33,8 @@ class JetpackCapabilitiesServiceRemoteTests: RemoteTestCase, RESTTestable {
     }
 
     /// Calls the failure block in case of a malformed JSON
-    func testForbiddenBatchCapabilities() {
-        let expect = expectation(description: "Get the scan availability successfully")
+    func testMalformedBatchCapabilities() {
+        let expect = expectation(description: "Failures to decode the JSON")
         stubRemoteResponse("wpcom/v2/rewind/batch-capabilities", filename: "jetpack-batch-capabilities-malformed.json", contentType: .ApplicationJSON)
 
         service.for(siteIds: [34197361, 107159616], success: { capabilities in
