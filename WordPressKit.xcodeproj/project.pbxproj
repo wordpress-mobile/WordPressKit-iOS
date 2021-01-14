@@ -346,10 +346,11 @@
 		8B52B901257AC5A200221663 /* Date+endOfDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B52B900257AC5A200221663 /* Date+endOfDay.swift */; };
 		8B749DED25AF3E4600023F03 /* JetpackCapabilitiesServiceRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B749DEC25AF3E4600023F03 /* JetpackCapabilitiesServiceRemote.swift */; };
 		8B749E8225AF7DDA00023F03 /* JetpackCapabilitiesServiceRemoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B749E8125AF7DDA00023F03 /* JetpackCapabilitiesServiceRemoteTests.swift */; };
-		8B749E8625AF808600023F03 /* jetpack-batch-capabilities-success.json in Resources */ = {isa = PBXBuildFile; fileRef = 8B749E8525AF808600023F03 /* jetpack-batch-capabilities-success.json */; };
-		8B749E8A25AF819700023F03 /* jetpack-batch-capabilities-malformed.json in Resources */ = {isa = PBXBuildFile; fileRef = 8B749E8925AF819700023F03 /* jetpack-batch-capabilities-malformed.json */; };
+		8B749E8625AF808600023F03 /* jetpack-capabilities-107159616-success.json in Resources */ = {isa = PBXBuildFile; fileRef = 8B749E8525AF808600023F03 /* jetpack-capabilities-107159616-success.json */; };
+		8B749E8A25AF819700023F03 /* jetpack-capabilities-malformed.json in Resources */ = {isa = PBXBuildFile; fileRef = 8B749E8925AF819700023F03 /* jetpack-capabilities-malformed.json */; };
 		8BB66DB02523C181000B29DA /* ReaderPostServiceRemote+V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB66DAF2523C181000B29DA /* ReaderPostServiceRemote+V2.swift */; };
 		8BE67ED324AD05D3004DB4C9 /* Decodable+DictionaryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE67ED224AD05D3004DB4C9 /* Decodable+DictionaryTests.swift */; };
+		8BFB4E6625B07905004D026E /* jetpack-capabilities-34197361-success.json in Resources */ = {isa = PBXBuildFile; fileRef = 8BFB4E6525B07905004D026E /* jetpack-capabilities-34197361-success.json */; };
 		8C5734F925681A6A005E61EE /* Enum+UnknownCaseRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C5734F825681A6A005E61EE /* Enum+UnknownCaseRepresentable.swift */; };
 		9309994D1F1657C600F006A1 /* ThemeServiceRemote.h in Headers */ = {isa = PBXBuildFile; fileRef = 9309994B1F1657C600F006A1 /* ThemeServiceRemote.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9309994E1F1657C600F006A1 /* ThemeServiceRemote.m in Sources */ = {isa = PBXBuildFile; fileRef = 9309994C1F1657C600F006A1 /* ThemeServiceRemote.m */; };
@@ -915,10 +916,11 @@
 		8B52B900257AC5A200221663 /* Date+endOfDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+endOfDay.swift"; sourceTree = "<group>"; };
 		8B749DEC25AF3E4600023F03 /* JetpackCapabilitiesServiceRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JetpackCapabilitiesServiceRemote.swift; sourceTree = "<group>"; };
 		8B749E8125AF7DDA00023F03 /* JetpackCapabilitiesServiceRemoteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JetpackCapabilitiesServiceRemoteTests.swift; sourceTree = "<group>"; };
-		8B749E8525AF808600023F03 /* jetpack-batch-capabilities-success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "jetpack-batch-capabilities-success.json"; sourceTree = "<group>"; };
-		8B749E8925AF819700023F03 /* jetpack-batch-capabilities-malformed.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "jetpack-batch-capabilities-malformed.json"; sourceTree = "<group>"; };
+		8B749E8525AF808600023F03 /* jetpack-capabilities-107159616-success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "jetpack-capabilities-107159616-success.json"; sourceTree = "<group>"; };
+		8B749E8925AF819700023F03 /* jetpack-capabilities-malformed.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "jetpack-capabilities-malformed.json"; sourceTree = "<group>"; };
 		8BB66DAF2523C181000B29DA /* ReaderPostServiceRemote+V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReaderPostServiceRemote+V2.swift"; sourceTree = "<group>"; };
 		8BE67ED224AD05D3004DB4C9 /* Decodable+DictionaryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Decodable+DictionaryTests.swift"; sourceTree = "<group>"; };
+		8BFB4E6525B07905004D026E /* jetpack-capabilities-34197361-success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "jetpack-capabilities-34197361-success.json"; sourceTree = "<group>"; };
 		8C5734F825681A6A005E61EE /* Enum+UnknownCaseRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Enum+UnknownCaseRepresentable.swift"; sourceTree = "<group>"; };
 		9309994B1F1657C600F006A1 /* ThemeServiceRemote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThemeServiceRemote.h; sourceTree = "<group>"; };
 		9309994C1F1657C600F006A1 /* ThemeServiceRemote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThemeServiceRemote.m; sourceTree = "<group>"; };
@@ -1981,8 +1983,9 @@
 				4625BAF6253E130800C04AAD /* page-layout-blog-layouts-malformed.json */,
 				462422302548BFEE002B8A12 /* nux-starter-designs-success.json */,
 				462422342548C031002B8A12 /* nux-starter-designs-malformed.json */,
-				8B749E8525AF808600023F03 /* jetpack-batch-capabilities-success.json */,
-				8B749E8925AF819700023F03 /* jetpack-batch-capabilities-malformed.json */,
+				8B749E8525AF808600023F03 /* jetpack-capabilities-107159616-success.json */,
+				8BFB4E6525B07905004D026E /* jetpack-capabilities-34197361-success.json */,
+				8B749E8925AF819700023F03 /* jetpack-capabilities-malformed.json */,
 				3297E1E32564683600287D21 /* jetpack-scan-in-progress.json */,
 				3297E2842564746800287D21 /* jetpack-scan-unavailable.json */,
 				3297E1EB2564694C00287D21 /* jetpack-scan-idle-success-no-threats.json */,
@@ -2371,7 +2374,7 @@
 				40819771221DFDB700A298E4 /* stats-posts-data.json in Resources */,
 				740B23EE1F17FB7E00067A2A /* xmlrpc-malformed-request-xml-error.xml in Resources */,
 				826016F91F9FAF6300533B6C /* activity-log-success-3.json in Resources */,
-				8B749E8A25AF819700023F03 /* jetpack-batch-capabilities-malformed.json in Resources */,
+				8B749E8A25AF819700023F03 /* jetpack-capabilities-malformed.json in Resources */,
 				93BD27551EE73442002BB00B /* auth-send-login-email-invalid-client-failure.json in Resources */,
 				826016FD1F9FAF6300533B6C /* activity-log-bad-json-failure.json in Resources */,
 				74C473CD1EF336BD009918F2 /* site-active-purchases-bad-json-failure.json in Resources */,
@@ -2436,6 +2439,7 @@
 				40819775221E497D00A298E4 /* stats-published-posts.json in Resources */,
 				FFA4D4B12423B33800BF5180 /* wp-pages.json in Resources */,
 				74D67F151F15C2D70010C5ED /* site-roles-success.json in Resources */,
+				8BFB4E6625B07905004D026E /* jetpack-capabilities-34197361-success.json in Resources */,
 				9A881753223C01E400A3AB20 /* jetpack-service-error-site-is-jetpack.json in Resources */,
 				D8DB404221EF22B500B8238E /* site-segments-multiple.json in Resources */,
 				740B23E11F17FB4200067A2A /* xmlrpc-metaweblog-editpost-bad-xml-failure.xml in Resources */,
@@ -2446,7 +2450,7 @@
 				BA3F139024A0AAF8006367A3 /* plugin-install-succeeds.json in Resources */,
 				74D67F131F15C2D70010C5ED /* site-roles-auth-failure.json in Resources */,
 				74B040721EF8B366002C6258 /* rest-site-settings.json in Resources */,
-				8B749E8625AF808600023F03 /* jetpack-batch-capabilities-success.json in Resources */,
+				8B749E8625AF808600023F03 /* jetpack-capabilities-107159616-success.json in Resources */,
 				93BD27611EE73442002BB00B /* me-sites-empty-success.json in Resources */,
 				40E4698D2017D2E30030DB5F /* plugin-directory-new.json in Resources */,
 				4081977C221F153B00A298E4 /* stats-visits-day.json in Resources */,

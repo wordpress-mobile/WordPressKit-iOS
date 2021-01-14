@@ -13,9 +13,10 @@ class JetpackCapabilitiesServiceRemoteTests: RemoteTestCase, RESTTestable {
     }
 
     /// Return the capabilities for the given siteIDs
-    func testSuccessBatchCapabilities() {
+    func testSuccessCapabilities() {
         let expect = expectation(description: "Get the available capabilities")
-        stubRemoteResponse("wpcom/v2/rewind/batch-capabilities", filename: "jetpack-batch-capabilities-success.json", contentType: .ApplicationJSON)
+        stubRemoteResponse("wpcom/v2/sites/34197361/rewind/capabilities", filename: "jetpack-capabilities-34197361-success.json", contentType: .ApplicationJSON)
+        stubRemoteResponse("wpcom/v2/sites/107159616/rewind/capabilities", filename: "jetpack-capabilities-107159616-success.json", contentType: .ApplicationJSON)
 
         service.for(siteIds: [34197361, 107159616], success: { capabilities in
             XCTAssertTrue(capabilities.count == 2)
@@ -25,23 +26,23 @@ class JetpackCapabilitiesServiceRemoteTests: RemoteTestCase, RESTTestable {
             XCTAssertTrue((capabilities["107159616"] as? [String])!.contains("scan"))
             XCTAssertTrue((capabilities["107159616"] as? [String])!.contains("antispam"))
             expect.fulfill()
-        }, failure: {
-
         })
 
         waitForExpectations(timeout: timeout, handler: nil)
     }
 
-    /// Calls the failure block in case of a malformed JSON
-    func testMalformedBatchCapabilities() {
-        let expect = expectation(description: "Failures to decode the JSON")
-        stubRemoteResponse("wpcom/v2/rewind/batch-capabilities", filename: "jetpack-batch-capabilities-malformed.json", contentType: .ApplicationJSON)
+    /// When a single request fails, the associated capabilities are not returned
+    func testSingleRequestFails() {
+        let expect = expectation(description: "Get the available capabilities")
+        stubRemoteResponse("wpcom/v2/sites/34197361/rewind/capabilities", filename: "jetpack-capabilities-34197361-success.json", contentType: .ApplicationJSON)
+        stubRemoteResponse("wpcom/v2/sites/107159616/rewind/capabilities", filename: "jetpack-capabilities-malformed.json", contentType: .ApplicationJSON)
 
         service.for(siteIds: [34197361, 107159616], success: { capabilities in
-        }, failure: {
+            XCTAssertTrue(capabilities.count == 1)
             expect.fulfill()
         })
 
         waitForExpectations(timeout: timeout, handler: nil)
     }
+
 }
