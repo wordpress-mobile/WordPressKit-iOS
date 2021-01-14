@@ -30,7 +30,7 @@ open class JetpackCapabilitiesServiceRemote: ServiceRemoteWordPressComREST {
                                      })
         }
 
-        dispatchGroup.notify(queue: .main) {
+        dispatchGroup.notify(queue: .global(qos: .background)) {
             success(jetpackCapabilities)
         }
     }
