@@ -70,12 +70,22 @@ extension ReaderPostServiceRemote {
         ] as [String: AnyObject]
         
         wordPressComRestApi.POST(path, parameters: params, success: { (responseObject, httpResponse) in
+            guard let response = responseObject as? [String: AnyObject],
+                  let status = response["status"] as? Bool,
+                  status == true else {
+                failure(MarkSeenError.failed)
+                return
+            }
             success()
         }, failure: { (error, httpResponse) in
             failure(error)
         })
     }
 
+    private enum MarkSeenError: Error {
+        case failed
+    }
+    
     private struct SeenEndpoints {
         // Creates a new `seen` entry (i.e. mark as seen)
         static let seen = "seen-posts/seen/new"
