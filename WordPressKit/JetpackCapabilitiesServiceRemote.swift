@@ -10,27 +10,31 @@ open class JetpackCapabilitiesServiceRemote: ServiceRemoteWordPressComREST {
     open func `for`(siteIds: [Int], success: @escaping ([String: AnyObject]) -> Void) {
         var jetpackCapabilities: [String: AnyObject] = [:]
         let dispatchGroup = DispatchGroup()
+        let dispatchQueue = DispatchQueue(label: "com.rewind.capabilities")
 
         siteIds.forEach { siteID in
             dispatchGroup.enter()
 
-            let endpoint = "sites/\(siteID)/rewind/capabilities"
-            let path = self.path(forEndpoint: endpoint, withVersion: ._2_0)
+            dispatchQueue.async {
+                let endpoint = "sites/\(siteID)/rewind/capabilities"
+                let path = self.path(forEndpoint: endpoint, withVersion: ._2_0)
 
-            wordPressComRestApi.GET(path,
-                                     parameters: nil,
-                                     success: { response, _  in
-                                        if let capabilities = (response as? [String: AnyObject])?["capabilities"] as? [String] {
-                                            jetpackCapabilities["\(siteID)"] = capabilities as AnyObject
-                                        }
+                self.wordPressComRestApi.GET(path,
+                                         parameters: nil,
+                                         success: { response, _  in
+                                            if let capabilities = (response as? [String: AnyObject])?["capabilities"] as? [String] {
+                                                jetpackCapabilities["\(siteID)"] = capabilities as AnyObject
+                                            }
 
-                                        dispatchGroup.leave()
-                                     }, failure: { error, _ in
-                                        dispatchGroup.leave()
-                                     })
+                                            dispatchGroup.leave()
+                                         }, failure: { error, _ in
+                                            dispatchGroup.leave()
+                                         })
+            }
         }
 
         dispatchGroup.notify(queue: .global(qos: .background)) {
+            print("Finished!!")
             success(jetpackCapabilities)
         }
     }
