@@ -16,8 +16,7 @@ open class JetpackCapabilitiesServiceRemote: ServiceRemoteWordPressComREST {
 
         wordPressComRestApi.POST(path,
                                  parameters: ["sites": siteIds] as [String: AnyObject],
-                                 success: {
-                                     response, _  in
+                                 success: { response, _  in
                                     guard let capabilities = response as? [String: AnyObject] else {
                                         failure()
                                         return
@@ -28,8 +27,7 @@ open class JetpackCapabilitiesServiceRemote: ServiceRemoteWordPressComREST {
                                         jetpackCapabilities[blogId] = (capabilities["capabilities"] as? [String] ?? []) as AnyObject
                                     }
                                     success(jetpackCapabilities)
-                                 }, failure: {
-                                     error, _ in
+                                 }, failure: { error, _ in
                                      failure()
                                  })
     }
