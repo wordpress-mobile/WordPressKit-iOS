@@ -4,6 +4,7 @@ import CocoaLumberjack
 
 
 public class JetpackScanServiceRemote: ServiceRemoteWordPressComREST {
+    // MARK: - Scanning
     public func getScanAvailableForSite(_ siteID: Int, success: @escaping(Bool) -> Void, failure: @escaping(Error) -> Void) {
         getScanForSite(siteID, success: { (scan) in
             success(scan.isEnabled)
@@ -13,12 +14,6 @@ public class JetpackScanServiceRemote: ServiceRemoteWordPressComREST {
     public func getCurrentScanStatusForSite(_ siteID: Int, success: @escaping(JetpackScanStatus?) -> Void, failure: @escaping(Error) -> Void) {
         getScanForSite(siteID, success: { scan in
             success(scan.current)
-        }, failure: failure)
-    }
-
-    public func getThreatsForSite(_ siteID: Int, success: @escaping([JetpackScanThreat]?) -> Void, failure: @escaping(Error) -> Void) {
-        getScanForSite(siteID, success: { scan in
-            success(scan.threats)
         }, failure: failure)
     }
 
@@ -58,6 +53,73 @@ public class JetpackScanServiceRemote: ServiceRemoteWordPressComREST {
         })
     }
 
+
+    // MARK: - Threats
+    public enum ThreatError: Swift.Error {
+        case invalidResponse
+    }
+
+    public func getThreatsForSite(_ siteID: Int, success: @escaping([JetpackScanThreat]?) -> Void, failure: @escaping(Error) -> Void) {
+        getScanForSite(siteID, success: { scan in
+            success(scan.threats)
+        }, failure: failure)
+    }
+
+    /// Begins the fix process for multiple threats
+    public func fixThreats(_ threats: [JetpackScanThreat], siteID: Int, success: @escaping(JetpackThreatFixResponse) -> Void, failure: @escaping(Error) -> Void) {
+        let path = self.path(forEndpoint: "sites/\(siteID)/alerts/fix", withVersion: ._2_0)
+        let parameters = ["threat_ids": threats.map { $0.id as AnyObject }] as [String: AnyObject]
+
+        wordPressComRestApi.POST(path, parameters: parameters, success: { (response, _) in
+            do {
+                let decoder = JSONDecoder.apiDecoder
+                let data = try JSONSerialization.data(withJSONObject: response, options: [])
+                let envelope = try decoder.decode(JetpackThreatFixResponse.self, from: data)
+
+                success(envelope)
+            } catch {
+                failure(error)
+            }
+        }, failure: { (error, _) in
+            failure(error)
+        })
+    }
+
+
+    /// Begins the fix process for a single threat
+    public func fixThreat(_ threat: JetpackScanThreat, siteID: Int, success: @escaping(JetpackThreatFixStatus) -> Void, failure: @escaping(Error) -> Void) {
+        fixThreats([threat], siteID: siteID) { (response) in
+            guard let status = response.threats.first else {
+                failure(ThreatError.invalidResponse)
+                return
+            }
+
+            success(status)
+        } failure: { (error) in
+            failure(error)
+        }
+    }
+
+    /// Returns the fix status for multiple threats
+    public func getFixStatusForThreats(_ threats: [JetpackScanThreat], siteID: Int, success: @escaping(JetpackThreatFixResponse) -> Void, failure: @escaping(Error) -> Void) {
+        let path = self.path(forEndpoint: "sites/\(siteID)/alerts/fix", withVersion: ._2_0)
+        let parameters = ["threat_ids": threats.map { $0.id as AnyObject }] as [String: AnyObject]
+
+        wordPressComRestApi.GET(path, parameters: parameters, success: { (response, _) in
+            do {
+                let decoder = JSONDecoder.apiDecoder
+                let data = try JSONSerialization.data(withJSONObject: response, options: [])
+                let envelope = try decoder.decode(JetpackThreatFixResponse.self, from: data)
+
+                success(envelope)
+            } catch {
+                failure(error)
+            }
+        }, failure: { (error, _) in
+            failure(error)
+        })
+    }
+
     // MARK: - Private
     private func scanPath(for siteID: Int, with path: String? = nil) -> String {
         var endpoint = "sites/\(siteID)/scan/"
@@ -68,6 +130,4 @@ public class JetpackScanServiceRemote: ServiceRemoteWordPressComREST {
 
         return self.path(forEndpoint: endpoint, withVersion: ._2_0)
     }
-
-
 }
