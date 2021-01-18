@@ -88,16 +88,16 @@ public class JetpackScanServiceRemote: ServiceRemoteWordPressComREST {
 
     /// Begins the fix process for a single threat
     public func fixThreat(_ threat: JetpackScanThreat, siteID: Int, success: @escaping(JetpackThreatFixStatus) -> Void, failure: @escaping(Error) -> Void) {
-        fixThreats([threat], siteID: siteID) { (response) in
+        fixThreats([threat], siteID: siteID, success: { response in
             guard let status = response.threats.first else {
                 failure(ThreatError.invalidResponse)
                 return
             }
 
             success(status)
-        } failure: { (error) in
+        }, failure: { error in
             failure(error)
-        }
+        })
     }
 
     /// Returns the fix status for multiple threats
