@@ -51,7 +51,7 @@ public struct JetpackThreatFixResponse: Decodable {
 
 public struct JetpackThreatFixStatus {
     public enum ThreatFixStatus: String, Decodable, UnknownCaseRepresentable {
-        case inProgress
+        case inProgress = "in_progress"
         case fixed
 
         case unknown
