@@ -68,7 +68,7 @@ public struct JetpackScanThreat: Decodable {
     public let `extension`: JetpackThreatExtension?
 
     /// The type of threat this is
-    private(set) var type: ThreatType = .unknown
+    public private(set) var type: ThreatType = .unknown
 
     /// If this is a file based threat this will provide code context to be displayed
     /// Context example:
