@@ -123,7 +123,7 @@ public class JetpackScanServiceRemote: ServiceRemoteWordPressComREST {
     public func getHistoryForSite(_ siteID: Int, success: @escaping(JetpackScanHistory) -> Void, failure: @escaping(Error) -> Void) {
         let path = scanPath(for: siteID, with: "history")
 
-        wordPressComRestApi.GET(path, parameters: nil) { (response, _) in
+        wordPressComRestApi.GET(path, parameters: nil, success: { (response, _) in
             do {
                 let decoder = JSONDecoder.apiDecoder
                 let data = try JSONSerialization.data(withJSONObject: response, options: [])
@@ -133,10 +133,9 @@ public class JetpackScanServiceRemote: ServiceRemoteWordPressComREST {
             } catch {
                 failure(error)
             }
-        } failure: { (error, _) in
+        }, failure: { (error, _) in
             failure(error)
-        }
-
+        })
     }
 
     // MARK: - Private
