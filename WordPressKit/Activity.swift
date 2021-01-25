@@ -248,6 +248,7 @@ public class RestoreStatus {
     public let status: Status
     public let progress: Int
     public let message: String?
+    public let currentEntry: String?
     public let errorCode: String?
     public let failureReason: String?
 
@@ -266,6 +267,7 @@ public class RestoreStatus {
         status = restoreStatusEnum
         progress = dictionary["progress"] as? Int ?? 0
         message = dictionary["message"] as? String
+        currentEntry = dictionary["current_entry"] as? String
         errorCode = dictionary["error_code"] as? String
         failureReason = dictionary["reason"] as? String
     }

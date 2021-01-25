@@ -1,12 +1,26 @@
 import Foundation
 
-public struct JetpackRestoreTypes: Decodable {
-    public let themes: Bool
-    public let plugins: Bool
-    public let uploads: Bool
-    public let sqls: Bool
-    public let roots: Bool
-    public let contents: Bool
+public struct JetpackRestoreTypes {
+    public var themes: Bool
+    public var plugins: Bool
+    public var uploads: Bool
+    public var sqls: Bool
+    public var roots: Bool
+    public var contents: Bool
+    
+    public init(themes: Bool = true,
+                plugins: Bool = true ,
+                uploads: Bool = true,
+                sqls: Bool = true,
+                roots: Bool = true,
+                contents: Bool = true) {
+        self.themes = themes
+        self.plugins = plugins
+        self.uploads = uploads
+        self.sqls = sqls
+        self.roots = roots
+        self.contents = contents
+    }
     
     func toDictionary() -> [String: AnyObject] {
         return [
