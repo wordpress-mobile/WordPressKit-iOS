@@ -16,13 +16,16 @@ open class JetpackBackupServiceRemote: ServiceRemoteWordPressComREST {
     /// - Returns: A backup snapshot object.
     ///
     open func prepareBackup(_ siteID: Int,
-                            rewindID: Int? = nil,
+                            rewindID: String? = nil,
                             types: JetpackRestoreTypes? = nil,
                             success: @escaping (_ backup: JetpackBackup) -> Void,
                             failure: @escaping (Error) -> Void) {
         let path = backupPath(for: siteID)
         var parameters: [String: AnyObject] = [:]
 
+        if let rewindID = rewindID {
+            parameters["rewindId"] = rewindID as AnyObject
+        }
         if let types = types {
             parameters["types"] = types.toDictionary() as AnyObject
         }
