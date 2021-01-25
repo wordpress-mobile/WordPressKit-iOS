@@ -2,7 +2,6 @@ import Foundation
 import WordPressShared
 import CocoaLumberjack
 
-
 public class JetpackScanServiceRemote: ServiceRemoteWordPressComREST {
     // MARK: - Scanning
     public func getScanAvailableForSite(_ siteID: Int, success: @escaping(Bool) -> Void, failure: @escaping(Error) -> Void) {
@@ -110,6 +109,25 @@ public class JetpackScanServiceRemote: ServiceRemoteWordPressComREST {
                 let decoder = JSONDecoder.apiDecoder
                 let data = try JSONSerialization.data(withJSONObject: response, options: [])
                 let envelope = try decoder.decode(JetpackThreatFixResponse.self, from: data)
+
+                success(envelope)
+            } catch {
+                failure(error)
+            }
+        }, failure: { (error, _) in
+            failure(error)
+        })
+    }
+
+    // MARK: - History
+    public func getHistoryForSite(_ siteID: Int, success: @escaping(JetpackScanHistory) -> Void, failure: @escaping(Error) -> Void) {
+        let path = scanPath(for: siteID, with: "history")
+
+        wordPressComRestApi.GET(path, parameters: nil, success: { (response, _) in
+            do {
+                let decoder = JSONDecoder.apiDecoder
+                let data = try JSONSerialization.data(withJSONObject: response, options: [])
+                let envelope = try decoder.decode(JetpackScanHistory.self, from: data)
 
                 success(envelope)
             } catch {
