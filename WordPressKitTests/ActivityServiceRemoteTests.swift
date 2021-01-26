@@ -9,6 +9,7 @@ class ActivityServiceRemoteTests: RemoteTestCase, RESTTestable {
     let siteID = 321
     let rewindID = "33"
     let restoreID = "22"
+    let jobID = 1444315452
 
     let getActivitySuccessOneMockFilename = "activity-log-success-1.json"
     let getActivitySuccessTwoMockFilename = "activity-log-success-2.json"
@@ -267,8 +268,9 @@ class ActivityServiceRemoteTests: RemoteTestCase, RESTTestable {
         
         remoteV1.restoreSite(siteID,
                              rewindID: rewindID,
-                             success: { (restoreID) in
+                             success: { (restoreID, jobID) in
                                 XCTAssertEqual(restoreID, self.restoreID)
+                                XCTAssertEqual(jobID, self.jobID)
                                 expect.fulfill()
                              }, failure: { error in
                                 XCTFail("This callback shouldn't get called")
@@ -292,8 +294,9 @@ class ActivityServiceRemoteTests: RemoteTestCase, RESTTestable {
         remoteV1.restoreSite(siteID,
                              rewindID: rewindID,
                              types: restoreTypes,
-                             success: { (restoreID) in
+                             success: { (restoreID, jobID) in
                                 XCTAssertEqual(restoreID, self.restoreID)
+                                XCTAssertEqual(jobID, self.jobID)
                                 expect.fulfill()
                              }, failure: { error in
                                 XCTFail("This callback shouldn't get called")

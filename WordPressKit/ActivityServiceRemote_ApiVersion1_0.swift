@@ -14,12 +14,12 @@
     ///     - success: Closure to be executed on success
     ///     - failure: Closure to be executed on error.
     ///
-    /// - Returns: A restoreID to check the status of the rewind request.
+    /// - Returns: A restoreID and jobID to check the status of the rewind request.
     ///
     public func restoreSite(_ siteID: Int,
                             rewindID: String,
                             types: JetpackRestoreTypes? = nil,
-                            success: @escaping (_ restoreID: String) -> Void,
+                            success: @escaping (_ restoreID: String, _ jobID: Int) -> Void,
                             failure: @escaping (Error) -> Void) {
         let endpoint = "activity-log/\(siteID)/rewind/to/\(rewindID)"
         let path = self.path(forEndpoint: endpoint, withVersion: ._1_0)
@@ -32,11 +32,12 @@
         wordPressComRestApi.POST(path,
                                  parameters: parameters,
                                  success: { response, _ in
-                                    guard let restoreID = response["restore_id"] as? Int else {
+                                    guard let restoreID = response["restore_id"] as? Int,
+                                          let jobID = response["job_id"] as? Int else {
                                         failure(ResponseError.decodingFailure)
                                         return
                                     }
-                                    success(String(restoreID))
+                                    success(String(restoreID), jobID)
         },
                                  failure: { error, _ in
                                     failure(error)
