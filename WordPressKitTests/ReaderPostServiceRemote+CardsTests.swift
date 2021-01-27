@@ -113,4 +113,27 @@ class ReaderPostServiceRemoteCardTests: RemoteTestCase, RESTTestable {
         
         XCTAssertFalse(mockRemoteApi.URLStringPassedIn?.contains("sort=") ?? false)
     }
+    
+    // Calls the API with "date" as a sort option and checks if posts are ordered properly
+    //
+    func testCallAPIWithDateAsGivenSortOption() {
+        let expect = expectation(description: "Get cards sorted by date")
+        stubRemoteResponse("read/tags/cards?tags%5B%5D=cats&sort=date", filename: "reader-cards-success.json", contentType: .ApplicationJSON)
+        
+        readerPostServiceRemote.fetchCards(for: ["cats"], sort: "date", success: { cards, _ in
+            let posts = cards.filter { $0.type == .post }
+            for i in 1..<posts.count {
+                guard let firstPostDate = posts[i-1].post?.sortDate,
+                      let secondPostDate = posts[i].post?.sortDate,
+                      firstPostDate > secondPostDate else {
+                    XCTFail("Posts should be sorted by date, starting with most recent post")
+                    expect.fulfill()
+                    return
+                }
+            }
+            expect.fulfill()
+        }, failure: { _ in })
+        
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
 }
