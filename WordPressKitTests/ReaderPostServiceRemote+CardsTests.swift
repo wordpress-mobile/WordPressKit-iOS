@@ -103,4 +103,14 @@ class ReaderPostServiceRemoteCardTests: RemoteTestCase, RESTTestable {
 
         XCTAssertTrue(mockRemoteApi.URLStringPassedIn?.contains("sort=foobar") ?? false)
     }
+    
+    // Calls the API without the given sort option
+    //
+    func testCallAPIWithoutTheGivenSortOption() {
+        let readerPostServiceRemote = ReaderPostServiceRemote(wordPressComRestApi: mockRemoteApi)
+
+        readerPostServiceRemote.fetchCards(for: [], sort: nil, success: { _, _ in }, failure: { _ in })
+        
+        XCTAssertFalse(mockRemoteApi.URLStringPassedIn?.contains("sort=") ?? false)
+    }
 }
