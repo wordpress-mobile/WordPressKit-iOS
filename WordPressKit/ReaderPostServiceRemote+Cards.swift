@@ -7,16 +7,16 @@ extension ReaderPostServiceRemote {
     ///
     /// - Parameter topics: an array of String representing the topics
     /// - Parameter page: a String that represents a page handle
-    /// - Parameter sort: a String that represents a sorting option
+    /// - Parameter sortingOption: a String that represents a sorting option
     /// - Parameter success: Called when the request succeeds and the data returned is valid
     /// - Parameter failure: Called if the request fails for any reason, or the response data is invalid
     public func fetchCards(for topics: [String],
                            page: String? = nil,
-                           sort: String? = nil,
+                           sortingOption: String? = nil,
                            refreshCount: Int? = nil,
                            success: @escaping ([RemoteReaderCard], String?) -> Void,
                            failure: @escaping (Error) -> Void) {
-        guard let requestUrl = cardsEndpoint(for: topics, page: page, sort: sort, refreshCount: refreshCount) else {
+        guard let requestUrl = cardsEndpoint(for: topics, page: page, sortingOption: sortingOption, refreshCount: refreshCount) else {
             return
         }
 
@@ -41,7 +41,7 @@ extension ReaderPostServiceRemote {
         })
     }
 
-    private func cardsEndpoint(for topics: [String], page: String? = nil, sort: String? = nil, refreshCount: Int? = nil) -> String? {
+    private func cardsEndpoint(for topics: [String], page: String? = nil, sortingOption: String? = nil, refreshCount: Int? = nil) -> String? {
         var path = URLComponents(string: "read/tags/cards")
 
         path?.queryItems = topics.map { URLQueryItem(name: "tags[]", value: $0) }
@@ -50,8 +50,8 @@ extension ReaderPostServiceRemote {
             path?.queryItems?.append(URLQueryItem(name: "page_handle", value: page))
         }
         
-        if let sort = sort {
-            path?.queryItems?.append(URLQueryItem(name: "sort", value: sort))
+        if let sortingOption = sortingOption {
+            path?.queryItems?.append(URLQueryItem(name: "sort", value: sortingOption))
         }
 
         if let refreshCount = refreshCount {

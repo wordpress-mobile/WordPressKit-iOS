@@ -94,33 +94,33 @@ class ReaderPostServiceRemoteCardTests: RemoteTestCase, RESTTestable {
         XCTAssertTrue(mockRemoteApi.URLStringPassedIn?.contains("&page_handle=foobar") ?? false)
     }
     
-    // Calls the API with the given sort option
+    // Calls the API with the given sorting option
     //
-    func testCallAPIWithTheGivenSortOption() {
+    func testCallAPIWithTheGivenSortingOption() {
         let readerPostServiceRemote = ReaderPostServiceRemote(wordPressComRestApi: mockRemoteApi)
 
-        readerPostServiceRemote.fetchCards(for: [], sort: "foobar", success: { _, _ in }, failure: { _ in })
+        readerPostServiceRemote.fetchCards(for: [], sortingOption: "foobar", success: { _, _ in }, failure: { _ in })
 
         XCTAssertTrue(mockRemoteApi.URLStringPassedIn?.contains("sort=foobar") ?? false)
     }
     
-    // Calls the API without the given sort option
+    // Calls the API without the given sorting option
     //
-    func testCallAPIWithoutTheGivenSortOption() {
+    func testCallAPIWithoutTheGivenSortingOption() {
         let readerPostServiceRemote = ReaderPostServiceRemote(wordPressComRestApi: mockRemoteApi)
 
-        readerPostServiceRemote.fetchCards(for: [], sort: nil, success: { _, _ in }, failure: { _ in })
+        readerPostServiceRemote.fetchCards(for: [], sortingOption: nil, success: { _, _ in }, failure: { _ in })
         
         XCTAssertFalse(mockRemoteApi.URLStringPassedIn?.contains("sort=") ?? false)
     }
     
-    // Calls the API with "date" as a sort option and checks if posts are ordered properly
+    // Calls the API with "date" as a sorting option and checks if posts are ordered properly
     //
     func testCallAPIWithDateAsGivenSortOption() {
         let expect = expectation(description: "Get cards sorted by date")
         stubRemoteResponse("read/tags/cards?tags%5B%5D=cats&sort=date", filename: "reader-cards-success.json", contentType: .ApplicationJSON)
         
-        readerPostServiceRemote.fetchCards(for: ["cats"], sort: "date", success: { cards, _ in
+        readerPostServiceRemote.fetchCards(for: ["cats"], sortingOption: "date", success: { cards, _ in
             let posts = cards.filter { $0.type == .post }
             for i in 1..<posts.count {
                 guard let firstPostDate = posts[i-1].post?.sortDate,
