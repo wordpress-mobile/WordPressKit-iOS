@@ -24,7 +24,6 @@ extension ReaderPostServiceRemote {
                                     success(posts, nextPageHandle)
         }, failure: { error, _ in
             DDLogError("Error fetching reader posts: \(error)")
-
             failure(error)
         })
     }
@@ -44,9 +43,8 @@ extension ReaderPostServiceRemote {
 
         return self.path(forEndpoint: endpoint, withVersion: ._2_0)
     }
-    
-    
-    /// Sets the `is_seen` status for a given post.
+
+    /// Sets the `is_seen` status for a given feed post.
     ///
     /// - Parameter seen: the post is to be marked seen or not (unseen)
     /// - Parameter feedID: feedID of the ReaderPost
@@ -54,20 +52,52 @@ extension ReaderPostServiceRemote {
     /// - Parameter success: Called when the request succeeds
     /// - Parameter failure: Called when the request fails
     @objc
-    public func markPostSeen(seen: Bool,
-                             feedID: NSNumber,
-                             feedItemID: NSNumber,
-                             success: @escaping (() -> Void),
-                             failure: @escaping ((Error) -> Void)) {
-        
-        let endpoint = seen ? SeenEndpoints.seen : SeenEndpoints.unseen
-        let path = self.path(forEndpoint: endpoint, withVersion: ._2_0)
+    public func markFeedPostSeen(seen: Bool,
+                                 feedID: NSNumber,
+                                 feedItemID: NSNumber,
+                                 success: @escaping (() -> Void),
+                                 failure: @escaping ((Error) -> Void)) {
+        let endpoint = seen ? SeenEndpoints.feedSeen : SeenEndpoints.feedUnseen
         
         let params = [
             "feed_id": feedID,
             "feed_item_ids": [feedItemID],
             "source": "reader-ios"
         ] as [String: AnyObject]
+        
+        updateSeenStatus(endpoint: endpoint, params: params, success: success, failure: failure)
+    }
+
+    /// Sets the `is_seen` status for a given blog post.
+    ///
+    /// - Parameter seen: the post is to be marked seen or not (unseen)
+    /// - Parameter blogID: blogID of the ReaderPost
+    /// - Parameter postID: postID of the ReaderPost
+    /// - Parameter success: Called when the request succeeds
+    /// - Parameter failure: Called when the request fails
+    @objc
+    public func markBlogPostSeen(seen: Bool,
+                                 blogID: NSNumber,
+                                 postID: NSNumber,
+                                 success: @escaping (() -> Void),
+                                 failure: @escaping ((Error) -> Void)) {
+        let endpoint = seen ? SeenEndpoints.blogSeen : SeenEndpoints.blogUnseen
+
+        let params = [
+            "blog_id": blogID,
+            "post_ids": [postID],
+            "source": "reader-ios"
+        ] as [String: AnyObject]
+        
+        updateSeenStatus(endpoint: endpoint, params: params, success: success, failure: failure)
+    }
+
+    private func updateSeenStatus(endpoint: String,
+                                  params: [String: AnyObject],
+                                  success: @escaping (() -> Void),
+                                  failure: @escaping ((Error) -> Void)) {
+        
+        let path = self.path(forEndpoint: endpoint, withVersion: ._2_0)
         
         wordPressComRestApi.POST(path, parameters: params, success: { (responseObject, httpResponse) in
             guard let response = responseObject as? [String: AnyObject],
@@ -81,16 +111,18 @@ extension ReaderPostServiceRemote {
             failure(error)
         })
     }
-
-    private enum MarkSeenError: Error {
-        case failed
-    }
     
     private struct SeenEndpoints {
         // Creates a new `seen` entry (i.e. mark as seen)
-        static let seen = "seen-posts/seen/new"
+        static let feedSeen = "seen-posts/seen/new"
+        static let blogSeen = "seen-posts/seen/blog/new"
         // Removes the `seen` entry (i.e. mark as unseen)
-        static let unseen = "seen-posts/seen/delete"
+        static let feedUnseen = "seen-posts/seen/delete"
+        static let blogUnseen = "seen-posts/seen/blog/delete"
+    }
+
+    private enum MarkSeenError: Error {
+        case failed
     }
 
 }
