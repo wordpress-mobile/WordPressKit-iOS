@@ -98,6 +98,18 @@ public class JetpackScanServiceRemote: ServiceRemoteWordPressComREST {
             failure(error)
         })
     }
+    
+    /// Begins the ignore process for a single threat
+    public func ignoreThreat(_ threat: JetpackScanThreat, siteID: Int, success: @escaping () -> Void, failure: @escaping(Error) -> Void) {
+        let path = self.path(forEndpoint: "sites/\(siteID)/alerts/\(threat.id)", withVersion: ._2_0)
+        let parameters = ["ignore": true] as [String: AnyObject]
+        
+        wordPressComRestApi.GET(path, parameters: parameters, success: { (response, _) in
+            success()
+        }, failure: { (error, _) in
+            failure(error)
+        })
+    }
 
     /// Returns the fix status for multiple threats
     public func getFixStatusForThreats(_ threats: [JetpackScanThreat], siteID: Int, success: @escaping(JetpackThreatFixResponse) -> Void, failure: @escaping(Error) -> Void) {
