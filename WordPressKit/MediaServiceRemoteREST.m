@@ -131,22 +131,24 @@ const NSInteger WPRestErrorCodeMediaNew = 10;
     NSString *apiPath = [NSString stringWithFormat:@"sites/%@/media/new", self.siteID];
     NSString *requestUrl = [self pathForEndpoint:apiPath
                                      withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
-    NSMutableDictionary *parameters = [NSMutableDictionary dictionaryWithDictionary:@{}];
-    NSMutableArray *fileParts = [NSMutableArray array];
+    
+    NSMutableArray *bodyParts = [NSMutableArray array];
 
     for (RemoteMedia *remoteMedia in mediaItems) {
         NSString *type = remoteMedia.mimeType;
         NSString *filename = remoteMedia.file;
-        if (remoteMedia.postID != nil && [remoteMedia.postID compare:@(0)] == NSOrderedDescending) {
-            parameters[@"attrs[0][parent_id]"] = remoteMedia.postID;
+        NSNumber* postID = remoteMedia.postID;
+        if (postID != nil && [postID compare:@(0)] == NSOrderedDescending) {
+            BodyPart *parentIDPart = [[BodyPart alloc] initWithName:@"attrs[0][parent_id]" data:[NSData dataWithBytes:&postID length:sizeof(postID)]];
+            [bodyParts addObject: parentIDPart];
         }
-        FilePart *filePart = [[FilePart alloc] initWithParameterName:@"media[]" url:remoteMedia.localURL filename:filename mimeType:type];
-        [fileParts addObject:filePart];
+        BodyPart *mediaPart = [[BodyPart alloc] initWithName:@"media[]" url:remoteMedia.localURL fileName:filename mimeType:type];
+        [bodyParts addObject:mediaPart];
     }
 
     [self.wordPressComRestApi multipartPOST:requestUrl
-                                 parameters:parameters
-                                  fileParts:fileParts
+                                 parameters: nil
+                                  bodyParts:bodyParts
                             requestEnqueued:^(NSNumber *taskID) {
                                 if (requestEnqueued) {
                                     requestEnqueued(taskID);
@@ -193,8 +195,6 @@ const NSInteger WPRestErrorCodeMediaNew = 10;
     NSString *requestUrl = [self pathForEndpoint:apiPath
                                      withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
 
-    NSDictionary *parameters = [self parametersForUploadMedia:media];
-
     if (media.localURL == nil || filename == nil || type == nil) {
         if (failure) {
             NSError *error = [NSError errorWithDomain:NSURLErrorDomain
@@ -204,10 +204,11 @@ const NSInteger WPRestErrorCodeMediaNew = 10;
         }
         return;
     }
-    FilePart *filePart = [[FilePart alloc] initWithParameterName:@"media[]" url:media.localURL filename:filename mimeType:type];
+    
+    NSArray *bodyParts = [self bodyPartsForUploadMedia: media];
     __block NSProgress *localProgress = [self.wordPressComRestApi multipartPOST:requestUrl
-                                                                     parameters:parameters
-                                                                      fileParts:@[filePart]
+                                                                     parameters:nil
+                                                                      bodyParts:bodyParts
                                                                 requestEnqueued:nil
                                                                         success:^(id  _Nonnull responseObject, NSHTTPURLResponse * _Nullable httpResponse) {
                                                                             NSDictionary *response = (NSDictionary *)responseObject;
@@ -402,18 +403,25 @@ const NSInteger WPRestErrorCodeMediaNew = 10;
     return [NSDictionary dictionaryWithDictionary:parameters];
 }
 
-- (NSDictionary *)parametersForUploadMedia:(RemoteMedia *)media
+- (NSArray *)bodyPartsForUploadMedia:(RemoteMedia *)media
 {
-    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
-
-    if (media.caption != nil) {
-        parameters[@"attrs[0][caption]"] = media.caption;
+    NSMutableArray *bodyParts = [NSMutableArray array];
+    NSString *caption = media.caption;
+    NSNumber *postID = media.postID;
+    
+    if (caption != nil) {
+        BodyPart *captionPart = [[BodyPart alloc] initWithName:@"attrs[0][caption]" data:[caption dataUsingEncoding:NSUTF8StringEncoding]];
+        [bodyParts addObject: captionPart];
     }
-    if (media.postID != nil && [media.postID compare:@(0)] == NSOrderedDescending) {
-        parameters[@"attrs[0][parent_id]"] = media.postID;
+    if (postID != nil && [postID compare:@(0)] == NSOrderedDescending) {
+        BodyPart *parentIDPart = [[BodyPart alloc] initWithName:@"attrs[0][parent_id]" data:[NSData dataWithBytes:&postID length:sizeof(postID)]];
+        [bodyParts addObject: parentIDPart];
     }
 
-    return [NSDictionary dictionaryWithDictionary:parameters];
+    BodyPart *mediaPart = [[BodyPart alloc] initWithName:@"media[]" url:media.localURL fileName:media.file mimeType:media.mimeType];
+    [bodyParts addObject: mediaPart];
+    
+    return bodyParts;
 }
 
 @end

@@ -158,14 +158,15 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:ServiceRemoteWordPressComRESTApiVersion_1_2];
 
-    NSMutableDictionary *parameters = [NSMutableDictionary dictionaryWithDictionary:@{}];
-    parameters[@"content"] = post.content;
-    parameters[@"title"] = post.title;
-    parameters[@"status"] = post.status;
-    FilePart *filePart = [[FilePart alloc] initWithParameterName:@"media[]" url:media.localURL filename:filename mimeType:type];
+    
+    BodyPart *contentPart =[[BodyPart alloc] initWithName:@"content" data:[post.content dataUsingEncoding:NSUTF8StringEncoding]];
+    BodyPart *titlePart = [[BodyPart alloc] initWithName:@"title" data:[post.content dataUsingEncoding:NSUTF8StringEncoding]];
+    BodyPart *statusPart = [[BodyPart alloc] initWithName:@"status" data:[post.content dataUsingEncoding:NSUTF8StringEncoding]];
+    BodyPart *mediaPart = [[BodyPart alloc] initWithName:@"media[]" url:media.localURL fileName:filename mimeType:type];
+    
     [self.wordPressComRestApi multipartPOST:requestUrl
-                                 parameters:parameters
-                                  fileParts:@[filePart]
+                                 parameters:nil
+                                  bodyParts:@[contentPart, titlePart, statusPart, mediaPart]
                             requestEnqueued:^(NSNumber *taskID) {
                                 if (requestEnqueued) {
                                     requestEnqueued(taskID);
