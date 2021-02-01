@@ -4,6 +4,8 @@ public struct JetpackThreatFixResponse: Decodable {
     public let success: Bool
     public let threats: [JetpackThreatFixStatus]
 
+    public let isFixingThreats: Bool
+
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
@@ -21,9 +23,9 @@ public struct JetpackThreatFixResponse: Decodable {
             statusArray.append(fixStatus)
         }
 
+        isFixingThreats = statusArray.filter { $0.status == .inProgress }.count > 0
         threats = statusArray
     }
-
 
     /// Returns true the fixing status is complete, and all threats are no longer in progress
     public var finished: Bool {
@@ -51,6 +53,7 @@ public struct JetpackThreatFixResponse: Decodable {
 
 public struct JetpackThreatFixStatus {
     public enum ThreatFixStatus: String, Decodable, UnknownCaseRepresentable {
+        case notStarted = "not_started"
         case inProgress = "in_progress"
         case fixed
 
