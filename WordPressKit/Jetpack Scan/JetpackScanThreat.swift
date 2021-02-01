@@ -135,6 +135,7 @@ public struct JetpackScanThreatFixer: Decodable {
         case delete
         case update
         case edit
+        case rollback
 
         case unknown
         static let unknownCase: Self = .unknown

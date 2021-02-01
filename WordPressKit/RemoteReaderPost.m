@@ -111,7 +111,6 @@ static const NSUInteger ReaderPostTitleLength = 30;
     self.isFollowing = [[dict numberForKey:PostRESTKeyIsFollowing] boolValue];
     self.isLiked = [[dict numberForKey:PostRESTKeyILike] boolValue];
     self.isReblogged = [[dict numberForKey:PostRESTKeyIsReblogged] boolValue];
-    self.isSeen = [[dict numberForKey:PostRESTKeyIsSeen] boolValue];
     self.isWPCom = [self isWPComFromPostDictionary:dict];
     self.likeCount = [dict numberForKey:PostRESTKeyLikeCount];
     self.permalink = [self stringOrEmptyString:[dict stringForKey:PostRESTKeyURL]];
@@ -127,7 +126,15 @@ static const NSUInteger ReaderPostTitleLength = 30;
     self.isSharingEnabled = [[dict numberForKey:PostRESTKeySharingEnabled] boolValue];
     self.isLikesEnabled = [[dict numberForKey:PostRESTKeyLikesEnabled] boolValue];
     self.organizationID = [dict numberForKeyPath:PostRESTKeyOrganizationID] ?: @0;
-    
+
+    if ([dict numberForKey:PostRESTKeyIsSeen]) {
+        self.isSeen = [[dict numberForKey:PostRESTKeyIsSeen] boolValue];
+        self.isSeenSupported = YES;
+    } else {
+        self.isSeen = YES;
+        self.isSeenSupported = NO;
+    }
+
     // Construct a title if necessary.
     if ([self.postTitle length] == 0 && [self.summary length] > 0) {
         self.postTitle = [self titleFromSummary:self.summary];
