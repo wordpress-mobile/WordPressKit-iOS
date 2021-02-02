@@ -129,7 +129,7 @@ class ReaderPostServiceRemoteCardTests: RemoteTestCase, RESTTestable {
         
         XCTAssertTrue(mockRemoteApi.getMethodCalled)
 
-        XCTAssertFalse(mockRemoteApi.URLStringPassedIn?.contains("sort=") ?? false)
+        XCTAssertFalse(mockRemoteApi.URLStringPassedIn?.contains("sort=") ?? true)
     }
     
     // Calls the API with "date" as a sorting option and checks if posts are ordered properly
@@ -145,7 +145,6 @@ class ReaderPostServiceRemoteCardTests: RemoteTestCase, RESTTestable {
                       let secondPostDate = posts[i].post?.sortDate,
                       firstPostDate > secondPostDate else {
                     XCTFail("Posts should be sorted by date, starting with most recent post")
-                    expect.fulfill()
                     return
                 }
             }
