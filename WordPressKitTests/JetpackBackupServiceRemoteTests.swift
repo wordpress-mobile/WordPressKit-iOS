@@ -15,6 +15,7 @@ class JetpackBackupServiceRemoteTests: RemoteTestCase, RESTTestable {
     let prepareBackupSuccessMockFilename = "backup-prepare-backup-success.json"
     let getBackupStatusCompleteMockFilename = "backup-get-backup-status-complete-success.json"
     let getBackupStatusInProgressMockFilename = "backup-get-backup-status-in-progress-success.json"
+    let getBackupStatusCompleteWithoutDownloadIDMockFilename = "backup-get-backup-status-complete-without-download-id-success.json"
 
     var backupEndpoint: String { return "sites/\(siteID)/rewind/downloads" }
 
@@ -90,7 +91,7 @@ class JetpackBackupServiceRemoteTests: RemoteTestCase, RESTTestable {
                            filename: getBackupStatusInProgressMockFilename,
                            contentType: .ApplicationJSON)
 
-        service.getBackupStatus(siteID, success: { backup in
+        service.getBackupStatus(siteID, downloadID: downloadID, success: { backup in
             XCTAssertEqual(backup.downloadID, 283987)
             XCTAssertEqual(backup.rewindID, "1608555731.536")
             XCTAssertEqual(backup.progress, 88)
@@ -108,7 +109,7 @@ class JetpackBackupServiceRemoteTests: RemoteTestCase, RESTTestable {
                            filename: getBackupStatusCompleteMockFilename,
                            contentType: .ApplicationJSON)
 
-        service.getBackupStatus(siteID, success: { backup in
+        service.getBackupStatus(siteID, downloadID: downloadID, success: { backup in
             XCTAssertEqual(backup.downloadID, 283844)
             XCTAssertEqual(backup.rewindID, "1608510088.971")
             XCTAssertEqual(backup.downloadCount, 0)
@@ -143,10 +144,26 @@ class JetpackBackupServiceRemoteTests: RemoteTestCase, RESTTestable {
                            contentType: .ApplicationJSON,
                            status: 503)
 
-        service.getBackupStatus(siteID, success: { _ in }, failure: { error in
+        service.getBackupStatus(siteID, downloadID: downloadID, success: { _ in }, failure: { error in
             XCTAssertNotNil(error)
             expect.fulfill()
         })
+
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+
+    func testGetBackupStatusCompleteWithoutDownloadID() {
+        let expect = expectation(description: "Get backup status complete with download ID success")
+        stubRemoteResponse(backupEndpoint,
+                           filename: getBackupStatusCompleteWithoutDownloadIDMockFilename,
+                           contentType: .ApplicationJSON)
+
+        service.getAllBackupStatus(siteID, success: { backup in
+            XCTAssertEqual(backup.first?.downloadID, 283844)
+            XCTAssertEqual(backup.first?.rewindID, "1608510088.971")
+            XCTAssertEqual(backup.first?.downloadCount, 0)
+            expect.fulfill()
+        }, failure: { _ in })
 
         waitForExpectations(timeout: timeout, handler: nil)
     }
