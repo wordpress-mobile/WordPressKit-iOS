@@ -95,7 +95,7 @@ class ReaderPostServiceRemoteCardTests: RemoteTestCase, RESTTestable {
 
         XCTAssertTrue(mockRemoteApi.URLStringPassedIn?.contains("&page_handle=foobar") ?? false)
     }
-    
+
     // Calls the API with .popularity as the given sorting option
     //
     func testCallAPIWithPopularityAsTheGivenSortingOption() {
@@ -107,7 +107,7 @@ class ReaderPostServiceRemoteCardTests: RemoteTestCase, RESTTestable {
 
         XCTAssertTrue(mockRemoteApi.URLStringPassedIn?.contains("sort=popularity") ?? false)
     }
-    
+
     // Calls the API with .date as the given sorting option
     //
     func testCallAPIWithDateAsTheGivenSortingOption() {
@@ -119,25 +119,25 @@ class ReaderPostServiceRemoteCardTests: RemoteTestCase, RESTTestable {
 
         XCTAssertTrue(mockRemoteApi.URLStringPassedIn?.contains("sort=date") ?? false)
     }
-    
+
     // Calls the API without the given sorting option
     //
     func testCallAPIWithoutTheGivenSortingOption() {
         let readerPostServiceRemote = ReaderPostServiceRemote(wordPressComRestApi: mockRemoteApi)
 
         readerPostServiceRemote.fetchCards(for: [], success: { _, _ in }, failure: { _ in })
-        
+
         XCTAssertTrue(mockRemoteApi.getMethodCalled)
 
         XCTAssertFalse(mockRemoteApi.URLStringPassedIn?.contains("sort=") ?? true)
     }
-    
+
     // Calls the API with "date" as a sorting option and checks if posts are ordered properly
     //
     func testPostsInCallAPIWithDateAsGivenSortOption() {
         let expect = expectation(description: "Get cards sorted by date")
         stubRemoteResponse("read/tags/cards?tags%5B%5D=cats&sort=date", filename: "reader-cards-success.json", contentType: .ApplicationJSON)
-        
+
         readerPostServiceRemote.fetchCards(for: ["cats"], sortingOption: .date, success: { cards, _ in
             let posts = cards.filter { $0.type == .post }
             for i in 1..<posts.count {

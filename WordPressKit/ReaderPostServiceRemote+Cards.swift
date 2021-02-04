@@ -1,7 +1,7 @@
 public enum ReaderSortingOption: String, CaseIterable {
     case popularity, date
     case noSorting
-    
+
     var queryValue: String? {
         guard self != .noSorting else {
             return nil
@@ -19,7 +19,7 @@ extension ReaderPostServiceRemote {
     ///
     /// - Parameter topics: an array of String representing the topics
     /// - Parameter page: a String that represents a page handle
-    /// - Parameter sortingOption: an ReaderSortingOption that represents a sorting option
+    /// - Parameter sortingOption: a ReaderSortingOption that represents a sorting option
     /// - Parameter success: Called when the request succeeds and the data returned is valid
     /// - Parameter failure: Called if the request fails for any reason, or the response data is invalid
     public func fetchCards(for topics: [String],
@@ -61,7 +61,7 @@ extension ReaderPostServiceRemote {
         if let page = page {
             path?.queryItems?.append(URLQueryItem(name: "page_handle", value: page))
         }
-        
+
         if let sortingOption = sortingOption.queryValue {
             path?.queryItems?.append(URLQueryItem(name: "sort", value: sortingOption))
         }
