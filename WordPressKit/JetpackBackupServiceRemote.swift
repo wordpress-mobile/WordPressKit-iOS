@@ -74,6 +74,28 @@ open class JetpackBackupServiceRemote: ServiceRemoteWordPressComREST {
         getDownloadStatus(siteID, success: success, failure: failure)
     }
 
+    /// Mark a backup as dismissed
+    /// - Parameters:
+    ///     - siteID: The target site's ID.
+    ///     - downloadID: The download ID of the snapshot being downloaded.
+    ///     - success: Closure to be executed on success.
+    ///     - failure: Closure to be executed on error.
+    ///
+    open func markAsDismissed(_ siteID: Int,
+                              downloadID: Int,
+                              success: @escaping () -> Void,
+                              failure: @escaping (Error) -> Void) {
+        let path = backupPath(for: siteID, with: "\(downloadID)")
+
+        let parameters = ["dismissed": true] as [String : AnyObject]
+
+        wordPressComRestApi.POST(path, parameters: parameters, success: { response, _ in
+            success()
+        }, failure: { error, _ in
+            failure(error)
+        })
+    }
+
     // MARK: - Private
 
     private func getDownloadStatus<T: Decodable>(_ siteID: Int,
