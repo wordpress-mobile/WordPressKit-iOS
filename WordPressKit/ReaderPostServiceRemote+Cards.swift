@@ -1,5 +1,6 @@
 public enum ReaderSortingOption: String, CaseIterable {
-    case popularity, date
+    case popularity
+    case date
     case noSorting
 
     var queryValue: String? {
