@@ -2,6 +2,7 @@
 #import <WordPressKit/PostServiceRemoteOptions.h>
 
 @class RemotePost;
+@class RemoteUser;
 
 @protocol PostServiceRemote <NSObject>
 
@@ -94,6 +95,20 @@
 - (void)restorePost:(RemotePost *)post
             success:(void (^)(RemotePost *))success
             failure:(void (^)(NSError *error))failure;
+
+/**
+ *  @brief      Requests a list of users that liked the post with the specified ID.
+ *
+ *  @discussion Due to the API limitation, up to 90 users will be returned from the
+ *              endpoint.
+ *
+ *  @param      postID      The ID for the post. Cannot be nil.
+ *  @param      success     The block that will be executed on success. Can be nil.
+ *  @param      failure     The block that will be executed on failure. Can be nil.
+ */
+- (void)getLikesForID:(nonnull NSNumber *)postID
+              success:(nullable void (^)(NSArray<RemoteUser *> * _Nonnull users))success
+              failure:(nullable void (^)(NSError * _Nullable))failure;
 
 /**
  *  @brief      Returns a dictionary set with option parameters of the PostServiceRemoteOptions protocol.
