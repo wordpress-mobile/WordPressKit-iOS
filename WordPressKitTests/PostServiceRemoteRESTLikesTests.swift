@@ -54,12 +54,12 @@ final class PostServiceRemoteRESTLikesTests: RemoteTestCase, RESTTestable {
         let expect = expectation(description: "Failure block should be called when fetching post likes fails")
         
         stubRemoteResponse(postLikesEndpoint, filename: fetchPostLikesFailureFilename, contentType: .ApplicationJSON, status: 403)
-        remote.getLikesForID(NSNumber(value: postId)) { _ in
+        remote.getLikesForID(NSNumber(value: postId), success: { _ in
             XCTFail("This callback shouldn't get called")
-        } failure: { error in
+        }, failure: { error in
             XCTAssertNotNil(error)
             expect.fulfill()
-        }
+        })
 
         waitForExpectations(timeout: timeout, handler: nil)
     }
