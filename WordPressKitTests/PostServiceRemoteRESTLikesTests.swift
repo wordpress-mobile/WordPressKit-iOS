@@ -45,7 +45,6 @@ final class PostServiceRemoteRESTLikesTests: RemoteTestCase, RESTTestable {
             
         }, failure: { _ in
             XCTFail("This callback shouldn't get called")
-            expect.fulfill()
         })
         
         waitForExpectations(timeout: timeout, handler: nil)
@@ -57,7 +56,6 @@ final class PostServiceRemoteRESTLikesTests: RemoteTestCase, RESTTestable {
         stubRemoteResponse(postLikesEndpoint, filename: fetchPostLikesFailureFilename, contentType: .ApplicationJSON, status: 403)
         remote.getLikesForID(NSNumber(value: postId)) { _ in
             XCTFail("This callback shouldn't get called")
-            expect.fulfill()
         } failure: { error in
             XCTAssertNotNil(error)
             expect.fulfill()
