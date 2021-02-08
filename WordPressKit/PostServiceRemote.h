@@ -106,9 +106,9 @@
  *  @param      success     The block that will be executed on success. Can be nil.
  *  @param      failure     The block that will be executed on failure. Can be nil.
  */
-- (void)getLikesForID:(nonnull NSNumber *)postID
-              success:(nullable void (^)(NSArray<RemoteUser *> * _Nonnull users))success
-              failure:(nullable void (^)(NSError * _Nullable))failure;
+- (void)getLikesForID:(NSNumber *)postID
+              success:(void (^)(NSArray<RemoteUser *> *))success
+              failure:(void (^)(NSError *))failure;
 
 /**
  *  @brief      Returns a dictionary set with option parameters of the PostServiceRemoteOptions protocol.
