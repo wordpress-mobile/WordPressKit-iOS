@@ -1,6 +1,7 @@
 #import "PostServiceRemoteREST.h"
 #import "RemotePost.h"
 #import "RemotePostCategory.h"
+#import "RemoteUser.h"
 #import "WPKit-Swift.h"
 @import WordPressShared;
 @import NSObject_SafeExpectations;
@@ -306,6 +307,30 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
            }];
 }
 
+- (void)getLikesForID:(NSNumber *)postID
+              success:(void (^)(NSArray<RemoteUser *> * _Nonnull))success
+              failure:(void (^)(NSError * _Nullable))failure
+{
+    NSParameterAssert(postID);
+    
+    NSString *path = [NSString stringWithFormat:@"sites/%@/posts/%@/likes", self.siteID, postID];
+    NSString *requestUrl = [self pathForEndpoint:path
+                                     withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
+    
+    [self.wordPressComRestApi GET:requestUrl
+                       parameters:nil
+                          success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
+        NSArray *jsonUsers = responseObject[@"likes"];
+        if (success && jsonUsers) {
+            success([self remoteUsersFromJSONArray:jsonUsers]);
+        }
+    } failure:^(NSError *error, NSHTTPURLResponse *httpResponse) {
+        if (failure) {
+            failure(error);
+        }
+    }];
+}
+
 - (NSDictionary *)dictionaryWithRemoteOptions:(id <PostServiceRemoteOptions>)options
 {
     NSMutableDictionary *remoteParams = [NSMutableDictionary dictionary];
@@ -562,6 +587,40 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
 
 - (NSArray *)tagNamesFromJSONDictionary:(NSDictionary *)jsonTags {
     return [jsonTags allKeys];
+}
+
+/// Returns an array of users based on provided json representation
+/// of users.
+///
+/// @param jsonUsers Array containing json representation of users
+- (NSArray<RemoteUser *> *)remoteUsersFromJSONArray:(NSArray *)jsonUsers
+{
+    return [jsonUsers wp_map:^id(NSDictionary *jsonUser) {
+        return [self remoteUserFromJSONDictionary:jsonUser];
+    }];
+}
+
+/// Creates a RemoteUser instance based on provided json object.
+/// Expected dictionary contents (and its mappings to RemoteUser):
+/// - ID -> userID
+/// - email -> email
+/// - login -> username
+/// - name -> displayName
+/// - site_ID -> primaryBlogID
+/// - avatar_URL -> avatarURL
+///
+/// @param jsonUser The dictionary representing RemoteUser
+- (RemoteUser *)remoteUserFromJSONDictionary:(NSDictionary *)jsonUser
+{
+    RemoteUser *user = [RemoteUser new];
+    user.userID = jsonUser[@"ID"];
+    user.email = jsonUser[@"email"];
+    user.username = jsonUser[@"login"];
+    user.displayName = jsonUser[@"name"];
+    user.primaryBlogID = jsonUser[@"site_ID"];
+    user.avatarURL = jsonUser[@"avatar_URL"];
+    
+    return user;
 }
 
 @end
