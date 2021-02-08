@@ -589,10 +589,12 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
     return [jsonTags allKeys];
 }
 
-/// Returns an array of users based on provided json representation
-/// of users.
-///
-/// @param jsonUsers Array containing json representation of users
+/**
+ *  @brief  Returns an array of RemoteUser based on provided JSON
+ *          representation of users.
+ *
+ *  @param  jsonUsers   An array containing JSON representations of users.
+ */
 - (NSArray<RemoteUser *> *)remoteUsersFromJSONArray:(NSArray *)jsonUsers
 {
     return [jsonUsers wp_map:^id(NSDictionary *jsonUser) {
@@ -600,21 +602,23 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
     }];
 }
 
-/// Creates a RemoteUser instance based on provided json object.
-/// Expected dictionary contents (and its mappings to RemoteUser):
-/// - ID -> userID
-/// - email -> email
-/// - login -> username
-/// - name -> displayName
-/// - site_ID -> primaryBlogID
-/// - avatar_URL -> avatarURL
-///
-/// @param jsonUser The dictionary representing RemoteUser
+/**
+ *  @brief      Creates a RemoteUser instance based on provided JSON object.
+ *
+ *  @discussion Expected dictionary contents (and its mapping to the
+ *              RemoteUser object):
+ *              - ID -> userID
+ *              - login -> username
+ *              - name -> displayName
+ *              - site_ID -> primaryBlogID
+ *              - avatar_URL -> avatarURL
+ *
+ *  @param  jsonUser    The dictionary that represents a RemoteUser.
+ */
 - (RemoteUser *)remoteUserFromJSONDictionary:(NSDictionary *)jsonUser
 {
     RemoteUser *user = [RemoteUser new];
     user.userID = jsonUser[@"ID"];
-    user.email = jsonUser[@"email"];
     user.username = jsonUser[@"login"];
     user.displayName = jsonUser[@"name"];
     user.primaryBlogID = jsonUser[@"site_ID"];
