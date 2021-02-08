@@ -31,7 +31,7 @@ final class PostServiceRemoteRESTLikesTests: RemoteTestCase, RESTTestable {
         
         stubRemoteResponse(postLikesEndpoint, filename: fetchPostLikesSuccessFilename, contentType: .ApplicationJSON)
         remote.getLikesForID(NSNumber(value: postId), success: { users in
-            guard let user = users.first else {
+            guard let user = users?.first else {
                 XCTFail("Failed to retrieve mock post likes")
                 return
             }
