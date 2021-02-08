@@ -7,6 +7,11 @@ public struct JetpackScan: Decodable {
         case unavailable
         case provisioning
 
+        // Internal states that don't come from the server
+
+        // The scan will be in this state when its in the process of fixing any fixable threats
+        case fixingThreats
+
         case unknown
         static let unknownCase: Self = .unknown
     }
@@ -32,6 +37,10 @@ public struct JetpackScan: Decodable {
 
     /// A limited representation of the users credientals for each role
     public var credentials: [JetpackScanCredentials]?
+
+    /// Internal var that doesn't come from the server
+    /// An array of the threats being fixed current
+    public var threatFixStatus: [JetpackThreatFixStatus]?
 
     // MARK: - Private: Decodable
     private enum CodingKeys: String, CodingKey {

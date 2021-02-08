@@ -6,6 +6,9 @@ public struct JetpackScanThreat: Decodable {
         case ignored
         case current
 
+        // Internal states
+        case fixing
+
         case unknown
         static let unknownCase: Self = .unknown
     }
@@ -59,7 +62,7 @@ public struct JetpackScanThreat: Decodable {
     public let fileName: String?
 
     /// The status of the threat (fixed, ignored, current)
-    public let status: ThreatStatus?
+    public var status: ThreatStatus?
 
     /// The date the threat was fixed on
     public let fixedOn: Date?
@@ -132,6 +135,7 @@ public struct JetpackScanThreatFixer: Decodable {
         case delete
         case update
         case edit
+        case rollback
 
         case unknown
         static let unknownCase: Self = .unknown

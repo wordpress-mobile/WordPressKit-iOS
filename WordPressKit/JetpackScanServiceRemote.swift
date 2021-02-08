@@ -2,7 +2,6 @@ import Foundation
 import WordPressShared
 import CocoaLumberjack
 
-
 public class JetpackScanServiceRemote: ServiceRemoteWordPressComREST {
     // MARK: - Scanning
     public func getScanAvailableForSite(_ siteID: Int, success: @escaping(Bool) -> Void, failure: @escaping(Error) -> Void) {
@@ -99,6 +98,18 @@ public class JetpackScanServiceRemote: ServiceRemoteWordPressComREST {
             failure(error)
         })
     }
+    
+    /// Begins the ignore process for a single threat
+    public func ignoreThreat(_ threat: JetpackScanThreat, siteID: Int, success: @escaping () -> Void, failure: @escaping(Error) -> Void) {
+        let path = self.path(forEndpoint: "sites/\(siteID)/alerts/\(threat.id)", withVersion: ._2_0)
+        let parameters = ["ignore": true] as [String: AnyObject]
+        
+        wordPressComRestApi.POST(path, parameters: parameters, success: { (response, _) in
+            success()
+        }, failure: { (error, _) in
+            failure(error)
+        })
+    }
 
     /// Returns the fix status for multiple threats
     public func getFixStatusForThreats(_ threats: [JetpackScanThreat], siteID: Int, success: @escaping(JetpackThreatFixResponse) -> Void, failure: @escaping(Error) -> Void) {
@@ -110,6 +121,25 @@ public class JetpackScanServiceRemote: ServiceRemoteWordPressComREST {
                 let decoder = JSONDecoder.apiDecoder
                 let data = try JSONSerialization.data(withJSONObject: response, options: [])
                 let envelope = try decoder.decode(JetpackThreatFixResponse.self, from: data)
+
+                success(envelope)
+            } catch {
+                failure(error)
+            }
+        }, failure: { (error, _) in
+            failure(error)
+        })
+    }
+
+    // MARK: - History
+    public func getHistoryForSite(_ siteID: Int, success: @escaping(JetpackScanHistory) -> Void, failure: @escaping(Error) -> Void) {
+        let path = scanPath(for: siteID, with: "history")
+
+        wordPressComRestApi.GET(path, parameters: nil, success: { (response, _) in
+            do {
+                let decoder = JSONDecoder.apiDecoder
+                let data = try JSONSerialization.data(withJSONObject: response, options: [])
+                let envelope = try decoder.decode(JetpackScanHistory.self, from: data)
 
                 success(envelope)
             } catch {
