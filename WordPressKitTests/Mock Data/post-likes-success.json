@@ -11,6 +11,7 @@
             "name": "John Doe",
             "first_name": "John",
             "last_name": "Doe",
+            "nice_name": "johndoe",
             "URL": "",
             "avatar_URL": "avatar URL",
             "profile_URL": "profile URL",

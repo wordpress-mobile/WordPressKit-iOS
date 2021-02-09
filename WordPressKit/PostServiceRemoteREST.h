@@ -65,8 +65,8 @@
  *  @param      success     The block that will be executed on success. Can be nil.
  *  @param      failure     The block that will be executed on failure. Can be nil.
  */
-- (void)getLikesForID:(NSNumber *)postID
-              success:(void (^)(NSArray<RemoteUser *> *))success
-              failure:(void (^)(NSError *))failure;
+- (void)getLikesForPostID:(NSNumber *)postID
+                  success:(void (^)(NSArray<RemoteUser *> *))success
+                  failure:(void (^)(NSError *))failure;
 
 @end

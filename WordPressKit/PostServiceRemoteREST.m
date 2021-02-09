@@ -307,9 +307,9 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
            }];
 }
 
-- (void)getLikesForID:(NSNumber *)postID
-              success:(void (^)(NSArray<RemoteUser *> * _Nonnull))success
-              failure:(void (^)(NSError * _Nullable))failure
+- (void)getLikesForPostID:(NSNumber *)postID
+                  success:(void (^)(NSArray<RemoteUser *> * _Nonnull))success
+                  failure:(void (^)(NSError * _Nullable))failure
 {
     NSParameterAssert(postID);
     
