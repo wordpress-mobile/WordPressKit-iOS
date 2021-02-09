@@ -160,8 +160,8 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
 
     
     BodyPart *contentPart =[[BodyPart alloc] initWithName:@"content" data:[post.content dataUsingEncoding:NSUTF8StringEncoding]];
-    BodyPart *titlePart = [[BodyPart alloc] initWithName:@"title" data:[post.content dataUsingEncoding:NSUTF8StringEncoding]];
-    BodyPart *statusPart = [[BodyPart alloc] initWithName:@"status" data:[post.content dataUsingEncoding:NSUTF8StringEncoding]];
+    BodyPart *titlePart = [[BodyPart alloc] initWithName:@"title" data:[post.title dataUsingEncoding:NSUTF8StringEncoding]];
+    BodyPart *statusPart = [[BodyPart alloc] initWithName:@"status" data:[post.status dataUsingEncoding:NSUTF8StringEncoding]];
     BodyPart *mediaPart = [[BodyPart alloc] initWithName:@"media[]" url:media.localURL fileName:filename mimeType:type];
     
     [self.wordPressComRestApi multipartPOST:requestUrl
