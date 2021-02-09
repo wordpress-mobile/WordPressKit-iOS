@@ -320,8 +320,8 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
     [self.wordPressComRestApi GET:requestUrl
                        parameters:nil
                           success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
-        NSArray *jsonUsers = responseObject[@"likes"];
-        if (success && jsonUsers) {
+        if (success) {
+            NSArray *jsonUsers = responseObject[@"likes"] ?: @[];
             success([self remoteUsersFromJSONArray:jsonUsers]);
         }
     } failure:^(NSError *error, NSHTTPURLResponse *httpResponse) {
