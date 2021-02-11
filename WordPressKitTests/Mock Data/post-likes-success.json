@@ -1,0 +1,24 @@
+{
+    "found": 1,
+    "i_like": true,
+    "site_ID": 0,
+    "post_ID": 1,
+    "likes": [
+        {
+            "ID": 12345,
+            "login": "johndoe",
+            "email": false,
+            "name": "John Doe",
+            "first_name": "John",
+            "last_name": "Doe",
+            "nice_name": "johndoe",
+            "URL": "",
+            "avatar_URL": "avatar URL",
+            "profile_URL": "profile URL",
+            "ip_address": false,
+            "site_ID": 54321,
+            "site_visible": true,
+            "default_avatar": false
+        }
+    ]
+}
