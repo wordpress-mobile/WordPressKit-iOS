@@ -44,6 +44,12 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
 
     override func setUp() {
         super.setUp()
+        
+        // standardize timezone to GMT+0
+        if let timezone = TimeZone(abbreviation: "GMT") {
+            NSTimeZone.default = timezone
+        }
+        
         remote = StatsServiceRemoteV2(wordPressComRestApi: getRestApi(), siteID: siteID, siteTimezone: .autoupdatingCurrent)
     }
 
