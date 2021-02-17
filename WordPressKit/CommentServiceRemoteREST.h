@@ -2,6 +2,8 @@
 #import <WordPressKit/CommentServiceRemote.h>
 #import <WordPressKit/SiteServiceRemoteWordPressComREST.h>
 
+@class RemoteUser;
+
 @interface CommentServiceRemoteREST : SiteServiceRemoteWordPressComREST <CommentServiceRemote>
 
 /**
@@ -75,5 +77,17 @@
 - (void)unlikeCommentWithID:(NSNumber *)commentID
                     success:(void (^)(void))success
                     failure:(void (^)(NSError *error))failure;
+
+/**
+ Requests a list of users that liked the comment with the specified ID. Due to
+ API limitation, up to 90 users will be returned from the endpoint.
+ 
+ @param commentID The ID for the comment. Cannot be nil.
+ @param success The block that will be executed on success. Can be nil.
+ @param failure The block that will be executed on failure. Can be nil.
+ */
+- (void)getLikesForCommentID:(NSNumber *)commentID
+                     success:(void (^)(NSArray<RemoteUser *> *))success
+                     failure:(void (^)(NSError *))failure;
 
 @end

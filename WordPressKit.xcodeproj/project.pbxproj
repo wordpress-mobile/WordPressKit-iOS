@@ -470,6 +470,8 @@
 		AB49D09325D1A85D0084905B /* PostServiceRemoteRESTLikesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB49D09225D1A85D0084905B /* PostServiceRemoteRESTLikesTests.swift */; };
 		AB49D09725D1AC0A0084905B /* post-likes-success.json in Resources */ = {isa = PBXBuildFile; fileRef = AB49D09625D1AC0A0084905B /* post-likes-success.json */; };
 		AB49D0B325D1B4D80084905B /* post-likes-failure.json in Resources */ = {isa = PBXBuildFile; fileRef = AB49D0B225D1B4D80084905B /* post-likes-failure.json */; };
+		ABD95B7F25DD6C4B00735BEE /* CommentServiceRemoteRESTLikesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD95B7E25DD6C4B00735BEE /* CommentServiceRemoteRESTLikesTests.swift */; };
+		ABD95B8525DD6DA200735BEE /* comment-likes-success.json in Resources */ = {isa = PBXBuildFile; fileRef = ABD95B8425DD6DA200735BEE /* comment-likes-success.json */; };
 		B5969E1C20A49AC4005E9DF1 /* NSString+MD5.h in Headers */ = {isa = PBXBuildFile; fileRef = B5969E1920A49AC4005E9DF1 /* NSString+MD5.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B5969E1D20A49AC4005E9DF1 /* NSString+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = B5969E1A20A49AC4005E9DF1 /* NSString+MD5.m */; };
 		B5A4822820AC6BA9009D95F6 /* WPKitLoggingPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = B5A4822620AC6BA8009D95F6 /* WPKitLoggingPrivate.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -1049,6 +1051,8 @@
 		AB49D09225D1A85D0084905B /* PostServiceRemoteRESTLikesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostServiceRemoteRESTLikesTests.swift; sourceTree = "<group>"; };
 		AB49D09625D1AC0A0084905B /* post-likes-success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "post-likes-success.json"; sourceTree = "<group>"; };
 		AB49D0B225D1B4D80084905B /* post-likes-failure.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "post-likes-failure.json"; sourceTree = "<group>"; };
+		ABD95B7E25DD6C4B00735BEE /* CommentServiceRemoteRESTLikesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentServiceRemoteRESTLikesTests.swift; sourceTree = "<group>"; };
+		ABD95B8425DD6DA200735BEE /* comment-likes-success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "comment-likes-success.json"; sourceTree = "<group>"; };
 		B56D96B0202C9B7500485233 /* WordPressUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = WordPressUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5969E1920A49AC4005E9DF1 /* NSString+MD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+MD5.h"; sourceTree = "<group>"; };
 		B5969E1A20A49AC4005E9DF1 /* NSString+MD5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+MD5.m"; sourceTree = "<group>"; };
@@ -1472,6 +1476,7 @@
 				826016FE1F9FD59400533B6C /* Activity */,
 				FAD1345425909DF500A8FEB1 /* Backup */,
 				74B5F0DF1EF82AAB00B411E7 /* Blog */,
+				ABD95B7D25DD6C2400735BEE /* Comment */,
 				74585B911F0D520700E7E667 /* Domains */,
 				7EC60EBC22DC4F5A00FB0336 /* Editor */,
 				8BE67ED124AD05B5004DB4C9 /* Extensions */,
@@ -2010,6 +2015,7 @@
 				3297E1EC2564694C00287D21 /* jetpack-scan-idle-success-threats.json */,
 				3297E28A25647E0300287D21 /* jetpack-scan-enqueue-failure.json */,
 				3297E28B25647E0300287D21 /* jetpack-scan-enqueue-success.json */,
+				ABD95B8425DD6DA200735BEE /* comment-likes-success.json */,
 			);
 			path = "Mock Data";
 			sourceTree = "<group>";
@@ -2068,6 +2074,14 @@
 				9AB6D646218705E90008F274 /* RemoteDiff.swift */,
 			);
 			name = Revisions;
+			sourceTree = "<group>";
+		};
+		ABD95B7D25DD6C2400735BEE /* Comment */ = {
+			isa = PBXGroup;
+			children = (
+				ABD95B7E25DD6C4B00735BEE /* CommentServiceRemoteRESTLikesTests.swift */,
+			);
+			name = Comment;
 			sourceTree = "<group>";
 		};
 		B5A4821F20AC6B5C009D95F6 /* Private */ = {
@@ -2327,6 +2341,7 @@
 				BA3F138E24A09C87006367A3 /* plugin-install-generic-error.json in Resources */,
 				3236F79C24AE413A0088E8F3 /* reader-interests-success.json in Resources */,
 				93BD275C1EE73442002BB00B /* is-available-username-success.json in Resources */,
+				ABD95B8525DD6DA200735BEE /* comment-likes-success.json in Resources */,
 				8BFD71FE25CACCBF0094534E /* backup-get-backup-status-complete-without-download-id-success.json in Resources */,
 				74D67F331F15C3740010C5ED /* site-users-delete-auth-failure.json in Resources */,
 				3297E1EE2564694C00287D21 /* jetpack-scan-idle-success-threats.json in Resources */,
@@ -2847,6 +2862,7 @@
 				32AF21E3236DEB3C001C6502 /* PostServiceRemoteRESTAutosaveTests.swift in Sources */,
 				3236F79A24AE406D0088E8F3 /* ReaderTopicServiceRemote+InterestsTests.swift in Sources */,
 				74B5F0DE1EF82A9600B411E7 /* BlogServiceRemoteRESTTests.m in Sources */,
+				ABD95B7F25DD6C4B00735BEE /* CommentServiceRemoteRESTLikesTests.swift in Sources */,
 				8B749E8225AF7DDA00023F03 /* JetpackCapabilitiesServiceRemoteTests.swift in Sources */,
 				74E2294B1F1E73340085F7F2 /* SharingServiceRemoteTests.m in Sources */,
 				73B3DAD621FBB20D00B2CF18 /* WordPressComRestApiTests+Locale.swift in Sources */,
