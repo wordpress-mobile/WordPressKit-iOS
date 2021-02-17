@@ -20,13 +20,19 @@
                             success:(void (^)(NSArray *posts))success
                             failure:(void (^)(NSError *error))failure
 {
-    NSMutableDictionary *extraParameters = [@{
-                                                @"number": @(maximumComments)
-                                            } mutableCopy];
+    NSMutableDictionary *extraParameters = [@{ @"number": @(maximumComments) } mutableCopy];
+
     if (options) {
         [extraParameters addEntriesFromDictionary:options];
     }
+    
+    // If the comment status is not specified, default to all.
+    if (![extraParameters objectForKey:@"status"]) {
+        extraParameters[@"status"] = @"all";
+    }
+    
     NSArray *parameters = [self XMLRPCArgumentsWithExtra:extraParameters];
+    
     [self.api callMethod:@"wp.getComments"
               parameters:parameters
                  success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
