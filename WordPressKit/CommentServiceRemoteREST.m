@@ -399,10 +399,6 @@
     comment.type = jsonDictionary[@"type"];
     comment.isLiked = [[jsonDictionary numberForKey:@"i_like"] boolValue];
     comment.likeCount = [jsonDictionary numberForKey:@"like_count"];
-    
-    // TODO: for testing only. Remove before merge.
-    NSLog(@"🔴 comment content: %@", comment.content);
-    NSLog(@"🔴 comment status: %@", comment.status);
 
     return comment;
 }

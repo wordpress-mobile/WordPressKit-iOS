@@ -194,11 +194,7 @@
     comment.postTitle = xmlrpcDictionary[@"post_title"];
     comment.status = xmlrpcDictionary[@"status"];
     comment.type = xmlrpcDictionary[@"type"];
-    
-    // TODO: for testing only. Remove before merge.
-    NSLog(@"🔴 comment content: %@", comment.content);
-    NSLog(@"🔴 comment status: %@", comment.status);
-    
+
     return comment;
 }
 
