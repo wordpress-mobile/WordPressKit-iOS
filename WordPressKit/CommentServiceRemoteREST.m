@@ -29,13 +29,18 @@
                                      withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
     
     NSMutableDictionary *parameters = [NSMutableDictionary dictionaryWithDictionary:@{
-                                 @"status": @"all",
                                  @"context": @"edit",
                                  @"force": @"wpcom", // Force fetching data from shadow site on Jetpack sites
                                  @"number": @(maximumComments)
                                  }];
+
     if (options) {
         [parameters addEntriesFromDictionary:options];
+    }
+
+    // If the comment status is not specified, default to all.
+    if (![parameters objectForKey:@"status"]) {
+        parameters[@"status"] = @"all";
     }
     
     [self.wordPressComRestApi GET:requestUrl
