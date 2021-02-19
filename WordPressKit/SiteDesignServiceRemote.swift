@@ -27,9 +27,9 @@ public struct SiteDesignRequest: Encodable {
 
 public class SiteDesignServiceRemote {
 
-    public typealias CompletionHandler = (Swift.Result<[RemoteSiteDesign], Error>) -> Void
+    public typealias CompletionHandler = (Swift.Result<RemoteSiteDesigns, Error>) -> Void
 
-    static let endpoint = "/rest/v1.1/nux/starter-designs"
+    static let endpoint = "/wpcom/v2/common-starter-site-designs"
     static let parameters: [String: AnyObject] = [
         "type": ("mobile" as AnyObject),
         "language": (WordPressComLanguageDatabase().deviceLanguage.slug as AnyObject)
@@ -49,6 +49,7 @@ public class SiteDesignServiceRemote {
                 let result = try parseLayouts(fromResponse: responseObject)
                 completion(.success(result))
             } catch let error {
+                NSLog("error response object: %@", String(describing: responseObject))
                 completion(.failure(error))
             }
         }, failure: { (error, _) in
@@ -56,8 +57,8 @@ public class SiteDesignServiceRemote {
         })
     }
 
-    private static func parseLayouts(fromResponse response: Any) throws -> [RemoteSiteDesign] {
+    private static func parseLayouts(fromResponse response: Any) throws -> RemoteSiteDesigns {
         let data = try JSONSerialization.data(withJSONObject: response)
-        return try JSONDecoder().decode([RemoteSiteDesign].self, from: data)
+        return try JSONDecoder().decode(RemoteSiteDesigns.self, from: data)
     }
 }
