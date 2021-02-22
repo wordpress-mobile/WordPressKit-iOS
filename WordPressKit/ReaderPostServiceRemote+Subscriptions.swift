@@ -8,6 +8,7 @@ extension ReaderPostServiceRemote {
 
     private enum Constants {
         static let isSubscribed = "i_subscribe"
+        static let success = "success"
     }
 
     /// Fetches the subscription status of the specified post for the current user.
@@ -49,12 +50,21 @@ extension ReaderPostServiceRemote {
     ///   - failure: Failure block called if there is any error.
     @objc open func subscribeToPost(with postID: Int,
                                       for siteID: Int,
-                                      success: @escaping () -> Void,
+                                      success: @escaping (Bool) -> Void,
                                       failure: @escaping (Error?) -> Void) {
         let path = self.path(forEndpoint: "sites/\(siteID)/posts/\(postID)/subscribers/new", withVersion: ._1_1)
 
         wordPressComRestApi.POST(path, parameters: nil, success: { response, _ in
-            success()
+            do {
+                guard let responseObject = response as? [String: AnyObject],
+                    let subscribed = responseObject[Constants.success] as? Bool else {
+                        throw ReaderPostServiceRemote.ResponseError.decodingFailed
+                }
+
+                success(subscribed)
+            } catch {
+                failure(error)
+            }
         }) { error, _ in
             DDLogError("Error subscribing to comments in the post: \(error)")
             failure(error)
@@ -70,12 +80,21 @@ extension ReaderPostServiceRemote {
     ///   - failure: Failure block called if there is any error.
     @objc open func unsubscribeFromPost(with postID: Int,
                                           for siteID: Int,
-                                          success: @escaping () -> Void,
+                                          success: @escaping (Bool) -> Void,
                                           failure: @escaping (Error) -> Void) {
         let path = self.path(forEndpoint: "sites/\(siteID)/posts/\(postID)/subscribers/mine/delete", withVersion: ._1_1)
 
         wordPressComRestApi.POST(path, parameters: nil, success: { response, _ in
-            success()
+            do {
+                guard let responseObject = response as? [String: AnyObject],
+                    let unsubscribed = responseObject[Constants.success] as? Bool else {
+                        throw ReaderPostServiceRemote.ResponseError.decodingFailed
+                }
+
+                success(unsubscribed)
+            } catch {
+                failure(error)
+            }
         }) { error, _ in
             DDLogError("Error unsubscribing from comments in the post: \(error)")
             failure(error)
