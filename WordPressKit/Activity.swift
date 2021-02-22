@@ -229,7 +229,7 @@ public extension RewindStatus {
         case active
         case inactive
         case unavailable
-        case awaitingCredentials
+        case awaitingCredentials = "awaiting_credentials"
         case provisioning
     }
 }
