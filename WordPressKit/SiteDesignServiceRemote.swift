@@ -1,27 +1,14 @@
 import Foundation
 import WordPressShared
 
-public struct SiteDesignRequest: Encodable {
-    public let previewSize: CGSize?
-    public let scale: CGFloat?
+public struct SiteDesignRequest {
+    public let parameters: [String: AnyObject]
 
-    public init(previewSize: CGSize? = nil, scale: CGFloat? = nil) {
-        self.previewSize = previewSize
-        self.scale = scale
-    }
-
-    public func asParameters() -> [String: AnyObject] {
-        var parameters: [String: AnyObject] = [:]
-
-        if let previewWidth = previewSize?.width {
-            parameters["preview_width"] = previewWidth as AnyObject
-        }
-
-        if let scale = scale {
-            parameters["scale"] = scale as AnyObject
-        }
-
-        return parameters
+    public init(withThumbnailSize thumbnailSize: CGSize) {
+        parameters = [
+            "preview_width": "\(thumbnailSize.width)" as AnyObject,
+            "scale": UIScreen.main.nativeScale as AnyObject
+        ]
     }
 }
 
@@ -43,7 +30,7 @@ public class SiteDesignServiceRemote {
     }
 
     public static func fetchSiteDesigns(_ api: WordPressComRestApi, request: SiteDesignRequest? = nil, completion: @escaping CompletionHandler) {
-        let combinedParameters: [String: AnyObject] = joinParameters(parameters, additionalParameters: request?.asParameters())
+        let combinedParameters: [String: AnyObject] = joinParameters(parameters, additionalParameters: request?.parameters)
         api.GET(endpoint, parameters: combinedParameters, success: { (responseObject, _) in
             do {
                 let result = try parseLayouts(fromResponse: responseObject)
