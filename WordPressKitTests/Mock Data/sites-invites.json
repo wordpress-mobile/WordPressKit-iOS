@@ -22,7 +22,7 @@
 			"invite_date": "2021-02-12T13:46:53-06:00",
 			"accepted_date": null,
 			"invited_by": {
-				"ID": 012345,
+				"ID": 12345,
 				"login": "test",
 				"email": false,
 				"name": "Test",
@@ -33,7 +33,7 @@
 				"avatar_URL": "https://2.gravatar.com/avatar/abcde?s=96&d=identicon&r=G",
 				"profile_URL": "https://en.gravatar.com/test",
 				"ip_address": false,
-				"site_ID": 012345,
+				"site_ID": 12345,
 				"site_visible": true
 			},
 			"is_group_invite": true,
@@ -60,7 +60,7 @@
 			"invite_date": "2021-02-12T13:46:53-06:00",
 			"accepted_date": null,
 			"invited_by": {
-				"ID": 012345,
+				"ID": 12345,
 				"login": "test",
 				"email": false,
 				"name": "Test",
@@ -71,7 +71,7 @@
 				"avatar_URL": "https://2.gravatar.com/avatar/test?s=96&d=identicon&r=G",
 				"profile_URL": "https://en.gravatar.com/test",
 				"ip_address": false,
-				"site_ID": 012345,
+				"site_ID": 12345,
 				"site_visible": true
 			},
 			"is_group_invite": true,
@@ -98,7 +98,7 @@
 			"invite_date": "2021-02-12T13:46:53-06:00",
 			"accepted_date": null,
 			"invited_by": {
-				"ID": 012345,
+				"ID": 12345,
 				"login": "test",
 				"email": false,
 				"name": "Test",
@@ -109,7 +109,7 @@
 				"avatar_URL": "https://2.gravatar.com/avatar/test?s=96&d=identicon&r=G",
 				"profile_URL": "https://en.gravatar.com/test",
 				"ip_address": false,
-				"site_ID": 012345,
+				"site_ID": 12345,
 				"site_visible": true
 			},
 			"is_group_invite": true,
@@ -136,7 +136,7 @@
 			"invite_date": "2021-02-12T13:46:53-06:00",
 			"accepted_date": null,
 			"invited_by": {
-				"ID": 31559706,
+				"ID": 12345,
 				"login": "test",
 				"email": false,
 				"name": "Test",
@@ -147,7 +147,7 @@
 				"avatar_URL": "https://2.gravatar.com/avatar/test?s=96&d=identicon&r=G",
 				"profile_URL": "https://en.gravatar.com/test",
 				"ip_address": false,
-				"site_ID": 32188966,
+				"site_ID": 12345,
 				"site_visible": true
 			},
 			"is_group_invite": true,
@@ -174,7 +174,7 @@
 			"invite_date": "2021-02-12T13:46:53-06:00",
 			"accepted_date": null,
 			"invited_by": {
-				"ID": 012345,
+				"ID": 12345,
 				"login": "test",
 				"email": false,
 				"name": "Test",
@@ -185,7 +185,7 @@
 				"avatar_URL": "https://2.gravatar.com/avatar/test?s=96&d=identicon&r=G",
 				"profile_URL": "https://en.gravatar.com/test",
 				"ip_address": false,
-				"site_ID": 012345,
+				"site_ID": 12345,
 				"site_visible": true
 			},
 			"is_group_invite": true,
