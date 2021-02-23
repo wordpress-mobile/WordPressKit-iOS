@@ -48,6 +48,11 @@ class PeopleServiceRemoteTests: RemoteTestCase, RESTTestable {
     let deleteViewerAuthFailureMockFilename         = "site-viewers-delete-auth-failure.json"
     let deleteViewerBadJsonFailureMockFilename      = "site-viewers-delete-bad-json.json"
 
+    let inviteLinksFetchInvitesMockFilename         = "sites-invites.json"
+    let inviteLinksGenerateMockFilename             = "sites-invites-links-generate.json"
+    let inviteLinksDisableMockFilename              = "sites-invites-links-disable.json"
+    let inviteLinksDisableEmptyMockFilename         = "sites-invites-links-disable-empty.json"
+
     // MARK: - Properties
 
     var remote: PeopleServiceRemote!
@@ -60,6 +65,10 @@ class PeopleServiceRemoteTests: RemoteTestCase, RESTTestable {
     var siteUserDeleteEndpoint: String { return "sites/\(siteID)/users/\(userID)/delete" }
     var siteViewerDeleteEndpoint: String { return "sites/\(siteID)/viewers/\(viewerID)/delete" }
     var siteFollowerDeleteEndpoint: String { return "sites/\(siteID)/followers/\(followerID)/delete" }
+
+    var siteInvitesEndpoint: String { return "sites/\(siteID)/invites" }
+    var siteInvitesLinksGenerate: String { return "sites/\(siteID)/invites/links/generate" }
+    var siteInvitesLinksDisable: String { return "sites/\(siteID)/invites/links/disable" }
 
     // MARK: - Overridden Methods
 
@@ -540,4 +549,72 @@ class PeopleServiceRemoteTests: RemoteTestCase, RESTTestable {
 
         waitForExpectations(timeout: timeout, handler: nil)
     }
+
+    func testFetchInvites() {
+        let expect = expectation(description: "Get invite links")
+
+        stubRemoteResponse(siteInvitesEndpoint, filename: inviteLinksFetchInvitesMockFilename,
+                           contentType: .ApplicationJSON)
+        remote.fetchInvites(siteID, success: { invites in
+            XCTAssertFalse(invites.isEmpty, "The returned array should not be empty")
+            XCTAssertTrue(invites.count == 5, "There should be 5 invites returned")
+            expect.fulfill()
+        }, failure: { error in
+            XCTFail("This callback shouldn't get called")
+            expect.fulfill()
+        })
+
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+
+    func testGenerateInviteLinks() {
+        let expect = expectation(description: "Generate invite links")
+
+        stubRemoteResponse(siteInvitesLinksGenerate, filename: inviteLinksGenerateMockFilename,
+                           contentType: .ApplicationJSON)
+        remote.generateInviteLinks(siteID, success: { invites in
+            XCTAssertFalse(invites.isEmpty, "The returned array should not be empty")
+            XCTAssertTrue(invites.count == 5, "There should be 5 invites returned")
+            expect.fulfill()
+        }, failure: { error in
+            XCTFail("This callback shouldn't get called")
+            expect.fulfill()
+        })
+
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+
+    func testDisableInviteLinks() {
+        let expect = expectation(description: "Disable invite links")
+
+        stubRemoteResponse(siteInvitesLinksDisable, filename: inviteLinksDisableMockFilename,
+                           contentType: .ApplicationJSON)
+        remote.disableInviteLinks(siteID, success: { invites in
+            XCTAssertFalse(invites.isEmpty, "The returned array should not be empty")
+            XCTAssertTrue(invites.count == 5, "There should be 5 invites returned")
+            expect.fulfill()
+        }, failure: { error in
+            XCTFail("This callback shouldn't get called")
+            expect.fulfill()
+        })
+
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+
+    func testDisableInviteLinksEmptyResponse() {
+        let expect = expectation(description: "Disable invite links empty response")
+
+        stubRemoteResponse(siteInvitesLinksDisable, filename: inviteLinksDisableEmptyMockFilename,
+                           contentType: .ApplicationJSON)
+        remote.disableInviteLinks(siteID, success: { invites in
+            XCTAssertTrue(invites.isEmpty, "The returned array should be empty")
+            expect.fulfill()
+        }, failure: { error in
+            XCTFail("This callback shouldn't get called")
+            expect.fulfill()
+        })
+
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+
 }
