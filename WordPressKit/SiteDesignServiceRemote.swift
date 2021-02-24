@@ -2,13 +2,24 @@ import Foundation
 import WordPressShared
 
 public struct SiteDesignRequest {
+    public enum TemplateGroup: String {
+        case original
+        case singlePage = "single-page"
+    }
+
     public let parameters: [String: AnyObject]
 
-    public init(withThumbnailSize thumbnailSize: CGSize) {
+    public init(withThumbnailSize thumbnailSize: CGSize, withGroups groups: [TemplateGroup] = []) {
+        var parameters: [String: AnyObject]
         parameters = [
             "preview_width": "\(thumbnailSize.width)" as AnyObject,
             "scale": UIScreen.main.nativeScale as AnyObject
         ]
+        if 0 < groups.count {
+            var groups = groups.map { $0.rawValue }
+            parameters["group"] = groups.joined(separator: ",") as AnyObject
+        }
+        self.parameters = parameters
     }
 }
 
