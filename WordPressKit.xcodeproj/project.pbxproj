@@ -496,6 +496,9 @@
 		BAFA775624ADAB3C000F0D3A /* MockPluginDirectoryEntryProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAFA775524ADAB3C000F0D3A /* MockPluginDirectoryEntryProvider.swift */; };
 		C76F456825B9F30E00BFEC87 /* JetpackScanHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76F456725B9F30E00BFEC87 /* JetpackScanHistory.swift */; };
 		C785325625B5F46C006CEAFB /* JetpackThreatFixStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = C785325525B5F46C006CEAFB /* JetpackThreatFixStatus.swift */; };
+		C92EFF6925E7403F00E0308D /* common-starter-site-designs-success.json in Resources */ = {isa = PBXBuildFile; fileRef = C92EFF6825E7403F00E0308D /* common-starter-site-designs-success.json */; };
+		C92EFF6D25E741E900E0308D /* common-starter-site-designs-malformed.json in Resources */ = {isa = PBXBuildFile; fileRef = C92EFF6C25E741E900E0308D /* common-starter-site-designs-malformed.json */; };
+		C92EFF7325E7444400E0308D /* common-starter-site-designs-empty-designs.json in Resources */ = {isa = PBXBuildFile; fileRef = C92EFF7225E7444400E0308D /* common-starter-site-designs-empty-designs.json */; };
 		CEAD827B25E421DE00758DF2 /* reader-post-comments-subscribe-failure.json in Resources */ = {isa = PBXBuildFile; fileRef = CEAD827925E421DE00758DF2 /* reader-post-comments-subscribe-failure.json */; };
 		D813437621F6D70D0060D99A /* SiteSegmentsResponseDecodingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D813437521F6D70D0060D99A /* SiteSegmentsResponseDecodingTests.swift */; };
 		D813437821F6D7DC0060D99A /* site-segments-single.json in Resources */ = {isa = PBXBuildFile; fileRef = D813437721F6D7DC0060D99A /* site-segments-single.json */; };
@@ -1078,6 +1081,9 @@
 		C5953994B3865AF409BA4210 /* Pods-WordPressKitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WordPressKitTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-WordPressKitTests/Pods-WordPressKitTests.release.xcconfig"; sourceTree = "<group>"; };
 		C76F456725B9F30E00BFEC87 /* JetpackScanHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JetpackScanHistory.swift; sourceTree = "<group>"; };
 		C785325525B5F46C006CEAFB /* JetpackThreatFixStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JetpackThreatFixStatus.swift; sourceTree = "<group>"; };
+		C92EFF6825E7403F00E0308D /* common-starter-site-designs-success.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "common-starter-site-designs-success.json"; sourceTree = "<group>"; };
+		C92EFF6C25E741E900E0308D /* common-starter-site-designs-malformed.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "common-starter-site-designs-malformed.json"; sourceTree = "<group>"; };
+		C92EFF7225E7444400E0308D /* common-starter-site-designs-empty-designs.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "common-starter-site-designs-empty-designs.json"; sourceTree = "<group>"; };
 		CA5ABD95F40077D001644BCC /* Pods-WordPressKit.release-internal.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WordPressKit.release-internal.xcconfig"; path = "Pods/Target Support Files/Pods-WordPressKit/Pods-WordPressKit.release-internal.xcconfig"; sourceTree = "<group>"; };
 		CEAD827925E421DE00758DF2 /* reader-post-comments-subscribe-failure.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "reader-post-comments-subscribe-failure.json"; sourceTree = "<group>"; };
 		D813437521F6D70D0060D99A /* SiteSegmentsResponseDecodingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteSegmentsResponseDecodingTests.swift; sourceTree = "<group>"; };
@@ -1764,6 +1770,9 @@
 		93BD27421EE73384002BB00B /* Mock Data */ = {
 			isa = PBXGroup;
 			children = (
+				C92EFF7225E7444400E0308D /* common-starter-site-designs-empty-designs.json */,
+				C92EFF6C25E741E900E0308D /* common-starter-site-designs-malformed.json */,
+				C92EFF6825E7403F00E0308D /* common-starter-site-designs-success.json */,
 				FFA4D4AE2423B33800BF5180 /* wp-forbidden.json */,
 				FFA4D4AF2423B33800BF5180 /* wp-pages.json */,
 				FFA4D4AC2423B1FE00BF5180 /* wp-admin-post-new.html */,
@@ -2434,11 +2443,13 @@
 				9A2D0B2F225E1245009E585F /* jetpack-service-check-site-success.json in Resources */,
 				829BA4301FACF187003ADEEA /* activity-rewind-status-restore-failure.json in Resources */,
 				8B16CE962525045F007BE5A9 /* reader-posts-success.json in Resources */,
+				C92EFF7325E7444400E0308D /* common-starter-site-designs-empty-designs.json in Resources */,
 				74D67F391F15C3740010C5ED /* site-viewers-delete-bad-json.json in Resources */,
 				BA8EA71524A0610200D5CC9F /* plugin-service-remote-featured-plugins-invalid.json in Resources */,
 				93BD27631EE73442002BB00B /* me-sites-visibility-bad-json-failure.json in Resources */,
 				17BF9A7220C7E18200BF57D2 /* reader-site-search-success-hasmore.json in Resources */,
 				9AB6D64B21872A0D0008F274 /* post-revisions-success.json in Resources */,
+				C92EFF6925E7403F00E0308D /* common-starter-site-designs-success.json in Resources */,
 				7433BC131EFC45C7002D9E92 /* site-plans-bad-json-failure.json in Resources */,
 				74B335DE1F06F5A50053A184 /* WordPressComRestApiFailInvalidJSON.json in Resources */,
 				3297E1E42564683600287D21 /* jetpack-scan-in-progress.json in Resources */,
@@ -2495,6 +2506,7 @@
 				74D67F311F15C3740010C5ED /* site-followers-delete-failure.json in Resources */,
 				74B335E81F06F7200053A184 /* WordPressComRestApiFailUnauthorized.json in Resources */,
 				FFE247C220C9D749002DF3A2 /* reader-site-search-no-blog-or-feed-id.json in Resources */,
+				C92EFF6D25E741E900E0308D /* common-starter-site-designs-malformed.json in Resources */,
 				BA4BFC582498C04D005C83E7 /* plugin-update-jetpack-already-updated.json in Resources */,
 				740B23E51F17FB4200067A2A /* xmlrpc-metaweblog-newpost-bad-xml-failure.xml in Resources */,
 				74C473C91EF335B8009918F2 /* site-active-purchases-empty-response.json in Resources */,

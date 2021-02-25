@@ -16,7 +16,7 @@ public struct SiteDesignRequest {
             "scale": UIScreen.main.nativeScale as AnyObject
         ]
         if 0 < groups.count {
-            var groups = groups.map { $0.rawValue }
+            let groups = groups.map { $0.rawValue }
             parameters["group"] = groups.joined(separator: ",") as AnyObject
         }
         self.parameters = parameters
