@@ -26,10 +26,11 @@
         [extraParameters addEntriesFromDictionary:options];
     }
     
-    // If the comment status is not specified, default to all.
-    if (![extraParameters objectForKey:@"status"]) {
-        extraParameters[@"status"] = @"all";
-    }
+    NSNumber *statusFilter = [extraParameters numberForKey:@"status"];
+    [extraParameters removeObjectForKey:@"status"];
+    extraParameters[@"status"] = [self parameterForCommentStatus:statusFilter];
+
+    NSLog(@"🔴 XMLRPC > params: %@", extraParameters);
     
     NSArray *parameters = [self XMLRPCArgumentsWithExtra:extraParameters];
     
@@ -45,6 +46,27 @@
                          failure(error);
                      }
                  }];
+}
+
+- (NSString *)parameterForCommentStatus:(NSNumber *)status
+{
+    switch (status.intValue) {
+        case CommentStatusFilterUnapproved:
+            return @"hold";
+            break;
+        case CommentStatusFilterApproved:
+            return @"approve";
+            break;
+        case CommentStatusFilterTrash:
+            return @"trash";
+            break;
+        case CommentStatusFilterSpam:
+            return @"spam";
+            break;
+        default:
+            return @"all";
+            break;
+    }
 }
 
 - (void)getCommentWithID:(NSNumber *)commentID
