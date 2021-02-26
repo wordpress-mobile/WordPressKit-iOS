@@ -36,11 +36,12 @@
     if (options) {
         [parameters addEntriesFromDictionary:options];
     }
+    
+    NSNumber *statusFilter = [parameters numberForKey:@"status"];
+    [parameters removeObjectForKey:@"status"];
+    parameters[@"status"] = [self parameterForCommentStatus:statusFilter];
 
-    // If the comment status is not specified, default to all.
-    if (![parameters objectForKey:@"status"]) {
-        parameters[@"status"] = @"all";
-    }
+    NSLog(@"🔴 REST > params: %@", parameters);
     
     [self.wordPressComRestApi GET:requestUrl
                        parameters:parameters
@@ -56,7 +57,26 @@
 
 }
 
-
+- (NSString *)parameterForCommentStatus:(NSNumber *)status
+{
+    switch (status.intValue) {
+        case CommentStatusFilterUnapproved:
+            return @"unapproved";
+            break;
+        case CommentStatusFilterApproved:
+            return @"approved";
+            break;
+        case CommentStatusFilterTrash:
+            return @"trash";
+            break;
+        case CommentStatusFilterSpam:
+            return @"spam";
+            break;
+        default:
+            return @"all";
+            break;
+    }
+}
 
 - (void)createComment:(RemoteComment *)comment
               success:(void (^)(RemoteComment *comment))success
