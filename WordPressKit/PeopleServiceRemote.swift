@@ -369,7 +369,7 @@ public class PeopleServiceRemote: ServiceRemoteWordPressComREST {
     ///
     /// - Parameters:
     ///   - siteID: The site ID for the invite links.
-    ///   - success: A succss block accepting an array of invite links as an argument.
+    ///   - success: A success block accepting an array of invite links as an argument.
     ///   - failure: Closure to be executed on failure. The remote error will be passed on.
     ///
     public func fetchInvites(_ siteID: Int,
@@ -406,7 +406,7 @@ public class PeopleServiceRemote: ServiceRemoteWordPressComREST {
     ///
     /// - Parameters:
     ///   - siteID: The site ID for the invite links.
-    ///   - success: A succss block accepting an array of invite links as an argument.
+    ///   - success: A success block accepting an array of invite links as an argument.
     ///   - failure: Closure to be executed on failure. The remote error will be passed on.
     ///
     public func generateInviteLinks(_ siteID: Int,
@@ -437,7 +437,7 @@ public class PeopleServiceRemote: ServiceRemoteWordPressComREST {
     ///
     /// - Parameters:
     ///   - siteID: The site ID for the invite links to disable.
-    ///   - success: A succss block.
+    ///   - success: A success block.
     ///   - failure: A failure block
     ///
     public func disableInviteLinks(_ siteID: Int,
