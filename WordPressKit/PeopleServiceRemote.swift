@@ -364,6 +364,97 @@ public class PeopleServiceRemote: ServiceRemoteWordPressComREST {
             failure(error)
         })
     }
+
+    /// Fetch any existing invite links.
+    ///
+    /// - Parameters:
+    ///   - siteID: The site ID for the invite links.
+    ///   - success: A success block accepting an array of invite links as an argument.
+    ///   - failure: Closure to be executed on failure. The remote error will be passed on.
+    ///
+    public func fetchInvites(_ siteID: Int,
+                        success: @escaping (([RemoteInviteLink]) -> Void),
+                        failure: @escaping ((Error) -> Void)) {
+        let endpoint = "sites/\(siteID)/invites"
+        let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
+
+        let params = [
+            "status": "all",
+            "number": 100
+        ] as [String: AnyObject]
+
+        wordPressComRestApi.GET(path, parameters: params, success: { (responseObject, httpResponse) in
+            guard let responseDict = responseObject as? [String: AnyObject] else {
+                failure(ResponseError.decodingFailure)
+                return
+            }
+
+            var results = [RemoteInviteLink]()
+            if let links = responseDict["links"] as? [[String: Any]] {
+                for link in links {
+                    results.append(RemoteInviteLink(dict: link))
+                }
+            }
+            success(results)
+
+        }, failure: { (error, httpResponse) in
+            failure(error)
+        })
+    }
+
+    /// Create a new batch of invite links.
+    ///
+    /// - Parameters:
+    ///   - siteID: The site ID for the invite links.
+    ///   - success: A success block accepting an array of invite links as an argument.
+    ///   - failure: Closure to be executed on failure. The remote error will be passed on.
+    ///
+    public func generateInviteLinks(_ siteID: Int,
+                             success: @escaping (([RemoteInviteLink]) -> Void),
+                             failure: @escaping ((Error) -> Void)) {
+        let endpoint = "sites/\(siteID)/invites/links/generate"
+        let path = self.path(forEndpoint: endpoint, withVersion: ._2_0)
+
+        wordPressComRestApi.POST(path, parameters: nil, success: { (responseObject, httpResponse) in
+            guard let responseArray = responseObject as? [[String: AnyObject]] else {
+                failure(ResponseError.decodingFailure)
+                return
+            }
+
+            var results = [RemoteInviteLink]()
+            for dict in responseArray {
+                results.append(RemoteInviteLink(dict: dict))
+            }
+            success(results)
+
+        }, failure: { (error, httpResponse) in
+            failure(error)
+        })
+
+    }
+
+    /// Disable any existing invite links.
+    ///
+    /// - Parameters:
+    ///   - siteID: The site ID for the invite links to disable.
+    ///   - success: A success block.
+    ///   - failure: A failure block
+    ///
+    public func disableInviteLinks(_ siteID: Int,
+                            success: @escaping (([String]) -> Void),
+                            failure: @escaping ((Error) -> Void)) {
+        let endpoint = "sites/\(siteID)/invites/links/disable"
+        let path = self.path(forEndpoint: endpoint, withVersion: ._2_0)
+
+        wordPressComRestApi.POST(path, parameters: nil, success: { (responseObject, httpResponse) in
+            let deletedKeys = responseObject as? [String] ?? [String]()
+            success(deletedKeys)
+
+        }, failure: { (error, httpResponse) in
+            failure(error)
+        })
+    }
+
 }
 
 
