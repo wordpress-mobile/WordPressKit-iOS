@@ -290,12 +290,12 @@ open class WordPressComRestApi: NSObject {
     }
 
     /**
-     Executes a multipart POST using the current serializer, the parameters defined and the fileParts defined in the request
+     Executes a multipart POST to the specified endpoint defined on URLString, including the parameters and bodyParts defined in the request.
      This request will be streamed from disk, so it's ideally to be used for large media post uploads.
 
      - parameter URLString:  the endpoint to connect
      - parameter parameters: the parameters to use on the request
-     - parameter fileParts:  the file parameters that are added to the multipart request
+     - parameter bodyParts:  the body parameters that are added to the multipart request
      - parameter requestEnqueued: callback to be called when the fileparts are serialized and request is added to the background session. Defaults to nil
      - parameter success:    callback to be called on successful request
      - parameter failure:    callback to be called on failed request
@@ -306,7 +306,7 @@ open class WordPressComRestApi: NSObject {
      */
     @objc @discardableResult open func multipartPOST(_ URLString: String,
                               parameters: [String: AnyObject]?,
-                              fileParts: [FilePart],
+                              bodyParts: [BodyPart],
                               requestEnqueued: RequestEnqueuedBlock? = nil,
                               success: @escaping SuccessResponseBlock,
                               failure: @escaping FailureReponseBlock) -> Progress? {
@@ -324,9 +324,10 @@ open class WordPressComRestApi: NSObject {
         }
 
         uploadSessionManager.upload(multipartFormData: { (multipartFormData) in
-            for filePart in fileParts {
-                multipartFormData.append(filePart.url, withName: filePart.parameterName, fileName: filePart.filename, mimeType: filePart.mimeType)
+            for part in bodyParts {
+                part.appendToFormData(multipartFormData)
             }
+            
         }, to: URLString, encodingCompletion: { (encodingResult) in
             switch encodingResult {
             case .success(let upload, _, _):
@@ -423,20 +424,63 @@ open class WordPressComRestApi: NSObject {
     }
 }
 
-// MARK: - FilePart
+// MARK: - BodyPart
 
-/// FilePart represents the infomartion needed to encode a file on a multipart form request
-public final class FilePart: NSObject {
-    @objc let parameterName: String
-    @objc let url: URL
-    @objc let filename: String
-    @objc let mimeType: String
-
-    @objc public init(parameterName: String, url: URL, filename: String, mimeType: String) {
-        self.parameterName = parameterName
+/// BodyPart represents the information needed to encode a part on a multipart form request
+public final class BodyPart: NSObject {
+    @objc let name: String
+    @objc let data: Data?
+    @objc let url: URL?
+    @objc let fileName: String?
+    @objc let mimeType: String?
+    
+    @objc public init(name: String, data: Data) {
+        self.name = name
+        self.data = data
+        self.url = nil
+        self.fileName = nil
+        self.mimeType = nil
+    }
+    
+    @objc public init(name: String, url: URL) {
+        self.name = name
         self.url = url
-        self.filename = filename
+        self.data = nil
+        self.fileName = nil
+        self.mimeType = nil
+    }
+    
+    @objc public init(name: String, url: URL, fileName: String?, mimeType: String?) {
+        self.name = name
+        self.url = url
+        self.data = nil
+        self.fileName = fileName
         self.mimeType = mimeType
+    }
+    
+    @objc public init(name: String, data: Data, fileName: String?, mimeType: String?) {
+        self.name = name
+        self.data = data
+        self.url = nil
+        self.fileName = fileName
+        self.mimeType = mimeType
+    }
+    
+    public func appendToFormData(_ multipartFormData: MultipartFormData) {
+        if let url = self.url {
+            if let fileName = self.fileName, let mimeType = self.mimeType {
+                multipartFormData.append(url, withName: self.name, fileName: fileName, mimeType: mimeType)
+            } else {
+                multipartFormData.append(url, withName: self.name)
+            }
+        }
+        else if let data = self.data {
+            if let fileName = self.fileName, let mimeType = self.mimeType {
+            multipartFormData.append(data, withName: self.name, fileName: fileName, mimeType: mimeType)
+            } else {
+                multipartFormData.append(data, withName: self.name)
+            }
+        }
     }
 }
 
