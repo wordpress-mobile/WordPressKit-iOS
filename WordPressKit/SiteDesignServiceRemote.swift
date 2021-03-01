@@ -3,7 +3,7 @@ import WordPressShared
 
 public struct SiteDesignRequest {
     public enum TemplateGroup: String {
-        case original
+        case stable
         case singlePage = "single-page"
     }
 
