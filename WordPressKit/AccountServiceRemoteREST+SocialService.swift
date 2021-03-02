@@ -21,20 +21,20 @@ extension AccountServiceRemoteREST {
     public func connectToSocialService(_ service: SocialServiceName,
                                        serviceIDToken token: String,
                                        connectParameters: [String:AnyObject]? = nil,
-                                       oAuthClientID: String,
+                                     oAuthClientID: String,
                                        oAuthClientSecret: String,
+                                       
                                        success:@escaping (() -> Void),
                                        failure:@escaping ((NSError) -> Void)) {
         let path = self.path(forEndpoint: "me/social-login/connect", withVersion: ._1_1)
 
         var params = [
-            "client_id": oAuthClientID,
-            "client_secret": oAuthClientSecret,
-            "service": service.rawValue,
+            "client_id": oAuthClientID, "client_secret": oAuthClientSecret, "service": service.rawValue,
             "id_token": token,
         ] as [String: AnyObject]
 
-        if let connectParameters = connectParameters {
+        if let connectParameters = connectParameters
+        {
             params.merge(connectParameters, uniquingKeysWith: { (current, _) in current })
         }
         
