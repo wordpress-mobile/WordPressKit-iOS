@@ -30,8 +30,6 @@
     [extraParameters removeObjectForKey:@"status"];
     extraParameters[@"status"] = [self parameterForCommentStatus:statusFilter];
 
-    NSLog(@"🔴 XMLRPC > params: %@", extraParameters);
-    
     NSArray *parameters = [self XMLRPCArgumentsWithExtra:extraParameters];
     
     [self.api callMethod:@"wp.getComments"
