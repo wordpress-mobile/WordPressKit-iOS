@@ -13,7 +13,7 @@ extension ReaderPostServiceRemote {
                                   from siteID: Int,
                                   success: @escaping ([RemoteReaderSimplePost]) -> Void,
                                   failure: @escaping (Error?) -> Void) {
-        
+
         let endpoint = "read/site/\(siteID)/post/\(postID)/related"
         let path = self.path(forEndpoint: endpoint, withVersion: ._1_2)
         let parameters = [
@@ -29,7 +29,7 @@ extension ReaderPostServiceRemote {
                     let decoder = JSONDecoder()
                     let data = try JSONSerialization.data(withJSONObject: response, options: [])
                     let envelope = try decoder.decode(RemoteReaderSimplePostEnvelope.self, from: data)
-                    
+
                     success(envelope.posts)
                 } catch {
                     DDLogError("Error parsing the reader related posts response: \(error)")

@@ -22,7 +22,7 @@ public struct RemoteReaderSimplePost: Decodable {
     public let featuredImageUrl: String?
     public let featuredMedia: RemoteReaderSimplePostFeaturedMedia?
     public let railcar: RemoteReaderSimplePostRailcar
-    
+
     public var postType: PostType {
         switch railcar.fetchAlgo {
         case let algoStr where algoStr.contains("local"):
