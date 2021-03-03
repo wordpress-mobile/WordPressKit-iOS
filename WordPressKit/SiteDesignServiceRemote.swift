@@ -13,6 +13,7 @@ public struct SiteDesignRequest {
         var parameters: [String: AnyObject]
         parameters = [
             "preview_width": "\(thumbnailSize.width)" as AnyObject,
+            "preview_height": "\(thumbnailSize.height)" as AnyObject,
             "scale": UIScreen.main.nativeScale as AnyObject
         ]
         if 0 < groups.count {
