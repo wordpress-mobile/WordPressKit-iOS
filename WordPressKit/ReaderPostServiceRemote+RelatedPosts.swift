@@ -18,7 +18,7 @@ extension ReaderPostServiceRemote {
         let path = self.path(forEndpoint: endpoint, withVersion: ._1_2)
         let parameters = [
             "size_local": Constants.relatedPostsCount,
-            // "size_global": Constants.relatedPostsCount
+            "size_global": Constants.relatedPostsCount
         ] as [String: AnyObject]
 
         wordPressComRestApi.GET(path, parameters: parameters) { (response, _) in
