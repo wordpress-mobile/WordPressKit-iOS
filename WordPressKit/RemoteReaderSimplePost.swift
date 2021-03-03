@@ -12,6 +12,7 @@ public struct RemoteReaderSimplePost: Decodable {
     }
 
     public let postID: Int
+    public let postUrl: String
     public let siteID: Int
     public let isFollowing: Bool
     public let title: String
@@ -35,6 +36,7 @@ public struct RemoteReaderSimplePost: Decodable {
 
     private enum CodingKeys: String, CodingKey {
         case postID = "ID"
+        case postUrl = "URL"
         case siteID = "site_ID"
         case isFollowing = "is_following"
         case title
