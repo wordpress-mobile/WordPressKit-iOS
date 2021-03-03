@@ -21,21 +21,26 @@ extension ReaderPostServiceRemote {
             "size_global": Constants.relatedPostsCount
         ] as [String: AnyObject]
 
-        wordPressComRestApi.GET(path, parameters: parameters) { (response, _) in
-            do {
-                let decoder = JSONDecoder()
-                let data = try JSONSerialization.data(withJSONObject: response, options: [])
-                let envelope = try decoder.decode(RemoteReaderSimplePostEnvelope.self, from: data)
-
-                success(envelope.posts)
-            } catch {
-                DDLogError("Error parsing the reader related posts response: \(error)")
+        wordPressComRestApi.GET(
+            path,
+            parameters: parameters,
+            success: { (response, _) in
+                do {
+                    let decoder = JSONDecoder()
+                    let data = try JSONSerialization.data(withJSONObject: response, options: [])
+                    let envelope = try decoder.decode(RemoteReaderSimplePostEnvelope.self, from: data)
+                    
+                    success(envelope.posts)
+                } catch {
+                    DDLogError("Error parsing the reader related posts response: \(error)")
+                    failure(error)
+                }
+            },
+            failure: { (error, _) in
+                DDLogError("Error fetching reader related posts: \(error)")
                 failure(error)
             }
-        } failure: { (error, response) in
-            DDLogError("Error fetching reader related posts: \(error)")
-            failure(error)
-        }
+        )
     }
 
     private enum Constants {
