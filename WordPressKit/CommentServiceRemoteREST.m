@@ -42,8 +42,6 @@
     [parameters removeObjectForKey:@"status"];
     parameters[@"status"] = [self parameterForCommentStatus:statusFilter];
 
-    NSLog(@"🔴 REST > params: %@", parameters);
-    
     [self.wordPressComRestApi GET:requestUrl
                        parameters:parameters
                           success:^(id responseObject, NSHTTPURLResponse *httpResponse) {

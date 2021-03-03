@@ -1,35 +1,34 @@
 import Foundation
 import WordPressShared
 
-public struct SiteDesignRequest: Encodable {
-    public let previewSize: CGSize?
-    public let scale: CGFloat?
-
-    public init(previewSize: CGSize? = nil, scale: CGFloat? = nil) {
-        self.previewSize = previewSize
-        self.scale = scale
+public struct SiteDesignRequest {
+    public enum TemplateGroup: String {
+        case stable
+        case singlePage = "single-page"
     }
 
-    public func asParameters() -> [String: AnyObject] {
-        var parameters: [String: AnyObject] = [:]
+    public let parameters: [String: AnyObject]
 
-        if let previewWidth = previewSize?.width {
-            parameters["preview_width"] = previewWidth as AnyObject
+    public init(withThumbnailSize thumbnailSize: CGSize, withGroups groups: [TemplateGroup] = []) {
+        var parameters: [String: AnyObject]
+        parameters = [
+            "preview_width": "\(thumbnailSize.width)" as AnyObject,
+            "preview_height": "\(thumbnailSize.height)" as AnyObject,
+            "scale": UIScreen.main.nativeScale as AnyObject
+        ]
+        if 0 < groups.count {
+            let groups = groups.map { $0.rawValue }
+            parameters["group"] = groups.joined(separator: ",") as AnyObject
         }
-
-        if let scale = scale {
-            parameters["scale"] = scale as AnyObject
-        }
-
-        return parameters
+        self.parameters = parameters
     }
 }
 
 public class SiteDesignServiceRemote {
 
-    public typealias CompletionHandler = (Swift.Result<[RemoteSiteDesign], Error>) -> Void
+    public typealias CompletionHandler = (Swift.Result<RemoteSiteDesigns, Error>) -> Void
 
-    static let endpoint = "/rest/v1.1/nux/starter-designs"
+    static let endpoint = "/wpcom/v2/common-starter-site-designs"
     static let parameters: [String: AnyObject] = [
         "type": ("mobile" as AnyObject),
         "language": (WordPressComLanguageDatabase().deviceLanguage.slug as AnyObject)
@@ -43,12 +42,13 @@ public class SiteDesignServiceRemote {
     }
 
     public static func fetchSiteDesigns(_ api: WordPressComRestApi, request: SiteDesignRequest? = nil, completion: @escaping CompletionHandler) {
-        let combinedParameters: [String: AnyObject] = joinParameters(parameters, additionalParameters: request?.asParameters())
+        let combinedParameters: [String: AnyObject] = joinParameters(parameters, additionalParameters: request?.parameters)
         api.GET(endpoint, parameters: combinedParameters, success: { (responseObject, _) in
             do {
                 let result = try parseLayouts(fromResponse: responseObject)
                 completion(.success(result))
             } catch let error {
+                NSLog("error response object: %@", String(describing: responseObject))
                 completion(.failure(error))
             }
         }, failure: { (error, _) in
@@ -56,8 +56,8 @@ public class SiteDesignServiceRemote {
         })
     }
 
-    private static func parseLayouts(fromResponse response: Any) throws -> [RemoteSiteDesign] {
+    private static func parseLayouts(fromResponse response: Any) throws -> RemoteSiteDesigns {
         let data = try JSONSerialization.data(withJSONObject: response)
-        return try JSONDecoder().decode([RemoteSiteDesign].self, from: data)
+        return try JSONDecoder().decode(RemoteSiteDesigns.self, from: data)
     }
 }
