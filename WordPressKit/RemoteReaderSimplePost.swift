@@ -33,5 +33,6 @@ public struct RemoteReaderSimplePostAuthor: Decodable {
 }
 
 public struct RemoteReaderSimplePostFeaturedMedia: Decodable {
-    public let uri: String
+    public let uri: String?
+}
 }
