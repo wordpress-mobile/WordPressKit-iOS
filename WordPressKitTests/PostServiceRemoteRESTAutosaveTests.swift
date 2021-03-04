@@ -3,7 +3,6 @@ import XCTest
 
 @testable import WordPressKit
 
-
 class PostServiceRemoteRESTAutosaveTests: RemoteTestCase, RESTTestable {
     private let performPostsAutosaveSuccessFilename = "post-autosave-mapping-success.json"
     private let siteId = 0
@@ -21,7 +20,6 @@ class PostServiceRemoteRESTAutosaveTests: RemoteTestCase, RESTTestable {
         super.tearDown()
         remote = nil
     }
-
 
     // MARK: Perform tests
 

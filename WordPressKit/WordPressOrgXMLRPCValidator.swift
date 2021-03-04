@@ -1,7 +1,6 @@
 import Foundation
 import CocoaLumberjack
 
-
 @objc public enum WordPressOrgXMLRPCValidatorError: Int, Error {
     case emptyURL // The URL provided was nil, empty or just whitespaces
     case invalidURL // The URL provided was an invalid URL
@@ -14,7 +13,7 @@ import CocoaLumberjack
     case xmlrpc_missing // site contains RSD link but XML-RPC information is missing
 
     public var localizedDescription: String {
-        switch (self) {
+        switch self {
         case .emptyURL:
             return NSLocalizedString("Empty URL", comment: "Message to show to user when he tries to add a self-hosted site that is an empty URL.")
         case .invalidURL:
@@ -61,8 +60,8 @@ open class WordPressOrgXMLRPCValidator: NSObject {
      */
     @objc open func guessXMLRPCURLForSite(_ site: String,
                                     userAgent: String,
-                                      success: @escaping (_ xmlrpcURL: URL) -> (),
-                                      failure: @escaping (_ error: NSError) -> ()) {
+                                      success: @escaping (_ xmlrpcURL: URL) -> Void,
+                                      failure: @escaping (_ error: NSError) -> Void) {
 
         var sitesToTry = [String]()
 
@@ -85,8 +84,8 @@ open class WordPressOrgXMLRPCValidator: NSObject {
     ///
     private func tryGuessXMLRPCURLForSites(_ sites: [String],
                                           userAgent: String,
-                                          success: @escaping (_ xmlrpcURL: URL) -> (),
-                                          failure: @escaping (_ error: NSError) -> ()) {
+                                          success: @escaping (_ xmlrpcURL: URL) -> Void,
+                                          failure: @escaping (_ error: NSError) -> Void) {
 
         guard sites.isEmpty == false else {
             failure(WordPressOrgXMLRPCValidatorError.invalid as NSError)
@@ -126,12 +125,12 @@ open class WordPressOrgXMLRPCValidator: NSObject {
             }
             // Try the original given url as an XML-RPC endpoint
             DDLogError("Try the original given url as an XML-RPC endpoint: \(originalXMLRPCURL)")
-            self.validateXMLRPCURL(originalXMLRPCURL , success: success, failure: { (error) in
+            self.validateXMLRPCURL(originalXMLRPCURL, success: success, failure: { (error) in
                 DDLogError(error.localizedDescription)
                 // Fetch the original url and look for the RSD link
                 self.guessXMLRPCURLFromHTMLURL(originalXMLRPCURL, success: success, failure: { (error) in
                     DDLogError(error.localizedDescription)
-                    
+
                     errorHandler(error)
                 })
             })
@@ -179,9 +178,9 @@ open class WordPressOrgXMLRPCValidator: NSObject {
 
     private func validateXMLRPCURL(_ url: URL,
                                    redirectCount: Int = 0,
-                                   success: @escaping (_ xmlrpcURL: URL) -> (),
-                                   failure: @escaping (_ error: NSError) -> ()) {
-            
+                                   success: @escaping (_ xmlrpcURL: URL) -> Void,
+                                   failure: @escaping (_ error: NSError) -> Void) {
+
         guard redirectCount < redirectLimit else {
             let error = NSError(domain: URLError.errorDomain,
                                 code: URLError.httpTooManyRedirects.rawValue,
@@ -221,7 +220,7 @@ open class WordPressOrgXMLRPCValidator: NSObject {
                         return
                     }
                 }
-                
+
                 switch httpResponse?.statusCode {
                 case .some(WordPressOrgXMLRPCValidatorError.forbidden.rawValue):
                     failure(WordPressOrgXMLRPCValidatorError.forbidden as NSError)
@@ -234,13 +233,13 @@ open class WordPressOrgXMLRPCValidator: NSObject {
     }
 
     private func guessXMLRPCURLFromHTMLURL(_ htmlURL: URL,
-                                           success: @escaping (_ xmlrpcURL: URL) -> (),
-                                           failure: @escaping (_ error: NSError) -> ()) {
+                                           success: @escaping (_ xmlrpcURL: URL) -> Void,
+                                           failure: @escaping (_ error: NSError) -> Void) {
         DDLogInfo("Fetch the original url and look for the RSD link by using RegExp")
-        
+
         var isWpSite = false
         let session = URLSession(configuration: URLSessionConfiguration.ephemeral)
-        let dataTask = session.dataTask(with: htmlURL, completionHandler: { (data, response, error) in
+        let dataTask = session.dataTask(with: htmlURL, completionHandler: { (data, _, error) in
             if let error = error {
                 failure(error as NSError)
                 return
@@ -264,7 +263,7 @@ open class WordPressOrgXMLRPCValidator: NSObject {
                     return
                 }
                 self.validateXMLRPCURL(newURL, success: success, failure: { (error) in
-                    //Try to validate by using the RSD file directly
+                    // Try to validate by using the RSD file directly
                     if error.code == 403 || error.code == 405, let xmlrpcValidatorError = error as? WordPressOrgXMLRPCValidatorError {
                         failure(xmlrpcValidatorError as NSError)
                     } else {
@@ -274,7 +273,7 @@ open class WordPressOrgXMLRPCValidator: NSObject {
                     }
                 })
             } else {
-                //Try to validate by using the RSD file directly
+                // Try to validate by using the RSD file directly
                 self.guessXMLRPCURLFromRSD(rsdURL, success: success, failure: failure)
             }
         })
@@ -290,7 +289,7 @@ open class WordPressOrgXMLRPCValidator: NSObject {
 
         let matches = rsdURLRegExp.matches(in: html,
                                                    options: NSRegularExpression.MatchingOptions(),
-                                                   range: NSMakeRange(0, html.count))
+                                                   range: NSRange(location: 0, length: html.count))
         if matches.count <= 0 {
             return nil
         }
@@ -309,15 +308,15 @@ open class WordPressOrgXMLRPCValidator: NSObject {
     }
 
     private func guessXMLRPCURLFromRSD(_ rsd: String,
-                                       success: @escaping (_ xmlrpcURL: URL) -> (),
-                                       failure: @escaping (_ error: NSError) -> ()) {
+                                       success: @escaping (_ xmlrpcURL: URL) -> Void,
+                                       failure: @escaping (_ error: NSError) -> Void) {
         DDLogInfo("Parse the RSD document at the following URL: \(rsd)")
         guard let rsdURL = URL(string: rsd) else {
             failure(WordPressOrgXMLRPCValidatorError.invalid as NSError)
             return
         }
         let session = URLSession(configuration: URLSessionConfiguration.ephemeral)
-        let dataTask = session.dataTask(with: rsdURL, completionHandler: { (data, response, error) in
+        let dataTask = session.dataTask(with: rsdURL, completionHandler: { (data, _, error) in
             if let error = error {
                 failure(error as NSError)
                 return

@@ -11,20 +11,20 @@ extension JSONDecoder {
 }
 
 extension JSONDecoder.DateDecodingStrategy {
-    
+
     enum DateFormat: String, CaseIterable {
         case noTime = "yyyy-mm-dd"
         case dateWithTime = "yyyy-MM-dd HH:mm:ss"
         case iso8601 = "yyyy-MM-dd'T'HH:mm:ssZ"
         case iso8601WithMilliseconds = "yyyy-MM-dd'T'HH:mm:ss.SSSXXXXX"
-        
+
         var formatter: DateFormatter {
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = rawValue
             return dateFormatter
         }
     }
-    
+
     static var supportMultipleDateFormats: JSONDecoder.DateDecodingStrategy {
         return JSONDecoder.DateDecodingStrategy.custom({ (decoder) -> Date in
             let container = try decoder.singleValueContainer()
@@ -45,7 +45,7 @@ extension JSONDecoder.DateDecodingStrategy {
                     debugDescription: "Cannot decode date string \(dateStr)"
                 )
             }
-            
+
             return calculatedDate
         })
     }

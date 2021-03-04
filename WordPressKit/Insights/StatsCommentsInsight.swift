@@ -11,7 +11,7 @@ public struct StatsCommentsInsight {
 
 extension StatsCommentsInsight: StatsInsightData {
 
-    //MARK: - StatsInsightData Conformance
+    // MARK: - StatsInsightData Conformance
     public static var pathComponent: String {
         return "stats/comments"
     }
@@ -78,7 +78,6 @@ private extension StatsTopCommentsAuthor {
         self.init(name: name, avatar: avatar, commentCount: commentCount)
     }
 
-
     init?(name: String, avatar: String, commentCount: Int) {
         let url: URL?
 
@@ -113,8 +112,3 @@ private extension StatsTopCommentsPost {
                   postURL: URL(string: postURL))
     }
 }
-
-
-
-
-

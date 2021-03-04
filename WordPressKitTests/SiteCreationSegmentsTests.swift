@@ -23,7 +23,7 @@ final class SiteCreationSegmentsTests: RemoteTestCase, RESTTestable {
                 let mobileSegmentsCount = segments.count
                 XCTAssertEqual(mobileSegmentsCount, expectedSegmentsCount)
 
-            case .failure(_):
+            case .failure:
                 XCTFail()
             }
         })

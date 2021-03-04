@@ -11,13 +11,13 @@ public class BlogJetpackSettingsServiceRemote: ServiceRemoteWordPressComREST {
     /// Fetches the Jetpack settings for the specified site
     ///
     public func getJetpackSettingsForSite(_ siteID: Int, success: @escaping (RemoteBlogJetpackSettings) -> Void, failure: @escaping (Error) -> Void) {
-        
+
         let endpoint = "jetpack-blogs/\(siteID)/rest-api"
         let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
         let parameters = ["path": "/jetpack/v4/settings"]
 
         wordPressComRestApi.GET(path,
-                                parameters: parameters as [String : AnyObject]?,
+                                parameters: parameters as [String: AnyObject]?,
                                 success: {
                                     response, _ in
                                     guard let results = response["data"] as? [String: AnyObject],
@@ -93,12 +93,12 @@ public class BlogJetpackSettingsServiceRemote: ServiceRemoteWordPressComREST {
         let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
         let parameters = ["path": "/jetpack/v4/settings",
                           "body": jSONBody,
-                          "json": true] as [String : AnyObject]
+                          "json": true] as [String: AnyObject]
 
         wordPressComRestApi.POST(path,
                                  parameters: parameters,
                                  success: {
-                                     _,_  in
+                                     _, _  in
                                      success()
                                  }, failure: {
                                      error, _ in
@@ -117,7 +117,7 @@ public class BlogJetpackSettingsServiceRemote: ServiceRemoteWordPressComREST {
         wordPressComRestApi.POST(path,
                                  parameters: parameters,
                                  success: {
-                                    _,_  in
+                                    _, _  in
                                     success()
                                  }, failure: {
                                     error, _ in
@@ -133,9 +133,9 @@ public class BlogJetpackSettingsServiceRemote: ServiceRemoteWordPressComREST {
         let parameters = [ModuleOptionKeys.active: active]
 
         wordPressComRestApi.POST(path,
-                                 parameters: parameters as [String : AnyObject],
+                                 parameters: parameters as [String: AnyObject],
                                  success: {
-                                     _,_  in
+                                     _, _  in
                                      success()
                                  }, failure: {
                                      error, _ in
@@ -152,7 +152,7 @@ public class BlogJetpackSettingsServiceRemote: ServiceRemoteWordPressComREST {
         wordPressComRestApi.POST(path,
                                  parameters: nil,
                                  success: {
-                                     _,_  in
+                                     _, _  in
                                      success()
                                  }, failure: {
                                      error, _ in
@@ -168,7 +168,7 @@ private extension BlogJetpackSettingsServiceRemote {
 
         guard let monitorEnabled = dictionary[Keys.monitorEnabled] as? Bool,
             let blockMaliciousLoginAttempts = dictionary[Keys.blockMaliciousLoginAttempts] as? Bool,
-            let whitelistedIPs = dictionary[Keys.whiteListedIPAddresses]?[Keys.whiteListedIPsLocal] as? Array<String>,
+            let whitelistedIPs = dictionary[Keys.whiteListedIPAddresses]?[Keys.whiteListedIPsLocal] as? [String],
             let ssoEnabled = dictionary[Keys.ssoEnabled] as? Bool,
             let ssoMatchAccountsByEmail = dictionary[Keys.ssoMatchAccountsByEmail] as? Bool,
             let ssoRequireTwoStepAuthentication = dictionary[Keys.ssoRequireTwoStepAuthentication] as? Bool else {
@@ -189,7 +189,7 @@ private extension BlogJetpackSettingsServiceRemote {
             let monitorPushNotifications = dictionary[Keys.monitorPushNotifications] as? Bool else {
                 throw ResponseError.decodingFailure
         }
-        
+
         return RemoteBlogJetpackMonitorSettings(monitorEmailNotifications: monitorEmailNotifications,
                                                 monitorPushNotifications: monitorPushNotifications)
     }
@@ -220,7 +220,7 @@ private extension BlogJetpackSettingsServiceRemote {
             Keys.whiteListedIPAddresses: shouldSendWhitelist ? joinedIPs : nil,
             Keys.ssoEnabled: settings.ssoEnabled,
             Keys.ssoMatchAccountsByEmail: settings.ssoMatchAccountsByEmail,
-            Keys.ssoRequireTwoStepAuthentication: settings.ssoRequireTwoStepAuthentication,
+            Keys.ssoRequireTwoStepAuthentication: settings.ssoRequireTwoStepAuthentication
         ]
         return settingsDictionary.compactMapValues { $0 }
     }

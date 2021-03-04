@@ -56,7 +56,7 @@ class AuthenticatorTests: XCTestCase {
 
     // MARK: - CookieNonce Retrier tests
     func testCookieNonceAuthenticatorRetriesOnlyOnce() {
-        stub(condition: isLoginRequest()) { request in
+        stub(condition: isLoginRequest()) { _ in
             let stubPath = OHPathForFile("wp-admin-post-new.html", type(of: self))
             return fixture(filePath: stubPath!, headers: ["Content-Type" as NSObject: "text/html" as AnyObject])
         }
@@ -64,7 +64,7 @@ class AuthenticatorTests: XCTestCase {
         let authenticator = CookieNonceAuthenticator(username: "user", password: "pass", loginURL: loginURL, adminURL: adminURL)
         let error = AFError.responseValidationFailed(reason: .unacceptableStatusCode(code: 401))
         let completionExpectation = expectation(description: "First retry completion is called")
-        var shouldRetry: Bool? = nil
+        var shouldRetry: Bool?
         let completion: (Bool, TimeInterval) -> Void = { (retry, _) in
             shouldRetry = retry
             completionExpectation.fulfill()
@@ -74,8 +74,7 @@ class AuthenticatorTests: XCTestCase {
         wait(for: [completionExpectation], timeout: 2)
         XCTAssertEqual(shouldRetry, true, "CookieNonceAuthenticator should retry request with 401 error if everything goes well")
     }
-    
-    
+
 }
 
 private extension AuthenticatorTests {

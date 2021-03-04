@@ -39,7 +39,7 @@ public struct PostingStreakEvent {
 
 extension StatsPostingStreakInsight: StatsInsightData {
 
-    //MARK: - StatsInsightData Conformance
+    // MARK: - StatsInsightData Conformance
     public static var pathComponent: String {
         return "stats/streak"
     }

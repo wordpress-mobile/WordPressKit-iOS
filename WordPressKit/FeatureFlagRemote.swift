@@ -24,7 +24,7 @@ open class FeatureFlagRemote: ServiceRemoteWordPressComREST {
         wordPressComRestApi.GET(path,
                                 parameters: parameters,
                                 success: { response, _ in
-                                    
+
                                     if let featureFlagList = response as? NSDictionary {
 
                                         let reconstitutedList = featureFlagList.compactMap { row -> FeatureFlag? in

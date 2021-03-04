@@ -25,19 +25,19 @@ import Foundation
     @objc public var productSlug: String?
     @objc public var subscribedDate: Date?
     @objc public var userFacingExpiry: Date?
-    
+
     @objc public var isAutoRenew: Bool {
         return autoRenew ?? false
     }
-    
+
     @objc public var isCurrentPlan: Bool {
         return currentPlan ?? false
     }
-    
+
     @objc public var isFreeTrial: Bool {
         return freeTrial ?? false
     }
-    
+
     @objc public var doesHaveDomainCredit: Bool {
         return hasDomainCredit ?? false
     }

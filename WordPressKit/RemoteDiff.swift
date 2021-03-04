@@ -1,6 +1,5 @@
 import Foundation
 
-
 /// RemoteDiff model
 public struct RemoteDiff: Codable {
     /// Revision id from the content has been changed
@@ -19,8 +18,7 @@ public struct RemoteDiff: Codable {
         case values = "diff"
     }
 
-
-    // MARK - Decode protocol
+    // MARK: - Decode protocol
 
     public init(from decoder: Decoder) throws {
         let data = try decoder.container(keyedBy: CodingKeys.self)
@@ -30,7 +28,6 @@ public struct RemoteDiff: Codable {
         values = try data.decode(RemoteDiffValues.self, forKey: .values)
     }
 }
-
 
 /// RemoteDiffValues model
 public struct RemoteDiffValues: Codable {
@@ -51,7 +48,6 @@ public struct RemoteDiffValues: Codable {
     }
 }
 
-
 /// RemoteDiffTotals model
 public struct RemoteDiffTotals: Codable {
     /// Total of additional operations
@@ -66,8 +62,7 @@ public struct RemoteDiffTotals: Codable {
         case totalDeletions = "del"
     }
 
-
-    // MARK - Decode protocol
+    // MARK: - Decode protocol
 
     public init(from decoder: Decoder) throws {
         let data = try decoder.container(keyedBy: CodingKeys.self)
@@ -76,7 +71,6 @@ public struct RemoteDiffTotals: Codable {
         totalDeletions = (try? data.decode(Int.self, forKey: .totalDeletions)) ?? 0
     }
 }
-
 
 /// RemoteDiffOperation enumeration
 ///
@@ -90,7 +84,6 @@ public enum RemoteDiffOperation: String, Codable {
     case del
     case unknown
 }
-
 
 /// DiffValue
 public struct RemoteDiffValue: Codable {
@@ -106,8 +99,7 @@ public struct RemoteDiffValue: Codable {
         case value
     }
 
-
-    // MARK - Decode protocol
+    // MARK: - Decode protocol
 
     public init(from decoder: Decoder) throws {
         let data = try decoder.container(keyedBy: CodingKeys.self)

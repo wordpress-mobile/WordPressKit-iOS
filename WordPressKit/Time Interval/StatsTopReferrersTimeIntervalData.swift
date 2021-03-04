@@ -46,7 +46,7 @@ extension StatsTopReferrersTimeIntervalData: StatsTimeIntervalData {
         return "stats/referrers"
     }
 
-    public init?(date: Date, period: StatsPeriodUnit, jsonDictionary: [String : AnyObject]) {
+    public init?(date: Date, period: StatsPeriodUnit, jsonDictionary: [String: AnyObject]) {
         guard
             let unwrappedDays = type(of: self).unwrapDaysDictionary(jsonDictionary: jsonDictionary),
             let referrers = unwrappedDays["groups"] as? [[String: AnyObject]]
@@ -91,7 +91,7 @@ extension StatsReferrer {
 
         if let childrenJSON = jsonDictionary["results"] as? [[String: AnyObject]] {
             children = childrenJSON.compactMap { StatsReferrer(jsonDictionary: $0) }
-        } else if let childrenJSON = jsonDictionary["children"] as? [[String: AnyObject]]  {
+        } else if let childrenJSON = jsonDictionary["children"] as? [[String: AnyObject]] {
             children = childrenJSON.compactMap { StatsReferrer(jsonDictionary: $0) }
         } else {
             children = []

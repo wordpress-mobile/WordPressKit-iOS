@@ -5,7 +5,7 @@ import Foundation
     case mapped
     case siteRedirect
     case wpCom
-    
+
     public var description: String {
         switch self {
         case .registered:

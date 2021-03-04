@@ -1,6 +1,5 @@
 import Foundation
 
-
 /// Retrieves feature announcements from the related endpoint
 public class AnnouncementServiceRemote: ServiceRemoteWordPressComREST {
 
@@ -32,7 +31,6 @@ public class AnnouncementServiceRemote: ServiceRemoteWordPressComREST {
     }
 }
 
-
 // MARK: - Helpers
 private extension AnnouncementServiceRemote {
 
@@ -53,7 +51,6 @@ private extension AnnouncementServiceRemote {
         return container.announcements
     }
 }
-
 
 // MARK: - Constants
 private extension AnnouncementServiceRemote {
@@ -77,7 +74,6 @@ private extension AnnouncementServiceRemote {
         }
     }
 }
-
 
 // MARK: - Decoded data
 public struct AnnouncementsContainer: Decodable {

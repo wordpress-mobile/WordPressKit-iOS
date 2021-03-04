@@ -18,10 +18,9 @@ public struct StatsAllTimesInsight {
     }
 }
 
-
 extension StatsAllTimesInsight: StatsInsightData {
 
-    //MARK: - StatsInsightData Conformance
+    // MARK: - StatsInsightData Conformance
     public init?(jsonDictionary: [String: AnyObject]) {
         guard
             let statsDict = jsonDictionary["stats"] as? [String: AnyObject],
@@ -38,7 +37,7 @@ extension StatsAllTimesInsight: StatsInsightData {
         self.bestViewsDay = bestViewsDay
     }
 
-    //MARK: -
+    // MARK: -
     private static var dateFormatter: DateFormatter {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
