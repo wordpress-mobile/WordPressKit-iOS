@@ -27,7 +27,7 @@ open class JetpackCapabilitiesServiceRemote: ServiceRemoteWordPressComREST {
                                             }
 
                                             dispatchGroup.leave()
-                                         }, failure: { error, _ in
+                                         }, failure: { _, _ in
                                             dispatchGroup.leave()
                                          })
             }

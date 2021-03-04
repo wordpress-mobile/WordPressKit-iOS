@@ -1,6 +1,5 @@
 import Foundation
 
-
 public extension PostServiceRemoteREST {
     func getPostRevisions(for siteId: Int,
                                  postId: Int,
@@ -30,14 +29,12 @@ public extension PostServiceRemoteREST {
     }
 }
 
-
 private extension PostServiceRemoteREST {
     private typealias JSONRevision = [String: Any]
 
     private struct RemoteDiffs: Codable {
         var diffs: [RemoteDiff]
     }
-
 
     private func map(from data: Data, _ completion: @escaping ([RemoteRevision]?, Error?) -> Void) {
         do {

@@ -4,8 +4,8 @@ import Alamofire
 
 /// Class to connect to the XMLRPC API on self hosted sites.
 open class WordPressOrgXMLRPCApi: NSObject {
-    public typealias SuccessResponseBlock = (AnyObject, HTTPURLResponse?) -> ()
-    public typealias FailureReponseBlock = (_ error: NSError, _ httpResponse: HTTPURLResponse?) -> ()
+    public typealias SuccessResponseBlock = (AnyObject, HTTPURLResponse?) -> Void
+    public typealias FailureReponseBlock = (_ error: NSError, _ httpResponse: HTTPURLResponse?) -> Void
 
     private let endpoint: URL
     private let userAgent: String?
@@ -52,7 +52,7 @@ open class WordPressOrgXMLRPCApi: NSObject {
     }
 
     private func makeSessionManager(configuration sessionConfiguration: URLSessionConfiguration) -> Alamofire.SessionManager {
-        var additionalHeaders: [String : AnyObject] = ["Accept-Encoding": "gzip, deflate" as AnyObject]
+        var additionalHeaders: [String: AnyObject] = ["Accept-Encoding": "gzip, deflate" as AnyObject]
         if let userAgent = self.userAgent {
             additionalHeaders["User-Agent"] = userAgent as AnyObject?
         }
@@ -64,7 +64,7 @@ open class WordPressOrgXMLRPCApi: NSObject {
         }
         sessionManager.delegate.sessionDidReceiveChallengeWithCompletion = sessionDidReceiveChallengeWithCompletion
 
-        let  taskDidReceiveChallengeWithCompletion: ((URLSession, URLSessionTask, URLAuthenticationChallenge,  @escaping(URLSession.AuthChallengeDisposition, URLCredential?) -> Void) -> Void) = { [weak self] session, task, authenticationChallenge, completionHandler in
+        let  taskDidReceiveChallengeWithCompletion: ((URLSession, URLSessionTask, URLAuthenticationChallenge, @escaping(URLSession.AuthChallengeDisposition, URLCredential?) -> Void) -> Void) = { [weak self] session, task, authenticationChallenge, completionHandler in
             self?.urlSession(session, task: task, didReceive: authenticationChallenge, completionHandler: completionHandler)
         }
         sessionManager.delegate.taskDidReceiveChallengeWithCompletion = taskDidReceiveChallengeWithCompletion
@@ -140,7 +140,7 @@ open class WordPressOrgXMLRPCApi: NSObject {
                            parameters: [AnyObject]?,
                            success: @escaping SuccessResponseBlock,
                            failure: @escaping FailureReponseBlock) -> Progress? {
-        //Encode request
+        // Encode request
         let request: URLRequest
         do {
             request = try requestWithMethod(method, parameters: parameters)
@@ -192,7 +192,7 @@ open class WordPressOrgXMLRPCApi: NSObject {
         progress.isCancellable = true
         DispatchQueue.global().async {
             let fileURL = self.URLForTemporaryFile()
-            //Encode request
+            // Encode request
             let request: URLRequest
             do {
                 request = try self.streamingRequestWithMethod(method, parameters: parameters, usingFileURLForCache: fileURL)
@@ -212,9 +212,9 @@ open class WordPressOrgXMLRPCApi: NSObject {
                         DispatchQueue.main.async {
                             success(responseObject, response.response)
                         }
-                    } catch let error as NSError {                        
+                    } catch let error as NSError {
                         DispatchQueue.main.async {
-                            failure(error, response.response)                            
+                            failure(error, response.response)
                         }
                         return
                     }
@@ -276,7 +276,7 @@ open class WordPressOrgXMLRPCApi: NSObject {
         if (400..<600).contains(httpResponse.statusCode) {
             throw convertError(WordPressOrgXMLRPCApiError.httpErrorStatusCode as NSError, data: originalData, statusCode: httpResponse.statusCode)
         }
-        
+
         if ["application/xml", "text/xml"].filter({ (type) -> Bool in return contentType.hasPrefix(type)}).count == 0 {
             throw convertError(WordPressOrgXMLRPCApiError.responseSerializationFailed as NSError, data: originalData)
         }
@@ -305,7 +305,7 @@ open class WordPressOrgXMLRPCApi: NSObject {
             userInfo[type(of: self).WordPressOrgXMLRPCApiErrorKeyData] = data
             userInfo[type(of: self).WordPressOrgXMLRPCApiErrorKeyDataString] = NSString(data: data, encoding: String.Encoding.utf8.rawValue)
             userInfo[type(of: self).WordPressOrgXMLRPCApiErrorKeyStatusCode] = statusCode
-            return NSError(domain: error.domain, code: error.code, userInfo: userInfo as? [String : Any])
+            return NSError(domain: error.domain, code: error.code, userInfo: userInfo as? [String: Any])
         }
         return error
     }
@@ -372,7 +372,6 @@ extension WordPressOrgXMLRPCApi {
         }
     }
 }
-
 
 /// Error constants for the WordPress XMLRPC API
 ///     - RequestSerializationFailed:     The serialization of the request failed

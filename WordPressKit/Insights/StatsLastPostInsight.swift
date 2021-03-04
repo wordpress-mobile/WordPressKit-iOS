@@ -26,7 +26,7 @@ public struct StatsLastPostInsight {
 
 extension StatsLastPostInsight: StatsInsightData {
 
-    //MARK: - StatsInsightData Conformance
+    // MARK: - StatsInsightData Conformance
     public static func queryProperties(with maxCount: Int) -> [String: String] {
         return ["order_by": "date",
                 "number": "1",
@@ -42,7 +42,7 @@ extension StatsLastPostInsight: StatsInsightData {
         fatalError("This shouldn't be ever called, instead init?(jsonDictionary:_ views:_) be called instead.")
     }
 
-    //MARK: -
+    // MARK: -
 
     private static let dateFormatter = ISO8601DateFormatter()
 

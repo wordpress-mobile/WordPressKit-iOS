@@ -1,6 +1,5 @@
 import Foundation
 
-
 /// URLAuthenticationChallenge Handler: It's up to the Host App to actually use this, whenever `WordPressOrgXMLRPCApi.onChallenge` is hit!
 ///
 open class HTTPAuthenticationAlertController {
@@ -42,14 +41,14 @@ open class HTTPAuthenticationAlertController {
 
         let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: "Cancel button label"),
                                          style: .default,
-                                         handler: { (action) in
+                                         handler: { (_) in
                                             executeHandlerForChallenge(challenge, disposition: .cancelAuthenticationChallenge, credential: nil)
         })
         controller.addAction(cancelAction)
 
         let trustAction = UIAlertAction(title: NSLocalizedString("Trust", comment: "Connect when the SSL certificate is invalid"),
                                         style: .default,
-                                        handler: { (action) in
+                                        handler: { (_) in
                                             let credential = URLCredential(trust: challenge.protectionSpace.serverTrust!)
                                             URLCredentialStorage.shared.setDefaultCredential(credential, for: challenge.protectionSpace)
                                             executeHandlerForChallenge(challenge, disposition: .useCredential, credential: credential)
@@ -76,14 +75,14 @@ open class HTTPAuthenticationAlertController {
 
         let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: "Cancel button label"),
                                          style: .default,
-                                         handler: { (action) in
+                                         handler: { (_) in
                                             executeHandlerForChallenge(challenge, disposition: .cancelAuthenticationChallenge, credential: nil)
         })
         controller.addAction(cancelAction)
 
         let loginAction = UIAlertAction(title: NSLocalizedString("Log In", comment: "Log In button label."),
                                         style: .default,
-                                        handler: { (action) in
+                                        handler: { (_) in
                                             guard let username = controller.textFields?.first?.text,
                                                 let password = controller.textFields?.last?.text else {
                                                     executeHandlerForChallenge(challenge, disposition: .cancelAuthenticationChallenge, credential: nil)

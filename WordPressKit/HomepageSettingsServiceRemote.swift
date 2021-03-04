@@ -27,7 +27,7 @@ public class HomepageSettingsServiceRemote: ServiceRemoteWordPressComREST {
         }
 
         wordPressComRestApi.POST(path, parameters: parameters,
-                                success: { response, _ in
+                                success: { _, _ in
             success()
         }, failure: { error, _ in
             failure(error)

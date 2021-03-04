@@ -44,7 +44,7 @@ public class CookieNonceAuthenticator: Authenticator {
     private let loginURL: URL
     private let adminURL: URL
     private let version: String
-    private var nonce: Secret<String>? = nil
+    private var nonce: Secret<String>?
     // If we can't get this to work once, don't retry for the same site
     // It is likely that there is something preventing us from extracting a nonce
     private var canRetry = true
@@ -203,12 +203,12 @@ private extension CookieNonceAuthenticator {
 
         func scrapNonceFromNewPost(html: String) -> String? {
             guard let regex = try? NSRegularExpression(pattern: "apiFetch.createNonceMiddleware\\(\\s*['\"](?<nonce>\\w+)['\"]\\s*\\)", options: []),
-                let match = regex.firstMatch(in: html, options: [], range: NSMakeRange(0, html.count)) else {
+                let match = regex.firstMatch(in: html, options: [], range: NSRange(location: 0, length: html.count)) else {
                     return nil
             }
             let nsrange = match.range(withName: "nonce")
             let nonce = Range(nsrange, in: html)
-                .map( { html[$0] })
+                .map({ html[$0] })
                 .map( String.init )
 
             return nonce

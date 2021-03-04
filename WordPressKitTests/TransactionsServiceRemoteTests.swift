@@ -4,7 +4,7 @@ import CocoaLumberjack
 @testable import WordPressKit
 
 class TransactionsServiceRemoteTests: RemoteTestCase, RESTTestable {
-    
+
     let supportedCountriesSuccessFileName = "supported-countries-success.json"
     var remote: TransactionsServiceRemote!
 
@@ -12,21 +12,21 @@ class TransactionsServiceRemoteTests: RemoteTestCase, RESTTestable {
         super.setUp()
         remote = TransactionsServiceRemote(wordPressComRestApi: getRestApi())
     }
-    
+
     func testGetSupportedCountries() {
         let expect = expectation(description: "Get supported countries success")
-        
+
         stubRemoteResponse("me/transactions/supported-countries/",
                            filename: supportedCountriesSuccessFileName,
                            contentType: .ApplicationJSON,
                            status: 200)
-        
+
         remote.getSupportedCountries(success: { (countryList) in
             expect.fulfill()
             XCTAssert(countryList.count == 239)
             XCTAssert(countryList[0].code == "TR")
             XCTAssert(countryList[0].name == "Turkey")
-        }) { (error) in
+        }) { (_) in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         }

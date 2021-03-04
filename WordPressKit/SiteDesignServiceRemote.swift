@@ -34,7 +34,7 @@ public class SiteDesignServiceRemote {
         "language": (WordPressComLanguageDatabase().deviceLanguage.slug as AnyObject)
     ]
 
-    private static func joinParameters(_ parameters: [String : AnyObject], additionalParameters: [String : AnyObject]?) -> [String: AnyObject] {
+    private static func joinParameters(_ parameters: [String: AnyObject], additionalParameters: [String: AnyObject]?) -> [String: AnyObject] {
         guard let additionalParameters = additionalParameters else { return parameters }
         return parameters.reduce(into: additionalParameters, { (result, element) in
             result[element.key] = element.value

@@ -253,7 +253,7 @@ class ReaderSiteServiceRemoteTests: XCTestCase {
 
         let expectedPath = readerSiteServiceRemote.path(forEndpoint: "me/block/sites/1/delete",
                                                         withVersion: ._1_1)
-        readerSiteServiceRemote.flagSite(withID: 1, asBlocked: false, success: nil, failure:  nil)
+        readerSiteServiceRemote.flagSite(withID: 1, asBlocked: false, success: nil, failure: nil)
         XCTAssertTrue(mockRemoteApi.postMethodCalled, "Wrong method")
         XCTAssertEqual(mockRemoteApi.URLStringPassedIn, expectedPath, "Wrong path")
     }
@@ -292,7 +292,7 @@ class ReaderSiteServiceRemoteTests: XCTestCase {
     func testCheckSiteExistsAtURLSuccess() {
         let testURLString = "http://www.wordpress.com"
         let testURL = URL(string: testURLString)!
-        stub(condition:{request in request.url?.absoluteString == testURLString}) { request in
+        stub(condition: {request in request.url?.absoluteString == testURLString}) { _ in
             let stubPath = OHPathForFile("empty.json", type(of: self))
             return fixture(filePath: stubPath!, headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
         }
@@ -301,7 +301,7 @@ class ReaderSiteServiceRemoteTests: XCTestCase {
         readerSiteServiceRemote.checkSiteExists(at: testURL, success: {
             expect.fulfill()
             XCTAssertTrue(true)
-        },failure: { (error) in
+        }, failure: { (_) in
             expect.fulfill()
             XCTFail("This call should be successfull")
         })
@@ -311,16 +311,16 @@ class ReaderSiteServiceRemoteTests: XCTestCase {
     func testCheckSiteExistsAtURLFailure() {
         let testURLString = "http://www.wordpress.com"
         let testURL = URL(string: testURLString)!
-        stub(condition:{request in request.url?.absoluteString == testURLString}) { request in
+        stub(condition: {request in request.url?.absoluteString == testURLString}) { _ in
             let stubPath = OHPathForFile("empty.json", type(of: self))
-            return fixture(filePath: stubPath!, status:400, headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
+            return fixture(filePath: stubPath!, status: 400, headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
         }
 
         let expect = self.expectation(description: "One callback should be invoked")
         readerSiteServiceRemote.checkSiteExists(at: testURL, success: {
             expect.fulfill()
             XCTAssertTrue(false, "This call should be unsuccessfull")
-        },failure: { (error) in
+        }, failure: { (_) in
             expect.fulfill()
             XCTAssertTrue(true)
         })
@@ -330,7 +330,7 @@ class ReaderSiteServiceRemoteTests: XCTestCase {
     func testCheckSiteExistsAtURLFailureNetworkError() {
         let testURLString = "http://www.wordpress.com"
         let testURL = URL(string: testURLString)!
-        stub(condition:{request in request.url?.absoluteString == testURLString}) { request in
+        stub(condition: {request in request.url?.absoluteString == testURLString}) { _ in
             return HTTPStubsResponse(error: NSError(domain: NSURLErrorDomain, code: NSURLErrorUnknown, userInfo: nil))
         }
 
@@ -338,7 +338,7 @@ class ReaderSiteServiceRemoteTests: XCTestCase {
         readerSiteServiceRemote.checkSiteExists(at: testURL, success: {
             expect.fulfill()
             XCTAssertTrue(false, "This call should be unsuccessfull")
-        },failure: { (error) in
+        }, failure: { (_) in
             expect.fulfill()
             XCTAssertTrue(true)
         })

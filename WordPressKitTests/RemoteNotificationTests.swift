@@ -28,7 +28,6 @@ class RemoteNotificationTests: XCTestCase {
         XCTAssertNotNil(remote.meta)
     }
 
-
     /// Tests that a Remote Notification doesn't initialize whenever the ID field is missing.
     ///
     func testRemoteNotificationInitializerReturnsNilWheneverNoteIdIsMissing() {
@@ -38,7 +37,6 @@ class RemoteNotificationTests: XCTestCase {
         let remote = RemoteNotification(document: document)
         XCTAssertNil(remote)
     }
-
 
     /// Tests that a Remote Notification doesn't initialize whenever the ID field is missing.
     ///
@@ -50,7 +48,6 @@ class RemoteNotificationTests: XCTestCase {
         XCTAssertNil(remote)
     }
 }
-
 
 // MARK: - Private Helpers
 //

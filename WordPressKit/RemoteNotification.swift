@@ -56,7 +56,6 @@ public struct RemoteNotification {
     ///
     public let meta: [String: AnyObject]?
 
-
     /// Designed Initializer
     ///
     public init?(document: [String: AnyObject]) {

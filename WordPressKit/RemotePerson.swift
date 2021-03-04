@@ -75,7 +75,7 @@ public struct User: RemotePerson {
     public let avatarURL: URL?
     public let isSuperAdmin: Bool
     public static let kind = PersonKind.user
-    
+
     public init(ID: Int,
          username: String,
          firstName: String?,
@@ -113,7 +113,7 @@ public struct Follower: RemotePerson {
     public let avatarURL: URL?
     public let isSuperAdmin: Bool
     public static let kind = PersonKind.follower
-    
+
     public init(ID: Int,
                 username: String,
                 firstName: String?,
@@ -151,7 +151,7 @@ public struct Viewer: RemotePerson {
     public let avatarURL: URL?
     public let isSuperAdmin: Bool
     public static let kind = PersonKind.viewer
-    
+
     public init(ID: Int,
                 username: String,
                 firstName: String?,

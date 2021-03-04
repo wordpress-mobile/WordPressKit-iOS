@@ -67,7 +67,7 @@ class AccountSettingsRemoteTests: RemoteTestCase, RESTTestable {
             XCTAssertEqual(settings.webAddress, self.userURL, "The web addresses should be equal.")
             XCTAssertEqual(settings.primarySiteID, self.siteID, "The primary site ID's should be equal.")
             expect.fulfill()
-        }) { error in
+        }) { _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         }
@@ -79,7 +79,7 @@ class AccountSettingsRemoteTests: RemoteTestCase, RESTTestable {
         let expect = expectation(description: "Get account settings server error failure")
 
         stubRemoteResponse(meSettingsEndpoint, data: Data(), contentType: .NoContentType, status: 500)
-        remote.getSettings(success: { settings in
+        remote.getSettings(success: { _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         }, failure: { error in
@@ -96,7 +96,7 @@ class AccountSettingsRemoteTests: RemoteTestCase, RESTTestable {
         let expect = expectation(description: "Get account settings with bad auth failure")
 
         stubRemoteResponse(meSettingsEndpoint, filename: getAccountSettingsAuthFailureMockFilename, contentType: .ApplicationJSON, status: 403)
-        remote.getSettings(success: { settings in
+        remote.getSettings(success: { _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         }, failure: { error in
@@ -113,10 +113,10 @@ class AccountSettingsRemoteTests: RemoteTestCase, RESTTestable {
         let expect = expectation(description: "Get account settings with invalid json response failure")
 
         stubRemoteResponse(meSettingsEndpoint, filename: getAccountSettingsBadJsonFailureMockFilename, contentType: .ApplicationJSON, status: 200)
-        remote.getSettings(success: { settings in
+        remote.getSettings(success: { _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
-        }, failure: { error in
+        }, failure: { _ in
             expect.fulfill()
         })
 
@@ -132,7 +132,7 @@ class AccountSettingsRemoteTests: RemoteTestCase, RESTTestable {
         let change = AccountSettingsChange.email(changedEmail)
         remote.updateSetting(change, success: { () in
             expect.fulfill()
-        }, failure: { error in
+        }, failure: { _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         })
@@ -146,7 +146,7 @@ class AccountSettingsRemoteTests: RemoteTestCase, RESTTestable {
         stubRemoteResponse(meSettingsEndpoint, filename: updateSettingsRevertEmailSuccessMockFilename, contentType: .ApplicationJSON)
         remote.updateSetting(.emailRevertPendingChange, success: { () in
             expect.fulfill()
-        }, failure: { error in
+        }, failure: { _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         })
@@ -161,7 +161,7 @@ class AccountSettingsRemoteTests: RemoteTestCase, RESTTestable {
         let change = AccountSettingsChange.primarySite(changedSiteID)
         remote.updateSetting(change, success: { () in
             expect.fulfill()
-        }, failure: { error in
+        }, failure: { _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         })
@@ -176,7 +176,7 @@ class AccountSettingsRemoteTests: RemoteTestCase, RESTTestable {
         let change = AccountSettingsChange.webAddress(changedUserURL)
         remote.updateSetting(change, success: { () in
             expect.fulfill()
-        }, failure: { error in
+        }, failure: { _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         })
@@ -191,7 +191,7 @@ class AccountSettingsRemoteTests: RemoteTestCase, RESTTestable {
         let change = AccountSettingsChange.aboutMe(changedAboutMe)
         remote.updateSetting(change, success: { () in
             expect.fulfill()
-        }, failure: { error in
+        }, failure: { _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         })
@@ -206,7 +206,7 @@ class AccountSettingsRemoteTests: RemoteTestCase, RESTTestable {
         let change = AccountSettingsChange.firstName(changedFirstName)
         remote.updateSetting(change, success: { () in
             expect.fulfill()
-        }, failure: { error in
+        }, failure: { _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         })
@@ -221,7 +221,7 @@ class AccountSettingsRemoteTests: RemoteTestCase, RESTTestable {
         let change = AccountSettingsChange.lastName(changedLastName)
         remote.updateSetting(change, success: { () in
             expect.fulfill()
-        }, failure: { error in
+        }, failure: { _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         })
@@ -236,7 +236,7 @@ class AccountSettingsRemoteTests: RemoteTestCase, RESTTestable {
         let change = AccountSettingsChange.displayName(changedDisplayName)
         remote.updateSetting(change, success: { () in
             expect.fulfill()
-        }, failure: { error in
+        }, failure: { _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         })
@@ -270,7 +270,7 @@ class AccountSettingsRemoteTests: RemoteTestCase, RESTTestable {
         remote.updateSetting(change, success: { () in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
-        }, failure: { error in
+        }, failure: { _ in
             expect.fulfill()
         })
 

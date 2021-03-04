@@ -27,7 +27,7 @@ public struct StatsCountry {
 
     public init(name: String,
                 code: String,
-                viewsCount: Int){
+                viewsCount: Int) {
         self.name = name
         self.code = code
         self.viewsCount = viewsCount
@@ -39,7 +39,7 @@ extension StatsTopCountryTimeIntervalData: StatsTimeIntervalData {
         return "stats/country-views"
     }
 
-    public init?(date: Date, period: StatsPeriodUnit, jsonDictionary: [String : AnyObject]) {
+    public init?(date: Date, period: StatsPeriodUnit, jsonDictionary: [String: AnyObject]) {
         guard
             let unwrappedDays = type(of: self).unwrapDaysDictionary(jsonDictionary: jsonDictionary),
             let countriesViews = unwrappedDays["views"] as? [[String: AnyObject]]

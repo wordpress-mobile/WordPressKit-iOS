@@ -8,7 +8,7 @@ class FeatureFlagRemoteTests: RemoteTestCase, RESTTestable {
     func testThatResponsesAreHandledCorrectly() throws {
         let flags = [
             FeatureFlag(title: UUID().uuidString, value: true),
-            FeatureFlag(title: UUID().uuidString, value: false),
+            FeatureFlag(title: UUID().uuidString, value: false)
         ].sorted()
 
         let data = try JSONEncoder().encode(flags.dictionaryValue)
@@ -64,7 +64,7 @@ class FeatureFlagRemoteTests: RemoteTestCase, RESTTestable {
         let expectation = XCTestExpectation()
 
         FeatureFlagRemote(wordPressComRestApi: getRestApi()).getRemoteFeatureFlags(forDeviceId: "Test") { result in
-            if case .success(_) = result {
+            if case .success = result {
                 XCTFail()
             }
             expectation.fulfill()

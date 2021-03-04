@@ -1,4 +1,3 @@
-
 import XCTest
 @testable import WordPressKit
 
@@ -43,7 +42,7 @@ final class SiteCreationServiceTests: RemoteTestCase, RESTTestable {
                 XCTAssertEqual(site.urlString, expectedUrlString)
                 XCTAssertEqual(site.xmlrpcString, "https://10711c.wordpress.com/xmlrpc.php")
 
-            case .failure(_):
+            case .failure:
                 XCTFail()
             }
         }

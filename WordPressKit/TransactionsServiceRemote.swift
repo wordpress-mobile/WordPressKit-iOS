@@ -16,7 +16,7 @@ import CocoaLumberjack
                                             failure: @escaping (Error) -> Void) {
         let endPoint = "me/transactions/supported-countries/"
         let servicePath = path(forEndpoint: endPoint, withVersion: ._1_1)
-        
+
         wordPressComRestApi.GET(servicePath,
                                 parameters: nil,
                                 success: {
@@ -60,20 +60,18 @@ import CocoaLumberjack
                                  parameters: parameters,
                                  success: { (response, _) in
 
-
                                     guard let jsonResponse = response as? [String: AnyObject],
                                         let cart = CartResponse(jsonDictionary: jsonResponse),
                                         !cart.products.isEmpty else {
-                                            
+
                                         failure(TransactionsServiceRemote.ResponseError.decodingFailure)
                                         return
                                     }
 
                                     success(cart)
-        }) { (error, response) in
+        }) { (error, _) in
             failure(error)
         }
-
 
     }
 
@@ -92,9 +90,9 @@ import CocoaLumberjack
                                                "cart": cart.jsonRepresentation() as AnyObject,
                                                "payment": paymentDict as AnyObject]
 
-        wordPressComRestApi.POST(urlPath, parameters: parameters, success: { (response, _) in
+        wordPressComRestApi.POST(urlPath, parameters: parameters, success: { (_, _) in
             success()
-        }) { (error, response) in
+        }) { (error, _) in
             failure(error)
         }
     }
@@ -155,7 +153,6 @@ public struct Product {
         returnDict["product_id"] = productID as AnyObject
         returnDict["meta"] = meta as AnyObject
 
-
         if let extra = extra {
             returnDict["extra"] = extra as AnyObject
         }
@@ -163,4 +160,3 @@ public struct Product {
         return returnDict
     }
 }
-

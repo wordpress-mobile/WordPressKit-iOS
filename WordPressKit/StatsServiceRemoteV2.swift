@@ -25,7 +25,7 @@ public class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
         cal.timeZone = siteTimezone
         return cal
     }()
-    
+
     public init(wordPressComRestApi api: WordPressComRestApi, siteID: Int, siteTimezone: TimeZone) {
         self.siteID = siteID
         self.siteTimezone = siteTimezone
@@ -58,7 +58,6 @@ public class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
             completion(nil, error)
         })
     }
-
 
     /// Used to fetch data about site over a specific timeframe.
     /// - parameters:
@@ -156,7 +155,7 @@ extension StatsServiceRemoteV2 {
                     return
             }
 
-            self.getPostViews(for: postID) { (views, error) in
+            self.getPostViews(for: postID) { (views, _) in
                 guard
                     let views = views,
                     let insight = StatsLastPostInsight(jsonDictionary: post, views: views) else {
@@ -187,14 +186,14 @@ extension StatsServiceRemoteV2 {
                                             return
                                     }
                                     completion(views, nil)
-                                }, failure:  { (error, _) in
+                                }, failure: { (error, _) in
                                     completion(nil, error)
                                 }
         )
     }
 }
 
-// MARK - StatsPublishedPostsTimeIntervalData Handling
+// MARK: - StatsPublishedPostsTimeIntervalData Handling
 
 extension StatsServiceRemoteV2 {
 
@@ -252,7 +251,7 @@ extension StatsServiceRemoteV2 {
 // This serves both as a way to get the query properties in a "nice" way,
 // but also as a way to narrow down the generic type in `getInsight(completion:)` method.
 public protocol StatsInsightData {
-    static func queryProperties(with maxCount: Int) -> [String: String] 
+    static func queryProperties(with maxCount: Int) -> [String: String]
     static var pathComponent: String { get }
 
     init?(jsonDictionary: [String: AnyObject])

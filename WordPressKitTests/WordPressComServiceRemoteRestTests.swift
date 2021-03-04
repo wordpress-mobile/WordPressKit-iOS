@@ -44,7 +44,7 @@ class WordPressComServiceRemoteRestTests: XCTestCase {
     }
 
     func testThrottledFailureCall() {
-        stub(condition: isRestAPIUsersNewRequest()) { request in
+        stub(condition: isRestAPIUsersNewRequest()) { _ in
             let stubPath = OHPathForFile("WordPressComRestApiFailThrottled.json", type(of: self))
             return fixture(filePath: stubPath!, status: 500, headers: ["Content-Type" as NSObject: "application/html" as AnyObject])
         }
@@ -55,7 +55,7 @@ class WordPressComServiceRemoteRestTests: XCTestCase {
                                             andPassword: "fakePassword",
                                             andClientID: "moo",
                                             andClientSecret: "cow",
-                                            success: { (responseObject) in
+                                            success: { (_) in
                                                 expect.fulfill()
                                                 XCTFail("This call should fail")
             }, failure: { (error) in

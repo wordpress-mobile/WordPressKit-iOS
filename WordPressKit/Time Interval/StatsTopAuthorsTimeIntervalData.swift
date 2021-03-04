@@ -39,7 +39,6 @@ public struct StatsTopPost {
         case homepage
     }
 
-
     public let title: String
     public let postID: Int
     public let postURL: URL?
@@ -64,7 +63,7 @@ extension StatsTopAuthorsTimeIntervalData: StatsTimeIntervalData {
         return "stats/top-authors/"
     }
 
-    public init?(date: Date, period: StatsPeriodUnit, jsonDictionary: [String : AnyObject]) {
+    public init?(date: Date, period: StatsPeriodUnit, jsonDictionary: [String: AnyObject]) {
         guard
             let unwrappedDays = type(of: self).unwrapDaysDictionary(jsonDictionary: jsonDictionary),
             let authors = unwrappedDays["authors"] as? [[String: AnyObject]]
@@ -138,4 +137,3 @@ extension StatsTopPost {
         }
     }
 }
-

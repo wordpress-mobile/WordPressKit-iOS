@@ -29,7 +29,6 @@ class UsersServiceRemoteXMLRPCTests: RemoteTestCase, XMLRPCTestable {
 
     // MARK: - Tests
 
-
     func testFetchProfileSucceeds() {
         let expect = expectation(description: "Get user profile")
 
@@ -50,7 +49,7 @@ class UsersServiceRemoteXMLRPCTests: RemoteTestCase, XMLRPCTestable {
 
                 expect.fulfill()
 
-            }, failure: { (error) in
+            }, failure: { (_) in
                 XCTFail("This callback shouldn't get called")
                 expect.fulfill()
             })
@@ -58,7 +57,6 @@ class UsersServiceRemoteXMLRPCTests: RemoteTestCase, XMLRPCTestable {
 
         waitForExpectations(timeout: timeout, handler: nil)
     }
-
 
     func testFetchProfileDoesNotCrashWhenReceivingMissingData() {
         let expect = expectation(description: "Get user profile")
@@ -80,7 +78,7 @@ class UsersServiceRemoteXMLRPCTests: RemoteTestCase, XMLRPCTestable {
 
                 expect.fulfill()
 
-            }, failure: { (error) in
+            }, failure: { (_) in
                 XCTFail("This callback shouldn't get called")
                 expect.fulfill()
             })

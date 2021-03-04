@@ -37,7 +37,7 @@ public enum PluginDirectoryFeedType: Hashable {
             return "search:\(term)"
         }
     }
-    
+
     public func hash(into hasher: inout Hasher) {
         hasher.combine(slug)
     }
@@ -115,19 +115,18 @@ public struct PluginDirectoryFeedEndpoint: Endpoint {
 
         let request = URLRequest(url: PluginDirectoryRemoteConstants.feedEndpoint)
         let encodedRequest = try URLEncoding.default.encode(request, with: parameters)
-        
+
         return encodedRequest
     }
-    
+
     public func parseResponse(data: Data) throws -> PluginDirectoryFeedPage {
         return try PluginDirectoryRemoteConstants.jsonDecoder.decode(PluginDirectoryFeedPage.self, from: data)
     }
-    
+
     public func validate(request: URLRequest?, response: HTTPURLResponse, data: Data?) throws {
         if response.statusCode != 200 { throw Error.genericError}
     }
 }
-
 
 public struct PluginDirectoryServiceRemote {
 

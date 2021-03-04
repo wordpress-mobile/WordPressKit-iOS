@@ -7,7 +7,7 @@ public struct RemoteBlogJetpackSettings {
     /// Indicates whether the Jetpack site's monitor is on or off
     ///
     public let monitorEnabled: Bool
-    
+
     /// Indicates whether Jetpack will block malicious login attemps
     ///
     public let blockMaliciousLoginAttempts: Bool

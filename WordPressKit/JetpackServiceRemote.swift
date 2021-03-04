@@ -49,14 +49,14 @@ public class JetpackServiceRemote: ServiceRemoteWordPressComREST {
         let parameters = ["url": url.absoluteString as AnyObject]
         wordPressComRestApi.GET(path,
                                 parameters: parameters,
-                                success: { [weak self] (response: AnyObject, httpResponse: HTTPURLResponse?) in
+                                success: { [weak self] (response: AnyObject, _: HTTPURLResponse?) in
                                     do {
                                         let hasJetpack = try self?.hasJetpackMapping(object: response)
                                         success(hasJetpack ?? false)
                                     } catch {
                                         failure(error)
                                     }
-        }) { (error: NSError, httpResponse: HTTPURLResponse?) in
+        }) { (error: NSError, _: HTTPURLResponse?) in
             failure(error)
         }
     }
@@ -75,15 +75,15 @@ public class JetpackServiceRemote: ServiceRemoteWordPressComREST {
                           "password": password]
 
         wordPressComRestApi.POST(requestUrl,
-                                 parameters: parameters as [String : AnyObject],
-                                 success: { (response: AnyObject, httpResponse: HTTPURLResponse?) in
+                                 parameters: parameters as [String: AnyObject],
+                                 success: { (response: AnyObject, _: HTTPURLResponse?) in
                                     if let response = response as? [String: Bool],
                                         let success = response[Constants.status] {
                                         completion(success, nil)
                                     } else {
                                         completion(false, JetpackInstallError(type: .installResponseError))
                                     }
-        }) { (error: NSError, httpResponse: HTTPURLResponse?) in
+        }) { (error: NSError, _: HTTPURLResponse?) in
             let key = error.userInfo[WordPressComRestApi.ErrorKeyErrorCode] as? String
             let jetpackError = JetpackInstallError(title: error.localizedDescription,
                                                    code: error.code,

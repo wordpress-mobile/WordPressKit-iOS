@@ -186,7 +186,6 @@ class JetpackScanServiceRemoteTests: RemoteTestCase, RESTTestable {
         waitForExpectations(timeout: timeout, handler: nil)
     }
 
-
     /// Fixable threat object is set correctly
     func testFixableThreat() {
         let expect = expectation(description: "Threat is fixable")
@@ -206,7 +205,6 @@ class JetpackScanServiceRemoteTests: RemoteTestCase, RESTTestable {
         waitForExpectations(timeout: timeout, handler: nil)
     }
 
-
     /// Fixable property is set correctly for unfixable threats
     func testNotFixableThreat() {
         let expect = expectation(description: "Threat is not fixable")
@@ -221,7 +219,6 @@ class JetpackScanServiceRemoteTests: RemoteTestCase, RESTTestable {
 
         waitForExpectations(timeout: timeout, handler: nil)
     }
-
 
     /// Make sure the threat context object is set correctly
     func testThreatContext() {

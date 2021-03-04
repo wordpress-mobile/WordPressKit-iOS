@@ -65,7 +65,7 @@ public enum SiteVerticalsResult {
     case failure(SiteVerticalsError)
 }
 
-public typealias SiteVerticalsServiceCompletion = ((SiteVerticalsResult) -> ())
+public typealias SiteVerticalsServiceCompletion = ((SiteVerticalsResult) -> Void)
 
 /// Site verticals services, exclusive to WordPress.com.
 ///
@@ -82,7 +82,7 @@ public extension WordPressComServiceRemote {
         let endpoint = "verticals"
         let path = self.path(forEndpoint: endpoint, withVersion: ._2_0)
 
-        let requestParameters: [String : AnyObject]
+        let requestParameters: [String: AnyObject]
         do {
             requestParameters = try encodeRequestParameters(request: request)
         } catch {
@@ -121,15 +121,15 @@ public extension WordPressComServiceRemote {
 
 private extension WordPressComServiceRemote {
 
-    func encodeRequestParameters(request: SiteVerticalsRequest) throws -> [String : AnyObject] {
+    func encodeRequestParameters(request: SiteVerticalsRequest) throws -> [String: AnyObject] {
 
         let encoder = JSONEncoder()
 
         let jsonData = try encoder.encode(request)
         let serializedJSON = try JSONSerialization.jsonObject(with: jsonData, options: [])
 
-        let requestParameters: [String : AnyObject]
-        if let jsonDictionary = serializedJSON as? [String : AnyObject] {
+        let requestParameters: [String: AnyObject]
+        if let jsonDictionary = serializedJSON as? [String: AnyObject] {
             requestParameters = jsonDictionary
         } else {
             requestParameters = [:]
