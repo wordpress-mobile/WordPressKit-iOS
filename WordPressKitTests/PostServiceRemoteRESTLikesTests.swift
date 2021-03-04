@@ -40,6 +40,7 @@ final class PostServiceRemoteRESTLikesTests: RemoteTestCase, RESTTestable {
             XCTAssertEqual(user.username, "johndoe")
             XCTAssertEqual(user.displayName, "John Doe")
             XCTAssertEqual(user.primaryBlogID, NSNumber(value: 54321))
+            XCTAssertEqual(user.homeURL, "home URL")
             XCTAssertEqual(user.avatarURL, "avatar URL")
             expect.fulfill()
             
@@ -47,6 +48,36 @@ final class PostServiceRemoteRESTLikesTests: RemoteTestCase, RESTTestable {
             XCTFail("This callback shouldn't get called")
         })
         
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+
+    func testThatHomeURLCorrectlyParsed() {
+        let expect = expectation(description: "Fetch likes should succeed")
+
+        stubRemoteResponse(postLikesEndpoint, filename: fetchPostLikesSuccessFilename, contentType: .ApplicationJSON)
+        remote.getLikesForPostID(NSNumber(value: postId), success: { users in
+            // site_visible: false
+            guard let secondUser = users?[1] else {
+                XCTFail("Failed to retrieve mock post likes")
+                return
+            }
+
+            XCTAssertNil(secondUser.homeURL)
+
+            // site_visible: true, URL: empty string
+            guard let thirdUser = users?.last else {
+                XCTFail("Failed to retrieve mock post likes")
+                return
+            }
+
+            XCTAssertNil(thirdUser.homeURL)
+
+            expect.fulfill()
+
+        }, failure: { _ in
+            XCTFail("This callback shouldn't get called")
+        })
+
         waitForExpectations(timeout: timeout, handler: nil)
     }
     
