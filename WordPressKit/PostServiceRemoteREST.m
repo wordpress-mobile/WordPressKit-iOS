@@ -611,6 +611,7 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
  *              - login -> username
  *              - name -> displayName
  *              - site_ID -> primaryBlogID
+ *              - URL -> homeURL
  *              - avatar_URL -> avatarURL
  *
  *  @param  jsonUser    The dictionary that represents a RemoteUser.
@@ -623,6 +624,13 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
     user.displayName = jsonUser[@"name"];
     user.primaryBlogID = jsonUser[@"site_ID"];
     user.avatarURL = jsonUser[@"avatar_URL"];
+
+    // ensure that the URL is present and the site is visible.
+    NSString *homeURL = jsonUser[@"URL"];
+    NSNumber *siteVisible = jsonUser[@"site_visible"];
+    if (![homeURL isEmpty] && siteVisible.boolValue) {
+        user.homeURL = homeURL;
+    }
     
     return user;
 }
