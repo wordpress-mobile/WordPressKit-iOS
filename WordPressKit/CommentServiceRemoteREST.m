@@ -504,7 +504,7 @@
     // ensure that the URL is present and the site is visible.
     NSString *homeURL = jsonUser[@"URL"];
     NSNumber *siteVisible = jsonUser[@"site_visible"];
-    if (homeURL && homeURL.length > 0 && siteVisible.boolValue) {
+    if (![homeURL isEmpty] && siteVisible.boolValue) {
         user.homeURL = homeURL;
     }
 
