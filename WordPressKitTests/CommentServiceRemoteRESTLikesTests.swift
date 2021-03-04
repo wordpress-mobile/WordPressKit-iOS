@@ -40,6 +40,7 @@ final class CommentServiceRemoteRESTLikesTests: RemoteTestCase, RESTTestable {
             XCTAssertEqual(user.username, "johnwick")
             XCTAssertEqual(user.displayName, "John Wick")
             XCTAssertEqual(user.primaryBlogID, NSNumber(value: 124625450))
+            XCTAssertEqual(user.homeURL, "home URL")
             XCTAssertEqual(user.avatarURL, "avatar URL")
             expect.fulfill()
             
