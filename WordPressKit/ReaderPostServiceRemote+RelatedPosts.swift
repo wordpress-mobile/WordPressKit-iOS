@@ -7,18 +7,22 @@ extension ReaderPostServiceRemote {
     ///
     /// - Parameter postID: The source post's ID
     /// - Parameter siteID: The source site's ID
+    /// - Parameter count: The number of related posts to retrieve for each post type
     /// - Parameter success: Called when the request succeeds and the data returned is valid
     /// - Parameter failure: Called if the request fails for any reason, or the response data is invalid
     public func fetchRelatedPosts(for postID: Int,
                                   from siteID: Int,
+                                  count: Int? = nil,
                                   success: @escaping ([RemoteReaderSimplePost]) -> Void,
                                   failure: @escaping (Error?) -> Void) {
 
         let endpoint = "read/site/\(siteID)/post/\(postID)/related"
         let path = self.path(forEndpoint: endpoint, withVersion: ._1_2)
+
+        let relatedPostsCount = count ?? Constants.defaultCount
         let parameters = [
-            "size_local": Constants.relatedPostsCount,
-            "size_global": Constants.relatedPostsCount
+            "size_local": relatedPostsCount,
+            "size_global": relatedPostsCount
         ] as [String: AnyObject]
 
         wordPressComRestApi.GET(
@@ -44,6 +48,6 @@ extension ReaderPostServiceRemote {
     }
 
     private enum Constants {
-        static let relatedPostsCount = 2
+        static let defaultCount = 2
     }
 }
