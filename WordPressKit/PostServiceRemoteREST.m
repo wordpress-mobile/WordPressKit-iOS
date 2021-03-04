@@ -623,8 +623,13 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
     user.username = jsonUser[@"login"];
     user.displayName = jsonUser[@"name"];
     user.primaryBlogID = jsonUser[@"site_ID"];
-    user.homeURL = jsonUser[@"URL"];
     user.avatarURL = jsonUser[@"avatar_URL"];
+
+    // ensure that the URL is present and the site is visible.
+    NSString *homeURL = jsonUser[@"URL"];
+    if (homeURL && homeURL.length > 0 && jsonUser[@"site_visible"]) {
+        user.homeURL = homeURL;
+    }
     
     return user;
 }
