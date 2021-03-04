@@ -499,8 +499,14 @@
     user.username = jsonUser[@"login"];
     user.displayName = jsonUser[@"name"];
     user.primaryBlogID = jsonUser[@"site_ID"];
-    user.homeURL = jsonUser[@"URL"];
     user.avatarURL = jsonUser[@"avatar_URL"];
+
+    // ensure that the URL is present and the site is visible.
+    NSString *homeURL = jsonUser[@"URL"];
+    NSNumber *siteVisible = jsonUser[@"site_visible"];
+    if (homeURL && homeURL.length > 0 && siteVisible.boolValue) {
+        user.homeURL = homeURL;
+    }
 
     return user;
 }

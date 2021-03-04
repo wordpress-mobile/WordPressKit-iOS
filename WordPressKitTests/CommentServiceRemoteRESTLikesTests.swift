@@ -50,6 +50,36 @@ final class CommentServiceRemoteRESTLikesTests: RemoteTestCase, RESTTestable {
         
         waitForExpectations(timeout: timeout, handler: nil)
     }
+
+    func testThatHomeURLIsCorrectlyParsed() {
+        let expect = expectation(description: "Fetching comment likes should succeed")
+
+        stubRemoteResponse(commentLikesEndpoint, filename: fetchCommentLikesSuccessFilename, contentType: .ApplicationJSON)
+        remote.getLikesForCommentID(NSNumber(value: commentId), success: { users in
+            // site_visible: false
+            guard let secondUser = users?[1] else {
+                XCTFail("Failed to retrieve mock post likes")
+                return
+            }
+
+            XCTAssertNil(secondUser.homeURL)
+
+            // site_visible: true, URL: empty string
+            guard let thirdUser = users?.last else {
+                XCTFail("Failed to retrieve mock post likes")
+                return
+            }
+
+            XCTAssertNil(thirdUser.homeURL)
+
+            expect.fulfill()
+
+        }, failure: { _ in
+            XCTFail("This callback shouldn't get called")
+        })
+
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
     
     func testFailureBlockCalledWhenFetchingFails() {
         let expect = expectation(description: "Failure block should be called when fetching post likes fails")
