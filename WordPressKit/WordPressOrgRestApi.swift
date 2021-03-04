@@ -50,7 +50,7 @@ open class WordPressOrgRestApi: NSObject {
             progress.completedUnitCount = taskProgress.completedUnitCount
         }
 
-        let dataRequest = sessionManager.request(url, method: method, parameters: parameters, encoding:URLEncoding.default)
+        let dataRequest = sessionManager.request(url, method: method, parameters: parameters, encoding: URLEncoding.default)
             .validate()
             .responseJSON(completionHandler: { (response) in
             switch response.result {
@@ -83,7 +83,7 @@ open class WordPressOrgRestApi: NSObject {
     }()
 
     private func makeSessionManager(configuration sessionConfiguration: URLSessionConfiguration) -> Alamofire.SessionManager {
-        var additionalHeaders: [String : AnyObject] = [:]
+        var additionalHeaders: [String: AnyObject] = [:]
         if let userAgent = self.userAgent {
             additionalHeaders["User-Agent"] = userAgent as AnyObject?
         }

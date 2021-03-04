@@ -11,7 +11,7 @@ public struct StatsDotComFollowersInsight {
 
 extension StatsDotComFollowersInsight: StatsInsightData {
 
-    //MARK: - StatsInsightData Conformance
+    // MARK: - StatsInsightData Conformance
     public static func queryProperties(with maxCount: Int) -> [String: String] {
         return ["type": "wpcom",
                 "max": String(maxCount)]
@@ -35,7 +35,7 @@ extension StatsDotComFollowersInsight: StatsInsightData {
         self.topDotComFollowers = followers
     }
 
-    //MARK: -
+    // MARK: -
     fileprivate static let dateFormatter = ISO8601DateFormatter()
 }
 
@@ -66,7 +66,6 @@ extension StatsFollower {
 
         self.init(name: name, avatar: avatar, date: dateString)
     }
-
 
     init?(name: String, avatar: String, date: String) {
         guard let date = StatsDotComFollowersInsight.dateFormatter.date(from: date) else {

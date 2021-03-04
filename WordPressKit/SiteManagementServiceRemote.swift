@@ -16,7 +16,7 @@ open class SiteManagementServiceRemote: ServiceRemoteWordPressComREST {
 
         wordPressComRestApi.POST(path,
             parameters: nil,
-            success: { response, httpResponse in
+            success: { response, _ in
                 guard let results = response as? [String: AnyObject] else {
                     failure?(SiteError.deleteInvalidResponse.toNSError())
                     return
@@ -32,11 +32,10 @@ open class SiteManagementServiceRemote: ServiceRemoteWordPressComREST {
 
                 success?()
             },
-            failure: { error, httpResponse in
+            failure: { error, _ in
                 failure?(error)
             })
     }
-
 
     /// Triggers content export of the specified WordPress.com site.
     ///
@@ -53,7 +52,7 @@ open class SiteManagementServiceRemote: ServiceRemoteWordPressComREST {
 
         wordPressComRestApi.POST(path,
             parameters: nil,
-            success: { response, httpResponse in
+            success: { response, _ in
                 guard let results = response as? [String: AnyObject] else {
                     failure?(SiteError.exportInvalidResponse.toNSError())
                     return
@@ -69,7 +68,7 @@ open class SiteManagementServiceRemote: ServiceRemoteWordPressComREST {
 
                 success?()
             },
-            failure: { error, httpResponse in
+            failure: { error, _ in
                 failure?(error)
         })
     }
@@ -87,7 +86,7 @@ open class SiteManagementServiceRemote: ServiceRemoteWordPressComREST {
 
         wordPressComRestApi.GET(path,
             parameters: nil,
-            success: { response, httpResponse in
+            success: { response, _ in
                 guard let results = response as? [SitePurchase] else {
                     failure?(SiteError.purchasesInvalidResponse.toNSError())
                     return
@@ -96,11 +95,11 @@ open class SiteManagementServiceRemote: ServiceRemoteWordPressComREST {
                 let actives = results.filter { $0[ResultKey.Active]?.boolValue == true }
                 success?(actives)
             },
-            failure: { error, httpResponse in
+            failure: { error, _ in
                 failure?(error)
         })
     }
-    
+
     /// Trigger a masterbar notification celebrating completion of mobile quick start.
     ///
     /// - Parameters:
@@ -114,10 +113,10 @@ open class SiteManagementServiceRemote: ServiceRemoteWordPressComREST {
 
         wordPressComRestApi.POST(path,
                                  parameters: nil,
-                                 success: { response, httpResponse in
+                                 success: { _, _ in
                                     success?()
         },
-                                 failure: { error, httpResponse in
+                                 failure: { error, _ in
                                     failure?(error)
         })
     }

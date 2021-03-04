@@ -9,7 +9,7 @@ public struct DomainSuggestion: Codable {
     public var domainNameStrippingSubdomain: String {
         return domainName.components(separatedBy: ".").first ?? domainName
     }
-    
+
     public init(json: [String: AnyObject]) throws {
         guard let domain = json["domain_name"] as? String else {
              throw DomainsServiceRemote.ResponseError.decodingFailed
@@ -27,7 +27,7 @@ public struct DomainSuggestionRequest: Encodable {
     public let query: String
     public let segmentID: Int64
     public let quantity: Int?
-    
+
     public init(query: String, segmentID: Int64, quantity: Int?) {
         self.query = query
         self.segmentID = segmentID
@@ -46,7 +46,7 @@ public class DomainsServiceRemote: ServiceRemoteWordPressComREST {
         case onlyWordPressDotCom
         case wordPressDotComAndDotBlogSubdomains
         case whitelistedTopLevelDomains([String])
-        
+
         fileprivate func parameters() -> [String: AnyObject] {
             switch self {
             case .noWordpressDotCom:
@@ -66,7 +66,7 @@ public class DomainsServiceRemote: ServiceRemoteWordPressComREST {
             }
         }
     }
-    
+
     public func getDomainsForSite(_ siteID: Int, success: @escaping ([RemoteDomain]) -> Void, failure: @escaping (Error) -> Void) {
         let endpoint = "sites/\(siteID)/domains"
         let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
@@ -93,7 +93,7 @@ public class DomainsServiceRemote: ServiceRemoteWordPressComREST {
         let parameters: [String: AnyObject] = ["domain": domain as AnyObject]
 
         wordPressComRestApi.POST(path, parameters: parameters,
-                                success: { response, _ in
+                                success: { _, _ in
 
             success()
         }, failure: { error, _ in
@@ -107,7 +107,7 @@ public class DomainsServiceRemote: ServiceRemoteWordPressComREST {
                                 failure: @escaping (Error) -> Void) {
         let endPoint = "domains/supported-states/\(countryCode)"
         let servicePath = path(forEndpoint: endPoint, withVersion: ._1_1)
-        
+
         wordPressComRestApi.GET(
             servicePath,
             parameters: nil,
@@ -128,12 +128,12 @@ public class DomainsServiceRemote: ServiceRemoteWordPressComREST {
             failure(error)
         })
     }
-    
+
     public func getDomainContactInformation(success: @escaping (DomainContactInformation) -> Void,
                                             failure: @escaping (Error) -> Void) {
         let endPoint = "me/domain-contact-information"
         let servicePath = path(forEndpoint: endPoint, withVersion: ._1_1)
-        
+
         wordPressComRestApi.GET(
             servicePath,
             parameters: nil,
@@ -150,20 +150,20 @@ public class DomainsServiceRemote: ServiceRemoteWordPressComREST {
             failure(error)
         }
     }
-    
+
     public func validateDomainContactInformation(contactInformation: [String: String],
                                                  domainNames: [String],
                                                  success: @escaping (ValidateDomainContactInformationResponse) -> Void,
                                                  failure: @escaping (Error) -> Void) {
         let endPoint = "me/domain-contact-information/validate"
         let servicePath = path(forEndpoint: endPoint, withVersion: ._1_1)
-        
+
         let parameters: [String: AnyObject] = ["contact_information": contactInformation as AnyObject,
                                                "domain_names": domainNames as AnyObject]
         wordPressComRestApi.POST(
             servicePath,
             parameters: parameters,
-            success: { response,_ in
+            success: { response, _ in
                 do {
                     let data = try JSONSerialization.data(withJSONObject: response, options: .prettyPrinted)
                     let decodedResult = try JSONDecoder.apiDecoder.decode(ValidateDomainContactInformationResponse.self, from: data)
@@ -172,7 +172,7 @@ public class DomainsServiceRemote: ServiceRemoteWordPressComREST {
                     DDLogError("Error parsing ValidateDomainContactInformationResponse  (\(error)): \(response)")
                     failure(error)
                 }
-        }) { (error, response) in
+        }) { (error, _) in
             failure(error)
         }
     }
@@ -220,7 +220,7 @@ public class DomainsServiceRemote: ServiceRemoteWordPressComREST {
         if let quantity = quantity {
             parameters["quantity"] = quantity as AnyObject
         }
-        
+
         wordPressComRestApi.GET(servicePath,
                                 parameters: parameters,
                                 success: {
@@ -243,7 +243,7 @@ private func map(suggestions response: AnyObject) throws -> [DomainSuggestion] {
     guard let jsonSuggestions = response as? [[String: AnyObject]] else {
         throw DomainsServiceRemote.ResponseError.decodingFailed
     }
-    
+
     var suggestions: [DomainSuggestion] = []
     for jsonSuggestion in jsonSuggestions {
         do {

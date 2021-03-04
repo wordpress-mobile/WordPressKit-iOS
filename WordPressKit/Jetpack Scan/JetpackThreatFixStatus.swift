@@ -64,9 +64,9 @@ public struct JetpackThreatFixStatus {
     public let threatId: Int
     public let status: ThreatFixStatus
 
-    public var threat: JetpackScanThreat? = nil
+    public var threat: JetpackScanThreat?
 
-    public init(with threatId: Int, status: String){
+    public init(with threatId: Int, status: String) {
         self.threatId = threatId
         self.status = ThreatFixStatus(rawValue: status)
     }

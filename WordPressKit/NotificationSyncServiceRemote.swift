@@ -7,14 +7,11 @@ public class NotificationSyncServiceRemote: ServiceRemoteWordPressComREST {
     //
     private let defaultPageSize = 100
 
-
     // MARK: - Errors
     //
     public enum SyncError: Error {
         case failed
     }
-
-
 
     /// Retrieves latest Notifications (OR collection of Notifications, whenever noteIds is present)
     ///
@@ -32,7 +29,6 @@ public class NotificationSyncServiceRemote: ServiceRemoteWordPressComREST {
         }
     }
 
-
     /// Retrieves the Notification Hashes for the specified pageSize (OR collection of NoteID's, when present)
     ///
     /// - Parameters:
@@ -49,7 +45,6 @@ public class NotificationSyncServiceRemote: ServiceRemoteWordPressComREST {
             completion(error, notes)
         }
     }
-
 
     /// Updates a Notification's Read Status as specified.
     ///
@@ -69,7 +64,7 @@ public class NotificationSyncServiceRemote: ServiceRemoteWordPressComREST {
             "counts": ["\(notificationID)": value]
         ]
 
-        wordPressComRestApi.POST(requestUrl, parameters: parameters as [String : AnyObject]?, success: { (response, _)  in
+        wordPressComRestApi.POST(requestUrl, parameters: parameters as [String: AnyObject]?, success: { (response, _)  in
             let error = self.errorFromResponse(response)
             completion(error)
 
@@ -77,7 +72,6 @@ public class NotificationSyncServiceRemote: ServiceRemoteWordPressComREST {
             completion(error)
         })
     }
-
 
     /// Updates the Last Seen Notification's Timestamp.
     ///
@@ -93,7 +87,7 @@ public class NotificationSyncServiceRemote: ServiceRemoteWordPressComREST {
             "time": timestamp
         ]
 
-        wordPressComRestApi.POST(requestUrl, parameters: parameters as [String : AnyObject]?, success: { (response, _)  in
+        wordPressComRestApi.POST(requestUrl, parameters: parameters as [String: AnyObject]?, success: { (response, _)  in
             let error = self.errorFromResponse(response)
             completion(error)
 
@@ -102,8 +96,6 @@ public class NotificationSyncServiceRemote: ServiceRemoteWordPressComREST {
         })
     }
 }
-
-
 
 // MARK: - Private Methods
 //
@@ -124,7 +116,6 @@ private extension NotificationSyncServiceRemote {
 
         return SyncError.failed
     }
-
 
     /// Retrieves the Notification for the specified pageSize (OR collection of NoteID's, when present).
     /// Note that only the specified fields will be retrieved.

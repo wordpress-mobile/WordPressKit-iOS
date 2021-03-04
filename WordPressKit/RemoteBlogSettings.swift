@@ -1,6 +1,5 @@
 import Foundation
 
-
 /// This class encapsulates all of the *remote* settings available for a Blog entity
 ///
 public class RemoteBlogSettings: NSObject {
@@ -59,7 +58,6 @@ public class RemoteBlogSettings: NSObject {
     /// Numbers of posts per page
     ///
     @objc public var postsPerPage: NSNumber?
-
 
     // MARK: - Discussion
 
@@ -134,8 +132,6 @@ public class RemoteBlogSettings: NSObject {
     ///
     @objc public var pingbackOutboundEnabled: NSNumber?
 
-
-
     // MARK: - Related Posts
 
     /// When set to true, Related Posts will be allowed.
@@ -190,8 +186,6 @@ public class RemoteBlogSettings: NSObject {
     ///
     @objc public var sharingDisabledReblogs: NSNumber?
 
-
-
     // MARK: - Helpers
 
     /// Computed property, meant to help conversion from Remote / String-Based values, into their Integer counterparts
@@ -204,8 +198,6 @@ public class RemoteBlogSettings: NSObject {
             return commentsSortOrder == RemoteBlogSettings.AscendingStringValue
         }
     }
-
-
 
     // MARK: - Private
 

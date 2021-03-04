@@ -13,11 +13,10 @@ final class SiteSegmentsResponseDecodingTests: XCTestCase {
 
     private var segment: SiteSegment?
 
-
     override func setUp() {
         super.setUp()
 
-        let mockFileURL = Bundle(for: type(of:self)).url(forResource: "site-segments-single", withExtension: "json")!
+        let mockFileURL = Bundle(for: type(of: self)).url(forResource: "site-segments-single", withExtension: "json")!
 
         let json = try! Data(contentsOf: mockFileURL)
 

@@ -7,7 +7,7 @@ class JetpackBackupServiceRemoteTests: RemoteTestCase, RESTTestable {
     let mockRemoteApi = MockWordPressComRestApi()
     var service: JetpackBackupServiceRemote!
 
-    /// MARK: - Constants
+    // MARK: - Constants
 
     let siteID = 1
     let downloadID = 283844

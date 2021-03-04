@@ -52,7 +52,6 @@ public class JetpackScanServiceRemote: ServiceRemoteWordPressComREST {
         })
     }
 
-
     // MARK: - Threats
     public enum ThreatError: Swift.Error {
         case invalidResponse
@@ -84,7 +83,6 @@ public class JetpackScanServiceRemote: ServiceRemoteWordPressComREST {
         })
     }
 
-
     /// Begins the fix process for a single threat
     public func fixThreat(_ threat: JetpackScanThreat, siteID: Int, success: @escaping(JetpackThreatFixStatus) -> Void, failure: @escaping(Error) -> Void) {
         fixThreats([threat], siteID: siteID, success: { response in
@@ -98,13 +96,13 @@ public class JetpackScanServiceRemote: ServiceRemoteWordPressComREST {
             failure(error)
         })
     }
-    
+
     /// Begins the ignore process for a single threat
     public func ignoreThreat(_ threat: JetpackScanThreat, siteID: Int, success: @escaping () -> Void, failure: @escaping(Error) -> Void) {
         let path = self.path(forEndpoint: "sites/\(siteID)/alerts/\(threat.id)", withVersion: ._2_0)
         let parameters = ["ignore": true] as [String: AnyObject]
-        
-        wordPressComRestApi.POST(path, parameters: parameters, success: { (response, _) in
+
+        wordPressComRestApi.POST(path, parameters: parameters, success: { (_, _) in
             success()
         }, failure: { (error, _) in
             failure(error)

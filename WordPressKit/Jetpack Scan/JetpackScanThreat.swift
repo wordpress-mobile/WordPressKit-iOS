@@ -110,7 +110,7 @@ public struct JetpackScanThreat: Decodable {
         // context attr was present or not
         if let contextDict = try? container.decodeIfPresent([String: Any].self, forKey: .context) {
             context = JetpackThreatContext(with: contextDict)
-        } else if ((try container.decodeIfPresent(String.self, forKey: .context)) != nil) {
+        } else if (try container.decodeIfPresent(String.self, forKey: .context)) != nil {
             context = JetpackThreatContext.emptyObject()
         } else {
             context = nil
@@ -189,7 +189,7 @@ public struct JetpackThreatContext {
         self.lines = lines
     }
 
-    public init?(with dict: [String: Any]){
+    public init?(with dict: [String: Any]) {
         guard let marksDict = dict["marks"] as? [String: Any] else {
             return nil
         }
@@ -222,7 +222,6 @@ public struct JetpackThreatContext {
         // Since the dictionary keys are unsorted, resort by line number
         self.lines =  lines.sorted { $0.lineNumber < $1.lineNumber }
     }
-
 
     /// Parses the marks dictionary and converts them to an array of NSRange's
     private static func highlights(with dict: [String: Any], for key: String) -> [NSRange]? {

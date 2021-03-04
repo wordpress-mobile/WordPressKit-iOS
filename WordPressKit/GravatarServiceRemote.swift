@@ -5,7 +5,7 @@ import WordPressShared
 ///
 open class GravatarServiceRemote {
     let baseGravatarURL = "https://www.gravatar.com/"
-    
+
     public init() {}
 
     /// This method fetches the Gravatar profile for the specified email address.
@@ -39,15 +39,15 @@ open class GravatarServiceRemote {
         }
 
         let session = URLSession.shared
-        let task = session.dataTask(with: targetURL) { (data: Data?, response: URLResponse?, error: Error?) in
+        let task = session.dataTask(with: targetURL) { (data: Data?, _: URLResponse?, error: Error?) in
             guard error == nil, let data = data else {
                 failure(error)
                 return
             }
             do {
                 let jsonData = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
-                
-                guard let jsonDictionary = jsonData as? [String: Array<Any>],
+
+                guard let jsonDictionary = jsonData as? [String: [Any]],
                     let entry = jsonDictionary["entry"],
                     let profileData = entry.first as? NSDictionary else {
                         DispatchQueue.main.async {
@@ -57,7 +57,7 @@ open class GravatarServiceRemote {
                         }
                         return
                 }
-                
+
                 let profile = RemoteGravatarProfile(dictionary: profileData)
                 DispatchQueue.main.async {
                     success(profile)
@@ -65,7 +65,7 @@ open class GravatarServiceRemote {
                 return
 
             } catch {
-                failure (error)
+                failure(error)
                 return
             }
         }
@@ -73,14 +73,13 @@ open class GravatarServiceRemote {
         task.resume()
     }
 
-
     /// This method hits the Gravatar Endpoint, and uploads a new image, to be used as profile.
     ///
     /// - Parameters:
     ///     - image: The new Gravatar Image, to be uploaded
     ///     - completion: An optional closure to be executed on completion.
     ///
-    open func uploadImage(_ image: UIImage, accountEmail: String, accountToken: String, completion: ((_ error: NSError?) -> ())?) {
+    open func uploadImage(_ image: UIImage, accountEmail: String, accountToken: String, completion: ((_ error: NSError?) -> Void)?) {
         guard let targetURL = URL(string: UploadParameters.endpointURL) else {
             assertionFailure()
             return
@@ -101,13 +100,12 @@ open class GravatarServiceRemote {
 
         // Task
         let session = URLSession.shared
-        let task = session.uploadTask(with: request as URLRequest, from: requestBody, completionHandler: { (data, response, error) in
+        let task = session.uploadTask(with: request as URLRequest, from: requestBody, completionHandler: { (_, _, error) in
             completion?(error as NSError?)
         })
 
         task.resume()
     }
-
 
     // MARK: - Private Helpers
 
@@ -116,7 +114,6 @@ open class GravatarServiceRemote {
     private func boundaryForRequest() -> String {
         return "Boundary-" + UUID().uuidString
     }
-
 
     /// Returns the Body for a Gravatar Upload OP.
     ///
@@ -148,7 +145,6 @@ open class GravatarServiceRemote {
 
         return body as Data
     }
-
 
     // MARK: - Private Structs
     private struct UploadParameters {

@@ -2,7 +2,6 @@ import Foundation
 import NSObject_SafeExpectations
 import WordPressShared
 
-
 /// SharingServiceRemote is responsible for wrangling the REST API calls related to
 /// publiczice services, publicize connections, and keyring connections.
 ///
@@ -32,7 +31,6 @@ open class SharingServiceRemote: ServiceRemoteWordPressComREST {
         return NSError(domain: domain, code: code, userInfo: userInfo)
     }
 
-
     // MARK: - Publicize Related Methods
 
     /// Fetches the list of Publicize services.
@@ -47,7 +45,7 @@ open class SharingServiceRemote: ServiceRemoteWordPressComREST {
         let params = ["type": "publicize"]
 
         wordPressComRestApi.GET(path,
-            parameters: params as [String : AnyObject]?,
+            parameters: params as [String: AnyObject]?,
             success: { (responseObject: AnyObject, httpResponse: HTTPURLResponse?) in
                 guard let onSuccess = success else {
                     return
@@ -87,11 +85,10 @@ open class SharingServiceRemote: ServiceRemoteWordPressComREST {
                 onSuccess(publicizeServices)
 
             },
-            failure: { (error: NSError, httpResponse: HTTPURLResponse?) in
+            failure: { (error: NSError, _: HTTPURLResponse?) in
                 failure?(error)
             })
     }
-
 
     /// Fetches the current user's list of keyring connections.
     ///
@@ -140,11 +137,10 @@ open class SharingServiceRemote: ServiceRemoteWordPressComREST {
 
                 onSuccess(keyringConnections)
             },
-            failure: { (error: NSError, httpResponse: HTTPURLResponse?) in
+            failure: { (error: NSError, _: HTTPURLResponse?) in
                 failure?(error)
         })
     }
-
 
     /// Creates KeyringConnectionExternalUser instances from the past array of
     /// external user dictionaries.
@@ -166,7 +162,6 @@ open class SharingServiceRemote: ServiceRemoteWordPressComREST {
         }
         return arr
     }
-
 
     /// Fetches the current user's list of Publicize connections for the specified site's ID.
     ///
@@ -199,11 +194,10 @@ open class SharingServiceRemote: ServiceRemoteWordPressComREST {
 
                 onSuccess(publicizeConnections)
             },
-            failure: { (error: NSError, httpResponse: HTTPURLResponse?) in
+            failure: { (error: NSError, _: HTTPURLResponse?) in
                 failure?(error)
         })
     }
-
 
     /// Create a new Publicize connection bweteen the specified blog and
     /// the third-pary service represented by the keyring.
@@ -223,7 +217,7 @@ open class SharingServiceRemote: ServiceRemoteWordPressComREST {
             let endpoint = "sites/\(siteID)/publicize-connections/new"
             let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
 
-            var parameters: [String : AnyObject] = [PublicizeConnectionParams.keyringConnectionID: keyringConnectionID]
+            var parameters: [String: AnyObject] = [PublicizeConnectionParams.keyringConnectionID: keyringConnectionID]
             if let userID = externalUserID {
                 parameters[PublicizeConnectionParams.externalUserID] = userID as AnyObject?
             }
@@ -243,11 +237,10 @@ open class SharingServiceRemote: ServiceRemoteWordPressComREST {
 
                     onSuccess(conn)
                 },
-                failure: { (error: NSError, httpResponse: HTTPURLResponse?) in
+                failure: { (error: NSError, _: HTTPURLResponse?) in
                     failure?(error)
             })
     }
-
 
     /// Update the shared status of the specified publicize connection
     ///
@@ -274,7 +267,7 @@ open class SharingServiceRemote: ServiceRemoteWordPressComREST {
             ]
 
             wordPressComRestApi.POST(path,
-                parameters: parameters as [String : AnyObject]?,
+                parameters: parameters as [String: AnyObject]?,
                 success: { (responseObject: AnyObject, httpResponse: HTTPURLResponse?) in
                     guard let onSuccess = success else {
                         return
@@ -288,11 +281,10 @@ open class SharingServiceRemote: ServiceRemoteWordPressComREST {
 
                     onSuccess(conn)
                 },
-                failure: { (error: NSError, httpResponse: HTTPURLResponse?) in
+                failure: { (error: NSError, _: HTTPURLResponse?) in
                     failure?(error)
             })
     }
-
 
     /// Update the shared status of the specified publicize connection
     ///
@@ -315,7 +307,7 @@ open class SharingServiceRemote: ServiceRemoteWordPressComREST {
             ]
 
             wordPressComRestApi.POST(path,
-                parameters: parameters as [String : AnyObject]?,
+                parameters: parameters as [String: AnyObject]?,
                 success: { (responseObject: AnyObject, httpResponse: HTTPURLResponse?) in
                     guard let onSuccess = success else {
                         return
@@ -329,11 +321,10 @@ open class SharingServiceRemote: ServiceRemoteWordPressComREST {
 
                     onSuccess(conn)
                 },
-                failure: { (error: NSError, httpResponse: HTTPURLResponse?) in
+                failure: { (error: NSError, _: HTTPURLResponse?) in
                     failure?(error)
             })
     }
-
 
     /// Disconnects (deletes) the specified publicize connection
     ///
@@ -349,14 +340,13 @@ open class SharingServiceRemote: ServiceRemoteWordPressComREST {
 
         wordPressComRestApi.POST(path,
             parameters: nil,
-            success: { (responseObject: AnyObject, httpResponse: HTTPURLResponse?) in
+            success: { (_: AnyObject, _: HTTPURLResponse?) in
                 success?()
             },
-            failure: { (error: NSError, httpResponse: HTTPURLResponse?) in
+            failure: { (error: NSError, _: HTTPURLResponse?) in
                 failure?(error)
         })
     }
-
 
     /// Composees a `RemotePublicizeConnection` populated with values from the passed `NSDictionary`
     ///
@@ -406,7 +396,6 @@ open class SharingServiceRemote: ServiceRemoteWordPressComREST {
         return conn
     }
 
-
     // MARK: - Sharing Button Related Methods
 
     /// Fetches the list of sharing buttons for a blog.
@@ -437,11 +426,10 @@ open class SharingServiceRemote: ServiceRemoteWordPressComREST {
 
                 onSuccess(sharingButtons)
             },
-            failure: { (error: NSError, httpResponse: HTTPURLResponse?) in
+            failure: { (error: NSError, _: HTTPURLResponse?) in
                 failure?(error)
         })
     }
-
 
     /// Updates the list of sharing buttons for a blog.
     ///
@@ -458,7 +446,7 @@ open class SharingServiceRemote: ServiceRemoteWordPressComREST {
         let parameters = [SharingButtonsKeys.sharingButtons: buttons]
 
         wordPressComRestApi.POST(path,
-            parameters: parameters as [String : AnyObject]?,
+            parameters: parameters as [String: AnyObject]?,
             success: { (responseObject: AnyObject, httpResponse: HTTPURLResponse?) in
                 guard let onSuccess = success else {
                     return
@@ -474,11 +462,10 @@ open class SharingServiceRemote: ServiceRemoteWordPressComREST {
 
                 onSuccess(sharingButtons)
             },
-            failure: { (error: NSError, httpResponse: HTTPURLResponse?) in
+            failure: { (error: NSError, _: HTTPURLResponse?) in
                 failure?(error)
         })
     }
-
 
     /// Composees a `RemotePublicizeConnection` populated with values from the passed `NSDictionary`
     ///
@@ -509,7 +496,6 @@ open class SharingServiceRemote: ServiceRemoteWordPressComREST {
         return sharingButtons
     }
 
-
     private func dictionariesFromRemoteSharingButtons(_ buttons: [RemoteSharingButton]) -> [NSDictionary] {
         return buttons.map({ (btn) -> NSDictionary in
 
@@ -528,7 +514,6 @@ open class SharingServiceRemote: ServiceRemoteWordPressComREST {
     }
 }
 
-
 // Keys for PublicizeService dictionaries
 private struct ServiceDictionaryKeys {
     static let connectURL = "connect_URL"
@@ -543,7 +528,6 @@ private struct ServiceDictionaryKeys {
     static let services = "services"
     static let type = "type"
 }
-
 
 // Keys for both KeyringConnection and PublicizeConnection dictionaries
 private struct ConnectionDictionaryKeys {
@@ -577,14 +561,12 @@ private struct ConnectionDictionaryKeys {
     static let siteID = "site_ID"
 }
 
-
 // Names of parameters passed when creating or updating a publicize connection
 private struct PublicizeConnectionParams {
     static let keyringConnectionID = "keyring_connection_ID"
     static let externalUserID = "external_user_ID"
     static let shared = "shared"
 }
-
 
 // Names of parameters used in SharingButton requests
 private struct SharingButtonsKeys {

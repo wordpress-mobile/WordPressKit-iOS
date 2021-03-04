@@ -30,7 +30,7 @@ struct MockPluginDirectoryProvider {
 
         return description
     }
-    
+
     static func getJetpackFAQHTML() -> String? {
         let loader = JSONLoader()
         let pluginDirectoryJson = loader.loadFile("plugin-directory-jetpack", type: "json")!
@@ -75,5 +75,3 @@ struct MockPluginDirectoryProvider {
     }
 
 }
-
-

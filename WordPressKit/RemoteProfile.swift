@@ -12,7 +12,6 @@ public class RemoteProfile {
     public let userID: Int
     public let username: String
 
-
     public init(dictionary: NSDictionary) {
         bio = dictionary.string(forKey: "bio") ?? ""
         displayName = dictionary.string(forKey: "display_name") ?? ""
