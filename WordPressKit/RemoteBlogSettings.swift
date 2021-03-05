@@ -65,9 +65,9 @@ public class RemoteBlogSettings: NSObject {
     ///
     @objc public var commentsAllowed: NSNumber?
 
-    /// Contains a list of words that would automatically blacklist a comment.
+    /// Contains a list of words that would automatically blocklist a comment.
     ///
-    @objc public var commentsBlacklistKeys: String?
+    @objc public var commentsBlocklistKeys: String?
 
     /// If true, comments will be automatically closed after the number of days, specified by `commentsCloseAutomaticallyAfterDays`.
     ///
