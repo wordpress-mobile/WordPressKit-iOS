@@ -12,17 +12,16 @@ extension ReaderPostServiceRemote {
     /// - Parameter failure: Called if the request fails for any reason, or the response data is invalid
     public func fetchRelatedPosts(for postID: Int,
                                   from siteID: Int,
-                                  count: Int? = nil,
+                                  count: Int? = 2,
                                   success: @escaping ([RemoteReaderSimplePost]) -> Void,
                                   failure: @escaping (Error?) -> Void) {
 
         let endpoint = "read/site/\(siteID)/post/\(postID)/related"
         let path = self.path(forEndpoint: endpoint, withVersion: ._1_2)
 
-        let relatedPostsCount = count ?? Constants.defaultCount
         let parameters = [
-            "size_local": relatedPostsCount,
-            "size_global": relatedPostsCount
+            "size_local": count,
+            "size_global": count
         ] as [String: AnyObject]
 
         wordPressComRestApi.GET(
@@ -45,9 +44,5 @@ extension ReaderPostServiceRemote {
                 failure(error)
             }
         )
-    }
-
-    private enum Constants {
-        static let defaultCount = 2
     }
 }
