@@ -3,6 +3,8 @@
 #import <WordPressKit/SiteServiceRemoteWordPressComREST.h>
 #import <WordPressKit/RemoteMedia.h>
 
+@class RemoteUser;
+
 @interface PostServiceRemoteREST : SiteServiceRemoteWordPressComREST <PostServiceRemote>
 
 /**
@@ -52,5 +54,19 @@
 - (void)getAutoSaveForPost:(RemotePost *)post
                    success:(void (^)(RemotePost *))success
                    failure:(void (^)(NSError *error))failure;
+
+/**
+ *  @brief      Requests a list of users that liked the post with the specified ID.
+ *
+ *  @discussion Due to the API limitation, up to 90 users will be returned from the
+ *              endpoint.
+ *
+ *  @param      postID      The ID for the post. Cannot be nil.
+ *  @param      success     The block that will be executed on success. Can be nil.
+ *  @param      failure     The block that will be executed on failure. Can be nil.
+ */
+- (void)getLikesForPostID:(NSNumber *)postID
+                  success:(void (^)(NSArray<RemoteUser *> *))success
+                  failure:(void (^)(NSError *))failure;
 
 @end
