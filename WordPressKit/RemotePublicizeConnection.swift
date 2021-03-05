@@ -3,7 +3,7 @@ import Foundation
 @objc open class RemotePublicizeConnection: NSObject {
     @objc open var connectionID: NSNumber = 0
     @objc open var dateIssued = Date()
-    @objc open var dateExpires: Date? = nil
+    @objc open var dateExpires: Date?
     @objc open var externalID = ""
     @objc open var externalName = ""
     @objc open var externalDisplay = ""

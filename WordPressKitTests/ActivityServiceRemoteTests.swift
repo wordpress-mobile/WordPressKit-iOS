@@ -4,7 +4,7 @@ import XCTest
 
 class ActivityServiceRemoteTests: RemoteTestCase, RESTTestable {
 
-    /// MARK: - Constants
+    // MARK: - Constants
 
     let siteID = 321
     let rewindID = "33"
@@ -25,7 +25,7 @@ class ActivityServiceRemoteTests: RemoteTestCase, RESTTestable {
     let rewindStatusRestoreInProgressMockFilename = "activity-rewind-status-restore-in-progress.json"
     let rewindStatusRestoreQueuedMockFilename = "activity-rewind-status-restore-queued.json"
 
-    /// MARK: - Properties
+    // MARK: - Properties
 
     var siteActivityEndpoint: String { return "sites/\(siteID)/activity" }
     var siteActivityGroupsEndpoint: String { return "sites/\(siteID)/activity/count/group" }
@@ -35,7 +35,7 @@ class ActivityServiceRemoteTests: RemoteTestCase, RESTTestable {
     var remoteV1: ActivityServiceRemote_ApiVersion1_0!
     var remote: ActivityServiceRemote!
 
-    /// MARK: - Overridden Methods
+    // MARK: - Overridden Methods
 
     override func setUp() {
         super.setUp()
@@ -56,7 +56,7 @@ class ActivityServiceRemoteTests: RemoteTestCase, RESTTestable {
         NSTimeZone.default = NSTimeZone.local
     }
 
-    /// MARK: - Get Activity Tests
+    // MARK: - Get Activity Tests
 
     func testGetActivitySucceedsOne() {
         let expect = expectation(description: "Get activity for site success one")
@@ -69,7 +69,7 @@ class ActivityServiceRemoteTests: RemoteTestCase, RESTTestable {
                                       XCTAssertEqual(activities.count, 8, "The activity count should be 8")
                                       XCTAssertEqual(hasMore, false, "The value of hasMore should be false")
                                       expect.fulfill()
-                                  }, failure: { error in
+                                  }, failure: { _ in
                                       XCTFail("This callback shouldn't get called")
                                       expect.fulfill()
                                   })
@@ -87,7 +87,7 @@ class ActivityServiceRemoteTests: RemoteTestCase, RESTTestable {
                                       XCTAssertEqual(activities.count, 20, "The activity count should be 20")
                                       XCTAssertEqual(hasMore, true, "The value of hasMore should be true")
                                       expect.fulfill()
-                                  }, failure: { error in
+                                  }, failure: { _ in
                                       XCTFail("This callback shouldn't get called")
                                       expect.fulfill()
                                   })
@@ -106,7 +106,7 @@ class ActivityServiceRemoteTests: RemoteTestCase, RESTTestable {
                                       XCTAssertEqual(activities.count, 19, "The activity count should be 19")
                                       XCTAssertEqual(hasMore, false, "The value of hasMore should be false")
                                       expect.fulfill()
-                                  }, failure: { error in
+                                  }, failure: { _ in
                                       XCTFail("This callback shouldn't get called")
                                       expect.fulfill()
                                   })
@@ -129,7 +129,7 @@ class ActivityServiceRemoteTests: RemoteTestCase, RESTTestable {
                                       XCTAssertEqual(activities.count, 19, "The activity count should be 19")
                                       XCTAssertEqual(hasMore, false, "The value of hasMore should be false")
                                       expect.fulfill()
-                                  }, failure: { error in
+                                  }, failure: { _ in
                                       XCTFail("This callback shouldn't get called")
                                       expect.fulfill()
                                   })
@@ -145,9 +145,9 @@ class ActivityServiceRemoteTests: RemoteTestCase, RESTTestable {
         remote.getActivityForSite(siteID,
                                   count: 20,
                                   after: dateFormatter.date(from: "1970-01-01T10:44:00+0000"),
-                                  success: { (activities, hasMore) in
+                                  success: { (_, _) in
                                       expect.fulfill()
-                                  }, failure: { error in
+                                  }, failure: { _ in
                                       XCTFail("This callback shouldn't get called")
                                       expect.fulfill()
                                   })
@@ -161,7 +161,7 @@ class ActivityServiceRemoteTests: RemoteTestCase, RESTTestable {
         stubRemoteResponse(siteActivityEndpoint, filename: getActivityAuthFailureMockFilename, contentType: .ApplicationJSON, status: 403)
         remote.getActivityForSite(siteID,
                                   count: 20,
-                                  success: { (activities, hasMore) in
+                                  success: { (_, _) in
                                       XCTFail("This callback shouldn't get called")
                                       expect.fulfill()
                                   }, failure: { error in
@@ -180,10 +180,10 @@ class ActivityServiceRemoteTests: RemoteTestCase, RESTTestable {
         stubRemoteResponse(siteActivityEndpoint, filename: getActivityBadJsonFailureMockFilename, contentType: .ApplicationJSON, status: 200)
         remote.getActivityForSite(siteID,
                                   count: 20,
-                                  success: { (activities, hasMore) in
+                                  success: { (_, _) in
                                       XCTFail("This callback shouldn't get called")
                                       expect.fulfill()
-                                 }, failure: { error in
+                                 }, failure: { _ in
                                       expect.fulfill()
                                  })
 
@@ -203,7 +203,7 @@ class ActivityServiceRemoteTests: RemoteTestCase, RESTTestable {
                                             XCTAssertTrue(groups.contains(where: { $0.key == "rewind" && $0.name == "Backups and Restores" && $0.count == 10}))
                                             expect.fulfill()
                                         },
-                                        failure: { error in
+                                        failure: { _ in
                                             XCTFail("This callback shouldn't get called")
                                             expect.fulfill()
                                         })
@@ -218,10 +218,10 @@ class ActivityServiceRemoteTests: RemoteTestCase, RESTTestable {
         remote.getActivityGroupsForSite(siteID,
                                         after: dateFormatter.date(from: "1970-01-01T10:44:00+0000"),
                                         before: dateFormatter.date(from: "1970-01-02T10:44:00+0000"),
-                                        success: { groups in
+                                        success: { _ in
                                             expect.fulfill()
                                         },
-                                        failure: { error in
+                                        failure: { _ in
                                             XCTFail("This callback shouldn't get called")
                                             expect.fulfill()
                                         })
@@ -238,7 +238,7 @@ class ActivityServiceRemoteTests: RemoteTestCase, RESTTestable {
                                         success: { groups in
                                             XCTAssertEqual(groups.count, 4, "The activity count should be 4")
                                             expect.fulfill()
-                                        }, failure: { error in
+                                        }, failure: { _ in
                                             XCTFail("This callback shouldn't get called")
                                             expect.fulfill()
                                         })
@@ -251,10 +251,10 @@ class ActivityServiceRemoteTests: RemoteTestCase, RESTTestable {
 
         stubRemoteResponse(siteActivityGroupsEndpoint, filename: getActivityGroupsBadJsonFailureMockFilename, contentType: .ApplicationJSON, status: 200)
         remote.getActivityGroupsForSite(siteID,
-                                  success: { groups in
+                                  success: { _ in
                                       XCTFail("This callback shouldn't get called")
                                       expect.fulfill()
-                                 }, failure: { error in
+                                 }, failure: { _ in
                                       expect.fulfill()
                                  })
 
@@ -265,20 +265,20 @@ class ActivityServiceRemoteTests: RemoteTestCase, RESTTestable {
         let expect = expectation(description: "Trigger restore success")
 
         stubRemoteResponse(restoreEndpoint, filename: restoreSuccessMockFilename, contentType: .ApplicationJSON)
-        
+
         remoteV1.restoreSite(siteID,
                              rewindID: rewindID,
                              success: { (restoreID, jobID) in
                                 XCTAssertEqual(restoreID, self.restoreID)
                                 XCTAssertEqual(jobID, self.jobID)
                                 expect.fulfill()
-                             }, failure: { error in
+                             }, failure: { _ in
                                 XCTFail("This callback shouldn't get called")
                                 expect.fulfill()
                              })
         waitForExpectations(timeout: timeout, handler: nil)
     }
-    
+
     func testRestoreSucceedsWithParameters() {
         let expect = expectation(description: "Trigger restore success")
 
@@ -298,7 +298,7 @@ class ActivityServiceRemoteTests: RemoteTestCase, RESTTestable {
                                 XCTAssertEqual(restoreID, self.restoreID)
                                 XCTAssertEqual(jobID, self.jobID)
                                 expect.fulfill()
-                             }, failure: { error in
+                             }, failure: { _ in
                                 XCTFail("This callback shouldn't get called")
                                 expect.fulfill()
                              })
@@ -334,7 +334,7 @@ class ActivityServiceRemoteTests: RemoteTestCase, RESTTestable {
                                    XCTAssertNotNil(rewindStatus.lastUpdated)
                                    XCTAssertNil(rewindStatus.restore)
                                    expect.fulfill()
-                               }, failure: { error in
+                               }, failure: { _ in
                                     XCTFail("This callback shouldn't get called")
                                     expect.fulfill()
                                })
@@ -354,7 +354,7 @@ class ActivityServiceRemoteTests: RemoteTestCase, RESTTestable {
                                    XCTAssertEqual(rewindStatus.restore!.progress, 100)
                                    XCTAssertNil(rewindStatus.restore!.failureReason)
                                    expect.fulfill()
-                                }, failure: { error in
+                                }, failure: { _ in
                                    XCTFail("This callback shouldn't get called")
                                    expect.fulfill()
                                 })
@@ -375,7 +375,7 @@ class ActivityServiceRemoteTests: RemoteTestCase, RESTTestable {
                                    XCTAssertNotNil(rewindStatus.restore!.failureReason)
                                    XCTAssert(rewindStatus.restore!.failureReason!.count > 0)
                                    expect.fulfill()
-                                }, failure: { error in
+                                }, failure: { _ in
                                    expect.fulfill()
                                 })
         waitForExpectations(timeout: timeout, handler: nil)
@@ -394,7 +394,7 @@ class ActivityServiceRemoteTests: RemoteTestCase, RESTTestable {
                                    XCTAssert(rewindStatus.restore!.progress > 0)
                                    XCTAssertNil(rewindStatus.restore!.failureReason)
                                    expect.fulfill()
-                               }, failure: { error in
+                               }, failure: { _ in
                                    expect.fulfill()
                                })
         waitForExpectations(timeout: timeout, handler: nil)
@@ -413,10 +413,9 @@ class ActivityServiceRemoteTests: RemoteTestCase, RESTTestable {
                                    XCTAssertEqual(rewindStatus.restore!.progress, 0)
                                    XCTAssertNil(rewindStatus.restore!.failureReason)
                                    expect.fulfill()
-                               }, failure: { error in
+                               }, failure: { _ in
                                    expect.fulfill()
                                })
         waitForExpectations(timeout: timeout, handler: nil)
     }
 }
-

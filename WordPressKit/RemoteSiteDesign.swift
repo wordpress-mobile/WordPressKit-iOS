@@ -12,7 +12,7 @@ public struct RemoteSiteDesigns: Codable {
     public init(from decoder: Decoder) throws {
         let map = try decoder.container(keyedBy: CodingKeys.self)
         designs = try map.decode([RemoteSiteDesign].self, forKey: .designs)
-        categories = try map.decode([RemoteSiteDesignCategory].self, forKey: .categories).sorted()
+        categories = try map.decode([RemoteSiteDesignCategory].self, forKey: .categories)
     }
 
     public init() {

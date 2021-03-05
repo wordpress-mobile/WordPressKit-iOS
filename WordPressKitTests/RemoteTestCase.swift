@@ -21,7 +21,6 @@ class RemoteTestCase: XCTestCase {
 
     let timeout = TimeInterval(5)
 
-
     // MARK: - Overridden Methods
 
     override func setUp() {
@@ -35,7 +34,6 @@ class RemoteTestCase: XCTestCase {
         HTTPStubs.removeAllStubs()
     }
 }
-
 
 // MARK: - Remote testing helpers
 //
@@ -54,7 +52,7 @@ extension RemoteTestCase {
             return request.url?.absoluteString.range(of: endpoint) != nil
         }) { _ in
             let stubPath = OHPathForFile(filename, type(of: self))
-            var headers: Dictionary<NSObject, AnyObject>?
+            var headers: [NSObject: AnyObject]?
 
             if contentType != .NoContentType {
                 headers = ["Content-Type" as NSObject: contentType.rawValue as AnyObject]
@@ -75,7 +73,7 @@ extension RemoteTestCase {
         stub(condition: { request in
             return request.url?.absoluteString.range(of: endpoint) != nil
         }) { _ in
-            var headers: Dictionary<NSObject, AnyObject>?
+            var headers: [NSObject: AnyObject]?
 
             if contentType != .NoContentType {
                 headers = ["Content-Type" as NSObject: contentType.rawValue as AnyObject]
@@ -106,18 +104,18 @@ extension RemoteTestCase {
             guard files.indices.contains(callCounter) else {
                 // An extra call was made to this stub and no corresponding response file existed.
                 XCTFail("Unexpected network request was made to: \(response.url!.absoluteString)")
-                let notConnectedError = NSError(domain:NSURLErrorDomain, code:Int(CFNetworkErrors.cfurlErrorNotConnectedToInternet.rawValue), userInfo:nil)
-                return HTTPStubsResponse(error:notConnectedError)
+                let notConnectedError = NSError(domain: NSURLErrorDomain, code: Int(CFNetworkErrors.cfurlErrorNotConnectedToInternet.rawValue), userInfo: nil)
+                return HTTPStubsResponse(error: notConnectedError)
             }
-            
+
             let stubPath = OHPathForFile(files[callCounter], type(of: self))
             callCounter += 1
-            
-            var headers: Dictionary<NSObject, AnyObject>?
+
+            var headers: [NSObject: AnyObject]?
             if contentType != .NoContentType {
                 headers = ["Content-Type" as NSObject: contentType.rawValue as AnyObject]
             }
-            
+
             return fixture(filePath: stubPath!, status: status, headers: headers)
         }
     }
@@ -131,12 +129,12 @@ extension RemoteTestCase {
     ///         https://github.com/AliSoftware/OHHTTPStubs/wiki/Usage-Examples#stack-multiple-stubs-and-remove-installed-stubs
     ///
     func stubAllNetworkRequestsWithNotConnectedError() {
-        stub(condition: { request in
+        stub(condition: { _ in
             return true
         }) { response in
             XCTFail("Unexpected network request was made to: \(response.url!.absoluteString)")
-            let notConnectedError = NSError(domain:NSURLErrorDomain, code:Int(CFNetworkErrors.cfurlErrorNotConnectedToInternet.rawValue), userInfo:nil)
-            return HTTPStubsResponse(error:notConnectedError)
+            let notConnectedError = NSError(domain: NSURLErrorDomain, code: Int(CFNetworkErrors.cfurlErrorNotConnectedToInternet.rawValue), userInfo: nil)
+            return HTTPStubsResponse(error: notConnectedError)
         }
     }
 
@@ -150,7 +148,7 @@ extension RemoteTestCase {
             if let documentPath = cacheDirectory.path {
                 let fileNames = try FileManager.default.contentsOfDirectory(atPath: "\(documentPath)")
                 for fileName in fileNames {
-                    if (fileName.hasSuffix(".json")) {
+                    if fileName.hasSuffix(".json") {
                         print("Removing \(fileName) from cache.")
                         let filePathName = "\(documentPath)/\(fileName)"
                         try FileManager.default.removeItem(atPath: filePathName)

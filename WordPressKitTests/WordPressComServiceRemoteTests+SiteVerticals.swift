@@ -27,7 +27,7 @@ final class SiteCreationVerticalsTests: RemoteTestCase, RESTTestable {
                 let actualLimit = verticals.count
                 XCTAssertEqual(actualLimit, expectedLimit)
 
-            case .failure(_):
+            case .failure:
                 XCTFail()
             }
         }

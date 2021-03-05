@@ -32,7 +32,7 @@ import CocoaLumberjack
             }
         )
     }
-    
+
     private static func mapPlansResponse(_ response: AnyObject) throws
         -> (activePlan: RemotePlan_ApiVersion1_3, availablePlans: [RemotePlan_ApiVersion1_3]) {
 

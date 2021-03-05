@@ -23,7 +23,7 @@ class WordPressOrgRestApiTests: XCTestCase {
     }
 
     func testUnauthorizedCall() {
-        stub(condition: isAPIRequest()) { request in
+        stub(condition: isAPIRequest()) { _ in
             let stubPath = OHPathForFile("wp-forbidden.json", type(of: self))
             return fixture(filePath: stubPath!, status: 401, headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
         }
@@ -32,9 +32,9 @@ class WordPressOrgRestApiTests: XCTestCase {
         api.GET("wp/v2/settings", parameters: nil) { (result, response) in
             expect.fulfill()
             switch result {
-            case .success(_):
+            case .success:
                 XCTFail("This call should not suceed")
-            case .failure(_):
+            case .failure:
                 XCTAssertEqual(response?.statusCode, 401, "Response should be unauthorized")
             }
         }
@@ -42,13 +42,13 @@ class WordPressOrgRestApiTests: XCTestCase {
     }
 
     func testSuccessfulCall() {
-        stub(condition: isAPIRequest()) { request in
+        stub(condition: isAPIRequest()) { _ in
             let stubPath = OHPathForFile("wp-pages.json", type(of: self))
             return fixture(filePath: stubPath!, headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
         }
         let expect = self.expectation(description: "One callback should be invoked")
         let api = WordPressOrgRestApi(apiBase: apiBase)
-        api.GET("wp/v2/pages", parameters: nil) { (result, response) in
+        api.GET("wp/v2/pages", parameters: nil) { (result, _) in
             expect.fulfill()
             switch result {
             case .success(let object):
@@ -57,7 +57,7 @@ class WordPressOrgRestApiTests: XCTestCase {
                     return
                 }
                 XCTAssertEqual(pages.count, 10, "The API should return 10 pages")
-            case .failure(_):
+            case .failure:
                 XCTFail("This call should not fail")
             }
         }

@@ -56,13 +56,13 @@ extension StatsSummaryTimeIntervalData: StatsTimeIntervalData {
         return "stats/visits"
     }
 
-    public static func queryProperties(with date: Date, period: StatsPeriodUnit, maxCount: Int) -> [String : String] {
+    public static func queryProperties(with date: Date, period: StatsPeriodUnit, maxCount: Int) -> [String: String] {
         return ["unit": period.stringValue,
                 "quantity": String(maxCount),
                 "stat_fields": "views,visitors,comments"]
     }
 
-    public init?(date: Date, period: StatsPeriodUnit, jsonDictionary: [String : AnyObject]) {
+    public init?(date: Date, period: StatsPeriodUnit, jsonDictionary: [String: AnyObject]) {
         guard
             let fieldsArray = jsonDictionary["fields"] as? [String],
             let data = jsonDictionary["data"] as? [[Any]]
@@ -199,7 +199,6 @@ private extension StatsSummaryData {
     }
 }
 
-
 /// So this is very awkward and neccessiated by our API. Turns out, calculating likes
 /// for long periods of times (months/years) on large sites takes _ages_ (up to a minute sometimes).
 /// Thankfully, calculating views/visitors/comments takes a much shorter time. (~2s, which is still suuuuuper long, but acceptable.)
@@ -226,13 +225,13 @@ extension StatsLikesSummaryTimeIntervalData: StatsTimeIntervalData {
         return "stats/visits"
     }
 
-    public static func queryProperties(with date: Date, period: StatsPeriodUnit, maxCount: Int) -> [String : String] {
+    public static func queryProperties(with date: Date, period: StatsPeriodUnit, maxCount: Int) -> [String: String] {
         return ["unit": period.stringValue,
                 "quantity": String(maxCount),
                 "stat_fields": "likes"]
     }
 
-    public init?(date: Date, period: StatsPeriodUnit, jsonDictionary: [String : AnyObject]) {
+    public init?(date: Date, period: StatsPeriodUnit, jsonDictionary: [String: AnyObject]) {
         guard
             let fieldsArray = jsonDictionary["fields"] as? [String],
             let data = jsonDictionary["data"] as? [[Any]]
@@ -257,4 +256,3 @@ extension StatsLikesSummaryTimeIntervalData: StatsTimeIntervalData {
                                                               commentsIndex: nil) }
     }
 }
-

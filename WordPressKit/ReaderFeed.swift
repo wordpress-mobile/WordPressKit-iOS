@@ -49,8 +49,8 @@ public struct ReaderFeed: Decodable {
         feedID = try? rootContainer.decode(String.self, forKey: .feedID)
         blogID = try? rootContainer.decode(String.self, forKey: .blogID)
 
-        var feedDescription: String? = nil
-        var blavatarURL: URL? = nil
+        var feedDescription: String?
+        var blavatarURL: URL?
 
         do {
             let metaContainer = try rootContainer.nestedContainer(keyedBy: MetaKeys.self, forKey: .meta)

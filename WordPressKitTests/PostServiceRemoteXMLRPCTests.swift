@@ -53,7 +53,7 @@ class PostServiceRemoteXMLRPCTests: RemoteTestCase, XMLRPCTestable {
                 XCTAssertEqual(post?.postID, self.postID, "The post ids should be equal")
                 XCTAssertEqual(post?.title, self.postTitle, "The post titles should be equal")
                 expect.fulfill()
-            }) { error in
+            }) { _ in
                 XCTFail("This callback shouldn't get called")
                 expect.fulfill()
             }
@@ -68,7 +68,7 @@ class PostServiceRemoteXMLRPCTests: RemoteTestCase, XMLRPCTestable {
         stubRemoteResponse(XMLRPCTestableConstants.xmlRpcUrl, filename: getPostBadPostIdFailureFilename, contentType: .XML)
 
         if let remoteInstance = remote as? PostServiceRemote {
-            remoteInstance.getPostWithID(postID, success: { post in
+            remoteInstance.getPostWithID(postID, success: { _ in
                 XCTFail("This callback shouldn't get called")
                 expect.fulfill()
             }) { error in
@@ -92,7 +92,7 @@ class PostServiceRemoteXMLRPCTests: RemoteTestCase, XMLRPCTestable {
         stubRemoteResponse(XMLRPCTestableConstants.xmlRpcUrl, filename: XMLRPCTestableConstants.xmlRpcBadAuthFailureFilename, contentType: .XML)
 
         if let remoteInstance = remote as? PostServiceRemote {
-            remoteInstance.getPostWithID(postID, success: { post in
+            remoteInstance.getPostWithID(postID, success: { _ in
                 XCTFail("This callback shouldn't get called")
                 expect.fulfill()
             }) { error in
@@ -116,10 +116,10 @@ class PostServiceRemoteXMLRPCTests: RemoteTestCase, XMLRPCTestable {
         stubRemoteResponse(XMLRPCTestableConstants.xmlRpcUrl, filename: getPostBadXMLFailureFilename, contentType: .XML)
 
         if let remoteInstance = remote as? PostServiceRemote {
-            remoteInstance.getPostWithID(postID, success: { post in
+            remoteInstance.getPostWithID(postID, success: { _ in
                 XCTFail("This callback shouldn't get called")
                 expect.fulfill()
-            }) { error in
+            }) { _ in
                 expect.fulfill()
             }
         }
@@ -152,7 +152,7 @@ class PostServiceRemoteXMLRPCTests: RemoteTestCase, XMLRPCTestable {
                 XCTAssertEqual(post?.title, remotePost.title, "The post titles should be equal")
                 XCTAssertEqual(post?.content, remotePost.content, "The posts' content should be equal")
                 expect.fulfill()
-            }) { error in
+            }) { _ in
                 XCTFail("This callback shouldn't get called")
                 expect.fulfill()
             }
@@ -178,7 +178,7 @@ class PostServiceRemoteXMLRPCTests: RemoteTestCase, XMLRPCTestable {
                 return post
             }()
 
-            remoteInstance.createPost(remotePost, success: { post in
+            remoteInstance.createPost(remotePost, success: { _ in
                 XCTFail("This callback shouldn't get called")
                 expect.fulfill()
             }) { error in
@@ -210,10 +210,10 @@ class PostServiceRemoteXMLRPCTests: RemoteTestCase, XMLRPCTestable {
                 return post
             }()
 
-            remoteInstance.createPost(remotePost, success: { post in
+            remoteInstance.createPost(remotePost, success: { _ in
                 XCTFail("This callback shouldn't get called")
                 expect.fulfill()
-            }) { error in
+            }) { _ in
                 expect.fulfill()
             }
         }
@@ -235,7 +235,7 @@ class PostServiceRemoteXMLRPCTests: RemoteTestCase, XMLRPCTestable {
                 return post
             }()
 
-            remoteInstance.createPost(remotePost, success: { post in
+            remoteInstance.createPost(remotePost, success: { _ in
                 XCTFail("This callback shouldn't get called")
                 expect.fulfill()
             }) { error in
@@ -278,7 +278,7 @@ class PostServiceRemoteXMLRPCTests: RemoteTestCase, XMLRPCTestable {
                 XCTAssertEqual(post?.title, remotePost.title, "The post titles should be equal")
                 XCTAssertEqual(post?.content, remotePost.content, "The posts' content should be equal")
                 expect.fulfill()
-            }) { error in
+            }) { _ in
                 XCTFail("This callback shouldn't get called")
                 expect.fulfill()
             }
@@ -302,7 +302,7 @@ class PostServiceRemoteXMLRPCTests: RemoteTestCase, XMLRPCTestable {
                 return post
             }()
 
-            remoteInstance.update(remotePost, success: { post in
+            remoteInstance.update(remotePost, success: { _ in
                 XCTFail("This callback shouldn't get called")
                 expect.fulfill()
             }) { error in
@@ -337,7 +337,7 @@ class PostServiceRemoteXMLRPCTests: RemoteTestCase, XMLRPCTestable {
                 return post
             }()
 
-            remoteInstance.update(remotePost, success: { post in
+            remoteInstance.update(remotePost, success: { _ in
                 XCTFail("This callback shouldn't get called")
                 expect.fulfill()
             }) { error in
@@ -369,10 +369,10 @@ class PostServiceRemoteXMLRPCTests: RemoteTestCase, XMLRPCTestable {
                 return post
             }()
 
-            remoteInstance.update(remotePost, success: { post in
+            remoteInstance.update(remotePost, success: { _ in
                 XCTFail("This callback shouldn't get called")
                 expect.fulfill()
-            }) { error in
+            }) { _ in
                 expect.fulfill()
             }
         }
@@ -394,7 +394,7 @@ class PostServiceRemoteXMLRPCTests: RemoteTestCase, XMLRPCTestable {
                 return post
             }()
 
-            remoteInstance.update(remotePost, success: { post in
+            remoteInstance.update(remotePost, success: { _ in
                 XCTFail("This callback shouldn't get called")
                 expect.fulfill()
             }) { error in

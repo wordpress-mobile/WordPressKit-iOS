@@ -131,7 +131,7 @@ extension WordPressComRestApiTests {
         // Given
         let inputPath = "/path/path"
         let expectedLocaleValue = "foo"
-        let params: [String : AnyObject] = [
+        let params: [String: AnyObject] = [
             WordPressComRestApi.LocaleKeyDefault: expectedLocaleValue as AnyObject
         ]
 

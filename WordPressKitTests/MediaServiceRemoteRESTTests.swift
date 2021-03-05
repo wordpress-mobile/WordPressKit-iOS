@@ -36,7 +36,7 @@ class MediaServiceRemoteRESTTests: XCTestCase {
 
         let id = 1
         let response = ["ID": id]
-        var remoteMedia: RemoteMedia? = nil
+        var remoteMedia: RemoteMedia?
         mediaServiceRemote.getMediaWithID(id as NSNumber, success: {
             remoteMedia = $0
             }, failure: nil)
@@ -47,7 +47,7 @@ class MediaServiceRemoteRESTTests: XCTestCase {
 
     func testCreateMediaPath() {
 
-        var progress: Progress? = nil
+        var progress: Progress?
         let expectedPath = mediaServiceRemote.path(forEndpoint: "sites/\(siteID)/media/new", withVersion: ._1_1)
         let media = mockRemoteMedia()
         mediaServiceRemote.uploadMedia(media, progress: &progress, success: nil, failure: nil)
@@ -59,8 +59,8 @@ class MediaServiceRemoteRESTTests: XCTestCase {
 
         let response = ["media": [["ID": 1]]]
         let media = mockRemoteMedia()
-        var progress: Progress? = nil
-        var remoteMedia: RemoteMedia? = nil
+        var progress: Progress?
+        var remoteMedia: RemoteMedia?
         mediaServiceRemote.uploadMedia(media, progress: &progress, success: {
             remoteMedia = $0
             }, failure: nil)
@@ -72,7 +72,7 @@ class MediaServiceRemoteRESTTests: XCTestCase {
 
         let response = ["errors": ["some error"]]
         let media = mockRemoteMedia()
-        var progress: Progress? = nil
+        var progress: Progress?
         var errorDescription = ""
         mediaServiceRemote.uploadMedia(media, progress: &progress, success: nil, failure: {
             errorDescription = ($0?.localizedDescription)!
@@ -83,7 +83,7 @@ class MediaServiceRemoteRESTTests: XCTestCase {
 
     func testCreateMultipleMedia() {
 
-        let response = ["media": [["ID": 1],["ID": 1]]]
+        let response = ["media": [["ID": 1], ["ID": 1]]]
         let media = [mockRemoteMedia(), mockRemoteMedia()]
         var remoteMedia: [RemoteMedia]?
         mediaServiceRemote.uploadMedia(media, requestEnqueued: { _ in }, success: {
@@ -132,19 +132,19 @@ class MediaServiceRemoteRESTTests: XCTestCase {
         let response = ["alt": alt]
         let media = mockRemoteMedia()
         media.alt = alt
-        var remoteMedia: RemoteMedia? = nil
+        var remoteMedia: RemoteMedia?
         mediaServiceRemote.update(media, success: {
             remoteMedia = $0
         }, failure: nil)
         mockRemoteApi.successBlockPassedIn?(response as AnyObject, HTTPURLResponse())
         XCTAssertEqual(remoteMedia?.alt, alt)
     }
-    
+
     func testUpdateMedia() {
 
         let response = ["ID": 1]
         let media = mockRemoteMedia()
-        var remoteMedia: RemoteMedia? = nil
+        var remoteMedia: RemoteMedia?
         mediaServiceRemote.update(media, success: {
             remoteMedia = $0
             }, failure: nil)
@@ -242,7 +242,7 @@ class MediaServiceRemoteRESTTests: XCTestCase {
         let height = 321
         let width = 432
 
-        let jsonDictionary: [String : Any] = ["ID": id,
+        let jsonDictionary: [String: Any] = ["ID": id,
                                                       "URL": url,
                                                       "guid": guid,
                                                       "date": date,
@@ -288,7 +288,7 @@ class MediaServiceRemoteRESTTests: XCTestCase {
         let height = 321
         let width = 432
 
-        let jsonDictionary1: [String : Any] = ["ID": id,
+        let jsonDictionary1: [String: Any] = ["ID": id,
                                               "URL": url,
                                               "guid": guid,
                                               "date": date,
@@ -302,7 +302,7 @@ class MediaServiceRemoteRESTTests: XCTestCase {
                                               "height": height,
                                               "width": width]
 
-        let jsonDictionary2: [String : Any] = ["ID": id2,
+        let jsonDictionary2: [String: Any] = ["ID": id2,
                                                "URL": url,
                                                "guid": guid,
                                                "date": date,
@@ -316,7 +316,6 @@ class MediaServiceRemoteRESTTests: XCTestCase {
                                                "height": height,
                                                "width": width]
         let jsonArray = [jsonDictionary1, jsonDictionary2]
-
 
         let remoteMediaArray: [RemoteMedia] = MediaServiceRemoteREST.remoteMedia(fromJSONArray: jsonArray) as! [RemoteMedia]
 

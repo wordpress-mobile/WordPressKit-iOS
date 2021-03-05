@@ -11,7 +11,7 @@ public class PluginServiceRemote: ServiceRemoteWordPressComREST {
     public func getFeaturedPlugins(success: @escaping ([PluginDirectoryEntry]) -> Void, failure: @escaping (Error) -> Void) {
         let endpoint = "wpcom/v2/plugins/featured"
 
-        wordPressComRestApi.GET(endpoint, parameters: nil, success: { (responseObject, httpResponse) in
+        wordPressComRestApi.GET(endpoint, parameters: nil, success: { (responseObject, _) in
             guard let response = responseObject as? [[String: AnyObject]] else {
                 failure(ResponseError.decodingFailure)
                 return
@@ -22,7 +22,7 @@ public class PluginServiceRemote: ServiceRemoteWordPressComREST {
             } catch {
                 failure(ResponseError.decodingFailure)
             }
-        }, failure: { (error, httpResponse) in
+        }, failure: { (error, _) in
             DDLogError("[PluginServiceRemoteError] Error fetching featured plugins: \(error)")
             failure(error)
         })
@@ -33,7 +33,7 @@ public class PluginServiceRemote: ServiceRemoteWordPressComREST {
         let path = self.path(forEndpoint: endpoint, withVersion: ._1_2)
         let parameters = [String: AnyObject]()
 
-        wordPressComRestApi.GET(path, parameters: parameters, success: { (responseObject, httpResponse) in
+        wordPressComRestApi.GET(path, parameters: parameters, success: { (responseObject, _) in
             guard let response = responseObject as? [String: AnyObject] else {
                 failure(ResponseError.decodingFailure)
                 return
@@ -45,7 +45,7 @@ public class PluginServiceRemote: ServiceRemoteWordPressComREST {
             } catch {
                 failure(self.errorFromResponse(response))
             }
-        }, failure: { (error, httpResponse) in
+        }, failure: { (error, _) in
             DDLogError("[PluginServiceRemoteError] Error fetching site plugins: \(error)")
             failure(error)
         })
@@ -123,7 +123,7 @@ public class PluginServiceRemote: ServiceRemoteWordPressComREST {
         wordPressComRestApi.POST(
             path,
             parameters: nil,
-            success: { responseObject,_  in
+            success: { responseObject, _  in
                 guard let response = responseObject as? [String: AnyObject] else {
                     failure(ResponseError.decodingFailure)
                     return
@@ -151,7 +151,7 @@ public class PluginServiceRemote: ServiceRemoteWordPressComREST {
         wordPressComRestApi.POST(
             path,
             parameters: nil,
-            success: { _,_  in
+            success: { _, _  in
                 success()
             }, failure: { (error, _) in
                 DDLogError("[PluginServiceRemoteError] Error removing plugin: \(error)")
@@ -170,7 +170,7 @@ public class PluginServiceRemote: ServiceRemoteWordPressComREST {
         wordPressComRestApi.POST(
             path,
             parameters: parameters,
-            success: { _,_  in
+            success: { _, _  in
                 success()
             },
             failure: { (error, _) in
@@ -209,7 +209,6 @@ internal extension PluginServiceRemote {
             let author = response["author"] as? String else {
                 throw ResponseError.decodingFailure
         }
-
 
         let version = (response["version"] as? String)?.nonEmptyString()
         let url = (response["plugin_url"] as? String).flatMap(URL.init(string:))

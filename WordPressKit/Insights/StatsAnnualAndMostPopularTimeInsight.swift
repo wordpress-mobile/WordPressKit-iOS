@@ -65,7 +65,7 @@ extension StatsAnnualAndMostPopularTimeInsight: StatsInsightData {
         return "stats/insights"
     }
 
-    public init?(jsonDictionary: [String : AnyObject]) {
+    public init?(jsonDictionary: [String: AnyObject]) {
         guard
             let highestHour = jsonDictionary["highest_hour"] as? Int,
             let highestHourPercentageValue = jsonDictionary["highest_hour_percent"] as? Double,

@@ -13,6 +13,7 @@ public struct SiteDesignRequest {
         var parameters: [String: AnyObject]
         parameters = [
             "preview_width": "\(thumbnailSize.width)" as AnyObject,
+            "preview_height": "\(thumbnailSize.height)" as AnyObject,
             "scale": UIScreen.main.nativeScale as AnyObject
         ]
         if 0 < groups.count {
@@ -33,7 +34,7 @@ public class SiteDesignServiceRemote {
         "language": (WordPressComLanguageDatabase().deviceLanguage.slug as AnyObject)
     ]
 
-    private static func joinParameters(_ parameters: [String : AnyObject], additionalParameters: [String : AnyObject]?) -> [String: AnyObject] {
+    private static func joinParameters(_ parameters: [String: AnyObject], additionalParameters: [String: AnyObject]?) -> [String: AnyObject] {
         guard let additionalParameters = additionalParameters else { return parameters }
         return parameters.reduce(into: additionalParameters, { (result, element) in
             result[element.key] = element.value

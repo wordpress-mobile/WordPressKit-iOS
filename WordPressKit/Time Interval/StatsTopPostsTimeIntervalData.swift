@@ -24,7 +24,7 @@ extension StatsTopPostsTimeIntervalData: StatsTimeIntervalData {
         return "stats/top-posts"
     }
 
-    public init?(date: Date, period: StatsPeriodUnit, jsonDictionary: [String : AnyObject]) {
+    public init?(date: Date, period: StatsPeriodUnit, jsonDictionary: [String: AnyObject]) {
         guard
             let unwrappedDays = type(of: self).unwrapDaysDictionary(jsonDictionary: jsonDictionary),
             let posts = unwrappedDays["postviews"] as? [[String: AnyObject]]

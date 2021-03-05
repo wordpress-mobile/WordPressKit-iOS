@@ -2,9 +2,9 @@ import XCTest
 @testable import WordPressKit
 
 class PluginDirectoryTests: XCTestCase {
-    
+
     func testPluginDirectoryEntryDecodingJetpack() {
-        let data = try! MockPluginDirectoryProvider.getPluginDirectoryMockData(with: "plugin-directory-jetpack", sender: type(of:self))
+        let data = try! MockPluginDirectoryProvider.getPluginDirectoryMockData(with: "plugin-directory-jetpack", sender: type(of: self))
         let endpoint = PluginDirectoryGetInformationEndpoint(slug: "jetpack")
 
         do {
@@ -13,7 +13,7 @@ class PluginDirectoryTests: XCTestCase {
             XCTAssertEqual(plugin.slug, "jetpack")
             XCTAssertEqual(plugin.version, "5.5.1")
             XCTAssertEqual(plugin.author, "Automattic")
-            XCTAssertEqual(plugin.authorURL, URL(string:"https://jetpack.com"))
+            XCTAssertEqual(plugin.authorURL, URL(string: "https://jetpack.com"))
             XCTAssertNotNil(plugin.icon)
             XCTAssertNotNil(plugin.banner)
 
@@ -72,7 +72,7 @@ class PluginDirectoryTests: XCTestCase {
 
         XCTAssertThrowsError(try endpoint.validate(request: request, response: response, data: "null".data(using: .utf8)))
     }
-    
+
     func testValidatePluginDirectoryFeedResponseSucceeds() throws {
         let endpoint = PluginDirectoryFeedEndpoint(feedType: .popular)
 
@@ -81,7 +81,7 @@ class PluginDirectoryTests: XCTestCase {
 
         XCTAssertNoThrow(try endpoint.validate(request: request, response: response, data: "null".data(using: .utf8)))
     }
-    
+
     func testValidatePluginDirectoryFeedResponseFails() {
         let endpoint = PluginDirectoryFeedEndpoint(feedType: .popular)
 
@@ -154,7 +154,7 @@ class PluginDirectoryTests: XCTestCase {
             XCTFail("Failed decoding plugin \(error)")
         }
     }
-    
+
     func testPluginDirectoryFeedPageDecoderSucceeds() {
         let data = try! MockPluginDirectoryProvider.getPluginDirectoryMockData(with: "plugin-directory-new", sender: type(of: self))
 
@@ -168,16 +168,16 @@ class PluginDirectoryTests: XCTestCase {
 
             let slugs = response.plugins.map { $0.slug }
             XCTAssertEqual(response.pageMetadata.pluginSlugs, slugs)
-            
+
         } catch {
             XCTFail("Failed decoding plugin \(error)")
         }
     }
-    
+
     func testPluginFeedPageDirectoryEquatable() {
         let data = try! MockPluginDirectoryProvider.getPluginDirectoryMockData(with: "plugin-directory-jetpack", sender: type(of: self))
         let endpoint = PluginDirectoryGetInformationEndpoint(slug: "jetpack")
-        
+
         do {
             let response = try endpoint.parseResponse(data: data)
             let sameResponse = try endpoint.parseResponse(data: data)
@@ -192,7 +192,6 @@ class PluginDirectoryTests: XCTestCase {
         let jetpackEndpoint = PluginDirectoryGetInformationEndpoint(slug: "jetpack")
         let jetpackBetaData = try! MockPluginDirectoryProvider.getPluginDirectoryMockData(with: "plugin-directory-jetpack-beta", sender: type(of: self))
         let jetpackBetaEndpoint = PluginDirectoryGetInformationEndpoint(slug: "jetpack-beta")
-
 
         do {
             let jetpackResponse = try jetpackEndpoint.parseResponse(data: jetpackData)
@@ -209,11 +208,11 @@ class PluginDirectoryTests: XCTestCase {
 
         let newData = try! MockPluginDirectoryProvider.getPluginDirectoryMockData(with: "plugin-directory-new", sender: type(of: self))
         let newEndpoint = PluginDirectoryFeedEndpoint(feedType: .newest)
-        
+
         do {
             let popularPluginFeedPage = try popularEndpoint.parseResponse(data: popularData)
             let newestPluginFeedPage = try newEndpoint.parseResponse(data: newData)
-            
+
             XCTAssertFalse(popularPluginFeedPage == newestPluginFeedPage)
         } catch {
             XCTFail("Couldn't decode feed pages")
@@ -228,7 +227,6 @@ class PluginDirectoryTests: XCTestCase {
         XCTAssertEqual(plugin.installationText, expectedInstallationText)
         XCTAssertEqual(plugin.faqText, expectedFAQText)
     }
-
 
     func testDirectoryEntryStarRatingOutput() {
         let plugin = MockPluginDirectoryProvider.getPluginDirectoryEntry()
@@ -252,7 +250,7 @@ class PluginDirectoryTests: XCTestCase {
     func testInitFromResponseObjectOutput() {
         let jetpackPluginMockPath = Bundle(for: type(of: self)).path(forResource: "plugin-directory-jetpack", ofType: "json")!
         let json = JSONLoader().loadFile(jetpackPluginMockPath) as AnyObject
-        guard let response = json as? [String : AnyObject] else {
+        guard let response = json as? [String: AnyObject] else {
             return
         }
 
@@ -269,7 +267,7 @@ class PluginDirectoryTests: XCTestCase {
         }
     }
 
-    func testEcodeableDecodeableReturnsCorrectly(){
+    func testEcodeableDecodeableReturnsCorrectly() {
         let plugin = MockPluginDirectoryProvider.getPluginDirectoryEntry()
         let encoder = JSONEncoder()
         let decoder = JSONDecoder()
@@ -298,7 +296,7 @@ class PluginDirectoryTests: XCTestCase {
 
         do {
             XCTAssertNoThrow(try encoder.encode(plugin), "Could not encode plugin to Json")
-            let _ = try encoder.encode(plugin)
+            _ = try encoder.encode(plugin)
         } catch {
             XCTFail("Convert to JSON Failed")
         }
