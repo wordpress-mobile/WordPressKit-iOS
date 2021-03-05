@@ -31,6 +31,7 @@ public struct RemoteLayout: Codable {
     public let preview: String?
     public let previewTablet: String?
     public let previewMobile: String?
+    public let demoUrl: String?
     public let content: String?
     public let categories: [RemoteLayoutCategory]
 
@@ -40,6 +41,7 @@ public struct RemoteLayout: Codable {
         case preview
         case previewTablet = "preview_tablet"
         case previewMobile = "preview_mobile"
+        case demoUrl = "demo_url"
         case content
         case categories
     }
@@ -51,6 +53,7 @@ public struct RemoteLayout: Codable {
         preview = try? map.decode(String.self, forKey: .preview)
         previewTablet = try? map.decode(String.self, forKey: .previewTablet)
         previewMobile = try? map.decode(String.self, forKey: .previewMobile)
+        demoUrl = try? map.decode(String.self, forKey: .demoUrl)
         content = try? map.decode(String.self, forKey: .content)
         categories = try map.decode([RemoteLayoutCategory].self, forKey: .categories)
     }
