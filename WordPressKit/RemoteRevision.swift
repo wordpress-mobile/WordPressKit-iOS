@@ -1,6 +1,5 @@
 import Foundation
 
-
 /// Revision model
 ///
 public struct RemoteRevision: Codable {

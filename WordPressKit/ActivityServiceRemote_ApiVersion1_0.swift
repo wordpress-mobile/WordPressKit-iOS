@@ -1,10 +1,9 @@
-
 @objc public class ActivityServiceRemote_ApiVersion1_0: ServiceRemoteWordPressComREST {
 
     public enum ResponseError: Error {
         case decodingFailure
     }
-    
+
     /// Makes a request to Restore a site to a previous state.
     ///
     /// - Parameters:

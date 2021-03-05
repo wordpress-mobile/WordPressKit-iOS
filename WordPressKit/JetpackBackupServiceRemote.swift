@@ -3,7 +3,7 @@ import WordPressShared
 import CocoaLumberjack
 
 open class JetpackBackupServiceRemote: ServiceRemoteWordPressComREST {
-    
+
     /// Prepare a downloadable backup snapshot for a site.
     ///
     /// - Parameters:
@@ -87,9 +87,9 @@ open class JetpackBackupServiceRemote: ServiceRemoteWordPressComREST {
                               failure: @escaping (Error) -> Void) {
         let path = backupPath(for: siteID, with: "\(downloadID)")
 
-        let parameters = ["dismissed": true] as [String : AnyObject]
+        let parameters = ["dismissed": true] as [String: AnyObject]
 
-        wordPressComRestApi.POST(path, parameters: parameters, success: { response, _ in
+        wordPressComRestApi.POST(path, parameters: parameters, success: { _, _ in
             success()
         }, failure: { error, _ in
             failure(error)

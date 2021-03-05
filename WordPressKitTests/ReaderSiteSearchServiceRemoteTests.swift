@@ -4,7 +4,7 @@ import XCTest
 
 class ReaderSiteSearchServiceRemoteTests: RemoteTestCase, RESTTestable {
 
-    /// MARK: - Constants
+    // MARK: - Constants
 
     let performSearchSuccessFilename = "reader-site-search-success.json"
     let performSearchSuccessNoIconFilename = "reader-site-search-success-no-icon.json"
@@ -14,13 +14,13 @@ class ReaderSiteSearchServiceRemoteTests: RemoteTestCase, RESTTestable {
     let performSearchBlogIDFallbackFilename = "reader-site-search-blog-id-fallback.json"
     let performSearchFailsWithNoBlogOrFeedIDFilename = "reader-site-search-no-blog-or-feed-id.json"
 
-    /// MARK: - Properties
+    // MARK: - Properties
 
     var performSearchEndpoint: String { return "read/feed" }
 
     var remote: ReaderSiteSearchServiceRemote!
 
-    /// MARK: - Overridden Methods
+    // MARK: - Overridden Methods
 
     override func setUp() {
         super.setUp()
@@ -34,7 +34,7 @@ class ReaderSiteSearchServiceRemoteTests: RemoteTestCase, RESTTestable {
         remote = nil
     }
 
-    /// MARK: - Perform Search Tests
+    // MARK: - Perform Search Tests
 
     func testPerformSearchSuccessfully() {
         let expect = expectation(description: "Perform Reader site search successfully")
@@ -46,7 +46,7 @@ class ReaderSiteSearchServiceRemoteTests: RemoteTestCase, RESTTestable {
                                 XCTAssertEqual(totalFeeds, 2, "The total feed count should be 2")
                                 XCTAssertFalse(hasMore, "The value of hasMore should be false")
                                 expect.fulfill()
-        }, failure: { error in
+        }, failure: { _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         })
@@ -76,7 +76,7 @@ class ReaderSiteSearchServiceRemoteTests: RemoteTestCase, RESTTestable {
                                 XCTAssertNil(feed.blavatarURL)
 
                                 expect.fulfill()
-        }, failure: { error in
+        }, failure: { _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         })
@@ -107,7 +107,7 @@ class ReaderSiteSearchServiceRemoteTests: RemoteTestCase, RESTTestable {
 
                                 expect.fulfill()
 
-        }, failure: { error in
+        }, failure: { _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         })
@@ -124,7 +124,7 @@ class ReaderSiteSearchServiceRemoteTests: RemoteTestCase, RESTTestable {
                                 XCTAssertEqual(totalFeeds, 3, "The total feed count should be 3")
                                 XCTAssertTrue(hasMore, "The value of hasMore should be true")
                                 expect.fulfill()
-        }, failure: { error in
+        }, failure: { _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         })
@@ -141,7 +141,7 @@ class ReaderSiteSearchServiceRemoteTests: RemoteTestCase, RESTTestable {
                                 XCTAssertEqual(totalFeeds, 2, "The total feed count should be 2")
                                 XCTAssertFalse(hasMore, "The value of hasMore should be false")
                                 expect.fulfill()
-        }, failure: { error in
+        }, failure: { _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         })
@@ -192,7 +192,7 @@ class ReaderSiteSearchServiceRemoteTests: RemoteTestCase, RESTTestable {
                                 XCTAssertEqual(feed.feedDescription, "The Art and Craft of Blogging")
 
                                 expect.fulfill()
-        }, failure: { error in
+        }, failure: { _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         })
@@ -221,7 +221,7 @@ class ReaderSiteSearchServiceRemoteTests: RemoteTestCase, RESTTestable {
                                 XCTAssertEqual(feed.feedDescription, "A daily selection of the best content published on WordPress, collected for you by humans who love to read.")
 
                                 expect.fulfill()
-        }, failure: { error in
+        }, failure: { _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         })

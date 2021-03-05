@@ -1,4 +1,3 @@
-
 import Foundation
 
 // MARK: - SiteCreationRequest
@@ -155,12 +154,12 @@ public enum SiteCreationResult {
     case failure(SiteCreationError)
 }
 
-public typealias SiteCreationResultHandler = ((SiteCreationResult) -> ())
+public typealias SiteCreationResultHandler = ((SiteCreationResult) -> Void)
 
 /// Site creation services, exclusive to WordPress.com.
 /// 
 public extension WordPressComServiceRemote {
-    
+
     /// Initiates a request to create a new WPCOM site.
     ///
     /// - Parameters:
@@ -172,7 +171,7 @@ public extension WordPressComServiceRemote {
         let endpoint = "sites/new"
         let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
 
-        let requestParameters: [String : AnyObject]
+        let requestParameters: [String: AnyObject]
         do {
             requestParameters = try encodeRequestParameters(request: request)
         } catch {
@@ -211,15 +210,15 @@ public extension WordPressComServiceRemote {
 
 private extension WordPressComServiceRemote {
 
-    func encodeRequestParameters(request: SiteCreationRequest) throws -> [String : AnyObject] {
+    func encodeRequestParameters(request: SiteCreationRequest) throws -> [String: AnyObject] {
 
         let encoder = JSONEncoder()
 
         let jsonData = try encoder.encode(request)
         let serializedJSON = try JSONSerialization.jsonObject(with: jsonData, options: [])
 
-        let requestParameters: [String : AnyObject]
-        if let jsonDictionary = serializedJSON as? [String : AnyObject] {
+        let requestParameters: [String: AnyObject]
+        if let jsonDictionary = serializedJSON as? [String: AnyObject] {
             requestParameters = jsonDictionary
         } else {
             requestParameters = [:]

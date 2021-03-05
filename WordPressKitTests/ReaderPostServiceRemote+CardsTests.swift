@@ -76,7 +76,7 @@ class ReaderPostServiceRemoteCardTests: RemoteTestCase, RESTTestable {
         let expect = expectation(description: "Returns next page handle")
         stubRemoteResponse("read/tags/cards?tags%5B%5D=dogs", filename: "reader-cards-success.json", contentType: .ApplicationJSON)
 
-        readerPostServiceRemote.fetchCards(for: ["dogs"], success: { cards, nextPageHandle in
+        readerPostServiceRemote.fetchCards(for: ["dogs"], success: { _, nextPageHandle in
             XCTAssertTrue(nextPageHandle == "ZnJvbT0xMCZiZWZvcmU9MjAyMC0wNy0yNlQxMyUzQTU1JTNBMDMlMkIwMSUzQTAw")
             expect.fulfill()
         }, failure: { _ in })
@@ -101,7 +101,7 @@ class ReaderPostServiceRemoteCardTests: RemoteTestCase, RESTTestable {
     func testCallAPIWithPopularityAsTheGivenSortingOption() {
         let readerPostServiceRemote = ReaderPostServiceRemote(wordPressComRestApi: mockRemoteApi)
 
-        readerPostServiceRemote.fetchCards(for: [], sortingOption: .popularity, success: { _¨, _ in }, failure: { _ in })
+        readerPostServiceRemote.fetchCards(for: [], sortingOption: .popularity, success: { _, _ in }, failure: { _ in })
 
         XCTAssertTrue(mockRemoteApi.getMethodCalled)
 
@@ -113,7 +113,7 @@ class ReaderPostServiceRemoteCardTests: RemoteTestCase, RESTTestable {
     func testCallAPIWithDateAsTheGivenSortingOption() {
         let readerPostServiceRemote = ReaderPostServiceRemote(wordPressComRestApi: mockRemoteApi)
 
-        readerPostServiceRemote.fetchCards(for: [], sortingOption: .date, success: { _¨, _ in }, failure: { _ in })
+        readerPostServiceRemote.fetchCards(for: [], sortingOption: .date, success: { _, _ in }, failure: { _ in })
 
         XCTAssertTrue(mockRemoteApi.getMethodCalled)
 

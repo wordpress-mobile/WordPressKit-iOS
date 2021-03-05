@@ -153,7 +153,7 @@ open class ActivityServiceRemote: ServiceRemoteWordPressComREST {
                                         failure(ResponseError.decodingFailure)
                                     }
                                 }, failure: { error, _ in
-                                    //FIXME: A hack to support free WPCom sites and Rewind. Should be obsolote as soon as the backend
+                                    // FIXME: A hack to support free WPCom sites and Rewind. Should be obsolote as soon as the backend
                                     // stops returning 412's for those sites.
                                     if let error = error as? WordPressComRestApiError, error == WordPressComRestApiError.preconditionFailure {
                                         let status = RewindStatus(state: .unavailable)
@@ -190,24 +190,24 @@ private extension ActivityServiceRemote {
 
         return (activities, totalItems)
     }
-    
+
     func mapActivityGroupsResponse(_ response: AnyObject) throws -> ([ActivityGroup]) {
         guard let json = response as? [String: AnyObject],
               let totalItems = json["totalItems"] as? Int, totalItems > 0 else {
             return []
         }
-        
+
         guard let rawGroups = json["groups"] as? [String: AnyObject] else {
                 throw ActivityServiceRemote.ResponseError.decodingFailure
         }
-        
+
         let groups: [ActivityGroup] = try rawGroups.map { (key, value) -> ActivityGroup in
             guard let group = value as? [String: AnyObject] else {
                 throw ActivityServiceRemote.ResponseError.decodingFailure
             }
             return try ActivityGroup(key, dictionary: group)
         }
-        
+
         return groups
     }
 

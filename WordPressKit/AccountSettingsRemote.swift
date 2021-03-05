@@ -34,9 +34,9 @@ public class AccountSettingsRemote: ServiceRemoteWordPressComREST {
         let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
 
         wordPressComRestApi.GET(path,
-                parameters: parameters as [String : AnyObject]?,
+                parameters: parameters as [String: AnyObject]?,
                 success: {
-                    responseObject, httpResponse in
+                    responseObject, _ in
 
                     do {
                         let settings = try self.settingsFromResponse(responseObject)
@@ -45,7 +45,7 @@ public class AccountSettingsRemote: ServiceRemoteWordPressComREST {
                         failure(error)
                     }
             },
-                failure: { error, httpResponse in
+                failure: { error, _ in
                     failure(error)
         })
     }
@@ -56,13 +56,13 @@ public class AccountSettingsRemote: ServiceRemoteWordPressComREST {
         let parameters = [fieldNameForChange(change): change.stringValue]
 
         wordPressComRestApi.POST(path,
-            parameters: parameters as [String : AnyObject]?,
+            parameters: parameters as [String: AnyObject]?,
             success: {
-                responseObject, httpResponse in
+                _, _ in
 
                 success()
             },
-            failure: { error, httpResponse in
+            failure: { error, _ in
                 failure(error)
         })
     }
@@ -81,11 +81,11 @@ public class AccountSettingsRemote: ServiceRemoteWordPressComREST {
         let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
 
         wordPressComRestApi.POST(path,
-                                 parameters: parameters as [String : AnyObject]?,
-                                 success: { responseObject, httpResponse in
+                                 parameters: parameters as [String: AnyObject]?,
+                                 success: { _, _ in
                                     success()
                                  },
-                                 failure: { error, httpResponse in
+                                 failure: { _, _ in
                                     failure()
                                  })
     }
@@ -99,16 +99,16 @@ public class AccountSettingsRemote: ServiceRemoteWordPressComREST {
     public func validateUsername(to username: String, success: @escaping () -> Void, failure: @escaping (Error) -> Void) {
         let endpoint = "me/username/validate/\(username)"
         let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
-        
+
         wordPressComRestApi.GET(path,
                                 parameters: nil,
-                                success: { responseObject, httpResponse in
+                                success: { _, _ in
                                     // The success block needs to be changed if
                                     // any allowed_actions is required
                                     // by the changeUsername API
                                     success()
         },
-                                 failure: { error, httpResponse in
+                                 failure: { error, _ in
                                     failure(error)
         })
     }
@@ -117,7 +117,7 @@ public class AccountSettingsRemote: ServiceRemoteWordPressComREST {
         let endpoint = "wpcom/v2/users/username/suggestions"
         let parameters = ["name": base]
 
-        wordPressComRestApi.GET(endpoint, parameters: parameters as [String: AnyObject]?, success: { (responseObject, httpResponse) in
+        wordPressComRestApi.GET(endpoint, parameters: parameters as [String: AnyObject]?, success: { (responseObject, _) in
             guard let response = responseObject as? [String: AnyObject],
                 let suggestions = response["suggestions"] as? [String] else {
                 finished([])
@@ -125,7 +125,7 @@ public class AccountSettingsRemote: ServiceRemoteWordPressComREST {
             }
 
             finished(suggestions)
-        }) { (error, httpResponse) in
+        }) { (_, _) in
             finished([])
         }
     }
@@ -134,18 +134,18 @@ public class AccountSettingsRemote: ServiceRemoteWordPressComREST {
         let endpoint = "me/settings"
         let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
         let parameters = ["password": password]
-        
+
         wordPressComRestApi.POST(path,
-                                 parameters: parameters as [String : AnyObject]?,
+                                 parameters: parameters as [String: AnyObject]?,
                                  success: {
-                                    responseObject, httpResponse in
+                                    _, _ in
                                     success()
         },
-                                 failure: { error, httpResponse in
+                                 failure: { error, _ in
                                     failure(error)
         })
     }
-    
+
     private func settingsFromResponse(_ responseObject: AnyObject) throws -> AccountSettings {
         guard let
             response = responseObject as? [String: AnyObject],

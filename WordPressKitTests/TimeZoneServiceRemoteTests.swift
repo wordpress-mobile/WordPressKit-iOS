@@ -45,7 +45,7 @@ class TimeZoneServiceRemoteTests: RemoteTestCase, RESTTestable {
             XCTAssertEqual(results[0].name, "Africa")
             XCTAssertEqual(results[10].name, "Manual Offsets")
             expect.fulfill()
-        }, failure: { error in
+        }, failure: { _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         })

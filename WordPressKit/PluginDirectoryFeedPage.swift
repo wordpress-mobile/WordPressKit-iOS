@@ -34,7 +34,7 @@ public struct PluginDirectoryFeedPage: Decodable, Equatable {
 
         let pageNumber = try info.decode(Int.self, forKey: .page)
 
-        pageMetadata = PluginDirectoryPageMetadata(page: pageNumber, pluginSlugs: plugins.map { $0.slug} )
+        pageMetadata = PluginDirectoryPageMetadata(page: pageNumber, pluginSlugs: plugins.map { $0.slug})
     }
 
     public static func ==(lhs: PluginDirectoryFeedPage, rhs: PluginDirectoryFeedPage) -> Bool {

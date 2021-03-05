@@ -1,4 +1,3 @@
-
 import XCTest
 @testable import WordPressKit
 
@@ -182,7 +181,7 @@ final class SiteCreationRequestEncodingTests: XCTestCase {
 /// Mark - Validations
 extension SiteCreationRequestEncodingTests {
 
-    private func encodeRequest(_ request: SiteCreationRequest) -> [String : AnyObject] {
+    private func encodeRequest(_ request: SiteCreationRequest) -> [String: AnyObject] {
         let encoder = JSONEncoder()
 
         XCTAssertNoThrow(try encoder.encode(request))
@@ -191,13 +190,13 @@ extension SiteCreationRequestEncodingTests {
         XCTAssertNoThrow(try JSONSerialization.jsonObject(with: encodedJSON, options: []))
         let serializedJSON = try! JSONSerialization.jsonObject(with: encodedJSON, options: [])
 
-        if let _ = serializedJSON as? [String : AnyObject] {} else {
+        if let _ = serializedJSON as? [String: AnyObject] {} else {
             XCTFail("Failed to encode a proper JSON dictionary!")
         }
-        return serializedJSON as! [String : AnyObject]
+        return serializedJSON as! [String: AnyObject]
     }
 
-    private func validate(_ jsonDictionary: [String : AnyObject],
+    private func validate(_ jsonDictionary: [String: AnyObject],
                           expectedSegmentId: Int64? = SiteCreationRequestEncodingTests.expectedSegmentId,
                           expectedSiteDesign: String? = SiteCreationRequestEncodingTests.expectedSiteDesign,
                           expectedPublicValue: Bool = SiteCreationRequestEncodingTests.expectedPublicValue,
@@ -229,7 +228,7 @@ extension SiteCreationRequestEncodingTests {
         let actualValidateValue = jsonDictionary["validate"] as? Bool
         XCTAssertNotNil(actualValidateValue)
 
-        let actualOptions = jsonDictionary["options"] as? [String : AnyObject]
+        let actualOptions = jsonDictionary["options"] as? [String: AnyObject]
         XCTAssertNotNil(actualOptions)
 
         let actualSegmentId = actualOptions!["site_segment"] as? Int64
@@ -238,7 +237,7 @@ extension SiteCreationRequestEncodingTests {
         let actualVerticalId = actualOptions!["site_vertical"] as? String
         XCTAssertEqual(expectedVerticalId, actualVerticalId)
 
-        let actualSiteInfo = actualOptions!["site_information"] as? [String : AnyObject]
+        let actualSiteInfo = actualOptions!["site_information"] as? [String: AnyObject]
         let actualTagline = actualSiteInfo?["site_tagline"] as? String
         XCTAssertEqual(expectedTagline, actualTagline)
 

@@ -1,14 +1,13 @@
 import XCTest
 @testable import WordPressKit
 
-
 class ReaderTopicServiceRemoteTestSubscriptions: XCTestCase {
     let mockRemoteApi = MockWordPressComRestApi()
     let response = [String: AnyObject]()
     let siteId = 0
     var failure: ((ReaderTopicServiceError?) -> Void)!
     var readerTopicServiceRemote: ReaderTopicServiceRemote!
-    
+
     override func setUp() {
         super.setUp()
         readerTopicServiceRemote = ReaderTopicServiceRemote(wordPressComRestApi: mockRemoteApi)
@@ -16,7 +15,7 @@ class ReaderTopicServiceRemoteTestSubscriptions: XCTestCase {
             fatalError()
         }
     }
-    
+
     func testSubscribeNotification() {
         var success = false
         let expectedPath = "wpcom/v2/read/sites/0/notification-subscriptions/new/"
@@ -28,7 +27,7 @@ class ReaderTopicServiceRemoteTestSubscriptions: XCTestCase {
         mockRemoteApi.successBlockPassedIn?(response as AnyObject, HTTPURLResponse())
         XCTAssertTrue(success)
     }
-    
+
     func testUnsubscribeNotification() {
         var success = false
         let expectedPath = "wpcom/v2/read/sites/0/notification-subscriptions/delete/"
@@ -40,7 +39,7 @@ class ReaderTopicServiceRemoteTestSubscriptions: XCTestCase {
         mockRemoteApi.successBlockPassedIn?(response as AnyObject, HTTPURLResponse())
         XCTAssertTrue(success)
     }
-    
+
     func testSubscribeComments() {
         var success = false
         let expectedPath = "rest/v1.2/read/site/0/comment_email_subscriptions/new/"
@@ -52,7 +51,7 @@ class ReaderTopicServiceRemoteTestSubscriptions: XCTestCase {
         mockRemoteApi.successBlockPassedIn?(response as AnyObject, HTTPURLResponse())
         XCTAssertTrue(success)
     }
-    
+
     func testUnsubscribeComments() {
         var success = false
         let expectedPath = "rest/v1.2/read/site/0/comment_email_subscriptions/delete/"
@@ -64,7 +63,7 @@ class ReaderTopicServiceRemoteTestSubscriptions: XCTestCase {
         mockRemoteApi.successBlockPassedIn?(response as AnyObject, HTTPURLResponse())
         XCTAssertTrue(success)
     }
-    
+
     func testSubscribePostsEmail() {
         var success = false
         let expectedPath = "rest/v1.2/read/site/0/post_email_subscriptions/new/"
@@ -76,7 +75,7 @@ class ReaderTopicServiceRemoteTestSubscriptions: XCTestCase {
         mockRemoteApi.successBlockPassedIn?(response as AnyObject, HTTPURLResponse())
         XCTAssertTrue(success)
     }
-    
+
     func testUnsubscribePostsEmail() {
         var success = false
         let expectedPath = "rest/v1.2/read/site/0/post_email_subscriptions/delete/"
@@ -88,11 +87,11 @@ class ReaderTopicServiceRemoteTestSubscriptions: XCTestCase {
         mockRemoteApi.successBlockPassedIn?(response as AnyObject, HTTPURLResponse())
         XCTAssertTrue(success)
     }
-    
+
     func testUdatePostsEmail() {
         var success = false
         let expectedPath = "rest/v1.2/read/site/0/post_email_subscriptions/update/"
-        
+
         readerTopicServiceRemote.updateFrequencyPostsEmail(with: siteId, frequency: .weekly, {
             success = true
         }, failure)
@@ -100,12 +99,12 @@ class ReaderTopicServiceRemoteTestSubscriptions: XCTestCase {
         XCTAssertEqual(mockRemoteApi.URLStringPassedIn, expectedPath, "Wrong path")
         mockRemoteApi.successBlockPassedIn?(response as AnyObject, HTTPURLResponse())
         XCTAssertTrue(success)
-        
+
         guard let parameters = mockRemoteApi.parametersPassedIn as? [String: AnyObject],
             let frequency = parameters["delivery_frequency"] as? String else {
             fatalError()
         }
-        
+
         XCTAssertEqual(frequency, ReaderServiceDeliveryFrequency.weekly.rawValue)
     }
 }

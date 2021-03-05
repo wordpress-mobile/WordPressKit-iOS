@@ -48,12 +48,11 @@ class SiteManagementServiceRemoteTests: RemoteTestCase, RESTTestable {
 
     override func tearDown() {
         super.tearDown()
-        
+
         remote = nil
     }
 
     // MARK: - Delete Site Tests
-
 
     func testDeleteSiteSucceeds() {
         let expect = expectation(description: "Delete site success")
@@ -61,7 +60,7 @@ class SiteManagementServiceRemoteTests: RemoteTestCase, RESTTestable {
         stubRemoteResponse(siteDeleteEndpoint, filename: deleteSiteSuccessMockFilename, contentType: .ApplicationJSON)
         remote.deleteSite(NSNumber(value: Int32(siteID)), success: {
             expect.fulfill()
-        }, failure: { error in
+        }, failure: { _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         })
@@ -118,7 +117,7 @@ class SiteManagementServiceRemoteTests: RemoteTestCase, RESTTestable {
         remote.deleteSite(NSNumber(value: Int32(siteID)), success: {
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
-        }, failure: { error in
+        }, failure: { _ in
             expect.fulfill()
         })
 
@@ -175,7 +174,7 @@ class SiteManagementServiceRemoteTests: RemoteTestCase, RESTTestable {
         stubRemoteResponse(siteExportStartEndpoint, filename: exportContentSuccessMockFilename, contentType: .ApplicationJSON)
         remote.exportContent(NSNumber(value: Int32(siteID)), success: {
             expect.fulfill()
-        }, failure: { error in
+        }, failure: { _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         })
@@ -253,7 +252,7 @@ class SiteManagementServiceRemoteTests: RemoteTestCase, RESTTestable {
         remote.exportContent(NSNumber(value: Int32(siteID)), success: {
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
-        }, failure: { error in
+        }, failure: { _ in
             expect.fulfill()
         })
 
@@ -311,7 +310,7 @@ class SiteManagementServiceRemoteTests: RemoteTestCase, RESTTestable {
         remote.getActivePurchases(NSNumber(value: Int32(siteID)), success: { purchases in
             XCTAssertEqual(purchases.count, 2, "There should be 2 purchases here")
             expect.fulfill()
-        }, failure: { error in
+        }, failure: { _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         })
@@ -326,7 +325,7 @@ class SiteManagementServiceRemoteTests: RemoteTestCase, RESTTestable {
         remote.getActivePurchases(NSNumber(value: Int32(siteID)), success: { purchases in
             XCTAssertEqual(purchases.count, 0, "There should be 0 purchases here")
             expect.fulfill()
-        }, failure: { error in
+        }, failure: { _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         })
@@ -341,7 +340,7 @@ class SiteManagementServiceRemoteTests: RemoteTestCase, RESTTestable {
         remote.getActivePurchases(NSNumber(value: Int32(siteID)), success: { purchases in
             XCTAssertEqual(purchases.count, 0, "There should be 0 purchases here")
             expect.fulfill()
-        }, failure: { error in
+        }, failure: { _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         })
@@ -353,7 +352,7 @@ class SiteManagementServiceRemoteTests: RemoteTestCase, RESTTestable {
         let expect = expectation(description: "Get active purchases server error failure")
 
         stubRemoteResponse(sitePurchasesEndpoint, data: Data(), contentType: .NoContentType, status: 500)
-        remote.getActivePurchases(NSNumber(value: Int32(siteID)), success: { purchases in
+        remote.getActivePurchases(NSNumber(value: Int32(siteID)), success: { _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         }, failure: { error in
@@ -374,7 +373,7 @@ class SiteManagementServiceRemoteTests: RemoteTestCase, RESTTestable {
         let expect = expectation(description: "Get active purchases with bad auth failure")
 
         stubRemoteResponse(sitePurchasesEndpoint, filename: getActivePurchasesAuthFailureMockFilename, contentType: .ApplicationJSON, status: 403)
-        remote.getActivePurchases(NSNumber(value: Int32(siteID)), success: { purchases in
+        remote.getActivePurchases(NSNumber(value: Int32(siteID)), success: { _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         }, failure: { error in
@@ -395,10 +394,10 @@ class SiteManagementServiceRemoteTests: RemoteTestCase, RESTTestable {
         let expect = expectation(description: "Get active purchases with invalid json response failure")
 
         stubRemoteResponse(sitePurchasesEndpoint, filename: getActivePurchasesBadJsonFailureMockFilename, contentType: .ApplicationJSON, status: 200)
-        remote.getActivePurchases(NSNumber(value: Int32(siteID)), success: { purchases in
+        remote.getActivePurchases(NSNumber(value: Int32(siteID)), success: { _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
-        }, failure: { error in
+        }, failure: { _ in
             expect.fulfill()
         })
 
@@ -409,7 +408,7 @@ class SiteManagementServiceRemoteTests: RemoteTestCase, RESTTestable {
         let expect = expectation(description: "Get active purchases with unexpected (valid) json response failure")
 
         stubRemoteResponse(sitePurchasesEndpoint, filename: deleteSiteUnexpectedJsonFailureMockFilename, contentType: .ApplicationJSON, status: 200)
-        remote.getActivePurchases(NSNumber(value: Int32(siteID)), success: { purchases in
+        remote.getActivePurchases(NSNumber(value: Int32(siteID)), success: { _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         }, failure: { error in
@@ -425,34 +424,34 @@ class SiteManagementServiceRemoteTests: RemoteTestCase, RESTTestable {
 
         waitForExpectations(timeout: timeout, handler: nil)
     }
-    
+
     // MARK: - Mark Site Quick Start As Completed Tests
-    
+
     func testMarkQuickStartAsCompletedSuccess() {
         let expect = expectation(description: "Mark Site Quick Start as Completed success test")
-        
+
         stubRemoteResponse(siteMarkQuickStartAsCompletedEndPoint, filename: markQuickStartAsCompletedSuccessMockFilename, contentType: .ApplicationJSON)
         remote.markQuickStartChecklistAsComplete(NSNumber(value: Int32(siteID)), success: {
             expect.fulfill()
-        }, failure: { error in
+        }, failure: { _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         })
-        
+
         waitForExpectations(timeout: timeout, handler: nil)
     }
-    
+
     func testMarkQuickStartAsCompletedFailure() {
         let expect = expectation(description: "Mark Site Quick Start as Completed failure test")
-        
+
         stubRemoteResponse(siteMarkQuickStartAsCompletedEndPoint, filename: markQuickStartAsCompletedFailureMockFilename, contentType: .ApplicationJSON, status: 403)
         remote.markQuickStartChecklistAsComplete(NSNumber(value: Int32(siteID)), success: {
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
-        }, failure: { error in
+        }, failure: { _ in
             expect.fulfill()
         })
-        
+
         waitForExpectations(timeout: timeout, handler: nil)
     }
 

@@ -1,8 +1,7 @@
-
 import Foundation
 
 @objc open class JSONLoader: NSObject {
-    public typealias JSONDictionary = Dictionary<String, AnyObject>
+    public typealias JSONDictionary = [String: AnyObject]
 
     /**
     *  @brief      Loads the specified json file name and returns a dictionary representing it.
@@ -39,7 +38,7 @@ import Foundation
     }
 
     private func parseData(_ data: Data) -> JSONDictionary? {
-        let options: JSONSerialization.ReadingOptions = [.mutableContainers , .mutableLeaves]
+        let options: JSONSerialization.ReadingOptions = [.mutableContainers, .mutableLeaves]
 
         do {
             let parseResult = try JSONSerialization.jsonObject(with: data as Data, options: options)

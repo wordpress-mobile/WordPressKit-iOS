@@ -117,7 +117,6 @@ extension StatsPostViews {
                 return nil
             }
 
-
             return StatsWeeklyBreakdown(startDay: mappedDays.first!.date,
                                         endDay: mappedDays.last!.date,
                                         totalViewsCount: totalViews,

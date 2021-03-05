@@ -15,7 +15,7 @@ public struct PluginState: Equatable, Codable {
             }
         }
 
-        private enum CodingKeys: String, CodingKey  {
+        private enum CodingKeys: String, CodingKey {
             case updated
             case available
             case updating
@@ -82,7 +82,7 @@ public struct PluginState: Equatable, Codable {
             && lhs.autoupdate == rhs.autoupdate
             && lhs.automanaged == rhs.automanaged
             && lhs.url == rhs.url
-    }    
+    }
 }
 
 public extension PluginState {

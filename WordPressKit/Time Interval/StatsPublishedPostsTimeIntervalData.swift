@@ -18,14 +18,14 @@ extension StatsPublishedPostsTimeIntervalData: StatsTimeIntervalData {
         return "posts/"
     }
 
-    public init?(date: Date, period: StatsPeriodUnit, jsonDictionary: [String : AnyObject]) {
+    public init?(date: Date, period: StatsPeriodUnit, jsonDictionary: [String: AnyObject]) {
         guard let posts = jsonDictionary["posts"] as? [[String: AnyObject]] else {
             return nil
         }
 
         self.periodEndDate = date
         self.period = period
-        self.publishedPosts = posts.compactMap { StatsTopPost(postsJSONDictionary:$0) }
+        self.publishedPosts = posts.compactMap { StatsTopPost(postsJSONDictionary: $0) }
     }
 }
 

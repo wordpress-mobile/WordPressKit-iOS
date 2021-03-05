@@ -57,10 +57,10 @@ class EditorServiceRemoteTests: XCTestCase {
         let expec = expectation(description: "success")
         let response: [String: String] = [
             "editor_mobile_bad": "gutenberg",
-            "editor_web": "gutenberg",
+            "editor_web": "gutenberg"
         ]
 
-        editorServiceRemote.postDesignateMobileEditor(siteID, editor: .gutenberg, success: { editor in
+        editorServiceRemote.postDesignateMobileEditor(siteID, editor: .gutenberg, success: { _ in
             XCTFail("This should fail")
             expec.fulfill()
         }) { (error) in
@@ -77,9 +77,9 @@ class EditorServiceRemoteTests: XCTestCase {
         let expec = expectation(description: "success")
         let response: [String: String] = [
             "editor_mobile": "guten_BORG",
-            "editor_web": "guten_WRONG",
+            "editor_web": "guten_WRONG"
         ]
-        editorServiceRemote.postDesignateMobileEditor(siteID, editor: .gutenberg, success: { editor in
+        editorServiceRemote.postDesignateMobileEditor(siteID, editor: .gutenberg, success: { _ in
             XCTFail("This should throw an error")
             expec.fulfill()
         }) { (error) in
@@ -167,7 +167,7 @@ class EditorServiceRemoteTests: XCTestCase {
         let expec = expectation(description: "success")
         let errorExpec = NSError(domain: NSURLErrorDomain, code: NSURLErrorUnknown, userInfo: nil)
 
-        editorServiceRemote.getEditorSettings(siteID, success: { (editor) in
+        editorServiceRemote.getEditorSettings(siteID, success: { (_) in
             XCTFail("This call should error")
             expec.fulfill()
         }) { (error) in
@@ -186,7 +186,7 @@ class EditorServiceRemoteTests: XCTestCase {
 
         let response: [String: String] = [
             "1": editor.rawValue,
-            "2": editor.rawValue,
+            "2": editor.rawValue
         ]
 
         let expected: [Int: EditorSettings.Mobile] = [
@@ -197,7 +197,7 @@ class EditorServiceRemoteTests: XCTestCase {
         editorServiceRemote.postDesignateMobileEditorForAllSites(editor, success: {
             XCTAssertEqual($0, expected)
             expec.fulfill()
-        }) { (error) in
+        }) { (_) in
             XCTFail("This call should NOT error")
             expec.fulfill()
         }
@@ -214,7 +214,7 @@ class EditorServiceRemoteTests: XCTestCase {
 
         let response: [String: String] = [
             "1": editor.rawValue,
-            "2": editor.rawValue,
+            "2": editor.rawValue
         ]
 
         let expected: [Int: EditorSettings.Mobile] = [
@@ -225,7 +225,7 @@ class EditorServiceRemoteTests: XCTestCase {
         editorServiceRemote.postDesignateMobileEditorForAllSites(editor, success: {
             XCTAssertEqual($0, expected)
             expec.fulfill()
-        }) { (error) in
+        }) { (_) in
             XCTFail("This call should NOT error")
             expec.fulfill()
         }
@@ -241,7 +241,7 @@ extension EditorServiceRemoteTests {
     func mockResponse(forMobile mobile: EditorSettings.Mobile, andWeb web: EditorSettings.Web) -> [String: String] {
         return [
             "editor_mobile": mobile.rawValue,
-            "editor_web": web.rawValue,
+            "editor_web": web.rawValue
         ]
     }
 }

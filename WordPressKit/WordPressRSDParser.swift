@@ -16,7 +16,6 @@ open class WordPressRSDParser: NSObject, XMLParserDelegate {
         parser.delegate = self
     }
 
-
     func parsedEndpoint() throws -> String? {
         if parser.parse() {
             return endpoint
@@ -32,7 +31,7 @@ open class WordPressRSDParser: NSObject, XMLParserDelegate {
                 didStartElement elementName: String,
                                 namespaceURI: String?,
                                 qualifiedName qName: String?,
-                                              attributes attributeDict: [String : String]) {
+                                              attributes attributeDict: [String: String]) {
         if elementName == "api" {
             if let apiName = attributeDict["name"], apiName == "WordPress" {
                 if let endpoint = attributeDict["apiLink"] {

@@ -11,7 +11,7 @@ import Foundation
     ///     - success: Closure to be executed on success. Can be nil.
     ///     - failure: Closure to be executed on failure. Can be nil.
     ///
-    @objc open func authorizeLogin(_ token: String, success: (() -> ())?, failure: (() -> ())?) {
+    @objc open func authorizeLogin(_ token: String, success: (() -> Void)?, failure: (() -> Void)?) {
         let path = "me/two-step/push-authentication"
         let requestUrl = self.path(forEndpoint: path, withVersion: ._1_1)
 
@@ -21,10 +21,10 @@ import Foundation
         ]
 
         wordPressComRestApi.POST(requestUrl, parameters: parameters as [String: AnyObject],
-                                 success: { (response: AnyObject, httpResponse: HTTPURLResponse?) -> Void in
+                                 success: { (_: AnyObject, _: HTTPURLResponse?) -> Void in
                                     success?()
                                  },
-                                 failure: { (error: NSError, httpResponse: HTTPURLResponse?) -> Void in
+                                 failure: { (_: NSError, _: HTTPURLResponse?) -> Void in
                                     failure?()
                                  })
     }
