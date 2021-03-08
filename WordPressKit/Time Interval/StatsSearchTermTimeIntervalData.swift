@@ -38,7 +38,7 @@ extension StatsSearchTermTimeIntervalData: StatsTimeIntervalData {
         return "stats/search-terms"
     }
 
-    public init?(date: Date, period: StatsPeriodUnit, jsonDictionary: [String : AnyObject]) {
+    public init?(date: Date, period: StatsPeriodUnit, jsonDictionary: [String: AnyObject]) {
         guard
             let unwrappedDays = type(of: self).unwrapDaysDictionary(jsonDictionary: jsonDictionary),
             let totalSearchTerms = unwrappedDays["total_search_terms"] as? Int,
@@ -57,7 +57,6 @@ extension StatsSearchTermTimeIntervalData: StatsTimeIntervalData {
             return StatsSearchTerm(term: term, viewsCount: views)
         }
 
-
         self.periodEndDate = date
         self.period = period
         self.totalSearchTermsCount = totalSearchTerms
@@ -67,4 +66,3 @@ extension StatsSearchTermTimeIntervalData: StatsTimeIntervalData {
     }
 
 }
-

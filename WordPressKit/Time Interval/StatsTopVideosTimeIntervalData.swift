@@ -42,7 +42,7 @@ extension StatsTopVideosTimeIntervalData: StatsTimeIntervalData {
         return "stats/video-plays"
     }
 
-    public init?(date: Date, period: StatsPeriodUnit, jsonDictionary: [String : AnyObject]) {
+    public init?(date: Date, period: StatsPeriodUnit, jsonDictionary: [String: AnyObject]) {
         guard
             let unwrappedDays = type(of: self).unwrapDaysDictionary(jsonDictionary: jsonDictionary),
             let totalPlayCount = unwrappedDays["total_plays"] as? Int,

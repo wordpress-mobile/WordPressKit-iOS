@@ -19,7 +19,6 @@ struct MockPluginStateProvider: DynamicMockProvider {
         return jetpackDevPlugin
     }
 
-    
     static func getDynamicValuePluginState(setToActive active: Bool = false, autoupdate: Bool = false, automanaged: Bool = false, updateState: PluginState.UpdateState = PluginState.UpdateState.updated) -> PluginState {
         return PluginState(id: MockPluginStateProvider.getDynamicPluginID(),
                            slug: MockPluginStateProvider.randomIntAsString(limit: 25),
@@ -34,7 +33,7 @@ struct MockPluginStateProvider: DynamicMockProvider {
                            settingsURL: nil
         )
     }
-    
+
     static func getDynamicPluginStateJSONResponse() throws -> Data {
         let slug = randomString(length: 10)
 
@@ -52,7 +51,7 @@ struct MockPluginStateProvider: DynamicMockProvider {
 
         let jsonEncoder = JSONEncoder()
         let data = try jsonEncoder.encode(pluginState)
-        
+
         return data
     }
 
@@ -76,19 +75,19 @@ struct MockPluginStateProvider: DynamicMockProvider {
 
             return data
         }
-    
+
     private static func getDynamicPluginID() -> String {
         let id = MockPluginStateProvider.randomString(length: 10)
-        
+
         return id + "/" + id
     }
-    
+
     static func getEncodedUpdateState(state: PluginState.UpdateState) throws -> Data {
         var data = Data()
         let encoder = JSONEncoder()
 
         data = try encoder.encode(state)
-        
+
         return data
     }
 
@@ -128,4 +127,3 @@ struct EncodableMockPluginState: Encodable {
         case settingsURL = "Settings"
     }
 }
-

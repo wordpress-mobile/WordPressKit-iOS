@@ -15,7 +15,6 @@ class PlanServiceRemoteTests: RemoteTestCase, RESTTestable {
     let getWpcomPlansSuccessMockFilename                 = "plans-mobile-success.json"
     let getPlansMeSitesSuccessMockFilename               = "plans-me-sites-success.json"
 
-
     // MARK: - Properties
 
     var sitePlansEndpoint: String { return "sites/\(siteID)/plans" }
@@ -24,7 +23,7 @@ class PlanServiceRemoteTests: RemoteTestCase, RESTTestable {
 
     var remote: PlanServiceRemote!
     var remoteV3: PlanServiceRemote_ApiVersion1_3!
-    
+
     // MARK: - Overridden Methods
 
     override func setUp() {
@@ -44,26 +43,26 @@ class PlanServiceRemoteTests: RemoteTestCase, RESTTestable {
 
     func testGetPlansSucceeds_ApiVersion1_3() {
         let expect = expectation(description: "Get plans for site success")
-        
+
         stubRemoteResponse(sitePlansEndpoint, filename: getPlansSuccessMockFilename_ApiVersion1_3, contentType: .ApplicationJSON)
-        
+
         remoteV3.getPlansForSite(siteID, success: { sitePlans in
             XCTAssertEqual(sitePlans.activePlan.hasDomainCredit, true, "Active plan should have domain credit")
             XCTAssertEqual(sitePlans.availablePlans.count, 7, "The availible plans count should be 7")
             expect.fulfill()
-        }) { error in
+        }) { _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         }
-        
+
         waitForExpectations(timeout: timeout, handler: nil)
     }
-    
+
     func testGetPlansWithEmptyResponseArrayFails_ApiVersion1_3() {
         let expect = expectation(description: "Get plans with empty response array success")
-        
+
         stubRemoteResponse(sitePlansEndpoint, filename: getPlansEmptyFailureMockFilename_ApiVersion1_3, contentType: .ApplicationJSON)
-        remoteV3.getPlansForSite(siteID, success: { sitePlans in
+        remoteV3.getPlansForSite(siteID, success: { _ in
             XCTFail("The site should always return plans.")
             expect.fulfill()
         }, failure: { error in
@@ -72,21 +71,21 @@ class PlanServiceRemoteTests: RemoteTestCase, RESTTestable {
             XCTAssertEqual(error.code, PlanServiceRemote.ResponseError.noActivePlan.rawValue, "The error code should be 2 - no active plan")
             expect.fulfill()
         })
-        
+
         waitForExpectations(timeout: timeout, handler: nil)
     }
-    
+
     func testGetPlansWithBadJsonFails_ApiVersion1_3() {
         let expect = expectation(description: "Get plans with invalid json response failure")
-        
+
         stubRemoteResponse(sitePlansEndpoint, filename: getPlansBadJsonFailureMockFilename_ApiVersion1_3, contentType: .ApplicationJSON, status: 200)
-        remoteV3.getPlansForSite(siteID, success: { sitePlans in
+        remoteV3.getPlansForSite(siteID, success: { _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
-        }, failure: { error in
+        }, failure: { _ in
             expect.fulfill()
         })
-        
+
         waitForExpectations(timeout: timeout, handler: nil)
     }
 
@@ -103,7 +102,7 @@ class PlanServiceRemoteTests: RemoteTestCase, RESTTestable {
             XCTAssertEqual(plans.groups.count, 2, "The number of groups returned should be 2.")
 
             expect.fulfill()
-        }) { error in
+        }) { _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         }
@@ -115,7 +114,7 @@ class PlanServiceRemoteTests: RemoteTestCase, RESTTestable {
         let expect = expectation(description: "Get plans server error failure")
 
         stubRemoteResponse(plansMobileEndpoint, data: Data(), contentType: .NoContentType, status: 500)
-        remote.getWpcomPlans({ plans in
+        remote.getWpcomPlans({ _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         }, failure: { error in
@@ -132,10 +131,10 @@ class PlanServiceRemoteTests: RemoteTestCase, RESTTestable {
         let expect = expectation(description: "Get plans with invalid json response failure")
 
         stubRemoteResponse(plansMobileEndpoint, filename: getPlansBadJsonFailureMockFilename, contentType: .ApplicationJSON, status: 200)
-        remote.getWpcomPlans({ plans in
+        remote.getWpcomPlans({ _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
-        }, failure: { error in
+        }, failure: { _ in
             expect.fulfill()
         })
 
@@ -180,7 +179,7 @@ class PlanServiceRemoteTests: RemoteTestCase, RESTTestable {
         }
         """
         let data = str.data(using: .utf8)!
-        let json = (try? JSONSerialization.jsonObject(with: data, options: [])) as! [String : AnyObject]
+        let json = (try? JSONSerialization.jsonObject(with: data, options: [])) as! [String: AnyObject]
         XCTAssertNotNil(remote.parseWpcomPlan(json))
     }
 
@@ -192,7 +191,7 @@ class PlanServiceRemoteTests: RemoteTestCase, RESTTestable {
         }
         """
         let data = str.data(using: .utf8)!
-        let json = (try? JSONSerialization.jsonObject(with: data, options: [])) as! [String : AnyObject]
+        let json = (try? JSONSerialization.jsonObject(with: data, options: [])) as! [String: AnyObject]
         XCTAssertNotNil(remote.parsePlanGroup(json))
     }
 
@@ -205,7 +204,7 @@ class PlanServiceRemoteTests: RemoteTestCase, RESTTestable {
         }
         """
         let data = str.data(using: .utf8)!
-        let json = (try? JSONSerialization.jsonObject(with: data, options: [])) as! [String : AnyObject]
+        let json = (try? JSONSerialization.jsonObject(with: data, options: [])) as! [String: AnyObject]
         XCTAssertNotNil(remote.parsePlanFeature(json))
     }
 
@@ -216,7 +215,7 @@ class PlanServiceRemoteTests: RemoteTestCase, RESTTestable {
         }
         """
         let data = str.data(using: .utf8)!
-        let json = (try? JSONSerialization.jsonObject(with: data, options: [])) as! [String : AnyObject]
+        let json = (try? JSONSerialization.jsonObject(with: data, options: [])) as! [String: AnyObject]
         XCTAssertNil(remote.parseWpcomPlan(json))
         XCTAssertNil(remote.parsePlanGroup(json))
         XCTAssertNil(remote.parsePlanFeature(json))
@@ -231,7 +230,7 @@ class PlanServiceRemoteTests: RemoteTestCase, RESTTestable {
         remote.getPlanDescriptionsForAllSitesForLocale("en", success: { (response) in
             XCTAssertEqual(response.count, 5)
             expect.fulfill()
-        }) { error in
+        }) { _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         }
@@ -243,7 +242,7 @@ class PlanServiceRemoteTests: RemoteTestCase, RESTTestable {
         let expect = expectation(description: "Get plan descriptions failure")
         stubRemoteResponse(meSitesEndpoint, data: Data(), contentType: .NoContentType, status: 500)
 
-        remote.getPlanDescriptionsForAllSitesForLocale("en", success: { (response) in
+        remote.getPlanDescriptionsForAllSitesForLocale("en", success: { (_) in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         }) { error in
@@ -270,13 +269,12 @@ class PlanServiceRemoteTests: RemoteTestCase, RESTTestable {
         }
         """
         let data1 = str1.data(using: .utf8)!
-        let json1 = (try? JSONSerialization.jsonObject(with: data1, options: [])) as! [String : AnyObject]
+        let json1 = (try? JSONSerialization.jsonObject(with: data1, options: [])) as! [String: AnyObject]
 
         let result = remote.parsePlanDescriptionForSite(json1)!
 
         XCTAssertEqual(result.siteID, 1)
         XCTAssertTrue(result.plan.name.contains(jetpackFlag))
-
 
         let str2 = """
         {
@@ -289,7 +287,7 @@ class PlanServiceRemoteTests: RemoteTestCase, RESTTestable {
         }
         """
         let data2 = str2.data(using: .utf8)!
-        let json2 = (try? JSONSerialization.jsonObject(with: data2, options: [])) as! [String : AnyObject]
+        let json2 = (try? JSONSerialization.jsonObject(with: data2, options: [])) as! [String: AnyObject]
 
         let result2 = remote.parsePlanDescriptionForSite(json2)!
 

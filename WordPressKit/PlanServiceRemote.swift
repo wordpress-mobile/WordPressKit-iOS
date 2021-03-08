@@ -16,7 +16,7 @@ public class PlanServiceRemote: ServiceRemoteWordPressComREST {
         case noActivePlan
     }
 
-    // MARK - Endpoints
+    // MARK: - Endpoints
 
     /// Get the list of WordPress.com plans, their descriptions, and their features.
     ///
@@ -45,7 +45,6 @@ public class PlanServiceRemote: ServiceRemoteWordPressComREST {
         })
     }
 
-
     /// Fetch the plan ID and name for each of the user's sites.
     /// Accepts locale as a parameter in order to override automatic localization
     /// and return non-localized results when needed.
@@ -53,7 +52,7 @@ public class PlanServiceRemote: ServiceRemoteWordPressComREST {
     public func getPlanDescriptionsForAllSitesForLocale(_ locale: String, success: @escaping ([Int: RemotePlanSimpleDescription]) -> Void, failure: @escaping (Error) -> Void) {
         let endpoint = "me/sites"
         let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
-        let parameters:[String: String] = [
+        let parameters: [String: String] = [
             "fields": "ID, plan",
             "locale": locale
         ]
@@ -77,8 +76,7 @@ public class PlanServiceRemote: ServiceRemoteWordPressComREST {
         })
     }
 
-
-    // MARK - Non-public methods
+    // MARK: - Non-public methods
 
     func parsePlanDescriptionsForSites(_ response: EndpointResponse) -> [Int: RemotePlanSimpleDescription] {
         var result = [Int: RemotePlanSimpleDescription]()
@@ -99,7 +97,6 @@ public class PlanServiceRemote: ServiceRemoteWordPressComREST {
         return result
     }
 
-
     func parsePlanDescriptionForSite(_ site: EndpointResponse) -> (siteID: Int, plan: RemotePlanSimpleDescription)? {
         guard
             let siteID = site["ID"] as? Int,
@@ -118,7 +115,6 @@ public class PlanServiceRemote: ServiceRemoteWordPressComREST {
         return (siteID, RemotePlanSimpleDescription(planID: planID, name: name))
     }
 
-
     func parseWpcomPlans(_ response: EndpointResponse) -> [RemoteWpcomPlan] {
         guard let json = response["plans"] as? [EndpointResponse] else {
             return [RemoteWpcomPlan]()
@@ -127,12 +123,10 @@ public class PlanServiceRemote: ServiceRemoteWordPressComREST {
         return json.compactMap { parseWpcomPlan($0) }
     }
 
-
     func parseWpcomPlanProducts(_ products: [EndpointResponse]) -> String {
         let parsedResult = products.compactMap { $0["plan_id"] as? String }
         return parsedResult.joined(separator: ",")
     }
-
 
     func parseWpcomPlanGroups(_ response: EndpointResponse) -> [RemotePlanGroup] {
         guard let json = response["groups"] as? [EndpointResponse] else {
@@ -141,14 +135,12 @@ public class PlanServiceRemote: ServiceRemoteWordPressComREST {
         return json.compactMap { parsePlanGroup($0) }
     }
 
-
     func parseWpcomPlanFeatures(_ response: EndpointResponse) -> [RemotePlanFeature] {
         guard let json = response["features"] as? [EndpointResponse] else {
             return [RemotePlanFeature]()
         }
         return json.compactMap { parsePlanFeature($0) }
     }
-
 
     func parseWpcomPlan(_ item: EndpointResponse) -> RemoteWpcomPlan? {
         guard
@@ -181,7 +173,6 @@ public class PlanServiceRemote: ServiceRemoteWordPressComREST {
                                      nonLocalizedShortname: nonLocalizedShortname)
     }
 
-
     func parsePlanGroup(_ item: EndpointResponse) -> RemotePlanGroup? {
         guard
             let slug = item["slug"] as? String,
@@ -190,7 +181,6 @@ public class PlanServiceRemote: ServiceRemoteWordPressComREST {
         }
         return RemotePlanGroup(slug: slug, name: name)
     }
-
 
     func parsePlanFeature(_ item: EndpointResponse) -> RemotePlanFeature? {
         guard

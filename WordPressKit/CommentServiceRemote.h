@@ -1,8 +1,18 @@
 #import <Foundation/Foundation.h>
 #import <WordPressKit/RemoteComment.h>
 
-@protocol CommentServiceRemote <NSObject>
 
+// Used to determine which 'status' parameter to use when fetching Comments.
+typedef enum {
+    CommentStatusFilterAll = 0,
+    CommentStatusFilterUnapproved,
+    CommentStatusFilterApproved,
+    CommentStatusFilterTrash,
+    CommentStatusFilterSpam,
+} CommentStatusFilter;
+
+
+@protocol CommentServiceRemote <NSObject>
 
 /**
  Loads all of the comments associated with a blog

@@ -10,4 +10,3 @@ public enum RemoteHomepageType {
         return self == .page
     }
 }
-

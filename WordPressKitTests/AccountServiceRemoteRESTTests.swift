@@ -68,7 +68,7 @@ class AccountServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
         remote.getAccountDetails(success: { remoteUser in
             XCTAssertEqual(remoteUser?.username, self.username, "The usernames should be identical")
             expect.fulfill()
-        }) { error in
+        }) { _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         }
@@ -80,7 +80,7 @@ class AccountServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
         let expect = expectation(description: "Get account details server error failure")
 
         stubRemoteResponse(meEndpoint, data: Data(), contentType: .NoContentType, status: 500)
-        remote.getAccountDetails(success: { remoteUser in
+        remote.getAccountDetails(success: { _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         }, failure: { error in
@@ -101,7 +101,7 @@ class AccountServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
         let expect = expectation(description: "Get account details with bad auth failure")
 
         stubRemoteResponse(meEndpoint, filename: getAccountDetailsAuthFailureMockFilename, contentType: .ApplicationJSON, status: 403)
-        remote.getAccountDetails(success: { remoteUser in
+        remote.getAccountDetails(success: { _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         }, failure: { error in
@@ -122,10 +122,10 @@ class AccountServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
         let expect = expectation(description: "Get account details with invalid json response failure")
 
         stubRemoteResponse(meEndpoint, filename: getAccountDetailsBadJsonFailureMockFilename, contentType: .ApplicationJSON, status: 200)
-        remote.getAccountDetails(success: { remoteUser in
+        remote.getAccountDetails(success: { _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
-        }, failure: { error in
+        }, failure: { _ in
             expect.fulfill()
         })
 
@@ -141,7 +141,7 @@ class AccountServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
         remote.getBlogsWithSuccess({ blogs in
             XCTAssertEqual(blogs?.count, 3, "There should be 3 blogs here")
             expect.fulfill()
-        }, failure: { error in
+        }, failure: { _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         })
@@ -156,7 +156,7 @@ class AccountServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
         remote.getBlogsWithSuccess({ blogs in
             XCTAssertEqual(blogs?.count, 0, "There should be 0 blogs here")
             expect.fulfill()
-        }, failure: { error in
+        }, failure: { _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         })
@@ -168,7 +168,7 @@ class AccountServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
         let expect = expectation(description: "Get blogs server error failure")
 
         stubRemoteResponse(meSitesEndpoint, data: Data(), contentType: .NoContentType, status: 500)
-        remote.getBlogsWithSuccess({ blogs in
+        remote.getBlogsWithSuccess({ _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         }, failure: { error in
@@ -189,7 +189,7 @@ class AccountServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
         let expect = expectation(description: "Get blogs auth failure")
 
         stubRemoteResponse(meSitesEndpoint, filename: getBlogsAuthFailureMockFilename, contentType: .ApplicationJSON, status: 403)
-        remote.getBlogsWithSuccess({ blogs in
+        remote.getBlogsWithSuccess({ _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         }, failure: { error in
@@ -210,10 +210,10 @@ class AccountServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
         let expect = expectation(description: "Get blogs with invalid json response failure")
 
         stubRemoteResponse(meSitesEndpoint, filename: getBlogsBadJsonFailureMockFilename, contentType: .ApplicationJSON, status: 200)
-        remote.getBlogsWithSuccess({ blogs in
+        remote.getBlogsWithSuccess({ _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
-        }, failure: { error in
+        }, failure: { _ in
             expect.fulfill()
         })
 
@@ -229,7 +229,7 @@ class AccountServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
         remote.getVisibleBlogs(success: { blogs in
             XCTAssertEqual(blogs?.count, 3, "There should be 3 blogs here")
             expect.fulfill()
-        }, failure: { error in
+        }, failure: { _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         })
@@ -244,7 +244,7 @@ class AccountServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
         remote.getVisibleBlogs(success: { blogs in
             XCTAssertEqual(blogs?.count, 0, "There should be 0 blogs here")
             expect.fulfill()
-        }, failure: { error in
+        }, failure: { _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         })
@@ -256,7 +256,7 @@ class AccountServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
         let expect = expectation(description: "Get visible blogs server error failure")
 
         stubRemoteResponse(meSitesEndpoint, data: Data(), contentType: .NoContentType, status: 500)
-        remote.getVisibleBlogs(success: { blogs in
+        remote.getVisibleBlogs(success: { _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         }, failure: { error in
@@ -277,7 +277,7 @@ class AccountServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
         let expect = expectation(description: "Get visible blogs auth failure")
 
         stubRemoteResponse(meSitesEndpoint, filename: getBlogsAuthFailureMockFilename, contentType: .ApplicationJSON, status: 403)
-        remote.getVisibleBlogs(success: { blogs in
+        remote.getVisibleBlogs(success: { _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         }, failure: { error in
@@ -298,10 +298,10 @@ class AccountServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
         let expect = expectation(description: "Get visible blogs with invalid json response failure")
 
         stubRemoteResponse(meSitesEndpoint, filename: getBlogsBadJsonFailureMockFilename, contentType: .ApplicationJSON, status: 200)
-        remote.getVisibleBlogs(success: { blogs in
+        remote.getVisibleBlogs(success: { _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
-        }, failure: { error in
+        }, failure: { _ in
             expect.fulfill()
         })
 
@@ -317,7 +317,7 @@ class AccountServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
         let blogsToChangeVisibility: [NSNumber: Bool] = [NSNumber(value: Int32(siteID)): true]
         remote.updateBlogsVisibility(blogsToChangeVisibility, success: {
             expect.fulfill()
-        }, failure: { error in
+        }, failure: { _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         })
@@ -377,7 +377,7 @@ class AccountServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
         remote.updateBlogsVisibility(blogsToChangeVisibility, success: {
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
-        }, failure: { error in
+        }, failure: { _ in
             expect.fulfill()
         })
 
@@ -393,7 +393,7 @@ class AccountServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
         remote.isEmailAvailable(email, success: { isAvailable in
             XCTAssertTrue(isAvailable)
             expect.fulfill()
-        }, failure: { error in
+        }, failure: { _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         })
@@ -409,7 +409,7 @@ class AccountServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
             if !isAvailable {
                 expect.fulfill()
             }
-        }, failure: { error in
+        }, failure: { _ in
             XCTFail("This callback shouldn't get called")
         })
 
@@ -420,7 +420,7 @@ class AccountServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
         let expect = expectation(description: "Email check server error failure")
 
         stubRemoteResponse(emailEndpoint, data: Data(), contentType: .NoContentType, status: 500)
-        remote.isEmailAvailable(email, success: { isAvailable in
+        remote.isEmailAvailable(email, success: { _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         }, failure: { error in
@@ -443,10 +443,10 @@ class AccountServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
         let expect = expectation(description: "Passwordless check success")
 
         stubRemoteResponse(authOptionsEndpoint, filename: isPasswordlessAccountSuccessMockFilename, contentType: .JavaScript)
-        remote.isPasswordlessAccount(username, success: { passwordless in
+        remote.isPasswordlessAccount(username, success: { _ in
             XCTAssert(true)
             expect.fulfill()
-        }, failure: { error  in
+        }, failure: { _  in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         })
@@ -458,7 +458,7 @@ class AccountServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
         let expect = expectation(description: "Passwordless check fails with 404")
 
         stubRemoteResponse(authOptionsEndpoint, filename: isPasswordlessAccountNoAccountFoundMockFilename, contentType: .JavaScript, status: 404)
-        remote.isPasswordlessAccount(username, success: { passwordless in
+        remote.isPasswordlessAccount(username, success: { _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         }, failure: { error in
@@ -484,7 +484,7 @@ class AccountServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
         remote.isUsernameAvailable(username, success: { isAvailable in
             XCTAssertTrue(isAvailable)
             expect.fulfill()
-        }, failure: { error in
+        }, failure: { _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         })
@@ -499,7 +499,7 @@ class AccountServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
         remote.isUsernameAvailable(username, success: { isAvailable in
             XCTAssertFalse(isAvailable)
             expect.fulfill()
-        }, failure: { error in
+        }, failure: { _ in
             XCTFail("This callback shouldn't get called")
         })
 
@@ -510,7 +510,7 @@ class AccountServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
         let expect = expectation(description: "Username check server error failure")
 
         stubRemoteResponse(usernameEndpoint, data: Data(), contentType: .NoContentType, status: 500)
-        remote.isUsernameAvailable(username, success: { isAvailable in
+        remote.isUsernameAvailable(username, success: { _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         }, failure: { error in
@@ -535,7 +535,7 @@ class AccountServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
         stubRemoteResponse(linkEndpoint, filename: requestLinkSuccessMockFilename, contentType: .ApplicationJSON)
         remote.requestWPComAuthLink(forEmail: email, clientID: "client123", clientSecret: "shhh", source: .default, wpcomScheme: "wordpress", success: {
             expect.fulfill()
-        }, failure: { error in
+        }, failure: { _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         })

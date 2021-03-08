@@ -11,7 +11,7 @@ public struct StatsEmailFollowersInsight {
 
 extension StatsEmailFollowersInsight: StatsInsightData {
 
-    //MARK: - StatsInsightData Conformance
+    // MARK: - StatsInsightData Conformance
     public static func queryProperties(with maxCount: Int) -> [String: String] {
         return ["type": "email",
                 "max": String(maxCount)]

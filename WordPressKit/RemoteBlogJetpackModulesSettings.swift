@@ -1,6 +1,5 @@
 import Foundation
 
-
 /// This struct encapsulates the *remote* Jetpack modules settings available for a Blog entity
 ///
 public struct RemoteBlogJetpackModulesSettings {

@@ -11,7 +11,7 @@ extension StatsTagsAndCategoriesInsight: StatsInsightData {
         return "stats/tags"
     }
 
-    public init?(jsonDictionary: [String : AnyObject]) {
+    public init?(jsonDictionary: [String: AnyObject]) {
         guard
             let outerTags = jsonDictionary["tags"] as? [[String: AnyObject]]
             // The shape of the API response here leaves... something to be desired.
@@ -73,7 +73,7 @@ extension StatsTagAndCategory {
 
         let mappedChildren = innerTags.compactMap { StatsTagAndCategory(singleTag: $0) }
         let label = mappedChildren.map { $0.name }.joined(separator: ", ")
-        
+
         self.init(name: label, kind: .folder, url: nil, viewsCount: views, children: mappedChildren)
     }
 

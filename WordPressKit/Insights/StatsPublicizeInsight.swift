@@ -8,7 +8,7 @@ public struct StatsPublicizeInsight {
 
 extension StatsPublicizeInsight: StatsInsightData {
 
-    //MARK: - StatsInsightData Conformance
+    // MARK: - StatsInsightData Conformance
     public static var pathComponent: String {
         return "stats/publicize"
     }
@@ -86,4 +86,3 @@ private extension StatsPublicizeService {
         self.iconURL = icon
     }
 }
-

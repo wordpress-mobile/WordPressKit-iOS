@@ -17,7 +17,7 @@ public struct StatsTodayInsight {
 
 extension StatsTodayInsight: StatsInsightData {
 
-    //MARK: - StatsInsightData Conformance
+    // MARK: - StatsInsightData Conformance
     public static var pathComponent: String {
         return "stats/summary"
     }

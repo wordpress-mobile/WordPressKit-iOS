@@ -1,6 +1,5 @@
 import Foundation
 
-
 /// Delivery frequency values for email notifications
 ///
 /// - daily: daily frequency

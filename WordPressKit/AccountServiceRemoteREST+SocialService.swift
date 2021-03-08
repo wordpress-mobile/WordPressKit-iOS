@@ -5,7 +5,6 @@ public enum SocialServiceName: String {
     case apple
 }
 
-
 extension AccountServiceRemoteREST {
 
     /// Connect to the specified social service via its OpenID Connect (JWT) token.
@@ -20,7 +19,7 @@ extension AccountServiceRemoteREST {
     ///     - failure The block that will be executed on failure.
     public func connectToSocialService(_ service: SocialServiceName,
                                        serviceIDToken token: String,
-                                       connectParameters: [String:AnyObject]? = nil,
+                                       connectParameters: [String: AnyObject]? = nil,
                                        oAuthClientID: String,
                                        oAuthClientSecret: String,
                                        success:@escaping (() -> Void),
@@ -31,16 +30,16 @@ extension AccountServiceRemoteREST {
             "client_id": oAuthClientID,
             "client_secret": oAuthClientSecret,
             "service": service.rawValue,
-            "id_token": token,
+            "id_token": token
         ] as [String: AnyObject]
 
         if let connectParameters = connectParameters {
             params.merge(connectParameters, uniquingKeysWith: { (current, _) in current })
         }
-        
-        wordPressComRestApi.POST(path, parameters: params, success: { (responseObject, httpResponse) in
+
+        wordPressComRestApi.POST(path, parameters: params, success: { (_, _) in
             success()
-        }, failure: { (error, httpResponse) in
+        }, failure: { (error, _) in
             failure(error)
         })
     }
@@ -51,13 +50,13 @@ extension AccountServiceRemoteREST {
     ///     - email Email from Apple account.
     ///     - fullName User's full name from Apple account.
     /// - Returns: Dictionary with endpoint parameters, to be used when connecting to social service.
-    static public func appleSignInParameters(email: String, fullName: String) -> [String:AnyObject] {
+    static public func appleSignInParameters(email: String, fullName: String) -> [String: AnyObject] {
         return [
             "user_email": email as AnyObject,
             "user_name": fullName as AnyObject
         ]
     }
-    
+
     /// Disconnect fromm the specified social service.
     ///
     /// - Parameters:
@@ -71,12 +70,12 @@ extension AccountServiceRemoteREST {
         let params = [
             "client_id": oAuthClientID,
             "client_secret": oAuthClientSecret,
-            "service": service.rawValue,
+            "service": service.rawValue
         ] as [String: AnyObject]
 
-        wordPressComRestApi.POST(path, parameters: params, success: { (responseObject, httpResponse) in
+        wordPressComRestApi.POST(path, parameters: params, success: { (_, _) in
             success()
-        }, failure: { (error, httpResponse) in
+        }, failure: { (error, _) in
             failure(error)
         })
     }

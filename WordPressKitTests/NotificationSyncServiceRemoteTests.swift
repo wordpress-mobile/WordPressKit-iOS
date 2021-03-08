@@ -5,33 +5,33 @@ import XCTest
 // MARK: - NotificationSyncServiceRemoteTests
 //
 class NotificationSyncServiceRemoteTests: RemoteTestCase, RESTTestable {
-    
+
     // MARK: - Constants
-    
+
     let notificationsEndpoint       = "notifications/"
     let notificationsReadEndpoint   = "notifications/read"
     let notificationsSeenEndpoint   = "notifications/seen"
-    
+
     let notificationServiceLoadAllMockFilename      = "notifications-load-all.json"
     let notificationServiceLoadHashMockFilename     = "notifications-load-hash.json"
     let notificationServiceMarkReadMockFilename     = "notifications-mark-as-read.json"
     let notificationServiceLastSeenMockFilename     = "notifications-last-seen.json"
 
     // MARK: - Properties
-    
+
     var remote: NotificationSyncServiceRemote!
 
     // MARK: - Overriden Methods
-    
+
     override func setUp() {
         super.setUp()
-        
+
         remote = NotificationSyncServiceRemote(wordPressComRestApi: getRestApi())
     }
 
     override func tearDown() {
         super.tearDown()
-        
+
         remote = nil
     }
 
@@ -64,10 +64,10 @@ class NotificationSyncServiceRemoteTests: RemoteTestCase, RESTTestable {
 
         waitForExpectations(timeout: timeout, handler: nil)
     }
-    
+
     func testLoadNotesWithServerErrorFails() {
         let expect = expectation(description: "Load all notifications server error failure")
-        
+
         stubRemoteResponse(notificationsEndpoint, data: Data(), contentType: .NoContentType, status: 500)
         remote.loadNotes { error, notes in
             guard let error = error as NSError? else {
@@ -124,7 +124,7 @@ class NotificationSyncServiceRemoteTests: RemoteTestCase, RESTTestable {
             XCTAssertNil(error)
             expect.fulfill()
         }
-        
+
         waitForExpectations(timeout: timeout, handler: nil)
     }
 

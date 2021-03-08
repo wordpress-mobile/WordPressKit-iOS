@@ -38,12 +38,11 @@ public final class WordPressComOAuthClient: NSObject {
         }
     }
 
-
     @objc public static let WordPressComSocialLoginEndpointVersion = 1.0
 
     private let clientID: String
     private let secret: String
-    
+
     private let wordPressComBaseUrl: String
     private let wordPressComApiBaseUrl: String
 
@@ -121,8 +120,8 @@ public final class WordPressComOAuthClient: NSObject {
     @objc public func authenticateWithUsername(_ username: String,
                                   password: String,
                                   multifactorCode: String?,
-                                  success: @escaping (_ authToken: String?) -> (),
-                                  failure: @escaping (_ error: NSError) -> () ) {
+                                  success: @escaping (_ authToken: String?) -> Void,
+                                  failure: @escaping (_ error: NSError) -> Void ) {
         var parameters: [String: AnyObject] = [
             "username": username as AnyObject,
             "password": password as AnyObject,
@@ -168,7 +167,7 @@ public final class WordPressComOAuthClient: NSObject {
     ///     - failure: block to be called if authentication failed. The error object is passed as a parameter.
     ///
     @objc public func requestOneTimeCodeWithUsername(_ username: String, password: String,
-                                        success: @escaping () -> (), failure: @escaping (_ error: NSError) -> ()) {
+                                        success: @escaping () -> Void, failure: @escaping (_ error: NSError) -> Void) {
         let parameters = [
             "username": username,
             "password": password,
@@ -177,13 +176,13 @@ public final class WordPressComOAuthClient: NSObject {
             "client_secret": secret,
             "wpcom_supports_2fa": true,
             "wpcom_resend_otp": true
-        ] as [String : Any]
+        ] as [String: Any]
 
         oauth2SessionManager.request(WordPressComURL.oAuthBase.url(base: wordPressComApiBaseUrl), method: .post, parameters: parameters)
             .validate()
             .responseJSON(completionHandler: { response in
                 switch response.result {
-                case .success(_):
+                case .success:
                     success()
                 case .failure(let error):
                     let nserror = self.processError(response: response, originalError: error)
@@ -212,7 +211,7 @@ public final class WordPressComOAuthClient: NSObject {
             "client_secret": secret,
             "wpcom_supports_2fa": true,
             "wpcom_resend_otp": true
-            ] as [String : Any]
+            ] as [String: Any]
 
         socialNewSMS2FASessionManager.request(WordPressComURL.socialLoginNewSMS2FA.url(base: wordPressComBaseUrl), method: .post, parameters: parameters)
             .validate()
@@ -263,8 +262,8 @@ public final class WordPressComOAuthClient: NSObject {
             "client_secret": secret,
             "service": service,
             "get_bearer_token": true,
-            "id_token" : token,
-            ] as [String : Any]
+            "id_token": token
+            ] as [String: Any]
 
         // Passes an empty string for the path. The session manager was composed with the full endpoint path.
         socialSessionManager.request(WordPressComURL.socialLogin.url(base: wordPressComBaseUrl), method: .post, parameters: parameters)
@@ -330,7 +329,7 @@ public final class WordPressComOAuthClient: NSObject {
     ///
     /// - Return: SocialLogin2FANonceInfo
     ///
-    private func extractNonceInfo(data:[String: AnyObject]) -> SocialLogin2FANonceInfo {
+    private func extractNonceInfo(data: [String: AnyObject]) -> SocialLogin2FANonceInfo {
         let nonceInfo = SocialLogin2FANonceInfo()
 
         if let nonceAuthenticator = data["two_step_nonce_authenticator"] as? String {
@@ -382,14 +381,14 @@ public final class WordPressComOAuthClient: NSObject {
                                             success: @escaping (_ authToken: String?) -> Void,
                                             failure: @escaping (_ error: NSError) -> Void ) {
         let parameters = [
-            "user_id" : userID,
-            "auth_type" : authType,
+            "user_id": userID,
+            "auth_type": authType,
             "two_step_code": twoStepCode,
             "two_step_nonce": twoStepNonce,
             "get_bearer_token": true,
             "client_id": clientID,
-            "client_secret": secret,
-            ] as [String : Any]
+            "client_secret": secret
+            ] as [String: Any]
 
         // Passes an empty string for the path. The session manager was composed with the full endpoint path.
         social2FASessionManager.request(WordPressComURL.socialLogin2FA.url(base: wordPressComBaseUrl), method: .post, parameters: parameters)
@@ -523,7 +522,7 @@ extension WordPressComOAuthClient {
     ///   - newNonce: *optional* The new nonce provided when a 2FA fails
     /// - Returns: An NSError.
     @objc func errorFor(errorCode: String, errorDescription: String, responseObject: Any?, newNonce: String? = nil) -> NSError {
-        var userInfo:[String: AnyObject] = [NSLocalizedDescriptionKey: errorDescription as AnyObject]
+        var userInfo: [String: AnyObject] = [NSLocalizedDescriptionKey: errorDescription as AnyObject]
         if let responseObject = responseObject {
             userInfo[WordPressComOAuthClient.WordPressComOAuthErrorResponseObjectKey] = responseObject as AnyObject
         }

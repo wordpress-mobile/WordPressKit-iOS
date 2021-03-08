@@ -61,24 +61,24 @@ class WordPressComRestApiTests: XCTestCase {
     }
 
     func testSuccessfullCall() {
-        stub(condition: isRestAPIRequest()) { request in
+        stub(condition: isRestAPIRequest()) { _ in
             let stubPath = OHPathForFile("WordPressComRestApiMedia.json", type(of: self))
             return fixture(filePath: stubPath!, headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
         }
 
         let expect = self.expectation(description: "One callback should be invoked")
         let api = WordPressComRestApi(oAuthToken: "fakeToken")
-        api.GET(wordPressMediaRoutePath, parameters: nil, success: { (responseObject: AnyObject, httpResponse: HTTPURLResponse?) in
+        api.GET(wordPressMediaRoutePath, parameters: nil, success: { (responseObject: AnyObject, _: HTTPURLResponse?) in
             expect.fulfill()
             XCTAssert(responseObject is [String: AnyObject], "The response should be a dictionary")
-            }, failure: { (error, httpResponse) in
+            }, failure: { (_, _) in
                 expect.fulfill()
                 XCTFail("This call should be successfull")
             }
         )
         self.waitForExpectations(timeout: 2, handler: nil)
     }
-    
+
     func testBaseUrl() {
         let defaultApi = WordPressComRestApi()
         XCTAssertEqual(defaultApi.baseURLString, "https://public-api.wordpress.com/")
@@ -90,17 +90,17 @@ class WordPressComRestApiTests: XCTestCase {
     }
 
     func testInvalidTokenFailedCall() {
-        stub(condition: isRestAPIRequest()) { request in
+        stub(condition: isRestAPIRequest()) { _ in
             let stubPath = OHPathForFile("WordPressComRestApiFailRequestInvalidToken.json", type(of: self))
             return fixture(filePath: stubPath!, status: 400, headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
         }
 
         let expect = self.expectation(description: "One callback should be invoked")
         let api = WordPressComRestApi(oAuthToken: "fakeToken")
-        api.GET(wordPressMediaRoutePath, parameters: nil, success: { (responseObject: AnyObject, httpResponse: HTTPURLResponse?) in
+        api.GET(wordPressMediaRoutePath, parameters: nil, success: { (_: AnyObject, _: HTTPURLResponse?) in
             expect.fulfill()
             XCTFail("This call should fail")
-            }, failure: { (error, httpResponse) in
+            }, failure: { (error, _) in
                 expect.fulfill()
                 XCTAssert(error.domain == String(reflecting: WordPressComRestApiError.self), "The error should a WordPressComRestApiError")
                 XCTAssert(error.code == Int(WordPressComRestApiError.invalidToken.rawValue), "The error code should be invalid token")
@@ -109,16 +109,16 @@ class WordPressComRestApiTests: XCTestCase {
     }
 
     func testInvalidJSONReceivedFailedCall() {
-        stub(condition: isRestAPIRequest()) { request in
+        stub(condition: isRestAPIRequest()) { _ in
             let stubPath = OHPathForFile("WordPressComRestApiFailInvalidJSON.json", type(of: self))
             return fixture(filePath: stubPath!, status: 200, headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
         }
         let expect = self.expectation(description: "One callback should be invoked")
         let api = WordPressComRestApi(oAuthToken: "fakeToken")
-        api.GET(wordPressMediaRoutePath, parameters: nil, success: { (responseObject: AnyObject, httpResponse: HTTPURLResponse?) in
+        api.GET(wordPressMediaRoutePath, parameters: nil, success: { (_: AnyObject, _: HTTPURLResponse?) in
             expect.fulfill()
             XCTFail("This call should fail")
-            }, failure: { (error, httpResponse) in
+            }, failure: { (error, _) in
                 expect.fulfill()
                 XCTAssert(error.domain == WordPressComRestApiErrorDomain, "The error domain should be WordPressComRestApiErrorDomain")
                 XCTAssert(error.code == Int(WordPressComRestApiError.responseSerializationFailed.rawValue), "The code should be invalid response serialization")
@@ -127,16 +127,16 @@ class WordPressComRestApiTests: XCTestCase {
     }
 
     func testInvalidJSONSentFailedCall() {
-        stub(condition: isRestAPIMediaNewRequest()) { request in
+        stub(condition: isRestAPIMediaNewRequest()) { _ in
             let stubPath = OHPathForFile("WordPressComRestApiFailInvalidInput.json", type(of: self))
             return fixture(filePath: stubPath!, status: 400, headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
         }
         let expect = self.expectation(description: "One callback should be invoked")
         let api = WordPressComRestApi(oAuthToken: "fakeToken")
-        api.POST(wordPressMediaNewEndpointPath, parameters: nil, success: { (responseObject: AnyObject, httpResponse: HTTPURLResponse?) in
+        api.POST(wordPressMediaNewEndpointPath, parameters: nil, success: { (_: AnyObject, _: HTTPURLResponse?) in
             expect.fulfill()
             XCTFail("This call should fail")
-            }, failure: { (error, httpResponse) in
+            }, failure: { (error, _) in
                 expect.fulfill()
                 XCTAssert(error.domain == String(reflecting: WordPressComRestApiError.self), "The error domain should be WordPressComRestApiError")
                 XCTAssert(error.code == Int(WordPressComRestApiError.invalidInput.rawValue), "The error code should be invalid input")
@@ -145,16 +145,16 @@ class WordPressComRestApiTests: XCTestCase {
     }
 
     func testUnauthorizedFailedCall() {
-        stub(condition: isRestAPIMediaNewRequest()) { request in
+        stub(condition: isRestAPIMediaNewRequest()) { _ in
             let stubPath = OHPathForFile("WordPressComRestApiFailUnauthorized.json", type(of: self))
             return fixture(filePath: stubPath!, status: 403, headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
         }
         let expect = self.expectation(description: "One callback should be invoked")
         let api = WordPressComRestApi(oAuthToken: "fakeToken")
-        api.POST(wordPressMediaNewEndpointPath, parameters: nil, success: { (responseObject: AnyObject, httpResponse: HTTPURLResponse?) in
+        api.POST(wordPressMediaNewEndpointPath, parameters: nil, success: { (_: AnyObject, _: HTTPURLResponse?) in
             expect.fulfill()
             XCTFail("This call should fail")
-            }, failure: { (error, httpResponse) in
+            }, failure: { (error, _) in
                 expect.fulfill()
                 XCTAssert(error.domain == String(reflecting: WordPressComRestApiError.self), "The error domain should be WordPressComRestApiError")
                 XCTAssert(error.code == Int(WordPressComRestApiError.authorizationRequired.rawValue), "The error code should be AuthorizationRequired")
@@ -163,16 +163,16 @@ class WordPressComRestApiTests: XCTestCase {
     }
 
     func testMultipleErrorsFailedCall() {
-        stub(condition: isRestAPIMediaNewRequest()) { request in
+        stub(condition: isRestAPIMediaNewRequest()) { _ in
             let stubPath = OHPathForFile("WordPressComRestApiMultipleErrors.json", type(of: self))
             return fixture(filePath: stubPath!, status: 403, headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
         }
         let expect = self.expectation(description: "One callback should be invoked")
         let api = WordPressComRestApi(oAuthToken: "fakeToken")
-        api.POST(wordPressMediaNewEndpointPath, parameters: nil, success: { (responseObject: AnyObject, httpResponse: HTTPURLResponse?) in
+        api.POST(wordPressMediaNewEndpointPath, parameters: nil, success: { (_: AnyObject, _: HTTPURLResponse?) in
             expect.fulfill()
             XCTFail("This call should fail")
-            }, failure: { (error, httpResponse) in
+            }, failure: { (error, _) in
                 expect.fulfill()
                 XCTAssert(error.domain == String(reflecting: WordPressComRestApiError.self), "The error domain should be WordPressComRestApiError")
                 XCTAssert(error.code == Int(WordPressComRestApiError.uploadFailed.rawValue), "The error code should be AuthorizationRequired")
@@ -181,16 +181,16 @@ class WordPressComRestApiTests: XCTestCase {
     }
 
     func testMultipleErrorsFailedMultiPartPostCall() {
-        stub(condition: isRestAPIMediaNewRequest()) { request in
+        stub(condition: isRestAPIMediaNewRequest()) { _ in
             let stubPath = OHPathForFile("WordPressComRestApiMultipleErrors.json", type(of: self))
             return fixture(filePath: stubPath!, status: 403, headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
         }
         let expect = self.expectation(description: "One callback should be invoked")
         let api = WordPressComRestApi(oAuthToken: "fakeToken")
-        api.multipartPOST(wordPressMediaNewEndpointPath, parameters: nil, fileParts: [], success: { (responseObject: AnyObject, httpResponse: HTTPURLResponse?) in
+        api.multipartPOST(wordPressMediaNewEndpointPath, parameters: nil, fileParts: [], success: { (_: AnyObject, _: HTTPURLResponse?) in
             expect.fulfill()
             XCTFail("This call should fail")
-        }, failure: { (error, httpResponse) in
+        }, failure: { (error, _) in
             expect.fulfill()
             XCTAssert(error.domain == String(reflecting: WordPressComRestApiError.self), "The error domain should be WordPressComRestApiError")
             XCTAssert(error.code == Int(WordPressComRestApiError.uploadFailed.rawValue), "The error code should be AuthorizationRequired")
@@ -199,7 +199,7 @@ class WordPressComRestApiTests: XCTestCase {
     }
 
     func testStreamMethodCallWithInvalidFile() {
-        stub(condition: isRestAPIMediaNewRequest()) { request in
+        stub(condition: isRestAPIMediaNewRequest()) { _ in
             let stubPath = OHPathForFile("WordPressComRestApiMedia.json", type(of: self))
             return fixture(filePath: stubPath!, headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
         }
@@ -207,10 +207,10 @@ class WordPressComRestApiTests: XCTestCase {
         let expect = self.expectation(description: "One callback should be invoked")
         let api = WordPressComRestApi(oAuthToken: "fakeToken")
         let filePart = FilePart(parameterName: "file", url: URL(fileURLWithPath: "/a.txt") as URL, filename: "a.txt", mimeType: "image/jpeg")
-        api.multipartPOST(wordPressMediaNewEndpointPath, parameters: nil, fileParts: [filePart], success: { (responseObject: AnyObject, httpResponse: HTTPURLResponse?) in
+        api.multipartPOST(wordPressMediaNewEndpointPath, parameters: nil, fileParts: [filePart], success: { (_: AnyObject, _: HTTPURLResponse?) in
             expect.fulfill()
             XCTFail("This call should fail")
-            }, failure: { (error, httpResponse) in
+            }, failure: { (_, _) in
                 expect.fulfill()
             }
         )
@@ -218,7 +218,7 @@ class WordPressComRestApiTests: XCTestCase {
     }
 
     func testStreamMethodParallelCalls() {
-        stub(condition: isRestAPIMediaNewRequest()) { request in
+        stub(condition: isRestAPIMediaNewRequest()) { _ in
             let stubPath = OHPathForFile("WordPressComRestApiMedia.json", type(of: self))
             return fixture(filePath: stubPath!, headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
         }
@@ -231,19 +231,19 @@ class WordPressComRestApiTests: XCTestCase {
         let expect = self.expectation(description: "One callback should be invoked")
         let api = WordPressComRestApi(oAuthToken: "fakeToken")
         let filePart = FilePart(parameterName: "media[]", url: mediaURL as URL, filename: "test-image.jpg", mimeType: "image/jpeg")
-        let progress1 = api.multipartPOST(wordPressMediaNewEndpointPath, parameters: nil, fileParts: [filePart], success: { (responseObject: AnyObject, httpResponse: HTTPURLResponse?) in
+        let progress1 = api.multipartPOST(wordPressMediaNewEndpointPath, parameters: nil, fileParts: [filePart], success: { (_: AnyObject, _: HTTPURLResponse?) in
                 XCTFail("This call should fail")
-            }, failure: { (error, httpResponse) in
+            }, failure: { (error, _) in
                 print(error)
                 XCTAssert(error.domain == NSURLErrorDomain, "The error domain should be NSURLErrorDomain")
                 XCTAssert(error.code == NSURLErrorCancelled, "The error code should be NSURLErrorCancelled")
             }
         )
         progress1?.cancel()
-        api.multipartPOST(wordPressMediaNewEndpointPath, parameters: nil, fileParts: [filePart], success: { (responseObject: AnyObject, httpResponse: HTTPURLResponse?) in
+        api.multipartPOST(wordPressMediaNewEndpointPath, parameters: nil, fileParts: [filePart], success: { (_: AnyObject, _: HTTPURLResponse?) in
             expect.fulfill()
 
-            }, failure: { (error, httpResponse) in
+            }, failure: { (_, _) in
                 expect.fulfill()
                 XCTFail("This call should succesful")
             }
@@ -252,15 +252,15 @@ class WordPressComRestApiTests: XCTestCase {
     }
 
     func testCancelationOfRequest() {
-        stub(condition: isRestAPIMediaNewRequest()) { request in
+        stub(condition: isRestAPIMediaNewRequest()) { _ in
             return HTTPStubsResponse.init(error: NSError(domain: NSURLErrorDomain, code: NSURLErrorCancelled, userInfo: nil))
         }
         let expect = self.expectation(description: "One callback should be invoked")
         let api = WordPressComRestApi(oAuthToken: "fakeToken")
-        api.POST(wordPressMediaNewEndpointPath, parameters: nil, success: { (responseObject: AnyObject, httpResponse: HTTPURLResponse?) in
+        api.POST(wordPressMediaNewEndpointPath, parameters: nil, success: { (_: AnyObject, _: HTTPURLResponse?) in
             expect.fulfill()
             XCTFail("This call should fail")
-        }, failure: { (error, httpResponse) in
+        }, failure: { (error, _) in
             expect.fulfill()
             XCTAssert(error.domain == NSURLErrorDomain, "The error domain should be NSURLErrorDomain")
             XCTAssert(error.code == NSURLErrorCancelled, "The error code should be NSURLErrorCancelled")

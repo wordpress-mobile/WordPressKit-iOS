@@ -36,7 +36,7 @@ extension ReaderTopicServiceRemote {
         let path = self.path(forEndpoint: "read/tags/mine/new", withVersion: ._1_2)
         let parameters = ["tags": withSlugs] as [String: AnyObject]
 
-        wordPressComRestApi.POST(path, parameters: parameters, success: { response, _ in
+        wordPressComRestApi.POST(path, parameters: parameters, success: { _, _ in
             success()
         }) { error, _ in
             DDLogError("Error fetching reader interests: \(error)")

@@ -45,7 +45,7 @@ class RemoteReaderPostTestsV2: RemoteTestCase, RESTTestable {
         let expect = expectation(description: "Returns next page handle")
         stubRemoteResponse("read/tags/posts?tags%5B%5D=dogs", filename: "reader-posts-success.json", contentType: .ApplicationJSON)
 
-        readerPostServiceRemote.fetchPosts(for: ["dogs"], success: { cards, nextPageHandle in
+        readerPostServiceRemote.fetchPosts(for: ["dogs"], success: { _, nextPageHandle in
             XCTAssertTrue(nextPageHandle == "ZnJvbT0xMCZiZWZvcmU9MjAyMC0wOS0zMFQxNyUzQTAzJTNBMjAlMkIwMCUzQTAw")
             expect.fulfill()
         }, failure: { _ in })

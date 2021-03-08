@@ -35,7 +35,7 @@ open class Activity {
         guard let publishedDate = Date.dateWithISO8601WithMillisecondsString(publishedString) else {
             throw Error.incorrectPusblishedDateFormat
         }
-        
+
         activityID = id
         summary = summaryText
         text = contentText
@@ -191,7 +191,7 @@ public class RewindStatus {
     public let restore: RestoreStatus?
 
     internal init(state: State) {
-        //FIXME: A hack to support free WPCom sites and Rewind. Should be obsolote as soon as the backend
+        // FIXME: A hack to support free WPCom sites and Rewind. Should be obsolote as soon as the backend
         // stops returning 412's for those sites.
         self.state = state
         self.lastUpdated = Date()
@@ -229,7 +229,7 @@ public extension RewindStatus {
         case active
         case inactive
         case unavailable
-        case awaitingCredentials
+        case awaitingCredentials = "awaiting_credentials"
         case provisioning
     }
 }

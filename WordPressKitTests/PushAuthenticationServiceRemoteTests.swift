@@ -34,7 +34,7 @@ class PushAuthenticationServiceRemoteTests: XCTestCase {
 
     func testAuthorizeLoginCallsSuccessBlock() {
         var successBlockCalled = false
-        pushAuthenticationServiceRemote!.authorizeLogin(token, success: { () -> () in
+        pushAuthenticationServiceRemote!.authorizeLogin(token, success: { () -> Void in
            successBlockCalled = true
         }, failure: nil)
         mockRemoteApi.successBlockPassedIn?(NSString(), HTTPURLResponse())
@@ -45,7 +45,7 @@ class PushAuthenticationServiceRemoteTests: XCTestCase {
 
     func testAuthorizeLoginCallsFailureBlock() {
         var failureBlockCalled = false
-        pushAuthenticationServiceRemote.authorizeLogin(token, success: nil, failure: { () -> () in
+        pushAuthenticationServiceRemote.authorizeLogin(token, success: nil, failure: { () -> Void in
             failureBlockCalled = true
         })
         mockRemoteApi.failureBlockPassedIn?(NSError(domain: "UnitTest", code: 0, userInfo: nil), HTTPURLResponse())

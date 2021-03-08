@@ -22,7 +22,6 @@ public struct EditorSettings {
         case notSet = ""
     }
 
-
     /// Editor choosen by the user to be used on Web
     ///
     /// - classic: The classic editor

@@ -58,13 +58,13 @@ extension ReaderPostServiceRemote {
                                  success: @escaping (() -> Void),
                                  failure: @escaping ((Error) -> Void)) {
         let endpoint = seen ? SeenEndpoints.feedSeen : SeenEndpoints.feedUnseen
-        
+
         let params = [
             "feed_id": feedID,
             "feed_item_ids": [feedItemID],
             "source": "reader-ios"
         ] as [String: AnyObject]
-        
+
         updateSeenStatus(endpoint: endpoint, params: params, success: success, failure: failure)
     }
 
@@ -88,7 +88,7 @@ extension ReaderPostServiceRemote {
             "post_ids": [postID],
             "source": "reader-ios"
         ] as [String: AnyObject]
-        
+
         updateSeenStatus(endpoint: endpoint, params: params, success: success, failure: failure)
     }
 
@@ -96,10 +96,10 @@ extension ReaderPostServiceRemote {
                                   params: [String: AnyObject],
                                   success: @escaping (() -> Void),
                                   failure: @escaping ((Error) -> Void)) {
-        
+
         let path = self.path(forEndpoint: endpoint, withVersion: ._2_0)
-        
-        wordPressComRestApi.POST(path, parameters: params, success: { (responseObject, httpResponse) in
+
+        wordPressComRestApi.POST(path, parameters: params, success: { (responseObject, _) in
             guard let response = responseObject as? [String: AnyObject],
                   let status = response["status"] as? Bool,
                   status == true else {
@@ -107,11 +107,11 @@ extension ReaderPostServiceRemote {
                 return
             }
             success()
-        }, failure: { (error, httpResponse) in
+        }, failure: { (error, _) in
             failure(error)
         })
     }
-    
+
     private struct SeenEndpoints {
         // Creates a new `seen` entry (i.e. mark as seen)
         static let feedSeen = "seen-posts/seen/new"

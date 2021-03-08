@@ -48,6 +48,11 @@ class PeopleServiceRemoteTests: RemoteTestCase, RESTTestable {
     let deleteViewerAuthFailureMockFilename         = "site-viewers-delete-auth-failure.json"
     let deleteViewerBadJsonFailureMockFilename      = "site-viewers-delete-bad-json.json"
 
+    let inviteLinksFetchInvitesMockFilename         = "sites-invites.json"
+    let inviteLinksGenerateMockFilename             = "sites-invites-links-generate.json"
+    let inviteLinksDisableMockFilename              = "sites-invites-links-disable.json"
+    let inviteLinksDisableEmptyMockFilename         = "sites-invites-links-disable-empty.json"
+
     // MARK: - Properties
 
     var remote: PeopleServiceRemote!
@@ -60,6 +65,10 @@ class PeopleServiceRemoteTests: RemoteTestCase, RESTTestable {
     var siteUserDeleteEndpoint: String { return "sites/\(siteID)/users/\(userID)/delete" }
     var siteViewerDeleteEndpoint: String { return "sites/\(siteID)/viewers/\(viewerID)/delete" }
     var siteFollowerDeleteEndpoint: String { return "sites/\(siteID)/followers/\(followerID)/delete" }
+
+    var siteInvitesEndpoint: String { return "sites/\(siteID)/invites" }
+    var siteInvitesLinksGenerate: String { return "sites/\(siteID)/invites/links/generate" }
+    var siteInvitesLinksDisable: String { return "sites/\(siteID)/invites/links/disable" }
 
     // MARK: - Overridden Methods
 
@@ -135,7 +144,7 @@ class PeopleServiceRemoteTests: RemoteTestCase, RESTTestable {
                            contentType: .ApplicationJSON)
         remote.deleteUser(siteID, userID: userID, success: {
             expect.fulfill()
-        }, failure: { error in
+        }, failure: { _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         })
@@ -167,7 +176,7 @@ class PeopleServiceRemoteTests: RemoteTestCase, RESTTestable {
         remote.deleteUser(siteID, userID: userID, success: {
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
-        }, failure: { error in
+        }, failure: { _ in
             expect.fulfill()
         })
 
@@ -218,7 +227,7 @@ class PeopleServiceRemoteTests: RemoteTestCase, RESTTestable {
                            contentType: .ApplicationJSON)
         remote.deleteFollower(siteID, userID: followerID, success: {
             expect.fulfill()
-        }, failure: { error in
+        }, failure: { _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         })
@@ -250,7 +259,7 @@ class PeopleServiceRemoteTests: RemoteTestCase, RESTTestable {
         remote.deleteFollower(siteID, userID: followerID, success: {
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
-        }, failure: { error in
+        }, failure: { _ in
             expect.fulfill()
         })
 
@@ -267,7 +276,7 @@ class PeopleServiceRemoteTests: RemoteTestCase, RESTTestable {
         remote.deleteViewer(siteID, userID: viewerID, success: {
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
-        }, failure: { error in
+        }, failure: { _ in
             expect.fulfill()
         })
 
@@ -281,7 +290,7 @@ class PeopleServiceRemoteTests: RemoteTestCase, RESTTestable {
                            contentType: .ApplicationJSON)
         remote.deleteViewer(siteID, userID: viewerID, success: {
             expect.fulfill()
-        }, failure: { error in
+        }, failure: { _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         })
@@ -330,7 +339,7 @@ class PeopleServiceRemoteTests: RemoteTestCase, RESTTestable {
         remote.deleteViewer(siteID, userID: viewerID, success: {
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
-        }, failure: { error in
+        }, failure: { _ in
             expect.fulfill()
         })
 
@@ -348,7 +357,7 @@ class PeopleServiceRemoteTests: RemoteTestCase, RESTTestable {
             XCTAssertFalse(roles.isEmpty, "The returned roles array should not be empty")
             XCTAssertTrue(roles.count == 4, "There should be 4 roles returned")
             expect.fulfill()
-        }, failure: { error in
+        }, failure: { _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         })
@@ -360,7 +369,7 @@ class PeopleServiceRemoteTests: RemoteTestCase, RESTTestable {
         let expect = expectation(description: "Get site roles with server error failure")
 
         stubRemoteResponse(siteRolesEndpoint, data: Data(), contentType: .NoContentType, status: 500)
-        remote.getUserRoles(siteID, success: { roles in
+        remote.getUserRoles(siteID, success: { _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         }, failure: { error in
@@ -377,7 +386,7 @@ class PeopleServiceRemoteTests: RemoteTestCase, RESTTestable {
         let expect = expectation(description: "Get site roles with bad auth failure")
 
         stubRemoteResponse(siteRolesEndpoint, filename: getRolesBadAuthMockFilename, contentType: .ApplicationJSON, status: 403)
-        remote.getUserRoles(siteID, success: { roles in
+        remote.getUserRoles(siteID, success: { _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         }, failure: { error in
@@ -394,10 +403,10 @@ class PeopleServiceRemoteTests: RemoteTestCase, RESTTestable {
         let expect = expectation(description: "Get site roles with invalid json response failure")
 
         stubRemoteResponse(siteRolesEndpoint, filename: getRolesBadJsonFailureMockFilename, contentType: .ApplicationJSON, status: 200)
-        remote.getUserRoles(siteID, success: { roles in
+        remote.getUserRoles(siteID, success: { _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
-        }, failure: { error in
+        }, failure: { _ in
             expect.fulfill()
         })
 
@@ -412,7 +421,7 @@ class PeopleServiceRemoteTests: RemoteTestCase, RESTTestable {
         remote.updateUserRole(siteID, userID: userID, newRole: change, success: { updatedPerson in
             XCTAssertEqual(updatedPerson.role, change, "The returned user's role should be the same as the updated role.")
             expect.fulfill()
-        }, failure: { error in
+        }, failure: { _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         })
@@ -425,10 +434,10 @@ class PeopleServiceRemoteTests: RemoteTestCase, RESTTestable {
 
         stubRemoteResponse(siteUnknownUserEndpoint, filename: updateRoleUnknownUserFailureMockFilename, contentType: .ApplicationJSON, status: 404)
         let change = "administrator"
-        remote.updateUserRole(siteID, userID: invalidUserID, newRole: change, success: { updatedPerson in
+        remote.updateUserRole(siteID, userID: invalidUserID, newRole: change, success: { _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
-        }, failure: { error in
+        }, failure: { _ in
             expect.fulfill()
         })
 
@@ -440,10 +449,10 @@ class PeopleServiceRemoteTests: RemoteTestCase, RESTTestable {
 
         stubRemoteResponse(unknownSiteUserEndpoint, filename: updateRoleUnknownSiteFailureMockFilename, contentType: .ApplicationJSON, status: 403)
         let change = "administrator"
-        remote.updateUserRole(invalidSiteID, userID: userID, newRole: change, success: { updatedPerson in
+        remote.updateUserRole(invalidSiteID, userID: userID, newRole: change, success: { _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
-        }, failure: { error in
+        }, failure: { _ in
             expect.fulfill()
         })
 
@@ -455,7 +464,7 @@ class PeopleServiceRemoteTests: RemoteTestCase, RESTTestable {
 
         stubRemoteResponse(siteUserEndpoint, data: Data(), contentType: .NoContentType, status: 500)
         let change = "administrator"
-        remote.updateUserRole(siteID, userID: userID, newRole: change, success: { updatedPerson in
+        remote.updateUserRole(siteID, userID: userID, newRole: change, success: { _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         }, failure: { error in
@@ -473,10 +482,10 @@ class PeopleServiceRemoteTests: RemoteTestCase, RESTTestable {
 
         stubRemoteResponse(siteUserEndpoint, filename: updateRoleBadJsonFailureMockFilename, contentType: .ApplicationJSON, status: 200)
         let change = "administrator"
-        remote.updateUserRole(siteID, userID: userID, newRole: change, success: { updatedPerson in
+        remote.updateUserRole(siteID, userID: userID, newRole: change, success: { _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
-        }, failure: { error in
+        }, failure: { _ in
             expect.fulfill()
         })
 
@@ -492,7 +501,7 @@ class PeopleServiceRemoteTests: RemoteTestCase, RESTTestable {
         remote.sendInvitation(siteID, usernameOrEmail: invalidUsername, role: "follower", message: "", success: {
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
-        }, failure: { error in
+        }, failure: { _ in
             expect.fulfill()
         })
 
@@ -505,7 +514,7 @@ class PeopleServiceRemoteTests: RemoteTestCase, RESTTestable {
         stubRemoteResponse(newInviteEndpoint, filename: sendSuccessMockFilename, contentType: .ApplicationJSON)
         remote.sendInvitation(siteID, usernameOrEmail: validUsername, role: "follower", message: "", success: {
             expect.fulfill()
-        }, failure: { error in
+        }, failure: { _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         })
@@ -520,7 +529,7 @@ class PeopleServiceRemoteTests: RemoteTestCase, RESTTestable {
         remote.validateInvitation(siteID, usernameOrEmail: invalidUsername, role: "follower", success: {
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
-        }, failure: { error in
+        }, failure: { _ in
             expect.fulfill()
         })
 
@@ -533,11 +542,79 @@ class PeopleServiceRemoteTests: RemoteTestCase, RESTTestable {
         stubRemoteResponse(validateInviteEndpoint, filename: validationSuccessMockFilename, contentType: .ApplicationJSON)
         remote.validateInvitation(siteID, usernameOrEmail: validUsername, role: "follower", success: {
             expect.fulfill()
-        }, failure: { error in
+        }, failure: { _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         })
 
         waitForExpectations(timeout: timeout, handler: nil)
     }
+
+    func testFetchInvites() {
+        let expect = expectation(description: "Get invite links")
+
+        stubRemoteResponse(siteInvitesEndpoint, filename: inviteLinksFetchInvitesMockFilename,
+                           contentType: .ApplicationJSON)
+        remote.fetchInvites(siteID, success: { invites in
+            XCTAssertFalse(invites.isEmpty, "The returned array should not be empty")
+            XCTAssertTrue(invites.count == 5, "There should be 5 invites returned")
+            expect.fulfill()
+        }, failure: { _ in
+            XCTFail("This callback shouldn't get called")
+            expect.fulfill()
+        })
+
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+
+    func testGenerateInviteLinks() {
+        let expect = expectation(description: "Generate invite links")
+
+        stubRemoteResponse(siteInvitesLinksGenerate, filename: inviteLinksGenerateMockFilename,
+                           contentType: .ApplicationJSON)
+        remote.generateInviteLinks(siteID, success: { invites in
+            XCTAssertFalse(invites.isEmpty, "The returned array should not be empty")
+            XCTAssertTrue(invites.count == 5, "There should be 5 invites returned")
+            expect.fulfill()
+        }, failure: { _ in
+            XCTFail("This callback shouldn't get called")
+            expect.fulfill()
+        })
+
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+
+    func testDisableInviteLinks() {
+        let expect = expectation(description: "Disable invite links")
+
+        stubRemoteResponse(siteInvitesLinksDisable, filename: inviteLinksDisableMockFilename,
+                           contentType: .ApplicationJSON)
+        remote.disableInviteLinks(siteID, success: { invites in
+            XCTAssertFalse(invites.isEmpty, "The returned array should not be empty")
+            XCTAssertTrue(invites.count == 5, "There should be 5 invites returned")
+            expect.fulfill()
+        }, failure: { _ in
+            XCTFail("This callback shouldn't get called")
+            expect.fulfill()
+        })
+
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+
+    func testDisableInviteLinksEmptyResponse() {
+        let expect = expectation(description: "Disable invite links empty response")
+
+        stubRemoteResponse(siteInvitesLinksDisable, filename: inviteLinksDisableEmptyMockFilename,
+                           contentType: .ApplicationJSON)
+        remote.disableInviteLinks(siteID, success: { invites in
+            XCTAssertTrue(invites.isEmpty, "The returned array should be empty")
+            expect.fulfill()
+        }, failure: { _ in
+            XCTFail("This callback shouldn't get called")
+            expect.fulfill()
+        })
+
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+
 }

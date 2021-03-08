@@ -47,14 +47,14 @@ open class WordPressComRestApi: NSObject {
 
     @objc public static let SessionTaskKey          = "WordPressComRestAPI.sessionTask"
 
-    public typealias RequestEnqueuedBlock = (_ taskID : NSNumber) -> Void
-    public typealias SuccessResponseBlock = (_ responseObject: AnyObject, _ httpResponse: HTTPURLResponse?) -> ()
-    public typealias FailureReponseBlock = (_ error: NSError, _ httpResponse: HTTPURLResponse?) -> ()
+    public typealias RequestEnqueuedBlock = (_ taskID: NSNumber) -> Void
+    public typealias SuccessResponseBlock = (_ responseObject: AnyObject, _ httpResponse: HTTPURLResponse?) -> Void
+    public typealias FailureReponseBlock = (_ error: NSError, _ httpResponse: HTTPURLResponse?) -> Void
 
     @objc public static let apiBaseURLString: String = "https://public-api.wordpress.com/"
 
     @objc public static let defaultBackgroundSessionIdentifier = "org.wordpress.wpcomrestapi"
-    
+
     private let oAuthToken: String?
 
     private let userAgent: String?
@@ -69,7 +69,7 @@ open class WordPressComRestApi: NSObject {
 
     @objc public let baseURLString: String
 
-    private var invalidTokenHandler: (() -> Void)? = nil
+    private var invalidTokenHandler: (() -> Void)?
 
     /**
      Configure whether or not the user's preferred language locale should be appended. Defaults to true.
@@ -81,7 +81,7 @@ open class WordPressComRestApi: NSObject {
         let sessionManager = self.makeSessionManager(configuration: sessionConfiguration)
         return sessionManager
     }()
-    
+
     private lazy var uploadSessionManager: Alamofire.SessionManager = {
         if self.backgroundUploads {
             let sessionConfiguration = URLSessionConfiguration.background(withIdentifier: self.backgroundSessionIdentifier)
@@ -89,12 +89,12 @@ open class WordPressComRestApi: NSObject {
             let sessionManager = self.makeSessionManager(configuration: sessionConfiguration)
             return sessionManager
         }
-        
+
         return self.sessionManager
     }()
 
     private func makeSessionManager(configuration sessionConfiguration: URLSessionConfiguration) -> Alamofire.SessionManager {
-        var additionalHeaders: [String : AnyObject] = [:]
+        var additionalHeaders: [String: AnyObject] = [:]
         if let oAuthToken = self.oAuthToken {
             additionalHeaders["Authorization"] = "Bearer \(oAuthToken)" as AnyObject?
         }
@@ -109,15 +109,15 @@ open class WordPressComRestApi: NSObject {
     }
 
     // MARK: WordPressComRestApi
-    
+
     @objc convenience public init(oAuthToken: String? = nil, userAgent: String? = nil) {
         self.init(oAuthToken: oAuthToken, userAgent: userAgent, backgroundUploads: false, backgroundSessionIdentifier: WordPressComRestApi.defaultBackgroundSessionIdentifier)
     }
-    
+
     @objc convenience public init(oAuthToken: String? = nil, userAgent: String? = nil, baseUrlString: String = WordPressComRestApi.apiBaseURLString) {
         self.init(oAuthToken: oAuthToken, userAgent: userAgent, backgroundUploads: false, backgroundSessionIdentifier: WordPressComRestApi.defaultBackgroundSessionIdentifier, baseUrlString: baseUrlString)
     }
-    
+
     /// Creates a new API object to connect to the WordPress Rest API.
     ///
     /// - Parameters:
@@ -155,7 +155,7 @@ open class WordPressComRestApi: NSObject {
         sessionManager.session.finishTasksAndInvalidate()
         uploadSessionManager.session.finishTasksAndInvalidate()
     }
-    
+
     /// Cancels all outgoing tasks asynchronously without invalidating the session.
     public func cancelTasks() {
         sessionManager.session.getAllTasks { tasks in
@@ -195,7 +195,7 @@ open class WordPressComRestApi: NSObject {
             progress?.completedUnitCount = taskProgress.completedUnitCount
         }
 
-        let dataRequest = sessionManager.request(URLString, method: method, parameters: parameters, encoding:encoding)
+        let dataRequest = sessionManager.request(URLString, method: method, parameters: parameters, encoding: encoding)
             .validate()
             .responseJSON(completionHandler: { [weak progress] (response) in
             switch response.result {
@@ -226,7 +226,7 @@ open class WordPressComRestApi: NSObject {
             return
         }
 
-        sessionManager.request(URLString, method: method, parameters: parameters, encoding:encoding)
+        sessionManager.request(URLString, method: method, parameters: parameters, encoding: encoding)
             .validate()
             .responseData(completionHandler: { (response) in
             switch response.result {
@@ -333,7 +333,7 @@ open class WordPressComRestApi: NSObject {
                 if let taskIdentifier = upload.task?.taskIdentifier {
                     requestEnqueued?(NSNumber(value: taskIdentifier))
                 }
-                let dataRequest = upload.validate().responseJSON(completionHandler: { response in                    
+                let dataRequest = upload.validate().responseJSON(completionHandler: { response in
                     switch response.result {
                     case .success(let responseObject):
                         progress.completedUnitCount = progress.totalUnitCount
@@ -461,12 +461,12 @@ extension WordPressComRestApi {
             let responseDictionary = responseObject as? [String: AnyObject] else {
 
             if let error = checkForThrottleErrorIn(data: data) {
-                return error;
+                return error
             }
             return WordPressComRestApiError.unknown as NSError
         }
 
-        //FIXME: A hack to support free WPCom sites and Rewind. Should be obsolote as soon as the backend
+        // FIXME: A hack to support free WPCom sites and Rewind. Should be obsolote as soon as the backend
         // stops returning 412's for those sites.
         if httpResponse.statusCode == 412, let code = responseDictionary["code"] as? String, code == "no_connected_jetpack" {
             return WordPressComRestApiError.preconditionFailure as NSError
@@ -523,7 +523,7 @@ extension WordPressComRestApi {
         userInfo[WordPressComRestApi.ErrorKeyErrorMessage] = NSLocalizedString("Limit reached. You can try again in 1 minute. Trying again before that will only increase the time you have to wait before the ban is lifted. If you think this is in error, contact support.", comment: "Message to show when a request for a WP.com API endpoint is throttled")
         userInfo[NSLocalizedDescriptionKey] = userInfo[WordPressComRestApi.ErrorKeyErrorMessage]
         let nsError = WordPressComRestApiError.tooManyRequests as NSError
-        let errorWithLocalizedMessage = NSError(domain: nsError.domain, code: nsError.code, userInfo:userInfo)
+        let errorWithLocalizedMessage = NSError(domain: nsError.domain, code: nsError.code, userInfo: userInfo)
         return errorWithLocalizedMessage
     }
 }
@@ -556,12 +556,11 @@ private extension WordPressComRestApi {
     }
 }
 
-
 // MARK: - Progress
 
 @objc extension Progress {
 
-    @objc var sessionTask: URLSessionTask? {
+    var sessionTask: URLSessionTask? {
         get {
             return userInfo[.sessionTaskKey] as? URLSessionTask
         }
