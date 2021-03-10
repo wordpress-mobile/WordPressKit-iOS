@@ -43,5 +43,6 @@
     "jetpack_connect": [],
     "is_desktop_app_user": true,
     "locale_variant": false,
-    "tracks_opt_out": false
+    "tracks_opt_out": false,
+    "subscription_delivery_email_blocked": true
 }
