@@ -46,7 +46,7 @@ class ReaderPostServiceRelatedPostsTests: RemoteTestCase, RESTTestable {
                            contentType: .ApplicationJSON,
                            status: 503)
 
-        readerPostServiceRemote.fetchRelatedPosts(for: postID, from: siteID, success: { relatedPosts in
+        readerPostServiceRemote.fetchRelatedPosts(for: postID, from: siteID, success: { _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         }, failure: { error in
