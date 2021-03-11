@@ -30,9 +30,9 @@ public struct PluginDirectoryEntry {
         return extractHTMLText(self.changelogHTML)
     }
 
-    let rating: Int
+    let rating: Double
     public var starRating: Double {
-        return (Double(rating) / 10).rounded() / 2
+        return (rating / 10).rounded() / 2
         // rounded to nearest half.
     }
 }
@@ -81,7 +81,7 @@ extension PluginDirectoryEntry: Codable {
         slug = try container.decode(String.self, forKey: .slug)
         version = try? container.decode(String.self, forKey: .version)
         lastUpdated = try? container.decode(Date.self, forKey: .lastUpdated)
-        rating = try container.decode(Int.self, forKey: .rating)
+        rating = try container.decode(Double.self, forKey: .rating)
 
         let icons = try? container.decodeIfPresent([String: String].self, forKey: .icons)
         icon = icons?["2x"].flatMap({ (s) -> URL? in
@@ -158,7 +158,7 @@ extension PluginDirectoryEntry: Codable {
         guard let name = responseObject["name"] as? String,
             let slug = responseObject["slug"] as? String,
             let authorString = responseObject["author"] as? String,
-            let rating = responseObject["rating"] as? Int else {
+            let rating = responseObject["rating"] as? Double else {
                 throw PluginServiceRemote.ResponseError.decodingFailure
         }
 
