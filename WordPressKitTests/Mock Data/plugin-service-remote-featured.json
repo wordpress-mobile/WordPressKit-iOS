@@ -2,7 +2,7 @@
     {
         "name": "WooCommerce",
         "author": "<a href=\"https://woocommerce.com\">Automattic</a>",
-        "rating": 92,
+        "rating": 92.84055644729803,
         "icons": {
             "1x": "https://ps.w.org/woocommerce/assets/icon-128x128.png?rev=144083",
             "2x": "https://ps.w.org/woocommerce/assets/icon-256x256.png?rev=144083"
@@ -22,7 +22,7 @@
     {
         "name": "BuddyPress",
         "author": "<a href=\"https://buddypress.org/\">The BuddyPress Community</a>",
-        "rating": 86,
+        "rating": 86.84055644729803,
         "icons": {
             "1x": "https://ps.w.org/buddypress/assets/icon-128x128.png?rev=1309232",
             "2x": "https://ps.w.org/buddypress/assets/icon-256x256.png?rev=1309232"
