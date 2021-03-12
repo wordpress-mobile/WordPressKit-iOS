@@ -142,12 +142,21 @@ extension StatsServiceRemoteV2 {
     private func getLastPostInsight(limit: Int = 10, completion: @escaping ((StatsLastPostInsight?, Error?) -> Void)) {
         let properties = StatsLastPostInsight.queryProperties(with: limit) as [String: AnyObject]
         let pathComponent = StatsLastPostInsight.pathComponent
-
         let path = self.path(forEndpoint: "sites/\(siteID)/\(pathComponent)", withVersion: ._1_1)
 
         wordPressComRestApi.GET(path, parameters: properties, success: { (response, _) in
+            guard let jsonResponse = response as? [String: AnyObject],
+                  let postCount = jsonResponse["found"] as? Int else {
+                completion(nil, ResponseError.decodingFailure)
+                return
+            }
+
+            guard postCount > 0 else {
+                completion(nil, nil)
+                return
+            }
+
             guard
-                let jsonResponse = response as? [String: AnyObject],
                 let posts = jsonResponse["posts"] as? [[String: AnyObject]],
                 let post = posts.first,
                 let postID = post["ID"] as? Int else {
