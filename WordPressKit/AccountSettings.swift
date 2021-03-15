@@ -17,6 +17,7 @@ public struct AccountSettings {
     public let webAddress: String  // user_URL
     public let language: String    // language
     public let tracksOptOut: Bool
+    public let blockEmailNotifications: Bool
 
     public init(firstName: String,
                 lastName: String,
@@ -30,7 +31,8 @@ public struct AccountSettings {
                 primarySiteID: Int,
                 webAddress: String,
                 language: String,
-                tracksOptOut: Bool) {
+                tracksOptOut: Bool,
+                blockEmailNotifications: Bool) {
         self.firstName = firstName
         self.lastName = lastName
         self.displayName = displayName
@@ -44,6 +46,7 @@ public struct AccountSettings {
         self.webAddress = webAddress
         self.language = language
         self.tracksOptOut = tracksOptOut
+        self.blockEmailNotifications = blockEmailNotifications
     }
 }
 

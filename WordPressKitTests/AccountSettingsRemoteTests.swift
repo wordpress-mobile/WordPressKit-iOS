@@ -66,6 +66,7 @@ class AccountSettingsRemoteTests: RemoteTestCase, RESTTestable {
             XCTAssertEqual(settings.email, self.email, "The email addresses should be equal.")
             XCTAssertEqual(settings.webAddress, self.userURL, "The web addresses should be equal.")
             XCTAssertEqual(settings.primarySiteID, self.siteID, "The primary site ID's should be equal.")
+            XCTAssertTrue(settings.blockEmailNotifications, "The 'block emails' in Reader Subscriptions should be enabled.")
             expect.fulfill()
         }) { _ in
             XCTFail("This callback shouldn't get called")
