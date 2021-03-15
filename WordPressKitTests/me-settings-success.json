@@ -23,7 +23,7 @@
     "subscription_delivery_mail_option": "html",
     "subscription_delivery_day": 1,
     "subscription_delivery_hour": 6,
-    "subscription_delivery_email_blocked": false,
+    "subscription_delivery_email_blocked": true,
     "two_step_enabled": true,
     "two_step_sms_enabled": false,
     "two_step_backup_codes_printed": true,
