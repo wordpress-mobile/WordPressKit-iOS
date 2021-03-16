@@ -31,3 +31,8 @@ target 'WordPressKitTests' do
   pod 'OHHTTPStubs/Swift', '9.0'
   pod 'OCMock', '~> 3.4.2'
 end
+
+target 'APITests' do
+  project 'WordPressKit.xcodeproj'
+  wordpresskit_pods
+end
