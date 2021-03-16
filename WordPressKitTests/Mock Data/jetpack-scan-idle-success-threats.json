@@ -32,7 +32,7 @@
         "diff": ""
     }, {
         "id": 35142156,
-        "signature": "URL.BlackList.1",
+        "signature": "URL.BlockList.1",
         "description": "Jetpack has detected a link to a dangerous site. These sites are often related to dangerous or malicious code.",
         "first_detected": "2020-11-13T01:13:42.000Z",
         "status": "current",
