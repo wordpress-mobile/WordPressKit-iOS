@@ -11,24 +11,24 @@ workflows:
           name: Test
           xcode-version: "11.2.1"
           workspace: WordPressKit.xcworkspace
-          scheme: WordPressKitTests
+          scheme: APITests
           device: iPhone Xs
           ios-version: "12.2"
           bundle-install: true
           pod-install: true
-      - ios/validate-podspec:
-          name: Validate Podspec
-          xcode-version: "11.2.1"
-          podspec-path: WordPressKit.podspec
-          bundle-install: true
-      - ios/publish-podspec:
-          name: Publish to Trunk
-          xcode-version: "11.2.1"
-          podspec-path: WordPressKit.podspec
-          bundle-install: true
-          post-to-slack: true
-          filters:
-            tags:
-              only: /.*/
-            branches:
-              ignore: /.*/
+      # - ios/validate-podspec:
+      #     name: Validate Podspec
+      #     xcode-version: "11.2.1"
+      #     podspec-path: WordPressKit.podspec
+      #     bundle-install: true
+      # - ios/publish-podspec:
+      #     name: Publish to Trunk
+      #     xcode-version: "11.2.1"
+      #     podspec-path: WordPressKit.podspec
+      #     bundle-install: true
+      #     post-to-slack: true
+      #     filters:
+      #       tags:
+      #         only: /.*/
+      #       branches:
+      #         ignore: /.*/
