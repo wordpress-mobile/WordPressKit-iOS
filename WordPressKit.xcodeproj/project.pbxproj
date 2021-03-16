@@ -37,6 +37,8 @@
 		32FC1D28255C91ED00CD0A7B /* JetpackScan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32FC1D26255C91ED00CD0A7B /* JetpackScan.swift */; };
 		32FC1D29255C91ED00CD0A7B /* JetpackScanServiceRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32FC1D27255C91ED00CD0A7B /* JetpackScanServiceRemote.swift */; };
 		32FC20CE255DCC6100CD0A7B /* JetpackScanThreat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32FC20CD255DCC6100CD0A7B /* JetpackScanThreat.swift */; };
+		3F28BC7E2600705500431B8F /* APITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F28BC7D2600705500431B8F /* APITests.swift */; };
+		3F28BC802600705500431B8F /* WordPressKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9368C77B1EC5EF1B0092CE8E /* WordPressKit.framework */; };
 		3F758FD324F6C68200BBA2FC /* AnnouncementServiceRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F758FD224F6C68200BBA2FC /* AnnouncementServiceRemote.swift */; };
 		40247DFA2120D8E100AE1C3C /* AutomatedTransferService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40247DF92120D8E100AE1C3C /* AutomatedTransferService.swift */; };
 		40247DFC2120E69600AE1C3C /* AutomatedTransferStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40247DFB2120E69600AE1C3C /* AutomatedTransferStatus.swift */; };
@@ -584,6 +586,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		3F28BC812600705500431B8F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9368C7721EC5EF1B0092CE8E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9368C77A1EC5EF1B0092CE8E;
+			remoteInfo = WordPressKit;
+		};
 		9368C7861EC5EF1B0092CE8E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 9368C7721EC5EF1B0092CE8E /* Project object */;
@@ -624,6 +633,9 @@
 		32FC1D26255C91ED00CD0A7B /* JetpackScan.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JetpackScan.swift; sourceTree = "<group>"; };
 		32FC1D27255C91ED00CD0A7B /* JetpackScanServiceRemote.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JetpackScanServiceRemote.swift; sourceTree = "<group>"; };
 		32FC20CD255DCC6100CD0A7B /* JetpackScanThreat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JetpackScanThreat.swift; sourceTree = "<group>"; };
+		3F28BC7B2600705500431B8F /* APITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = APITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3F28BC7D2600705500431B8F /* APITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APITests.swift; sourceTree = "<group>"; };
+		3F28BC7F2600705500431B8F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3F758FD224F6C68200BBA2FC /* AnnouncementServiceRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnouncementServiceRemote.swift; sourceTree = "<group>"; };
 		40247DF92120D8E100AE1C3C /* AutomatedTransferService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutomatedTransferService.swift; sourceTree = "<group>"; };
 		40247DFB2120E69600AE1C3C /* AutomatedTransferStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutomatedTransferStatus.swift; sourceTree = "<group>"; };
@@ -1186,6 +1198,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		3F28BC782600705500431B8F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3F28BC802600705500431B8F /* WordPressKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9368C7771EC5EF1B0092CE8E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -1235,6 +1255,15 @@
 				ED05C8FF3E61D93CE5BA527E /* Pods_WordPressKitTests.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		3F28BC7C2600705500431B8F /* APITests */ = {
+			isa = PBXGroup;
+			children = (
+				3F28BC7D2600705500431B8F /* APITests.swift */,
+				3F28BC7F2600705500431B8F /* Info.plist */,
+			);
+			path = APITests;
 			sourceTree = "<group>";
 		};
 		404057C3221B30140060250C /* Time Interval */ = {
@@ -1550,6 +1579,7 @@
 				FF20AD2120B8471A00082398 /* WordPressKit.podspec */,
 				9368C77D1EC5EF1B0092CE8E /* WordPressKit */,
 				9368C7881EC5EF1B0092CE8E /* WordPressKitTests */,
+				3F28BC7C2600705500431B8F /* APITests */,
 				9368C77C1EC5EF1B0092CE8E /* Products */,
 				38C6ABE94A27A12C9C4AD19D /* Frameworks */,
 				E5EA953F7DD505CCED2E44CD /* Pods */,
@@ -1561,6 +1591,7 @@
 			children = (
 				9368C77B1EC5EF1B0092CE8E /* WordPressKit.framework */,
 				9368C7841EC5EF1B0092CE8E /* WordPressKitTests.xctest */,
+				3F28BC7B2600705500431B8F /* APITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2259,6 +2290,24 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		3F28BC7A2600705500431B8F /* APITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3F28BC872600705500431B8F /* Build configuration list for PBXNativeTarget "APITests" */;
+			buildPhases = (
+				3F28BC772600705500431B8F /* Sources */,
+				3F28BC782600705500431B8F /* Frameworks */,
+				3F28BC792600705500431B8F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3F28BC822600705500431B8F /* PBXTargetDependency */,
+			);
+			name = APITests;
+			productName = APITests;
+			productReference = 3F28BC7B2600705500431B8F /* APITests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		9368C77A1EC5EF1B0092CE8E /* WordPressKit */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9368C78F1EC5EF1B0092CE8E /* Build configuration list for PBXNativeTarget "WordPressKit" */;
@@ -2304,9 +2353,14 @@
 		9368C7721EC5EF1B0092CE8E /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 1240;
 				LastUpgradeCheck = 1200;
 				ORGANIZATIONNAME = "Automattic Inc.";
 				TargetAttributes = {
+					3F28BC7A2600705500431B8F = {
+						CreatedOnToolsVersion = 12.4;
+						ProvisioningStyle = Automatic;
+					};
 					9368C77A1EC5EF1B0092CE8E = {
 						CreatedOnToolsVersion = 8.3.2;
 						LastSwiftMigration = 1130;
@@ -2334,11 +2388,19 @@
 			targets = (
 				9368C77A1EC5EF1B0092CE8E /* WordPressKit */,
 				9368C7831EC5EF1B0092CE8E /* WordPressKitTests */,
+				3F28BC7A2600705500431B8F /* APITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		3F28BC792600705500431B8F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9368C7791EC5EF1B0092CE8E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2680,6 +2742,14 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		3F28BC772600705500431B8F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3F28BC7E2600705500431B8F /* APITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9368C7761EC5EF1B0092CE8E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2964,6 +3034,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		3F28BC822600705500431B8F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9368C77A1EC5EF1B0092CE8E /* WordPressKit */;
+			targetProxy = 3F28BC812600705500431B8F /* PBXContainerItemProxy */;
+		};
 		9368C7871EC5EF1B0092CE8E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 9368C77A1EC5EF1B0092CE8E /* WordPressKit */;
@@ -2972,6 +3047,85 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		3F28BC832600705500431B8F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = APITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.automattic.APITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		3F28BC842600705500431B8F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = APITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.automattic.APITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		3F28BC852600705500431B8F /* Release-Alpha */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = APITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.automattic.APITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = "Release-Alpha";
+		};
+		3F28BC862600705500431B8F /* Release-Internal */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = APITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.automattic.APITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = "Release-Internal";
+		};
 		9368C78D1EC5EF1B0092CE8E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -3406,6 +3560,17 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		3F28BC872600705500431B8F /* Build configuration list for PBXNativeTarget "APITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3F28BC832600705500431B8F /* Debug */,
+				3F28BC842600705500431B8F /* Release */,
+				3F28BC852600705500431B8F /* Release-Alpha */,
+				3F28BC862600705500431B8F /* Release-Internal */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		9368C7751EC5EF1B0092CE8E /* Build configuration list for PBXProject "WordPressKit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
