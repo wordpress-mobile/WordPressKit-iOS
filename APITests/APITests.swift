@@ -1,10 +1,22 @@
 @testable import WordPressKit
+import OHHTTPStubs
 import XCTest
 
 class APITests: XCTestCase {
 
     func testExample() throws {
         let remote = PluginServiceRemote(wordPressComRestApi: WordPressComRestApi.defaultApi())
+
+        stub(
+            condition: { _ in return true },
+            response: { _ -> HTTPStubsResponse in
+                return HTTPStubsResponse(
+                    data: responseWithDouble.data(using: .utf8)!,
+                    statusCode: 200,
+                    headers: .none
+                )
+            }
+        )
 
         let expectation = XCTestExpectation(description: "")
 
@@ -36,3 +48,18 @@ extension WordPressComRestApi {
         )
     }
 }
+
+let responseWithDouble = #"""
+[
+    {
+        "name": "WooCommerce",
+        "author": "<a href=\"https://woocommerce.com\">Automattic</a>",
+        "rating": 81.84055644729803,
+        "icons": {
+            "1x": "https://ps.w.org/woocommerce/assets/icon-128x128.png?rev=2383496",
+            "2x": "https://ps.w.org/woocommerce/assets/icon-256x256.png?rev=2383496"
+        },
+        "slug": "woocommerce"
+    }
+]
+"""#
