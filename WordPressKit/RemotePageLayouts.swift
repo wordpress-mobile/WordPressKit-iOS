@@ -12,7 +12,7 @@ public struct RemotePageLayouts: Codable {
     public init(from decoder: Decoder) throws {
         let map = try decoder.container(keyedBy: CodingKeys.self)
         layouts = try map.decode([RemoteLayout].self, forKey: .layouts)
-        categories = try map.decode([RemoteLayoutCategory].self, forKey: .categories).sorted()
+        categories = try map.decode([RemoteLayoutCategory].self, forKey: .categories)
     }
 
     public init() {
