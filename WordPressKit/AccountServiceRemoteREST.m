@@ -30,10 +30,12 @@ MagicLinkFlow const MagicLinkFlowSignup = @"signup";
 
 @implementation AccountServiceRemoteREST
 
-- (void)getBlogsWithSuccess:(void (^)(NSArray *))success
-                    failure:(void (^)(NSError *))failure
+- (void)getBlogs:(BOOL)filterJetpackSites
+         success:(void (^)(NSArray *))success
+         failure:(void (^)(NSError *))failure
 {
-    [self getBlogsWithParameters:nil success:success failure:failure];
+    NSDictionary *parameters = filterJetpackSites ? @{@"filters": @"jetpack"} : nil;
+    [self getBlogsWithParameters:parameters success:success failure:failure];
 }
 
 - (void)getVisibleBlogsWithSuccess:(void (^)(NSArray *))success
