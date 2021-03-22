@@ -12,7 +12,7 @@ public struct RemotePageLayouts: Codable {
     public init(from decoder: Decoder) throws {
         let map = try decoder.container(keyedBy: CodingKeys.self)
         layouts = try map.decode([RemoteLayout].self, forKey: .layouts)
-        categories = try map.decode([RemoteLayoutCategory].self, forKey: .categories).sorted()
+        categories = try map.decode([RemoteLayoutCategory].self, forKey: .categories)
     }
 
     public init() {
@@ -29,6 +29,9 @@ public struct RemoteLayout: Codable {
     public let slug: String
     public let title: String
     public let preview: String?
+    public let previewTablet: String?
+    public let previewMobile: String?
+    public let demoUrl: String?
     public let content: String?
     public let categories: [RemoteLayoutCategory]
 
@@ -36,6 +39,9 @@ public struct RemoteLayout: Codable {
         case slug
         case title
         case preview
+        case previewTablet = "preview_tablet"
+        case previewMobile = "preview_mobile"
+        case demoUrl = "demo_url"
         case content
         case categories
     }
@@ -45,6 +51,9 @@ public struct RemoteLayout: Codable {
         slug = try map.decode(String.self, forKey: .slug)
         title = try map.decode(String.self, forKey: .title)
         preview = try? map.decode(String.self, forKey: .preview)
+        previewTablet = try? map.decode(String.self, forKey: .previewTablet)
+        previewMobile = try? map.decode(String.self, forKey: .previewMobile)
+        demoUrl = try? map.decode(String.self, forKey: .demoUrl)
         content = try? map.decode(String.self, forKey: .content)
         categories = try map.decode([RemoteLayoutCategory].self, forKey: .categories)
     }

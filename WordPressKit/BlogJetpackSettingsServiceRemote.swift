@@ -168,7 +168,7 @@ private extension BlogJetpackSettingsServiceRemote {
 
         guard let monitorEnabled = dictionary[Keys.monitorEnabled] as? Bool,
             let blockMaliciousLoginAttempts = dictionary[Keys.blockMaliciousLoginAttempts] as? Bool,
-            let whitelistedIPs = dictionary[Keys.whiteListedIPAddresses]?[Keys.whiteListedIPsLocal] as? [String],
+            let allowlistedIPs = dictionary[Keys.allowListedIPAddresses]?[Keys.allowListedIPsLocal] as? [String],
             let ssoEnabled = dictionary[Keys.ssoEnabled] as? Bool,
             let ssoMatchAccountsByEmail = dictionary[Keys.ssoMatchAccountsByEmail] as? Bool,
             let ssoRequireTwoStepAuthentication = dictionary[Keys.ssoRequireTwoStepAuthentication] as? Bool else {
@@ -177,7 +177,7 @@ private extension BlogJetpackSettingsServiceRemote {
 
         return RemoteBlogJetpackSettings(monitorEnabled: monitorEnabled,
                                          blockMaliciousLoginAttempts: blockMaliciousLoginAttempts,
-                                         loginWhiteListedIPAddresses: Set(whitelistedIPs),
+                                         loginAllowListedIPAddresses: Set(allowlistedIPs),
                                          ssoEnabled: ssoEnabled,
                                          ssoMatchAccountsByEmail: ssoMatchAccountsByEmail,
                                          ssoRequireTwoStepAuthentication: ssoRequireTwoStepAuthentication)
@@ -212,12 +212,12 @@ private extension BlogJetpackSettingsServiceRemote {
     }
 
     func dictionaryFromJetpackSettings(_ settings: RemoteBlogJetpackSettings) -> [String: Any] {
-        let joinedIPs = settings.loginWhiteListedIPAddresses.joined(separator: ", ")
-        let shouldSendWhitelist = settings.blockMaliciousLoginAttempts
+        let joinedIPs = settings.loginAllowListedIPAddresses.joined(separator: ", ")
+        let shouldSendAllowlist = settings.blockMaliciousLoginAttempts
         let settingsDictionary: [String: Any?] = [
             Keys.monitorEnabled: settings.monitorEnabled,
             Keys.blockMaliciousLoginAttempts: settings.blockMaliciousLoginAttempts,
-            Keys.whiteListedIPAddresses: shouldSendWhitelist ? joinedIPs : nil,
+            Keys.allowListedIPAddresses: shouldSendAllowlist ? joinedIPs : nil,
             Keys.ssoEnabled: settings.ssoEnabled,
             Keys.ssoMatchAccountsByEmail: settings.ssoMatchAccountsByEmail,
             Keys.ssoRequireTwoStepAuthentication: settings.ssoRequireTwoStepAuthentication
@@ -239,8 +239,8 @@ public extension BlogJetpackSettingsServiceRemote {
         // RemoteBlogJetpackSettings keys
         public static let monitorEnabled = "monitor"
         public static let blockMaliciousLoginAttempts  = "protect"
-        public static let whiteListedIPAddresses = "jetpack_protect_global_whitelist"
-        public static let whiteListedIPsLocal = "local"
+        public static let allowListedIPAddresses = "jetpack_protect_global_whitelist"
+        public static let allowListedIPsLocal = "local"
         public static let ssoEnabled = "sso"
         public static let ssoMatchAccountsByEmail = "jetpack_sso_match_by_email"
         public static let ssoRequireTwoStepAuthentication = "jetpack_sso_require_two_step"

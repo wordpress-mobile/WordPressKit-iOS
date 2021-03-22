@@ -163,11 +163,11 @@ static NSTimeInterval const TestExpectationTimeout = 5;
 
         // Comments
         XCTAssertEqualObjects(settings.commentsAllowed, @(true), @"");
-        XCTAssertEqualObjects(settings.commentsBlacklistKeys, @"some evil keywords", @"");
+        XCTAssertEqualObjects(settings.commentsBlocklistKeys, @"some evil keywords", @"");
         XCTAssertEqualObjects(settings.commentsCloseAutomatically, @(false), @"");
         XCTAssertEqualObjects(settings.commentsCloseAutomaticallyAfterDays, @(3000), @"");
 
-        XCTAssertEqualObjects(settings.commentsFromKnownUsersWhitelisted, @(true), @"");
+        XCTAssertEqualObjects(settings.commentsFromKnownUsersAllowlisted, @(true), @"");
         XCTAssertEqualObjects(settings.commentsMaximumLinks, @(42), @"");
 
         XCTAssertEqualObjects(settings.commentsModerationKeys, @"moderation keys", @"");

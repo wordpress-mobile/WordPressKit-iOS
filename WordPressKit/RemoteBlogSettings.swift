@@ -65,9 +65,9 @@ public class RemoteBlogSettings: NSObject {
     ///
     @objc public var commentsAllowed: NSNumber?
 
-    /// Contains a list of words that would automatically blacklist a comment.
+    /// Contains a list of words that would automatically blocklist a comment.
     ///
-    @objc public var commentsBlacklistKeys: String?
+    @objc public var commentsBlocklistKeys: String?
 
     /// If true, comments will be automatically closed after the number of days, specified by `commentsCloseAutomaticallyAfterDays`.
     ///
@@ -78,9 +78,9 @@ public class RemoteBlogSettings: NSObject {
     ///
     @objc public var commentsCloseAutomaticallyAfterDays: NSNumber?
 
-    /// When enabled, comments from known users will be whitelisted.
+    /// When enabled, comments from known users will be allowlisted.
     ///
-    @objc public var commentsFromKnownUsersWhitelisted: NSNumber?
+    @objc public var commentsFromKnownUsersAllowlisted: NSNumber?
 
     /// Indicates the maximum number of links allowed per comment. When a new comment exceeds this number,
     /// it'll be held in queue for moderation.

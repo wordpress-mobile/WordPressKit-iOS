@@ -24,10 +24,10 @@ static NSString * const RemoteBlogTimeFormatKey                             = @"
 static NSString * const RemoteBlogStartOfWeekKey                            = @"start_of_week";
 static NSString * const RemoteBlogPostsPerPageKey                           = @"posts_per_page";
 static NSString * const RemoteBlogCommentsAllowedKey                        = @"default_comment_status";
-static NSString * const RemoteBlogCommentsBlacklistKeys                     = @"blacklist_keys";
+static NSString * const RemoteBlogCommentsBlocklistKeys                     = @"blacklist_keys";
 static NSString * const RemoteBlogCommentsCloseAutomaticallyKey             = @"close_comments_for_old_posts";
 static NSString * const RemoteBlogCommentsCloseAutomaticallyAfterDaysKey    = @"close_comments_days_old";
-static NSString * const RemoteBlogCommentsKnownUsersWhitelistKey            = @"comment_whitelist";
+static NSString * const RemoteBlogCommentsKnownUsersAllowlistKey            = @"comment_whitelist";
 static NSString * const RemoteBlogCommentsMaxLinksKey                       = @"comment_max_links";
 static NSString * const RemoteBlogCommentsModerationKeys                    = @"moderation_keys";
 static NSString * const RemoteBlogCommentsPagingEnabledKey                  = @"page_comments";
@@ -409,10 +409,10 @@ static NSInteger const RemoteBlogUncategorizedCategory                      = 1;
 
     // Discussion
     settings.commentsAllowed = [rawSettings numberForKey:RemoteBlogCommentsAllowedKey];
-    settings.commentsBlacklistKeys = [rawSettings stringForKey:RemoteBlogCommentsBlacklistKeys];
+    settings.commentsBlocklistKeys = [rawSettings stringForKey:RemoteBlogCommentsBlocklistKeys];
     settings.commentsCloseAutomatically = [rawSettings numberForKey:RemoteBlogCommentsCloseAutomaticallyKey];
     settings.commentsCloseAutomaticallyAfterDays = [rawSettings numberForKey:RemoteBlogCommentsCloseAutomaticallyAfterDaysKey];
-    settings.commentsFromKnownUsersWhitelisted = [rawSettings numberForKey:RemoteBlogCommentsKnownUsersWhitelistKey];
+    settings.commentsFromKnownUsersAllowlisted = [rawSettings numberForKey:RemoteBlogCommentsKnownUsersAllowlistKey];
     settings.commentsMaximumLinks = [rawSettings numberForKey:RemoteBlogCommentsMaxLinksKey];
     settings.commentsModerationKeys = [rawSettings stringForKey:RemoteBlogCommentsModerationKeys];
     settings.commentsPagingEnabled = [rawSettings numberForKey:RemoteBlogCommentsPagingEnabledKey];
@@ -468,10 +468,10 @@ static NSInteger const RemoteBlogUncategorizedCategory                      = 1;
     [parameters setValueIfNotNil:settings.postsPerPage forKey:RemoteBlogPostsPerPageKey];
 
     [parameters setValueIfNotNil:settings.commentsAllowed forKey:RemoteBlogCommentsAllowedKey];
-    [parameters setValueIfNotNil:settings.commentsBlacklistKeys forKey:RemoteBlogCommentsBlacklistKeys];
+    [parameters setValueIfNotNil:settings.commentsBlocklistKeys forKey:RemoteBlogCommentsBlocklistKeys];
     [parameters setValueIfNotNil:settings.commentsCloseAutomatically forKey:RemoteBlogCommentsCloseAutomaticallyKey];
     [parameters setValueIfNotNil:settings.commentsCloseAutomaticallyAfterDays forKey:RemoteBlogCommentsCloseAutomaticallyAfterDaysKey];
-    [parameters setValueIfNotNil:settings.commentsFromKnownUsersWhitelisted forKey:RemoteBlogCommentsKnownUsersWhitelistKey];
+    [parameters setValueIfNotNil:settings.commentsFromKnownUsersAllowlisted forKey:RemoteBlogCommentsKnownUsersAllowlistKey];
     [parameters setValueIfNotNil:settings.commentsMaximumLinks forKey:RemoteBlogCommentsMaxLinksKey];
     [parameters setValueIfNotNil:settings.commentsModerationKeys forKey:RemoteBlogCommentsModerationKeys];
     [parameters setValueIfNotNil:settings.commentsPagingEnabled forKey:RemoteBlogCommentsPagingEnabledKey];
