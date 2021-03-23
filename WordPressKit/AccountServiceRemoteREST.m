@@ -34,8 +34,17 @@ MagicLinkFlow const MagicLinkFlowSignup = @"signup";
          success:(void (^)(NSArray *))success
          failure:(void (^)(NSError *))failure
 {
-    NSDictionary *parameters = filterJetpackSites ? @{@"filters": @"jetpack"} : nil;
-    [self getBlogsWithParameters:parameters success:success failure:failure];
+    if (filterJetpackSites) {
+        [self getBlogsWithParameters:@{@"filters": @"jetpack"} success:success failure:failure];
+    } else {
+        [self getBlogsWithSuccess:success failure:failure];
+    }
+}
+
+- (void)getBlogsWithSuccess:(void (^)(NSArray *))success
+                    failure:(void (^)(NSError *))failure
+{
+    [self getBlogsWithParameters:nil success:success failure:failure];
 }
 
 - (void)getVisibleBlogsWithSuccess:(void (^)(NSArray *))success

@@ -25,6 +25,16 @@ typedef NS_ERROR_ENUM(AccountServiceRemoteErrorDomain, AccountServiceRemoteError
          failure:(void (^)(NSError *error))failure;
 
 /**
+ *  @brief      Gets all blogs for an account.
+ *
+ *  @param      success      The block that will be executed on success.  Can be nil.
+ *  @param      failure      The block that will be executed on failure.  Can be nil.
+ */
+- (void)getBlogsWithSuccess:(void (^)(NSArray *blogs))success
+                    failure:(void (^)(NSError *error))failure;
+
+
+/**
  *  @brief      Gets only visible blogs for an account.
  *
  *  @discussion This method is designed for use in extensions in order to provide a simple
