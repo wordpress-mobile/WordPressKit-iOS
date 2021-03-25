@@ -14,13 +14,25 @@ typedef NS_ERROR_ENUM(AccountServiceRemoteErrorDomain, AccountServiceRemoteError
 @protocol AccountServiceRemote <NSObject>
 
 /**
+ *  @brief      Gets blogs for an account.
+ *
+ *  @param      filterJetpackSites    Whether we're fetching only Jetpack blogs.
+ *  @param      success      The block that will be executed on success.  Can be nil.
+ *  @param      failure      The block that will be executed on failure.  Can be nil.
+ */
+- (void)getBlogs:(BOOL)filterJetpackSites
+         success:(void (^)(NSArray *blogs))success
+         failure:(void (^)(NSError *error))failure;
+
+/**
  *  @brief      Gets all blogs for an account.
  *
- *  @param      success     The block that will be executed on success.  Can be nil.
- *  @param      failure     The block that will be executed on failure.  Can be nil.
+ *  @param      success      The block that will be executed on success.  Can be nil.
+ *  @param      failure      The block that will be executed on failure.  Can be nil.
  */
 - (void)getBlogsWithSuccess:(void (^)(NSArray *blogs))success
                     failure:(void (^)(NSError *error))failure;
+
 
 /**
  *  @brief      Gets only visible blogs for an account.

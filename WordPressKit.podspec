@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
   s.name          = "WordPressKit"
-  s.version       = "4.29.0-beta.6"
-
+  s.version       = "4.30.0-beta.1"
+  
   s.summary       = "WordPressKit offers a clean and simple WordPress.com and WordPress.org API."
   s.description   = <<-DESC
                     This framework encapsulates all of the networking calls and entity parsers required to interact
