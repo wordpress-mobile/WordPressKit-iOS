@@ -6,7 +6,7 @@ Pod::Spec.new do |s|
   s.description   = <<-DESC
                     This framework encapsulates all of the networking calls and entity parsers required to interact
                     with WordPress.com and WordPress.org endpoints.
-                    DESC
+                  DESC
 
   s.homepage      = "https://github.com/wordpress-mobile/WordPressKit-iOS"
   s.license       = { :type => "GPLv2", :file => "LICENSE" }
