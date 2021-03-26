@@ -10,8 +10,7 @@ Pod::Spec.new do |s|
 
   s.homepage      = "https://github.com/wordpress-mobile/WordPressKit-iOS"
   s.license       = { :type => "GPLv2", :file => "LICENSE" }
-  s.author        = { "Automattic" => "mobile@automattic.com" }
-  s.social_media_url = "https://twitter.com/automattic"
+  s.author        = { "The WordPress Mobile Team" => "mobile@automattic.com" }
 
   s.platform      = :ios, "11.0"
   s.swift_version = '5.0'
