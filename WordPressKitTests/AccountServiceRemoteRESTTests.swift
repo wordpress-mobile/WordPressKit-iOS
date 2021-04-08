@@ -199,7 +199,7 @@ class AccountServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
         let expect = expectation(description: "Get blogs server error failure")
 
         stubRemoteResponse(meSitesEndpoint, data: Data(), contentType: .NoContentType, status: 500)
-        remote.getBlogsWithSuccess({ blogs in
+        remote.getBlogsWithSuccess({ _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         }, failure: { error in
@@ -220,7 +220,7 @@ class AccountServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
         let expect = expectation(description: "Get blogs server error failure")
 
         stubRemoteResponse(jetpackSitesEndpoint, data: Data(), contentType: .NoContentType, status: 500)
-        remote.getBlogs(true, success: { blogs in
+        remote.getBlogs(true, success: { _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         }, failure: { error in
@@ -241,7 +241,7 @@ class AccountServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
         let expect = expectation(description: "Get blogs auth failure")
 
         stubRemoteResponse(meSitesEndpoint, filename: getBlogsAuthFailureMockFilename, contentType: .ApplicationJSON, status: 403)
-        remote.getBlogsWithSuccess({ blogs in
+        remote.getBlogsWithSuccess({ _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         }, failure: { error in
@@ -262,7 +262,7 @@ class AccountServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
         let expect = expectation(description: "Get blogs auth failure")
 
         stubRemoteResponse(jetpackSitesEndpoint, filename: getBlogsAuthFailureMockFilename, contentType: .ApplicationJSON, status: 403)
-        remote.getBlogs(true, success: { blogs in
+        remote.getBlogs(true, success: { _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         }, failure: { error in
@@ -283,7 +283,7 @@ class AccountServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
         let expect = expectation(description: "Get blogs with invalid json response failure")
 
         stubRemoteResponse(meSitesEndpoint, filename: getBlogsBadJsonFailureMockFilename, contentType: .ApplicationJSON, status: 200)
-        remote.getBlogsWithSuccess({ blogs in
+        remote.getBlogsWithSuccess({ _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         }, failure: { _ in
@@ -297,7 +297,7 @@ class AccountServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
         let expect = expectation(description: "Get blogs with invalid json response failure")
 
         stubRemoteResponse(jetpackSitesEndpoint, filename: getBlogsBadJsonFailureMockFilename, contentType: .ApplicationJSON, status: 200)
-        remote.getBlogs(true, success: { blogs in
+        remote.getBlogs(true, success: { _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         }, failure: { _ in
