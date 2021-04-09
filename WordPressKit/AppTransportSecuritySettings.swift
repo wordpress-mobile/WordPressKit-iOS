@@ -20,7 +20,7 @@ struct AppTransportSecuritySettings {
         settings?["NSExceptionDomains"] as? NSDictionary
     }
 
-    init(infoDictionaryObjectProvider: InfoDictionaryObjectProvider = Bundle.main) {
+    init(_ infoDictionaryObjectProvider: InfoDictionaryObjectProvider = Bundle.main) {
         self.infoDictionaryObjectProvider = infoDictionaryObjectProvider
     }
 
