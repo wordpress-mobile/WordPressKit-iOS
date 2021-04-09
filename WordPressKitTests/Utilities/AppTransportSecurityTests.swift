@@ -47,6 +47,18 @@ final class AppTransportSecurityTests: XCTestCase {
 
     func testReturnsTrueByDefault() throws {
         // Given
+        let provider = FakeInfoDictionaryObjectProvider(appTransportSecurity: nil)
+        let appTransportSecurity = AppTransportSecurity(infoDictionaryObjectProvider: provider)
+
+        // When
+        let secureAccessOnly = appTransportSecurity.secureAccessOnly(for: exampleURL)
+
+        // Then
+        XCTAssertTrue(secureAccessOnly)
+    }
+
+    func testReturnsTrueIfNothingIsDefined() throws {
+        // Given
         let provider = FakeInfoDictionaryObjectProvider(appTransportSecurity: [String: Any]())
         let appTransportSecurity = AppTransportSecurity(infoDictionaryObjectProvider: provider)
 
@@ -59,9 +71,9 @@ final class AppTransportSecurityTests: XCTestCase {
 }
 
 private class FakeInfoDictionaryObjectProvider: InfoDictionaryObjectProvider {
-    private let appTransportSecurity: [String: Any]
+    private let appTransportSecurity: [String: Any]?
 
-    init(appTransportSecurity: [String: Any]) {
+    init(appTransportSecurity: [String: Any]?) {
         self.appTransportSecurity = appTransportSecurity
     }
 
