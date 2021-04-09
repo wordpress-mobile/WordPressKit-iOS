@@ -68,6 +68,44 @@ final class AppTransportSecurityTests: XCTestCase {
         // Then
         XCTAssertTrue(secureAccessOnly)
     }
+
+    func testReturnsFalseIfAllowsInsecureHTTPLoadsIsTrue() throws {
+        // Given
+        let provider = FakeInfoDictionaryObjectProvider(appTransportSecurity: [
+            "NSExceptionDomains": [
+                "shiki.me": [
+                    "NSExceptionAllowsInsecureHTTPLoads": true
+                ]
+            ]
+        ])
+        let appTransportSecurity = AppTransportSecurity(infoDictionaryObjectProvider: provider)
+        let url = try XCTUnwrap(URL(string: "http://shiki.me"))
+
+        // When
+        let secureAccessOnly = appTransportSecurity.secureAccessOnly(for: url)
+
+        // Then
+        XCTAssertFalse(secureAccessOnly)
+    }
+
+    func testReturnsTrueIfAllowsInsecureHTTPLoadsIsNotProvided() throws {
+        // Given
+        let provider = FakeInfoDictionaryObjectProvider(appTransportSecurity: [
+            "NSExceptionDomains": [
+                "shiki.me": [String: Any]()
+            ],
+            // This value will be ignored because there is an exception for shiki.me
+            "NSAllowsArbitraryLoads": true
+        ])
+        let appTransportSecurity = AppTransportSecurity(infoDictionaryObjectProvider: provider)
+        let url = try XCTUnwrap(URL(string: "http://shiki.me"))
+
+        // When
+        let secureAccessOnly = appTransportSecurity.secureAccessOnly(for: url)
+
+        // Then
+        XCTAssertTrue(secureAccessOnly)
+    }
 }
 
 private class FakeInfoDictionaryObjectProvider: InfoDictionaryObjectProvider {
