@@ -1,7 +1,7 @@
 import XCTest
 @testable import WordPressKit
 
-final class AppTransportSecurityTests: XCTestCase {
+final class AppTransportSecuritySettingsTests: XCTestCase {
 
     private var exampleURL: URL!
 
@@ -22,7 +22,7 @@ final class AppTransportSecurityTests: XCTestCase {
             // This will be ignored
             "NSAllowsArbitraryLoads": true
         ])
-        let appTransportSecurity = AppTransportSecurity(infoDictionaryObjectProvider: provider)
+        let appTransportSecurity = AppTransportSecuritySettings(infoDictionaryObjectProvider: provider)
 
         // When
         let secureAccessOnly = appTransportSecurity.secureAccessOnly(for: exampleURL)
@@ -36,7 +36,7 @@ final class AppTransportSecurityTests: XCTestCase {
         let provider = FakeInfoDictionaryObjectProvider(appTransportSecurity: [
             "NSAllowsArbitraryLoads": true
         ])
-        let appTransportSecurity = AppTransportSecurity(infoDictionaryObjectProvider: provider)
+        let appTransportSecurity = AppTransportSecuritySettings(infoDictionaryObjectProvider: provider)
 
         // When
         let secureAccessOnly = appTransportSecurity.secureAccessOnly(for: exampleURL)
@@ -48,7 +48,7 @@ final class AppTransportSecurityTests: XCTestCase {
     func testReturnsTrueByDefault() throws {
         // Given
         let provider = FakeInfoDictionaryObjectProvider(appTransportSecurity: nil)
-        let appTransportSecurity = AppTransportSecurity(infoDictionaryObjectProvider: provider)
+        let appTransportSecurity = AppTransportSecuritySettings(infoDictionaryObjectProvider: provider)
 
         // When
         let secureAccessOnly = appTransportSecurity.secureAccessOnly(for: exampleURL)
@@ -60,7 +60,7 @@ final class AppTransportSecurityTests: XCTestCase {
     func testReturnsTrueIfNothingIsDefined() throws {
         // Given
         let provider = FakeInfoDictionaryObjectProvider(appTransportSecurity: [String: Any]())
-        let appTransportSecurity = AppTransportSecurity(infoDictionaryObjectProvider: provider)
+        let appTransportSecurity = AppTransportSecuritySettings(infoDictionaryObjectProvider: provider)
 
         // When
         let secureAccessOnly = appTransportSecurity.secureAccessOnly(for: exampleURL)
@@ -78,7 +78,7 @@ final class AppTransportSecurityTests: XCTestCase {
                 ]
             ]
         ])
-        let appTransportSecurity = AppTransportSecurity(infoDictionaryObjectProvider: provider)
+        let appTransportSecurity = AppTransportSecuritySettings(infoDictionaryObjectProvider: provider)
         let url = try XCTUnwrap(URL(string: "http://shiki.me"))
 
         // When
@@ -97,7 +97,7 @@ final class AppTransportSecurityTests: XCTestCase {
             // This value will be ignored because there is an exception for shiki.me
             "NSAllowsArbitraryLoads": true
         ])
-        let appTransportSecurity = AppTransportSecurity(infoDictionaryObjectProvider: provider)
+        let appTransportSecurity = AppTransportSecuritySettings(infoDictionaryObjectProvider: provider)
         let url = try XCTUnwrap(URL(string: "http://shiki.me"))
 
         // When

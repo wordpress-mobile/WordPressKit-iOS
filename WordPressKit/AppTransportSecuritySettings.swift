@@ -8,7 +8,7 @@ extension Bundle: InfoDictionaryObjectProvider {
 
 }
 
-struct AppTransportSecurity {
+struct AppTransportSecuritySettings {
 
     private let infoDictionaryObjectProvider: InfoDictionaryObjectProvider
 
