@@ -3,17 +3,7 @@ import XCTest
 
 final class AppTransportSecuritySettingsTests: XCTestCase {
 
-    private var exampleURL: URL!
-
-    override func setUpWithError() throws {
-        try super.setUpWithError()
-        exampleURL = try XCTUnwrap(URL(string: "https://example.com"))
-    }
-
-    override func tearDown() {
-        exampleURL = nil
-        super.tearDown()
-    }
+    private var exampleURL = URL(string: "https://example.com")!
 
     func testReturnsTrueIfAllowsLocalNetworkingIsTrue() throws {
         // Given
