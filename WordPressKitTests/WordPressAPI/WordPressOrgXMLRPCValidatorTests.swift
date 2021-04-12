@@ -16,15 +16,15 @@ final class WordPressOrgXMLRPCValidatorTests: XCTestCase {
         // Given
         var schemes = Set<String>()
         // Stub all, we only care about the URL schemes that are being tested.
-        stub { request -> Bool in
+        stub(condition: { request -> Bool in
             if let scheme = request.url?.scheme {
                 schemes.insert(scheme)
             }
             return true
-        } response: { request -> HTTPStubsResponse in
+        }, response: { request in
             let error = NSError(domain: "", code: NSURLErrorNotConnectedToInternet, userInfo: nil)
             return HTTPStubsResponse(error: error)
-        }
+        })
 
         let validator = WordPressOrgXMLRPCValidator()
 
@@ -46,15 +46,15 @@ final class WordPressOrgXMLRPCValidatorTests: XCTestCase {
         // Given
         var schemes = Set<String>()
         // Stub all, we only care about the URL schemes that are being tested.
-        stub { request -> Bool in
+        stub(condition: { request -> Bool in
             if let scheme = request.url?.scheme {
                 schemes.insert(scheme)
             }
             return true
-        } response: { request -> HTTPStubsResponse in
+        }, response: { request in
             let error = NSError(domain: "", code: NSURLErrorNotConnectedToInternet, userInfo: nil)
             return HTTPStubsResponse(error: error)
-        }
+        })
 
         let validator = WordPressOrgXMLRPCValidator(makeUnsecuredAppTransportSecuritySettings())
 
