@@ -29,12 +29,12 @@ final class WordPressOrgXMLRPCValidatorTests: XCTestCase {
         let validator = WordPressOrgXMLRPCValidator()
 
         // When
-        let expectation = self.expectation(description: "Wait for it")
-        validator.guessXMLRPCURLForSite(exampleURLString, userAgent: "") { result in
+        let expectation = self.expectation(description: "Wait for success or failure")
+        validator.guessXMLRPCURLForSite(exampleURLString, userAgent: "", success: { result in
             expectation.fulfill()
-        } failure: { error in
+        }, failure: { error in
             expectation.fulfill()
-        }
+        })
 
         wait(for: [expectation], timeout: 2.0)
 
@@ -59,12 +59,12 @@ final class WordPressOrgXMLRPCValidatorTests: XCTestCase {
         let validator = WordPressOrgXMLRPCValidator(makeUnsecuredAppTransportSecuritySettings())
 
         // When
-        let expectation = self.expectation(description: "Wait for it")
-        validator.guessXMLRPCURLForSite(exampleURLString, userAgent: "") { result in
+        let expectation = self.expectation(description: "Wait for success or failure")
+        validator.guessXMLRPCURLForSite(exampleURLString, userAgent: "", success: { result in
             expectation.fulfill()
-        } failure: { error in
+        }, failure: { error in
             expectation.fulfill()
-        }
+        })
 
         wait(for: [expectation], timeout: 2.0)
 
