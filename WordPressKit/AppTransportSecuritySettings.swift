@@ -39,6 +39,10 @@ struct AppTransportSecuritySettings {
     /// [NSAppTransportSecurity](https://developer.apple.com/documentation/bundleresources/information_property_list/nsapptransportsecurity)
     /// documentation and its sub-pages.
     func secureAccessOnly(for siteURL: URL) -> Bool {
+        // From Apple: If you specify an exception domain dictionary, ATS ignores any global
+        // configuration keys, like NSAllowsArbitraryLoads, for that domain. This is true even
+        // if you leave the domain-specific dictionary empty and rely entirely on its keys’ default
+        // values.
         if let exceptionDomain = self.exceptionDomain(for: siteURL) {
             let allowsInsecureHTTPLoads =
                 exceptionDomain["NSExceptionAllowsInsecureHTTPLoads"] as? Bool ?? false
