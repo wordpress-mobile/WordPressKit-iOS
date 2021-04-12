@@ -105,6 +105,7 @@
 		4625BAEB253E118400C04AAD /* PageLayoutServiceRemoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4625BAEA253E118400C04AAD /* PageLayoutServiceRemoteTests.swift */; };
 		4625BAF1253E12C000C04AAD /* page-layout-blog-layouts-success.json in Resources */ = {isa = PBXBuildFile; fileRef = 4625BAF0253E12C000C04AAD /* page-layout-blog-layouts-success.json */; };
 		4625BAF7253E130900C04AAD /* page-layout-blog-layouts-malformed.json in Resources */ = {isa = PBXBuildFile; fileRef = 4625BAF6253E130800C04AAD /* page-layout-blog-layouts-malformed.json */; };
+		57A38E522624F8F700472480 /* WordPressOrgXMLRPCValidatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A38E512624F8F700472480 /* WordPressOrgXMLRPCValidatorTests.swift */; };
 		57A38E592624FF2A00472480 /* FakeInfoDictionaryObjectProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A38E582624FF2A00472480 /* FakeInfoDictionaryObjectProvider.swift */; };
 		57BCD3D426209D9500292CB3 /* AppTransportSecuritySettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57BCD3D326209D9500292CB3 /* AppTransportSecuritySettings.swift */; };
 		57BCD4612620C02700292CB3 /* AppTransportSecuritySettingsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57BCD4602620C02700292CB3 /* AppTransportSecuritySettingsTests.swift */; };
@@ -695,6 +696,7 @@
 		4625BAEA253E118400C04AAD /* PageLayoutServiceRemoteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageLayoutServiceRemoteTests.swift; sourceTree = "<group>"; };
 		4625BAF0253E12C000C04AAD /* page-layout-blog-layouts-success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "page-layout-blog-layouts-success.json"; sourceTree = "<group>"; };
 		4625BAF6253E130800C04AAD /* page-layout-blog-layouts-malformed.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "page-layout-blog-layouts-malformed.json"; sourceTree = "<group>"; };
+		57A38E512624F8F700472480 /* WordPressOrgXMLRPCValidatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordPressOrgXMLRPCValidatorTests.swift; sourceTree = "<group>"; };
 		57A38E582624FF2A00472480 /* FakeInfoDictionaryObjectProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeInfoDictionaryObjectProvider.swift; sourceTree = "<group>"; };
 		57BCD3D326209D9500292CB3 /* AppTransportSecuritySettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTransportSecuritySettings.swift; sourceTree = "<group>"; };
 		57BCD4602620C02700292CB3 /* AppTransportSecuritySettingsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTransportSecuritySettingsTests.swift; sourceTree = "<group>"; };
@@ -1312,6 +1314,14 @@
 			name = StarterPageLayouts;
 			sourceTree = "<group>";
 		};
+		57A38E502624F7D000472480 /* WordPressAPI */ = {
+			isa = PBXGroup;
+			children = (
+				57A38E512624F8F700472480 /* WordPressOrgXMLRPCValidatorTests.swift */,
+			);
+			path = WordPressAPI;
+			sourceTree = "<group>";
+		};
 		57A38E572624FF1000472480 /* Fakes */ = {
 			isa = PBXGroup;
 			children = (
@@ -1536,6 +1546,7 @@
 				436D56362118DC2800CEAA33 /* Transactions */,
 				93F50A421F227CC400B5BEBA /* Users */,
 				F9E56DF924EB18A300916770 /* Utilities */,
+				57A38E502624F7D000472480 /* WordPressAPI */,
 			);
 			name = Tests;
 			sourceTree = "<group>";
@@ -2918,6 +2929,7 @@
 				40F9880C221ACEEE00B7B369 /* StatsRemoteV2Tests.swift in Sources */,
 				4625BAEB253E118400C04AAD /* PageLayoutServiceRemoteTests.swift in Sources */,
 				826017001F9FD60A00533B6C /* ActivityServiceRemoteTests.swift in Sources */,
+				57A38E522624F8F700472480 /* WordPressOrgXMLRPCValidatorTests.swift in Sources */,
 				93F50A3A1F226BB600B5BEBA /* WordPressComServiceRemoteRestTests.swift in Sources */,
 				E13EE14C1F332C4400C15787 /* PluginServiceRemoteTests.swift in Sources */,
 				736C971021E80D48007A4200 /* SiteVerticalsPromptResponseDecodingTests.swift in Sources */,
