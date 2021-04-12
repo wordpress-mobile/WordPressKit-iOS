@@ -1,5 +1,8 @@
 import Foundation
 
+/// A dependency of `AppTransportSecuritySettings` generally used for injection in unit tests.
+///
+/// Only `Bundle` would conform to this `protocol`.
 protocol InfoDictionaryObjectProvider {
     func object(forInfoDictionaryKey key: String) -> Any?
 }
@@ -8,6 +11,8 @@ extension Bundle: InfoDictionaryObjectProvider {
 
 }
 
+/// Provides a simpler interface to the `Bundle` (`Info.plist`) settings under the
+/// `NSAppTransportSecurity` key.
 struct AppTransportSecuritySettings {
 
     private let infoDictionaryObjectProvider: InfoDictionaryObjectProvider
@@ -24,6 +29,15 @@ struct AppTransportSecuritySettings {
         self.infoDictionaryObjectProvider = infoDictionaryObjectProvider
     }
 
+    /// Returns whether the `NSAppTransportSecurity` settings indicate that access to the
+    /// given `siteURL` should be through SSL/TLS only.
+    ///
+    /// Secure access is the default that is set by Apple. But the hosting app is allowed to
+    /// override this for specific or for all domains. This method encapsulates the logic for
+    /// reading the `Bundle` (`Info.plist`) settings and translating the rules and conditions
+    /// described in the
+    /// [NSAppTransportSecurity](https://developer.apple.com/documentation/bundleresources/information_property_list/nsapptransportsecurity)
+    /// documentation and its sub-pages.
     func secureAccessOnly(for siteURL: URL) -> Bool {
         if let exceptionDomain = self.exceptionDomain(for: siteURL) {
             let allowsInsecureHTTPLoads =
