@@ -12,11 +12,11 @@ struct AppTransportSecuritySettings {
 
     private let infoDictionaryObjectProvider: InfoDictionaryObjectProvider
 
-    var settings: NSDictionary? {
+    private var settings: NSDictionary? {
         infoDictionaryObjectProvider.object(forInfoDictionaryKey: "NSAppTransportSecurity") as? NSDictionary
     }
 
-    var exceptionDomains: NSDictionary? {
+    private var exceptionDomains: NSDictionary? {
         settings?["NSExceptionDomains"] as? NSDictionary
     }
 
