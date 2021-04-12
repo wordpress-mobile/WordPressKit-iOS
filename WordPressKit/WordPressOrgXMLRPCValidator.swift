@@ -44,9 +44,15 @@ open class WordPressOrgXMLRPCValidator: NSObject {
     // is the default threshold for allowable redirects.
     private let redirectLimit = 16
 
-    private let appTransportSecuritySettings = AppTransportSecuritySettings()
+    private let appTransportSecuritySettings: AppTransportSecuritySettings
 
     override public init() {
+        appTransportSecuritySettings = AppTransportSecuritySettings()
+        super.init()
+    }
+
+    init(_ appTransportSecuritySettings: AppTransportSecuritySettings) {
+        self.appTransportSecuritySettings = appTransportSecuritySettings
         super.init()
     }
 
