@@ -44,7 +44,15 @@ open class WordPressOrgXMLRPCValidator: NSObject {
     // is the default threshold for allowable redirects.
     private let redirectLimit = 16
 
+    private let appTransportSecuritySettings: AppTransportSecuritySettings
+
     override public init() {
+        appTransportSecuritySettings = AppTransportSecuritySettings()
+        super.init()
+    }
+
+    init(_ appTransportSecuritySettings: AppTransportSecuritySettings) {
+        self.appTransportSecuritySettings = appTransportSecuritySettings
         super.init()
     }
 
@@ -65,12 +73,23 @@ open class WordPressOrgXMLRPCValidator: NSObject {
 
         var sitesToTry = [String]()
 
+        let secureAccessOnly: Bool = {
+            if let url = URL(string: site) {
+                return appTransportSecuritySettings.secureAccessOnly(for: url)
+            }
+            return true
+        }()
+
         if site.hasPrefix("http://") {
-            sitesToTry.append(site)
+            if !secureAccessOnly {
+                sitesToTry.append(site)
+            }
             sitesToTry.append(site.replacingOccurrences(of: "http://", with: "https://"))
         } else if site.hasPrefix("https://") {
             sitesToTry.append(site)
-            sitesToTry.append(site.replacingOccurrences(of: "https://", with: "http://"))
+            if !secureAccessOnly {
+                sitesToTry.append(site.replacingOccurrences(of: "https://", with: "http://"))
+            }
         } else {
             failure(WordPressOrgXMLRPCValidatorError.invalidScheme as NSError)
         }
