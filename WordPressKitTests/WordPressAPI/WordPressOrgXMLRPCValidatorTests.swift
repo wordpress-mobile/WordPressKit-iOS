@@ -12,7 +12,7 @@ final class WordPressOrgXMLRPCValidatorTests: XCTestCase {
         HTTPStubs.removeAllStubs()
     }
 
-    func testItWillGuessXMLRPCOnHTTPByDefault() {
+    func testItWillGuessXMLRPCOnHTTPSOnlyByDefault() {
         // Given
         var schemes = Set<String>()
         // Stub all, we only care about the URL schemes that are being tested.
