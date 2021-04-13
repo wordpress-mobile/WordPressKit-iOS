@@ -76,9 +76,8 @@ open class WordPressOrgXMLRPCValidator: NSObject {
         let secureAccessOnly: Bool = {
             if let url = URL(string: site) {
                 return appTransportSecuritySettings.secureAccessOnly(for: url)
-            } else {
-                return true
             }
+            return true
         }()
 
         if site.hasPrefix("http://") {
