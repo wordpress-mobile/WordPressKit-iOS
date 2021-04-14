@@ -546,12 +546,12 @@ extension WordPressComRestApi {
 
 extension WordPressComRestApi: WordPressRestApi {
     @discardableResult
-    public func GET(_ path: String, parameters: [String : AnyObject]?, completion: @escaping Completion) -> Progress? {
-        return GET(path, parameters: parameters) { (responseObject, httpResponse) in
+    public func GET(_ path: String, parameters: [String: AnyObject]?, completion: @escaping Completion) -> Progress? {
+        return GET(path, parameters: parameters, success: { (responseObject, httpResponse) in
             completion(.success(responseObject), httpResponse)
-        } failure: { (error, httpResponse) in
+        }, failure: { (error, httpResponse) in
             completion(.failure(error), httpResponse)
-        }
+        })
     }
 
     public func requestPath(fromOrgPath path: String, with siteID: Int?) -> String {

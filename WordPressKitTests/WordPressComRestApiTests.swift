@@ -274,7 +274,7 @@ class WordPressComRestApiTests: XCTestCase {
         let expectedPath = "/wp/v2/sites/1001/themes?status=active"
         let api = WordPressComRestApi(oAuthToken: "fakeToken")
         let result = api.requestPath(fromOrgPath: orgPath, with: 1001)
-        XCTAssertEqual(result,expectedPath)
+        XCTAssertEqual(result, expectedPath)
     }
 
     func testSuccessfullCallCommonGETStructure() {
@@ -291,7 +291,7 @@ class WordPressComRestApiTests: XCTestCase {
             switch result {
             case .success(let responseObject):
                 XCTAssert(responseObject is [String: AnyObject], "The response should be a dictionary")
-            case .failure(_):
+            case .failure:
                 XCTFail("This call should be successfull")
             }
         }
@@ -309,7 +309,7 @@ class WordPressComRestApiTests: XCTestCase {
         api.GET(wordPressMediaRoutePath, parameters: nil) { (result, response) in
             expect.fulfill()
             switch result {
-            case .success(_):
+            case .success:
                 XCTFail("This call should fail")
             case .failure(let err):
                 let error = err as NSError
