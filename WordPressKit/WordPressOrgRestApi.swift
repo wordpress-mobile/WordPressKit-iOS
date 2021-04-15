@@ -11,7 +11,7 @@ import Foundation
 }
 
 @objc
-open class WordPressOrgRestApi: NSObject {
+open class WordPressOrgRestApi: NSObject, WordPressRestApi {
     public typealias Completion = (Swift.Result<Any, Error>, HTTPURLResponse?) -> Void
     private let apiBase: URL
     private let authenticator: Authenticator?
