@@ -7,7 +7,6 @@
 @property (nonatomic, strong) NSString *email;
 @property (nonatomic, strong) NSString *displayName;
 @property (nonatomic, strong) NSNumber *primaryBlogID;
-@property (nonatomic, strong) NSString *homeURL;
 @property (nonatomic, strong) NSString *avatarURL;
 @property (nonatomic, strong) NSDate *dateCreated;
 @property (nonatomic, assign) BOOL emailVerified;
