@@ -18,7 +18,19 @@
             "ip_address": false,
             "site_ID": 54321,
             "site_visible": true,
-            "default_avatar": false
+            "default_avatar": false,
+            "date_liked": "2021-04-16 17:12:08",
+            "bio": "user bio",
+            "primary_blog": "primary blog URL",
+            "preferred_blog": {
+                "id": 12345,
+                "name": "Blog",
+                "url": "blog URL",
+                "icon": {
+                    "img": "img URL",
+                    "ico": "ico URL"
+                }
+            }
         },
         {
             "ID": 12346,
@@ -34,7 +46,19 @@
             "ip_address": false,
             "site_ID": 54321,
             "site_visible": false,
-            "default_avatar": false
+            "default_avatar": false,
+            "date_liked": "2021-04-16 17:12:08",
+            "bio": "",
+            "primary_blog": "primary blog URL",
+            "preferred_blog": {
+                "id": 12345,
+                "name": "Blog",
+                "url": "blog URL",
+                "icon": {
+                    "img": "img URL",
+                    "ico": "ico URL"
+                }
+            }
         },
         {
             "ID": 12347,
@@ -50,7 +74,11 @@
             "ip_address": false,
             "site_ID": 54321,
             "site_visible": true,
-            "default_avatar": false
+            "default_avatar": false,
+            "date_liked": "2021-04-16 17:12:08",
+            "bio": "user bio",
+            "primary_blog": "primary blog URL",
+            "preferred_blog": null
         }
     ]
 }
