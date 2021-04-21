@@ -194,6 +194,7 @@ static NSString * const RemotePostTypePublicKey = @"public";
     user.userID = [xmlrpcUser numberForKey:@"user_id"];
     user.username = [xmlrpcUser stringForKey:@"username"];
     user.displayName = [xmlrpcUser stringForKey:@"display_name"];
+    user.email = [xmlrpcUser stringForKey:@"email"];
     return user;
 }
 
