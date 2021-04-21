@@ -21,7 +21,7 @@ final class WordPressOrgXMLRPCValidatorTests: XCTestCase {
                 schemes.insert(scheme)
             }
             return true
-        }, response: { request in
+        }, response: { _ in
             let error = NSError(domain: "", code: NSURLErrorNotConnectedToInternet, userInfo: nil)
             return HTTPStubsResponse(error: error)
         })
@@ -30,9 +30,9 @@ final class WordPressOrgXMLRPCValidatorTests: XCTestCase {
 
         // When
         let expectation = self.expectation(description: "Wait for success or failure")
-        validator.guessXMLRPCURLForSite(exampleURLString, userAgent: "", success: { result in
+        validator.guessXMLRPCURLForSite(exampleURLString, userAgent: "", success: { _ in
             expectation.fulfill()
-        }, failure: { error in
+        }, failure: { _ in
             expectation.fulfill()
         })
 
@@ -51,7 +51,7 @@ final class WordPressOrgXMLRPCValidatorTests: XCTestCase {
                 schemes.insert(scheme)
             }
             return true
-        }, response: { request in
+        }, response: { _ in
             let error = NSError(domain: "", code: NSURLErrorNotConnectedToInternet, userInfo: nil)
             return HTTPStubsResponse(error: error)
         })
@@ -60,9 +60,9 @@ final class WordPressOrgXMLRPCValidatorTests: XCTestCase {
 
         // When
         let expectation = self.expectation(description: "Wait for success or failure")
-        validator.guessXMLRPCURLForSite(exampleURLString, userAgent: "", success: { result in
+        validator.guessXMLRPCURLForSite(exampleURLString, userAgent: "", success: { _ in
             expectation.fulfill()
-        }, failure: { error in
+        }, failure: { _ in
             expectation.fulfill()
         })
 
