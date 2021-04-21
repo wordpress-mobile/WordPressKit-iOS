@@ -308,14 +308,14 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
 }
 
 - (void)getLikesForPostID:(NSNumber *)postID
-                  success:(void (^)(NSArray<RemoteUser *> * _Nonnull))success
+                  success:(void (^)(NSArray<RemoteLikeUser *> * _Nonnull))success
                   failure:(void (^)(NSError * _Nullable))failure
 {
     NSParameterAssert(postID);
     
     NSString *path = [NSString stringWithFormat:@"sites/%@/posts/%@/likes", self.siteID, postID];
     NSString *requestUrl = [self pathForEndpoint:path
-                                     withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
+                                     withVersion:ServiceRemoteWordPressComRESTApiVersion_1_2];
     
     [self.wordPressComRestApi GET:requestUrl
                        parameters:nil
@@ -599,36 +599,11 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
  *
  *  @param  jsonUsers   An array containing JSON representations of users.
  */
-- (NSArray<RemoteUser *> *)remoteUsersFromJSONArray:(NSArray *)jsonUsers
+- (NSArray<RemoteLikeUser *> *)remoteUsersFromJSONArray:(NSArray *)jsonUsers
 {
     return [jsonUsers wp_map:^id(NSDictionary *jsonUser) {
-        return [self remoteUserFromJSONDictionary:jsonUser];
+        return [[RemoteLikeUser alloc] initWithDictionary: jsonUser];
     }];
-}
-
-/**
- *  @brief      Creates a RemoteUser instance based on provided JSON object.
- *
- *  @discussion Expected dictionary contents (and its mapping to the
- *              RemoteUser object):
- *              - ID -> userID
- *              - login -> username
- *              - name -> displayName
- *              - site_ID -> primaryBlogID
- *              - avatar_URL -> avatarURL
- *
- *  @param  jsonUser    The dictionary that represents a RemoteUser.
- */
-- (RemoteUser *)remoteUserFromJSONDictionary:(NSDictionary *)jsonUser
-{
-    RemoteUser *user = [RemoteUser new];
-    user.userID = jsonUser[@"ID"];
-    user.username = jsonUser[@"login"];
-    user.displayName = jsonUser[@"name"];
-    user.primaryBlogID = jsonUser[@"site_ID"];
-    user.avatarURL = jsonUser[@"avatar_URL"];
-
-    return user;
 }
 
 @end
