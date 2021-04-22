@@ -522,6 +522,10 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
         parameters[@"slug"] = post.slug;
     }
 
+    if (post.authorID) {
+        parameters[@"author"] = post.authorID;
+    }
+
     if (post.categories) {
         parameters[@"categories_by_id"] = [post.categories valueForKey:@"categoryID"];
     }
