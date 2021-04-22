@@ -3,6 +3,7 @@
 #import <WordPressKit/SiteServiceRemoteWordPressComREST.h>
 
 @class RemoteUser;
+@class RemoteLikeUser;
 
 @interface CommentServiceRemoteREST : SiteServiceRemoteWordPressComREST <CommentServiceRemote>
 
@@ -87,7 +88,7 @@
  @param failure The block that will be executed on failure. Can be nil.
  */
 - (void)getLikesForCommentID:(NSNumber *)commentID
-                     success:(void (^)(NSArray<RemoteUser *> *))success
+                     success:(void (^)(NSArray<RemoteLikeUser *> *))success
                      failure:(void (^)(NSError *))failure;
 
 @end
