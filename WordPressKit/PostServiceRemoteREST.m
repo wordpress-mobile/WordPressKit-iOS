@@ -265,7 +265,8 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
 {
     NSParameterAssert([post isKindOfClass:[RemotePost class]]);
 
-    NSString *path = [NSString stringWithFormat:@"sites/%@/posts/%@/delete", self.siteID, post.postID];
+    // The parameters are passed as part of the string here because AlamoFire doesn't encode parameters on POST requests.
+    NSString *path = [NSString stringWithFormat:@"sites/%@/posts/%@/delete?context=edit", self.siteID, post.postID];
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
     
