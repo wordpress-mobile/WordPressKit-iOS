@@ -27,10 +27,10 @@ import Foundation
 }
 
 @objc public class RemoteLikeUserPreferredBlog: NSObject {
-    @objc let blogUrl: String
-    @objc let blogName: String
-    @objc let iconUrl: String
-    @objc let blogID: NSNumber?
+    @objc public var blogUrl: String
+    @objc public var blogName: String
+    @objc public var iconUrl: String
+    @objc public var blogID: NSNumber?
 
     public init(dictionary: [String: Any]) {
         blogUrl = dictionary["url"] as? String ?? ""
