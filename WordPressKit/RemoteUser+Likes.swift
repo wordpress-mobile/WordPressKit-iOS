@@ -3,11 +3,26 @@ import Foundation
 @objc public class RemoteLikeUser: RemoteUser {
     @objc public var bio: String?
     @objc public var dateLiked: String?
+    @objc public var likedSiteID: NSNumber?
+    @objc public var likedPostID: NSNumber?
+    @objc public var likedCommentID: NSNumber?
     @objc public var preferredBlog: RemoteLikeUserPreferredBlog?
 
-    @objc public init(dictionary: [String: Any]) {
+    @objc public init(dictionary: [String: Any], postID: NSNumber, siteID: NSNumber) {
         super.init()
+        setValuesFor(dictionary: dictionary)
+        likedPostID = postID
+        likedSiteID = siteID
+    }
 
+    @objc public init(dictionary: [String: Any], commentID: NSNumber, siteID: NSNumber) {
+        super.init()
+        setValuesFor(dictionary: dictionary)
+        likedCommentID = commentID
+        likedSiteID = siteID
+    }
+
+    private func setValuesFor(dictionary: [String: Any]) {
         userID = dictionary["ID"] as? NSNumber
         username = dictionary["login"] as? String
         displayName = dictionary["name"] as? String
