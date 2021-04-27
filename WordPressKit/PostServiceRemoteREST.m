@@ -319,13 +319,23 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
     NSString *path = [NSString stringWithFormat:@"sites/%@/posts/%@/likes", self.siteID, postID];
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:ServiceRemoteWordPressComRESTApiVersion_1_2];
+    NSDictionary *params = @{ RemoteOptionKeyMeta: @"site,post"};
     
     [self.wordPressComRestApi GET:requestUrl
-                       parameters:nil
+                       parameters:params
                           success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
         if (success) {
-            NSArray *jsonUsers = responseObject[@"likes"] ?: @[];
-            success([self remoteUsersFromJSONArray:jsonUsers]);
+            NSNumber *postID = responseObject[@"meta"][@"data"][@"post"][@"ID"];
+            NSNumber *siteID = responseObject[@"meta"][@"data"][@"site"][@"ID"];
+
+            if ([postID wp_isValidObject] && [siteID wp_isValidObject]) {
+                NSArray *jsonUsers = responseObject[@"likes"] ?: @[];
+                success([self remoteUsersFromJSONArray:jsonUsers postID:postID siteID:siteID]);
+            } else {
+                NSDictionary *userInfo = @{ NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Invalid postID or siteID for post likes: %@", responseObject] };
+                NSError *error = [NSError errorWithDomain:WordPressComRestApiErrorDomain code:0 userInfo:userInfo];
+                failure(error);
+            }
         }
     } failure:^(NSError *error, NSHTTPURLResponse *httpResponse) {
         if (failure) {
@@ -597,15 +607,19 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
 }
 
 /**
- *  @brief  Returns an array of RemoteUser based on provided JSON
+ *  @brief  Returns an array of RemoteLikeUser based on provided JSON
  *          representation of users.
  *
  *  @param  jsonUsers   An array containing JSON representations of users.
+ *  @param  postID      ID of the Post the users liked.
+ *  @param  siteID      ID of the Post's site.
  */
 - (NSArray<RemoteLikeUser *> *)remoteUsersFromJSONArray:(NSArray *)jsonUsers
+                                                 postID:(NSNumber *)postID
+                                                 siteID:(NSNumber *)siteID
 {
     return [jsonUsers wp_map:^id(NSDictionary *jsonUser) {
-        return [[RemoteLikeUser alloc] initWithDictionary: jsonUser];
+        return [[RemoteLikeUser alloc] initWithDictionary:jsonUser postID:postID siteID:siteID];
     }];
 }
 

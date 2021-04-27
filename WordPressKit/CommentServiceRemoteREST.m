@@ -398,13 +398,23 @@
     NSString *path = [NSString stringWithFormat:@"sites/%@/comments/%@/likes", self.siteID, commentID];
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:ServiceRemoteWordPressComRESTApiVersion_1_2];
+    NSDictionary *params = @{ @"meta": @"site,comment"};
 
     [self.wordPressComRestApi GET:requestUrl
-                       parameters:nil
+                       parameters:params
                           success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
         if (success) {
-            NSArray *jsonUsers = responseObject[@"likes"] ?: @[];
-            success([self remoteUsersFromJSONArray:jsonUsers]);
+            NSNumber *commentID = responseObject[@"meta"][@"data"][@"comment"][@"ID"];
+            NSNumber *siteID = responseObject[@"meta"][@"data"][@"site"][@"ID"];
+
+            if ([commentID wp_isValidObject] && [siteID wp_isValidObject]) {
+                NSArray *jsonUsers = responseObject[@"likes"] ?: @[];
+                success([self remoteUsersFromJSONArray:jsonUsers commentID:commentID siteID:siteID]);
+            } else {
+                NSDictionary *userInfo = @{ NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Invalid commentID or siteID for comment likes: %@", responseObject] };
+                NSError *error = [NSError errorWithDomain:WordPressComRestApiErrorDomain code:0 userInfo:userInfo];
+                failure(error);
+            }
         }
     } failure:^(NSError *error, NSHTTPURLResponse *httpResponse) {
         if (failure) {
@@ -469,14 +479,18 @@
 }
 
 /**
- Returns an array of RemoteUser based on provided JSON representation of users.
+ Returns an array of RemoteLikeUser based on provided JSON representation of users.
  
  @param jsonUsers An array containing JSON representations of users.
+ @param commentID ID of the Comment the users liked.
+ @param siteID    ID of the Comment's site.
  */
 - (NSArray<RemoteLikeUser *> *)remoteUsersFromJSONArray:(NSArray *)jsonUsers
+                                              commentID:(NSNumber *)commentID
+                                                 siteID:(NSNumber *)siteID
 {
     return [jsonUsers wp_map:^id(NSDictionary *jsonUser) {
-        return [[RemoteLikeUser alloc] initWithDictionary: jsonUser];
+        return [[RemoteLikeUser alloc] initWithDictionary:jsonUser commentID:commentID siteID:siteID];
     }];
 }
 
