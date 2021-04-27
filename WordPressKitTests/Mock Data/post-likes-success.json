@@ -1,8 +1,6 @@
 {
     "found": 3,
     "i_like": true,
-    "site_ID": 0,
-    "post_ID": 1,
     "likes": [
         {
             "ID": 12345,
@@ -80,5 +78,15 @@
             "primary_blog": "primary blog URL",
             "preferred_blog": null
         }
-    ]
+    ],
+    "meta": {
+        "data": {
+            "post": {
+                "ID": 9
+            },
+            "site": {
+                "ID": 8
+            }
+        }
+    }
 }
