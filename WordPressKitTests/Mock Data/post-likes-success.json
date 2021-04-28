@@ -1,8 +1,6 @@
 {
     "found": 3,
     "i_like": true,
-    "site_ID": 0,
-    "post_ID": 1,
     "likes": [
         {
             "ID": 12345,
