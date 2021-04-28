@@ -398,13 +398,14 @@
     NSString *path = [NSString stringWithFormat:@"sites/%@/comments/%@/likes", self.siteID, commentID];
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:ServiceRemoteWordPressComRESTApiVersion_1_2];
+    NSNumber *siteID = self.siteID;
 
     [self.wordPressComRestApi GET:requestUrl
                        parameters:nil
                           success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
         if (success) {
             NSArray *jsonUsers = responseObject[@"likes"] ?: @[];
-            success([self remoteUsersFromJSONArray:jsonUsers commentID:commentID siteID:self.siteID]);
+            success([self remoteUsersFromJSONArray:jsonUsers commentID:commentID siteID:siteID]);
         }
     } failure:^(NSError *error, NSHTTPURLResponse *httpResponse) {
         if (failure) {

@@ -319,13 +319,14 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
     NSString *path = [NSString stringWithFormat:@"sites/%@/posts/%@/likes", self.siteID, postID];
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:ServiceRemoteWordPressComRESTApiVersion_1_2];
-    
+    NSNumber *siteID = self.siteID;
+
     [self.wordPressComRestApi GET:requestUrl
                        parameters:nil
                           success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
         if (success) {
                 NSArray *jsonUsers = responseObject[@"likes"] ?: @[];
-                success([self remoteUsersFromJSONArray:jsonUsers postID:postID siteID:self.siteID]);
+                success([self remoteUsersFromJSONArray:jsonUsers postID:postID siteID:siteID]);
         }
     } failure:^(NSError *error, NSHTTPURLResponse *httpResponse) {
         if (failure) {
