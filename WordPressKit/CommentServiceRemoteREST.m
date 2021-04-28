@@ -398,23 +398,13 @@
     NSString *path = [NSString stringWithFormat:@"sites/%@/comments/%@/likes", self.siteID, commentID];
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:ServiceRemoteWordPressComRESTApiVersion_1_2];
-    NSDictionary *params = @{ @"meta": @"site,comment"};
 
     [self.wordPressComRestApi GET:requestUrl
-                       parameters:params
+                       parameters:nil
                           success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
         if (success) {
-            NSNumber *commentID = responseObject[@"meta"][@"data"][@"comment"][@"ID"];
-            NSNumber *siteID = responseObject[@"meta"][@"data"][@"site"][@"ID"];
-
-            if ([commentID wp_isValidObject] && [siteID wp_isValidObject]) {
-                NSArray *jsonUsers = responseObject[@"likes"] ?: @[];
-                success([self remoteUsersFromJSONArray:jsonUsers commentID:commentID siteID:siteID]);
-            } else {
-                NSDictionary *userInfo = @{ NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Invalid commentID or siteID for comment likes: %@", responseObject] };
-                NSError *error = [NSError errorWithDomain:WordPressComRestApiErrorDomain code:0 userInfo:userInfo];
-                failure(error);
-            }
+            NSArray *jsonUsers = responseObject[@"likes"] ?: @[];
+            success([self remoteUsersFromJSONArray:jsonUsers commentID:commentID siteID:self.siteID]);
         }
     } failure:^(NSError *error, NSHTTPURLResponse *httpResponse) {
         if (failure) {

@@ -319,23 +319,13 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
     NSString *path = [NSString stringWithFormat:@"sites/%@/posts/%@/likes", self.siteID, postID];
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:ServiceRemoteWordPressComRESTApiVersion_1_2];
-    NSDictionary *params = @{ RemoteOptionKeyMeta: @"site,post"};
     
     [self.wordPressComRestApi GET:requestUrl
-                       parameters:params
+                       parameters:nil
                           success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
         if (success) {
-            NSNumber *postID = responseObject[@"meta"][@"data"][@"post"][@"ID"];
-            NSNumber *siteID = responseObject[@"meta"][@"data"][@"site"][@"ID"];
-
-            if ([postID wp_isValidObject] && [siteID wp_isValidObject]) {
                 NSArray *jsonUsers = responseObject[@"likes"] ?: @[];
-                success([self remoteUsersFromJSONArray:jsonUsers postID:postID siteID:siteID]);
-            } else {
-                NSDictionary *userInfo = @{ NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Invalid postID or siteID for post likes: %@", responseObject] };
-                NSError *error = [NSError errorWithDomain:WordPressComRestApiErrorDomain code:0 userInfo:userInfo];
-                failure(error);
-            }
+                success([self remoteUsersFromJSONArray:jsonUsers postID:postID siteID:self.siteID]);
         }
     } failure:^(NSError *error, NSHTTPURLResponse *httpResponse) {
         if (failure) {

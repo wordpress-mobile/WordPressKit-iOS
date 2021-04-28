@@ -75,15 +75,5 @@
             "primary_blog": "primary blog URL",
             "preferred_blog": null
         }
-    ],
-    "meta": {
-        "data": {
-            "comment": {
-                "ID": 9
-            },
-            "site": {
-                "ID": 8
-            }
-        }
-    }
+    ]
 }
