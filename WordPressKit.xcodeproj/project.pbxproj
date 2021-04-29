@@ -108,7 +108,11 @@
 		464BAB0B262F6736006AEED5 /* RemoteBlockEditorSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464BAB0A262F6736006AEED5 /* RemoteBlockEditorSettings.swift */; };
 		465F8894263B09AE00F4C950 /* wp-block-editor-v1-settings-success-NotThemeJSON.json in Resources */ = {isa = PBXBuildFile; fileRef = 465F8893263B09AE00F4C950 /* wp-block-editor-v1-settings-success-NotThemeJSON.json */; };
 		465F889A263B09BF00F4C950 /* wp-block-editor-v1-settings-success-ThemeJSON.json in Resources */ = {isa = PBXBuildFile; fileRef = 465F8899263B09BF00F4C950 /* wp-block-editor-v1-settings-success-ThemeJSON.json */; };
+		465F889E263B0C5500F4C950 /* BlockEditorSettingsServiceRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465F889D263B0C5500F4C950 /* BlockEditorSettingsServiceRemote.swift */; };
 		465F88A2263B325C00F4C950 /* ChecksumUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465F88A1263B325C00F4C950 /* ChecksumUtil.swift */; };
+		465F88A7263B371D00F4C950 /* BlockEditorSettingsServiceRemoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465F88A6263B371D00F4C950 /* BlockEditorSettingsServiceRemoteTests.swift */; };
+		465F88B1263B3E8A00F4C950 /* get_wp_v2_themes_twentytwentyone.json in Resources */ = {isa = PBXBuildFile; fileRef = 465F88B0263B3E8A00F4C950 /* get_wp_v2_themes_twentytwentyone.json */; };
+		465F88B7263B455300F4C950 /* get_wp_v2_themes_twentytwentyone-no-colors.json in Resources */ = {isa = PBXBuildFile; fileRef = 465F88B6263B455300F4C950 /* get_wp_v2_themes_twentytwentyone-no-colors.json */; };
 		465F88BF263B54EE00F4C950 /* ChecksumUtilTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465F88BE263B54EE00F4C950 /* ChecksumUtilTests.swift */; };
 		467C20692626243D00DB5A38 /* WordPressRestApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 467C20682626243D00DB5A38 /* WordPressRestApi.swift */; };
 		46ABD0E0262EED3D00C7FF24 /* WordPressOrgXMLRPCValidatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46ABD0DF262EED3D00C7FF24 /* WordPressOrgXMLRPCValidatorTests.swift */; };
@@ -706,7 +710,11 @@
 		464BAB0A262F6736006AEED5 /* RemoteBlockEditorSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteBlockEditorSettings.swift; sourceTree = "<group>"; };
 		465F8893263B09AE00F4C950 /* wp-block-editor-v1-settings-success-NotThemeJSON.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "wp-block-editor-v1-settings-success-NotThemeJSON.json"; sourceTree = "<group>"; };
 		465F8899263B09BF00F4C950 /* wp-block-editor-v1-settings-success-ThemeJSON.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "wp-block-editor-v1-settings-success-ThemeJSON.json"; sourceTree = "<group>"; };
+		465F889D263B0C5500F4C950 /* BlockEditorSettingsServiceRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockEditorSettingsServiceRemote.swift; sourceTree = "<group>"; };
 		465F88A1263B325C00F4C950 /* ChecksumUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChecksumUtil.swift; sourceTree = "<group>"; };
+		465F88A6263B371D00F4C950 /* BlockEditorSettingsServiceRemoteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockEditorSettingsServiceRemoteTests.swift; sourceTree = "<group>"; };
+		465F88B0263B3E8A00F4C950 /* get_wp_v2_themes_twentytwentyone.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = get_wp_v2_themes_twentytwentyone.json; sourceTree = "<group>"; };
+		465F88B6263B455300F4C950 /* get_wp_v2_themes_twentytwentyone-no-colors.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "get_wp_v2_themes_twentytwentyone-no-colors.json"; sourceTree = "<group>"; };
 		465F88BE263B54EE00F4C950 /* ChecksumUtilTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChecksumUtilTests.swift; sourceTree = "<group>"; };
 		467C20682626243D00DB5A38 /* WordPressRestApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordPressRestApi.swift; sourceTree = "<group>"; };
 		46ABD0DF262EED3D00C7FF24 /* WordPressOrgXMLRPCValidatorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WordPressOrgXMLRPCValidatorTests.swift; sourceTree = "<group>"; };
@@ -1333,8 +1341,18 @@
 			children = (
 				465F8893263B09AE00F4C950 /* wp-block-editor-v1-settings-success-NotThemeJSON.json */,
 				465F8899263B09BF00F4C950 /* wp-block-editor-v1-settings-success-ThemeJSON.json */,
+				465F88B0263B3E8A00F4C950 /* get_wp_v2_themes_twentytwentyone.json */,
+				465F88B6263B455300F4C950 /* get_wp_v2_themes_twentytwentyone-no-colors.json */,
 			);
 			path = BlockEditorSettings;
+			sourceTree = "<group>";
+		};
+		465F88A5263B370300F4C950 /* BlockEditorSettings */ = {
+			isa = PBXGroup;
+			children = (
+				465F88A6263B371D00F4C950 /* BlockEditorSettingsServiceRemoteTests.swift */,
+			);
+			name = BlockEditorSettings;
 			sourceTree = "<group>";
 		};
 		57A38E502624F7D000472480 /* WordPressAPI */ = {
@@ -1546,6 +1564,7 @@
 				826016FE1F9FD59400533B6C /* Activity */,
 				FAD1345425909DF500A8FEB1 /* Backup */,
 				74B5F0DF1EF82AAB00B411E7 /* Blog */,
+				465F88A5263B370300F4C950 /* BlockEditorSettings */,
 				ABD95B7D25DD6C2400735BEE /* Comment */,
 				74585B911F0D520700E7E667 /* Domains */,
 				7EC60EBC22DC4F5A00FB0336 /* Editor */,
@@ -1739,6 +1758,7 @@
 				F9E56DF724EB125600916770 /* FeatureFlagRemote.swift */,
 				4625B96B253A357500C04AAD /* PageLayoutServiceRemote.swift */,
 				462422282548B98A002B8A12 /* SiteDesignServiceRemote.swift */,
+				465F889D263B0C5500F4C950 /* BlockEditorSettingsServiceRemote.swift */,
 			);
 			name = Services;
 			sourceTree = "<group>";
@@ -1851,6 +1871,7 @@
 		93BD27421EE73384002BB00B /* Mock Data */ = {
 			isa = PBXGroup;
 			children = (
+				465F8892263B094900F4C950 /* BlockEditorSettings */,
 				C92EFF7225E7444400E0308D /* common-starter-site-designs-empty-designs.json */,
 				C92EFF6C25E741E900E0308D /* common-starter-site-designs-malformed.json */,
 				C92EFF6825E7403F00E0308D /* common-starter-site-designs-success.json */,
@@ -2484,6 +2505,7 @@
 				465F889A263B09BF00F4C950 /* wp-block-editor-v1-settings-success-ThemeJSON.json in Resources */,
 				BA9A7F7F24C6895600925E81 /* plugin-directory-jetpack-beta.json in Resources */,
 				E6B0461425E5B6F500DF6F4F /* sites-invites-links-generate.json in Resources */,
+				465F88B1263B3E8A00F4C950 /* get_wp_v2_themes_twentytwentyone.json in Resources */,
 				93BD275A1EE73442002BB00B /* is-available-email-success.json in Resources */,
 				17BF9A6C20C7DC3300BF57D2 /* reader-site-search-success.json in Resources */,
 				FACBDD4C25ECB76C0026705B /* reader-post-related-posts-success.json in Resources */,
@@ -2548,6 +2570,7 @@
 				FFE247AF20C891E6002DF3A2 /* WordPressComOAuthWrongPasswordFail.json in Resources */,
 				F194E1252417EE7E00874408 /* atomic-get-auth-cookie-success.json in Resources */,
 				731BA83A21DED358000FDFCD /* site-creation-success.json in Resources */,
+				465F88B7263B455300F4C950 /* get_wp_v2_themes_twentytwentyone-no-colors.json in Resources */,
 				9A2D0B2F225E1245009E585F /* jetpack-service-check-site-success.json in Resources */,
 				829BA4301FACF187003ADEEA /* activity-rewind-status-restore-failure.json in Resources */,
 				8B16CE962525045F007BE5A9 /* reader-posts-success.json in Resources */,
@@ -2829,6 +2852,7 @@
 				74BA04FA1F06DC3900ED5CD8 /* RemoteComment.m in Sources */,
 				7E3E7A4C20E443AA0075D159 /* NSMutableParagraphStyle+extensions.swift in Sources */,
 				40F98809221AC88700B7B369 /* StatsPostingStreakInsight.swift in Sources */,
+				465F889E263B0C5500F4C950 /* BlockEditorSettingsServiceRemote.swift in Sources */,
 				93C674EC1EE8348F00BFAF05 /* RemoteBlogOptionsHelper.m in Sources */,
 				E632D7781F6E047400297F6D /* SocialLogin2FANonceInfo.swift in Sources */,
 				32FC1D29255C91ED00CD0A7B /* JetpackScanServiceRemote.swift in Sources */,
@@ -2993,6 +3017,7 @@
 				FFE247A720C891D1002DF3A2 /* WordPressComOAuthTests.swift in Sources */,
 				93AB06041EE8838400EF8764 /* RemoteTestCase.swift in Sources */,
 				BA2A78FA24A486D300BB6F53 /* SitePluginTests.swift in Sources */,
+				465F88A7263B371D00F4C950 /* BlockEditorSettingsServiceRemoteTests.swift in Sources */,
 				93BD27411EE73311002BB00B /* AccountServiceRemoteRESTTests.swift in Sources */,
 				93F50A441F227CFB00B5BEBA /* UsersServiceRemoteXMLRPCTests.swift in Sources */,
 				7430C9BC1F192C0F0051B8E6 /* ReaderSiteServiceRemoteTests.swift in Sources */,
