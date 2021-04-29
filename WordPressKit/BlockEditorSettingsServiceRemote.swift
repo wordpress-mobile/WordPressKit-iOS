@@ -2,7 +2,7 @@ import Foundation
 
 public class BlockEditorSettingsServiceRemote {
     let remoteAPI: WordPressRestApi
-    init(remoteAPI: WordPressRestApi) {
+    public init(remoteAPI: WordPressRestApi) {
         self.remoteAPI = remoteAPI
     }
 }
