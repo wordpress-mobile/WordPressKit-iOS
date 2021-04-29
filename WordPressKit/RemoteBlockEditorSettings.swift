@@ -8,12 +8,12 @@ public class RemoteBlockEditorSettings: Codable {
         case gradients
     }
 
-    let isFSETheme: Bool
-    let globalStylesBaseStyles: GlobalStylesBaseStyles?
-    let colors: [RemoteColor]?
-    let gradients: [RemoteGradient]?
+    public let isFSETheme: Bool
+    public let globalStylesBaseStyles: GlobalStylesBaseStyles?
+    public let colors: [[String: String]]?
+    public let gradients: [[String: String]]?
 
-    lazy var checksum: String = {
+    public lazy var checksum: String = {
         return ChecksumUtil.checksum(from: self)
     }()
 
@@ -21,8 +21,8 @@ public class RemoteBlockEditorSettings: Codable {
         let map = try decoder.container(keyedBy: CodingKeys.self)
         self.isFSETheme = (try? map.decode(Bool.self, forKey: .isFSETheme)) ?? false
         self.globalStylesBaseStyles = try? map.decode(GlobalStylesBaseStyles.self, forKey: .globalStylesBaseStyles)
-        self.colors = try? map.decode([RemoteColor].self, forKey: .colors)
-        self.gradients = try? map.decode([RemoteGradient].self, forKey: .gradients)
+        self.colors = try? map.decode([[String: String]].self, forKey: .colors)
+        self.gradients = try? map.decode([[String: String]].self, forKey: .gradients)
     }
 }
 
@@ -31,7 +31,7 @@ public struct GlobalStylesBaseStyles: Codable {
         case colorSettings = "color"
     }
 
-    let colorSettings: GlobalStylesColorSettings
+    public let colorSettings: GlobalStylesColorSettings
 }
 
 public struct GlobalStylesColorSettings: Codable {
@@ -40,13 +40,13 @@ public struct GlobalStylesColorSettings: Codable {
         case gradients
     }
 
-    let colors: [RemoteColor]?
-    let gradients: [RemoteGradient]?
+    public let colors: [[String: String]]?
+    public let gradients: [[String: String]]?
 
     public init(from decoder: Decoder) throws {
         let map = try decoder.container(keyedBy: CodingKeys.self)
-        self.colors = try? map.decode([RemoteColor].self, forKey: .colors)
-        self.gradients = try? map.decode([RemoteGradient].self, forKey: .gradients)
+        self.colors = try? map.decode([[String: String]].self, forKey: .colors)
+        self.gradients = try? map.decode([[String: String]].self, forKey: .gradients)
     }
 }
 
@@ -56,8 +56,8 @@ public class RemoteEditorTheme: Codable {
         case themeSupport = "theme_supports"
     }
 
-    let themeSupport: RemoteEditorThemeSupport?
-    lazy var checksum: String = {
+    public let themeSupport: RemoteEditorThemeSupport?
+    public lazy var checksum: String = {
         return ChecksumUtil.checksum(from: themeSupport)
     }()
 }
@@ -68,26 +68,12 @@ public struct RemoteEditorThemeSupport: Codable {
         case gradients = "editor-gradient-presets"
     }
 
-    let colors: [RemoteColor]?
-    let gradients: [RemoteGradient]?
+    public let colors: [[String: String]]?
+    public let gradients: [[String: String]]?
 
     public init(from decoder: Decoder) throws {
         let map = try decoder.container(keyedBy: CodingKeys.self)
-        self.colors = try? map.decode([RemoteColor].self, forKey: .colors)
-        self.gradients = try? map.decode([RemoteGradient].self, forKey: .gradients)
+        self.colors = try? map.decode([[String: String]].self, forKey: .colors)
+        self.gradients = try? map.decode([[String: String]].self, forKey: .gradients)
     }
-}
-
-// MARK: Common Objects
-
-public struct RemoteColor: Codable {
-    let slug: String
-    let color: String
-    let name: String
-}
-
-public struct RemoteGradient: Codable {
-    let slug: String
-    let gradient: String
-    let name: String
 }
