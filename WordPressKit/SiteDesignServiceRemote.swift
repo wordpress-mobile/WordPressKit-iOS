@@ -30,8 +30,7 @@ public class SiteDesignServiceRemote {
 
     static let endpoint = "/wpcom/v2/common-starter-site-designs"
     static let parameters: [String: AnyObject] = [
-        "type": ("mobile" as AnyObject),
-        "language": (WordPressComLanguageDatabase().deviceLanguage.slug as AnyObject)
+        "type": ("mobile" as AnyObject)
     ]
 
     private static func joinParameters(_ parameters: [String: AnyObject], additionalParameters: [String: AnyObject]?) -> [String: AnyObject] {
