@@ -347,7 +347,7 @@
 
     XCTAssertNoThrow(service = [[PostServiceRemoteREST alloc] initWithWordPressComRestApi:api siteID:dotComID]);
 
-    NSString *endpoint = [NSString stringWithFormat:@"sites/%@/posts/%@/delete", dotComID, post.postID];
+    NSString *endpoint = [NSString stringWithFormat:@"sites/%@/posts/%@/delete?context=edit", dotComID, post.postID];
     NSString *url = [service pathForEndpoint:endpoint
                                  withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
 
@@ -384,7 +384,7 @@
 
     XCTAssertNoThrow(service = [[PostServiceRemoteREST alloc] initWithWordPressComRestApi:api siteID:dotComID]);
 
-    NSString *endpoint = [NSString stringWithFormat:@"sites/%@/posts/%@/restore", dotComID, post.postID];
+    NSString *endpoint = [NSString stringWithFormat:@"sites/%@/posts/%@/restore?context=edit", dotComID, post.postID];
     NSString *url = [service pathForEndpoint:endpoint
                                  withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
 

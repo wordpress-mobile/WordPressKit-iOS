@@ -4,6 +4,7 @@
 #import <WordPressKit/RemoteMedia.h>
 
 @class RemoteUser;
+@class RemoteLikeUser;
 
 @interface PostServiceRemoteREST : SiteServiceRemoteWordPressComREST <PostServiceRemote>
 
@@ -66,7 +67,7 @@
  *  @param      failure     The block that will be executed on failure. Can be nil.
  */
 - (void)getLikesForPostID:(NSNumber *)postID
-                  success:(void (^)(NSArray<RemoteUser *> *))success
+                  success:(void (^)(NSArray<RemoteLikeUser *> *))success
                   failure:(void (^)(NSError *))failure;
 
 @end

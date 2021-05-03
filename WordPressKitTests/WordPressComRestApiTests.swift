@@ -286,7 +286,7 @@ class WordPressComRestApiTests: XCTestCase {
         let expect = self.expectation(description: "One callback should be invoked")
         let api = WordPressComRestApi(oAuthToken: "fakeToken")
 
-        api.GET(wordPressMediaRoutePath, parameters: nil) { (result, response) in
+        api.GET(wordPressMediaRoutePath, parameters: nil) { (result, _) in
             expect.fulfill()
             switch result {
             case .success(let responseObject):
@@ -306,7 +306,7 @@ class WordPressComRestApiTests: XCTestCase {
         let expect = self.expectation(description: "One callback should be invoked")
         let api = WordPressComRestApi(oAuthToken: "fakeToken")
 
-        api.GET(wordPressMediaRoutePath, parameters: nil) { (result, response) in
+        api.GET(wordPressMediaRoutePath, parameters: nil) { (result, _) in
             expect.fulfill()
             switch result {
             case .success:

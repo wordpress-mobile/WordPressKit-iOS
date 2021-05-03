@@ -265,7 +265,8 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
 {
     NSParameterAssert([post isKindOfClass:[RemotePost class]]);
 
-    NSString *path = [NSString stringWithFormat:@"sites/%@/posts/%@/delete", self.siteID, post.postID];
+    // The parameters are passed as part of the string here because AlamoFire doesn't encode parameters on POST requests.
+    NSString *path = [NSString stringWithFormat:@"sites/%@/posts/%@/delete?context=edit", self.siteID, post.postID];
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
     
@@ -289,7 +290,9 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
 {
     NSParameterAssert([post isKindOfClass:[RemotePost class]]);
 
-    NSString *path = [NSString stringWithFormat:@"sites/%@/posts/%@/restore", self.siteID, post.postID];
+    // The parameters are passed as part of the string here because AlamoFire doesn't encode parameters on POST requests.
+    // https://github.com/wordpress-mobile/WordPressKit-iOS/pull/385
+    NSString *path = [NSString stringWithFormat:@"sites/%@/posts/%@/restore?context=edit", self.siteID, post.postID];
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
     
@@ -308,21 +311,22 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
 }
 
 - (void)getLikesForPostID:(NSNumber *)postID
-                  success:(void (^)(NSArray<RemoteUser *> * _Nonnull))success
+                  success:(void (^)(NSArray<RemoteLikeUser *> * _Nonnull))success
                   failure:(void (^)(NSError * _Nullable))failure
 {
     NSParameterAssert(postID);
     
     NSString *path = [NSString stringWithFormat:@"sites/%@/posts/%@/likes", self.siteID, postID];
     NSString *requestUrl = [self pathForEndpoint:path
-                                     withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
-    
+                                     withVersion:ServiceRemoteWordPressComRESTApiVersion_1_2];
+    NSNumber *siteID = self.siteID;
+
     [self.wordPressComRestApi GET:requestUrl
                        parameters:nil
                           success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
         if (success) {
-            NSArray *jsonUsers = responseObject[@"likes"] ?: @[];
-            success([self remoteUsersFromJSONArray:jsonUsers]);
+                NSArray *jsonUsers = responseObject[@"likes"] ?: @[];
+                success([self remoteUsersFromJSONArray:jsonUsers postID:postID siteID:siteID]);
         }
     } failure:^(NSError *error, NSHTTPURLResponse *httpResponse) {
         if (failure) {
@@ -520,6 +524,10 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
         parameters[@"slug"] = post.slug;
     }
 
+    if (post.authorID) {
+        parameters[@"author"] = post.authorID;
+    }
+
     if (post.categories) {
         parameters[@"categories_by_id"] = [post.categories valueForKey:@"categoryID"];
     }
@@ -590,41 +598,20 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
 }
 
 /**
- *  @brief  Returns an array of RemoteUser based on provided JSON
+ *  @brief  Returns an array of RemoteLikeUser based on provided JSON
  *          representation of users.
  *
  *  @param  jsonUsers   An array containing JSON representations of users.
+ *  @param  postID      ID of the Post the users liked.
+ *  @param  siteID      ID of the Post's site.
  */
-- (NSArray<RemoteUser *> *)remoteUsersFromJSONArray:(NSArray *)jsonUsers
+- (NSArray<RemoteLikeUser *> *)remoteUsersFromJSONArray:(NSArray *)jsonUsers
+                                                 postID:(NSNumber *)postID
+                                                 siteID:(NSNumber *)siteID
 {
     return [jsonUsers wp_map:^id(NSDictionary *jsonUser) {
-        return [self remoteUserFromJSONDictionary:jsonUser];
+        return [[RemoteLikeUser alloc] initWithDictionary:jsonUser postID:postID siteID:siteID];
     }];
-}
-
-/**
- *  @brief      Creates a RemoteUser instance based on provided JSON object.
- *
- *  @discussion Expected dictionary contents (and its mapping to the
- *              RemoteUser object):
- *              - ID -> userID
- *              - login -> username
- *              - name -> displayName
- *              - site_ID -> primaryBlogID
- *              - avatar_URL -> avatarURL
- *
- *  @param  jsonUser    The dictionary that represents a RemoteUser.
- */
-- (RemoteUser *)remoteUserFromJSONDictionary:(NSDictionary *)jsonUser
-{
-    RemoteUser *user = [RemoteUser new];
-    user.userID = jsonUser[@"ID"];
-    user.username = jsonUser[@"login"];
-    user.displayName = jsonUser[@"name"];
-    user.primaryBlogID = jsonUser[@"site_ID"];
-    user.avatarURL = jsonUser[@"avatar_URL"];
-
-    return user;
 }
 
 @end

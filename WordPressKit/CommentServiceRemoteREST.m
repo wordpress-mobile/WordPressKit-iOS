@@ -390,21 +390,22 @@
 }
 
 - (void)getLikesForCommentID:(NSNumber *)commentID
-                     success:(void (^)(NSArray<RemoteUser *> *))success
+                     success:(void (^)(NSArray<RemoteLikeUser *> *))success
                      failure:(void (^)(NSError *))failure
 {
     NSParameterAssert(commentID);
 
     NSString *path = [NSString stringWithFormat:@"sites/%@/comments/%@/likes", self.siteID, commentID];
     NSString *requestUrl = [self pathForEndpoint:path
-                                     withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
+                                     withVersion:ServiceRemoteWordPressComRESTApiVersion_1_2];
+    NSNumber *siteID = self.siteID;
 
     [self.wordPressComRestApi GET:requestUrl
                        parameters:nil
                           success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
         if (success) {
             NSArray *jsonUsers = responseObject[@"likes"] ?: @[];
-            success([self remoteUsersFromJSONArray:jsonUsers]);
+            success([self remoteUsersFromJSONArray:jsonUsers commentID:commentID siteID:siteID]);
         }
     } failure:^(NSError *error, NSHTTPURLResponse *httpResponse) {
         if (failure) {
@@ -469,38 +470,19 @@
 }
 
 /**
- Returns an array of RemoteUser based on provided JSON representation of users.
+ Returns an array of RemoteLikeUser based on provided JSON representation of users.
  
  @param jsonUsers An array containing JSON representations of users.
+ @param commentID ID of the Comment the users liked.
+ @param siteID    ID of the Comment's site.
  */
-- (NSArray<RemoteUser *> *)remoteUsersFromJSONArray:(NSArray *)jsonUsers
+- (NSArray<RemoteLikeUser *> *)remoteUsersFromJSONArray:(NSArray *)jsonUsers
+                                              commentID:(NSNumber *)commentID
+                                                 siteID:(NSNumber *)siteID
 {
     return [jsonUsers wp_map:^id(NSDictionary *jsonUser) {
-        return [self remoteUserFromJSONDictionary:jsonUser];
+        return [[RemoteLikeUser alloc] initWithDictionary:jsonUser commentID:commentID siteID:siteID];
     }];
-}
-
-/**
- Creates a RemoteUser instance based on provided JSON object. Expected dictionary
- contents (and its mapping to the RemoteUser object):
-    - ID -> userID
-    - login -> username
-    - name -> displayName
-    - site_ID -> primaryBlogID
-    - avatar_URL -> avatarURL
-
- @param jsonUser The dictionary that represents a RemoteUser.
- */
-- (RemoteUser *)remoteUserFromJSONDictionary:(NSDictionary *)jsonUser
-{
-    RemoteUser *user = [RemoteUser new];
-    user.userID = jsonUser[@"ID"];
-    user.username = jsonUser[@"login"];
-    user.displayName = jsonUser[@"name"];
-    user.primaryBlogID = jsonUser[@"site_ID"];
-    user.avatarURL = jsonUser[@"avatar_URL"];
-
-    return user;
 }
 
 @end

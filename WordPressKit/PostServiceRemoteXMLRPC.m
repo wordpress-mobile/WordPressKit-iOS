@@ -383,6 +383,7 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
     [postParams setValueIfNotNil:[post.URL absoluteString] forKey:@"permalink"];
     [postParams setValueIfNotNil:post.excerpt forKey:@"mt_excerpt"];
     [postParams setValueIfNotNil:post.slug forKey:@"wp_slug"];
+    [postParams setValueIfNotNil:post.authorID forKey:@"wp_author_id"];
     
     // To remove a featured image, you have to send an empty string to the API
     if (post.postThumbnailID == nil) {
