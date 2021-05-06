@@ -155,7 +155,7 @@ extension BlockEditorSettingsServiceRemoteTests {
 
     func testFetchBlockEditorSettingsNotThemeJSON_NoColors() {
         let waitExpectation = expectation(description: "Block Settings should be successfully fetched")
-        var mockedResponse = mockedData(withFilename: blockSettingsNOTThemeJSONResponseFilename) as! [String : Any]
+        var mockedResponse = mockedData(withFilename: blockSettingsNOTThemeJSONResponseFilename) as! [String: Any]
         // Clear out Colors
         mockedResponse[RemoteBlockEditorSettings.CodingKeys.colors.stringValue] = "false"
 
@@ -180,7 +180,7 @@ extension BlockEditorSettingsServiceRemoteTests {
 
     func testFetchBlockEditorSettingsNotThemeJSON_NoGradients() {
         let waitExpectation = expectation(description: "Block Settings should be successfully fetched")
-        var mockedResponse = mockedData(withFilename: blockSettingsNOTThemeJSONResponseFilename) as! [String : Any]
+        var mockedResponse = mockedData(withFilename: blockSettingsNOTThemeJSONResponseFilename) as! [String: Any]
         // Clear out Gradients
         mockedResponse[RemoteBlockEditorSettings.CodingKeys.gradients.stringValue] = "false"
 
@@ -249,4 +249,3 @@ extension BlockEditorSettingsServiceRemoteTests {
         XCTAssertEqual((self.mockRemoteApi.parametersPassedIn as! [String: String])["context"], "site-editor")
     }
 }
-

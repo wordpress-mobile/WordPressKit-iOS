@@ -22,4 +22,3 @@ class ChecksumUtilTests: XCTestCase {
         return try! Data(contentsOf: json)
     }
 }
-
