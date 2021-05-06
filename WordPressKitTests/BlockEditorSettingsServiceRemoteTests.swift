@@ -141,6 +141,7 @@ extension BlockEditorSettingsServiceRemoteTests {
                 XCTAssertFalse(result!.checksum.isEmpty)
                 XCTAssertGreaterThan(result!.colors!.count, 0)
                 XCTAssertGreaterThan(result!.gradients!.count, 0)
+                XCTAssertNil(result!.rawGlobalStylesBaseStyles)
             case .failure:
                 XCTFail("This payload should parse successfully")
             }
@@ -165,6 +166,7 @@ extension BlockEditorSettingsServiceRemoteTests {
                 XCTAssertFalse(result!.checksum.isEmpty)
                 XCTAssertNil(result!.colors)
                 XCTAssertGreaterThan(result!.gradients!.count, 0)
+                XCTAssertNil(result!.rawGlobalStylesBaseStyles)
             case .failure:
                 XCTFail("This payload should parse successfully")
             }
@@ -189,6 +191,7 @@ extension BlockEditorSettingsServiceRemoteTests {
                 XCTAssertFalse(result!.checksum.isEmpty)
                 XCTAssertGreaterThan(result!.colors!.count, 0)
                 XCTAssertNil(result!.gradients)
+                XCTAssertNil(result!.rawGlobalStylesBaseStyles)
             case .failure:
                 XCTFail("This payload should parse successfully")
             }
@@ -209,9 +212,10 @@ extension BlockEditorSettingsServiceRemoteTests {
             case .success(let result):
                 XCTAssertNotNil(result)
                 XCTAssertFalse(result!.checksum.isEmpty)
-                // ToDo: Enable when data is updated with GSS Samples
-//                XCTAssertGreaterThan(result!.globalStylesBaseStyles!.colorSettings.colors!.count, 0)
-//                XCTAssertGreaterThan(result!.globalStylesBaseStyles!.colorSettings.gradients!.count, 0)
+                XCTAssertNotNil(result!.rawGlobalStylesBaseStyles)
+                let gssRawJson = result!.rawGlobalStylesBaseStyles!.data(using: .utf8)!
+                let vaildJson = try? JSONSerialization.jsonObject(with: gssRawJson, options: [])
+                XCTAssertNotNil(vaildJson)
             case .failure:
                 XCTFail("This payload should parse successfully")
             }
