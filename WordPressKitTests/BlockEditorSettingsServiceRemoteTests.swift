@@ -227,6 +227,15 @@ extension BlockEditorSettingsServiceRemoteTests {
         validateFetchBlockEditorSettingsRequest()
     }
 
+    func testFetchBlockEditorSettingsThemeJSON_ConsistentChecksum() {
+        let json = Bundle(for: BlockEditorSettingsServiceRemoteTests.self).url(forResource: blockSettingsThemeJSONResponseFilename, withExtension: "json")!
+        let data = try! Data(contentsOf: json)
+
+        let blockEditorSettings1 = try? JSONDecoder().decode(RemoteBlockEditorSettings.self, from: data)
+        let blockEditorSettings2 = try? JSONDecoder().decode(RemoteBlockEditorSettings.self, from: data)
+        XCTAssertEqual(blockEditorSettings1!.checksum, blockEditorSettings2!.checksum)
+    }
+
     func testFetchBlockEditorSettingsFailure() {
         let waitExpectation = expectation(description: "Block Settings should be successfully fetched")
         service.fetchBlockEditorSettings { (response) in

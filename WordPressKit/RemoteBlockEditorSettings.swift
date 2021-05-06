@@ -25,7 +25,7 @@ public class RemoteBlockEditorSettings: Codable {
             // parse the reponse then convert it to a string.
             guard
                 let jsonGlobalStylesBaseStyles = try? map.decode([String: Any].self, forKey: .rawGlobalStylesBaseStyles),
-                let data = try? JSONSerialization.data(withJSONObject: jsonGlobalStylesBaseStyles, options: [])
+                let data = try? JSONSerialization.data(withJSONObject: jsonGlobalStylesBaseStyles, options: [.sortedKeys])
             else {
                 return nil
             }
