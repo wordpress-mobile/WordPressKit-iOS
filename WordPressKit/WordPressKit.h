@@ -21,7 +21,6 @@ FOUNDATION_EXPORT const unsigned char WordPressKitVersionString[];
 #import <WordPressKit/MediaServiceRemote.h>
 #import <WordPressKit/MediaServiceRemoteREST.h>
 #import <WordPressKit/MediaServiceRemoteXMLRPC.h>
-#import <WordPressKit/MenusServiceRemote.h>
 #import <WordPressKit/PostServiceRemote.h>
 #import <WordPressKit/PostServiceRemoteOptions.h>
 #import <WordPressKit/PostServiceRemoteREST.h>
