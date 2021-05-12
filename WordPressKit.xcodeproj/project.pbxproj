@@ -170,12 +170,6 @@
 		740B23ED1F17FB7E00067A2A /* xmlrpc-bad-username-password-error.xml in Resources */ = {isa = PBXBuildFile; fileRef = 740B23EB1F17FB7E00067A2A /* xmlrpc-bad-username-password-error.xml */; };
 		740B23EE1F17FB7E00067A2A /* xmlrpc-malformed-request-xml-error.xml in Resources */ = {isa = PBXBuildFile; fileRef = 740B23EC1F17FB7E00067A2A /* xmlrpc-malformed-request-xml-error.xml */; };
 		74155E251EF87DDF00A06AEA /* ServiceRemoteRESTTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 74155E241EF87DDF00A06AEA /* ServiceRemoteRESTTests.m */; };
-		742362DE1F1025B400BD0A7F /* RemoteMenu.h in Headers */ = {isa = PBXBuildFile; fileRef = 742362D81F1025B400BD0A7F /* RemoteMenu.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		742362DF1F1025B400BD0A7F /* RemoteMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 742362D91F1025B400BD0A7F /* RemoteMenu.m */; };
-		742362E01F1025B400BD0A7F /* RemoteMenuItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 742362DA1F1025B400BD0A7F /* RemoteMenuItem.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		742362E11F1025B400BD0A7F /* RemoteMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 742362DB1F1025B400BD0A7F /* RemoteMenuItem.m */; };
-		742362E21F1025B400BD0A7F /* RemoteMenuLocation.h in Headers */ = {isa = PBXBuildFile; fileRef = 742362DC1F1025B400BD0A7F /* RemoteMenuLocation.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		742362E31F1025B400BD0A7F /* RemoteMenuLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 742362DD1F1025B400BD0A7F /* RemoteMenuLocation.m */; };
 		7430C9A31F1927180051B8E6 /* ReaderPostServiceRemote.h in Headers */ = {isa = PBXBuildFile; fileRef = 7430C99D1F1927180051B8E6 /* ReaderPostServiceRemote.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7430C9A41F1927180051B8E6 /* ReaderPostServiceRemote.m in Sources */ = {isa = PBXBuildFile; fileRef = 7430C99E1F1927180051B8E6 /* ReaderPostServiceRemote.m */; };
 		7430C9A51F1927180051B8E6 /* ReaderSiteServiceRemote.h in Headers */ = {isa = PBXBuildFile; fileRef = 7430C99F1F1927180051B8E6 /* ReaderSiteServiceRemote.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -762,12 +756,6 @@
 		740B23EB1F17FB7E00067A2A /* xmlrpc-bad-username-password-error.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "xmlrpc-bad-username-password-error.xml"; sourceTree = "<group>"; };
 		740B23EC1F17FB7E00067A2A /* xmlrpc-malformed-request-xml-error.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "xmlrpc-malformed-request-xml-error.xml"; sourceTree = "<group>"; };
 		74155E241EF87DDF00A06AEA /* ServiceRemoteRESTTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServiceRemoteRESTTests.m; sourceTree = "<group>"; };
-		742362D81F1025B400BD0A7F /* RemoteMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RemoteMenu.h; sourceTree = "<group>"; };
-		742362D91F1025B400BD0A7F /* RemoteMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RemoteMenu.m; sourceTree = "<group>"; };
-		742362DA1F1025B400BD0A7F /* RemoteMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RemoteMenuItem.h; sourceTree = "<group>"; };
-		742362DB1F1025B400BD0A7F /* RemoteMenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RemoteMenuItem.m; sourceTree = "<group>"; };
-		742362DC1F1025B400BD0A7F /* RemoteMenuLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RemoteMenuLocation.h; sourceTree = "<group>"; };
-		742362DD1F1025B400BD0A7F /* RemoteMenuLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RemoteMenuLocation.m; sourceTree = "<group>"; };
 		7430C99D1F1927180051B8E6 /* ReaderPostServiceRemote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReaderPostServiceRemote.h; sourceTree = "<group>"; };
 		7430C99E1F1927180051B8E6 /* ReaderPostServiceRemote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReaderPostServiceRemote.m; sourceTree = "<group>"; };
 		7430C99F1F1927180051B8E6 /* ReaderSiteServiceRemote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReaderSiteServiceRemote.h; sourceTree = "<group>"; };
@@ -1741,12 +1729,6 @@
 				E6B0460825E5B4DD00DF6F4F /* RemoteInviteLink.swift */,
 				74DA56381F06EB3000FE9BF4 /* RemoteMedia.h */,
 				74DA56391F06EB3000FE9BF4 /* RemoteMedia.m */,
-				742362D81F1025B400BD0A7F /* RemoteMenu.h */,
-				742362D91F1025B400BD0A7F /* RemoteMenu.m */,
-				742362DA1F1025B400BD0A7F /* RemoteMenuItem.h */,
-				742362DB1F1025B400BD0A7F /* RemoteMenuItem.m */,
-				742362DC1F1025B400BD0A7F /* RemoteMenuLocation.h */,
-				742362DD1F1025B400BD0A7F /* RemoteMenuLocation.m */,
 				74A44DCE1F13C64B006CD8F4 /* RemoteNotification.swift */,
 				74A44DCF1F13C64B006CD8F4 /* RemoteNotificationSettings.swift */,
 				74D67F071F15BEB70010C5ED /* RemotePerson.swift */,
@@ -2239,8 +2221,6 @@
 				74BA04F91F06DC3900ED5CD8 /* RemoteComment.h in Headers */,
 				74BA04F21F06DC0A00ED5CD8 /* CommentServiceRemote.h in Headers */,
 				74BA04F51F06DC0A00ED5CD8 /* CommentServiceRemoteXMLRPC.h in Headers */,
-				742362DE1F1025B400BD0A7F /* RemoteMenu.h in Headers */,
-				742362E01F1025B400BD0A7F /* RemoteMenuItem.h in Headers */,
 				7430C9B51F1927C50051B8E6 /* RemoteReaderSiteInfo.h in Headers */,
 				7430C9A71F1927180051B8E6 /* ReaderTopicServiceRemote.h in Headers */,
 				7430C9B71F1927C50051B8E6 /* RemoteReaderTopic.h in Headers */,
@@ -2248,7 +2228,6 @@
 				7430C9B11F1927C50051B8E6 /* RemoteReaderPost.h in Headers */,
 				7430C9A51F1927180051B8E6 /* ReaderSiteServiceRemote.h in Headers */,
 				7430C9A31F1927180051B8E6 /* ReaderPostServiceRemote.h in Headers */,
-				742362E21F1025B400BD0A7F /* RemoteMenuLocation.h in Headers */,
 				740B23BA1F17EC7300067A2A /* PostServiceRemoteXMLRPC.h in Headers */,
 				740B23BD1F17ECB500067A2A /* PostServiceRemoteOptions.h in Headers */,
 				740B23B71F17EC7300067A2A /* PostServiceRemote.h in Headers */,
@@ -2719,7 +2698,6 @@
 				40819773221E10C900A298E4 /* StatsPublishedPostsTimeIntervalData.swift in Sources */,
 				4625B96C253A357500C04AAD /* PageLayoutServiceRemote.swift in Sources */,
 				E6B0460925E5B4DD00DF6F4F /* RemoteInviteLink.swift in Sources */,
-				742362E11F1025B400BD0A7F /* RemoteMenuItem.m in Sources */,
 				436D56332118D7AA00CEAA33 /* TransactionsServiceRemote.swift in Sources */,
 				93BD27721EE737A9002BB00B /* ServiceRemoteWordPressXMLRPC.m in Sources */,
 				C76F456825B9F30E00BFEC87 /* JetpackScanHistory.swift in Sources */,
@@ -2803,7 +2781,6 @@
 				40E7FEB1220FB3B60032834E /* StatsAnnualAndMostPopularTimeInsight.swift in Sources */,
 				3F758FD324F6C68200BBA2FC /* AnnouncementServiceRemote.swift in Sources */,
 				7E3E7A4A20E443890075D159 /* Scanner+extensions.swift in Sources */,
-				742362E31F1025B400BD0A7F /* RemoteMenuLocation.m in Sources */,
 				FAB4F32324EC072700F259BA /* ReaderPostServiceRemote+Subscriptions.swift in Sources */,
 				82FFBF561F460DD400F4573F /* BlogJetpackSettingsServiceRemote.swift in Sources */,
 				3297E15625645C7D00287D21 /* JetpackCredentials.swift in Sources */,
@@ -2853,7 +2830,6 @@
 				7430C9A61F1927180051B8E6 /* ReaderSiteServiceRemote.m in Sources */,
 				7430C9B21F1927C50051B8E6 /* RemoteReaderPost.m in Sources */,
 				74A44DCD1F13C533006CD8F4 /* PushAuthenticationServiceRemote.swift in Sources */,
-				742362DF1F1025B400BD0A7F /* RemoteMenu.m in Sources */,
 				74B5F0D81EF8299B00B411E7 /* BlogServiceRemoteREST.m in Sources */,
 				9FCDD09720A5EF75004F0BF7 /* ReaderTopicServiceError.swift in Sources */,
 				74A44DD11F13C64B006CD8F4 /* RemoteNotificationSettings.swift in Sources */,
