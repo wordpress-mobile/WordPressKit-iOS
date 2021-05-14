@@ -137,67 +137,14 @@ extension BlockEditorSettingsServiceRemoteTests {
         service.fetchBlockEditorSettings { (response) in
             switch response {
             case .success(let result):
-                XCTAssertNotNil(result)
-                XCTAssertFalse(result!.checksum.isEmpty)
-                XCTAssertGreaterThan(result!.colors!.count, 0)
-                XCTAssertGreaterThan(result!.gradients!.count, 0)
-                XCTAssertNil(result!.rawGlobalStylesBaseStyles)
+                self.validateFetchBlockEditorSettingsResults(result)
+                XCTAssertNil(result!.rawStyles)
             case .failure:
                 XCTFail("This payload should parse successfully")
             }
             waitExpectation.fulfill()
         }
         mockRemoteApi.successBlockPassedIn!(mockedResponse, HTTPURLResponse())
-
-        waitForExpectations(timeout: 0.1)
-        validateFetchBlockEditorSettingsRequest()
-    }
-
-    func testFetchBlockEditorSettingsNotThemeJSON_NoColors() {
-        let waitExpectation = expectation(description: "Block Settings should be successfully fetched")
-        var mockedResponse = mockedData(withFilename: blockSettingsNOTThemeJSONResponseFilename) as! [String: Any]
-        // Clear out Colors
-        mockedResponse[RemoteBlockEditorSettings.CodingKeys.colors.stringValue] = "false"
-
-        service.fetchBlockEditorSettings { (response) in
-            switch response {
-            case .success(let result):
-                XCTAssertNotNil(result)
-                XCTAssertFalse(result!.checksum.isEmpty)
-                XCTAssertNil(result!.colors)
-                XCTAssertGreaterThan(result!.gradients!.count, 0)
-                XCTAssertNil(result!.rawGlobalStylesBaseStyles)
-            case .failure:
-                XCTFail("This payload should parse successfully")
-            }
-            waitExpectation.fulfill()
-        }
-        mockRemoteApi.successBlockPassedIn!(mockedResponse as AnyObject, HTTPURLResponse())
-
-        waitForExpectations(timeout: 0.1)
-        validateFetchBlockEditorSettingsRequest()
-    }
-
-    func testFetchBlockEditorSettingsNotThemeJSON_NoGradients() {
-        let waitExpectation = expectation(description: "Block Settings should be successfully fetched")
-        var mockedResponse = mockedData(withFilename: blockSettingsNOTThemeJSONResponseFilename) as! [String: Any]
-        // Clear out Gradients
-        mockedResponse[RemoteBlockEditorSettings.CodingKeys.gradients.stringValue] = "false"
-
-        service.fetchBlockEditorSettings { (response) in
-            switch response {
-            case .success(let result):
-                XCTAssertNotNil(result)
-                XCTAssertFalse(result!.checksum.isEmpty)
-                XCTAssertGreaterThan(result!.colors!.count, 0)
-                XCTAssertNil(result!.gradients)
-                XCTAssertNil(result!.rawGlobalStylesBaseStyles)
-            case .failure:
-                XCTFail("This payload should parse successfully")
-            }
-            waitExpectation.fulfill()
-        }
-        mockRemoteApi.successBlockPassedIn!(mockedResponse as AnyObject, HTTPURLResponse())
 
         waitForExpectations(timeout: 0.1)
         validateFetchBlockEditorSettingsRequest()
@@ -210,10 +157,10 @@ extension BlockEditorSettingsServiceRemoteTests {
         service.fetchBlockEditorSettings { (response) in
             switch response {
             case .success(let result):
-                XCTAssertNotNil(result)
-                XCTAssertFalse(result!.checksum.isEmpty)
-                XCTAssertNotNil(result!.rawGlobalStylesBaseStyles)
-                let gssRawJson = result!.rawGlobalStylesBaseStyles!.data(using: .utf8)!
+                self.validateFetchBlockEditorSettingsResults(result)
+
+                XCTAssertNotNil(result!.rawStyles)
+                let gssRawJson = result!.rawStyles!.data(using: .utf8)!
                 let vaildJson = try? JSONSerialization.jsonObject(with: gssRawJson, options: [])
                 XCTAssertNotNil(vaildJson)
             case .failure:
@@ -255,6 +202,16 @@ extension BlockEditorSettingsServiceRemoteTests {
     private func validateFetchBlockEditorSettingsRequest() {
         XCTAssertTrue(self.mockRemoteApi.getMethodCalled)
         XCTAssertEqual(self.mockRemoteApi.URLStringPassedIn!, "/__experimental/wp-block-editor/v1/settings")
-        XCTAssertEqual((self.mockRemoteApi.parametersPassedIn as! [String: String])["context"], "site-editor")
+        XCTAssertEqual((self.mockRemoteApi.parametersPassedIn as! [String: String])["context"], "mobile")
+    }
+
+    private func validateFetchBlockEditorSettingsResults(_ result: RemoteBlockEditorSettings?) {
+        XCTAssertNotNil(result)
+        XCTAssertFalse(result!.checksum.isEmpty)
+
+        XCTAssertNotNil(result!.rawFeatures)
+        let themeRawJson = result!.rawFeatures!.data(using: .utf8)!
+        let vaildJson = try? JSONSerialization.jsonObject(with: themeRawJson, options: [])
+        XCTAssertNotNil(vaildJson)
     }
 }
