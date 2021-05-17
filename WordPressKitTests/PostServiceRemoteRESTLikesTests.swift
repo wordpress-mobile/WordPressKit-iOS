@@ -29,8 +29,8 @@ final class PostServiceRemoteRESTLikesTests: RemoteTestCase, RESTTestable {
         let expect = expectation(description: "Fetch likes should succeed")
 
         stubRemoteResponse(postLikesEndpoint, filename: fetchPostLikesSuccessFilename, contentType: .ApplicationJSON)
-        remote.getLikesForPostID(NSNumber(value: postId), success: { users in
-            guard let user = users?.first else {
+        remote.getLikesForPostID(NSNumber(value: postId), count: 0, before: nil, success: { users, totalLikes in
+            guard let user = users.first else {
                 XCTFail("Failed to retrieve mock post likes")
                 return
             }
@@ -43,6 +43,7 @@ final class PostServiceRemoteRESTLikesTests: RemoteTestCase, RESTTestable {
             XCTAssertEqual(user.bio, "user bio")
             XCTAssertEqual(user.likedPostID, NSNumber(value: 1))
             XCTAssertEqual(user.likedSiteID, NSNumber(value: 0))
+            XCTAssertEqual(totalLikes, NSNumber(value: 3))
             expect.fulfill()
 
         }, failure: { _ in
@@ -56,7 +57,7 @@ final class PostServiceRemoteRESTLikesTests: RemoteTestCase, RESTTestable {
         let expect = expectation(description: "Failure block should be called when fetching post likes fails")
 
         stubRemoteResponse(postLikesEndpoint, filename: fetchPostLikesFailureFilename, contentType: .ApplicationJSON, status: 403)
-        remote.getLikesForPostID(NSNumber(value: postId), success: { _ in
+        remote.getLikesForPostID(NSNumber(value: postId), count: 0, before: nil, success: { _, _ in
         XCTFail("This callback shouldn't get called")
         }, failure: { error in
             XCTAssertNotNil(error)
@@ -70,9 +71,9 @@ final class PostServiceRemoteRESTLikesTests: RemoteTestCase, RESTTestable {
         let expect = expectation(description: "Fetch likes should succeed")
 
         stubRemoteResponse(postLikesEndpoint, filename: fetchPostLikesSuccessFilename, contentType: .ApplicationJSON)
-        remote.getLikesForPostID(NSNumber(value: postId), success: { users in
-            guard let userWithPreferredBlog = users?.first,
-                  let userWithoutPreferredBlog = users?.last else {
+        remote.getLikesForPostID(NSNumber(value: postId), count: 0, before: nil, success: { users, _ in
+            guard let userWithPreferredBlog = users.first,
+                  let userWithoutPreferredBlog = users.last else {
                 XCTFail("Failed to retrieve mock post likes")
                 return
             }

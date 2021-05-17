@@ -63,11 +63,15 @@
  *              endpoint.
  *
  *  @param      postID      The ID for the post. Cannot be nil.
+ *  @param      count       Number of records to retrieve.
+ *  @param      before      Filter results to Likes before this date/time string. Can be nil.
  *  @param      success     The block that will be executed on success. Can be nil.
  *  @param      failure     The block that will be executed on failure. Can be nil.
  */
 - (void)getLikesForPostID:(NSNumber *)postID
-                  success:(void (^)(NSArray<RemoteLikeUser *> *))success
-                  failure:(void (^)(NSError *))failure;
+                    count:(NSNumber *)count
+                   before:(NSString * _Nullable)before
+                  success:(void (^ _Nullable)(NSArray<RemoteLikeUser *> * _Nonnull users, NSNumber * _Nonnull found))success
+                  failure:(void (^ _Nullable)(NSError * _Nullable))failure;
 
 @end
