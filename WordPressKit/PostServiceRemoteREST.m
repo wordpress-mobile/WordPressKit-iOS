@@ -311,22 +311,37 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
 }
 
 - (void)getLikesForPostID:(NSNumber *)postID
-                  success:(void (^)(NSArray<RemoteLikeUser *> * _Nonnull))success
+                    count:(NSNumber *)count
+                   before:(NSString *)before
+                  success:(void (^)(NSArray<RemoteLikeUser *> * _Nonnull users, NSNumber *found))success
                   failure:(void (^)(NSError * _Nullable))failure
 {
     NSParameterAssert(postID);
-    
+
     NSString *path = [NSString stringWithFormat:@"sites/%@/posts/%@/likes", self.siteID, postID];
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:ServiceRemoteWordPressComRESTApiVersion_1_2];
     NSNumber *siteID = self.siteID;
 
+    // If no count provided, default to endpoint max.
+    if (count == 0) {
+        count = @90;
+    }
+    
+    NSMutableDictionary *parameters = [NSMutableDictionary dictionaryWithDictionary:@{ @"number": count }];
+    
+    if (before != nil) {
+        parameters[@"before"] = before;
+    }
+    
     [self.wordPressComRestApi GET:requestUrl
-                       parameters:nil
+                       parameters:parameters
                           success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
         if (success) {
-                NSArray *jsonUsers = responseObject[@"likes"] ?: @[];
-                success([self remoteUsersFromJSONArray:jsonUsers postID:postID siteID:siteID]);
+            NSArray *jsonUsers = responseObject[@"likes"] ?: @[];
+            NSArray<RemoteLikeUser *> *users = [self remoteUsersFromJSONArray:jsonUsers postID:postID siteID:siteID];
+            NSNumber *found = [responseObject numberForKey:@"found"] ?: @0;
+            success(users, found);
         }
     } failure:^(NSError *error, NSHTTPURLResponse *httpResponse) {
         if (failure) {

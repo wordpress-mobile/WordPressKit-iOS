@@ -31,6 +31,7 @@ workflows:
           xcode-version: *xcode-version
           podspec-path: *podspec
           bundle-install: true
+          additional-parameters: "--allow-warnings"
       - ios/publish-podspec:
           name: Publish to a8c Spec Repo
           xcode-version: *xcode-version
