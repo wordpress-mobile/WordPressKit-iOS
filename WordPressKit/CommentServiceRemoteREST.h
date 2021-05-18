@@ -19,78 +19,78 @@
  @param success block called on a successful fetch.
  @param failure block called if there is any error. `error` can be any underlying network error.
  */
-- (void)syncHierarchicalCommentsForPost:(NSNumber *)postID
+- (void)syncHierarchicalCommentsForPost:(NSNumber * _Nonnull)postID
                                    page:(NSUInteger)page
                                  number:(NSUInteger)number
-                                success:(void (^)(NSArray *comments))success
-                                failure:(void (^)(NSError *error))failure;
+                                success:(void (^ _Nullable)(NSArray * _Nonnull comments))success
+                                failure:(void (^ _Nullable)(NSError * _Nonnull error))failure;
 
 /**
  Update a comment with a commentID
  */
-- (void)updateCommentWithID:(NSNumber *)commentID
-                    content:(NSString *)content
-                    success:(void (^)(void))success
-                    failure:(void (^)(NSError *error))failure;
+- (void)updateCommentWithID:(NSNumber * _Nonnull)commentID
+                    content:(NSString * _Nonnull)content
+                    success:(void (^ _Nullable)(void))success
+                    failure:(void (^ _Nullable)(NSError * _Nonnull error))failure;
 
 /**
  Adds a reply to a post with postID
  */
-- (void)replyToPostWithID:(NSNumber *)postID
-                  content:(NSString *)content
-                  success:(void (^)(RemoteComment *comment))success
-                  failure:(void (^)(NSError *error))failure;
+- (void)replyToPostWithID:(NSNumber * _Nonnull)postID
+                  content:(NSString * _Nonnull)content
+                  success:(void (^ _Nullable)(RemoteComment * _Nonnull comment))success
+                  failure:(void (^ _Nullable)(NSError * _Nonnull error))failure;
 
 /**
  Adds a reply to a comment with commentID.
  */
-- (void)replyToCommentWithID:(NSNumber *)commentID
-                     content:(NSString *)content
-                     success:(void (^)(RemoteComment *comment))success
-                     failure:(void (^)(NSError *error))failure;
+- (void)replyToCommentWithID:(NSNumber * _Nonnull)commentID
+                     content:(NSString * _Nonnull)content
+                     success:(void (^ _Nullable)(RemoteComment * _Nonnull comment))success
+                     failure:(void (^ _Nullable)(NSError * _Nonnull error))failure;
 
 /**
  Moderate a comment with a commentID
  */
-- (void)moderateCommentWithID:(NSNumber *)commentID
-                       status:(NSString *)status
-                      success:(void (^)(void))success
-                      failure:(void (^)(NSError *error))failure;
+- (void)moderateCommentWithID:(NSNumber * _Nonnull)commentID
+                       status:(NSString * _Nonnull)status
+                      success:(void (^ _Nullable)(void))success
+                      failure:(void (^ _Nullable)(NSError * _Nonnull error))failure;
 
 /**
  Trashes a comment with a commentID
  */
-- (void)trashCommentWithID:(NSNumber *)commentID
-                   success:(void (^)(void))success
-                   failure:(void (^)(NSError *error))failure;
+- (void)trashCommentWithID:(NSNumber * _Nonnull)commentID
+                   success:(void (^ _Nullable)(void))success
+                   failure:(void (^ _Nullable)(NSError * _Nonnull error))failure;
 
 /**
  Like a comment with a commentID
  */
-- (void)likeCommentWithID:(NSNumber *)commentID
-                  success:(void (^)(void))success
-                  failure:(void (^)(NSError *error))failure;
+- (void)likeCommentWithID:(NSNumber * _Nonnull)commentID
+                  success:(void (^ _Nullable)(void))success
+                  failure:(void (^ _Nullable)(NSError * _Nonnull error))failure;
 
 
 /**
  Unlike a comment with a commentID
  */
-- (void)unlikeCommentWithID:(NSNumber *)commentID
-                    success:(void (^)(void))success
-                    failure:(void (^)(NSError *error))failure;
+- (void)unlikeCommentWithID:(NSNumber * _Nonnull)commentID
+                    success:(void (^ _Nullable)(void))success
+                    failure:(void (^ _Nullable)(NSError * _Nonnull error))failure;
 
 /**
  Requests a list of users that liked the comment with the specified ID. Due to
  API limitation, up to 90 users will be returned from the endpoint.
  
  @param commentID   The ID for the comment. Cannot be nil.
- @param count       Number of records to retrieve.
+ @param count       Number of records to retrieve. Cannot be nil. If 0, will default to endpoint max.
  @param before      Filter results to Likes before this date/time string. Can be nil.
  @param success     The block that will be executed on success. Can be nil.
  @param failure     The block that will be executed on failure. Can be nil.
  */
-- (void)getLikesForCommentID:(NSNumber *)commentID
-                       count:(NSNumber *)count
+- (void)getLikesForCommentID:(NSNumber * _Nonnull)commentID
+                       count:(NSNumber * _Nonnull)count
                       before:(NSString * _Nullable)before
                      success:(void (^ _Nullable)(NSArray<RemoteLikeUser *> * _Nonnull users, NSNumber * _Nonnull found))success
                      failure:(void (^ _Nullable)(NSError * _Nullable))failure;
