@@ -24,8 +24,8 @@
 - (void)createPost:(RemotePost * _Nonnull)post
          withMedia:(RemoteMedia * _Nullable)media
    requestEnqueued:(void (^ _Nullable)(NSNumber * _Nonnull taskID))requestEnqueued
-           success:(void (^ _Nullable)(RemotePost * _Nonnull))success
-           failure:(void (^ _Nullable)(NSError * _Nonnull))failure;
+           success:(void (^ _Nullable)(RemotePost * _Nullable))success
+           failure:(void (^ _Nullable)(NSError * _Nullable))failure;
 
 /**
  *  @brief      Saves a post.
@@ -39,8 +39,8 @@
  *  @param      failure     The block that will be executed on failure.  Can be nil.
  */
 - (void)autoSave:(RemotePost * _Nonnull)post
-         success:(void (^ _Nullable)(RemotePost * _Nonnull post, NSString * _Nonnull previewURL))success
-         failure:(void (^ _Nullable)(NSError * _Nonnull error))failure;
+         success:(void (^ _Nullable)(RemotePost * _Nullable post, NSString * _Nullable previewURL))success
+         failure:(void (^ _Nullable)(NSError * _Nullable error))failure;
 
 /**
  *  @brief      Get autosave revision of a post.
@@ -53,8 +53,8 @@
  *  @param      failure     The block that will be executed on failure.  Can be nil.
  */
 - (void)getAutoSaveForPost:(RemotePost * _Nonnull)post
-                   success:(void (^ _Nullable)(RemotePost * _Nonnull))success
-                   failure:(void (^ _Nullable)(NSError * _Nonnull error))failure;
+                   success:(void (^ _Nullable)(RemotePost * _Nullable))success
+                   failure:(void (^ _Nullable)(NSError * _Nullable error))failure;
 
 /**
  *  @brief      Requests a list of users that liked the post with the specified ID.

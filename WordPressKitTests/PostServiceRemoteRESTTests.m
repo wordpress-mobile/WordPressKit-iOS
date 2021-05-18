@@ -253,16 +253,6 @@
                 failure:^(NSError *error) {}];
 }
 
-- (void)testThatAutoSavePostThrowsExceptionWithoutPost
-{
-    PostServiceRemoteREST *service = nil;
-    
-    XCTAssertNoThrow(service = [self service]);
-    XCTAssertThrows([service autoSave:nil
-                                success:^(RemotePost *post, NSString *previewURL) {}
-                                failure:^(NSError *error) {}]);
-}
-
 - (void)testThatGetAutoSaveForPostWorks
 {
     NSNumber *dotComID = @10;
