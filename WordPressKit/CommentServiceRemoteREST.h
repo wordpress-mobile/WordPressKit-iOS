@@ -22,8 +22,8 @@
 - (void)syncHierarchicalCommentsForPost:(NSNumber * _Nonnull)postID
                                    page:(NSUInteger)page
                                  number:(NSUInteger)number
-                                success:(void (^ _Nullable)(NSArray * _Nonnull comments))success
-                                failure:(void (^ _Nullable)(NSError * _Nonnull error))failure;
+                                success:(void (^ _Nullable)(NSArray * _Nullable comments))success
+                                failure:(void (^ _Nullable)(NSError * _Nullable error))failure;
 
 /**
  Update a comment with a commentID
@@ -31,23 +31,23 @@
 - (void)updateCommentWithID:(NSNumber * _Nonnull)commentID
                     content:(NSString * _Nonnull)content
                     success:(void (^ _Nullable)(void))success
-                    failure:(void (^ _Nullable)(NSError * _Nonnull error))failure;
+                    failure:(void (^ _Nullable)(NSError * _Nullable error))failure;
 
 /**
  Adds a reply to a post with postID
  */
 - (void)replyToPostWithID:(NSNumber * _Nonnull)postID
                   content:(NSString * _Nonnull)content
-                  success:(void (^ _Nullable)(RemoteComment * _Nonnull comment))success
-                  failure:(void (^ _Nullable)(NSError * _Nonnull error))failure;
+                  success:(void (^ _Nullable)(RemoteComment * _Nullable comment))success
+                  failure:(void (^ _Nullable)(NSError * _Nullable error))failure;
 
 /**
  Adds a reply to a comment with commentID.
  */
 - (void)replyToCommentWithID:(NSNumber * _Nonnull)commentID
                      content:(NSString * _Nonnull)content
-                     success:(void (^ _Nullable)(RemoteComment * _Nonnull comment))success
-                     failure:(void (^ _Nullable)(NSError * _Nonnull error))failure;
+                     success:(void (^ _Nullable)(RemoteComment * _Nullable comment))success
+                     failure:(void (^ _Nullable)(NSError * _Nullable error))failure;
 
 /**
  Moderate a comment with a commentID
@@ -55,21 +55,21 @@
 - (void)moderateCommentWithID:(NSNumber * _Nonnull)commentID
                        status:(NSString * _Nonnull)status
                       success:(void (^ _Nullable)(void))success
-                      failure:(void (^ _Nullable)(NSError * _Nonnull error))failure;
+                      failure:(void (^ _Nullable)(NSError * _Nullable error))failure;
 
 /**
  Trashes a comment with a commentID
  */
 - (void)trashCommentWithID:(NSNumber * _Nonnull)commentID
                    success:(void (^ _Nullable)(void))success
-                   failure:(void (^ _Nullable)(NSError * _Nonnull error))failure;
+                   failure:(void (^ _Nullable)(NSError * _Nullable error))failure;
 
 /**
  Like a comment with a commentID
  */
 - (void)likeCommentWithID:(NSNumber * _Nonnull)commentID
                   success:(void (^ _Nullable)(void))success
-                  failure:(void (^ _Nullable)(NSError * _Nonnull error))failure;
+                  failure:(void (^ _Nullable)(NSError * _Nullable error))failure;
 
 
 /**
@@ -77,7 +77,7 @@
  */
 - (void)unlikeCommentWithID:(NSNumber * _Nonnull)commentID
                     success:(void (^ _Nullable)(void))success
-                    failure:(void (^ _Nullable)(NSError * _Nonnull error))failure;
+                    failure:(void (^ _Nullable)(NSError * _Nullable error))failure;
 
 /**
  Requests a list of users that liked the comment with the specified ID. Due to
