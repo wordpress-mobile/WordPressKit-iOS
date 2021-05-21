@@ -313,6 +313,7 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
 - (void)getLikesForPostID:(NSNumber *)postID
                     count:(NSNumber *)count
                    before:(NSString *)before
+           excludeUserIDs:(NSArray<NSNumber *> *)excludeUserIDs
                   success:(void (^)(NSArray<RemoteLikeUser *> * _Nonnull users, NSNumber *found))success
                   failure:(void (^)(NSError * _Nullable))failure
 {
@@ -334,6 +335,10 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
         parameters[@"before"] = before;
     }
     
+    if (excludeUserIDs != nil) {
+        parameters[@"exclude"] = excludeUserIDs;
+    }
+
     [self.wordPressComRestApi GET:requestUrl
                        parameters:parameters
                           success:^(id responseObject, NSHTTPURLResponse *httpResponse) {

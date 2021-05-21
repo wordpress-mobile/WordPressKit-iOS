@@ -83,15 +83,17 @@
  Requests a list of users that liked the comment with the specified ID. Due to
  API limitation, up to 90 users will be returned from the endpoint.
  
- @param commentID   The ID for the comment. Cannot be nil.
- @param count       Number of records to retrieve. Cannot be nil. If 0, will default to endpoint max.
- @param before      Filter results to Likes before this date/time string. Can be nil.
- @param success     The block that will be executed on success. Can be nil.
- @param failure     The block that will be executed on failure. Can be nil.
+ @param commentID       The ID for the comment. Cannot be nil.
+ @param count           Number of records to retrieve. Cannot be nil. If 0, will default to endpoint max.
+ @param before          Filter results to Likes before this date/time string. Can be nil.
+ @param excludeUserIDs  Array of user IDs to exclude from response. Can be nil.
+ @param success         The block that will be executed on success. Can be nil.
+ @param failure         The block that will be executed on failure. Can be nil.
  */
 - (void)getLikesForCommentID:(NSNumber * _Nonnull)commentID
                        count:(NSNumber * _Nonnull)count
                       before:(NSString * _Nullable)before
+              excludeUserIDs:(NSArray<NSNumber *> * _Nullable)excludeUserIDs
                      success:(void (^ _Nullable)(NSArray<RemoteLikeUser *> * _Nonnull users, NSNumber * _Nonnull found))success
                      failure:(void (^ _Nullable)(NSError * _Nullable))failure;
 

@@ -392,6 +392,7 @@
 - (void)getLikesForCommentID:(NSNumber *)commentID
                        count:(NSNumber *)count
                       before:(NSString *)before
+              excludeUserIDs:(NSArray<NSNumber *> *)excludeUserIDs
                      success:(void (^)(NSArray<RemoteLikeUser *> * _Nonnull users, NSNumber *found))success
                      failure:(void (^)(NSError *))failure
 {
@@ -409,10 +410,14 @@
     
     NSMutableDictionary *parameters = [NSMutableDictionary dictionaryWithDictionary:@{ @"number": count }];
     
-    if (before != nil) {
+    if (before) {
         parameters[@"before"] = before;
     }
     
+    if (excludeUserIDs) {
+        parameters[@"exclude"] = excludeUserIDs;
+    }
+
     [self.wordPressComRestApi GET:requestUrl
                        parameters:parameters
                           success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
