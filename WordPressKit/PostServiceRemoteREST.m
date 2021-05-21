@@ -331,11 +331,11 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
     
     NSMutableDictionary *parameters = [NSMutableDictionary dictionaryWithDictionary:@{ @"number": count }];
     
-    if (before != nil) {
+    if (before) {
         parameters[@"before"] = before;
     }
     
-    if (excludeUserIDs != nil) {
+    if (excludeUserIDs) {
         parameters[@"exclude"] = excludeUserIDs;
     }
 
