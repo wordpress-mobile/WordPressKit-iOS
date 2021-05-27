@@ -300,12 +300,14 @@ open class WordPressOrgXMLRPCApi: NSObject {
     @objc public static let WordPressOrgXMLRPCApiErrorKeyStatusCode: NSError.UserInfoKey = "WordPressOrgXMLRPCApiErrorKeyStatusCode"
 
     private func convertError(_ error: NSError, data: Data?, statusCode: Int? = nil) -> NSError {
+        let responseCode = ( (statusCode != nil) ? statusCode! : error.code );
+        
         if let data = data {
             var userInfo: [AnyHashable: Any] = error.userInfo
             userInfo[type(of: self).WordPressOrgXMLRPCApiErrorKeyData] = data
             userInfo[type(of: self).WordPressOrgXMLRPCApiErrorKeyDataString] = NSString(data: data, encoding: String.Encoding.utf8.rawValue)
             userInfo[type(of: self).WordPressOrgXMLRPCApiErrorKeyStatusCode] = statusCode
-            return NSError(domain: error.domain, code: error.code, userInfo: userInfo as? [String: Any])
+            return NSError(domain: error.domain, code: responseCode, userInfo: userInfo as? [String: Any])
         }
         return error
     }
