@@ -29,8 +29,12 @@ final class CommentServiceRemoteRESTLikesTests: RemoteTestCase, RESTTestable {
         let expect = expectation(description: "Fetching comment likes should succeed")
 
         stubRemoteResponse(commentLikesEndpoint, filename: fetchCommentLikesSuccessFilename, contentType: .ApplicationJSON)
-        remote.getLikesForCommentID(NSNumber(value: commentId), success: { users in
-            guard let user = users?.first else {
+        remote.getLikesForCommentID(NSNumber(value: commentId),
+                                    count: 0,
+                                    before: nil,
+                                    excludeUserIDs: nil,
+                                    success: { users, totalLikes in
+            guard let user = users.first else {
                 XCTFail("Failed to retrieve mock comment likes")
                 return
             }
@@ -43,6 +47,7 @@ final class CommentServiceRemoteRESTLikesTests: RemoteTestCase, RESTTestable {
             XCTAssertEqual(user.bio, "user bio")
             XCTAssertEqual(user.likedCommentID, NSNumber(value: 1))
             XCTAssertEqual(user.likedSiteID, NSNumber(value: 0))
+            XCTAssertEqual(totalLikes, NSNumber(value: 3))
             expect.fulfill()
 
         }, failure: { _ in
@@ -56,7 +61,11 @@ final class CommentServiceRemoteRESTLikesTests: RemoteTestCase, RESTTestable {
         let expect = expectation(description: "Failure block should be called when fetching post likes fails")
 
         stubRemoteResponse(commentLikesEndpoint, filename: fetchCommentLikesFailureFilename, contentType: .ApplicationJSON, status: 403)
-        remote.getLikesForCommentID(NSNumber(value: commentId), success: { _ in
+        remote.getLikesForCommentID(NSNumber(value: commentId),
+                                    count: 0,
+                                    before: nil,
+                                    excludeUserIDs: nil,
+                                    success: { _, _ in
         XCTFail("This callback shouldn't get called")
         }, failure: { error in
             XCTAssertNotNil(error)
@@ -70,9 +79,13 @@ final class CommentServiceRemoteRESTLikesTests: RemoteTestCase, RESTTestable {
         let expect = expectation(description: "Fetching comment likes should succeed")
 
         stubRemoteResponse(commentLikesEndpoint, filename: fetchCommentLikesSuccessFilename, contentType: .ApplicationJSON)
-        remote.getLikesForCommentID(NSNumber(value: commentId), success: { users in
-            guard let userWithPreferredBlog = users?.first,
-                  let userWithoutPreferredBlog = users?.last else {
+        remote.getLikesForCommentID(NSNumber(value: commentId),
+                                    count: 0,
+                                    before: nil,
+                                    excludeUserIDs: nil,
+                                    success: { users, _ in
+            guard let userWithPreferredBlog = users.first,
+                  let userWithoutPreferredBlog = users.last else {
                 XCTFail("Failed to retrieve mock comment likes")
                 return
             }
