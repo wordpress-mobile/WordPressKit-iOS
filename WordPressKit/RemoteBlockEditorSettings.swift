@@ -4,12 +4,14 @@ public class RemoteBlockEditorSettings: Codable {
     enum CodingKeys: String, CodingKey {
         case isFSETheme = "__unstableEnableFullSiteEditingBlocks"
         case rawStyles = "__experimentalStyles"
-        case rawFeatures = "__experimentalFeatures"
+        case colors
+        case gradients
     }
 
     public let isFSETheme: Bool
     public let rawStyles: String?
-    public let rawFeatures: String?
+    public let colors: [[String: String]]?
+    public let gradients: [[String: String]]?
 
     public lazy var checksum: String = {
         return ChecksumUtil.checksum(from: self)
@@ -31,7 +33,8 @@ public class RemoteBlockEditorSettings: Codable {
         let map = try decoder.container(keyedBy: CodingKeys.self)
         self.isFSETheme = (try? map.decode(Bool.self, forKey: .isFSETheme)) ?? false
         self.rawStyles = RemoteBlockEditorSettings.parseToString(map, .rawStyles)
-        self.rawFeatures = RemoteBlockEditorSettings.parseToString(map, .rawFeatures)
+        self.colors = try? map.decode([[String: String]].self, forKey: .colors)
+        self.gradients = try? map.decode([[String: String]].self, forKey: .gradients)
     }
 }
 
