@@ -300,7 +300,7 @@ open class WordPressOrgXMLRPCApi: NSObject {
     @objc public static let WordPressOrgXMLRPCApiErrorKeyStatusCode: NSError.UserInfoKey = "WordPressOrgXMLRPCApiErrorKeyStatusCode"
 
     private func convertError(_ error: NSError, data: Data?, statusCode: Int? = nil) -> NSError {
-        let responseCode = statusCode ?? error.code
+        let responseCode = statusCode == 403 ? 403 : error.code
         if let data = data {
             var userInfo: [AnyHashable: Any] = error.userInfo
             userInfo[type(of: self).WordPressOrgXMLRPCApiErrorKeyData] = data
