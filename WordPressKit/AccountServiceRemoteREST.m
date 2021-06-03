@@ -35,7 +35,7 @@ MagicLinkFlow const MagicLinkFlowSignup = @"signup";
          failure:(void (^)(NSError *))failure
 {
     if (filterJetpackSites) {
-        [self getBlogsWithParameters:@{@"filters": @"jetpack, atomic"} success:success failure:failure];
+        [self getBlogsWithParameters:@{@"filters": @"jetpack"} success:success failure:failure];
     } else {
         [self getBlogsWithSuccess:success failure:failure];
     }
