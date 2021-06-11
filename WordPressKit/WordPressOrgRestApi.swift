@@ -30,7 +30,7 @@ open class WordPressOrgRestApi: NSObject, WordPressRestApi {
                   completion: @escaping Completion) -> Progress? {
         return request(method: .get, path: path, parameters: parameters, completion: completion)
     }
-    
+
     @discardableResult
     open func request(method: HTTPMethod,
                          path: String,
