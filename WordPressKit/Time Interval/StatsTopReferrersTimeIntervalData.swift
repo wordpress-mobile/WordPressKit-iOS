@@ -5,7 +5,7 @@ public struct StatsTopReferrersTimeIntervalData {
     public let totalReferrerViewsCount: Int
     public let otherReferrerViewsCount: Int
 
-    public let referrers: [StatsReferrer]
+    public var referrers: [StatsReferrer]
 
     public init(period: StatsPeriodUnit,
                 periodEndDate: Date,
@@ -26,7 +26,8 @@ public struct StatsReferrer {
     public let url: URL?
     public let iconURL: URL?
 
-    public let children: [StatsReferrer]
+    public var children: [StatsReferrer]
+    public var isSpam = false
 
     public init(title: String,
                 viewsCount: Int,
