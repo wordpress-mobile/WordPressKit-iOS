@@ -59,6 +59,28 @@ public class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
         })
     }
 
+    /// Used to mark or unmark referrer as spam, depending of the current value.
+    /// - parameters:
+    ///   - referrerDomain: A referrer's domain.
+    ///   - currentValue: Current value of the `isSpam` referrer's property.
+    public func toggleSpamState(for referrerDomain: String,
+                                currentValue: Bool,
+                                success: @escaping () -> Void,
+                                failure: @escaping (Error) -> Void) {
+        let path: String
+        if currentValue {
+            path = self.path(forEndpoint: "sites/\(siteID)/stats/referrers/spam/delete?domain=\(referrerDomain)", withVersion: ._1_1)
+        } else {
+            path = self.path(forEndpoint: "sites/\(siteID)/stats/referrers/spam/new?domain=\(referrerDomain)", withVersion: ._1_1)
+        }
+
+        wordPressComRestApi.POST(path, parameters: nil) { object, _ in
+            success()
+        } failure: { error, _ in
+            failure(error)
+        }
+    }
+
     /// Used to fetch data about site over a specific timeframe.
     /// - parameters:
     ///   - period: An enum representing whether either a day, a week, a month or a year worth's of data.
