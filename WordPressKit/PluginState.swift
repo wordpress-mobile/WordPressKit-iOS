@@ -72,20 +72,6 @@ public struct PluginState: Equatable, Codable {
     public let url: URL?
     public let settingsURL: URL?
 
-    public init(id: String, slug: String, active: Bool, name: String, author: String, version: String?, updateState: PluginState.UpdateState, autoupdate: Bool, automanaged: Bool, url: URL?, settingsURL: URL?) {
-        self.id = id
-        self.slug = slug
-        self.active = active
-        self.name = name
-        self.author = author
-        self.version = version
-        self.updateState = updateState
-        self.autoupdate = autoupdate
-        self.automanaged = automanaged
-        self.url = url
-        self.settingsURL = settingsURL
-    }
-
     public static func ==(lhs: PluginState, rhs: PluginState) -> Bool {
         return lhs.id == rhs.id
             && lhs.slug == rhs.slug
