@@ -628,11 +628,11 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
         let aDomain = "domain.com"
         stubRemoteResponse(toggleSpamStateEndpoint(for: aDomain, markAsSpam: true), filename: toggleSpamStateResponseFilename, contentType: .ApplicationJSON)
 
-        remote.toggleSpamState(for: aDomain, currentValue: false) {
+        remote.toggleSpamState(for: aDomain, currentValue: false, success: {
             expect.fulfill()
-        } failure: { error in
+        }, failure: { error in
             XCTFail("Marking referrer as spam failed, reason: \(error.localizedDescription)")
-        }
+        })
 
         waitForExpectations(timeout: timeout, handler: nil)
     }
@@ -643,11 +643,11 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
         let aDomain = "domain.com"
         stubRemoteResponse(toggleSpamStateEndpoint(for: aDomain, markAsSpam: false), filename: toggleSpamStateResponseFilename, contentType: .ApplicationJSON)
 
-        remote.toggleSpamState(for: aDomain, currentValue: true) {
+        remote.toggleSpamState(for: aDomain, currentValue: true, success: {
             expect.fulfill()
-        } failure: { error in
+        }, failure: { error in
             XCTFail("Unmarking referrer as spam failed, reason: \(error.localizedDescription)")
-        }
+        })
 
         waitForExpectations(timeout: timeout, handler: nil)
     }
