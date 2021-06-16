@@ -283,6 +283,26 @@ extension StatsServiceRemoteV2 {
 
 }
 
+// MARK: - Mark referrer as spam helpers
+
+private extension StatsServiceRemoteV2 {
+    func pathForToggleSpamStateEndpoint(referrerDomain: String, markAsSpam: Bool) -> String {
+        let action = markAsSpam ? "new" : "delete"
+        return self.path(forEndpoint: "sites/\(siteID)/stats/referrers/spam/\(action)?domain=\(referrerDomain)", withVersion: ._1_1)
+    }
+
+    struct MarkAsSpamResponse  {
+        let success: Bool
+
+        init?(dictionary: [String: AnyObject]) {
+            guard let value = dictionary["success"] as? Bool else {
+                return nil
+            }
+            self.success = value
+        }
+    }
+}
+
 // This serves both as a way to get the query properties in a "nice" way,
 // but also as a way to narrow down the generic type in `getInsight(completion:)` method.
 public protocol StatsInsightData {
