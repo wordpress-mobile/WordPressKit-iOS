@@ -72,7 +72,7 @@ public class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
                                 success: @escaping () -> Void,
                                 failure: @escaping (Error) -> Void) {
         let path = pathForToggleSpamStateEndpoint(referrerDomain: referrerDomain, markAsSpam: !currentValue)
-        wordPressComRestApi.POST(path, parameters: nil) { object, _ in
+        wordPressComRestApi.POST(path, parameters: nil, success: { object, _ in
             guard
                 let dictionary = object as? [String: AnyObject],
                 let response = MarkAsSpamResponse(dictionary: dictionary) else {
@@ -86,9 +86,9 @@ public class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
             }
 
             success()
-        } failure: { error, _ in
+        }, failure: { error, _ in
             failure(error)
-        }
+        })
     }
 
     /// Used to fetch data about site over a specific timeframe.
