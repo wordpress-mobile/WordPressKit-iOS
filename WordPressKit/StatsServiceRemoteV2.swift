@@ -4,7 +4,7 @@ import Foundation
 // one and rename this to not have "V2" in it, but we want to keep the old one around
 // for a while still.
 
-public class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
+open class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
 
     public enum ResponseError: Error {
         case decodingFailure
@@ -67,7 +67,7 @@ public class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
     /// - parameters:
     ///   - referrerDomain: A referrer's domain.
     ///   - currentValue: Current value of the `isSpam` referrer's property.
-    public func toggleSpamState(for referrerDomain: String,
+    open func toggleSpamState(for referrerDomain: String,
                                 currentValue: Bool,
                                 success: @escaping () -> Void,
                                 failure: @escaping (Error) -> Void) {
