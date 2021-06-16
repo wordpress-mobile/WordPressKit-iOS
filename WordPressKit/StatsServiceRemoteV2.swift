@@ -10,6 +10,10 @@ public class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
         case decodingFailure
     }
 
+    public enum MarkAsSpamResponseError: Error {
+        case unsuccessful
+    }
+
     public let siteID: Int
     private let siteTimezone: TimeZone
 
