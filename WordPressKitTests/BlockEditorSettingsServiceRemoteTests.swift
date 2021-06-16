@@ -211,5 +211,10 @@ extension BlockEditorSettingsServiceRemoteTests {
 
         XCTAssertGreaterThan(result!.colors!.count, 0)
         XCTAssertGreaterThan(result!.gradients!.count, 0)
+
+        XCTAssertNotNil(result!.rawFeatures)
+        let themeRawJson = result!.rawFeatures!.data(using: .utf8)!
+        let vaildJson = try? JSONSerialization.jsonObject(with: themeRawJson, options: [])
+        XCTAssertNotNil(vaildJson)
     }
 }
