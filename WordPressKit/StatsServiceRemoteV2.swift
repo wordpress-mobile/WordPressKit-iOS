@@ -297,7 +297,7 @@ private extension StatsServiceRemoteV2 {
         return self.path(forEndpoint: "sites/\(siteID)/stats/referrers/spam/\(action)?domain=\(referrerDomain)", withVersion: ._1_1)
     }
 
-    struct MarkAsSpamResponse  {
+    struct MarkAsSpamResponse {
         let success: Bool
 
         init?(dictionary: [String: AnyObject]) {
