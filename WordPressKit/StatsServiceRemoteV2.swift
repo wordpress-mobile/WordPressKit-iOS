@@ -71,14 +71,20 @@ public class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
                                 currentValue: Bool,
                                 success: @escaping () -> Void,
                                 failure: @escaping (Error) -> Void) {
-        let path: String
-        if currentValue {
-            path = self.path(forEndpoint: "sites/\(siteID)/stats/referrers/spam/delete?domain=\(referrerDomain)", withVersion: ._1_1)
-        } else {
-            path = self.path(forEndpoint: "sites/\(siteID)/stats/referrers/spam/new?domain=\(referrerDomain)", withVersion: ._1_1)
-        }
-
+        let path = pathForToggleSpamStateEndpoint(referrerDomain: referrerDomain, markAsSpam: !currentValue)
         wordPressComRestApi.POST(path, parameters: nil) { object, _ in
+            guard
+                let dictionary = object as? [String: AnyObject],
+                let response = MarkAsSpamResponse(dictionary: dictionary) else {
+                failure(ResponseError.decodingFailure)
+                return
+            }
+
+            guard response.success else {
+                failure(MarkAsSpamResponseError.unsuccessful)
+                return
+            }
+
             success()
         } failure: { error, _ in
             failure(error)
