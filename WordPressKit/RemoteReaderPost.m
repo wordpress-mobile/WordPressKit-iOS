@@ -56,6 +56,8 @@ NSString * const PostRESTKeyURL = @"URL";
 NSString * const PostRESTKeyWordCount = @"word_count";
 NSString * const PostRESTKeyRailcar = @"railcar";
 NSString * const PostRESTKeyOrganizationID = @"meta.data.site.organization_id";
+NSString * const PostRESTKeyCanSubscribeComments = @"can_subscribe_comments";
+NSString * const PostRESTKeyIsSubscribedComments = @"is_subscribed_comments";
 
 // Tag dictionary keys
 NSString * const TagKeyPrimary = @"primaryTag";
@@ -126,6 +128,8 @@ static const NSUInteger ReaderPostTitleLength = 30;
     self.isSharingEnabled = [[dict numberForKey:PostRESTKeySharingEnabled] boolValue];
     self.isLikesEnabled = [[dict numberForKey:PostRESTKeyLikesEnabled] boolValue];
     self.organizationID = [dict numberForKeyPath:PostRESTKeyOrganizationID] ?: @0;
+    self.canSubscribeComments = [[dict numberForKey:PostRESTKeyCanSubscribeComments] boolValue];
+    self.isSubscribedComments = [[dict numberForKey:PostRESTKeyIsSubscribedComments] boolValue];
 
     if ([dict numberForKey:PostRESTKeyIsSeen]) {
         self.isSeen = [[dict numberForKey:PostRESTKeyIsSeen] boolValue];
