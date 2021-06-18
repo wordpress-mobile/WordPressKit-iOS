@@ -31,6 +31,13 @@ open class WordPressOrgRestApi: NSObject, WordPressRestApi {
         return request(method: .get, path: path, parameters: parameters, completion: completion)
     }
 
+    @discardableResult
+    open func POST(_ path: String,
+                  parameters: [String: AnyObject]?,
+                  completion: @escaping Completion) -> Progress? {
+        return request(method: .post, path: path, parameters: parameters, completion: completion)
+    }
+
     private func request(method: HTTPMethod,
                          path: String,
                          parameters: [String: AnyObject]?,
