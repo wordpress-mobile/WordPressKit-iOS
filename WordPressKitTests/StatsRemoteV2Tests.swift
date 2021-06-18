@@ -22,6 +22,7 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
     let getPublishedPostsFilename = "stats-published-posts.json"
     let getDownloadsDataFilename = "stats-file-downloads.json"
     let getPostsDetailsFilename = "stats-post-details.json"
+    let toggleSpamStateResponseFilename = "stats-referrer-mark-as-spam.json"
 
     // MARK: - Properties
 
@@ -37,6 +38,11 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
     var sitePublishedPostsEndpoint: String { return "sites/\(siteID)/posts/" }
     var siteDownloadsDataEndpoint: String { return "sites/\(siteID)/stats/file-downloads/" }
     var sitePostDetailsEndpoint: String { return "sites/\(siteID)/stats/post/9001" }
+
+    func toggleSpamStateEndpoint(for referrerDomain: String, markAsSpam: Bool) -> String {
+        let action = markAsSpam ? "new" : "delete"
+        return "sites/\(siteID)/stats/referrers/spam/\(action)?domain=\(referrerDomain)"
+    }
 
     var remote: StatsServiceRemoteV2!
 
@@ -612,6 +618,36 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
 
             expect.fulfill()
         }
+
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+
+    func testMarkReferrerAsSpam() {
+        let expect = expectation(description: "It should mark referrer as spam")
+
+        let aDomain = "domain.com"
+        stubRemoteResponse(toggleSpamStateEndpoint(for: aDomain, markAsSpam: true), filename: toggleSpamStateResponseFilename, contentType: .ApplicationJSON)
+
+        remote.toggleSpamState(for: aDomain, currentValue: false, success: {
+            expect.fulfill()
+        }, failure: { error in
+            XCTFail("Marking referrer as spam failed, reason: \(error.localizedDescription)")
+        })
+
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+
+    func testUnmarkReferrerAsSpam() {
+        let expect = expectation(description: "It should unmark referrer as spam")
+
+        let aDomain = "domain.com"
+        stubRemoteResponse(toggleSpamStateEndpoint(for: aDomain, markAsSpam: false), filename: toggleSpamStateResponseFilename, contentType: .ApplicationJSON)
+
+        remote.toggleSpamState(for: aDomain, currentValue: true, success: {
+            expect.fulfill()
+        }, failure: { error in
+            XCTFail("Unmarking referrer as spam failed, reason: \(error.localizedDescription)")
+        })
 
         waitForExpectations(timeout: timeout, handler: nil)
     }

@@ -4,10 +4,14 @@ import Foundation
 // one and rename this to not have "V2" in it, but we want to keep the old one around
 // for a while still.
 
-public class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
+open class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
 
     public enum ResponseError: Error {
         case decodingFailure
+    }
+
+    public enum MarkAsSpamResponseError: Error {
+        case unsuccessful
     }
 
     public let siteID: Int
@@ -56,6 +60,34 @@ public class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
             completion(insight, nil)
         }, failure: { (error, _) in
             completion(nil, error)
+        })
+    }
+
+    /// Used to mark or unmark referrer as spam, depending of the current value.
+    /// - parameters:
+    ///   - referrerDomain: A referrer's domain.
+    ///   - currentValue: Current value of the `isSpam` referrer's property.
+    open func toggleSpamState(for referrerDomain: String,
+                                currentValue: Bool,
+                                success: @escaping () -> Void,
+                                failure: @escaping (Error) -> Void) {
+        let path = pathForToggleSpamStateEndpoint(referrerDomain: referrerDomain, markAsSpam: !currentValue)
+        wordPressComRestApi.POST(path, parameters: nil, success: { object, _ in
+            guard
+                let dictionary = object as? [String: AnyObject],
+                let response = MarkAsSpamResponse(dictionary: dictionary) else {
+                failure(ResponseError.decodingFailure)
+                return
+            }
+
+            guard response.success else {
+                failure(MarkAsSpamResponseError.unsuccessful)
+                return
+            }
+
+            success()
+        }, failure: { error, _ in
+            failure(error)
         })
     }
 
@@ -255,6 +287,26 @@ extension StatsServiceRemoteV2 {
         }
     }
 
+}
+
+// MARK: - Mark referrer as spam helpers
+
+private extension StatsServiceRemoteV2 {
+    func pathForToggleSpamStateEndpoint(referrerDomain: String, markAsSpam: Bool) -> String {
+        let action = markAsSpam ? "new" : "delete"
+        return self.path(forEndpoint: "sites/\(siteID)/stats/referrers/spam/\(action)?domain=\(referrerDomain)", withVersion: ._1_1)
+    }
+
+    struct MarkAsSpamResponse {
+        let success: Bool
+
+        init?(dictionary: [String: AnyObject]) {
+            guard let value = dictionary["success"] as? Bool else {
+                return nil
+            }
+            self.success = value
+        }
+    }
 }
 
 // This serves both as a way to get the query properties in a "nice" way,
