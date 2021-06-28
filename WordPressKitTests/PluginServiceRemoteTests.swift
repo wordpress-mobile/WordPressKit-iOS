@@ -473,7 +473,7 @@ class PluginServiceRemoteTests: RemoteTestCase, RESTTestable {
                                              endpointAction: .modify,
                                              responseFile: postPluginModifyMalformed)
 
-        remote.activateAndEnableAutoupdated(pluginID: "code-snippets/code-snippets", siteID: siteID, success: {
+        remote.activateAndEnableAutoupdates(pluginID: "code-snippets/code-snippets", siteID: siteID, success: {
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         }) { (error) in

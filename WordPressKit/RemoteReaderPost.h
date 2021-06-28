@@ -51,6 +51,9 @@
 @property (nonatomic) NSNumber *readingTime;
 @property (nonatomic, strong) NSString *railcar;
 
+@property (nonatomic) BOOL canSubscribeComments;
+@property (nonatomic) BOOL isSubscribedComments;
+
 // Base Post Model
 @property (nonatomic, strong) NSString *author;
 @property (nonatomic, strong) NSString *content;
