@@ -462,6 +462,7 @@
     comment.type = jsonDictionary[@"type"];
     comment.isLiked = [[jsonDictionary numberForKey:@"i_like"] boolValue];
     comment.likeCount = [jsonDictionary numberForKey:@"like_count"];
+    comment.canModerate = [[jsonDictionary numberForKey:@"can_moderate"] boolValue];
 
     return comment;
 }
