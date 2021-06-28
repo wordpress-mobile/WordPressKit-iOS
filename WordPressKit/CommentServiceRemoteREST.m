@@ -29,7 +29,6 @@
                                      withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
     
     NSMutableDictionary *parameters = [NSMutableDictionary dictionaryWithDictionary:@{
-                                 @"context": @"edit",
                                  @"force": @"wpcom", // Force fetching data from shadow site on Jetpack sites
                                  @"number": @(maximumComments)
                                  }];
