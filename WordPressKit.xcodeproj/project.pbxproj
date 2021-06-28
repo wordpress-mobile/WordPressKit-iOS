@@ -81,10 +81,10 @@
 		40F9880C221ACEEE00B7B369 /* StatsRemoteV2Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F9880B221ACEEE00B7B369 /* StatsRemoteV2Tests.swift */; };
 		40F9880E221ACFB400B7B369 /* stats-streak-result.json in Resources */ = {isa = PBXBuildFile; fileRef = 40F9880D221ACFB400B7B369 /* stats-streak-result.json */; };
 		436D56332118D7AA00CEAA33 /* TransactionsServiceRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436D56322118D7AA00CEAA33 /* TransactionsServiceRemote.swift */; };
-		436D56352118D85800CEAA33 /* Country.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436D56342118D85800CEAA33 /* Country.swift */; };
+		436D56352118D85800CEAA33 /* WPCountry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436D56342118D85800CEAA33 /* WPCountry.swift */; };
 		436D56382118DC4B00CEAA33 /* TransactionsServiceRemoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436D56372118DC4B00CEAA33 /* TransactionsServiceRemoteTests.swift */; };
 		436D563A2118DE3B00CEAA33 /* supported-countries-success.json in Resources */ = {isa = PBXBuildFile; fileRef = 436D56392118DE3B00CEAA33 /* supported-countries-success.json */; };
-		436D563C2118E18D00CEAA33 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436D563B2118E18D00CEAA33 /* State.swift */; };
+		436D563C2118E18D00CEAA33 /* WPState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436D563B2118E18D00CEAA33 /* WPState.swift */; };
 		436D563E2118E34D00CEAA33 /* supported-states-success.json in Resources */ = {isa = PBXBuildFile; fileRef = 436D563D2118E34D00CEAA33 /* supported-states-success.json */; };
 		436D5641211B7F4400CEAA33 /* DomainContactInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436D5640211B7F4400CEAA33 /* DomainContactInformation.swift */; };
 		436D5643211B7F9B00CEAA33 /* validate-domain-contact-information-response-fail.json in Resources */ = {isa = PBXBuildFile; fileRef = 436D5642211B7F9B00CEAA33 /* validate-domain-contact-information-response-fail.json */; };
@@ -689,10 +689,10 @@
 		40F9880B221ACEEE00B7B369 /* StatsRemoteV2Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsRemoteV2Tests.swift; sourceTree = "<group>"; };
 		40F9880D221ACFB400B7B369 /* stats-streak-result.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "stats-streak-result.json"; sourceTree = "<group>"; };
 		436D56322118D7AA00CEAA33 /* TransactionsServiceRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsServiceRemote.swift; sourceTree = "<group>"; };
-		436D56342118D85800CEAA33 /* Country.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Country.swift; sourceTree = "<group>"; };
+		436D56342118D85800CEAA33 /* WPCountry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WPCountry.swift; sourceTree = "<group>"; };
 		436D56372118DC4B00CEAA33 /* TransactionsServiceRemoteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsServiceRemoteTests.swift; sourceTree = "<group>"; };
 		436D56392118DE3B00CEAA33 /* supported-countries-success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "supported-countries-success.json"; sourceTree = "<group>"; };
-		436D563B2118E18D00CEAA33 /* State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = "<group>"; };
+		436D563B2118E18D00CEAA33 /* WPState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WPState.swift; sourceTree = "<group>"; };
 		436D563D2118E34D00CEAA33 /* supported-states-success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "supported-states-success.json"; sourceTree = "<group>"; };
 		436D5640211B7F4400CEAA33 /* DomainContactInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainContactInformation.swift; sourceTree = "<group>"; };
 		436D5642211B7F9B00CEAA33 /* validate-domain-contact-information-response-fail.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "validate-domain-contact-information-response-fail.json"; sourceTree = "<group>"; };
@@ -1789,7 +1789,7 @@
 				74E2295A1F1E77290085F7F2 /* KeyringConnectionExternalUser.swift */,
 				40247DFB2120E69600AE1C3C /* AutomatedTransferStatus.swift */,
 				826016F21F9FA17B00533B6C /* Activity.swift */,
-				436D56342118D85800CEAA33 /* Country.swift */,
+				436D56342118D85800CEAA33 /* WPCountry.swift */,
 				436D5640211B7F4400CEAA33 /* DomainContactInformation.swift */,
 				93C674E51EE8345300BFAF05 /* RemoteBlog.h */,
 				93C674E61EE8345300BFAF05 /* RemoteBlog.m */,
@@ -1853,7 +1853,7 @@
 				93BD27671EE736A8002BB00B /* RemoteUser.h */,
 				93BD27681EE736A8002BB00B /* RemoteUser.m */,
 				9856BE952630B5C200C12FEB /* RemoteUser+Likes.swift */,
-				436D563B2118E18D00CEAA33 /* State.swift */,
+				436D563B2118E18D00CEAA33 /* WPState.swift */,
 				E1D6B555200E46F200325669 /* WPTimeZone.swift */,
 				E632D7771F6E047400297F6D /* SocialLogin2FANonceInfo.swift */,
 				17CE77F020C6EB41001DEA5A /* ReaderFeed.swift */,
@@ -2919,7 +2919,7 @@
 				984E34EB22EF7209005C3F92 /* StatsFileDownloadsTimeIntervalData.swift in Sources */,
 				465F88A2263B325C00F4C950 /* ChecksumUtil.swift in Sources */,
 				40AB1ADA200FED25009B533D /* PluginDirectoryFeedPage.swift in Sources */,
-				436D56352118D85800CEAA33 /* Country.swift in Sources */,
+				436D56352118D85800CEAA33 /* WPCountry.swift in Sources */,
 				74A44DCB1F13C533006CD8F4 /* NotificationSettingsServiceRemote.swift in Sources */,
 				FAD1344525908F5F00A8FEB1 /* JetpackBackupServiceRemote.swift in Sources */,
 				F1BB7806240FB90B0030ADDC /* AtomicAuthenticationServiceRemote.swift in Sources */,
@@ -2939,7 +2939,7 @@
 				82FFBF501F45EFD100F4573F /* RemoteBlogJetpackSettings.swift in Sources */,
 				74650F741F0EA1E200188EDB /* RemoteGravatarProfile.swift in Sources */,
 				40E7FEB4221063480032834E /* StatsTodayInsight.swift in Sources */,
-				436D563C2118E18D00CEAA33 /* State.swift in Sources */,
+				436D563C2118E18D00CEAA33 /* WPState.swift in Sources */,
 				439A44DA2107C93000795ED7 /* RemotePlan_ApiVersion1_3.swift in Sources */,
 				93BD27811EE73944002BB00B /* WordPressOrgXMLRPCApi.swift in Sources */,
 				439A44D62107C66A00795ED7 /* JSONDecoderExtension.swift in Sources */,
