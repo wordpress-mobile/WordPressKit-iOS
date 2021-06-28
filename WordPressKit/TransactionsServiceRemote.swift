@@ -12,7 +12,7 @@ import CocoaLumberjack
         static let freeDomainPaymentMethod = "WPCOM_Billing_WPCOM"
     }
 
-    @objc public func getSupportedCountries(success: @escaping ([Country]) -> Void,
+    @objc public func getSupportedCountries(success: @escaping ([WPCountry]) -> Void,
                                             failure: @escaping (Error) -> Void) {
         let endPoint = "me/transactions/supported-countries/"
         let servicePath = path(forEndpoint: endPoint, withVersion: ._1_1)
@@ -26,7 +26,7 @@ import CocoaLumberjack
                                             throw ResponseError.decodingFailure
                                         }
                                         let data = try JSONSerialization.data(withJSONObject: json, options: .prettyPrinted)
-                                        let decodedResult = try JSONDecoder.apiDecoder.decode([Country].self, from: data)
+                                        let decodedResult = try JSONDecoder.apiDecoder.decode([WPCountry].self, from: data)
                                         success(decodedResult)
                                     } catch {
                                         DDLogError("Error parsing Supported Countries (\(error)): \(response)")
