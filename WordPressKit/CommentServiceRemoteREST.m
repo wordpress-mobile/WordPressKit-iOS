@@ -452,7 +452,7 @@
     comment.authorUrl = jsonDictionary[@"author"][@"URL"];
     comment.authorAvatarURL = [jsonDictionary stringForKeyPath:@"author.avatar_URL"];
     comment.commentID = jsonDictionary[@"ID"];
-    comment.content = jsonDictionary[@"content"];
+    comment.content = jsonDictionary[@"raw_content"];
     comment.date = [NSDate dateWithWordPressComJSONString:jsonDictionary[@"date"]];
     comment.link = jsonDictionary[@"URL"];
     comment.parentID = [jsonDictionary numberForKeyPath:@"parent.ID"];
