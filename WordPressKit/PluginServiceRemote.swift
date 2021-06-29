@@ -108,7 +108,7 @@ public class PluginServiceRemote: ServiceRemoteWordPressComREST {
         modifyPlugin(parameters: parameters, pluginID: pluginID, siteID: siteID, success: success, failure: failure)
     }
 
-    public func activateAndEnableAutoupdated(pluginID: String, siteID: Int, success: @escaping () -> Void, failure: @escaping (Error) -> Void) {
+    public func activateAndEnableAutoupdates(pluginID: String, siteID: Int, success: @escaping () -> Void, failure: @escaping (Error) -> Void) {
         let parameters = [
             "active": "true",
             "autoupdate": "true"
