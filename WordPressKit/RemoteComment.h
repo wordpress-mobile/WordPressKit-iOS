@@ -16,4 +16,5 @@
 @property (nonatomic, strong) NSString *type;
 @property (nonatomic) BOOL isLiked;
 @property (nonatomic, strong) NSNumber *likeCount;
+@property (nonatomic) BOOL canModerate;
 @end
