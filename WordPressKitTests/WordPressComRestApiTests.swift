@@ -269,9 +269,17 @@ class WordPressComRestApiTests: XCTestCase {
     }
 
     // MARK: - WordPressRestApi Interfaces
-    func testRequestPathModifications() {
+    func testRequestPathModificationsWPV2() {
         let orgPath = "/wp/v2/themes?status=active"
         let expectedPath = "/wp/v2/sites/1001/themes?status=active"
+        let api = WordPressComRestApi(oAuthToken: "fakeToken")
+        let result = api.requestPath(fromOrgPath: orgPath, with: 1001)
+        XCTAssertEqual(result, expectedPath)
+    }
+
+    func testRequestPathModificationsWPBlockEditor() {
+        let orgPath = "/wp-block-editor/v1/settings"
+        let expectedPath = "/wp-block-editor/v1/sites/1001/settings"
         let api = WordPressComRestApi(oAuthToken: "fakeToken")
         let result = api.requestPath(fromOrgPath: orgPath, with: 1001)
         XCTAssertEqual(result, expectedPath)

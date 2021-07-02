@@ -45,8 +45,11 @@ public extension BlockEditorSettingsServiceRemote {
 
     func fetchBlockEditorSettings(_ completion: @escaping BlockEditorSettingsCompletionHandler) {
         let requestPath = "/__experimental/wp-block-editor/v1/settings"
+    func fetchBlockEditorSettings(forSiteID siteID: Int?, _ completion: @escaping BlockEditorSettingsCompletionHandler) {
         let parameters: [String: AnyObject] = ["context": "mobile" as AnyObject]
-        remoteAPI.GET(requestPath, parameters: parameters) { [weak self] (result, _) in
+        let modifiedPath = remoteAPI.requestPath(fromOrgPath: requestPath, with: siteID)
+
+        remoteAPI.GET(modifiedPath, parameters: parameters) { [weak self] (result, _) in
             guard let `self` = self else { return }
             switch result {
             case .success(let response):
