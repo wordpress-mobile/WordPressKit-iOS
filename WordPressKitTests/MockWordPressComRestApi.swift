@@ -67,7 +67,7 @@ class MockWordPressOrgRestApi: WordPressOrgRestApi {
         super.init(apiBase: URL(string: "https://example.com")!)
     }
 
-    override func GET(_ path: String, parameters: [String : AnyObject]?, completion: @escaping WordPressOrgRestApi.Completion) -> Progress? {
+    override func GET(_ path: String, parameters: [String: AnyObject]?, completion: @escaping WordPressOrgRestApi.Completion) -> Progress? {
         getMethodCalled = true
         URLStringPassedIn = path
         parametersPassedIn = parameters as AnyObject?
