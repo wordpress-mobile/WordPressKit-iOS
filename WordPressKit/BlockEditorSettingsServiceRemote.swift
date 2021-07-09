@@ -43,13 +43,8 @@ public extension BlockEditorSettingsServiceRemote {
 public extension BlockEditorSettingsServiceRemote {
     typealias BlockEditorSettingsCompletionHandler = (Swift.Result<RemoteBlockEditorSettings?, Error>) -> Void
 
-    /* This endpoint was released as part of WP 5.8 with the __experimental flag.
-    * Starting with Gutenberg 11.1 the endpoint will be available without the __experimental flag.
-    * Gutenberg 11.1 will be included in WP 5.9.
-    */
-    func fetchBlockEditorSettings(forSiteID siteID: Int?, requiresExperimental: Bool, _ completion: @escaping BlockEditorSettingsCompletionHandler) {
-        let experimentalComponent = requiresExperimental ? "/__experimental" : ""
-        let requestPath = "\(experimentalComponent)/wp-block-editor/v1/settings"
+    func fetchBlockEditorSettings(forSiteID siteID: Int?, _ completion: @escaping BlockEditorSettingsCompletionHandler) {
+        let requestPath = "/wp-block-editor/v1/settings"
         let parameters: [String: AnyObject] = ["context": "mobile" as AnyObject]
         let modifiedPath = remoteAPI.requestPath(fromOrgPath: requestPath, with: siteID)
 
