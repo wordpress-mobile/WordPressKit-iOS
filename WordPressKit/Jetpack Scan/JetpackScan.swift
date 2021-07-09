@@ -24,6 +24,9 @@ public struct JetpackScan: Decodable {
     /// The state of the current scan
     public var state: JetpackScanState
 
+    /// If a scan is in an unavailable state, this will return the reason
+    public var reason: String?
+
     /// If there is a scan in progress, this will return its status
     public var current: JetpackScanStatus?
 
@@ -44,7 +47,7 @@ public struct JetpackScan: Decodable {
 
     // MARK: - Private: Decodable
     private enum CodingKeys: String, CodingKey {
-        case mostRecent, state, current, threats, credentials
+        case mostRecent, state, reason, current, threats, credentials
     }
 }
 
