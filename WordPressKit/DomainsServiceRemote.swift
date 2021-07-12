@@ -103,7 +103,7 @@ public class DomainsServiceRemote: ServiceRemoteWordPressComREST {
     }
 
     @objc public func getStates(for countryCode: String,
-                                success: @escaping ([State]) -> Void,
+                                success: @escaping ([WPState]) -> Void,
                                 failure: @escaping (Error) -> Void) {
         let endPoint = "domains/supported-states/\(countryCode)"
         let servicePath = path(forEndpoint: endPoint, withVersion: ._1_1)
@@ -118,7 +118,7 @@ public class DomainsServiceRemote: ServiceRemoteWordPressComREST {
                         throw ResponseError.decodingFailed
                     }
                     let data = try JSONSerialization.data(withJSONObject: json, options: .prettyPrinted)
-                    let decodedResult = try JSONDecoder.apiDecoder.decode([State].self, from: data)
+                    let decodedResult = try JSONDecoder.apiDecoder.decode([WPState].self, from: data)
                     success(decodedResult)
                 } catch {
                     DDLogError("Error parsing State list for country code (\(error)): \(response)")

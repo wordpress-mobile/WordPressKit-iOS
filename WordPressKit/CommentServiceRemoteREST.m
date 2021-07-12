@@ -29,7 +29,6 @@
                                      withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
     
     NSMutableDictionary *parameters = [NSMutableDictionary dictionaryWithDictionary:@{
-                                 @"context": @"edit",
                                  @"force": @"wpcom", // Force fetching data from shadow site on Jetpack sites
                                  @"number": @(maximumComments)
                                  }];
@@ -453,7 +452,6 @@
     comment.authorUrl = jsonDictionary[@"author"][@"URL"];
     comment.authorAvatarURL = [jsonDictionary stringForKeyPath:@"author.avatar_URL"];
     comment.commentID = jsonDictionary[@"ID"];
-    comment.content = jsonDictionary[@"content"];
     comment.date = [NSDate dateWithWordPressComJSONString:jsonDictionary[@"date"]];
     comment.link = jsonDictionary[@"URL"];
     comment.parentID = [jsonDictionary numberForKeyPath:@"parent.ID"];
@@ -463,6 +461,13 @@
     comment.type = jsonDictionary[@"type"];
     comment.isLiked = [[jsonDictionary numberForKey:@"i_like"] boolValue];
     comment.likeCount = [jsonDictionary numberForKey:@"like_count"];
+    comment.canModerate = [[jsonDictionary numberForKey:@"can_moderate"] boolValue];
+
+    // Ref: https://github.com/wordpress-mobile/WordPressKit-iOS/pull/413
+    // The `context:edit` parameter is no longer passed when fetching Comments,
+    // which results in the`content` property containing HTML.
+    // So use the `raw_content` property instead.
+    comment.content = jsonDictionary[@"raw_content"];
 
     return comment;
 }

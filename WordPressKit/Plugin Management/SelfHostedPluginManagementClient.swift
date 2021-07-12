@@ -141,7 +141,6 @@ public class SelfHostedPluginManagementClient: PluginManagementClient {
                            settingsURL: nil)
     }
 
-
     // MARK: - Unsupported
     public func updatePlugin(pluginID: String, success: @escaping (PluginState) -> Void, failure: @escaping (Error) -> Void) {
         // NOOP - Not supported by the WP.org REST API
