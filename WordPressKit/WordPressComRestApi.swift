@@ -556,7 +556,9 @@ extension WordPressComRestApi: WordPressRestApi {
 
     public func requestPath(fromOrgPath path: String, with siteID: Int?) -> String {
         guard let siteID = siteID else { return path }
+
         return path.replacingOccurrences(of: "/wp/v2/", with: "/wp/v2/sites/\(siteID)/")
+            .replacingOccurrences(of: "/wp-block-editor/v1/", with: "/wp-block-editor/v1/sites/\(siteID)/")
     }
 }
 

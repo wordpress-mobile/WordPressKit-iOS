@@ -134,7 +134,7 @@ extension BlockEditorSettingsServiceRemoteTests {
     func testFetchBlockEditorSettingsNotThemeJSON() {
         let waitExpectation = expectation(description: "Block Settings should be successfully fetched")
         let mockedResponse = mockedData(withFilename: blockSettingsNOTThemeJSONResponseFilename)
-        service.fetchBlockEditorSettings { (response) in
+        service.fetchBlockEditorSettings(forSiteID: siteID) { (response) in
             switch response {
             case .success(let result):
                 self.validateFetchBlockEditorSettingsResults(result)
@@ -154,7 +154,7 @@ extension BlockEditorSettingsServiceRemoteTests {
         let waitExpectation = expectation(description: "Block Settings should be successfully fetched")
         let mockedResponse = mockedData(withFilename: blockSettingsThemeJSONResponseFilename)
 
-        service.fetchBlockEditorSettings { (response) in
+        service.fetchBlockEditorSettings(forSiteID: siteID) { (response) in
             switch response {
             case .success(let result):
                 self.validateFetchBlockEditorSettingsResults(result)
@@ -185,7 +185,7 @@ extension BlockEditorSettingsServiceRemoteTests {
 
     func testFetchBlockEditorSettingsFailure() {
         let waitExpectation = expectation(description: "Block Settings should be successfully fetched")
-        service.fetchBlockEditorSettings { (response) in
+        service.fetchBlockEditorSettings(forSiteID: siteID) { (response) in
             switch response {
             case .success:
                 XCTFail("This Request should have failed")
@@ -199,9 +199,26 @@ extension BlockEditorSettingsServiceRemoteTests {
         validateFetchBlockEditorSettingsRequest()
     }
 
+    func testFetchBlockEditorSettingsOrgEndpoint() {
+        let waitExpectation = expectation(description: "Block Settings should be successfully fetched")
+        let mockedResponse = mockedData(withFilename: blockSettingsThemeJSONResponseFilename)
+        let mockOrgRemoteApi = MockWordPressOrgRestApi()
+        service = BlockEditorSettingsServiceRemote(remoteAPI: mockOrgRemoteApi)
+
+        service.fetchBlockEditorSettings(forSiteID: siteID) { (response) in
+            waitExpectation.fulfill()
+        }
+        mockOrgRemoteApi.completionPassedIn!(.success(mockedResponse), HTTPURLResponse())
+
+        waitForExpectations(timeout: 0.1)
+        XCTAssertTrue(mockOrgRemoteApi.getMethodCalled)
+        XCTAssertEqual(mockOrgRemoteApi.URLStringPassedIn!, "/wp-block-editor/v1/settings")
+        XCTAssertEqual((mockOrgRemoteApi.parametersPassedIn as! [String: String])["context"], "mobile")
+    }
+
     private func validateFetchBlockEditorSettingsRequest() {
         XCTAssertTrue(self.mockRemoteApi.getMethodCalled)
-        XCTAssertEqual(self.mockRemoteApi.URLStringPassedIn!, "/__experimental/wp-block-editor/v1/settings")
+        XCTAssertEqual(self.mockRemoteApi.URLStringPassedIn!, "/wp-block-editor/v1/sites/1/settings")
         XCTAssertEqual((self.mockRemoteApi.parametersPassedIn as! [String: String])["context"], "mobile")
     }
 
