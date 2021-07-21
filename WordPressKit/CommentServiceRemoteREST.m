@@ -462,12 +462,8 @@
     comment.isLiked = [[jsonDictionary numberForKey:@"i_like"] boolValue];
     comment.likeCount = [jsonDictionary numberForKey:@"like_count"];
     comment.canModerate = [[jsonDictionary numberForKey:@"can_moderate"] boolValue];
-
-    // Ref: https://github.com/wordpress-mobile/WordPressKit-iOS/pull/413
-    // The `context:edit` parameter is no longer passed when fetching Comments,
-    // which results in the`content` property containing HTML.
-    // So use the `raw_content` property instead.
-    comment.content = jsonDictionary[@"raw_content"];
+    comment.content = jsonDictionary[@"content"];
+    comment.rawContent = jsonDictionary[@"raw_content"];
 
     return comment;
 }
