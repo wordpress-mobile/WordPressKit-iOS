@@ -114,19 +114,13 @@ public struct CartResponse {
 
         let mappedProducts = products.compactMap { (product) -> Product? in
             guard
-                let productID = product["product_id"] as? Int,
-                let meta = product["meta"] as? String
-                else {
+                let productID = product["product_id"] as? Int else {
                     return nil
             }
-
+            let meta = product["meta"] as? String
             let extra = product["extra"] as? [String: AnyObject]
 
             return Product(productID: productID, meta: meta, extra: extra)
-        }
-
-        guard mappedProducts.count == products.count else {
-            return nil
         }
 
         self.blogID = blogID
@@ -144,14 +138,17 @@ public struct CartResponse {
 
 public struct Product {
     let productID: Int
-    let meta: String
+    let meta: String?
     let extra: [String: AnyObject]?
 
     fileprivate func jsonRepresentation() -> [String: AnyObject] {
         var returnDict: [String: AnyObject] = [:]
 
         returnDict["product_id"] = productID as AnyObject
-        returnDict["meta"] = meta as AnyObject
+
+        if let meta = meta {
+            returnDict["meta"] = meta as AnyObject
+        }
 
         if let extra = extra {
             returnDict["extra"] = extra as AnyObject
