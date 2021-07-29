@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Pod::Spec.new do |s|
   s.name          = 'WordPressKit'
   s.version       = '4.39.0-beta.1'

@@ -1,13 +1,15 @@
+# frozen_string_literal: true
+
 default_platform(:ios)
 
 platform :ios do
-  desc "Builds the project and runs tests"
+  desc 'Builds the project and runs tests'
   lane :test do
     run_tests(
-      scheme: "WordPressKit",
+      scheme: 'WordPressKit',
       prelaunch_simulator: true,
-      buildlog_path: File.join(__dir__, ".build", "logs"),
-      derived_data_path: File.join(__dir__, ".build", "derived-data"),
+      buildlog_path: File.join(__dir__, '.build', 'logs'),
+      derived_data_path: File.join(__dir__, '.build', 'derived-data')
     )
   end
 end
