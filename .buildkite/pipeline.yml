@@ -1,0 +1,55 @@
+# Nodes with values to reuse in the pipeline.
+common_params:
+  # Common plugin settings to use with the `plugins` key.
+  - &common_plugins
+    - automattic/bash-cache#add/cocoapods-support: ~
+  # Common environment values to use with the `env` key.
+  - &common_env
+    IMAGE_ID: xcode-12.5.1
+
+# This is the default pipeline – it will build and test the app
+steps:
+  #################
+  # Build and Test
+  #################
+  - label: "🧪 Build and Test"
+    key: "test"
+    command: .buildkite/build-and-test.sh
+    env: *common_env
+    plugins: *common_plugins
+
+  #################
+  # Validate Podspec
+  #################
+  - label: "🔬 Validating Podspec"
+    key: "validate"
+    command: .buildkite/validate-podspec.sh
+    env: *common_env
+    plugins: *common_plugins
+
+  #################
+  # Lint
+  #################
+  - label: "🧹 Lint"
+    command: .buildkite/lint.sh
+    plugins:
+      - automattic/bash-cache#add/cocoapods-support: ~
+      - docker#v3.8.0:
+          image: "public.ecr.aws/automattic/multilint:latest"
+    agents:
+      queue: "default"
+
+  #################
+  # Publish the Podspec (if we're building a tag)
+  #################
+  - label: "⬆️ Publish Podspec"
+    key: "publish"
+    command: |
+      echo "Publishing"
+    env: *common_env
+    plugins: *common_plugins
+    depends_on:
+      - "test"
+      - "validate"
+      - "lint"
+    if: build.tag != null
