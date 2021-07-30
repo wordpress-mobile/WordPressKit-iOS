@@ -42,14 +42,14 @@ steps:
   #################
   # Publish the Podspec (if we're building a tag)
   #################
-  - label: "⬆️ Publish Podspec"
-    key: "publish"
-    command: |
-      echo "Publishing"
-    env: *common_env
-    plugins: *common_plugins
-    depends_on:
-      - "test"
-      - "validate"
-      - "lint"
-    if: build.tag != null
+  #- label: "⬆️ Publish Podspec"
+  #  key: "publish"
+  #  command: |
+  #    echo "Publishing"
+  #  env: *common_env
+  #  plugins: *common_plugins
+  #  depends_on:
+  #    - "test"
+  #    - "validate"
+  #    - "lint"
+  #  if: build.tag != null
