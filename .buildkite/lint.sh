@@ -18,10 +18,11 @@ bundle exec rubocop
 echo "Gemfile.lock is in sync"
 
 echo "--- :cocoapods: Checking Podfile.lock"
-bundle exec pod check
+PODFILE_SHA1=$(ruby -e "require 'yaml';puts YAML.load_file('Podfile.lock')['PODFILE CHECKSUM']")
+RESULT=$(echo "$PODFILE_SHA1 *Podfile" | shasum -c)
 
 # This will only work if it goes after `pod install` – don't try to run it first
-if [ -n "$(git status | grep modified | grep Podfile.lock)" ]; then 
+if [[ $RESULT != "Podfile: OK" ]]; then 
 	echo "Error: Podfile.lock is not in sync – please run \`bundle exec pod install\` and commit your changes"
 	exit 1
 fi 
