@@ -51,6 +51,8 @@ GEM
       nap (~> 1.0)
       ruby-macho (~> 1.4)
       xcodeproj (>= 1.19.0, < 2.0)
+    cocoapods-check (1.1.0)
+      cocoapods (~> 1.0)
     cocoapods-core (1.10.2)
       activesupport (> 5.0, < 6)
       addressable (~> 2.6)
@@ -285,6 +287,7 @@ PLATFORMS
 
 DEPENDENCIES
   cocoapods (~> 1.10)
+  cocoapods-check (~> 1.1)
   fastlane (~> 2.189)
   rubocop (~> 1.18)
 
