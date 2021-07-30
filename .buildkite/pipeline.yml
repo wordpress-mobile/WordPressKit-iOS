@@ -33,7 +33,7 @@ steps:
   - label: "🧹 Lint"
     command: .buildkite/lint.sh
     plugins:
-      - automattic/bash-cache#add/cocoapods-support: ~
+      - *common_plugins
       - docker#v3.8.0:
           image: "public.ecr.aws/automattic/multilint:latest"
     agents:
