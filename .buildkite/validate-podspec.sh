@@ -9,5 +9,7 @@ echo "--- :cocoapods: Setting up Pods"
 install_cocoapods
 
 echo "--- :microscope: Validate Podspec"
-xcrun simctl list >> /dev/null # For some reason this fixes a failure in `lib lint`
+# For some reason this fixes a failure in `lib lint`
+# https://github.com/Automattic/buildkite-ci/issues/7
+xcrun simctl list >> /dev/null
 bundle exec pod lib lint --verbose --fail-fast
