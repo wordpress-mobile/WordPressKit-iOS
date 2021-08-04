@@ -1,6 +1,4 @@
-#!/bin/bash
-
-set -e
+#!/bin/bash -eu
 
 echo "--- :rubygems: Setting up Gems"
 install_gems
