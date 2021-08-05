@@ -1,0 +1,50 @@
+{
+	"found": 1,
+	"site_ID": 0,
+	"comments": [
+		{
+			"ID": 1,
+			"post": {
+				"ID": 1,
+				"title": "Post title",
+				"type": "post",
+				"link": "post URL"
+			},
+			"author": {
+				"ID": 0,
+				"login": "",
+				"email": "author@email.com",
+				"name": "Comment Author",
+				"first_name": "",
+				"last_name": "",
+				"nice_name": "",
+				"URL": "author URL",
+				"avatar_URL": "avatar URL",
+				"profile_URL": "profile URL",
+				"ip_address": "000.0.00.000"
+			},
+			"date": "2021-08-04T07:58:49+00:00",
+			"URL": "comment URL",
+			"short_URL": "short URL",
+			"content": "I am comment content",
+			"raw_content": "I am comment raw content",
+			"status": "approved",
+			"parent": false,
+			"type": "comment",
+			"like_count": 0,
+			"i_like": false,
+			"meta": {
+				"links": {
+					"self": "https://public-api.wordpress.com/rest/v1.1/sites/184377374/comments/322",
+					"help": "https://public-api.wordpress.com/rest/v1.1/sites/184377374/comments/322/help",
+					"site": "https://public-api.wordpress.com/rest/v1.1/sites/184377374",
+					"post": "https://public-api.wordpress.com/rest/v1.1/sites/184377374/posts/591",
+					"replies": "https://public-api.wordpress.com/rest/v1.1/sites/184377374/comments/322/replies/",
+					"likes": "https://public-api.wordpress.com/rest/v1.1/sites/184377374/comments/322/likes/"
+				}
+			},
+			"can_moderate": true,
+			"i_replied": false
+		}
+	]
+}
