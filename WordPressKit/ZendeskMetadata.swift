@@ -1,8 +1,6 @@
-
 public struct ZendeskSiteContainer: Decodable {
     public let sites: [ZendeskSite]
 }
-
 
 public struct ZendeskSite: Decodable {
     public let ID: Int
@@ -13,7 +11,6 @@ public struct ZendeskSite: Decodable {
         case zendeskMetadata = "zendesk_site_meta"
     }
 }
-
 
 public struct ZendeskMetadata: Decodable {
     public let plan: String
