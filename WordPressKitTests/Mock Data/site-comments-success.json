@@ -35,12 +35,6 @@
 			"i_like": false,
 			"meta": {
 				"links": {
-					"self": "https://public-api.wordpress.com/rest/v1.1/sites/184377374/comments/322",
-					"help": "https://public-api.wordpress.com/rest/v1.1/sites/184377374/comments/322/help",
-					"site": "https://public-api.wordpress.com/rest/v1.1/sites/184377374",
-					"post": "https://public-api.wordpress.com/rest/v1.1/sites/184377374/posts/591",
-					"replies": "https://public-api.wordpress.com/rest/v1.1/sites/184377374/comments/322/replies/",
-					"likes": "https://public-api.wordpress.com/rest/v1.1/sites/184377374/comments/322/likes/"
 				}
 			},
 			"can_moderate": true,
