@@ -2,7 +2,7 @@
 common_params:
   # Common plugin settings to use with the `plugins` key.
   - &common_plugins
-    - automattic/bash-cache#v1.1.0: ~
+    - automattic/bash-cache#add/cocoapods-support: ~
   # Common environment values to use with the `env` key.
   - &common_env
     IMAGE_ID: xcode-12.5.1
@@ -33,7 +33,7 @@ steps:
   - label: "🧹 Lint"
     command: .buildkite/lint.sh
     plugins:
-      - automattic/bash-cache#v1.1.0: ~
+      - automattic/bash-cache#add/cocoapods-support: ~
       - docker#v3.8.0:
           image: "public.ecr.aws/automattic/multilint:latest"
     agents:
