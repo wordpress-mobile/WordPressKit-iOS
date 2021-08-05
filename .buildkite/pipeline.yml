@@ -2,7 +2,7 @@
 common_params:
   # Common plugin settings to use with the `plugins` key.
   - &common_plugins
-    - automattic/bash-cache#add/cocoapods-support: ~
+    - automattic/bash-cache#v1.1.0: ~
   # Common environment values to use with the `env` key.
   - &common_env
     IMAGE_ID: xcode-12.5.1
