@@ -5,7 +5,7 @@ source 'https://cdn.cocoapods.org/'
 inhibit_all_warnings!
 use_frameworks!
 
-platform :ios, '11.0'
+platform :ios, '13.0'
 
 def wordpresskit_pods
   pod 'Alamofire', '~> 4.8.0'
