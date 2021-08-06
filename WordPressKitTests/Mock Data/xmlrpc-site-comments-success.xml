@@ -14,7 +14,7 @@
                                 <member><name>status</name><value><string>approve</string></value></member>
                                 <member><name>content</name><value><string>I am comment content</string></value></member>
                                 <member><name>link</name><value><string>comment URL</string></value></member>
-                                <member><name>post_id</name><value><string>1</string></value></member>
+                                <member><name>post_id</name><value><string>2</string></value></member>
                                 <member><name>post_title</name><value><string>Post title</string></value></member>
                                 <member><name>author</name><value><string>Comment Author</string></value></member>
                                 <member><name>author_url</name><value><string>author URL</string></value></member>

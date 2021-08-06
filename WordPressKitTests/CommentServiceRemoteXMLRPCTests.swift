@@ -43,7 +43,7 @@ class CommentServiceRemoteXMLRPCTests: RemoteTestCase, XMLRPCTestable {
                 XCTAssertEqual(comment.authorIP, "000.0.00.000")
                 XCTAssertEqual(comment.link, "comment URL")
                 XCTAssertEqual(comment.parentID, NSNumber(value: 1))
-                XCTAssertEqual(comment.postID, NSNumber(value: 1))
+                XCTAssertEqual(comment.postID, NSNumber(value: 2))
                 XCTAssertEqual(comment.postTitle, "Post title")
                 XCTAssertEqual(comment.status, "approve")
                 XCTAssertEqual(comment.type, "comment")
