@@ -7,8 +7,8 @@ public struct RemoteShareAppContent: Codable {
     /// A URL string that directs the recipient to a page describing steps to get the app.
     public let link: String
 
-    /// Convenience property that returns `link` as URL.
-    private(set) public lazy var linkURL: URL? = {
+    /// Convenience method that returns `link` as URL.
+    public func linkURL() -> URL? {
         URL(string: link)
-    }()
+    }
 }
