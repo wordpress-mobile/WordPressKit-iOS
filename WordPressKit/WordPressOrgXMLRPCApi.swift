@@ -330,8 +330,7 @@ extension WordPressOrgXMLRPCApi {
                 return
             }
 
-            var evaluationError: CFError?
-            _ = SecTrustEvaluateWithError(serverTrust, &evaluationError)
+            _ = SecTrustEvaluateWithError(serverTrust, nil)
             var result = SecTrustResultType.invalid
             let certificateStatus = SecTrustGetTrustResult(serverTrust, &result)
 
