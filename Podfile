@@ -31,5 +31,5 @@ target 'WordPressKitTests' do
 
   pod 'OHHTTPStubs', '~> 9.0'
   pod 'OHHTTPStubs/Swift', '~> 9.0'
-  pod 'OCMock', '~> 3.4.2'
+  pod 'OCMock', '~> 3.4'
 end
