@@ -29,7 +29,7 @@ target 'WordPressKitTests' do
   project 'WordPressKit.xcodeproj'
   wordpresskit_pods
 
-  pod 'OHHTTPStubs', '9.0'
-  pod 'OHHTTPStubs/Swift', '9.0'
+  pod 'OHHTTPStubs', '~> 9.0'
+  pod 'OHHTTPStubs/Swift', '~> 9.0'
   pod 'OCMock', '~> 3.4.2'
 end
