@@ -4,7 +4,7 @@ open class ShareAppContentServiceRemote: ServiceRemoteWordPressComREST {
     /// Fetch content to be shared by the user, based on the provided `appName`.
     ///
     /// - Parameters:
-    ///   - appName: A string that describes the app to be shared.
+    ///   - appName: A string that identifies the app to be shared.
     ///   - completion: A closure that will be called when the fetch request completes.
     open func getContent(for appName: String, completion: @escaping (Result<RemoteShareAppContent, Error>) -> Void) {
         let endpoint = "mobile/share-app-link"
