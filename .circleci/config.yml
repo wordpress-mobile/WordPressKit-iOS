@@ -6,7 +6,7 @@ orbs:
 
 # YAML anchors for some common/repeated values
 x-common-params:
-  - &xcode-version "11.2.1"
+  - &xcode-version "12.5.1"
   - &podspec "WordPressKit.podspec"
   - &on-tags-only
       tags:
@@ -22,8 +22,8 @@ workflows:
           xcode-version: *xcode-version
           workspace: WordPressKit.xcworkspace
           scheme: WordPressKitTests
-          device: iPhone Xs
-          ios-version: "12.2"
+          device: iPhone 12
+          ios-version: "14.5"
           bundle-install: true
           pod-install: true
       - ios/validate-podspec:
