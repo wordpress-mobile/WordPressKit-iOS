@@ -4,7 +4,7 @@ open class ShareAppContentServiceRemote: ServiceRemoteWordPressComREST {
     /// Fetch content to be shared by the user, based on the provided `appName`.
     ///
     /// - Parameters:
-    ///   - appName: A string that identifies the app to be shared.
+    ///   - appName: An enum that identifies the app to be shared.
     ///   - completion: A closure that will be called when the fetch request completes.
     open func getContent(for appName: ShareAppName, completion: @escaping (Result<RemoteShareAppContent, Error>) -> Void) {
         let endpoint = "mobile/share-app-link"
@@ -29,6 +29,7 @@ open class ShareAppContentServiceRemote: ServiceRemoteWordPressComREST {
     }
 }
 
+/// Defines a list of apps that can fetch share contents from the API.
 public enum ShareAppName: String {
     case wordpress
     case jetpack
