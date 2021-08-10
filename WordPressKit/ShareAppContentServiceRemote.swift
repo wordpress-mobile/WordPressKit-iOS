@@ -6,10 +6,10 @@ open class ShareAppContentServiceRemote: ServiceRemoteWordPressComREST {
     /// - Parameters:
     ///   - appName: A string that identifies the app to be shared.
     ///   - completion: A closure that will be called when the fetch request completes.
-    open func getContent(for appName: String, completion: @escaping (Result<RemoteShareAppContent, Error>) -> Void) {
+    open func getContent(for appName: ShareAppName, completion: @escaping (Result<RemoteShareAppContent, Error>) -> Void) {
         let endpoint = "mobile/share-app-link"
         let requestURLString = path(forEndpoint: endpoint, withVersion: ._2_0)
-        let params: [String: AnyObject] = [Constants.appNameParameterKey: appName as AnyObject]
+        let params: [String: AnyObject] = [Constants.appNameParameterKey: appName.rawValue as AnyObject]
 
         wordPressComRestApi.GET(requestURLString, parameters: params) { result, _ in
             switch result {
@@ -27,6 +27,11 @@ open class ShareAppContentServiceRemote: ServiceRemoteWordPressComREST {
             }
         }
     }
+}
+
+public enum ShareAppName: String {
+    case wordpress
+    case jetpack
 }
 
 // MARK: - Private Helpers
