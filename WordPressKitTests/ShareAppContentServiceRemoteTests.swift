@@ -26,7 +26,7 @@ final class ShareAppContentServiceRemoteTests: RemoteTestCase, RESTTestable {
     // MARK: Tests
 
     func test_getContent_givenWordPressAppName_returnsContentForWordPress() {
-        let appName = "wordpress"
+        let appName: ShareAppName = .wordpress
         stubRemoteResponse(.getContentEndpoint, filename: .mockFilename, contentType: .ApplicationJSON)
 
         let expect = expectation(description: "Get share app content success")
@@ -46,7 +46,7 @@ final class ShareAppContentServiceRemoteTests: RemoteTestCase, RESTTestable {
     }
 
     func test_getContent_givenUnidentifiedResponseStructure_returnsFailureResult() {
-        let appName = "wordpress"
+        let appName: ShareAppName = .wordpress
         let mockDictionary = [
             "text": "An unknown structure",
             "destination": "https://example.blog/fairy-land"
@@ -70,7 +70,7 @@ final class ShareAppContentServiceRemoteTests: RemoteTestCase, RESTTestable {
 
     // tests for network error, no internet connection, etc.
     func test_getContent_givenUnknownError_returnsFailureResult() {
-        let appName = "wordpress"
+        let appName: ShareAppName = .wordpress
         // somehow `stubAllNetworkRequestsWithNotConnectedError()` called in super.setUp() is not taking effect.
         // let's manually stub the error for now.
         stubRemoteResponse(.getContentEndpoint, data: Data(), contentType: .NoContentType, status: 500)
