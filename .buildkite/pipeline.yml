@@ -32,12 +32,8 @@ steps:
   - label: "🧹 Lint"
     key: "lint"
     command: "lint_pod"
-    plugins:
-      - *bash_cache
-      - docker#v3.8.0:
-          image: "public.ecr.aws/automattic/multilint:latest"
-    agents:
-      queue: "default"
+    env: *common_env
+    plugins: *common_plugins
 
   #################
   # Publish the Podspec (if we're building a tag)
