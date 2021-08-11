@@ -59,7 +59,7 @@ extension StatsSummaryTimeIntervalData: StatsTimeIntervalData {
     public static func queryProperties(with date: Date, period: StatsPeriodUnit, maxCount: Int) -> [String: String] {
         return ["unit": period.stringValue,
                 "quantity": String(maxCount),
-                "stat_fields": "views,visitors,comments"]
+                "stat_fields": "views,visitors,comments,likes"]
     }
 
     public init?(date: Date, period: StatsPeriodUnit, jsonDictionary: [String: AnyObject]) {
@@ -84,7 +84,8 @@ extension StatsSummaryTimeIntervalData: StatsTimeIntervalData {
             let periodIndex = fieldsArray.firstIndex(of: "period"),
             let viewsIndex = fieldsArray.firstIndex(of: "views"),
             let visitorsIndex = fieldsArray.firstIndex(of: "visitors"),
-            let commentsIndex = fieldsArray.firstIndex(of: "comments")
+            let commentsIndex = fieldsArray.firstIndex(of: "comments"),
+            let likesIndex = fieldsArray.firstIndex(of: "likes")
             else {
                 return nil
         }
@@ -96,7 +97,7 @@ extension StatsSummaryTimeIntervalData: StatsTimeIntervalData {
                                                               periodIndex: periodIndex,
                                                               viewsIndex: viewsIndex,
                                                               visitorsIndex: visitorsIndex,
-                                                              likesIndex: nil,
+                                                              likesIndex: likesIndex,
                                                               commentsIndex: commentsIndex) }
     }
 }
