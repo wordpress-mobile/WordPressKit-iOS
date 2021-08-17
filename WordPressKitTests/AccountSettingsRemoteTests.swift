@@ -20,6 +20,7 @@ class AccountSettingsRemoteTests: RemoteTestCase, RESTTestable {
     let changedAboutMe      = "I like the color blue and paperclips!"
 
     let meSettingsEndpoint  = "me/settings"
+    let meAccountCloseEndpoint = "me/account/close"
 
     let getAccountSettingsSuccessMockFilename        = "me-settings-success.json"
     let getAccountSettingsAuthFailureMockFilename    = "me-settings-auth-failure.json"
@@ -35,6 +36,8 @@ class AccountSettingsRemoteTests: RemoteTestCase, RESTTestable {
     let updateSettingsChangeDisplayNameSuccessMockFilename         = "me-settings-change-display-name-success.json"
     let updateSettingsChangeDisplayNameBadJsonFailureMockFilename  = "me-settings-change-display-name-bad-json-failure.json"
     let updateSettingsInvalidInputFailureMockFilename              = "me-settings-change-invalid-input-failure.json"
+
+    let closeAccountSuccessFilename = "me-settings-close-account-success.json"
 
     // MARK: - Properties
 
@@ -292,6 +295,34 @@ class AccountSettingsRemoteTests: RemoteTestCase, RESTTestable {
             XCTAssertEqual(error.code, WordPressComRestApiError.invalidInput.rawValue, "The error code should be 0 - invalid input")
             expect.fulfill()
         })
+
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+
+    func testCloseAccountSucceeds() {
+        let expectation = expectation(description: "Closing account should succeed")
+
+        stubRemoteResponse(meAccountCloseEndpoint, filename: closeAccountSuccessFilename, contentType: .ApplicationJSON, status: 200)
+        remote.closeAccount {
+            expectation.fulfill()
+        } failure: { error in
+            XCTFail("Closing account unexpectedly failed with reason: \(error.localizedDescription)")
+            expectation.fulfill()
+        }
+
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+
+    func testCloseAccountFails() {
+        let expectation = expectation(description: "Closing account should fail")
+
+        stubRemoteResponse(meAccountCloseEndpoint, filename: closeAccountSuccessFilename, contentType: .ApplicationJSON, status: 400)
+        remote.closeAccount {
+            XCTFail("Closing account unexpectedly succeded")
+            expectation.fulfill()
+        } failure: { error in
+            expectation.fulfill()
+        }
 
         waitForExpectations(timeout: timeout, handler: nil)
     }
