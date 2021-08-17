@@ -387,6 +387,7 @@
 		931924241F1662FA0069CBCC /* JSONLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 931924231F1662FA0069CBCC /* JSONLoader.swift */; };
 		9368C7851EC5EF1B0092CE8E /* WordPressKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9368C77B1EC5EF1B0092CE8E /* WordPressKit.framework */; };
 		9368C78C1EC5EF1B0092CE8E /* WordPressKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 9368C77E1EC5EF1B0092CE8E /* WordPressKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		93A4232326CBC845004CCA31 /* me-settings-close-account-success.json in Resources */ = {isa = PBXBuildFile; fileRef = 93A4232226CBC845004CCA31 /* me-settings-close-account-success.json */; };
 		93AB06041EE8838400EF8764 /* RemoteTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93AB06031EE8838400EF8764 /* RemoteTestCase.swift */; };
 		93BD273B1EE73282002BB00B /* AccountServiceRemote.h in Headers */ = {isa = PBXBuildFile; fileRef = 93BD27381EE73282002BB00B /* AccountServiceRemote.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		93BD273C1EE73282002BB00B /* AccountServiceRemoteREST.h in Headers */ = {isa = PBXBuildFile; fileRef = 93BD27391EE73282002BB00B /* AccountServiceRemoteREST.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1009,6 +1010,7 @@
 		9368C77F1EC5EF1B0092CE8E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9368C7841EC5EF1B0092CE8E /* WordPressKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WordPressKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9368C78B1EC5EF1B0092CE8E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		93A4232226CBC845004CCA31 /* me-settings-close-account-success.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "me-settings-close-account-success.json"; sourceTree = "<group>"; };
 		93AB06031EE8838400EF8764 /* RemoteTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteTestCase.swift; sourceTree = "<group>"; };
 		93BD27381EE73282002BB00B /* AccountServiceRemote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountServiceRemote.h; sourceTree = "<group>"; };
 		93BD27391EE73282002BB00B /* AccountServiceRemoteREST.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountServiceRemoteREST.h; sourceTree = "<group>"; };
@@ -1990,6 +1992,7 @@
 				7403A2EF1EF06FEB00DED7DC /* me-settings-change-lastname-success.json */,
 				7403A2F01EF06FEB00DED7DC /* me-settings-change-primary-site-success.json */,
 				7403A2F11EF06FEB00DED7DC /* me-settings-change-web-address-success.json */,
+				93A4232226CBC845004CCA31 /* me-settings-close-account-success.json */,
 				7403A2F21EF06FEB00DED7DC /* me-settings-revert-email-success.json */,
 				7403A2F31EF06FEB00DED7DC /* me-settings-success.json */,
 				93BD274D1EE73442002BB00B /* me-sites-auth-failure.json */,
@@ -2702,6 +2705,7 @@
 				BA4BFC582498C04D005C83E7 /* plugin-update-jetpack-already-updated.json in Resources */,
 				740B23E51F17FB4200067A2A /* xmlrpc-metaweblog-newpost-bad-xml-failure.xml in Resources */,
 				74C473C91EF335B8009918F2 /* site-active-purchases-empty-response.json in Resources */,
+				93A4232326CBC845004CCA31 /* me-settings-close-account-success.json in Resources */,
 				740B23EA1F17FB4200067A2A /* xmlrpc-wp-getpost-success.xml in Resources */,
 				829BA4331FACF187003ADEEA /* activity-rewind-status-restore-queued.json in Resources */,
 				74C473B31EF3204B009918F2 /* site-delete-auth-failure.json in Resources */,
