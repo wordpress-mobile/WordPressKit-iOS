@@ -38,6 +38,7 @@ class AccountSettingsRemoteTests: RemoteTestCase, RESTTestable {
     let updateSettingsInvalidInputFailureMockFilename              = "me-settings-change-invalid-input-failure.json"
 
     let closeAccountSuccessFilename = "me-settings-close-account-success.json"
+    let closeAccountFailureFilename = "me-settings-close-account-failure.json"
 
     // MARK: - Properties
 
@@ -316,7 +317,7 @@ class AccountSettingsRemoteTests: RemoteTestCase, RESTTestable {
     func testCloseAccountFails() {
         let expectation = expectation(description: "Closing account should fail")
 
-        stubRemoteResponse(meAccountCloseEndpoint, filename: closeAccountSuccessFilename, contentType: .ApplicationJSON, status: 400)
+        stubRemoteResponse(meAccountCloseEndpoint, filename: closeAccountFailureFilename, contentType: .ApplicationJSON, status: 403)
         remote.closeAccount {
             XCTFail("Closing account unexpectedly succeded")
             expectation.fulfill()
