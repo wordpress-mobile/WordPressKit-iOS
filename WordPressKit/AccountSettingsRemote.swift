@@ -146,6 +146,17 @@ public class AccountSettingsRemote: ServiceRemoteWordPressComREST {
         })
     }
 
+    public func closeAccount(success: @escaping () -> Void, failure: @escaping (Error) -> Void) {
+        let endpoint = "me/account/close"
+        let path = path(forEndpoint: endpoint, withVersion: ._1_1)
+
+        wordPressComRestApi.POST(path, parameters: nil) { _, _ in
+            success()
+        } failure: { error, response in
+            failure(error)
+        }
+    }
+
     private func settingsFromResponse(_ responseObject: AnyObject) throws -> AccountSettings {
         guard let
             response = responseObject as? [String: AnyObject],
