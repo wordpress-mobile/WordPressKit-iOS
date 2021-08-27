@@ -1,6 +1,6 @@
 #  WordPressKit for iOS
 
-[![CircleCI](https://circleci.com/gh/wordpress-mobile/WordPressKit-iOS.svg?style=svg)](https://circleci.com/gh/wordpress-mobile/WordPressKit-iOS)
+[![Build status](https://badge.buildkite.com/72552629875be91a9cc417a808e26f6130da69bc2bf91417bf.svg)](https://buildkite.com/wordpress-mobile/wordpresskit-ios)
 
 ## About
 
