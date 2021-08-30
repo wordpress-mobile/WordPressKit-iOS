@@ -119,11 +119,20 @@
 {
     NSParameterAssert(comment.commentID != nil);
     NSNumber *commentID = comment.commentID;
-    NSArray *extraParameters = @[
-                                 comment.commentID,
-                                 @{@"content": comment.content},
-                                 ];
+    
+    NSDictionary *commentDictionary = @{
+        @"content": comment.content,
+        @"author": comment.author,
+        @"author_email": comment.authorEmail,
+        @"author_url": comment.authorUrl,
+    };
+    
+    NSArray *extraParameters = @[comment.commentID,
+                                 commentDictionary,
+    ];
+
     NSArray *parameters = [self XMLRPCArgumentsWithExtra:extraParameters];
+
     [self.api callMethod:@"wp.editComment"
               parameters:parameters
                  success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
