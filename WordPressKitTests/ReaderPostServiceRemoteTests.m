@@ -45,8 +45,6 @@
                            @"fake":[self tagDictionaryWithName:@"Fake" slug:@"fake" postCount:@(1)],
                            @"primary":[self tagDictionaryWithName:@"Primary" slug:@"primary" postCount:@(10)],
                            @"secondary":[self tagDictionaryWithName:@"Secondary" slug:@"secondary" postCount:@(9)],
-                           @"fake":[self tagDictionaryWithName:@"Fake" slug:@"fake" postCount:@(5)],
-                           @"fake":[self tagDictionaryWithName:@"Fake" slug:@"fake" postCount:@(3)],
                            };
     return @{@"tags":tags};
 }

@@ -6,7 +6,7 @@ orbs:
 
 # YAML anchors for some common/repeated values
 x-common-params:
-  - &xcode-version "11.2.1"
+  - &xcode-version "12.5.1"
   - &podspec "WordPressKit.podspec"
   - &on-tags-only
       tags:
@@ -22,8 +22,8 @@ workflows:
           xcode-version: *xcode-version
           workspace: WordPressKit.xcworkspace
           scheme: WordPressKitTests
-          device: iPhone Xs
-          ios-version: "12.2"
+          device: iPhone 12
+          ios-version: "14.5"
           bundle-install: true
           pod-install: true
       - ios/validate-podspec:
@@ -32,18 +32,3 @@ workflows:
           podspec-path: *podspec
           bundle-install: true
           additional-parameters: "--allow-warnings"
-      - ios/publish-podspec:
-          name: Publish to a8c Spec Repo
-          xcode-version: *xcode-version
-          podspec-path: *podspec
-          spec-repo: https://github.com/wordpress-mobile/cocoapods-specs.git
-          bundle-install: true
-          post-to-slack: false
-          filters: *on-tags-only
-      - ios/publish-podspec:
-          name: Publish to Trunk
-          xcode-version: *xcode-version
-          podspec-path: *podspec
-          bundle-install: true
-          post-to-slack: true
-          filters: *on-tags-only

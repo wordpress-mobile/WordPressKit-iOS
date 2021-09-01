@@ -6,6 +6,7 @@
 @property (nonatomic, strong) NSString *authorEmail;
 @property (nonatomic, strong) NSString *authorUrl;
 @property (nonatomic, strong) NSString *authorAvatarURL;
+@property (nonatomic, strong) NSString *authorIP;
 @property (nonatomic, strong) NSString *content;
 @property (nonatomic, strong) NSString *rawContent;
 @property (nonatomic, strong) NSDate *date;

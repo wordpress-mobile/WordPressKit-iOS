@@ -205,7 +205,7 @@ extension BlockEditorSettingsServiceRemoteTests {
         let mockOrgRemoteApi = MockWordPressOrgRestApi()
         service = BlockEditorSettingsServiceRemote(remoteAPI: mockOrgRemoteApi)
 
-        service.fetchBlockEditorSettings(forSiteID: siteID) { (response) in
+        service.fetchBlockEditorSettings(forSiteID: siteID) { (_) in
             waitExpectation.fulfill()
         }
         mockOrgRemoteApi.completionPassedIn!(.success(mockedResponse), HTTPURLResponse())

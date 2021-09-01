@@ -2,8 +2,7 @@
 
 Pod::Spec.new do |s|
   s.name          = 'WordPressKit'
-  s.version       = '4.39.0-beta.2'
-
+  s.version       = '4.41.0-beta.2'
   s.summary       = 'WordPressKit offers a clean and simple WordPress.com and WordPress.org API.'
   s.description   = <<-DESC
                     This framework encapsulates all of the networking calls and entity parsers required to interact
@@ -14,7 +13,7 @@ Pod::Spec.new do |s|
   s.license       = { type: 'GPLv2', file: 'LICENSE' }
   s.author        = { 'The WordPress Mobile Team' => 'mobile@wordpress.org' }
 
-  s.platform      = :ios, '11.0'
+  s.platform      = :ios, '13.0'
   s.swift_version = '5.0'
 
   s.source        = { git: 'https://github.com/wordpress-mobile/WordPressKit-iOS.git', tag: s.version.to_s }

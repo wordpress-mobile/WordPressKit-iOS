@@ -205,6 +205,7 @@
     comment.author = xmlrpcDictionary[@"author"];
     comment.authorEmail = xmlrpcDictionary[@"author_email"];
     comment.authorUrl = xmlrpcDictionary[@"author_url"];
+    comment.authorIP = xmlrpcDictionary[@"author_ip"];
     comment.commentID = [xmlrpcDictionary numberForKey:@"comment_id"];
     comment.content = xmlrpcDictionary[@"content"];
     comment.date = xmlrpcDictionary[@"date_created_gmt"];
