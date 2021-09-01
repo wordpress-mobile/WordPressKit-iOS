@@ -1,7 +1,5 @@
 #  WordPressKit for iOS
 
-[![CircleCI](https://circleci.com/gh/wordpress-mobile/WordPressKit-iOS.svg?style=svg)](https://circleci.com/gh/wordpress-mobile/WordPressKit-iOS)
-
 ## About
 
 WordPressKit offers a clean and simple WordPress.com and WordPress.org API.
