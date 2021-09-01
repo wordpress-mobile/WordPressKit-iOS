@@ -127,9 +127,10 @@
         @"author_url": comment.authorUrl,
     };
     
-    NSArray *extraParameters = @[comment.commentID,
+    NSArray *extraParameters = @[
+                                 comment.commentID,
                                  commentDictionary,
-    ];
+                                 ];
 
     NSArray *parameters = [self XMLRPCArgumentsWithExtra:extraParameters];
 
