@@ -118,9 +118,13 @@
                                      withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
     
     NSDictionary *parameters = @{
-                                 @"content": comment.content,
-                                 @"context": @"edit",
-                                 };
+        @"content": comment.content,
+        @"author": comment.author,
+        @"author_email": comment.authorEmail,
+        @"author_url": comment.authorUrl,
+        @"context": @"edit",
+    };
+
     [self.wordPressComRestApi POST:requestUrl
                         parameters:parameters
                            success:^(id responseObject, NSHTTPURLResponse *httpResponse) {

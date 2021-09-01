@@ -152,7 +152,7 @@ public class AccountSettingsRemote: ServiceRemoteWordPressComREST {
 
         wordPressComRestApi.POST(path, parameters: nil) { _, _ in
             success()
-        } failure: { error, response in
+        } failure: { error, _ in
             failure(error)
         }
     }
