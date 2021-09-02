@@ -321,7 +321,7 @@ class AccountSettingsRemoteTests: RemoteTestCase, RESTTestable {
         remote.closeAccount {
             XCTFail("Closing account unexpectedly succeded")
             expectation.fulfill()
-        } failure: { error in
+        } failure: { _ in
             expectation.fulfill()
         }
 
