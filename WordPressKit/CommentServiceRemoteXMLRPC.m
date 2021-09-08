@@ -119,11 +119,21 @@
 {
     NSParameterAssert(comment.commentID != nil);
     NSNumber *commentID = comment.commentID;
+    
+    NSDictionary *commentDictionary = @{
+        @"content": comment.content,
+        @"author": comment.author,
+        @"author_email": comment.authorEmail,
+        @"author_url": comment.authorUrl,
+    };
+    
     NSArray *extraParameters = @[
                                  comment.commentID,
-                                 @{@"content": comment.content},
+                                 commentDictionary,
                                  ];
+
     NSArray *parameters = [self XMLRPCArgumentsWithExtra:extraParameters];
+
     [self.api callMethod:@"wp.editComment"
               parameters:parameters
                  success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
@@ -205,6 +215,7 @@
     comment.author = xmlrpcDictionary[@"author"];
     comment.authorEmail = xmlrpcDictionary[@"author_email"];
     comment.authorUrl = xmlrpcDictionary[@"author_url"];
+    comment.authorIP = xmlrpcDictionary[@"author_ip"];
     comment.commentID = [xmlrpcDictionary numberForKey:@"comment_id"];
     comment.content = xmlrpcDictionary[@"content"];
     comment.date = xmlrpcDictionary[@"date_created_gmt"];

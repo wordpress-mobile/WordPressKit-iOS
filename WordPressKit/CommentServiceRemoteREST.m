@@ -29,7 +29,6 @@
                                      withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
     
     NSMutableDictionary *parameters = [NSMutableDictionary dictionaryWithDictionary:@{
-                                 @"context": @"edit",
                                  @"force": @"wpcom", // Force fetching data from shadow site on Jetpack sites
                                  @"number": @(maximumComments)
                                  }];
@@ -119,9 +118,13 @@
                                      withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
     
     NSDictionary *parameters = @{
-                                 @"content": comment.content,
-                                 @"context": @"edit",
-                                 };
+        @"content": comment.content,
+        @"author": comment.author,
+        @"author_email": comment.authorEmail,
+        @"author_url": comment.authorUrl,
+        @"context": @"edit",
+    };
+
     [self.wordPressComRestApi POST:requestUrl
                         parameters:parameters
                            success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
@@ -452,8 +455,8 @@
     comment.authorEmail = [jsonDictionary[@"author"] stringForKey:@"email"];
     comment.authorUrl = jsonDictionary[@"author"][@"URL"];
     comment.authorAvatarURL = [jsonDictionary stringForKeyPath:@"author.avatar_URL"];
+    comment.authorIP = [jsonDictionary stringForKeyPath:@"author.ip_address"];
     comment.commentID = jsonDictionary[@"ID"];
-    comment.content = jsonDictionary[@"content"];
     comment.date = [NSDate dateWithWordPressComJSONString:jsonDictionary[@"date"]];
     comment.link = jsonDictionary[@"URL"];
     comment.parentID = [jsonDictionary numberForKeyPath:@"parent.ID"];
@@ -463,6 +466,9 @@
     comment.type = jsonDictionary[@"type"];
     comment.isLiked = [[jsonDictionary numberForKey:@"i_like"] boolValue];
     comment.likeCount = [jsonDictionary numberForKey:@"like_count"];
+    comment.canModerate = [[jsonDictionary numberForKey:@"can_moderate"] boolValue];
+    comment.content = jsonDictionary[@"content"];
+    comment.rawContent = jsonDictionary[@"raw_content"];
 
     return comment;
 }

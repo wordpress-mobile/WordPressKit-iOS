@@ -415,7 +415,7 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
 
             XCTAssertEqual(summary?.summaryData[0].viewsCount, 5140)
             XCTAssertEqual(summary?.summaryData[0].visitorsCount, 3560)
-            XCTAssertEqual(summary?.summaryData[0].likesCount, 0)
+            XCTAssertEqual(summary?.summaryData[0].likesCount, 70)
             XCTAssertEqual(summary?.summaryData[0].commentsCount, 1)
 
             let nineDaysAgo = Calendar.autoupdatingCurrent.date(byAdding: .day, value: -9, to: date)!
@@ -423,7 +423,7 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
 
             XCTAssertEqual(summary?.summaryData[9].viewsCount, 3244)
             XCTAssertEqual(summary?.summaryData[9].visitorsCount, 2127)
-            XCTAssertEqual(summary?.summaryData[9].likesCount, 0)
+            XCTAssertEqual(summary?.summaryData[9].likesCount, 25)
             XCTAssertEqual(summary?.summaryData[9].commentsCount, 0)
             XCTAssertEqual(summary?.summaryData[9].periodStartDate, date)
 
@@ -524,7 +524,7 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
 
             XCTAssertEqual(summary?.summaryData[0].viewsCount, 32603)
             XCTAssertEqual(summary?.summaryData[0].visitorsCount, 23205)
-            XCTAssertEqual(summary?.summaryData[0].likesCount, 0)
+            XCTAssertEqual(summary?.summaryData[0].likesCount, 855)
             XCTAssertEqual(summary?.summaryData[0].commentsCount, 44)
 
             let dec17 = DateComponents(year: 2018, month: 12, day: 17)
@@ -533,7 +533,7 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
 
             XCTAssertEqual(summary?.summaryData[9].viewsCount, 17162)
             XCTAssertEqual(summary?.summaryData[9].visitorsCount, 11490)
-            XCTAssertEqual(summary?.summaryData[9].likesCount, 0)
+            XCTAssertEqual(summary?.summaryData[9].likesCount, 126)
             XCTAssertEqual(summary?.summaryData[9].commentsCount, 0)
 
             XCTAssertEqual(summary?.summaryData[9].periodStartDate, Calendar.autoupdatingCurrent.date(byAdding: .day,
@@ -562,7 +562,7 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
 
             XCTAssertEqual(summary?.summaryData[0].viewsCount, 3496)
             XCTAssertEqual(summary?.summaryData[0].visitorsCount, 398)
-            XCTAssertEqual(summary?.summaryData[0].likesCount, 0)
+            XCTAssertEqual(summary?.summaryData[0].likesCount, 72)
             XCTAssertEqual(summary?.summaryData[0].commentsCount, 0)
 
             let may1 = DateComponents(year: 2018, month: 5, day: 1)
@@ -571,7 +571,7 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
 
             XCTAssertEqual(summary?.summaryData[9].viewsCount, 2569)
             XCTAssertEqual(summary?.summaryData[9].visitorsCount, 334)
-            XCTAssertEqual(summary?.summaryData[9].likesCount, 0)
+            XCTAssertEqual(summary?.summaryData[9].likesCount, 116)
             XCTAssertEqual(summary?.summaryData[9].commentsCount, 0)
 
             let nineMonthsFromMay1 = Calendar.autoupdatingCurrent.date(byAdding: .month, value: 9, to: may1Date)!

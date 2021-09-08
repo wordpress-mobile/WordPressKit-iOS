@@ -12,7 +12,7 @@ import CocoaLumberjack
         static let freeDomainPaymentMethod = "WPCOM_Billing_WPCOM"
     }
 
-    @objc public func getSupportedCountries(success: @escaping ([Country]) -> Void,
+    @objc public func getSupportedCountries(success: @escaping ([WPCountry]) -> Void,
                                             failure: @escaping (Error) -> Void) {
         let endPoint = "me/transactions/supported-countries/"
         let servicePath = path(forEndpoint: endPoint, withVersion: ._1_1)
@@ -26,7 +26,7 @@ import CocoaLumberjack
                                             throw ResponseError.decodingFailure
                                         }
                                         let data = try JSONSerialization.data(withJSONObject: json, options: .prettyPrinted)
-                                        let decodedResult = try JSONDecoder.apiDecoder.decode([Country].self, from: data)
+                                        let decodedResult = try JSONDecoder.apiDecoder.decode([WPCountry].self, from: data)
                                         success(decodedResult)
                                     } catch {
                                         DDLogError("Error parsing Supported Countries (\(error)): \(response)")
@@ -114,19 +114,13 @@ public struct CartResponse {
 
         let mappedProducts = products.compactMap { (product) -> Product? in
             guard
-                let productID = product["product_id"] as? Int,
-                let meta = product["meta"] as? String
-                else {
+                let productID = product["product_id"] as? Int else {
                     return nil
             }
-
+            let meta = product["meta"] as? String
             let extra = product["extra"] as? [String: AnyObject]
 
             return Product(productID: productID, meta: meta, extra: extra)
-        }
-
-        guard mappedProducts.count == products.count else {
-            return nil
         }
 
         self.blogID = blogID
@@ -144,14 +138,17 @@ public struct CartResponse {
 
 public struct Product {
     let productID: Int
-    let meta: String
+    let meta: String?
     let extra: [String: AnyObject]?
 
     fileprivate func jsonRepresentation() -> [String: AnyObject] {
         var returnDict: [String: AnyObject] = [:]
 
         returnDict["product_id"] = productID as AnyObject
-        returnDict["meta"] = meta as AnyObject
+
+        if let meta = meta {
+            returnDict["meta"] = meta as AnyObject
+        }
 
         if let extra = extra {
             returnDict["extra"] = extra as AnyObject

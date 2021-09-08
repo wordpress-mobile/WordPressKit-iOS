@@ -330,8 +330,9 @@ extension WordPressOrgXMLRPCApi {
                 return
             }
 
+            _ = SecTrustEvaluateWithError(serverTrust, nil)
             var result = SecTrustResultType.invalid
-            let certificateStatus = SecTrustEvaluate(serverTrust, &result)
+            let certificateStatus = SecTrustGetTrustResult(serverTrust, &result)
 
             guard let hostAppHandler = WordPressOrgXMLRPCApi.onChallenge, certificateStatus == 0, result == .recoverableTrustFailure else {
                 completionHandler(.performDefaultHandling, nil)
