@@ -387,6 +387,7 @@
 		931924241F1662FA0069CBCC /* JSONLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 931924231F1662FA0069CBCC /* JSONLoader.swift */; };
 		9368C7851EC5EF1B0092CE8E /* WordPressKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9368C77B1EC5EF1B0092CE8E /* WordPressKit.framework */; };
 		9368C78C1EC5EF1B0092CE8E /* WordPressKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 9368C77E1EC5EF1B0092CE8E /* WordPressKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		937250EC267A15060086075F /* stats-referrer-mark-as-spam.json in Resources */ = {isa = PBXBuildFile; fileRef = 937250EB267A15060086075F /* stats-referrer-mark-as-spam.json */; };
 		93A4232326CBC845004CCA31 /* me-settings-close-account-success.json in Resources */ = {isa = PBXBuildFile; fileRef = 93A4232226CBC845004CCA31 /* me-settings-close-account-success.json */; };
 		93AB06041EE8838400EF8764 /* RemoteTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93AB06031EE8838400EF8764 /* RemoteTestCase.swift */; };
 		93AEA69326CE4EED009502D2 /* me-settings-close-account-failure.json in Resources */ = {isa = PBXBuildFile; fileRef = 93AEA69226CE4EED009502D2 /* me-settings-close-account-failure.json */; };
@@ -1011,6 +1012,7 @@
 		9368C77F1EC5EF1B0092CE8E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9368C7841EC5EF1B0092CE8E /* WordPressKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WordPressKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9368C78B1EC5EF1B0092CE8E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		937250EB267A15060086075F /* stats-referrer-mark-as-spam.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "stats-referrer-mark-as-spam.json"; sourceTree = "<group>"; };
 		93A4232226CBC845004CCA31 /* me-settings-close-account-success.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "me-settings-close-account-success.json"; sourceTree = "<group>"; };
 		93AB06031EE8838400EF8764 /* RemoteTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteTestCase.swift; sourceTree = "<group>"; };
 		93AEA69226CE4EED009502D2 /* me-settings-close-account-failure.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "me-settings-close-account-failure.json"; sourceTree = "<group>"; };
@@ -1914,6 +1916,28 @@
 		93BD27421EE73384002BB00B /* Mock Data */ = {
 			isa = PBXGroup;
 			children = (
+				C92EFF7225E7444400E0308D /* common-starter-site-designs-empty-designs.json */,
+				C92EFF6C25E741E900E0308D /* common-starter-site-designs-malformed.json */,
+				C92EFF6825E7403F00E0308D /* common-starter-site-designs-success.json */,
+				FFA4D4AE2423B33800BF5180 /* wp-forbidden.json */,
+				FFA4D4AF2423B33800BF5180 /* wp-pages.json */,
+				FFA4D4AC2423B1FE00BF5180 /* wp-admin-post-new.html */,
+				F194E1242417EE7E00874408 /* atomic-get-auth-cookie-success.json */,
+				40819784221F74B200A298E4 /* stats-post-details.json */,
+				4081977A221F153A00A298E4 /* stats-visits-day.json */,
+				4081977D221F269A00A298E4 /* stats-visits-month.json */,
+				40819779221F153A00A298E4 /* stats-visits-week.json */,
+				40819770221DFDB600A298E4 /* stats-posts-data.json */,
+				40819774221E497C00A298E4 /* stats-published-posts.json */,
+				404057DB221C9FD70060250C /* stats-referrer-data.json */,
+				937250EB267A15060086075F /* stats-referrer-mark-as-spam.json */,
+				404057D7221C98690060250C /* stats-clicks-data.json */,
+				404057D3221C5FC30060250C /* stats-countries-data.json */,
+				404057CF221C46780060250C /* stats-videos-data.json */,
+				404057CA221B80BC0060250C /* stats-top-authors.json */,
+				40F9880D221ACFB400B7B369 /* stats-streak-result.json */,
+				404057C6221B36070060250C /* stats-search-term-result.json */,
+				984E34F322EF9464005C3F92 /* stats-file-downloads.json */,
 				465F8892263B094900F4C950 /* BlockEditorSettings */,
 				FA4261712570CC91003A01E2 /* activity-groups-bad-json-failure.json */,
 				FA42615D2570C712003A01E2 /* activity-groups-success.json */,
@@ -2568,6 +2592,7 @@
 				BA5AEF6B24923DAC007D8E49 /* plugin-state-jetpack.json in Resources */,
 				436D564C211CCCB900CEAA33 /* domain-contact-information-response-success.json in Resources */,
 				FFA4D4AD2423B1FE00BF5180 /* wp-admin-post-new.html in Resources */,
+				937250EC267A15060086075F /* stats-referrer-mark-as-spam.json in Resources */,
 				465F889A263B09BF00F4C950 /* wp-block-editor-v1-settings-success-ThemeJSON.json in Resources */,
 				BA9A7F7F24C6895600925E81 /* plugin-directory-jetpack-beta.json in Resources */,
 				E6B0461425E5B6F500DF6F4F /* sites-invites-links-generate.json in Resources */,
