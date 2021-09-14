@@ -37,11 +37,17 @@ import CocoaLumberjack
         })
     }
 
-    public func createShoppingCart(siteID: Int,
-                                   domainSuggestion: DomainSuggestion,
-                                   privacyProtectionEnabled: Bool,
-                                   success: @escaping (CartResponse) -> Void,
-                                   failure: @escaping (Error) -> Void) {
+    /// Creates a shopping cart for a domain purchase
+    /// - Parameters:
+    ///   - siteID: id of the current site
+    ///   - domainSuggestion: suggested new domain to purchase
+    ///   - temporary: true if the card is temporary, false otherwise
+    private func createDomainShoppingCart(siteID: Int,
+                                          domainSuggestion: DomainSuggestion,
+                                          privacyProtectionEnabled: Bool,
+                                          temporary: Bool,
+                                          success: @escaping (CartResponse) -> Void,
+                                          failure: @escaping (Error) -> Void) {
 
         let endPoint = "me/shopping-cart/\(siteID)"
         let urlPath = path(forEndpoint: endPoint, withVersion: ._1_1)
@@ -53,7 +59,7 @@ import CocoaLumberjack
             productDictionary["extra"] = ["privacy": true] as AnyObject
         }
 
-        let parameters: [String: AnyObject] = ["temporary": "true" as AnyObject,
+        let parameters: [String: AnyObject] = ["temporary": (temporary ? "true" : "false") as AnyObject,
                                                "products": [productDictionary] as AnyObject]
 
         wordPressComRestApi.POST(urlPath,
@@ -72,7 +78,34 @@ import CocoaLumberjack
         }) { (error, _) in
             failure(error)
         }
+    }
 
+    /// Creates a temporary shopping cart for a domain purchase
+    public func createTemporaryDomainShoppingCart(siteID: Int,
+                                                  domainSuggestion: DomainSuggestion,
+                                                  privacyProtectionEnabled: Bool,
+                                                  success: @escaping (CartResponse) -> Void,
+                                                  failure: @escaping (Error) -> Void) {
+        createDomainShoppingCart(siteID: siteID,
+                                 domainSuggestion: domainSuggestion,
+                                 privacyProtectionEnabled: privacyProtectionEnabled,
+                                 temporary: true,
+                                 success: success,
+                                 failure: failure)
+    }
+
+    /// Creates a persistent shopping  cart for a domain purchase
+    public func createPersistentDomainShoppingCart(siteID: Int,
+                                                   domainSuggestion: DomainSuggestion,
+                                                   privacyProtectionEnabled: Bool,
+                                                   success: @escaping (CartResponse) -> Void,
+                                                   failure: @escaping (Error) -> Void) {
+        createDomainShoppingCart(siteID: siteID,
+                                 domainSuggestion: domainSuggestion,
+                                 privacyProtectionEnabled: privacyProtectionEnabled,
+                                 temporary: false,
+                                 success: success,
+                                 failure: failure)
     }
 
     public func redeemCartUsingCredits(cart: CartResponse,
