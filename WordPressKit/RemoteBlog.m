@@ -8,6 +8,7 @@
 {
     if (self = [super init]) {
         _blogID =  [json numberForKey:@"ID"];
+        _organizationID = [json numberForKey:@"organization_id"];
         _name = [json stringForKey:@"name"];
         _tagline = [json stringForKey:@"description"];
         _url = [json stringForKey:@"URL"];
@@ -32,6 +33,7 @@
 {
     NSDictionary *properties = @{
         @"blogID"    : self.blogID,
+        @"organizationID": self.organizationID,
         @"name"     : self.name,
         @"url"      : self.url,
         @"xmlrpc"   : self.xmlrpc,
