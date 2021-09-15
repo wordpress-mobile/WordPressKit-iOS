@@ -42,6 +42,7 @@ import CocoaLumberjack
     ///   - siteID: id of the current site
     ///   - domainSuggestion: suggested new domain to purchase
     ///   - temporary: true if the card is temporary, false otherwise
+    ///   - privacyProtectionEnabled: true if privacy protection on the given domain is enabled
     private func createDomainShoppingCart(siteID: Int,
                                           domainSuggestion: DomainSuggestion,
                                           privacyProtectionEnabled: Bool,
