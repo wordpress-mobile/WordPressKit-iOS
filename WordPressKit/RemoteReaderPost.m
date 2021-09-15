@@ -192,14 +192,12 @@ static const NSUInteger ReaderPostTitleLength = 30;
 
             NSString *path = [obj stringForKey:CrossPostMetaValue];
             NSURL *url = [NSURL URLWithString:path];
-            if (!url) {
-                NSLog(@"break");
-            }
-
-            meta.siteURL = [NSString stringWithFormat:@"%@://%@", url.scheme, url.host];
-            meta.postURL = [NSString stringWithFormat:@"%@%@", meta.siteURL, url.path];
-            if ([url.fragment hasPrefix:CrossPostMetaCommentPrefix]) {
-                meta.commentURL = [url absoluteString];
+            if (url) {
+                meta.siteURL = [NSString stringWithFormat:@"%@://%@", url.scheme, url.host];
+                meta.postURL = [NSString stringWithFormat:@"%@%@", meta.siteURL, url.path];
+                if ([url.fragment hasPrefix:CrossPostMetaCommentPrefix]) {
+                    meta.commentURL = [url absoluteString];
+                }
             }
         } else if ([[obj stringForKey:CrossPostMetaKey] isEqualToString:CrossPostMetaXPostOrigin]) {
             NSString *value = [obj stringForKey:CrossPostMetaValue];
