@@ -197,7 +197,7 @@ static const NSUInteger ReaderPostTitleLength = 30;
             }
 
             meta.siteURL = [NSString stringWithFormat:@"%@://%@", url.scheme, url.host];
-            meta.postURL = [NSString stringWithFormat:@"%@/%@", meta.siteURL, url.path];
+            meta.postURL = [NSString stringWithFormat:@"%@%@", meta.siteURL, url.path];
             if ([url.fragment hasPrefix:CrossPostMetaCommentPrefix]) {
                 meta.commentURL = [url absoluteString];
             }
