@@ -14,6 +14,11 @@
 @property (nonatomic, copy) NSNumber *blogID;
 
 /**
+ *  @details The organization ID of the Blog entity.
+ */
+@property (nonatomic, copy) NSNumber *organizationID;
+
+/**
  *  @details Represents the Blog Name.
  */
 @property (nonatomic, copy) NSString *name;
