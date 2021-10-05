@@ -323,8 +323,6 @@
 		74FC6F431F191C1D00112505 /* notifications-load-all.json in Resources */ = {isa = PBXBuildFile; fileRef = 74FC6F3F1F191C1D00112505 /* notifications-load-all.json */; };
 		7E0D64FF22D855700092AD10 /* EditorServiceRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E0D64FE22D855700092AD10 /* EditorServiceRemote.swift */; };
 		7E3E7A4520E443060075D159 /* NSAttributedString+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3E7A4420E443050075D159 /* NSAttributedString+extensions.swift */; };
-		7E3E7A4820E443370075D159 /* NSMutableAttributedString+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3E7A4720E443370075D159 /* NSMutableAttributedString+extensions.swift */; };
-		7E3E7A4A20E443890075D159 /* Scanner+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3E7A4920E443890075D159 /* Scanner+extensions.swift */; };
 		7E3E7A4C20E443AA0075D159 /* NSMutableParagraphStyle+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3E7A4B20E443AA0075D159 /* NSMutableParagraphStyle+extensions.swift */; };
 		7EC60EBE22DC4F9000FB0336 /* EditorServiceRemoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EC60EBD22DC4F9000FB0336 /* EditorServiceRemoteTests.swift */; };
 		7EC60EC022DC5D7C00FB0336 /* EditorSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EC60EBF22DC5D7C00FB0336 /* EditorSettings.swift */; };
@@ -945,8 +943,6 @@
 		74FC6F3F1F191C1D00112505 /* notifications-load-all.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "notifications-load-all.json"; sourceTree = "<group>"; };
 		7E0D64FE22D855700092AD10 /* EditorServiceRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorServiceRemote.swift; sourceTree = "<group>"; };
 		7E3E7A4420E443050075D159 /* NSAttributedString+extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+extensions.swift"; sourceTree = "<group>"; };
-		7E3E7A4720E443370075D159 /* NSMutableAttributedString+extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+extensions.swift"; sourceTree = "<group>"; };
-		7E3E7A4920E443890075D159 /* Scanner+extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Scanner+extensions.swift"; sourceTree = "<group>"; };
 		7E3E7A4B20E443AA0075D159 /* NSMutableParagraphStyle+extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableParagraphStyle+extensions.swift"; sourceTree = "<group>"; };
 		7EC60EBD22DC4F9000FB0336 /* EditorServiceRemoteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorServiceRemoteTests.swift; sourceTree = "<group>"; };
 		7EC60EBF22DC5D7C00FB0336 /* EditorSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorSettings.swift; sourceTree = "<group>"; };
@@ -1533,8 +1529,6 @@
 			isa = PBXGroup;
 			children = (
 				7E3E7A4420E443050075D159 /* NSAttributedString+extensions.swift */,
-				7E3E7A4720E443370075D159 /* NSMutableAttributedString+extensions.swift */,
-				7E3E7A4920E443890075D159 /* Scanner+extensions.swift */,
 				7E3E7A4B20E443AA0075D159 /* NSMutableParagraphStyle+extensions.swift */,
 				8B2F4BEC24ABCAEF0056C08A /* Decodable+Dictionary.swift */,
 				8C5734F825681A6A005E61EE /* Enum+UnknownCaseRepresentable.swift */,
@@ -2926,7 +2920,6 @@
 				40414060220F9F1F00CF7C5B /* StatsAllTimesInsight.swift in Sources */,
 				93BD277E1EE73944002BB00B /* NSDate+WordPressJSON.m in Sources */,
 				8B2F4BED24ABCAEF0056C08A /* Decodable+Dictionary.swift in Sources */,
-				7E3E7A4820E443370075D159 /* NSMutableAttributedString+extensions.swift in Sources */,
 				E194CB731FBDEF6500B0A8B8 /* PluginState.swift in Sources */,
 				404057D6221C92660060250C /* StatsTopClicksTimeIntervalData.swift in Sources */,
 				9AF4F2FC218331DC00570E4B /* PostServiceRemoteREST+Revisions.swift in Sources */,
@@ -2968,7 +2961,6 @@
 				8B2F4BEF24ACCC120056C08A /* RemoteReaderCard.swift in Sources */,
 				40E7FEB1220FB3B60032834E /* StatsAnnualAndMostPopularTimeInsight.swift in Sources */,
 				3F758FD324F6C68200BBA2FC /* AnnouncementServiceRemote.swift in Sources */,
-				7E3E7A4A20E443890075D159 /* Scanner+extensions.swift in Sources */,
 				742362E31F1025B400BD0A7F /* RemoteMenuLocation.m in Sources */,
 				FAB4F32324EC072700F259BA /* ReaderPostServiceRemote+Subscriptions.swift in Sources */,
 				82FFBF561F460DD400F4573F /* BlogJetpackSettingsServiceRemote.swift in Sources */,
