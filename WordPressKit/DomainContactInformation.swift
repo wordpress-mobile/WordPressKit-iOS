@@ -12,10 +12,30 @@ public struct ValidateDomainContactInformationResponse: Codable {
         public var firstName: [String]?
         public var lastName: [String]?
         public var state: [String]?
+        public var organization: [String]?
     }
 
     public var success: Bool = false
     public var messages: Messages?
+
+    /// Returns true if any of the properties within `messages` has a value.
+    ///
+    public var hasMessages: Bool {
+        if let messages = messages {
+            let mirror = Mirror(reflecting: messages)
+
+            for child in mirror.children {
+                let childMirror = Mirror(reflecting: child.value)
+
+                if childMirror.displayStyle == .optional,
+                   let _ = childMirror.children.first {
+                    return true
+                }
+            }
+        }
+
+        return false
+    }
 
     public init() {
     }
