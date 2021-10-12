@@ -5,6 +5,7 @@ public struct DomainSuggestion: Codable {
     public let domainName: String
     public let productID: Int?
     public let supportsPrivacy: Bool?
+    public let costString: String
 
     public var domainNameStrippingSubdomain: String {
         return domainName.components(separatedBy: ".").first ?? domainName
@@ -18,6 +19,7 @@ public struct DomainSuggestion: Codable {
         self.domainName = domain
         self.productID = json["product_id"] as? Int ?? nil
         self.supportsPrivacy = json["supports_privacy"] as? Bool ?? nil
+        self.costString = json["cost"] as? String ?? ""
     }
 }
 
