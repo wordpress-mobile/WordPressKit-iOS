@@ -13,11 +13,13 @@ class ReaderPostServiceRemoteSubscriptionTests: RemoteTestCase, RESTTestable {
     let fetchSubscriptionStatusEndpoint = "sites/0/posts/0/subscribers/mine"
     let subscribeToPostEndpoint = "sites/0/posts/0/subscribers/new"
     let unsubscribeFromPostEndpoint = "sites/0/posts/0/subscribers/mine/delete"
+    let updatePostSubscriptionEndpoint = "sites/0/posts/0/subscribers/mine/update"
 
     let fetchSubscriptionStatusSuccessMockFilename = "reader-post-comments-subscription-status-success.json"
     let subscribeToPostSuccessMockFilename = "reader-post-comments-subscribe-success.json"
     let subscribeToPostSuccessFalseMockFilename = "reader-post-comments-subscribe-failure.json"
     let unsubscribeFromPostSuccessMockFilename = "reader-post-comments-unsubscribe-success.json"
+    let updatePostSubscriptionSuccessMockFilename = "reader-post-comments-update-notification-success.json"
 
     // MARK: - Properties
 
@@ -100,5 +102,67 @@ class ReaderPostServiceRemoteSubscriptionTests: RemoteTestCase, RESTTestable {
         }
 
         waitForExpectations(timeout: timeout, handler: nil)
+    }
+
+    func test_updateNotificationSettings_givenSuccessCase_callsSuccessBlock() {
+        stubRemoteResponse(updatePostSubscriptionEndpoint,
+                           filename: updatePostSubscriptionSuccessMockFilename,
+                           contentType: .ApplicationJSON)
+
+        let receiveNotifications = true
+        let expect = expectation(description: "Update notification settings for post subscription")
+        readerPostServiceRemote.updateNotificationSettingsForPost(with: postID,
+                                                                  siteID: siteID,
+                                                                  receiveNotifications: receiveNotifications,
+                                                                  success: {
+            // the boolean result should match the receiveNotifications property passed in the params.
+            expect.fulfill()
+        },
+                                                                  failure: { error in
+            XCTFail("This callback shouldn't get called")
+            expect.fulfill()
+        })
+
+        wait(for: [expect], timeout: timeout)
+    }
+
+    func test_updateNotificationSettings_givenResponseMismatch_callsFailureBlock() {
+        stubRemoteResponse(updatePostSubscriptionEndpoint,
+                           filename: updatePostSubscriptionSuccessMockFilename,
+                           contentType: .ApplicationJSON)
+
+        // expected for the request to enter the failure block since the response data returned does not
+        // match the `false` value passed in the request parameter.
+        let expect = expectation(description: "Update notification settings for post subscription")
+        readerPostServiceRemote.updateNotificationSettingsForPost(with: postID,
+                                                                  siteID: siteID,
+                                                                  receiveNotifications: false,
+                                                                  success: {
+            XCTFail("This callback shouldn't get called")
+            expect.fulfill()
+        },
+                                                                  failure: { error in
+            expect.fulfill()
+        })
+
+        wait(for: [expect], timeout: timeout)
+    }
+
+    func test_updateNotificationSettings_givenNetworkFailure_callsFailureBlock() {
+        stubRemoteResponse(updatePostSubscriptionEndpoint, data: Data(), contentType: .NoContentType, status: 500)
+
+        let expect = expectation(description: "Update notification settings for post subscription")
+        readerPostServiceRemote.updateNotificationSettingsForPost(with: postID,
+                                                                  siteID: siteID,
+                                                                  receiveNotifications: true,
+                                                                  success: {
+            XCTFail("This callback shouldn't get called")
+            expect.fulfill()
+        },
+                                                                  failure: { error in
+            expect.fulfill()
+        })
+
+        wait(for: [expect], timeout: timeout)
     }
 }
