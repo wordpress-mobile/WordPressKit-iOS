@@ -58,6 +58,7 @@ NSString * const PostRESTKeyRailcar = @"railcar";
 NSString * const PostRESTKeyOrganizationID = @"meta.data.site.organization_id";
 NSString * const PostRESTKeyCanSubscribeComments = @"can_subscribe_comments";
 NSString * const PostRESTKeyIsSubscribedComments = @"is_subscribed_comments";
+NSString * const POSTRESTKeyReceivesCommentNotifications = @"subscribed_comments_notifications";
 
 // Tag dictionary keys
 NSString * const TagKeyPrimary = @"primaryTag";
@@ -130,6 +131,7 @@ static const NSUInteger ReaderPostTitleLength = 30;
     self.organizationID = [dict numberForKeyPath:PostRESTKeyOrganizationID] ?: @0;
     self.canSubscribeComments = [[dict numberForKey:PostRESTKeyCanSubscribeComments] boolValue];
     self.isSubscribedComments = [[dict numberForKey:PostRESTKeyIsSubscribedComments] boolValue];
+    self.receivesCommentNotifications = [[dict numberForKey:POSTRESTKeyReceivesCommentNotifications] boolValue];
 
     if ([dict numberForKey:PostRESTKeyIsSeen]) {
         self.isSeen = [[dict numberForKey:PostRESTKeyIsSeen] boolValue];
