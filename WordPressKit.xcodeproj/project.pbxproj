@@ -589,6 +589,7 @@
 		FAD1344525908F5F00A8FEB1 /* JetpackBackupServiceRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD1344425908F5F00A8FEB1 /* JetpackBackupServiceRemote.swift */; };
 		FAD1344B259094C300A8FEB1 /* JetpackBackup.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD1344A259094C300A8FEB1 /* JetpackBackup.swift */; };
 		FAD1345125909DEA00A8FEB1 /* JetpackBackupServiceRemoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD1345025909DEA00A8FEB1 /* JetpackBackupServiceRemoteTests.swift */; };
+		FEB7A88F271873BD00A8CF85 /* reader-post-comments-update-notification-success.json in Resources */ = {isa = PBXBuildFile; fileRef = FEB7A88E271873BD00A8CF85 /* reader-post-comments-update-notification-success.json */; };
 		FEFFD99126C1347D00F34231 /* ShareAppContentServiceRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEFFD99026C1347D00F34231 /* ShareAppContentServiceRemote.swift */; };
 		FEFFD99326C141A800F34231 /* RemoteShareAppContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEFFD99226C141A800F34231 /* RemoteShareAppContent.swift */; };
 		FEFFD99726C158F400F34231 /* share-app-content-success.json in Resources */ = {isa = PBXBuildFile; fileRef = FEFFD99626C158F400F34231 /* share-app-content-success.json */; };
@@ -1219,6 +1220,7 @@
 		FAD1344425908F5F00A8FEB1 /* JetpackBackupServiceRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JetpackBackupServiceRemote.swift; sourceTree = "<group>"; };
 		FAD1344A259094C300A8FEB1 /* JetpackBackup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JetpackBackup.swift; sourceTree = "<group>"; };
 		FAD1345025909DEA00A8FEB1 /* JetpackBackupServiceRemoteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JetpackBackupServiceRemoteTests.swift; sourceTree = "<group>"; };
+		FEB7A88E271873BD00A8CF85 /* reader-post-comments-update-notification-success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "reader-post-comments-update-notification-success.json"; sourceTree = "<group>"; };
 		FEFFD99026C1347D00F34231 /* ShareAppContentServiceRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareAppContentServiceRemote.swift; sourceTree = "<group>"; };
 		FEFFD99226C141A800F34231 /* RemoteShareAppContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteShareAppContent.swift; sourceTree = "<group>"; };
 		FEFFD99626C158F400F34231 /* share-app-content-success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "share-app-content-success.json"; sourceTree = "<group>"; };
@@ -2048,6 +2050,7 @@
 				FA87FE0A24EB4419003FBEE3 /* reader-post-comments-subscribe-success.json */,
 				FA87FE0824EB3FEF003FBEE3 /* reader-post-comments-subscription-status-success.json */,
 				FA87FE0C24EB4450003FBEE3 /* reader-post-comments-unsubscribe-success.json */,
+				FEB7A88E271873BD00A8CF85 /* reader-post-comments-update-notification-success.json */,
 				FACBDD4B25ECB76C0026705B /* reader-post-related-posts-success.json */,
 				8B16CE952525045F007BE5A9 /* reader-posts-success.json */,
 				FFE247C120C9D749002DF3A2 /* reader-site-search-blog-id-fallback.json */,
@@ -2721,6 +2724,7 @@
 				74D67F371F15C3740010C5ED /* site-users-delete-success.json in Resources */,
 				74D67F341F15C3740010C5ED /* site-users-delete-bad-json-failure.json in Resources */,
 				7403A2FF1EF06FEB00DED7DC /* me-settings-revert-email-success.json in Resources */,
+				FEB7A88F271873BD00A8CF85 /* reader-post-comments-update-notification-success.json in Resources */,
 				74B335E21F06F6730053A184 /* WordPressComRestApiFailRequestInvalidToken.json in Resources */,
 				74C473BB1EF328D8009918F2 /* site-export-success.json in Resources */,
 				7403A2FE1EF06FEB00DED7DC /* me-settings-change-web-address-success.json in Resources */,

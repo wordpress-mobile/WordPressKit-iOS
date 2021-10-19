@@ -53,6 +53,7 @@
 
 @property (nonatomic) BOOL canSubscribeComments;
 @property (nonatomic) BOOL isSubscribedComments;
+@property (nonatomic) BOOL receivesCommentNotifications;
 
 // Base Post Model
 @property (nonatomic, strong) NSString *author;
