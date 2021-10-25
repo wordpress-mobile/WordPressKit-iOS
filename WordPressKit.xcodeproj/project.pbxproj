@@ -566,6 +566,7 @@
 		E6D0EE621F7EF9CE0064D3FC /* AccountServiceRemoteREST+SocialService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6D0EE611F7EF9CE0064D3FC /* AccountServiceRemoteREST+SocialService.swift */; };
 		F194E1232417ED9F00874408 /* AtomicAuthenticationServiceRemoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F194E1222417ED9F00874408 /* AtomicAuthenticationServiceRemoteTests.swift */; };
 		F194E1252417EE7E00874408 /* atomic-get-auth-cookie-success.json in Resources */ = {isa = PBXBuildFile; fileRef = F194E1242417EE7E00874408 /* atomic-get-auth-cookie-success.json */; };
+		F1B7F4FC272376A8004215CD /* NSCharacterSet+URLEncode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1B7F4FB272376A8004215CD /* NSCharacterSet+URLEncode.swift */; };
 		F1BB7806240FB90B0030ADDC /* AtomicAuthenticationServiceRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1BB7805240FB90B0030ADDC /* AtomicAuthenticationServiceRemote.swift */; };
 		F9E56DF624EB11EF00916770 /* FeatureFlag.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9E56DF524EB11EF00916770 /* FeatureFlag.swift */; };
 		F9E56DF824EB125600916770 /* FeatureFlagRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9E56DF724EB125600916770 /* FeatureFlagRemote.swift */; };
@@ -1196,6 +1197,7 @@
 		EFF80A6E6EE37118CB1DA158 /* Pods_WordPressKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WordPressKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F194E1222417ED9F00874408 /* AtomicAuthenticationServiceRemoteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtomicAuthenticationServiceRemoteTests.swift; sourceTree = "<group>"; };
 		F194E1242417EE7E00874408 /* atomic-get-auth-cookie-success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "atomic-get-auth-cookie-success.json"; sourceTree = "<group>"; };
+		F1B7F4FB272376A8004215CD /* NSCharacterSet+URLEncode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSCharacterSet+URLEncode.swift"; sourceTree = "<group>"; };
 		F1BB7805240FB90B0030ADDC /* AtomicAuthenticationServiceRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtomicAuthenticationServiceRemote.swift; sourceTree = "<group>"; };
 		F9E56DF524EB11EF00916770 /* FeatureFlag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureFlag.swift; sourceTree = "<group>"; };
 		F9E56DF724EB125600916770 /* FeatureFlagRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureFlagRemote.swift; sourceTree = "<group>"; };
@@ -2196,6 +2198,7 @@
 			children = (
 				B5969E1920A49AC4005E9DF1 /* NSString+MD5.h */,
 				B5969E1A20A49AC4005E9DF1 /* NSString+MD5.m */,
+				F1B7F4FB272376A8004215CD /* NSCharacterSet+URLEncode.swift */,
 				93C674EF1EE8351E00BFAF05 /* NSMutableDictionary+Helpers.h */,
 				93C674F01EE8351E00BFAF05 /* NSMutableDictionary+Helpers.m */,
 				9F4E51FF2088E38200424676 /* ObjectValidation.swift */,
@@ -2948,6 +2951,7 @@
 				FAB4F32324EC072700F259BA /* ReaderPostServiceRemote+Subscriptions.swift in Sources */,
 				82FFBF561F460DD400F4573F /* BlogJetpackSettingsServiceRemote.swift in Sources */,
 				3297E15625645C7D00287D21 /* JetpackCredentials.swift in Sources */,
+				F1B7F4FC272376A8004215CD /* NSCharacterSet+URLEncode.swift in Sources */,
 				404057C9221B789B0060250C /* StatsTopAuthorsTimeIntervalData.swift in Sources */,
 				FEFFD99326C141A800F34231 /* RemoteShareAppContent.swift in Sources */,
 				74BA04F61F06DC0A00ED5CD8 /* CommentServiceRemoteXMLRPC.m in Sources */,

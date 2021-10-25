@@ -126,7 +126,9 @@ MagicLinkFlow const MagicLinkFlowSignup = @"signup";
 
 - (void)isPasswordlessAccount:(NSString *)identifier success:(void (^)(BOOL passwordless))success failure:(void (^)(NSError *error))failure
 {
-    NSString *path = [self pathForEndpoint:[NSString stringWithFormat:@"users/%@/auth-options", identifier]
+    NSString *encodedIdentifier = [identifier stringByAddingPercentEncodingWithAllowedCharacters:NSCharacterSet.URLPathRFC3986AllowedCharacterSet];
+
+    NSString *path = [self pathForEndpoint:[NSString stringWithFormat:@"users/%@/auth-options", encodedIdentifier]
                                withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
     [self.wordPressComRestApi GET:path
                        parameters:nil
