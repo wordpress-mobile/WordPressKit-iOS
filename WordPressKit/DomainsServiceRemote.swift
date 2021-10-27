@@ -1,6 +1,24 @@
 import Foundation
 import CocoaLumberjack
 
+/// Allows the construction of a request for domain suggestions.
+///
+public struct DomainSuggestionRequest {
+    public typealias DomainSuggestionType = DomainsServiceRemote.DomainSuggestionType
+
+    public let query: String
+    public let segmentID: Int64?
+    public let quantity: Int?
+    public let suggestionType: DomainSuggestionType?
+
+    public init(query: String, segmentID: Int64? = nil, quantity: Int? = nil, suggestionType: DomainSuggestionType? = nil) {
+        self.query = query
+        self.segmentID = segmentID
+        self.quantity = quantity
+        self.suggestionType = suggestionType
+    }
+}
+
 public struct DomainSuggestion: Codable {
     public let domainName: String
     public let productID: Int?
@@ -9,6 +27,13 @@ public struct DomainSuggestion: Codable {
 
     public var domainNameStrippingSubdomain: String {
         return domainName.components(separatedBy: ".").first ?? domainName
+    }
+
+    public init(domainName: String, productID: Int?, supportsPrivacy: Bool?, costString: String) {
+        self.domainName = domainName
+        self.productID = productID
+        self.supportsPrivacy = supportsPrivacy
+        self.costString = costString
     }
 
     public init(json: [String: AnyObject]) throws {
@@ -20,20 +45,6 @@ public struct DomainSuggestion: Codable {
         self.productID = json["product_id"] as? Int ?? nil
         self.supportsPrivacy = json["supports_privacy"] as? Bool ?? nil
         self.costString = json["cost"] as? String ?? ""
-    }
-}
-
-/// Allows the construction of a request for domain suggestions.
-///
-public struct DomainSuggestionRequest: Encodable {
-    public let query: String
-    public let segmentID: Int64
-    public let quantity: Int?
-
-    public init(query: String, segmentID: Int64, quantity: Int?) {
-        self.query = query
-        self.segmentID = segmentID
-        self.quantity = quantity
     }
 }
 
@@ -185,41 +196,18 @@ public class DomainsServiceRemote: ServiceRemoteWordPressComREST {
         let endPoint = "domains/suggestions"
         let servicePath = path(forEndpoint: endPoint, withVersion: ._1_1)
         var parameters: [String: AnyObject] = [
-            "segment_id": request.segmentID as AnyObject,
             "query": request.query as AnyObject
         ]
 
-        if let quantity = request.quantity {
-            parameters["quantity"] = quantity as AnyObject
+        if let suggestionType = request.suggestionType {
+            parameters.merge(suggestionType.parameters(), uniquingKeysWith: { $1 })
         }
 
-        wordPressComRestApi.GET(servicePath,
-                                parameters: parameters,
-                                success: {
-                                    response, _ in
-                                    do {
-                                        let suggestions = try map(suggestions: response)
-                                        success(suggestions)
-                                    } catch {
-                                        DDLogError("Error parsing domains response (\(error)): \(response)")
-                                        failure(error)
-                                    }
-        }, failure: {
-            error, _ in
-            failure(error)
-        })
-    }
+        if let segmentID = request.segmentID {
+            parameters["segment_id"] = segmentID as AnyObject
+        }
 
-    public func getDomainSuggestions(base query: String,
-                                     quantity: Int? = nil,
-                                     domainSuggestionType: DomainSuggestionType = .onlyWordPressDotCom,
-                                     success: @escaping ([DomainSuggestion]) -> Void,
-                                     failure: @escaping (Error) -> Void) {
-        let endPoint = "domains/suggestions"
-        let servicePath = path(forEndpoint: endPoint, withVersion: ._1_1)
-        var parameters: [String: AnyObject] = domainSuggestionType.parameters()
-        parameters["query"] = query as AnyObject
-        if let quantity = quantity {
+        if let quantity = request.quantity {
             parameters["quantity"] = quantity as AnyObject
         }
 
