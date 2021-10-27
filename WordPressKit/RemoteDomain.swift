@@ -25,12 +25,29 @@ public struct RemoteDomain {
     public let isPrimaryDomain: Bool
     public let domainType: DomainType
 
+    // Renewals / Expiry
+    public let autoRenewing: Bool
+    public let autoRenewalDate: String
+    public let expirySoon: Bool
+    public let expired: Bool
+    public let expiryDate: String
+
     public init(domainName: String,
                 isPrimaryDomain: Bool,
-                domainType: DomainType) {
+                domainType: DomainType,
+                autoRenewing: Bool? = nil,
+                autoRenewalDate: String? = nil,
+                expirySoon: Bool? = nil,
+                expired: Bool? = nil,
+                expiryDate: String? = nil) {
         self.domainName = domainName
         self.isPrimaryDomain = isPrimaryDomain
         self.domainType = domainType
+        self.autoRenewing = autoRenewing ?? false
+        self.autoRenewalDate = autoRenewalDate ?? ""
+        self.expirySoon = expirySoon ?? false
+        self.expired = expired ?? false
+        self.expiryDate = expiryDate ?? ""
     }
 }
 

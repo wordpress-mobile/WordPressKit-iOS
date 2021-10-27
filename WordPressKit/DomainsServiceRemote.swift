@@ -269,7 +269,20 @@ private func mapDomainsResponse(_ response: AnyObject) throws -> [RemoteDomain] 
                 throw DomainsServiceRemote.ResponseError.decodingFailed
         }
 
-        return RemoteDomain(domainName: domainName, isPrimaryDomain: isPrimary, domainType: domainTypeFromDomainJSON(domainJson))
+        let autoRenewing = domainJson["auto_renewing"] as? Bool
+        let autoRenewalDate = domainJson["auto_renewal_date"] as? String
+        let expirySoon = domainJson["expiry_soon"] as? Bool
+        let expired = domainJson["expired"] as? Bool
+        let expiryDate = domainJson["expiry"] as? String
+
+        return RemoteDomain(domainName: domainName,
+                            isPrimaryDomain: isPrimary,
+                            domainType: domainTypeFromDomainJSON(domainJson),
+                            autoRenewing: autoRenewing,
+                            autoRenewalDate: autoRenewalDate,
+                            expirySoon: expirySoon,
+                            expired: expired,
+                            expiryDate: expiryDate)
     }
 
     return domains
