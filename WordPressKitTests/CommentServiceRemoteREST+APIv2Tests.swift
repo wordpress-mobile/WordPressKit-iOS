@@ -147,9 +147,3 @@ final class CommentServiceRemoteREST_APIv2Tests: RemoteTestCase, RESTTestable {
         wait(for: [expect], timeout: timeout)
     }
 }
-
-private extension CommentServiceRemoteREST_APIv2Tests {
-
-    
-
-}
