@@ -31,7 +31,7 @@ extension RemoteCommentV2: Decodable {
         case authorURL = "author_url"
         case authorIP = "author_ip"
         case authorUserAgent = "author_user_agent"
-        case date = "date_gmt"
+        case date = "date_gmt" // take the gmt version, as the other `date` parameter doesn't provide timezone information.
         case content
         case authorAvatarURLs = "author_avatar_urls"
         case link
@@ -39,13 +39,13 @@ extension RemoteCommentV2: Decodable {
         case type
     }
 
-    enum ContentKeys: String, CodingKey {
+    enum ContentCodingKeys: String, CodingKey {
         case rendered
         case raw
     }
 
-    enum AuthorAvatarKeys: String, CodingKey {
-        case size96 = "96"
+    enum AuthorAvatarCodingKeys: String, CodingKey {
+        case size96 = "96" // this is the default size for avatar URL in API v1.1.
     }
 
     public init(from decoder: Decoder) throws {
@@ -69,14 +69,14 @@ extension RemoteCommentV2: Decodable {
         }
         self.date = date
 
-        let contentContainer = try container.nestedContainer(keyedBy: ContentKeys.self, forKey: .content)
+        let contentContainer = try container.nestedContainer(keyedBy: ContentCodingKeys.self, forKey: .content)
         self.rawContent = try contentContainer.decodeIfPresent(String.self, forKey: .raw)
         self.content = try contentContainer.decode(String.self, forKey: .rendered)
 
         let remoteStatus = try container.decode(String.self, forKey: .status)
         self.status = Self.status(from: remoteStatus)
 
-        let avatarContainer = try container.nestedContainer(keyedBy: AuthorAvatarKeys.self, forKey: .authorAvatarURLs)
+        let avatarContainer = try container.nestedContainer(keyedBy: AuthorAvatarCodingKeys.self, forKey: .authorAvatarURLs)
         self.authorAvatarURL = try avatarContainer.decode(String.self, forKey: .size96)
     }
 
