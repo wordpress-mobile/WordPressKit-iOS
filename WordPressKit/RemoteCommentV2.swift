@@ -21,7 +21,6 @@ public struct RemoteCommentV2 {
 // MARK: - Decodable
 
 extension RemoteCommentV2: Decodable {
-
     enum CodingKeys: String, CodingKey {
         case id
         case post
@@ -61,28 +60,27 @@ extension RemoteCommentV2: Decodable {
         self.authorURL = try container.decode(String.self, forKey: .authorURL)
         self.authorIP = try container.decodeIfPresent(String.self, forKey: .authorIP)
         self.authorUserAgent = try container.decodeIfPresent(String.self, forKey: .authorUserAgent)
+        self.link = try container.decode(String.self, forKey: .link)
+        self.type = try container.decode(String.self, forKey: .type)
 
         guard let dateString = try? container.decode(String.self, forKey: .date),
            let date = NSDate(wordPressComJSONString: dateString) as Date? else {
             throw DecodingError.dataCorruptedError(forKey: .date, in: container, debugDescription: "Date parsing failed")
         }
-
         self.date = date
 
         let contentContainer = try container.nestedContainer(keyedBy: ContentKeys.self, forKey: .content)
         self.rawContent = try contentContainer.decodeIfPresent(String.self, forKey: .raw)
         self.content = try contentContainer.decode(String.self, forKey: .rendered)
 
-        self.link = try container.decode(String.self, forKey: .link)
-
         let remoteStatus = try container.decode(String.self, forKey: .status)
         self.status = Self.status(from: remoteStatus)
-        self.type = try container.decode(String.self, forKey: .type)
 
         let avatarContainer = try container.nestedContainer(keyedBy: AuthorAvatarKeys.self, forKey: .authorAvatarURLs)
         self.authorAvatarURL = try avatarContainer.decode(String.self, forKey: .size96)
     }
 
+    /// Maintain parity with the client-side comment statuses. Refer to `CommentServiceRemoteREST:statusWithRemoteStatus`.
     private static func status(from remoteStatus: String) -> String {
         switch remoteStatus {
         case "unapproved":
