@@ -16,13 +16,13 @@
  @param postID The ID of the post.
  @param page The page number to fetch.
  @param number The number to fetch per page.
- @param success block called on a successful fetch.
+ @param success block called on a successful fetch. Returns the comments array and total comments count.
  @param failure block called if there is any error. `error` can be any underlying network error.
  */
 - (void)syncHierarchicalCommentsForPost:(NSNumber * _Nonnull)postID
                                    page:(NSUInteger)page
                                  number:(NSUInteger)number
-                                success:(void (^ _Nullable)(NSArray * _Nullable comments))success
+                                success:(void (^ _Nullable)(NSArray * _Nullable comments, NSNumber * _Nonnull found))success
                                 failure:(void (^ _Nullable)(NSError * _Nullable error))failure;
 
 /**
