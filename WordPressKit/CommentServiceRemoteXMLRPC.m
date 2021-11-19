@@ -9,7 +9,7 @@
 @implementation CommentServiceRemoteXMLRPC
 
 - (void)getCommentsWithMaximumCount:(NSInteger)maximumComments
-                            success:(void (^)(NSArray *comments))success
+                            success:(void (^)(NSArray *comments, NSNumber *found))success
                             failure:(void (^)(NSError *error))failure
 {
     [self getCommentsWithMaximumCount:maximumComments options:nil success:success failure:failure];
@@ -17,7 +17,7 @@
 
 - (void)getCommentsWithMaximumCount:(NSInteger)maximumComments
                             options:(NSDictionary *)options
-                            success:(void (^)(NSArray *posts))success
+                            success:(void (^)(NSArray *comments, NSNumber *found))success
                             failure:(void (^)(NSError *error))failure
 {
     NSMutableDictionary *extraParameters = [@{ @"number": @(maximumComments) } mutableCopy];
@@ -31,13 +31,12 @@
     extraParameters[@"status"] = [self parameterForCommentStatus:statusFilter];
 
     NSArray *parameters = [self XMLRPCArgumentsWithExtra:extraParameters];
-    
     [self.api callMethod:@"wp.getComments"
               parameters:parameters
                  success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
                      NSAssert([responseObject isKindOfClass:[NSArray class]], @"Response should be an array.");
                      if (success) {
-                         success([self remoteCommentsFromXMLRPCArray:responseObject]);
+                         success([self remoteCommentsFromXMLRPCArray:responseObject], nil);
                      }
                  } failure:^(NSError *error, NSHTTPURLResponse *httpResponse) {
                      if (failure) {

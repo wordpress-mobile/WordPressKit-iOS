@@ -13,7 +13,7 @@
 #pragma mark - Blog-centric methods
 
 - (void)getCommentsWithMaximumCount:(NSInteger)maximumComments
-                            success:(void (^)(NSArray *comments))success
+                            success:(void (^)(NSArray *comments, NSNumber *found))success
                             failure:(void (^)(NSError *error))failure
 {
     [self getCommentsWithMaximumCount:maximumComments options:nil success:success failure:failure];
@@ -21,7 +21,7 @@
 
 - (void)getCommentsWithMaximumCount:(NSInteger)maximumComments
                             options:(NSDictionary *)options
-                            success:(void (^)(NSArray *posts))success
+                            success:(void (^)(NSArray *comments, NSNumber *found))success
                             failure:(void (^)(NSError *error))failure
 {
     NSString *path = [NSString stringWithFormat:@"sites/%@/comments", self.siteID];
@@ -29,9 +29,9 @@
                                      withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
     
     NSMutableDictionary *parameters = [NSMutableDictionary dictionaryWithDictionary:@{
-                                 @"force": @"wpcom", // Force fetching data from shadow site on Jetpack sites
-                                 @"number": @(maximumComments)
-                                 }];
+        @"force": @"wpcom", // Force fetching data from shadow site on Jetpack sites
+        @"number": @(maximumComments)
+    }];
 
     if (options) {
         [parameters addEntriesFromDictionary:options];
@@ -44,15 +44,16 @@
     [self.wordPressComRestApi GET:requestUrl
                        parameters:parameters
                           success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
-                              if (success) {
-                                  success([self remoteCommentsFromJSONArray:responseObject[@"comments"]]);
-                              }
-                          } failure:^(NSError *error, NSHTTPURLResponse *httpResponse) {
-                              if (failure) {
-                                  failure(error);
-                              }
-                          }];
-
+        if (success) {
+            NSArray *comments = [self remoteCommentsFromJSONArray:responseObject[@"comments"]];
+            NSNumber *found = [responseObject numberForKey:@"found"];
+            success(comments, found);
+        }
+    } failure:^(NSError *error, NSHTTPURLResponse *httpResponse) {
+        if (failure) {
+            failure(error);
+        }
+    }];
 }
 
 - (NSString *)parameterForCommentStatus:(NSNumber *)status

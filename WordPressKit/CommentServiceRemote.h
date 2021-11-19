@@ -18,7 +18,7 @@ typedef enum {
  Loads all of the comments associated with a blog
  */
 - (void)getCommentsWithMaximumCount:(NSInteger)maximumComments
-                            success:(void (^)(NSArray *comments))success
+                            success:(void (^)(NSArray *comments, NSNumber *found))success
                             failure:(void (^)(NSError *error))failure;
 
 
@@ -28,7 +28,7 @@ typedef enum {
  */
 - (void)getCommentsWithMaximumCount:(NSInteger)maximumComments
                             options:(NSDictionary *)options
-                            success:(void (^)(NSArray *posts))success
+                            success:(void (^)(NSArray *comments, NSNumber *found))success
                             failure:(void (^)(NSError *error))failure;
 
 /**
