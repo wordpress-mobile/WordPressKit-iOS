@@ -32,7 +32,7 @@ final class CommentServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
                            contentType: .ApplicationJSON)
 
         remote.getCommentsWithMaximumCount(1,
-                                           success: { comments in
+                                           success: { comments, totalComments in
 
             guard let comment = comments?.first as? RemoteComment else {
                 XCTFail("Failed to retrieve mock site comment")
