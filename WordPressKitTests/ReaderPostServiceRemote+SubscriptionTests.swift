@@ -118,7 +118,7 @@ class ReaderPostServiceRemoteSubscriptionTests: RemoteTestCase, RESTTestable {
             // the boolean result should match the receiveNotifications property passed in the params.
             expect.fulfill()
         },
-                                                                  failure: { error in
+                                                                  failure: { _ in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         })
@@ -141,7 +141,7 @@ class ReaderPostServiceRemoteSubscriptionTests: RemoteTestCase, RESTTestable {
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         },
-                                                                  failure: { error in
+                                                                  failure: { _ in
             expect.fulfill()
         })
 
@@ -159,7 +159,7 @@ class ReaderPostServiceRemoteSubscriptionTests: RemoteTestCase, RESTTestable {
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         },
-                                                                  failure: { error in
+                                                                  failure: { _ in
             expect.fulfill()
         })
 

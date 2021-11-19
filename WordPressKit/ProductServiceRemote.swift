@@ -43,7 +43,7 @@ open class ProductServiceRemote {
 
         serviceRemote.wordPressComRestApi.GET(
             path,
-            parameters: [:]) { result, response in
+            parameters: [:]) { result, _ in
 
             switch result {
             case .success(let responseProducts):
