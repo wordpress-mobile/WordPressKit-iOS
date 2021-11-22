@@ -194,7 +194,7 @@
 - (void)syncHierarchicalCommentsForPost:(NSNumber *)postID
                                    page:(NSUInteger)page
                                  number:(NSUInteger)number
-                                success:(void (^)(NSArray *comments))success
+                                success:(void (^)(NSArray *comments, NSNumber *found))success
                                 failure:(void (^)(NSError *error))failure
 {
     NSString *path = [NSString stringWithFormat:@"sites/%@/posts/%@/replies?order=ASC&hierarchical=1&page=%lu&number=%lu", self.siteID, postID, (unsigned long)page, (unsigned long)number];
@@ -210,7 +210,8 @@
         if (success) {
             NSDictionary *dict = (NSDictionary *)responseObject;
             NSArray *comments = [self remoteCommentsFromJSONArray:[dict arrayForKey:@"comments"]];
-            success(comments);
+            NSNumber *found = [responseObject numberForKey:@"found"] ?: @0;
+            success(comments, found);
         }
     } failure:^(NSError *error, NSHTTPURLResponse *httpResponse) {
         if (failure) {
