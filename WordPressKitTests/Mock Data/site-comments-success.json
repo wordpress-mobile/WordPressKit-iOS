@@ -11,7 +11,7 @@
 				"link": "post URL"
 			},
 			"author": {
-				"ID": 0,
+				"ID": 12345,
 				"login": "",
 				"email": "author@email.com",
 				"name": "Comment Author",

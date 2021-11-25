@@ -2,6 +2,7 @@
 
 @interface RemoteComment : NSObject
 @property (nonatomic, strong) NSNumber *commentID;
+@property (nonatomic, strong) NSNumber *authorID;
 @property (nonatomic, strong) NSString *author;
 @property (nonatomic, strong) NSString *authorEmail;
 @property (nonatomic, strong) NSString *authorUrl;

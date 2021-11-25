@@ -39,6 +39,7 @@ final class CommentServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
                 return
             }
 
+            XCTAssertEqual(comment.authorID, NSNumber(value: 12345))
             XCTAssertEqual(comment.author, "Comment Author")
             XCTAssertEqual(comment.authorEmail, "author@email.com")
             XCTAssertEqual(comment.authorUrl, "author URL")

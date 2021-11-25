@@ -451,6 +451,7 @@
 {
     RemoteComment *comment = [RemoteComment new];
 
+    comment.authorID = [jsonDictionary numberForKeyPath:@"author.ID"];
     comment.author = jsonDictionary[@"author"][@"name"];
     // Email might be `false`, turn into `nil`
     comment.authorEmail = [jsonDictionary[@"author"] stringForKey:@"email"];
