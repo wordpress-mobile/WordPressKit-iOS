@@ -92,6 +92,7 @@ static const NSUInteger ReaderPostTitleLength = 30;
     NSDictionary *authorDict = [dict dictionaryForKey:PostRESTKeyAuthor];
     NSDictionary *discussionDict = [dict dictionaryForKey:PostRESTKeyDiscussion] ?: dict;
 
+    self.authorID = [authorDict numberForKey:PostRESTKeyID];
     self.author = [self stringOrEmptyString:[authorDict stringForKey:PostRESTKeyNiceName]]; // typically the author's screen name
     self.authorAvatarURL = [self stringOrEmptyString:[authorDict stringForKey:PostRESTKeyAvatarURL]];
     self.authorDisplayName = [[self stringOrEmptyString:[authorDict stringForKey:PostRESTKeyName]] stringByDecodingXMLCharacters]; // Typically the author's given name

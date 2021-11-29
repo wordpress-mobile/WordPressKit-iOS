@@ -56,6 +56,7 @@
 @property (nonatomic) BOOL receivesCommentNotifications;
 
 // Base Post Model
+@property (nonatomic, strong) NSNumber *authorID;
 @property (nonatomic, strong) NSString *author;
 @property (nonatomic, strong) NSString *content;
 @property (nonatomic, strong) NSString *date_created_gmt;
