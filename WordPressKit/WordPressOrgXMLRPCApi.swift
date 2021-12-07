@@ -274,7 +274,12 @@ open class WordPressOrgXMLRPCApi: NSObject {
         }
 
         if (400..<600).contains(httpResponse.statusCode) {
-            throw convertError(WordPressOrgXMLRPCApiError.httpErrorStatusCode as NSError, data: originalData, statusCode: httpResponse.statusCode)
+            if let decoder = WPXMLRPCDecoder(data: data), decoder.isFault(), let decoderError = decoder.error() {
+                // sometimes a decodable fault is provided for non-200 HTTP responses, against the XML-RPC spec
+                throw decoderError
+            } else {
+                throw convertError(WordPressOrgXMLRPCApiError.httpErrorStatusCode as NSError, data: originalData, statusCode: httpResponse.statusCode)
+            }
         }
 
         if ["application/xml", "text/xml"].filter({ (type) -> Bool in return contentType.hasPrefix(type)}).count == 0 {
@@ -308,7 +313,7 @@ open class WordPressOrgXMLRPCApi: NSObject {
             userInfo[type(of: self).WordPressOrgXMLRPCApiErrorKeyStatusCode] = statusCode
 
             if let statusCode = statusCode, (400..<600).contains(statusCode) {
-                let formatString = NSLocalizedString("An HTTP error code %i was returned from the site.", comment: "An error status code returned from a HTTP server")
+                let formatString = NSLocalizedString("An HTTP error code %i was returned from the site.", comment: "An error status code returned from an HTTP server")
                 userInfo[NSLocalizedDescriptionKey] = String(format: formatString, statusCode)
             } else {
                 userInfo[NSLocalizedDescriptionKey] = error.localizedDescription
@@ -383,7 +388,7 @@ extension WordPressOrgXMLRPCApi {
     }
 }
 
-/// Error constants for the WordPress XMLRPC API
+/// Error constants for the WordPress XML-RPC API
 @objc public enum WordPressOrgXMLRPCApiError: Int, Error {
     /// An error HTTP status code was returned.
     case httpErrorStatusCode
