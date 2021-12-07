@@ -306,6 +306,14 @@ open class WordPressOrgXMLRPCApi: NSObject {
             userInfo[type(of: self).WordPressOrgXMLRPCApiErrorKeyData] = data
             userInfo[type(of: self).WordPressOrgXMLRPCApiErrorKeyDataString] = NSString(data: data, encoding: String.Encoding.utf8.rawValue)
             userInfo[type(of: self).WordPressOrgXMLRPCApiErrorKeyStatusCode] = statusCode
+
+            if let statusCode = statusCode, (400..<600).contains(statusCode) {
+                let formatString = NSLocalizedString("An HTTP error code %i was returned from the site.", comment: "An error status code returned from a HTTP server")
+                userInfo[NSLocalizedDescriptionKey] = String(format: formatString, statusCode)
+            } else {
+                userInfo[NSLocalizedDescriptionKey] = error.localizedDescription
+            }
+
             return NSError(domain: error.domain, code: responseCode, userInfo: userInfo as? [String: Any])
         }
         return error
@@ -376,13 +384,28 @@ extension WordPressOrgXMLRPCApi {
 }
 
 /// Error constants for the WordPress XMLRPC API
-///     - RequestSerializationFailed:     The serialization of the request failed
-///     - ResponseSerializationFailed:     The serialization of the response failed
-///     - Unknown:                        Unknow error happen
-///
 @objc public enum WordPressOrgXMLRPCApiError: Int, Error {
+    /// An error HTTP status code was returned.
     case httpErrorStatusCode
+    /// The serialization of the request failed.
     case requestSerializationFailed
+    /// The serialization of the response failed.
     case responseSerializationFailed
+    /// An unknown error occurred.
     case unknown
+}
+
+extension WordPressOrgXMLRPCApiError: LocalizedError {
+    public var errorDescription: String? {
+        switch self {
+        case .httpErrorStatusCode:
+            return NSLocalizedString("An HTTP error code was returned from the site.", comment: "Description of an error where an error HTTP status code was returned from a site")
+        case .requestSerializationFailed:
+            return NSLocalizedString("The serialization of the request failed.", comment: "Description of an error where a request couldn't be serialized")
+        case .responseSerializationFailed:
+            return NSLocalizedString("The serialization of the response failed.", comment: "Description of an error where a response couldn't be serialized")
+        case .unknown:
+            return NSLocalizedString("An unknown error occurred.", comment: "Description of an unknown error")
+        }
+    }
 }
