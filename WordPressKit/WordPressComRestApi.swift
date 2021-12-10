@@ -468,7 +468,7 @@ open class WordPressComRestApi: NSObject {
      - returns: a `Decodable` object of the `Type` given
      */
     @available(iOS 15.0.0, *)
-    public func get<T:Decodable>(_ urlString: String, ofType: T.Type) async throws -> T {
+    public func get<T: Decodable>(_ urlString: String, ofType: T.Type) async throws -> T {
         let (data, _) = try await get(urlString)
         let object = try JSONDecoder().decode(T.self, from: data)
         return object
@@ -511,7 +511,7 @@ open class WordPressComRestApi: NSObject {
      - returns: a `Decodable` object of the `Type` given
      */
     @available(iOS 15.0.0, *)
-    public func post<T:Decodable>(_ urlString: String, parameters: [String: Any]? = nil, ofType: T.Type) async throws -> T {
+    public func post<T: Decodable>(_ urlString: String, parameters: [String: Any]? = nil, ofType: T.Type) async throws -> T {
         let (data, _) = try await post(urlString, parameters: parameters)
         let object = try JSONDecoder().decode(T.self, from: data)
         return object
