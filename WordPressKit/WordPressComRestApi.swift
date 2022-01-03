@@ -425,7 +425,7 @@ open class WordPressComRestApi: NSObject {
 
     // MARK: - Async
 
-    private lazy var urlSession: URLSession! = {
+    private lazy var urlSession: URLSession = {
         let configuration = URLSessionConfiguration.default
 
         var additionalHeaders: [String: AnyObject] = [:]
