@@ -430,10 +430,10 @@ open class WordPressComRestApi: NSObject {
 
         var additionalHeaders: [String: AnyObject] = [:]
         if let oAuthToken = self.oAuthToken {
-            additionalHeaders["Authorization"] = "Bearer \(oAuthToken)" as AnyObject?
+            additionalHeaders["Authorization"] = "Bearer \(oAuthToken)" as AnyObject
         }
         if let userAgent = self.userAgent {
-            additionalHeaders["User-Agent"] = userAgent as AnyObject?
+            additionalHeaders["User-Agent"] = userAgent as AnyObject
         }
 
         configuration.httpAdditionalHeaders = additionalHeaders
