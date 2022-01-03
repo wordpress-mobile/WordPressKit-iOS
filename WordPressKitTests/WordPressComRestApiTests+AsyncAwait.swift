@@ -51,7 +51,7 @@ class WordPressComRestApiAsyncAwaitTests: XCTestCase {
         }
 
         let api = WordPressComRestApi(oAuthToken: "fakeToken")
-        let anyModel = try await api.get(url, ofType: AnyModel.self)
+        let anyModel: AnyModel = try await api.get(url)
 
         XCTAssertEqual(anyModel.number, 123)
     }
@@ -63,7 +63,7 @@ class WordPressComRestApiAsyncAwaitTests: XCTestCase {
 
         do {
             let api = WordPressComRestApi(oAuthToken: "fakeToken")
-            let _ = try await api.get(url, ofType: AnyModel.self)
+            let _: AnyModel = try await api.get(url)
         } catch {
             XCTAssertNotNil((error as? DecodingError))
         }
@@ -82,7 +82,7 @@ class WordPressComRestApiAsyncAwaitTests: XCTestCase {
         }
 
         let api = WordPressComRestApi(oAuthToken: "fakeToken")
-        let anyModel = try await api.post(url, parameters: ["foo": "bar"], ofType: AnyModel.self)
+        let anyModel: AnyModel = try await api.post(url, parameters: ["foo": "bar"])
 
         XCTAssertEqual(anyModel.number, 123)
     }
