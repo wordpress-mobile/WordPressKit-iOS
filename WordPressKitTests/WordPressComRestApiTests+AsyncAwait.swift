@@ -34,7 +34,7 @@ class WordPressComRestApiAsyncAwaitTests: XCTestCase {
 
         do {
             let api = WordPressComRestApi(oAuthToken: "fakeToken")
-            let (_, _) = try await api.get(url)
+            _ = try await api.get(url)
             XCTFail("Expected to throw while awaiting, but succeeded")
         } catch {
             XCTAssertEqual(error.localizedDescription, "The operation couldn’t be completed. (NSURLErrorDomain error -1011.)")
