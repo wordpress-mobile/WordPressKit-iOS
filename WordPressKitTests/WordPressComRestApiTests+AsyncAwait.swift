@@ -69,7 +69,7 @@ class WordPressComRestApiAsyncAwaitTests: XCTestCase {
         }
     }
 
-    func testSuccessfullGetCodableCalssl() async throws {
+    func testSuccessfullPostCodableCall() async throws {
         stub(condition: isMethodPOST()) { request in
             let bodyString = String(data: request.ohhttpStubs_httpBody ?? Data(),
                                     encoding: String.Encoding.utf8)
