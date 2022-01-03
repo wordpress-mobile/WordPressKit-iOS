@@ -9,12 +9,7 @@ class WordPressComRestApiAsyncAwaitTests: XCTestCase {
 
     private let url = "https://public-api.wordpress.com/rest/v1.1/sites/0/media/"
 
-    override func setUp() {
-        super.setUp()
-    }
-
     override func tearDown() {
-        super.tearDown()
         HTTPStubs.removeAllStubs()
     }
 
