@@ -311,12 +311,13 @@ open class WordPressOrgXMLRPCApi: NSObject {
             userInfo[type(of: self).WordPressOrgXMLRPCApiErrorKeyData] = data
             userInfo[type(of: self).WordPressOrgXMLRPCApiErrorKeyDataString] = NSString(data: data, encoding: String.Encoding.utf8.rawValue)
             userInfo[type(of: self).WordPressOrgXMLRPCApiErrorKeyStatusCode] = statusCode
+            userInfo[NSLocalizedFailureErrorKey] = error.localizedDescription
 
             if let statusCode = statusCode, (400..<600).contains(statusCode) {
-                let formatString = NSLocalizedString("An HTTP error code %i was returned from the site.", comment: "An error status code returned from an HTTP server")
-                userInfo[NSLocalizedDescriptionKey] = String(format: formatString, statusCode)
+                let formatString = NSLocalizedString("An HTTP error code %i was returned.", comment: "Description of a specific error status code returned from an HTTP server")
+                userInfo[NSLocalizedFailureReasonErrorKey] = String(format: formatString, statusCode)
             } else {
-                userInfo[NSLocalizedDescriptionKey] = error.localizedDescription
+                userInfo[NSLocalizedFailureReasonErrorKey] = error.localizedFailureReason
             }
 
             return NSError(domain: error.domain, code: responseCode, userInfo: userInfo as? [String: Any])
@@ -402,9 +403,13 @@ extension WordPressOrgXMLRPCApi {
 
 extension WordPressOrgXMLRPCApiError: LocalizedError {
     public var errorDescription: String? {
+        return "There was a problem communicating with the site."
+    }
+
+    public var failureReason: String? {
         switch self {
         case .httpErrorStatusCode:
-            return NSLocalizedString("An HTTP error code was returned from the site.", comment: "Description of an error where an error HTTP status code was returned from a site")
+            return NSLocalizedString("An HTTP error code was returned.", comment: "Description of an error where an error HTTP status code was returned from a site")
         case .requestSerializationFailed:
             return NSLocalizedString("The serialization of the request failed.", comment: "Description of an error where a request couldn't be serialized")
         case .responseSerializationFailed:
