@@ -275,7 +275,8 @@ open class WordPressOrgXMLRPCApi: NSObject {
 
         if (400..<600).contains(httpResponse.statusCode) {
             if let decoder = WPXMLRPCDecoder(data: data), decoder.isFault(), let decoderError = decoder.error() {
-                // sometimes a decodable fault is provided for non-200 HTTP responses, against the XML-RPC spec
+                // when XML-RPC is disabled for authenticated calls (e.g. xmlrpc_enabled is false on WP.org),
+                // it will return a valid fault payload with a non-200
                 throw decoderError
             } else {
                 throw convertError(WordPressOrgXMLRPCApiError.httpErrorStatusCode as NSError, data: originalData, statusCode: httpResponse.statusCode)
