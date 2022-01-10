@@ -13,7 +13,11 @@ steps:
   #################
   - label: "🧪 Build and Test"
     key: "test"
-    command: build_and_test_pod
+    command: |
+      # See https://github.com/Automattic/bash-cache-buildkite-plugin/issues/16
+      gem install bundler:2.3.4
+
+      build_and_test_pod
     env: *common_env
     plugins: *common_plugins
 
@@ -22,7 +26,11 @@ steps:
   #################
   - label: "🔬 Validate Podspec"
     key: "validate"
-    command: "validate_podspec"
+    command: |
+      # See https://github.com/Automattic/bash-cache-buildkite-plugin/issues/16
+      gem install bundler:2.3.4
+
+      validate_podspec
     env: *common_env
     plugins: *common_plugins
 
@@ -31,7 +39,11 @@ steps:
   #################
   - label: "🧹 Lint"
     key: "lint"
-    command: "lint_pod"
+    command: |
+      # See https://github.com/Automattic/bash-cache-buildkite-plugin/issues/16
+      gem install bundler:2.3.4
+
+      lint_pod
     env: *common_env
     plugins: *common_plugins
 
