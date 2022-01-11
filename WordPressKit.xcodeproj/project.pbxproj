@@ -359,6 +359,7 @@
 		8B749E8225AF7DDA00023F03 /* JetpackCapabilitiesServiceRemoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B749E8125AF7DDA00023F03 /* JetpackCapabilitiesServiceRemoteTests.swift */; };
 		8B749E8625AF808600023F03 /* jetpack-capabilities-107159616-success.json in Resources */ = {isa = PBXBuildFile; fileRef = 8B749E8525AF808600023F03 /* jetpack-capabilities-107159616-success.json */; };
 		8B749E8A25AF819700023F03 /* jetpack-capabilities-malformed.json in Resources */ = {isa = PBXBuildFile; fileRef = 8B749E8925AF819700023F03 /* jetpack-capabilities-malformed.json */; };
+		8B9F0CAE2762414F00DBE144 /* WordPressComRestApiTests+AsyncAwait.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B9F0CAD2762414F00DBE144 /* WordPressComRestApiTests+AsyncAwait.swift */; };
 		8BB66DB02523C181000B29DA /* ReaderPostServiceRemote+V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB66DAF2523C181000B29DA /* ReaderPostServiceRemote+V2.swift */; };
 		8BE67ED324AD05D3004DB4C9 /* Decodable+DictionaryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE67ED224AD05D3004DB4C9 /* Decodable+DictionaryTests.swift */; };
 		8BFB4E6625B07905004D026E /* jetpack-capabilities-34197361-success.json in Resources */ = {isa = PBXBuildFile; fileRef = 8BFB4E6525B07905004D026E /* jetpack-capabilities-34197361-success.json */; };
@@ -988,6 +989,7 @@
 		8B749E8125AF7DDA00023F03 /* JetpackCapabilitiesServiceRemoteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JetpackCapabilitiesServiceRemoteTests.swift; sourceTree = "<group>"; };
 		8B749E8525AF808600023F03 /* jetpack-capabilities-107159616-success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "jetpack-capabilities-107159616-success.json"; sourceTree = "<group>"; };
 		8B749E8925AF819700023F03 /* jetpack-capabilities-malformed.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "jetpack-capabilities-malformed.json"; sourceTree = "<group>"; };
+		8B9F0CAD2762414F00DBE144 /* WordPressComRestApiTests+AsyncAwait.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WordPressComRestApiTests+AsyncAwait.swift"; sourceTree = "<group>"; };
 		8BB66DAF2523C181000B29DA /* ReaderPostServiceRemote+V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReaderPostServiceRemote+V2.swift"; sourceTree = "<group>"; };
 		8BE67ED224AD05D3004DB4C9 /* Decodable+DictionaryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Decodable+DictionaryTests.swift"; sourceTree = "<group>"; };
 		8BFB4E6525B07905004D026E /* jetpack-capabilities-34197361-success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "jetpack-capabilities-34197361-success.json"; sourceTree = "<group>"; };
@@ -1611,6 +1613,7 @@
 				740B23D51F17F7C100067A2A /* XMLRPCTestable.swift */,
 				FFE247A620C891D1002DF3A2 /* WordPressComOAuthTests.swift */,
 				74B335D91F06F3D60053A184 /* WordPressComRestApiTests.swift */,
+				8B9F0CAD2762414F00DBE144 /* WordPressComRestApiTests+AsyncAwait.swift */,
 				73B3DAD521FBB20D00B2CF18 /* WordPressComRestApiTests+Locale.swift */,
 				74B335DB1F06F4180053A184 /* WordPressOrgXMLRPCApiTests.swift */,
 				BA62CFE824B592E000978BE1 /* DynamicMockProvider.swift */,
@@ -3154,6 +3157,7 @@
 				F9E56DFB24EB18C300916770 /* FeatureFlagRemoteTests.swift in Sources */,
 				46ABD0E0262EED3D00C7FF24 /* WordPressOrgXMLRPCValidatorTests.swift in Sources */,
 				D813437621F6D70D0060D99A /* SiteSegmentsResponseDecodingTests.swift in Sources */,
+				8B9F0CAE2762414F00DBE144 /* WordPressComRestApiTests+AsyncAwait.swift in Sources */,
 				436D56382118DC4B00CEAA33 /* TransactionsServiceRemoteTests.swift in Sources */,
 				9F3E0BA82087355E009CB5BA /* RemoteReaderSiteInfoSubscriptionTests.swift in Sources */,
 				BA62CFE924B592E000978BE1 /* DynamicMockProvider.swift in Sources */,

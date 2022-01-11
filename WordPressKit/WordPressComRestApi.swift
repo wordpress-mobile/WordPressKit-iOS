@@ -24,6 +24,7 @@ import Alamofire
     case tooManyRequests
     case unknown
     case preconditionFailure
+    case malformedURL
 }
 
 public enum ResponseType {
@@ -421,6 +422,100 @@ open class WordPressComRestApi: NSObject {
         let fileURL = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(fileName)
         return fileURL
     }
+
+    // MARK: - Async
+
+    private lazy var urlSession: URLSession = {
+        let configuration = URLSessionConfiguration.default
+
+        var additionalHeaders: [String: AnyObject] = [:]
+        if let oAuthToken = self.oAuthToken {
+            additionalHeaders["Authorization"] = "Bearer \(oAuthToken)" as AnyObject
+        }
+        if let userAgent = self.userAgent {
+            additionalHeaders["User-Agent"] = userAgent as AnyObject
+        }
+
+        configuration.httpAdditionalHeaders = additionalHeaders
+
+        return URLSession(configuration: configuration)
+    }()
+
+    // TODO: when migrating to Xcode 13.2 make this available to iOS 13
+    /**
+     Executes a GET request to the specified endpoint
+
+     - parameter url: the url `String` to be requested
+
+     - returns: a tuple containing the `Data` of the response and the `URLResponse` object
+     */
+    @available(iOS 15.0.0, *)
+    public func get(_ urlString: String) async throws -> (Data, URLResponse) {
+        guard let url = URL(string: urlString) else {
+            throw WordPressComRestApiError.malformedURL
+        }
+
+        return try await urlSession.data(from: url)
+    }
+
+    // TODO: when migrating to Xcode 13.2 make this available to iOS 13
+    /**
+     Executes a GET request to the specified endpoint
+
+     - parameter url: the url `String` to be requested
+     - parameter Type: an entity that conforms with `Codable`
+
+     - returns: a `Decodable` object of the `Type` given
+     */
+    @available(iOS 15.0.0, *)
+    public func get<T: Decodable>(_ urlString: String) async throws -> T {
+        let (data, _) = try await get(urlString)
+        let object = try JSONDecoder().decode(T.self, from: data)
+        return object
+    }
+
+    // TODO: when migrating to Xcode 13.2 make this available to iOS 13
+    /**
+     Executes a POST request to the specified endpoint
+
+     - parameter url: the url `String` to be requested
+     - parameter parameters: a `[String: Any]` of parameters
+
+     - returns: a tuple containing the `Data` of the response and the `URLResponse` object
+     */
+    @available(iOS 15.0.0, *)
+    public func post(_ urlString: String, parameters: [String: Any]? = nil) async throws -> (Data, URLResponse) {
+        guard let url = URL(string: urlString) else {
+            throw WordPressComRestApiError.malformedURL
+        }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+
+        if let parameters = parameters {
+            request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+            request.httpBody = parameters.percentEncoded()
+        }
+
+        return try await urlSession.data(for: request, delegate: nil)
+    }
+
+    // TODO: when migrating to Xcode 13.2 make this available to iOS 13
+    /**
+     Executes a POST request to the specified endpoint
+
+     - parameter url: the url `String` to be requested
+     - parameter parameters: a `[String: Any]` of parameters
+     - parameter Type: an entity that conforms with `Codable`     
+
+     - returns: a `Decodable` object of the `Type` given
+     */
+    @available(iOS 15.0.0, *)
+    public func post<T: Decodable>(_ urlString: String, parameters: [String: Any]? = nil) async throws -> T {
+        let (data, _) = try await post(urlString, parameters: parameters)
+        let object = try JSONDecoder().decode(T.self, from: data)
+        return object
+    }
 }
 
 // MARK: - FilePart
@@ -591,4 +686,33 @@ private extension WordPressComRestApi {
 
 extension ProgressUserInfoKey {
     public static let sessionTaskKey = ProgressUserInfoKey(rawValue: WordPressComRestApi.SessionTaskKey)
+}
+
+// MARK: - POST encoding
+
+private extension Dictionary {
+    func percentEncoded() -> Data? {
+        return compactMap { key, value in
+            guard
+                let escapedKey = "\(key)".addingPercentEncoding(withAllowedCharacters: .urlQueryValueAllowed),
+                let escapedValue = "\(value)".addingPercentEncoding(withAllowedCharacters: .urlQueryValueAllowed)
+            else {
+                return .none
+            }
+            return escapedKey + "=" + escapedValue
+        }
+        .joined(separator: "&")
+        .data(using: .utf8)
+    }
+}
+
+private extension CharacterSet {
+    static let urlQueryValueAllowed: CharacterSet = {
+        let generalDelimitersToEncode = ":#[]@" // does not include "?" or "/" due to RFC 3986 - Section 3.4
+        let subDelimitersToEncode = "!$&'()*+,;="
+
+        var allowed = CharacterSet.urlQueryAllowed
+        allowed.remove(charactersIn: "\(generalDelimitersToEncode)\(subDelimitersToEncode)")
+        return allowed
+    }()
 }
