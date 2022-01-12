@@ -54,15 +54,30 @@ public class NotificationSyncServiceRemote: ServiceRemoteWordPressComREST {
     ///     - completion: Closure to be executed on completion, indicating whether the OP was successful or not.
     ///
     @objc public func updateReadStatus(_ notificationID: String, read: Bool, completion: @escaping ((Error?) -> Void)) {
+        updateReadStatusOfNotifications([notificationID], read: read, completion: completion)
+    }
+
+    /// Updates an array of Notifications' Read Status as specified.
+    ///
+    /// - Parameters:
+    ///     - notificationIDs: The NotificationIDs to Mark as Read.
+    ///     - read: The new Read Status to set.
+    ///     - completion: Closure to be executed on completion, indicating whether the OP was successful or not.
+    ///
+    @objc public func updateReadStatusOfNotifications(_ notificationIDs: [String], read: Bool, completion: @escaping ((Error?) -> Void)) {
         let path = "notifications/read"
         let requestUrl = self.path(forEndpoint: path, withVersion: ._1_1)
 
         // Note: Isn't the API wonderful?
         let value = read ? 9999 : -9999
 
-        let parameters = [
-            "counts": ["\(notificationID)": value]
-        ]
+        var notifications: [String: Int] = [:]
+
+        for notificationID in notificationIDs {
+            notifications[notificationID] = value
+        }
+
+        let parameters = ["counts": notifications]
 
         wordPressComRestApi.POST(requestUrl, parameters: parameters as [String: AnyObject]?, success: { (response, _)  in
             let error = self.errorFromResponse(response)
