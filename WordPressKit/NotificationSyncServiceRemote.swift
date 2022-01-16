@@ -12,7 +12,7 @@ public class NotificationSyncServiceRemote: ServiceRemoteWordPressComREST {
     public enum SyncError: Error {
         case failed
     }
-    
+
     public enum InputError: Int, Error {
         case arrayEmpty
     }
@@ -73,7 +73,7 @@ public class NotificationSyncServiceRemote: ServiceRemoteWordPressComREST {
             completion(InputError.arrayEmpty)
             return
         }
-        
+
         let path = "notifications/read"
         let requestUrl = self.path(forEndpoint: path, withVersion: ._1_1)
 
