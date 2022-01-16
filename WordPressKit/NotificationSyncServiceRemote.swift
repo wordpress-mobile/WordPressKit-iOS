@@ -12,6 +12,10 @@ public class NotificationSyncServiceRemote: ServiceRemoteWordPressComREST {
     public enum SyncError: Error {
         case failed
     }
+    
+    public enum InputError: Int, Error {
+        case arrayEmpty
+    }
 
     /// Retrieves latest Notifications (OR collection of Notifications, whenever noteIds is present)
     ///
@@ -60,11 +64,16 @@ public class NotificationSyncServiceRemote: ServiceRemoteWordPressComREST {
     /// Updates an array of Notifications' Read Status as specified.
     ///
     /// - Parameters:
-    ///     - notificationIDs: The NotificationIDs to Mark as Read.
+    ///     - notificationIDs: ID's of Notifications to Mark as Read.
     ///     - read: The new Read Status to set.
     ///     - completion: Closure to be executed on completion, indicating whether the OP was successful or not.
     ///
     @objc public func updateReadStatusOfNotifications(_ notificationIDs: [String], read: Bool, completion: @escaping ((Error?) -> Void)) {
+        guard !notificationIDs.isEmpty else {
+            completion(InputError.arrayEmpty)
+            return
+        }
+        
         let path = "notifications/read"
         let requestUrl = self.path(forEndpoint: path, withVersion: ._1_1)
 
