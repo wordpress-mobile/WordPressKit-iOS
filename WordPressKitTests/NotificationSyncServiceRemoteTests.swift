@@ -130,10 +130,10 @@ class NotificationSyncServiceRemoteTests: RemoteTestCase, RESTTestable {
 
     /// Verifies that Mark as Read Notifications successfully parses the backend's response
     ///
-    func testUpdateReadStatusOfNotifications() {
+    func testUpdateReadStatusForNotifications() {
         let expect = expectation(description: "Mark notifications as read success")
         stubRemoteResponse(notificationsReadEndpoint, filename: notificationServiceMarkReadMockFilename, contentType: .ApplicationJSON)
-        remote.updateReadStatusOfNotifications(["1234", "4567", "8901"], read: true) { error in
+        remote.updateReadStatusForNotifications(["1234", "4567", "8901"], read: true) { error in
             XCTAssertNil(error)
             expect.fulfill()
         }
@@ -143,10 +143,10 @@ class NotificationSyncServiceRemoteTests: RemoteTestCase, RESTTestable {
 
     /// Verifies that Mark as Read Notifications returns `emptyArray` error when Notification IDs array is empty
     ///
-    func testUpdateReadStatusOfNotificationsReturnsErrorWhenInputArrayIsEmpty() {
+    func testUpdateReadStatusForNotificationsReturnsErrorWhenInputArrayIsEmpty() {
         let expect = expectation(description: "Returns `arrayEmpty` error when input array has no elements")
         stubRemoteResponse(notificationsReadEndpoint, filename: notificationServiceMarkReadMockFilename, contentType: .ApplicationJSON)
-        remote.updateReadStatusOfNotifications([], read: true) { error in
+        remote.updateReadStatusForNotifications([], read: true) { error in
             if let error = error as NSError? {
                 XCTAssertEqual(error.domain, String(reflecting: NotificationSyncServiceRemote.InputError.self))
                 XCTAssertEqual(

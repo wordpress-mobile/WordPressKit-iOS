@@ -58,7 +58,7 @@ public class NotificationSyncServiceRemote: ServiceRemoteWordPressComREST {
     ///     - completion: Closure to be executed on completion, indicating whether the OP was successful or not.
     ///
     @objc public func updateReadStatus(_ notificationID: String, read: Bool, completion: @escaping ((Error?) -> Void)) {
-        updateReadStatusOfNotifications([notificationID], read: read, completion: completion)
+        updateReadStatusForNotifications([notificationID], read: read, completion: completion)
     }
 
     /// Updates an array of Notifications' Read Status as specified.
@@ -68,7 +68,7 @@ public class NotificationSyncServiceRemote: ServiceRemoteWordPressComREST {
     ///     - read: The new Read Status to set.
     ///     - completion: Closure to be executed on completion, indicating whether the OP was successful or not.
     ///
-    @objc public func updateReadStatusOfNotifications(_ notificationIDs: [String], read: Bool, completion: @escaping ((Error?) -> Void)) {
+    @objc public func updateReadStatusForNotifications(_ notificationIDs: [String], read: Bool, completion: @escaping ((Error?) -> Void)) {
         guard !notificationIDs.isEmpty else {
             completion(InputError.arrayEmpty)
             return
