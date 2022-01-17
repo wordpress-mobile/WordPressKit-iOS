@@ -128,6 +128,39 @@ class NotificationSyncServiceRemoteTests: RemoteTestCase, RESTTestable {
         waitForExpectations(timeout: timeout, handler: nil)
     }
 
+    /// Verifies that Mark as Read Notifications successfully parses the backend's response
+    ///
+    func testUpdateReadStatusForNotifications() {
+        let expect = expectation(description: "Mark notifications as read success")
+        stubRemoteResponse(notificationsReadEndpoint, filename: notificationServiceMarkReadMockFilename, contentType: .ApplicationJSON)
+        remote.updateReadStatusForNotifications(["1234", "4567", "8901"], read: true) { error in
+            XCTAssertNil(error)
+            expect.fulfill()
+        }
+
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+
+    /// Verifies that Mark as Read Notifications returns `emptyArray` error when Notification IDs array is empty
+    ///
+    func testUpdateReadStatusForNotificationsReturnsErrorWhenInputArrayIsEmpty() {
+        let expect = expectation(description: "Returns `arrayEmpty` error when input array has no elements")
+        stubRemoteResponse(notificationsReadEndpoint, filename: notificationServiceMarkReadMockFilename, contentType: .ApplicationJSON)
+        remote.updateReadStatusForNotifications([], read: true) { error in
+            if let error = error as NSError? {
+                XCTAssertEqual(error.domain, String(reflecting: NotificationSyncServiceRemote.InputError.self))
+                XCTAssertEqual(
+                    error.code,
+                    NotificationSyncServiceRemote.InputError.arrayEmpty.rawValue,
+                    "The error code should be 0 - emptyArray"
+                )
+                expect.fulfill()
+            }
+        }
+
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+
     /// Verifies that Update Last Seen successfully parses the backend's response
     ///
     func testUpdateLastSeen() {
