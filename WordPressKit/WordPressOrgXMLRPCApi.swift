@@ -274,7 +274,13 @@ open class WordPressOrgXMLRPCApi: NSObject {
         }
 
         if (400..<600).contains(httpResponse.statusCode) {
-            throw convertError(WordPressOrgXMLRPCApiError.httpErrorStatusCode as NSError, data: originalData, statusCode: httpResponse.statusCode)
+            if let decoder = WPXMLRPCDecoder(data: data), decoder.isFault(), let decoderError = decoder.error() {
+                // when XML-RPC is disabled for authenticated calls (e.g. xmlrpc_enabled is false on WP.org),
+                // it will return a valid fault payload with a non-200
+                throw decoderError
+            } else {
+                throw convertError(WordPressOrgXMLRPCApiError.httpErrorStatusCode as NSError, data: originalData, statusCode: httpResponse.statusCode)
+            }
         }
 
         if ["application/xml", "text/xml"].filter({ (type) -> Bool in return contentType.hasPrefix(type)}).count == 0 {
@@ -306,6 +312,15 @@ open class WordPressOrgXMLRPCApi: NSObject {
             userInfo[type(of: self).WordPressOrgXMLRPCApiErrorKeyData] = data
             userInfo[type(of: self).WordPressOrgXMLRPCApiErrorKeyDataString] = NSString(data: data, encoding: String.Encoding.utf8.rawValue)
             userInfo[type(of: self).WordPressOrgXMLRPCApiErrorKeyStatusCode] = statusCode
+            userInfo[NSLocalizedFailureErrorKey] = error.localizedDescription
+
+            if let statusCode = statusCode, (400..<600).contains(statusCode) {
+                let formatString = NSLocalizedString("An HTTP error code %i was returned.", comment: "A failure reason for when an error HTTP status code was returned from the site, with the specific error code.")
+                userInfo[NSLocalizedFailureReasonErrorKey] = String(format: formatString, statusCode)
+            } else {
+                userInfo[NSLocalizedFailureReasonErrorKey] = error.localizedFailureReason
+            }
+
             return NSError(domain: error.domain, code: responseCode, userInfo: userInfo as? [String: Any])
         }
         return error
@@ -375,14 +390,33 @@ extension WordPressOrgXMLRPCApi {
     }
 }
 
-/// Error constants for the WordPress XMLRPC API
-///     - RequestSerializationFailed:     The serialization of the request failed
-///     - ResponseSerializationFailed:     The serialization of the response failed
-///     - Unknown:                        Unknow error happen
-///
+/// Error constants for the WordPress XML-RPC API
 @objc public enum WordPressOrgXMLRPCApiError: Int, Error {
+    /// An error HTTP status code was returned.
     case httpErrorStatusCode
+    /// The serialization of the request failed.
     case requestSerializationFailed
+    /// The serialization of the response failed.
     case responseSerializationFailed
+    /// An unknown error occurred.
     case unknown
+}
+
+extension WordPressOrgXMLRPCApiError: LocalizedError {
+    public var errorDescription: String? {
+        return NSLocalizedString("There was a problem communicating with the site.", comment: "A general error message shown to the user when there was an API communication failure.")
+    }
+
+    public var failureReason: String? {
+        switch self {
+        case .httpErrorStatusCode:
+            return NSLocalizedString("An HTTP error code was returned.", comment: "A failure reason for when an error HTTP status code was returned from the site.")
+        case .requestSerializationFailed:
+            return NSLocalizedString("The serialization of the request failed.", comment: "A failure reason for when the request couldn't be serialized.")
+        case .responseSerializationFailed:
+            return NSLocalizedString("The serialization of the response failed.", comment: "A failure reason for when the response couldn't be serialized.")
+        case .unknown:
+            return NSLocalizedString("An unknown error occurred.", comment: "A failure reason for when the error that occured wasn't able to be determined.")
+        }
+    }
 }
