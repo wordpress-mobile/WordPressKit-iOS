@@ -104,6 +104,7 @@ public struct Announcement: Codable {
 public struct Feature: Codable {
     public let title: String
     public let subtitle: String
+    public let icons: [[String:String]]?
     public let iconUrl: String
     public let iconBase64: String?
 }
