@@ -570,6 +570,7 @@
 		F194E1252417EE7E00874408 /* atomic-get-auth-cookie-success.json in Resources */ = {isa = PBXBuildFile; fileRef = F194E1242417EE7E00874408 /* atomic-get-auth-cookie-success.json */; };
 		F1B7F4FC272376A8004215CD /* NSCharacterSet+URLEncode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1B7F4FB272376A8004215CD /* NSCharacterSet+URLEncode.swift */; };
 		F1BB7806240FB90B0030ADDC /* AtomicAuthenticationServiceRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1BB7805240FB90B0030ADDC /* AtomicAuthenticationServiceRemote.swift */; };
+		F3FF8A1F279C871A00E5C90F /* StatsDotComFollowersInsightTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3FF8A1E279C871A00E5C90F /* StatsDotComFollowersInsightTests.swift */; };
 		F9E56DF624EB11EF00916770 /* FeatureFlag.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9E56DF524EB11EF00916770 /* FeatureFlag.swift */; };
 		F9E56DF824EB125600916770 /* FeatureFlagRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9E56DF724EB125600916770 /* FeatureFlagRemote.swift */; };
 		F9E56DFB24EB18C300916770 /* FeatureFlagRemoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9E56DFA24EB18C300916770 /* FeatureFlagRemoteTests.swift */; };
@@ -1209,6 +1210,7 @@
 		F194E1242417EE7E00874408 /* atomic-get-auth-cookie-success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "atomic-get-auth-cookie-success.json"; sourceTree = "<group>"; };
 		F1B7F4FB272376A8004215CD /* NSCharacterSet+URLEncode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSCharacterSet+URLEncode.swift"; sourceTree = "<group>"; };
 		F1BB7805240FB90B0030ADDC /* AtomicAuthenticationServiceRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtomicAuthenticationServiceRemote.swift; sourceTree = "<group>"; };
+		F3FF8A1E279C871A00E5C90F /* StatsDotComFollowersInsightTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsDotComFollowersInsightTests.swift; sourceTree = "<group>"; };
 		F9E56DF524EB11EF00916770 /* FeatureFlag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureFlag.swift; sourceTree = "<group>"; };
 		F9E56DF724EB125600916770 /* FeatureFlagRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureFlagRemote.swift; sourceTree = "<group>"; };
 		F9E56DFA24EB18C300916770 /* FeatureFlagRemoteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureFlagRemoteTests.swift; sourceTree = "<group>"; };
@@ -1630,6 +1632,7 @@
 				9A2D0B29225E0DF7009E585F /* Jetpack */,
 				74FA25F81F1FDA240044BC54 /* Media */,
 				74D97CB91F1CF6E200AC49B7 /* Menu */,
+				F3FF8A1A279C86AF00E5C90F /* Models */,
 				74A44DD61F13C6F3006CD8F4 /* Notifications */,
 				74D67F0B1F15C2570010C5ED /* People */,
 				7433BC061EFC456B002D9E92 /* Plans */,
@@ -2337,6 +2340,38 @@
 				F194E1222417ED9F00874408 /* AtomicAuthenticationServiceRemoteTests.swift */,
 			);
 			name = Authentication;
+			sourceTree = "<group>";
+		};
+		F3FF8A1A279C86AF00E5C90F /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				F3FF8A1B279C86E000E5C90F /* Stats */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		F3FF8A1B279C86E000E5C90F /* Stats */ = {
+			isa = PBXGroup;
+			children = (
+				F3FF8A1C279C86F600E5C90F /* V2 */,
+			);
+			path = Stats;
+			sourceTree = "<group>";
+		};
+		F3FF8A1C279C86F600E5C90F /* V2 */ = {
+			isa = PBXGroup;
+			children = (
+				F3FF8A1D279C86FE00E5C90F /* Insights */,
+			);
+			path = V2;
+			sourceTree = "<group>";
+		};
+		F3FF8A1D279C86FE00E5C90F /* Insights */ = {
+			isa = PBXGroup;
+			children = (
+				F3FF8A1E279C871A00E5C90F /* StatsDotComFollowersInsightTests.swift */,
+			);
+			path = Insights;
 			sourceTree = "<group>";
 		};
 		F9E56DF924EB18A300916770 /* Utilities */ = {
@@ -3133,6 +3168,7 @@
 				93BD27411EE73311002BB00B /* AccountServiceRemoteRESTTests.swift in Sources */,
 				93F50A441F227CFB00B5BEBA /* UsersServiceRemoteXMLRPCTests.swift in Sources */,
 				7430C9BC1F192C0F0051B8E6 /* ReaderSiteServiceRemoteTests.swift in Sources */,
+				F3FF8A1F279C871A00E5C90F /* StatsDotComFollowersInsightTests.swift in Sources */,
 				73D5930321E552CD00E4CF84 /* SiteVerticalsRequestEncodingTests.swift in Sources */,
 				BAB0E36424AD599700B3D22C /* MockPluginStateProvider.swift in Sources */,
 				98F884D426BC6445009ADF57 /* CommentServiceRemoteRESTTests.swift in Sources */,
