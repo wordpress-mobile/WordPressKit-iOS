@@ -97,6 +97,45 @@ public class PeopleServiceRemote: ServiceRemoteWordPressComREST {
         })
     }
 
+    /// Retrieves the collection of email followers associated to a site.
+    ///
+    /// - Parameters:
+    ///     - siteID: The target site's ID.
+    ///     - page: The page to fetch.
+    ///     - max: The max number of followers to fetch.
+    ///     - success: Closure to be executed on success.
+    ///     - failure: Closure to be executed on error.
+    ///
+    /// - Returns: An array of EmailFollower.
+    ///
+    public func getEmailFollowers(_ siteID: Int,
+                                  page: Int = 1,
+                                  max: Int = 20,
+                                  success: @escaping ((_ followers: [EmailFollower], _ hasMore: Bool) -> Void),
+                                  failure: @escaping (Error) -> Void) {
+        let endpoint = "sites/\(siteID)/stats/followers"
+        let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
+        let parameters: [String: AnyObject] = [
+            "page": page as AnyObject,
+            "max": max as AnyObject,
+            "type": "email" as AnyObject
+        ]
+
+        wordPressComRestApi.GET(path, parameters: parameters, success: { (responseObject, _) in
+            guard let response = responseObject as? [String: AnyObject],
+                  let subscribers = response["subscribers"] as? [[String: AnyObject]],
+                  let totalPages = response["pages"] as? Int else {
+                      failure(ResponseError.decodingFailure)
+                      return
+                  }
+            let followers = subscribers.compactMap { EmailFollower(siteID: siteID, statsFollower: StatsFollower(jsonDictionary: $0)) }
+            let hasMore = totalPages > page
+            success(followers, hasMore)
+        }, failure: { (error, _) in
+            failure(error)
+        })
+    }
+
     /// Retrieves the collection of Viewers associated to a site.
     ///
     /// - Parameters:
@@ -216,6 +255,28 @@ public class PeopleServiceRemote: ServiceRemoteWordPressComREST {
                         success: (() -> Void)? = nil,
                         failure: ((Error) -> Void)? = nil) {
         let endpoint = "sites/\(siteID)/followers/\(userID)/delete"
+        let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
+
+        wordPressComRestApi.POST(path, parameters: nil, success: { (_, _) in
+            success?()
+        }, failure: { (error, _) in
+            failure?(error)
+        })
+    }
+
+    /// Deletes or removes an Email Follower from a site.
+    ///
+    /// - Parameters:
+    ///     - siteID: The ID of the site associated.
+    ///     - userID: The ID of the email follower to be deleted.
+    ///     - success: Optional closure to be executed on success
+    ///     - failure: Optional closure to be executed on error.
+    ///
+    @objc public func deleteEmailFollower(_ siteID: Int,
+                                          userID: Int,
+                                          success: (() -> Void)? = nil,
+                                          failure: ((Error) -> Void)? = nil) {
+        let endpoint = "sites/\(siteID)/email-followers/\(userID)/delete"
         let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
 
         wordPressComRestApi.POST(path, parameters: nil, success: { (_, _) in
