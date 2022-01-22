@@ -571,6 +571,7 @@
 		F1B7F4FC272376A8004215CD /* NSCharacterSet+URLEncode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1B7F4FB272376A8004215CD /* NSCharacterSet+URLEncode.swift */; };
 		F1BB7806240FB90B0030ADDC /* AtomicAuthenticationServiceRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1BB7805240FB90B0030ADDC /* AtomicAuthenticationServiceRemote.swift */; };
 		F3FF8A1F279C871A00E5C90F /* StatsDotComFollowersInsightTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3FF8A1E279C871A00E5C90F /* StatsDotComFollowersInsightTests.swift */; };
+		F3FF8A21279C8EE200E5C90F /* RemotePersonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3FF8A20279C8EE200E5C90F /* RemotePersonTests.swift */; };
 		F9E56DF624EB11EF00916770 /* FeatureFlag.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9E56DF524EB11EF00916770 /* FeatureFlag.swift */; };
 		F9E56DF824EB125600916770 /* FeatureFlagRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9E56DF724EB125600916770 /* FeatureFlagRemote.swift */; };
 		F9E56DFB24EB18C300916770 /* FeatureFlagRemoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9E56DFA24EB18C300916770 /* FeatureFlagRemoteTests.swift */; };
@@ -1211,6 +1212,7 @@
 		F1B7F4FB272376A8004215CD /* NSCharacterSet+URLEncode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSCharacterSet+URLEncode.swift"; sourceTree = "<group>"; };
 		F1BB7805240FB90B0030ADDC /* AtomicAuthenticationServiceRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtomicAuthenticationServiceRemote.swift; sourceTree = "<group>"; };
 		F3FF8A1E279C871A00E5C90F /* StatsDotComFollowersInsightTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsDotComFollowersInsightTests.swift; sourceTree = "<group>"; };
+		F3FF8A20279C8EE200E5C90F /* RemotePersonTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemotePersonTests.swift; sourceTree = "<group>"; };
 		F9E56DF524EB11EF00916770 /* FeatureFlag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureFlag.swift; sourceTree = "<group>"; };
 		F9E56DF724EB125600916770 /* FeatureFlagRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureFlagRemote.swift; sourceTree = "<group>"; };
 		F9E56DFA24EB18C300916770 /* FeatureFlagRemoteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureFlagRemoteTests.swift; sourceTree = "<group>"; };
@@ -2346,6 +2348,7 @@
 			isa = PBXGroup;
 			children = (
 				F3FF8A1B279C86E000E5C90F /* Stats */,
+				F3FF8A20279C8EE200E5C90F /* RemotePersonTests.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -3178,6 +3181,7 @@
 				FA87FE0724EB39C4003FBEE3 /* ReaderPostServiceRemote+SubscriptionTests.swift in Sources */,
 				7403A2E61EF06F7000DED7DC /* AccountSettingsRemoteTests.swift in Sources */,
 				8B16CE92252502C4007BE5A9 /* RemoteReaderPostTests+V2.swift in Sources */,
+				F3FF8A21279C8EE200E5C90F /* RemotePersonTests.swift in Sources */,
 				73D5930521E5541200E4CF84 /* WordPressComServiceRemoteTests+SiteVerticals.swift in Sources */,
 				17CE77F420C701C8001DEA5A /* ReaderSiteSearchServiceRemoteTests.swift in Sources */,
 				73A2F38D21E7FC8200388609 /* WordPressComServiceRemoteTests+SiteVerticalsPrompt.swift in Sources */,
