@@ -14,7 +14,7 @@ public class NotificationSyncServiceRemote: ServiceRemoteWordPressComREST {
     }
 
     public enum InputError: Int, Error {
-        case arrayEmpty
+        case notificationIDsNotProvided
     }
 
     /// Retrieves latest Notifications (OR collection of Notifications, whenever noteIds is present)
@@ -70,7 +70,7 @@ public class NotificationSyncServiceRemote: ServiceRemoteWordPressComREST {
     ///
     @objc public func updateReadStatusForNotifications(_ notificationIDs: [String], read: Bool, completion: @escaping ((Error?) -> Void)) {
         guard !notificationIDs.isEmpty else {
-            completion(InputError.arrayEmpty)
+            completion(InputError.notificationIDsNotProvided)
             return
         }
 
