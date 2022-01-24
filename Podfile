@@ -14,7 +14,7 @@ def wordpresskit_pods
   pod 'NSObject-SafeExpectations', '~> 0.0.4'
   pod 'wpxmlrpc', '~> 0.9.0'
   # pod 'wpxmlrpc', :git => 'https://github.com/wordpress-mobile/wpxmlrpc.git', :branch => 'feature/update-xcode-settings'
-  pod 'UIDeviceIdentifier', '~> 1.4'
+  pod 'UIDeviceIdentifier', '~> 2.0'
 end
 
 ## WordPress Kit
