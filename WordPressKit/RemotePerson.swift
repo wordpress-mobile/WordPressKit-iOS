@@ -56,9 +56,10 @@ extension RemoteRole {
 // MARK: - Specifies all of the possible Person Types that might exist.
 //
 public enum PersonKind: Int {
-    case user       = 0
-    case follower   = 1
-    case viewer     = 2
+    case user
+    case follower
+    case viewer
+    case emailFollower
 }
 
 // MARK: - Defines a Blog's User
@@ -175,6 +176,62 @@ public struct Viewer: RemotePerson {
     }
 }
 
+// MARK: - Defines a Blog's Email Follower
+//
+public struct EmailFollower: RemotePerson {
+    public let ID: Int
+    public let username: String
+    public let firstName: String?
+    public let lastName: String?
+    public let displayName: String
+    public let role: String
+    public let siteID: Int
+    public let linkedUserID: Int
+    public let avatarURL: URL?
+    public let isSuperAdmin: Bool
+    public static let kind = PersonKind.emailFollower
+
+    public init(ID: Int,
+                username: String,
+                firstName: String?,
+                lastName: String?,
+                displayName: String,
+                role: String,
+                siteID: Int,
+                linkedUserID: Int,
+                avatarURL: URL?,
+                isSuperAdmin: Bool) {
+        self.ID = ID
+        self.username = username
+        self.firstName = firstName
+        self.lastName = lastName
+        self.displayName = displayName
+        self.role = role
+        self.siteID = siteID
+        self.linkedUserID = linkedUserID
+        self.avatarURL = avatarURL
+        self.isSuperAdmin = isSuperAdmin
+    }
+
+    public init?(siteID: Int, statsFollower: StatsFollower?) {
+        guard let statsFollower = statsFollower,
+        let stringId = statsFollower.id,
+        let id = Int(stringId) else {
+            return nil
+        }
+
+        self.ID = id
+        self.username = ""
+        self.firstName = nil
+        self.lastName = nil
+        self.displayName = statsFollower.name
+        self.role = ""
+        self.siteID = siteID
+        self.linkedUserID = id
+        self.avatarURL = statsFollower.avatarURL
+        self.isSuperAdmin = false
+    }
+}
 // MARK: - Extensions
 //
 public extension RemotePerson {
