@@ -40,16 +40,19 @@ extension StatsDotComFollowersInsight: StatsInsightData {
 }
 
 public struct StatsFollower {
+    public let id: String?
     public let name: String
     public let subscribedDate: Date
     public let avatarURL: URL?
 
     public init(name: String,
                 subscribedDate: Date,
-                avatarURL: URL?) {
+                avatarURL: URL?,
+                id: String? = nil) {
         self.name = name
         self.subscribedDate = subscribedDate
         self.avatarURL = avatarURL
+        self.id = id
     }
 }
 
@@ -63,11 +66,11 @@ extension StatsFollower {
             else {
                 return nil
         }
-
-        self.init(name: name, avatar: avatar, date: dateString)
+        let id = jsonDictionary["ID"] as? String
+        self.init(name: name, avatar: avatar, date: dateString, id: id)
     }
 
-    init?(name: String, avatar: String, date: String) {
+    init?(name: String, avatar: String, date: String, id: String? = nil) {
         guard let date = StatsDotComFollowersInsight.dateFormatter.date(from: date) else {
             return nil
         }
@@ -84,5 +87,6 @@ extension StatsFollower {
         self.name = name
         self.subscribedDate = date
         self.avatarURL = url
+        self.id = id
     }
 }
