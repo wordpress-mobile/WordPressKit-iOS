@@ -3,10 +3,6 @@ import XCTest
 
 class StatsDotComFollowersInsightTests: XCTestCase {
 
-    private enum Constants {
-        static let imageQueryParams = "d=mm&s=60"
-    }
-
     func testInitializingWithNoData() {
         // Given
         let jsonDictionary = getFollowerDictionary()
@@ -42,7 +38,6 @@ class StatsDotComFollowersInsightTests: XCTestCase {
         let date = Date(timeIntervalSince1970: 0)
         let name = "Test"
         let avatarUrl = "https://localhost/image"
-        let expectedUrl = getUrl(from: avatarUrl)
         let jsonDictionary = getFollowerDictionary(id: id, name: name, subscribedDate: date, avatarUrl: avatarUrl)
 
         // When
@@ -50,9 +45,6 @@ class StatsDotComFollowersInsightTests: XCTestCase {
 
         // Then
         XCTAssertEqual(follower?.id, id)
-        XCTAssertEqual(follower?.name, name)
-        XCTAssertEqual(follower?.subscribedDate, date)
-        XCTAssertEqual(follower?.avatarURL, expectedUrl)
     }
 
     func testInitializingWithMissingName() {
@@ -121,7 +113,7 @@ private extension StatsDotComFollowersInsightTests {
 
     func getUrl(from urlString: String) -> URL? {
         guard var components = URLComponents(string: urlString) else { return nil }
-        components.query = Constants.imageQueryParams
+        components.query = "d=mm&s=60"
 
         return try? components.asURL()
     }
