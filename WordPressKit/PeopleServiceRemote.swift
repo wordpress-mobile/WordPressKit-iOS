@@ -103,10 +103,8 @@ public class PeopleServiceRemote: ServiceRemoteWordPressComREST {
     ///     - siteID: The target site's ID.
     ///     - page: The page to fetch.
     ///     - max: The max number of followers to fetch.
-    ///     - success: Closure to be executed on success.
+    ///     - success: Closure to be executed on success with an array of EmailFollower and a bool indicating if more pages are available.
     ///     - failure: Closure to be executed on error.
-    ///
-    /// - Returns: An array of EmailFollower.
     ///
     public func getEmailFollowers(_ siteID: Int,
                                   page: Int = 1,
