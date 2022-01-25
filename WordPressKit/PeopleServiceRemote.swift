@@ -119,7 +119,7 @@ public class PeopleServiceRemote: ServiceRemoteWordPressComREST {
             "type": "email" as AnyObject
         ]
 
-        wordPressComRestApi.GET(path, parameters: parameters, success: { (responseObject, _) in
+        wordPressComRestApi.GET(path, parameters: parameters, success: { responseObject, _ in
             guard let response = responseObject as? [String: AnyObject],
                   let subscribers = response["subscribers"] as? [[String: AnyObject]],
                   let totalPages = response["pages"] as? Int else {
@@ -129,7 +129,7 @@ public class PeopleServiceRemote: ServiceRemoteWordPressComREST {
             let followers = subscribers.compactMap { EmailFollower(siteID: siteID, statsFollower: StatsFollower(jsonDictionary: $0)) }
             let hasMore = totalPages > page
             success(followers, hasMore)
-        }, failure: { (error, _) in
+        }, failure: { error, _ in
             failure(error)
         })
     }
@@ -277,9 +277,9 @@ public class PeopleServiceRemote: ServiceRemoteWordPressComREST {
         let endpoint = "sites/\(siteID)/email-followers/\(userID)/delete"
         let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
 
-        wordPressComRestApi.POST(path, parameters: nil, success: { (_, _) in
+        wordPressComRestApi.POST(path, parameters: nil, success: { _, _ in
             success?()
-        }, failure: { (error, _) in
+        }, failure: { error, _ in
             failure?(error)
         })
     }
