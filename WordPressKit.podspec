@@ -2,7 +2,7 @@
 
 Pod::Spec.new do |s|
   s.name          = 'WordPressKit'
-  s.version       = '4.46.0-beta.2'
+  s.version       = '4.46.0'
 
   s.summary       = 'WordPressKit offers a clean and simple WordPress.com and WordPress.org API.'
   s.description   = <<-DESC
@@ -26,7 +26,7 @@ Pod::Spec.new do |s|
   s.dependency 'CocoaLumberjack', '~> 3.4'
   s.dependency 'NSObject-SafeExpectations', '0.0.4'
   s.dependency 'wpxmlrpc', '~> 0.9'
-  s.dependency 'UIDeviceIdentifier', '~> 1.4'
+  s.dependency 'UIDeviceIdentifier', '~> 2.0'
 
   # Use a loose restriction that allows both production and beta versions, up to the next major version.
   # If you want to update which of these is used, specify it in the host app.
