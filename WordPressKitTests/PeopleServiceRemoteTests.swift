@@ -53,6 +53,12 @@ class PeopleServiceRemoteTests: RemoteTestCase, RESTTestable {
     let inviteLinksDisableMockFilename              = "sites-invites-links-disable.json"
     let inviteLinksDisableEmptyMockFilename         = "sites-invites-links-disable-empty.json"
 
+    let emailFollowersSuccessMockFilename           = "site-email-followers-get-success.json"
+    let emailFollowersSuccessMorePagesMockFilename  = "site-email-followers-get-success-more-pages.json"
+
+    let emailFollowersAuthFailureMockFilename       = "site-email-followers-get-auth-failure.json"
+    let emailFollowersFailureMockFilename           = "site-email-followers-get-failure.json"
+
     // MARK: - Properties
 
     var remote: PeopleServiceRemote!
@@ -61,10 +67,12 @@ class PeopleServiceRemoteTests: RemoteTestCase, RESTTestable {
     var siteUserEndpoint: String { return "sites/\(siteID)/users/\(userID)" }
     var siteUnknownUserEndpoint: String { return "sites/\(siteID)/users/\(invalidUserID)" }
     var unknownSiteUserEndpoint: String { return "sites/\(invalidSiteID)/users/\(userID)" }
+    var siteEmailFollowersEndpoint: String { return "sites/\(siteID)/stats/followers" }
 
     var siteUserDeleteEndpoint: String { return "sites/\(siteID)/users/\(userID)/delete" }
     var siteViewerDeleteEndpoint: String { return "sites/\(siteID)/viewers/\(viewerID)/delete" }
     var siteFollowerDeleteEndpoint: String { return "sites/\(siteID)/followers/\(followerID)/delete" }
+    var siteEmailFollowerDeleteEndpoint: String { return "sites/\(siteID)/email-followers/\(followerID)/delete" }
 
     var siteInvitesEndpoint: String { return "sites/\(siteID)/invites" }
     var siteInvitesLinksGenerate: String { return "sites/\(siteID)/invites/links/generate" }
@@ -263,6 +271,176 @@ class PeopleServiceRemoteTests: RemoteTestCase, RESTTestable {
             expect.fulfill()
         })
 
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+
+    // MARK: - Email follower tests
+
+    func testGetEmailFollowersSuccess() {
+        // Given
+        let expect = expectation(description: "Get email followers success")
+        stubRemoteResponse(siteEmailFollowersEndpoint, filename: emailFollowersSuccessMockFilename, contentType: .ApplicationJSON, status: 200)
+
+        // When
+        remote.getEmailFollowers(siteID, page: 1, max: 1, success: { followers, hasMore in
+            // Then
+            XCTAssertTrue(followers.count > 0)
+            XCTAssertFalse(hasMore)
+            expect.fulfill()
+        }, failure: { _ in
+            XCTFail("This callback shouldn't get called")
+            expect.fulfill()
+        })
+
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+
+    func testGetEmailFollowersSuccessWithMorePages() {
+        // Given
+        let expect = expectation(description: "Get email followers success")
+        stubRemoteResponse(siteEmailFollowersEndpoint, filename: emailFollowersSuccessMorePagesMockFilename, contentType: .ApplicationJSON, status: 200)
+
+        // When
+        remote.getEmailFollowers(siteID, page: 1, max: 1, success: { followers, hasMore in
+            // Then
+            XCTAssertTrue(followers.count > 0)
+            XCTAssertTrue(hasMore)
+            expect.fulfill()
+        }, failure: { _ in
+            XCTFail("This callback shouldn't get called")
+            expect.fulfill()
+        })
+
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+
+    func testGetEmailFollowersNotAuthorizedFailure() {
+        // Given
+        let expect = expectation(description: "Get email followers not authorized failure")
+        stubRemoteResponse(siteEmailFollowersEndpoint, filename: emailFollowersAuthFailureMockFilename, contentType: .ApplicationJSON, status: 403)
+
+        // When
+        remote.getEmailFollowers(siteID, page: 1, max: 1, success: { _, _ in
+            XCTFail("This callback shouldn't get called")
+            expect.fulfill()
+        }, failure: { error in
+            // Then
+            let error = error as NSError
+            XCTAssertEqual(error.domain, String(reflecting: WordPressComRestApiError.self), "The error domain should be WordPressComRestApiError")
+            XCTAssertEqual(error.code, WordPressComRestApiError.authorizationRequired.rawValue, "The error code should be 2 - authorization required")
+            expect.fulfill()
+        })
+
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+
+    func testGetEmailFollowersFailure() {
+        // Given
+        let expect = expectation(description: "Get email followers failure")
+        stubRemoteResponse(siteEmailFollowersEndpoint, filename: emailFollowersFailureMockFilename, contentType: .ApplicationJSON, status: 404)
+
+        // When
+        remote.getEmailFollowers(siteID, page: 1, max: 1, success: { _, _ in
+            XCTFail("This callback shouldn't get called")
+            expect.fulfill()
+        }, failure: { error in
+            // Then
+            let error = error as NSError
+            XCTAssertEqual(error.domain, String(reflecting: WordPressComRestApiError.self), "The error domain should be WordPressComRestApiError")
+            XCTAssertEqual(error.code, WordPressComRestApiError.unknown.rawValue, "The error code should be 7 - unknown")
+            expect.fulfill()
+        })
+
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+
+    func testDeleteEmailFollowerWithInvalidFollowerFails() {
+        // Given
+        let expect = expectation(description: "Delete non-follower failure")
+        stubRemoteResponse(siteEmailFollowerDeleteEndpoint, filename: deleteFollowerFailureMockFilename, contentType: .ApplicationJSON, status: 404)
+
+        // When
+        remote.deleteEmailFollower(siteID, userID: followerID, success: {
+            XCTFail("This callback shouldn't get called")
+            expect.fulfill()
+        }, failure: { error in
+            // Then
+            let error = error as NSError
+            XCTAssertEqual(error.domain, String(reflecting: WordPressComRestApiError.self), "The error domain should be WordPressComRestApiError")
+            XCTAssertEqual(error.code, WordPressComRestApiError.unknown.rawValue, "The error code should be 7 - unknown")
+            expect.fulfill()
+        })
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+
+    func testDeleteEmailFollowerWithBadAuthFails() {
+        // Given
+        let expect = expectation(description: "Delete email follower with bad auth failure")
+        stubRemoteResponse(siteEmailFollowerDeleteEndpoint, filename: deleteFollowerAuthFailureMockFilename, contentType: .ApplicationJSON, status: 403)
+
+        // When
+        remote.deleteEmailFollower(siteID, userID: followerID, success: {
+            XCTFail("This callback shouldn't get called")
+            expect.fulfill()
+        }, failure: { error in
+            // Then
+            let error = error as NSError
+            XCTAssertEqual(error.domain, String(reflecting: WordPressComRestApiError.self), "The error domain should be WordPressComRestApiError")
+            XCTAssertEqual(error.code, WordPressComRestApiError.authorizationRequired.rawValue, "The error code should be 2 - authorization_required")
+            expect.fulfill()
+        })
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+
+    func testDeleteEmailFollowerWithValidFollowerSucceeds() {
+        // Given
+        let expect = expectation(description: "Delete email follower success")
+        stubRemoteResponse(siteEmailFollowerDeleteEndpoint, filename: deleteFollowerSuccessMockFilename, contentType: .ApplicationJSON)
+
+        // When
+        remote.deleteEmailFollower(siteID, userID: followerID, success: {
+            // Then
+            expect.fulfill()
+        }, failure: { _ in
+            XCTFail("This callback shouldn't get called")
+            expect.fulfill()
+        })
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+
+    func testDeleteEmailFollowerWithServerErrorFails() {
+        // Given
+        let expect = expectation(description: "Delete email follower with server error failure")
+        stubRemoteResponse(siteEmailFollowerDeleteEndpoint, data: Data(), contentType: .NoContentType, status: 500)
+
+        // When
+        remote.deleteEmailFollower(siteID, userID: followerID, success: {
+            XCTFail("This callback shouldn't get called")
+            expect.fulfill()
+        }, failure: { error in
+            // Then
+            let error = error as NSError
+            XCTAssertEqual(error.domain, String(reflecting: WordPressComRestApiError.self), "The error domain should be WordPressComRestApiError")
+            XCTAssertEqual(error.code, WordPressComRestApiError.unknown.rawValue, "The error code should be 7 - unknown")
+            expect.fulfill()
+        })
+
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+
+    func testDeleteEmailFollowerWithBadJsonFails() {
+        // Given
+        let expect = expectation(description: "Delete email follower with invalid json response failure")
+        stubRemoteResponse(siteEmailFollowerDeleteEndpoint, filename: deleteFollowerBadJsonFailureMockFilename, contentType: .ApplicationJSON, status: 200)
+
+        // When
+        remote.deleteEmailFollower(siteID, userID: followerID, success: {
+            XCTFail("This callback shouldn't get called")
+            expect.fulfill()
+        }, failure: { _ in
+            // Then
+            expect.fulfill()
+        })
         waitForExpectations(timeout: timeout, handler: nil)
     }
 
