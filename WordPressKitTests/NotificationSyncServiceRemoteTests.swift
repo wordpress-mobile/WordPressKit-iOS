@@ -151,8 +151,8 @@ class NotificationSyncServiceRemoteTests: RemoteTestCase, RESTTestable {
                 XCTAssertEqual(error.domain, String(reflecting: NotificationSyncServiceRemote.InputError.self))
                 XCTAssertEqual(
                     error.code,
-                    NotificationSyncServiceRemote.InputError.arrayEmpty.rawValue,
-                    "The error code should be 0 - emptyArray"
+                    NotificationSyncServiceRemote.InputError.notificationIDsNotProvided.rawValue,
+                    "The error code should be 0 - notificationIDsNotProvided"
                 )
                 expect.fulfill()
             }
