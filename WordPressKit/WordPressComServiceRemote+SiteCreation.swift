@@ -16,6 +16,7 @@ public struct SiteCreationRequest: Encodable {
     public let clientIdentifier: String
     public let clientSecret: String
     public let siteDesign: String?
+    public let timezoneIdentifier: String?
 
     public init(segmentIdentifier: Int64?,
                 siteDesign: String?,
@@ -27,7 +28,8 @@ public struct SiteCreationRequest: Encodable {
                 languageIdentifier: String,
                 shouldValidate: Bool,
                 clientIdentifier: String,
-                clientSecret: String) {
+                clientSecret: String,
+                timezoneIdentifier: String?) {
 
         self.segmentIdentifier = segmentIdentifier
         self.siteDesign = siteDesign
@@ -40,6 +42,7 @@ public struct SiteCreationRequest: Encodable {
         self.shouldValidate = shouldValidate
         self.clientIdentifier = clientIdentifier
         self.clientSecret = clientSecret
+        self.timezoneIdentifier = timezoneIdentifier
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -61,7 +64,7 @@ public struct SiteCreationRequest: Encodable {
         } else {
             siteInfo = nil
         }
-        let options = SiteCreationOptions(segmentIdentifier: segmentIdentifier, verticalIdentifier: verticalIdentifier, siteInformation: siteInfo, siteDesign: siteDesign)
+        let options = SiteCreationOptions(segmentIdentifier: segmentIdentifier, verticalIdentifier: verticalIdentifier, siteInformation: siteInfo, siteDesign: siteDesign, timezoneIdentifier: timezoneIdentifier)
 
         try container.encode(options, forKey: .options)
     }
@@ -83,12 +86,14 @@ private struct SiteCreationOptions: Encodable {
     let verticalIdentifier: String?
     let siteInformation: SiteInformation?
     let siteDesign: String?
+    let timezoneIdentifier: String?
 
     enum CodingKeys: String, CodingKey {
         case segmentIdentifier  = "site_segment"
         case verticalIdentifier = "site_vertical"
         case siteInformation    = "site_information"
         case siteDesign         = "template"
+        case timezoneIdentifier = "timezone_string"
     }
 }
 
