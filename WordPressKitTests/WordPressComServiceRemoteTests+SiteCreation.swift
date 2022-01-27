@@ -23,7 +23,8 @@ final class SiteCreationServiceTests: RemoteTestCase, RESTTestable {
             languageIdentifier: "TEST-ENGLISH",
             shouldValidate: true,
             clientIdentifier: "TEST-ID",
-            clientSecret: "TEST-SECRET"
+            clientSecret: "TEST-SECRET",
+            timezoneIdentifier: TimeZone.current.identifier
         )
 
         // When, Then
