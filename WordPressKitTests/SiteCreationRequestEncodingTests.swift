@@ -13,6 +13,7 @@ final class SiteCreationRequestEncodingTests: XCTestCase {
     static let expectedValidateValue = true
     static let expectedClientId = "TEST-ID"
     static let expectedClientSecret = "TEST-SECRET"
+    static let expectedTimezoneIdentifier = "Pacific/Samoa"
 
     func testSiteCreationRequestEncoding_WithAllParameters_IsSuccessful() {
         // Given
@@ -27,7 +28,8 @@ final class SiteCreationRequestEncodingTests: XCTestCase {
             languageIdentifier: SiteCreationRequestEncodingTests.expectedLanguageId,
             shouldValidate: SiteCreationRequestEncodingTests.expectedValidateValue,
             clientIdentifier: SiteCreationRequestEncodingTests.expectedClientId,
-            clientSecret: SiteCreationRequestEncodingTests.expectedClientSecret
+            clientSecret: SiteCreationRequestEncodingTests.expectedClientSecret,
+            timezoneIdentifier: SiteCreationRequestEncodingTests.expectedTimezoneIdentifier
         )
 
         // When
@@ -50,7 +52,8 @@ final class SiteCreationRequestEncodingTests: XCTestCase {
             languageIdentifier: SiteCreationRequestEncodingTests.expectedLanguageId,
             shouldValidate: SiteCreationRequestEncodingTests.expectedValidateValue,
             clientIdentifier: SiteCreationRequestEncodingTests.expectedClientId,
-            clientSecret: SiteCreationRequestEncodingTests.expectedClientSecret
+            clientSecret: SiteCreationRequestEncodingTests.expectedClientSecret,
+            timezoneIdentifier: SiteCreationRequestEncodingTests.expectedTimezoneIdentifier
         )
 
         // When
@@ -73,7 +76,8 @@ final class SiteCreationRequestEncodingTests: XCTestCase {
             languageIdentifier: SiteCreationRequestEncodingTests.expectedLanguageId,
             shouldValidate: false,
             clientIdentifier: SiteCreationRequestEncodingTests.expectedClientId,
-            clientSecret: SiteCreationRequestEncodingTests.expectedClientSecret
+            clientSecret: SiteCreationRequestEncodingTests.expectedClientSecret,
+            timezoneIdentifier: SiteCreationRequestEncodingTests.expectedTimezoneIdentifier
         )
 
         // When
@@ -98,7 +102,8 @@ final class SiteCreationRequestEncodingTests: XCTestCase {
             languageIdentifier: SiteCreationRequestEncodingTests.expectedLanguageId,
             shouldValidate: SiteCreationRequestEncodingTests.expectedValidateValue,
             clientIdentifier: SiteCreationRequestEncodingTests.expectedClientId,
-            clientSecret: SiteCreationRequestEncodingTests.expectedClientSecret
+            clientSecret: SiteCreationRequestEncodingTests.expectedClientSecret,
+            timezoneIdentifier: SiteCreationRequestEncodingTests.expectedTimezoneIdentifier
         )
 
         // When
@@ -121,7 +126,8 @@ final class SiteCreationRequestEncodingTests: XCTestCase {
             languageIdentifier: SiteCreationRequestEncodingTests.expectedLanguageId,
             shouldValidate: SiteCreationRequestEncodingTests.expectedValidateValue,
             clientIdentifier: SiteCreationRequestEncodingTests.expectedClientId,
-            clientSecret: SiteCreationRequestEncodingTests.expectedClientSecret
+            clientSecret: SiteCreationRequestEncodingTests.expectedClientSecret,
+            timezoneIdentifier: SiteCreationRequestEncodingTests.expectedTimezoneIdentifier
         )
 
         // When
@@ -144,7 +150,8 @@ final class SiteCreationRequestEncodingTests: XCTestCase {
             languageIdentifier: SiteCreationRequestEncodingTests.expectedLanguageId,
             shouldValidate: SiteCreationRequestEncodingTests.expectedValidateValue,
             clientIdentifier: SiteCreationRequestEncodingTests.expectedClientId,
-            clientSecret: SiteCreationRequestEncodingTests.expectedClientSecret
+            clientSecret: SiteCreationRequestEncodingTests.expectedClientSecret,
+            timezoneIdentifier: SiteCreationRequestEncodingTests.expectedTimezoneIdentifier
         )
 
         // When
@@ -167,7 +174,8 @@ final class SiteCreationRequestEncodingTests: XCTestCase {
             languageIdentifier: SiteCreationRequestEncodingTests.expectedLanguageId,
             shouldValidate: SiteCreationRequestEncodingTests.expectedValidateValue,
             clientIdentifier: SiteCreationRequestEncodingTests.expectedClientId,
-            clientSecret: SiteCreationRequestEncodingTests.expectedClientSecret
+            clientSecret: SiteCreationRequestEncodingTests.expectedClientSecret,
+            timezoneIdentifier: SiteCreationRequestEncodingTests.expectedTimezoneIdentifier
         )
 
         // When
@@ -243,5 +251,8 @@ extension SiteCreationRequestEncodingTests {
 
         let actualDesign = actualOptions!["template"] as? String
         XCTAssertEqual(expectedSiteDesign, actualDesign)
+
+        let actualTimezoneIdentifier = actualOptions!["timezone_string"] as? String
+        XCTAssertNotNil(actualTimezoneIdentifier)
     }
 }
