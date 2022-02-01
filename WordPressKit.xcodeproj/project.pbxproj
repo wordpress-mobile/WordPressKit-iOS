@@ -362,6 +362,7 @@
 		8B9F0CAE2762414F00DBE144 /* WordPressComRestApiTests+AsyncAwait.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B9F0CAD2762414F00DBE144 /* WordPressComRestApiTests+AsyncAwait.swift */; };
 		8BB5F62127A99A2000B2FFAF /* DashboardServiceRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB5F62027A99A2000B2FFAF /* DashboardServiceRemote.swift */; };
 		8BB5F62427A9A5D100B2FFAF /* DashboardServiceRemoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB5F62327A9A5D100B2FFAF /* DashboardServiceRemoteTests.swift */; };
+		8BB5F62827A9B12800B2FFAF /* dashboard-200-with-drafts-and-scheduled-posts.json in Resources */ = {isa = PBXBuildFile; fileRef = 8BB5F62727A9B12800B2FFAF /* dashboard-200-with-drafts-and-scheduled-posts.json */; };
 		8BB66DB02523C181000B29DA /* ReaderPostServiceRemote+V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB66DAF2523C181000B29DA /* ReaderPostServiceRemote+V2.swift */; };
 		8BE67ED324AD05D3004DB4C9 /* Decodable+DictionaryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE67ED224AD05D3004DB4C9 /* Decodable+DictionaryTests.swift */; };
 		8BFB4E6625B07905004D026E /* jetpack-capabilities-34197361-success.json in Resources */ = {isa = PBXBuildFile; fileRef = 8BFB4E6525B07905004D026E /* jetpack-capabilities-34197361-success.json */; };
@@ -1000,6 +1001,7 @@
 		8B9F0CAD2762414F00DBE144 /* WordPressComRestApiTests+AsyncAwait.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WordPressComRestApiTests+AsyncAwait.swift"; sourceTree = "<group>"; };
 		8BB5F62027A99A2000B2FFAF /* DashboardServiceRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardServiceRemote.swift; sourceTree = "<group>"; };
 		8BB5F62327A9A5D100B2FFAF /* DashboardServiceRemoteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardServiceRemoteTests.swift; sourceTree = "<group>"; };
+		8BB5F62727A9B12800B2FFAF /* dashboard-200-with-drafts-and-scheduled-posts.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "dashboard-200-with-drafts-and-scheduled-posts.json"; sourceTree = "<group>"; };
 		8BB66DAF2523C181000B29DA /* ReaderPostServiceRemote+V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReaderPostServiceRemote+V2.swift"; sourceTree = "<group>"; };
 		8BE67ED224AD05D3004DB4C9 /* Decodable+DictionaryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Decodable+DictionaryTests.swift"; sourceTree = "<group>"; };
 		8BFB4E6525B07905004D026E /* jetpack-capabilities-34197361-success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "jetpack-capabilities-34197361-success.json"; sourceTree = "<group>"; };
@@ -1993,6 +1995,7 @@
 				C92EFF7225E7444400E0308D /* common-starter-site-designs-empty-designs.json */,
 				C92EFF6C25E741E900E0308D /* common-starter-site-designs-malformed.json */,
 				C92EFF6825E7403F00E0308D /* common-starter-site-designs-success.json */,
+				8BB5F62727A9B12800B2FFAF /* dashboard-200-with-drafts-and-scheduled-posts.json */,
 				436D564B211CCCB900CEAA33 /* domain-contact-information-response-success.json */,
 				74585B931F0D53B800E7E667 /* domain-service-all-domain-types.json */,
 				74585B9E1F0D6E7500E7E667 /* domain-service-bad-json.json */,
@@ -2603,6 +2606,7 @@
 				AB49D09725D1AC0A0084905B /* post-likes-success.json in Resources */,
 				74FC6F401F191C1D00112505 /* notifications-mark-as-read.json in Resources */,
 				74D67F3A1F15C3740010C5ED /* site-viewers-delete-failure.json in Resources */,
+				8BB5F62827A9B12800B2FFAF /* dashboard-200-with-drafts-and-scheduled-posts.json in Resources */,
 				BA3F138E24A09C87006367A3 /* plugin-install-generic-error.json in Resources */,
 				3236F79C24AE413A0088E8F3 /* reader-interests-success.json in Resources */,
 				93BD275C1EE73442002BB00B /* is-available-username-success.json in Resources */,
