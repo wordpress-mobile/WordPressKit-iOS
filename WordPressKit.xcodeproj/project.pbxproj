@@ -447,6 +447,8 @@
 		984E34F422EF9465005C3F92 /* stats-file-downloads.json in Resources */ = {isa = PBXBuildFile; fileRef = 984E34F322EF9464005C3F92 /* stats-file-downloads.json */; };
 		9856BE962630B5C200C12FEB /* RemoteUser+Likes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9856BE952630B5C200C12FEB /* RemoteUser+Likes.swift */; };
 		98DC787522BAEBF200267279 /* StatsAllAnnualInsight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98DC787422BAEBF100267279 /* StatsAllAnnualInsight.swift */; };
+		98E1A60B27AB604600C61A7F /* site-comment-success.json in Resources */ = {isa = PBXBuildFile; fileRef = 98E1A60A27AB604600C61A7F /* site-comment-success.json */; };
+		98E1A60D27AB621200C61A7F /* xmlrpc-site-comment-success.xml in Resources */ = {isa = PBXBuildFile; fileRef = 98E1A60C27AB621200C61A7F /* xmlrpc-site-comment-success.xml */; };
 		98EA910526BC96B8004098A1 /* xmlrpc-site-comments-success.xml in Resources */ = {isa = PBXBuildFile; fileRef = 98EA910426BC96B8004098A1 /* xmlrpc-site-comments-success.xml */; };
 		98F884D426BC6445009ADF57 /* CommentServiceRemoteRESTTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F884D326BC6445009ADF57 /* CommentServiceRemoteRESTTests.swift */; };
 		98F884D626BC6909009ADF57 /* site-comments-success.json in Resources */ = {isa = PBXBuildFile; fileRef = 98F884D526BC6909009ADF57 /* site-comments-success.json */; };
@@ -1087,6 +1089,8 @@
 		984E34F322EF9464005C3F92 /* stats-file-downloads.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "stats-file-downloads.json"; sourceTree = "<group>"; };
 		9856BE952630B5C200C12FEB /* RemoteUser+Likes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RemoteUser+Likes.swift"; sourceTree = "<group>"; };
 		98DC787422BAEBF100267279 /* StatsAllAnnualInsight.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatsAllAnnualInsight.swift; sourceTree = "<group>"; };
+		98E1A60A27AB604600C61A7F /* site-comment-success.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "site-comment-success.json"; sourceTree = "<group>"; };
+		98E1A60C27AB621200C61A7F /* xmlrpc-site-comment-success.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "xmlrpc-site-comment-success.xml"; sourceTree = "<group>"; };
 		98EA910426BC96B8004098A1 /* xmlrpc-site-comments-success.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "xmlrpc-site-comments-success.xml"; sourceTree = "<group>"; };
 		98F884D326BC6445009ADF57 /* CommentServiceRemoteRESTTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentServiceRemoteRESTTests.swift; sourceTree = "<group>"; };
 		98F884D526BC6909009ADF57 /* site-comments-success.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "site-comments-success.json"; sourceTree = "<group>"; };
@@ -2103,6 +2107,7 @@
 				74C473C61EF334D4009918F2 /* site-active-purchases-none-active-success.json */,
 				74C473C41EF33242009918F2 /* site-active-purchases-two-active-success.json */,
 				98F884D526BC6909009ADF57 /* site-comments-success.json */,
+				98E1A60A27AB604600C61A7F /* site-comment-success.json */,
 				731BA83921DECE93000FDFCD /* site-creation-success.json */,
 				74C473B21EF3204B009918F2 /* site-delete-auth-failure.json */,
 				74C473B41EF320CC009918F2 /* site-delete-bad-json-failure.json */,
@@ -2207,6 +2212,7 @@
 				93F50A451F227F3600B5BEBA /* xmlrpc-response-getprofile.xml */,
 				93F50A461F227F3600B5BEBA /* xmlrpc-response-valid-but-unexpected-dictionary.xml */,
 				98EA910426BC96B8004098A1 /* xmlrpc-site-comments-success.xml */,
+				98E1A60C27AB621200C61A7F /* xmlrpc-site-comment-success.xml */,
 				740B23DE1F17FB4200067A2A /* xmlrpc-wp-getpost-bad-xml-failure.xml */,
 				740B23DF1F17FB4200067A2A /* xmlrpc-wp-getpost-invalid-id-failure.xml */,
 				740B23E01F17FB4200067A2A /* xmlrpc-wp-getpost-success.xml */,
@@ -2684,8 +2690,10 @@
 				404057DC221C9FD80060250C /* stats-referrer-data.json in Resources */,
 				FA87FE0924EB3FEF003FBEE3 /* reader-post-comments-subscription-status-success.json in Resources */,
 				E6B0461325E5B6F500DF6F4F /* sites-invites-links-disable.json in Resources */,
+				98E1A60D27AB621200C61A7F /* xmlrpc-site-comment-success.xml in Resources */,
 				74C473C71EF334D4009918F2 /* site-active-purchases-none-active-success.json in Resources */,
 				FA87FE0D24EB4450003FBEE3 /* reader-post-comments-unsubscribe-success.json in Resources */,
+				98E1A60B27AB604600C61A7F /* site-comment-success.json in Resources */,
 				829BA4321FACF187003ADEEA /* activity-rewind-status-restore-finished.json in Resources */,
 				F3FF8A29279C991B00E5C90F /* site-email-followers-get-success-more-pages.json in Resources */,
 				74D67F181F15C2D70010C5ED /* site-users-update-role-unknown-site-failure.json in Resources */,
