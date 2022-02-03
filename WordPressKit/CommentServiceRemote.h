@@ -31,6 +31,14 @@ typedef enum {
                             success:(void (^)(NSArray *posts))success
                             failure:(void (^)(NSError *error))failure;
 
+
+/**
+ Loads the specified comment associated with a blog
+ */
+- (void)getCommentWithID:(NSNumber *)commentID
+                 success:(void (^)(RemoteComment *comment))success
+                 failure:(void (^)(NSError *))failure;
+
 /**
  Publishes a new comment
  */
