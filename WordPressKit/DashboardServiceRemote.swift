@@ -10,7 +10,7 @@ open class DashboardServiceRemote: ServiceRemoteWordPressComREST {
                                 parameters: nil,
                                 success: { response, _ in
             guard let cards = response["body"] as? NSDictionary else {
-                // failure
+                failure(ResponseError.decodingFailure)
                 return
             }
 
@@ -32,5 +32,9 @@ open class DashboardServiceRemote: ServiceRemoteWordPressComREST {
         }
 
         return self.path(forEndpoint: endpoint, withVersion: ._2_0)
+    }
+
+    enum ResponseError: Error {
+        case decodingFailure
     }
 }

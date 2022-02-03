@@ -67,4 +67,19 @@ class DashboardServiceRemoteTests: RemoteTestCase, RESTTestable {
 
         waitForExpectations(timeout: timeout, handler: nil)
     }
+
+    // Calls the failure block when request fails
+    //
+    func testRequestInvalidJSON() {
+        let expect = expectation(description: "Get cards successfully")
+        stubRemoteResponse("wpcom/v2/sites/165243437/dashboard/cards/v1_1/?cards=posts,todays_stats", data: "{}".data(using: .utf8)!, contentType: .ApplicationJSON)
+
+        dashboardServiceRemote.fetch(cards: ["posts", "todays_stats"], forBlogID: 165243437) { _ in
+            XCTFail("This call should not suceed")
+        } failure: { error in
+            expect.fulfill()
+        }
+
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
 }
