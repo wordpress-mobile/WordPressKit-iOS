@@ -17,7 +17,7 @@ final class CommentServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
     private var siteCommentEndpoint: String {
         return "sites/\(siteId)/comments/\(commentId)"
     }
-    
+
     override func setUp() {
         super.setUp()
         remote = CommentServiceRemoteREST(wordPressComRestApi: getRestApi(), siteID: NSNumber(value: siteId))
@@ -70,23 +70,22 @@ final class CommentServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
 
         waitForExpectations(timeout: timeout, handler: nil)
     }
-    
+
     func testGetSingleCommentSucceeds() {
         let expect = expectation(description: "Fetching a single site comment should succeed")
-        
+
         stubRemoteResponse(siteCommentEndpoint,
                            filename: fetchCommentSuccessFilename,
                            contentType: .ApplicationJSON)
-        
-        
+
         remote.getCommentWithID(NSNumber(value: commentId),
                                 success: { comment in
-            
+
             guard let comment = comment else {
                 XCTFail("Failed to retrieve mock site comment")
                 return
             }
-            
+
             XCTAssertEqual(comment.authorID, NSNumber(value: 12345))
             XCTAssertEqual(comment.author, "Comment Author")
             XCTAssertEqual(comment.authorEmail, "author@email.com")
@@ -108,7 +107,7 @@ final class CommentServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
         }, failure: { _ in
             XCTFail("This callback shouldn't get called")
         })
-        
+
         waitForExpectations(timeout: timeout, handler: nil)
     }
 }
