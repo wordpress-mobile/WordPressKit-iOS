@@ -1,7 +1,7 @@
 import Foundation
 
 open class DashboardServiceRemote: ServiceRemoteWordPressComREST {
-    open func fetch(cards: [String], forBlogID blogID: Int, completion: @escaping () -> Void) {
+    open func fetch(cards: [String], forBlogID blogID: Int, completion: @escaping (NSDictionary) -> Void) {
         guard let requestUrl = endpoint(for: cards, blogID: blogID) else {
             return
         }
@@ -9,8 +9,12 @@ open class DashboardServiceRemote: ServiceRemoteWordPressComREST {
         wordPressComRestApi.GET(requestUrl,
                                 parameters: nil,
                                 success: { response, _ in
+            guard let cards = response["body"] as? NSDictionary else {
+                // failure
+                return
+            }
 
-                                    completion()
+            completion(cards)
         }, failure: { error, _ in
             DDLogError("Error fetching dashboard cards: \(error)")
         })
