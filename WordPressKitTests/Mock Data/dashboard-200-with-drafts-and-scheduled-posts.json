@@ -1,49 +1,31 @@
 {
-    "body": {
-        "posts": {
-            "has_published": true,
-            "draft": [
-                {
-                    "id": 1949,
-                    "title": "Howdy 🤷🏻‍♂️",
-                    "content": "Howdy",
-                    "featured_image": null,
-                    "date": "2022-01-19 12:46:04"
-                },
-                {
-                    "id": 1688,
-                    "title": "Test",
-                    "content": "Test",
-                    "featured_image": null,
-                    "date": "2020-06-05 15:02:55"
-                },
-                {
-                    "id": 1679,
-                    "title": "Edged",
-                    "content": "Dfgdfgdg",
-                    "featured_image": null,
-                    "date": "0000-00-00 00:00:00"
-                }
-            ],
-            "scheduled": [
-                {
-                    "id": 1954,
-                    "title": "Scheduled",
-                    "content": "Scheduled",
-                    "featured_image": null,
-                    "date": "2023-01-08 17:46:00"
-                }
-            ]
-        },
-        "todays_stats": {
-            "views": 0,
-            "visitors": 0,
-            "likes": 0,
-            "comments": 0
-        }
+    "posts": {
+        "has_published": true,
+        "draft": [{
+            "id": 3246,
+            "title": "Whatever",
+            "content": "",
+            "featured_image": null,
+            "date": "2022-01-13 00:30:56"
+        }, {
+            "id": 3120,
+            "title": "Dfhhffg :)",
+            "content": "",
+            "featured_image": null,
+            "date": "2021-03-05 21:04:44"
+        }, {
+            "id": 3109,
+            "title": "Title!",
+            "content": "",
+            "featured_image": null,
+            "date": "0000-00-00 00:00:00"
+        }],
+        "scheduled": []
     },
-    "status": 200,
-    "headers": {
-        "Allow": "GET"
+    "todays_stats": {
+        "views": 0,
+        "visitors": 0,
+        "likes": 0,
+        "comments": 0
     }
 }

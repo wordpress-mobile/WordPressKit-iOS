@@ -9,7 +9,7 @@ open class DashboardServiceRemote: ServiceRemoteWordPressComREST {
         wordPressComRestApi.GET(requestUrl,
                                 parameters: nil,
                                 success: { response, _ in
-            guard let cards = response["body"] as? NSDictionary else {
+            guard let cards = response as? NSDictionary else {
                 failure(ResponseError.decodingFailure)
                 return
             }

@@ -72,7 +72,7 @@ class DashboardServiceRemoteTests: RemoteTestCase, RESTTestable {
     //
     func testRequestInvalidJSON() {
         let expect = expectation(description: "Get cards successfully")
-        stubRemoteResponse("wpcom/v2/sites/165243437/dashboard/cards/v1_1/?cards=posts,todays_stats", data: "{}".data(using: .utf8)!, contentType: .ApplicationJSON)
+        stubRemoteResponse("wpcom/v2/sites/165243437/dashboard/cards/v1_1/?cards=posts,todays_stats", data: "foo".data(using: .utf8)!, contentType: .ApplicationJSON)
 
         dashboardServiceRemote.fetch(cards: ["posts", "todays_stats"], forBlogID: 165243437) { _ in
             XCTFail("This call should not suceed")
