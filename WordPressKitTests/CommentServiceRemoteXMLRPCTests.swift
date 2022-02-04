@@ -66,7 +66,7 @@ class CommentServiceRemoteXMLRPCTests: RemoteTestCase, XMLRPCTestable {
         stubRemoteResponse(XMLRPCTestableConstants.xmlRpcUrl,
                            filename: getSiteCommentSuccessMockFilename,
                            contentType: .XML)
-        
+
         if let remoteInstance = remote as? CommentServiceRemote {
 
             remoteInstance.getCommentWithID(NSNumber(value: 1),
