@@ -9,3 +9,4 @@ Fixes #
 ℹ Please replace this with a clear and concise description of the steps required to validate this pull request.
 
 - [ ] Please check here if your pull request includes additional test coverage.
+- [ ] I have considered updating the `version` in the `.podspec` file.
