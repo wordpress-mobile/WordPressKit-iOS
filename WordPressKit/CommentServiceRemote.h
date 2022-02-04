@@ -37,7 +37,7 @@ typedef enum {
  */
 - (void)getCommentWithID:(NSNumber *)commentID
                  success:(void (^)(RemoteComment *comment))success
-                 failure:(void (^)(NSError *))failure;
+                 failure:(void (^)(NSError * error))failure;
 
 /**
  Publishes a new comment

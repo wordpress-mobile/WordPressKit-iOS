@@ -78,7 +78,7 @@
 
 - (void)getCommentWithID:(NSNumber *)commentID
                  success:(void (^)(RemoteComment *comment))success
-                 failure:(void (^)(NSError *))failure
+                 failure:(void (^)(NSError * error))failure
 {
     NSString *path = [NSString stringWithFormat:@"sites/%@/comments/%@", self.siteID, commentID];
     NSString *requestUrl = [self pathForEndpoint:path
