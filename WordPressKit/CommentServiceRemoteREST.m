@@ -76,6 +76,28 @@
     }
 }
 
+- (void)getCommentWithID:(NSNumber *)commentID
+                 success:(void (^)(RemoteComment *comment))success
+                 failure:(void (^)(NSError * error))failure
+{
+    NSString *path = [NSString stringWithFormat:@"sites/%@/comments/%@", self.siteID, commentID];
+    NSString *requestUrl = [self pathForEndpoint:path
+                                     withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
+    
+    [self.wordPressComRestApi GET:requestUrl
+                       parameters:nil
+                          success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
+        RemoteComment *comment = [self remoteCommentFromJSONDictionary:responseObject];
+        if (success) {
+            success(comment);
+        }
+    } failure:^(NSError *error, NSHTTPURLResponse *httpResponse) {
+        if (failure) {
+            failure(error);
+        }
+    }];
+}
+
 - (void)createComment:(RemoteComment *)comment
               success:(void (^)(RemoteComment *comment))success
               failure:(void (^)(NSError *))failure
