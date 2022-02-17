@@ -22,7 +22,7 @@ open class DashboardServiceRemote: ServiceRemoteWordPressComREST {
     }
 
     private func endpoint(for cards: [String], blogID: Int) -> String? {
-        var path = URLComponents(string: "sites/\(blogID)/dashboard/cards/v1_1/")
+        var path = URLComponents(string: "sites/\(blogID)/dashboard/cards-data/")
 
         let cardsEncoded = cards.joined(separator: ",")
         path?.queryItems = [URLQueryItem(name: "cards", value: cardsEncoded)]
