@@ -14,7 +14,7 @@ class DashboardServiceRemoteTests: RemoteTestCase, RESTTestable {
     //
     func testRequestCardsParam() {
         let expect = expectation(description: "Get cards successfully")
-        stubRemoteResponse("wpcom/v2/sites/165243437/dashboard/cards/v1_1/?cards=posts,todays_stats", filename: "dashboard-200-with-drafts-and-scheduled-posts.json", contentType: .ApplicationJSON)
+        stubRemoteResponse("wpcom/v2/sites/165243437/dashboard/cards-data/?cards=posts,todays_stats", filename: "dashboard-200-with-drafts-and-scheduled-posts.json", contentType: .ApplicationJSON)
 
         dashboardServiceRemote.fetch(cards: ["posts", "todays_stats"], forBlogID: 165243437) { _ in
             expect.fulfill()
@@ -27,7 +27,7 @@ class DashboardServiceRemoteTests: RemoteTestCase, RESTTestable {
     //
     func testRequestCards() {
         let expect = expectation(description: "Get cards successfully")
-        stubRemoteResponse("wpcom/v2/sites/165243437/dashboard/cards/v1_1/?cards=posts,todays_stats", filename: "dashboard-200-with-drafts-and-scheduled-posts.json", contentType: .ApplicationJSON)
+        stubRemoteResponse("wpcom/v2/sites/165243437/dashboard/cards-data/?cards=posts,todays_stats", filename: "dashboard-200-with-drafts-and-scheduled-posts.json", contentType: .ApplicationJSON)
 
         dashboardServiceRemote.fetch(cards: ["posts", "todays_stats"], forBlogID: 165243437) { cards in
             XCTAssertTrue((cards["posts"] as! NSDictionary)["has_published"] as! Bool)
@@ -42,7 +42,7 @@ class DashboardServiceRemoteTests: RemoteTestCase, RESTTestable {
     //
     func testRequestFails() {
         let expect = expectation(description: "Get cards successfully")
-        stubRemoteResponse("wpcom/v2/sites/165243437/dashboard/cards/v1_1/?cards=posts,todays_stats", filename: "dashboard-200-with-drafts-and-scheduled-posts.json", contentType: .ApplicationJSON, status: 503)
+        stubRemoteResponse("wpcom/v2/sites/165243437/dashboard/cards-data/?cards=posts,todays_stats", filename: "dashboard-200-with-drafts-and-scheduled-posts.json", contentType: .ApplicationJSON, status: 503)
 
         dashboardServiceRemote.fetch(cards: ["posts", "todays_stats"], forBlogID: 165243437) { _ in
             XCTFail("This call should not suceed")
@@ -57,7 +57,7 @@ class DashboardServiceRemoteTests: RemoteTestCase, RESTTestable {
     //
     func testRequestInvalidCard() {
         let expect = expectation(description: "Get cards successfully")
-        stubRemoteResponse("wpcom/v2/sites/165243437/dashboard/cards/v1_1/?cards=invalid_card", filename: "dashboard-400-invalid-card.json", contentType: .ApplicationJSON, status: 400)
+        stubRemoteResponse("wpcom/v2/sites/165243437/dashboard/cards-data/?cards=invalid_card", filename: "dashboard-400-invalid-card.json", contentType: .ApplicationJSON, status: 400)
 
         dashboardServiceRemote.fetch(cards: ["invalid_card"], forBlogID: 165243437) { _ in
             XCTFail("This call should not suceed")
@@ -72,7 +72,7 @@ class DashboardServiceRemoteTests: RemoteTestCase, RESTTestable {
     //
     func testRequestInvalidJSON() {
         let expect = expectation(description: "Get cards successfully")
-        stubRemoteResponse("wpcom/v2/sites/165243437/dashboard/cards/v1_1/?cards=posts,todays_stats", data: "foo".data(using: .utf8)!, contentType: .ApplicationJSON)
+        stubRemoteResponse("wpcom/v2/sites/165243437/dashboard/cards-data/?cards=posts,todays_stats", data: "foo".data(using: .utf8)!, contentType: .ApplicationJSON)
 
         dashboardServiceRemote.fetch(cards: ["posts", "todays_stats"], forBlogID: 165243437) { _ in
             XCTFail("This call should not suceed")
