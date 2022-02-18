@@ -25,6 +25,7 @@ import Alamofire
     case unknown
     case preconditionFailure
     case malformedURL
+    case invalidQuery
 }
 
 public enum ResponseType {
@@ -583,7 +584,8 @@ extension WordPressComRestApi {
             "invalid_token": WordPressComRestApiError.invalidToken,
             "authorization_required": WordPressComRestApiError.authorizationRequired,
             "upload_error": WordPressComRestApiError.uploadFailed,
-            "unauthorized": WordPressComRestApiError.authorizationRequired
+            "unauthorized": WordPressComRestApiError.authorizationRequired,
+            "invalid_query": WordPressComRestApiError.invalidQuery
         ]
 
         let mappedError = errorsMap[errorCode] ?? WordPressComRestApiError.unknown
