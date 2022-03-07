@@ -17,6 +17,7 @@ class DomainsServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
     let validateDomainContactInformationFail    = "validate-domain-contact-information-response-fail.json"
     let validateDomainContactInformationSuccess = "validate-domain-contact-information-response-success.json"
     let getDomainContactInformationSuccess      = "domain-contact-information-response-success.json"
+    let domainServiceInvalidQuery               = "domain-service-invalid-query.json"
 
     // MARK: - Properties
 
@@ -218,6 +219,23 @@ class DomainsServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
         }
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+
+    func testGetDomainsWithInvalidQuery() {
+        let expect = expectation(description: "Get domains with invalid query")
+
+        stubRemoteResponse(domainsEndpoint, filename: domainServiceInvalidQuery, contentType: .ApplicationJSON, status: 400)
+        remote.getDomainsForSite(siteID, success: { _ in
+            XCTFail("This callback shouldn't get called")
+            expect.fulfill()
+        }, failure: { error in
+            let error = error as NSError
+            XCTAssertEqual(error.domain, String(reflecting: WordPressComRestApiError.self), "The error domain should be WordPressComRestApiError")
+            XCTAssertEqual(error.code, WordPressComRestApiError.invalidQuery.rawValue, "The error code should be 10 - invalid_query")
+            expect.fulfill()
+        })
+
         waitForExpectations(timeout: timeout, handler: nil)
     }
 }

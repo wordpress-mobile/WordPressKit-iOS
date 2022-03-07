@@ -536,6 +536,7 @@
 		C92EFF6925E7403F00E0308D /* common-starter-site-designs-success.json in Resources */ = {isa = PBXBuildFile; fileRef = C92EFF6825E7403F00E0308D /* common-starter-site-designs-success.json */; };
 		C92EFF6D25E741E900E0308D /* common-starter-site-designs-malformed.json in Resources */ = {isa = PBXBuildFile; fileRef = C92EFF6C25E741E900E0308D /* common-starter-site-designs-malformed.json */; };
 		C92EFF7325E7444400E0308D /* common-starter-site-designs-empty-designs.json in Resources */ = {isa = PBXBuildFile; fileRef = C92EFF7225E7444400E0308D /* common-starter-site-designs-empty-designs.json */; };
+		C9F991B927D5A52600135131 /* domain-service-invalid-query.json in Resources */ = {isa = PBXBuildFile; fileRef = C9F991B827D5A52600135131 /* domain-service-invalid-query.json */; };
 		CEAD827B25E421DE00758DF2 /* reader-post-comments-subscribe-failure.json in Resources */ = {isa = PBXBuildFile; fileRef = CEAD827925E421DE00758DF2 /* reader-post-comments-subscribe-failure.json */; };
 		D813437621F6D70D0060D99A /* SiteSegmentsResponseDecodingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D813437521F6D70D0060D99A /* SiteSegmentsResponseDecodingTests.swift */; };
 		D813437821F6D7DC0060D99A /* site-segments-single.json in Resources */ = {isa = PBXBuildFile; fileRef = D813437721F6D7DC0060D99A /* site-segments-single.json */; };
@@ -1183,6 +1184,7 @@
 		C92EFF6825E7403F00E0308D /* common-starter-site-designs-success.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "common-starter-site-designs-success.json"; sourceTree = "<group>"; };
 		C92EFF6C25E741E900E0308D /* common-starter-site-designs-malformed.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "common-starter-site-designs-malformed.json"; sourceTree = "<group>"; };
 		C92EFF7225E7444400E0308D /* common-starter-site-designs-empty-designs.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "common-starter-site-designs-empty-designs.json"; sourceTree = "<group>"; };
+		C9F991B827D5A52600135131 /* domain-service-invalid-query.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "domain-service-invalid-query.json"; sourceTree = "<group>"; };
 		CA5ABD95F40077D001644BCC /* Pods-WordPressKit.release-internal.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WordPressKit.release-internal.xcconfig"; path = "Pods/Target Support Files/Pods-WordPressKit/Pods-WordPressKit.release-internal.xcconfig"; sourceTree = "<group>"; };
 		CEAD827925E421DE00758DF2 /* reader-post-comments-subscribe-failure.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "reader-post-comments-subscribe-failure.json"; sourceTree = "<group>"; };
 		D813437521F6D70D0060D99A /* SiteSegmentsResponseDecodingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteSegmentsResponseDecodingTests.swift; sourceTree = "<group>"; };
@@ -2007,6 +2009,7 @@
 				74585B931F0D53B800E7E667 /* domain-service-all-domain-types.json */,
 				74585B9E1F0D6E7500E7E667 /* domain-service-bad-json.json */,
 				74585BA01F0D6F5300E7E667 /* domain-service-empty.json */,
+				C9F991B827D5A52600135131 /* domain-service-invalid-query.json */,
 				FFE247BC20C9C88B002DF3A2 /* empty.json */,
 				FEE4EF5C2730315C003CDA3C /* empty-array.json */,
 				930999531F16598A00F006A1 /* get-multiple-themes-v1.2.json */,
@@ -2854,6 +2857,7 @@
 				9AEAA774215E774A00876E62 /* site-quick-start-success.json in Resources */,
 				93BD275D1EE73442002BB00B /* me-auth-failure.json in Resources */,
 				F3FF8A25279C960F00E5C90F /* site-email-followers-get-auth-failure.json in Resources */,
+				C9F991B927D5A52600135131 /* domain-service-invalid-query.json in Resources */,
 				74D67F361F15C3740010C5ED /* site-users-delete-site-owner-failure.json in Resources */,
 				BA3F139424A0B783006367A3 /* plugin-modify-malformed-response.json in Resources */,
 				74C473CB1EF33696009918F2 /* site-active-purchases-auth-failure.json in Resources */,
