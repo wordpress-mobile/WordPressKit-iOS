@@ -17,6 +17,8 @@ public struct SiteCreationRequest: Encodable {
     public let clientSecret: String
     public let siteDesign: String?
     public let timezoneIdentifier: String?
+    public let siteCreationFlow: String?
+    public let findAvailableUrl: Bool
 
     public init(segmentIdentifier: Int64?,
                 siteDesign: String?,
@@ -29,7 +31,9 @@ public struct SiteCreationRequest: Encodable {
                 shouldValidate: Bool,
                 clientIdentifier: String,
                 clientSecret: String,
-                timezoneIdentifier: String?) {
+                timezoneIdentifier: String?,
+                siteCreationFlow: String?,
+                findAvailableUrl: Bool) {
 
         self.segmentIdentifier = segmentIdentifier
         self.siteDesign = siteDesign
@@ -43,6 +47,8 @@ public struct SiteCreationRequest: Encodable {
         self.clientIdentifier = clientIdentifier
         self.clientSecret = clientSecret
         self.timezoneIdentifier = timezoneIdentifier
+        self.siteCreationFlow = siteCreationFlow
+        self.findAvailableUrl = findAvailableUrl
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -54,6 +60,7 @@ public struct SiteCreationRequest: Encodable {
         try container.encode(shouldValidate, forKey: .shouldValidate)
         try container.encode(siteURLString, forKey: .siteURLString)
         try container.encode(title, forKey: .title)
+        try container.encode(findAvailableUrl, forKey: .findAvailableUrl)
 
         let publicValue = isPublic ? 1 : 0
         try container.encode(publicValue, forKey: .isPublic)
@@ -64,7 +71,12 @@ public struct SiteCreationRequest: Encodable {
         } else {
             siteInfo = nil
         }
-        let options = SiteCreationOptions(segmentIdentifier: segmentIdentifier, verticalIdentifier: verticalIdentifier, siteInformation: siteInfo, siteDesign: siteDesign, timezoneIdentifier: timezoneIdentifier)
+        let options = SiteCreationOptions(segmentIdentifier: segmentIdentifier,
+                                          verticalIdentifier: verticalIdentifier,
+                                          siteInformation: siteInfo,
+                                          siteDesign: siteDesign,
+                                          timezoneIdentifier: timezoneIdentifier,
+                                          siteCreationFlow: siteCreationFlow)
 
         try container.encode(options, forKey: .options)
     }
@@ -78,6 +90,7 @@ public struct SiteCreationRequest: Encodable {
         case siteURLString      = "blog_name"
         case title              = "blog_title"
         case options            = "options"
+        case findAvailableUrl  = "find_available_url"
     }
 }
 
@@ -87,6 +100,7 @@ private struct SiteCreationOptions: Encodable {
     let siteInformation: SiteInformation?
     let siteDesign: String?
     let timezoneIdentifier: String?
+    let siteCreationFlow: String?
 
     enum CodingKeys: String, CodingKey {
         case segmentIdentifier  = "site_segment"
@@ -94,6 +108,7 @@ private struct SiteCreationOptions: Encodable {
         case siteInformation    = "site_information"
         case siteDesign         = "template"
         case timezoneIdentifier = "timezone_string"
+        case siteCreationFlow  = "site_creation_flow"
     }
 }
 
