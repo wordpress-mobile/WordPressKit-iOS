@@ -14,6 +14,8 @@ final class SiteCreationRequestEncodingTests: XCTestCase {
     static let expectedClientId = "TEST-ID"
     static let expectedClientSecret = "TEST-SECRET"
     static let expectedTimezoneIdentifier = "Pacific/Samoa"
+    static let siteCreationFlow: String? = nil
+    static let findAvailableUrl = false
 
     func testSiteCreationRequestEncoding_WithAllParameters_IsSuccessful() {
         // Given
@@ -29,7 +31,9 @@ final class SiteCreationRequestEncodingTests: XCTestCase {
             shouldValidate: SiteCreationRequestEncodingTests.expectedValidateValue,
             clientIdentifier: SiteCreationRequestEncodingTests.expectedClientId,
             clientSecret: SiteCreationRequestEncodingTests.expectedClientSecret,
-            timezoneIdentifier: SiteCreationRequestEncodingTests.expectedTimezoneIdentifier
+            timezoneIdentifier: SiteCreationRequestEncodingTests.expectedTimezoneIdentifier,
+            siteCreationFlow: SiteCreationRequestEncodingTests.siteCreationFlow,
+            findAvailableUrl: SiteCreationRequestEncodingTests.findAvailableUrl
         )
 
         // When
@@ -53,7 +57,9 @@ final class SiteCreationRequestEncodingTests: XCTestCase {
             shouldValidate: SiteCreationRequestEncodingTests.expectedValidateValue,
             clientIdentifier: SiteCreationRequestEncodingTests.expectedClientId,
             clientSecret: SiteCreationRequestEncodingTests.expectedClientSecret,
-            timezoneIdentifier: SiteCreationRequestEncodingTests.expectedTimezoneIdentifier
+            timezoneIdentifier: SiteCreationRequestEncodingTests.expectedTimezoneIdentifier,
+            siteCreationFlow: SiteCreationRequestEncodingTests.siteCreationFlow,
+            findAvailableUrl: SiteCreationRequestEncodingTests.findAvailableUrl
         )
 
         // When
@@ -77,7 +83,9 @@ final class SiteCreationRequestEncodingTests: XCTestCase {
             shouldValidate: false,
             clientIdentifier: SiteCreationRequestEncodingTests.expectedClientId,
             clientSecret: SiteCreationRequestEncodingTests.expectedClientSecret,
-            timezoneIdentifier: SiteCreationRequestEncodingTests.expectedTimezoneIdentifier
+            timezoneIdentifier: SiteCreationRequestEncodingTests.expectedTimezoneIdentifier,
+            siteCreationFlow: SiteCreationRequestEncodingTests.siteCreationFlow,
+            findAvailableUrl: SiteCreationRequestEncodingTests.findAvailableUrl
         )
 
         // When
@@ -103,7 +111,9 @@ final class SiteCreationRequestEncodingTests: XCTestCase {
             shouldValidate: SiteCreationRequestEncodingTests.expectedValidateValue,
             clientIdentifier: SiteCreationRequestEncodingTests.expectedClientId,
             clientSecret: SiteCreationRequestEncodingTests.expectedClientSecret,
-            timezoneIdentifier: SiteCreationRequestEncodingTests.expectedTimezoneIdentifier
+            timezoneIdentifier: SiteCreationRequestEncodingTests.expectedTimezoneIdentifier,
+            siteCreationFlow: SiteCreationRequestEncodingTests.siteCreationFlow,
+            findAvailableUrl: SiteCreationRequestEncodingTests.findAvailableUrl
         )
 
         // When
@@ -127,7 +137,9 @@ final class SiteCreationRequestEncodingTests: XCTestCase {
             shouldValidate: SiteCreationRequestEncodingTests.expectedValidateValue,
             clientIdentifier: SiteCreationRequestEncodingTests.expectedClientId,
             clientSecret: SiteCreationRequestEncodingTests.expectedClientSecret,
-            timezoneIdentifier: SiteCreationRequestEncodingTests.expectedTimezoneIdentifier
+            timezoneIdentifier: SiteCreationRequestEncodingTests.expectedTimezoneIdentifier,
+            siteCreationFlow: SiteCreationRequestEncodingTests.siteCreationFlow,
+            findAvailableUrl: SiteCreationRequestEncodingTests.findAvailableUrl
         )
 
         // When
@@ -151,7 +163,9 @@ final class SiteCreationRequestEncodingTests: XCTestCase {
             shouldValidate: SiteCreationRequestEncodingTests.expectedValidateValue,
             clientIdentifier: SiteCreationRequestEncodingTests.expectedClientId,
             clientSecret: SiteCreationRequestEncodingTests.expectedClientSecret,
-            timezoneIdentifier: SiteCreationRequestEncodingTests.expectedTimezoneIdentifier
+            timezoneIdentifier: SiteCreationRequestEncodingTests.expectedTimezoneIdentifier,
+            siteCreationFlow: SiteCreationRequestEncodingTests.siteCreationFlow,
+            findAvailableUrl: SiteCreationRequestEncodingTests.findAvailableUrl
         )
 
         // When
@@ -175,7 +189,9 @@ final class SiteCreationRequestEncodingTests: XCTestCase {
             shouldValidate: SiteCreationRequestEncodingTests.expectedValidateValue,
             clientIdentifier: SiteCreationRequestEncodingTests.expectedClientId,
             clientSecret: SiteCreationRequestEncodingTests.expectedClientSecret,
-            timezoneIdentifier: SiteCreationRequestEncodingTests.expectedTimezoneIdentifier
+            timezoneIdentifier: SiteCreationRequestEncodingTests.expectedTimezoneIdentifier,
+            siteCreationFlow: SiteCreationRequestEncodingTests.siteCreationFlow,
+            findAvailableUrl: SiteCreationRequestEncodingTests.findAvailableUrl
         )
 
         // When
