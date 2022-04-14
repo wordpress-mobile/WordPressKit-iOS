@@ -82,15 +82,15 @@ public struct SiteCreationRequest: Encodable {
     }
 
     private enum CodingKeys: String, CodingKey {
-        case clientIdentifier   = "client_id"
-        case clientSecret       = "client_secret"
+        case clientIdentifier = "client_id"
+        case clientSecret = "client_secret"
         case languageIdentifier = "lang_id"
-        case isPublic           = "public"
-        case shouldValidate     = "validate"
-        case siteURLString      = "blog_name"
-        case title              = "blog_title"
-        case options            = "options"
-        case findAvailableUrl  = "find_available_url"
+        case isPublic = "public"
+        case shouldValidate = "validate"
+        case siteURLString = "blog_name"
+        case title = "blog_title"
+        case options = "options"
+        case findAvailableURL = "find_available_url"
     }
 }
 
@@ -103,12 +103,12 @@ private struct SiteCreationOptions: Encodable {
     let siteCreationFlow: String?
 
     enum CodingKeys: String, CodingKey {
-        case segmentIdentifier  = "site_segment"
+        case segmentIdentifier = "site_segment"
         case verticalIdentifier = "site_vertical"
-        case siteInformation    = "site_information"
-        case siteDesign         = "template"
+        case siteInformation = "site_information"
+        case siteDesign = "template"
         case timezoneIdentifier = "timezone_string"
-        case siteCreationFlow  = "site_creation_flow"
+        case siteCreationFlow = "site_creation_flow"
     }
 }
 
@@ -143,10 +143,10 @@ public struct CreatedSite: Decodable {
     public let xmlrpcString: String
 
     enum CodingKeys: String, CodingKey {
-        case identifier     = "blogid"
-        case title          = "blogname"
-        case urlString      = "url"
-        case xmlrpcString   = "xmlrpc"
+        case identifier = "blogid"
+        case title = "blogname"
+        case urlString = "url"
+        case xmlrpcString = "xmlrpc"
     }
 }
 
