@@ -18,7 +18,7 @@ public struct SiteCreationRequest: Encodable {
     public let siteDesign: String?
     public let timezoneIdentifier: String?
     public let siteCreationFlow: String?
-    public let findAvailableUrl: Bool
+    public let findAvailableURL: Bool
 
     public init(segmentIdentifier: Int64?,
                 siteDesign: String?,
@@ -33,7 +33,7 @@ public struct SiteCreationRequest: Encodable {
                 clientSecret: String,
                 timezoneIdentifier: String?,
                 siteCreationFlow: String?,
-                findAvailableUrl: Bool) {
+                findAvailableURL: Bool) {
 
         self.segmentIdentifier = segmentIdentifier
         self.siteDesign = siteDesign
@@ -48,7 +48,7 @@ public struct SiteCreationRequest: Encodable {
         self.clientSecret = clientSecret
         self.timezoneIdentifier = timezoneIdentifier
         self.siteCreationFlow = siteCreationFlow
-        self.findAvailableUrl = findAvailableUrl
+        self.findAvailableURL = findAvailableURL
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -60,7 +60,7 @@ public struct SiteCreationRequest: Encodable {
         try container.encode(shouldValidate, forKey: .shouldValidate)
         try container.encode(siteURLString, forKey: .siteURLString)
         try container.encode(title, forKey: .title)
-        try container.encode(findAvailableUrl, forKey: .findAvailableUrl)
+        try container.encode(findAvailableURL, forKey: .findAvailableURL)
 
         let publicValue = isPublic ? 1 : 0
         try container.encode(publicValue, forKey: .isPublic)
