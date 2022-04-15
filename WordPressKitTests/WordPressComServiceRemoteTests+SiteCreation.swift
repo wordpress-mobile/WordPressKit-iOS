@@ -24,7 +24,9 @@ final class SiteCreationServiceTests: RemoteTestCase, RESTTestable {
             shouldValidate: true,
             clientIdentifier: "TEST-ID",
             clientSecret: "TEST-SECRET",
-            timezoneIdentifier: TimeZone.current.identifier
+            timezoneIdentifier: TimeZone.current.identifier,
+            siteCreationFlow: nil,
+            findAvailableURL: false
         )
 
         // When, Then
