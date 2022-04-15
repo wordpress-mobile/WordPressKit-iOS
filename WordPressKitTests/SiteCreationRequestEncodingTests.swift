@@ -33,7 +33,7 @@ final class SiteCreationRequestEncodingTests: XCTestCase {
             clientSecret: SiteCreationRequestEncodingTests.expectedClientSecret,
             timezoneIdentifier: SiteCreationRequestEncodingTests.expectedTimezoneIdentifier,
             siteCreationFlow: SiteCreationRequestEncodingTests.siteCreationFlow,
-            findAvailableUrl: SiteCreationRequestEncodingTests.findAvailableUrl
+            findAvailableURL: SiteCreationRequestEncodingTests.findAvailableUrl
         )
 
         // When
@@ -59,7 +59,7 @@ final class SiteCreationRequestEncodingTests: XCTestCase {
             clientSecret: SiteCreationRequestEncodingTests.expectedClientSecret,
             timezoneIdentifier: SiteCreationRequestEncodingTests.expectedTimezoneIdentifier,
             siteCreationFlow: SiteCreationRequestEncodingTests.siteCreationFlow,
-            findAvailableUrl: SiteCreationRequestEncodingTests.findAvailableUrl
+            findAvailableURL: SiteCreationRequestEncodingTests.findAvailableUrl
         )
 
         // When
@@ -85,7 +85,7 @@ final class SiteCreationRequestEncodingTests: XCTestCase {
             clientSecret: SiteCreationRequestEncodingTests.expectedClientSecret,
             timezoneIdentifier: SiteCreationRequestEncodingTests.expectedTimezoneIdentifier,
             siteCreationFlow: SiteCreationRequestEncodingTests.siteCreationFlow,
-            findAvailableUrl: SiteCreationRequestEncodingTests.findAvailableUrl
+            findAvailableURL: SiteCreationRequestEncodingTests.findAvailableUrl
         )
 
         // When
@@ -113,7 +113,7 @@ final class SiteCreationRequestEncodingTests: XCTestCase {
             clientSecret: SiteCreationRequestEncodingTests.expectedClientSecret,
             timezoneIdentifier: SiteCreationRequestEncodingTests.expectedTimezoneIdentifier,
             siteCreationFlow: SiteCreationRequestEncodingTests.siteCreationFlow,
-            findAvailableUrl: SiteCreationRequestEncodingTests.findAvailableUrl
+            findAvailableURL: SiteCreationRequestEncodingTests.findAvailableUrl
         )
 
         // When
@@ -139,7 +139,7 @@ final class SiteCreationRequestEncodingTests: XCTestCase {
             clientSecret: SiteCreationRequestEncodingTests.expectedClientSecret,
             timezoneIdentifier: SiteCreationRequestEncodingTests.expectedTimezoneIdentifier,
             siteCreationFlow: SiteCreationRequestEncodingTests.siteCreationFlow,
-            findAvailableUrl: SiteCreationRequestEncodingTests.findAvailableUrl
+            findAvailableURL: SiteCreationRequestEncodingTests.findAvailableUrl
         )
 
         // When
@@ -165,7 +165,7 @@ final class SiteCreationRequestEncodingTests: XCTestCase {
             clientSecret: SiteCreationRequestEncodingTests.expectedClientSecret,
             timezoneIdentifier: SiteCreationRequestEncodingTests.expectedTimezoneIdentifier,
             siteCreationFlow: SiteCreationRequestEncodingTests.siteCreationFlow,
-            findAvailableUrl: SiteCreationRequestEncodingTests.findAvailableUrl
+            findAvailableURL: SiteCreationRequestEncodingTests.findAvailableUrl
         )
 
         // When
@@ -191,7 +191,7 @@ final class SiteCreationRequestEncodingTests: XCTestCase {
             clientSecret: SiteCreationRequestEncodingTests.expectedClientSecret,
             timezoneIdentifier: SiteCreationRequestEncodingTests.expectedTimezoneIdentifier,
             siteCreationFlow: SiteCreationRequestEncodingTests.siteCreationFlow,
-            findAvailableUrl: SiteCreationRequestEncodingTests.findAvailableUrl
+            findAvailableURL: SiteCreationRequestEncodingTests.findAvailableUrl
         )
 
         // When
