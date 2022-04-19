@@ -1,23 +1,32 @@
 import Foundation
-import WordPressShared
+
+struct Root: Decodable {
+    let prompts: [RemoteBloggingPrompt]
+}
 
 public class BloggingPromptsServiceRemote: ServiceRemoteWordPressComREST {
 
+    /// Used to format dates so the time information is omitted.
+    private static var dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.dateFormat = "yyyy-MM-dd"
+
+        return formatter
+    }()
+
     /// Fetches a number of blogging prompts for the specified site.
-    ///
-    /// Note that this method hits version 2.0, which means the `WordPressComRestAPI` needs to be initialized with `LocaleKeyV2`.
+    /// Note that this method hits wpcom/v2, which means the `WordPressComRestAPI` needs to be initialized with `LocaleKeyV2`.
     ///
     /// - Parameters:
     ///   - siteID: Used to check which prompts have been answered for the site with given `siteID`.
     ///   - number: The number of prompts to query. When not specified, this will default to remote implementation.
     ///   - after: When specified, this will fetch prompts after the given date. When not specified, this will default to remote implementation.
-    ///   - success: A closure that will be called when the request succeeds.
-    ///   - failure: A closure that will be called when the request fails.
+    ///   - completion: A closure that will be called when the fetch request completes.
     func fetchPrompts(for siteID: NSNumber,
                       number: Int? = nil,
                       after: Date? = nil,
-                      success: @escaping ([RemoteBloggingPrompt]) -> Void,
-                      failure: @escaping (Error) -> Void) {
+                      completion: @escaping (Result<[RemoteBloggingPrompt], Error>) -> Void) {
         let path = path(forEndpoint: "blogging-prompts", withVersion: ._2_0)
         let requestParameter: [String: AnyHashable] = {
             var params = [String: AnyHashable]()
@@ -27,7 +36,9 @@ public class BloggingPromptsServiceRemote: ServiceRemoteWordPressComREST {
             }
 
             if let dateAfter = after {
-                params["after"] = DateUtils.isoString(from: dateAfter)
+                // convert to yyyy-MM-dd format.
+                // this parameter doesn't need to be timezone-accurate since prompts are grouped by date.
+                params["after"] = Self.dateFormatter.string(from: dateAfter)
             }
 
             return params
@@ -38,14 +49,18 @@ public class BloggingPromptsServiceRemote: ServiceRemoteWordPressComREST {
             case .success(let responseObject):
                 do {
                     let data = try JSONSerialization.data(withJSONObject: responseObject, options: [])
-                    let response = try JSONDecoder().decode([String:[RemoteBloggingPrompt]].self, from: data)
-                    success(response.values.first ?? [])
+                    let decoder = JSONDecoder.apiDecoder
+                    // our API decoder assumes that we're converting from snake case.
+                    // revert it to default so the CodingKeys match the actual response keys.
+                    decoder.keyDecodingStrategy = .useDefaultKeys
+                    let response = try decoder.decode([String:[RemoteBloggingPrompt]].self, from: data)
+                    completion(.success(response.values.first ?? []))
                 } catch {
-                    failure(error)
+                    completion(.failure(error))
                 }
 
             case .failure(let error):
-                failure(error)
+                completion(.failure(error))
             }
         }
     }

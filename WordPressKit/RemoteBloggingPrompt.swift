@@ -6,7 +6,7 @@ public struct RemoteBloggingPrompt {
     public var date: Date
     public var answered: Bool
     public var answeringUserCount: Int
-    public var answeringUserAvatarURLs: [URL]
+    public var answeringUsersAvatarURLs: [URL]
 }
 
 // MARK: - Decodable
@@ -20,7 +20,7 @@ extension RemoteBloggingPrompt: Decodable {
         case date = "date_gmt"
         case answered = "i_answered"
         case answeringUserCount = "answering_user_count"
-        case answeringUserAvatarURLs = "answering_user_avatars"
+        case answeringUsersAvatarURLs = "answering_users_avatars"
     }
 
     public init(from decoder: Decoder) throws {
@@ -31,17 +31,26 @@ extension RemoteBloggingPrompt: Decodable {
         self.title = try container.decode(String.self, forKey: .title)
         self.content = try container.decode(String.self, forKey: .content)
 
-        // since `date_gmt` is already in GMT timezone, manually add the timezone string to make the rfc3339 formatter happy (or it will throw otherwise).
-        guard let dateString = try? container.decode(String.self, forKey: .date),
-              let date = NSDate(wordPressComJSONString: dateString + "+00:00") as Date? else {
-            throw DecodingError.dataCorruptedError(forKey: .date, in: container, debugDescription: "Date parsing failed")
-        }
-        self.date = date
+//        // since `date_gmt` is already in GMT timezone, manually add the timezone string to make the rfc3339 formatter happy (or it will throw otherwise).
+//        guard let dateString = try? container.decode(String.self, forKey: .date),
+//              let date = NSDate(wordPressComJSONString: dateString + "+00:00") as? Date else {
+//            throw DecodingError.dataCorruptedError(forKey: .date, in: container, debugDescription: "Date parsing failed")
+//        }
+
         self.answered = try container.decode(Bool.self, forKey: .answered)
+
+        do {
+            self.date = try container.decode(Date.self, forKey: .date)
+        } catch {
+            print(error)
+            self.date = Date()
+        }
+
+
         self.answeringUserCount = try container.decode(Int.self, forKey: .answeringUserCount)
 
-        let userAvatars = try container.decode([UserAvatar].self, forKey: .answeringUserAvatarURLs)
-        self.answeringUserAvatarURLs = userAvatars.compactMap { URL(string: $0.avatarURL) }
+        let userAvatars = try container.decode([UserAvatar].self, forKey: .answeringUsersAvatarURLs)
+        self.answeringUsersAvatarURLs = userAvatars.compactMap { URL(string: $0.avatarURL) }
     }
 
     /// meta structure to simplify decoding logic for user avatar objects.
