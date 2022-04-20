@@ -62,7 +62,7 @@ class BloggingPromptsServiceRemoteTests: RemoteTestCase, RESTTestable {
             expect.fulfill()
         }
 
-        wait(for:[expect], timeout: timeout)
+        wait(for: [expect], timeout: timeout)
     }
 
     func test_fetchPrompts_correctlyAddsParametersToRequest() {

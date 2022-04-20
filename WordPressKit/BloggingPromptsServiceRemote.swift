@@ -53,7 +53,7 @@ public class BloggingPromptsServiceRemote: ServiceRemoteWordPressComREST {
                     // our API decoder assumes that we're converting from snake case.
                     // revert it to default so the CodingKeys match the actual response keys.
                     decoder.keyDecodingStrategy = .useDefaultKeys
-                    let response = try decoder.decode([String:[RemoteBloggingPrompt]].self, from: data)
+                    let response = try decoder.decode([String: [RemoteBloggingPrompt]].self, from: data)
                     completion(.success(response.values.first ?? []))
                 } catch {
                     completion(.failure(error))
