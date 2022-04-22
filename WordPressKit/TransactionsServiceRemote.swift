@@ -134,12 +134,12 @@ import CocoaLumberjack
 
 public struct CartResponse {
     let blogID: Int
-    let cartKey: String
+    let cartKey: Int
     let products: [Product]
 
     init?(jsonDictionary: [String: AnyObject]) {
         guard
-            let cartKey = jsonDictionary["cart_key"] as? String,
+            let cartKey = jsonDictionary["cart_key"] as? Int,
             let blogID = jsonDictionary["blog_id"] as? Int,
             let products = jsonDictionary["products"] as? [[String: AnyObject]]
             else {
