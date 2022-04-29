@@ -1,7 +1,6 @@
-import Foundation
-
-public class BloggingPromptsServiceRemote: ServiceRemoteWordPressComREST {
-
+/// Encapsulates logic to fetch blogging prompts from the remote endpoint.
+///
+open class BloggingPromptsServiceRemote: ServiceRemoteWordPressComREST {
     /// Used to format dates so the time information is omitted.
     private static var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -19,10 +18,10 @@ public class BloggingPromptsServiceRemote: ServiceRemoteWordPressComREST {
     ///   - number: The number of prompts to query. When not specified, this will default to remote implementation.
     ///   - fromDate: When specified, this will fetch prompts from the given date. When not specified, this will default to remote implementation.
     ///   - completion: A closure that will be called when the fetch request completes.
-    public func fetchPrompts(for siteID: NSNumber,
-                      number: Int? = nil,
-                      fromDate: Date? = nil,
-                      completion: @escaping (Result<[RemoteBloggingPrompt], Error>) -> Void) {
+    open func fetchPrompts(for siteID: NSNumber,
+                           number: Int? = nil,
+                           fromDate: Date? = nil,
+                           completion: @escaping (Result<[RemoteBloggingPrompt], Error>) -> Void) {
         let path = path(forEndpoint: "sites/\(siteID)/blogging-prompts", withVersion: ._2_0)
         let requestParameter: [String: AnyHashable] = {
             var params = [String: AnyHashable]()
