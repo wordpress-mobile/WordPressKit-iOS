@@ -21,11 +21,11 @@ public class BloggingPromptsServiceRemote: ServiceRemoteWordPressComREST {
     /// - Parameters:
     ///   - siteID: Used to check which prompts have been answered for the site with given `siteID`.
     ///   - number: The number of prompts to query. When not specified, this will default to remote implementation.
-    ///   - after: When specified, this will fetch prompts after the given date. When not specified, this will default to remote implementation.
+    ///   - fromDate: When specified, this will fetch prompts from the given date. When not specified, this will default to remote implementation.
     ///   - completion: A closure that will be called when the fetch request completes.
     func fetchPrompts(for siteID: NSNumber,
                       number: Int? = nil,
-                      after: Date? = nil,
+                      fromDate: Date? = nil,
                       completion: @escaping (Result<[RemoteBloggingPrompt], Error>) -> Void) {
         let path = path(forEndpoint: "blogging-prompts", withVersion: ._2_0)
         let requestParameter: [String: AnyHashable] = {
@@ -35,10 +35,10 @@ public class BloggingPromptsServiceRemote: ServiceRemoteWordPressComREST {
                 params["number"] = number
             }
 
-            if let dateAfter = after {
+            if let fromDate = fromDate {
                 // convert to yyyy-MM-dd format.
                 // this parameter doesn't need to be timezone-accurate since prompts are grouped by date.
-                params["after"] = Self.dateFormatter.string(from: dateAfter)
+                params["from"] = Self.dateFormatter.string(from: fromDate)
             }
 
             return params

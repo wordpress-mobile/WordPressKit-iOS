@@ -29,8 +29,8 @@ class BloggingPromptsServiceRemoteTests: RemoteTestCase, RESTTestable {
     // MARK: Tests
 
     func test_fetchPrompts_returnsRemotePrompts() {
-        let formatter = JSONDecoder.DateDecodingStrategy.DateFormat.dateWithTime.formatter
-        let expectedDate = formatter.date(from: "2022-01-01 10:00:00") // using value from the first prompt in blogging-prompts-success.json.
+        let formatter = JSONDecoder.DateDecodingStrategy.DateFormat.noTime.formatter
+        let expectedDate = formatter.date(from: "2022-01-01") // using value from the first prompt in blogging-prompts-success.json.
         let expectedAvatarURLString = "https://0.gravatar.com/avatar/example?s=96&d=identicon&r=G"
         stubRemoteResponse(.bloggingPromptsEndpoint, filename: .mockFileName, contentType: .ApplicationJSON)
 
@@ -50,13 +50,13 @@ class BloggingPromptsServiceRemoteTests: RemoteTestCase, RESTTestable {
             XCTAssertEqual(firstPrompt.content, "<!-- wp:pullquote -->\n<figure class=\"wp-block-pullquote\"><blockquote><p>Was there a toy or thing you always wanted as a child, during the holidays or on your birthday, but never received? Tell us about it.</p><cite>(courtesy of plinky.com)</cite></blockquote></figure>\n<!-- /wp:pullquote -->")
             XCTAssertEqual(firstPrompt.date, expectedDate)
             XCTAssertFalse(firstPrompt.answered)
-            XCTAssertEqual(firstPrompt.answeringUserCount, 0)
+            XCTAssertEqual(firstPrompt.answeredUsersCount, 0)
 
             let secondPrompt = prompts.last!
-            XCTAssertEqual(secondPrompt.answeringUserCount, 1)
-            XCTAssertEqual(secondPrompt.answeringUsersAvatarURLs.count, 1)
+            XCTAssertEqual(secondPrompt.answeredUsersCount, 1)
+            XCTAssertEqual(secondPrompt.answeredUserAvatarURLs.count, 1)
 
-            let avatarURL = secondPrompt.answeringUsersAvatarURLs.first!
+            let avatarURL = secondPrompt.answeredUserAvatarURLs.first!
             XCTAssertEqual(avatarURL.absoluteString, expectedAvatarURLString)
 
             expect.fulfill()
@@ -74,7 +74,7 @@ class BloggingPromptsServiceRemoteTests: RemoteTestCase, RESTTestable {
         service = BloggingPromptsServiceRemote(wordPressComRestApi: customMockApi)
 
         // no-op; we just need to check the passed params.
-        service.fetchPrompts(for: siteID, number: expectedNumber, after: expectedDate, completion: { _ in })
+        service.fetchPrompts(for: siteID, number: expectedNumber, fromDate: expectedDate, completion: { _ in })
 
         XCTAssertNotNil(customMockApi.parametersPassedIn as? [String: AnyObject])
         let params = customMockApi.parametersPassedIn! as! [String: AnyObject]
@@ -94,5 +94,5 @@ private extension String {
     static let bloggingPromptsEndpoint = "blogging-prompts"
     static let mockFileName = "blogging-prompts-success.json"
     static let numberKey = "number"
-    static let dateKey = "after"
+    static let dateKey = "from"
 }
