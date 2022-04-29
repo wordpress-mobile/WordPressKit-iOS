@@ -1,19 +1,9 @@
 import Foundation
 
-struct Root: Decodable {
-    let prompts: [RemoteBloggingPrompt]
-}
-
 public class BloggingPromptsServiceRemote: ServiceRemoteWordPressComREST {
 
-    /// Used to format dates so the time information is omitted.
-    private static var dateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "en_US_POSIX")
-        formatter.dateFormat = "yyyy-MM-dd"
-
-        return formatter
-    }()
+    /// Used to format dates so the time & timezone information is omitted.
+    private static var calendar: Calendar = .autoupdatingCurrent
 
     /// Fetches a number of blogging prompts for the specified site.
     /// Note that this method hits wpcom/v2, which means the `WordPressComRestAPI` needs to be initialized with `LocaleKeyV2`.
@@ -36,9 +26,12 @@ public class BloggingPromptsServiceRemote: ServiceRemoteWordPressComREST {
             }
 
             if let fromDate = fromDate {
-                // convert to yyyy-MM-dd format.
-                // this parameter doesn't need to be timezone-accurate since prompts are grouped by date.
-                params["from"] = Self.dateFormatter.string(from: fromDate)
+                // convert to yyyy-MM-dd format, excluding the timezone information.
+                // the date parameter doesn't need to be timezone-accurate since prompts are grouped by date.
+                params["from"] = String(format: "%d-%02d-%02d",
+                                        Self.calendar.component(.year, from: fromDate),
+                                        Self.calendar.component(.month, from: fromDate),
+                                        Self.calendar.component(.day, from: fromDate))
             }
 
             return params
