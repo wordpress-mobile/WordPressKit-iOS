@@ -27,7 +27,7 @@ public class BloggingPromptsServiceRemote: ServiceRemoteWordPressComREST {
                       number: Int? = nil,
                       fromDate: Date? = nil,
                       completion: @escaping (Result<[RemoteBloggingPrompt], Error>) -> Void) {
-        let path = path(forEndpoint: "blogging-prompts", withVersion: ._2_0)
+        let path = path(forEndpoint: "sites/\(siteID)/blogging-prompts", withVersion: ._2_0)
         let requestParameter: [String: AnyHashable] = {
             var params = [String: AnyHashable]()
 

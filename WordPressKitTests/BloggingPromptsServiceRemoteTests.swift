@@ -91,7 +91,7 @@ class BloggingPromptsServiceRemoteTests: RemoteTestCase, RESTTestable {
 // MARK: - Private Helpers
 
 private extension String {
-    static let bloggingPromptsEndpoint = "blogging-prompts"
+    static let bloggingPromptsEndpoint = "sites/1/blogging-prompts"
     static let mockFileName = "blogging-prompts-success.json"
     static let numberKey = "number"
     static let dateKey = "from"
