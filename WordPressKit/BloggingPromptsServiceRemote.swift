@@ -19,7 +19,7 @@ public class BloggingPromptsServiceRemote: ServiceRemoteWordPressComREST {
     ///   - number: The number of prompts to query. When not specified, this will default to remote implementation.
     ///   - fromDate: When specified, this will fetch prompts from the given date. When not specified, this will default to remote implementation.
     ///   - completion: A closure that will be called when the fetch request completes.
-    func fetchPrompts(for siteID: NSNumber,
+    public func fetchPrompts(for siteID: NSNumber,
                       number: Int? = nil,
                       fromDate: Date? = nil,
                       completion: @escaping (Result<[RemoteBloggingPrompt], Error>) -> Void) {
