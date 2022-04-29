@@ -4,8 +4,8 @@ import XCTest
 
 class BloggingPromptsServiceRemoteTests: RemoteTestCase, RESTTestable {
 
-    let siteID = NSNumber(value: 1)
-    static let dateFormatter = ISO8601DateFormatter()
+    private let siteID = NSNumber(value: 1)
+    private let dateFormatter = JSONDecoder.DateDecodingStrategy.DateFormat.noTime.formatter
 
     var mockApi: WordPressComRestApi!
     var service: BloggingPromptsServiceRemote!
@@ -68,8 +68,7 @@ class BloggingPromptsServiceRemoteTests: RemoteTestCase, RESTTestable {
     func test_fetchPrompts_correctlyAddsParametersToRequest() {
         let expectedNumber = 10
         let expectedDateString = "2022-01-02"
-        let isoDateString = "2022-01-02T01:00:00+0400" // ensure that the converted date doesn't change dates (notice the time & timezone).
-        let expectedDate = Self.dateFormatter.date(from: isoDateString)
+        let expectedDate = dateFormatter.date(from: expectedDateString)
         let customMockApi = MockWordPressComRestApi()
         service = BloggingPromptsServiceRemote(wordPressComRestApi: customMockApi)
 
