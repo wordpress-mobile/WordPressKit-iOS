@@ -3,6 +3,7 @@ public struct RemoteBloggingPrompt {
     public var text: String
     public var title: String
     public var content: String
+    public var attribution: String
     public var date: Date
     public var answered: Bool
     public var answeredUsersCount: Int
@@ -17,6 +18,7 @@ extension RemoteBloggingPrompt: Decodable {
         case text
         case title
         case content
+        case attribution
         case date
         case answered
         case answeredUsersCount = "answered_users_count"
@@ -30,6 +32,7 @@ extension RemoteBloggingPrompt: Decodable {
         self.text = try container.decode(String.self, forKey: .text)
         self.title = try container.decode(String.self, forKey: .title)
         self.content = try container.decode(String.self, forKey: .content)
+        self.attribution = try container.decode(String.self, forKey: .attribution)
         self.answered = try container.decode(Bool.self, forKey: .answered)
         self.date = try container.decode(Date.self, forKey: .date)
         self.answeredUsersCount = try container.decode(Int.self, forKey: .answeredUsersCount)

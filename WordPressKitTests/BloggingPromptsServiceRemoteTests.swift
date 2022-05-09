@@ -48,6 +48,7 @@ class BloggingPromptsServiceRemoteTests: RemoteTestCase, RESTTestable {
             XCTAssertEqual(firstPrompt.text, "Was there a toy or thing you always wanted as a child, during the holidays or on your birthday, but never received? Tell us about it.")
             XCTAssertEqual(firstPrompt.title, "Prompt number 1")
             XCTAssertEqual(firstPrompt.content, "<!-- wp:pullquote -->\n<figure class=\"wp-block-pullquote\"><blockquote><p>Was there a toy or thing you always wanted as a child, during the holidays or on your birthday, but never received? Tell us about it.</p><cite>(courtesy of plinky.com)</cite></blockquote></figure>\n<!-- /wp:pullquote -->")
+            XCTAssertEqual(firstPrompt.attribution, "dayone")
             XCTAssertEqual(firstPrompt.date, expectedDate)
             XCTAssertFalse(firstPrompt.answered)
             XCTAssertEqual(firstPrompt.answeredUsersCount, 0)
@@ -55,6 +56,7 @@ class BloggingPromptsServiceRemoteTests: RemoteTestCase, RESTTestable {
             let secondPrompt = prompts.last!
             XCTAssertEqual(secondPrompt.answeredUsersCount, 1)
             XCTAssertEqual(secondPrompt.answeredUserAvatarURLs.count, 1)
+            XCTAssertTrue(secondPrompt.attribution.isEmpty)
 
             let avatarURL = secondPrompt.answeredUserAvatarURLs.first!
             XCTAssertEqual(avatarURL.absoluteString, expectedAvatarURLString)
