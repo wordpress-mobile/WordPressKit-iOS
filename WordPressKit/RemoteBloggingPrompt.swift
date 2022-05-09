@@ -27,10 +27,7 @@ extension RemoteBloggingPrompt: Decodable {
 
     /// Used to format the fetched object's date string to a date.
     private static var dateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.locale = .init(identifier: "en_US_POSIX")
-        formatter.dateFormat = "yyyy-MM-dd"
-        return formatter
+        JSONDecoder.DateDecodingStrategy.DateFormat.noTime.formatter
     }()
 
     public init(from decoder: Decoder) throws {
