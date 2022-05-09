@@ -25,6 +25,14 @@ extension RemoteBloggingPrompt: Decodable {
         case answeredUserAvatarURLs = "answered_users_sample"
     }
 
+    /// Used to format the fetched object's date string to a date.
+    private static var dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.locale = .init(identifier: "en_US_POSIX")
+        formatter.dateFormat = "yyyy-MM-dd"
+        return formatter
+    }()
+    
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
@@ -34,7 +42,7 @@ extension RemoteBloggingPrompt: Decodable {
         self.content = try container.decode(String.self, forKey: .content)
         self.attribution = try container.decode(String.self, forKey: .attribution)
         self.answered = try container.decode(Bool.self, forKey: .answered)
-        self.date = try container.decode(Date.self, forKey: .date)
+        self.date = Self.dateFormatter.date(from: try container.decode(String.self, forKey: .date)) ?? Date()
         self.answeredUsersCount = try container.decode(Int.self, forKey: .answeredUsersCount)
 
         let userAvatars = try container.decode([UserAvatar].self, forKey: .answeredUserAvatarURLs)
