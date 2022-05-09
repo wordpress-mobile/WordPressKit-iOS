@@ -29,7 +29,13 @@ class BloggingPromptsServiceRemoteTests: RemoteTestCase, RESTTestable {
     // MARK: Tests
 
     func test_fetchPrompts_returnsRemotePrompts() {
-        let formatter = JSONDecoder.DateDecodingStrategy.DateFormat.noTime.formatter
+        let formatter: DateFormatter = {
+            let formatter = DateFormatter()
+            formatter.locale = .init(identifier: "en_US_POSIX")
+            formatter.dateFormat = "yyyy-MM-dd"
+            return formatter
+        }()
+
         let expectedDate = formatter.date(from: "2022-01-01") // using value from the first prompt in blogging-prompts-success.json.
         let expectedAvatarURLString = "https://0.gravatar.com/avatar/example?s=96&d=identicon&r=G"
         stubRemoteResponse(.bloggingPromptsEndpoint, filename: .mockFileName, contentType: .ApplicationJSON)
