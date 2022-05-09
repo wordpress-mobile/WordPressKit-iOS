@@ -32,7 +32,7 @@ extension RemoteBloggingPrompt: Decodable {
         formatter.dateFormat = "yyyy-MM-dd"
         return formatter
     }()
-    
+
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
@@ -47,7 +47,7 @@ extension RemoteBloggingPrompt: Decodable {
 
         let userAvatars = try container.decode([UserAvatar].self, forKey: .answeredUserAvatarURLs)
         self.answeredUserAvatarURLs = userAvatars.compactMap { URL(string: $0.avatar) }
-        
+
         // TODO: remove before merging
         print("🔴 endpoint object date: ", try container.decode(String.self, forKey: .date))
         print("🔴 RemoteBloggingPrompt date: ", self.date)
