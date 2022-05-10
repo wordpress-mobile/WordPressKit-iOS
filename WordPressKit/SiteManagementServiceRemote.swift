@@ -110,9 +110,10 @@ open class SiteManagementServiceRemote: ServiceRemoteWordPressComREST {
     @objc open func markQuickStartChecklistAsComplete(_ siteID: NSNumber, success: (() -> Void)?, failure: ((NSError) -> Void)?) {
         let endpoint = "sites/\(siteID)/mobile-quick-start"
         let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
+        let parameters = ["variant": "next-steps"] as [String: AnyObject]
 
         wordPressComRestApi.POST(path,
-                                 parameters: nil,
+                                 parameters: parameters,
                                  success: { _, _ in
                                     success?()
         },
