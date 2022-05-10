@@ -29,6 +29,7 @@ extension RemoteBloggingPrompt: Decodable {
     private static var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.locale = .init(identifier: "en_US_POSIX")
+        formatter.timeZone = .init(secondsFromGMT: 0)
         formatter.dateFormat = "yyyy-MM-dd"
         return formatter
     }()
