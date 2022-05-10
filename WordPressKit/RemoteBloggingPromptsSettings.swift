@@ -18,7 +18,7 @@ public struct RemoteBloggingPromptsSettings: Codable {
         case promptCardOptedIn = "prompts_card_opted_in"
         case promptRemindersEnabled = "prompts_reminders_opted_in"
         case reminderDays = "reminders_days"
-        case reminderTime = "reminders_times"
+        case reminderTime = "reminders_time"
     }
 }
 
