@@ -48,10 +48,6 @@ extension RemoteBloggingPrompt: Decodable {
 
         let userAvatars = try container.decode([UserAvatar].self, forKey: .answeredUserAvatarURLs)
         self.answeredUserAvatarURLs = userAvatars.compactMap { URL(string: $0.avatar) }
-
-        // TODO: remove before merging
-        print("🔴 endpoint object date: ", try container.decode(String.self, forKey: .date))
-        print("🔴 RemoteBloggingPrompt date: ", self.date)
     }
 
     /// meta structure to simplify decoding logic for user avatar objects.
