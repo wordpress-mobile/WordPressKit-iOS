@@ -21,4 +21,3 @@ public struct RemoteBloggingPromptsSettings: Codable {
         case reminderTime = "reminders_time"
     }
 }
-
