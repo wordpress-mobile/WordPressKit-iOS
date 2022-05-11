@@ -1,5 +1,5 @@
 public struct RemoteBloggingPromptsSettings: Codable {
-    public var promptCardOptedIn: Bool
+    public var promptCardEnabled: Bool
     public var promptRemindersEnabled: Bool
     public var reminderDays: ReminderDays
     public var reminderTime: String
@@ -15,7 +15,7 @@ public struct RemoteBloggingPromptsSettings: Codable {
     }
 
     private enum CodingKeys: String, CodingKey {
-        case promptCardOptedIn = "prompts_card_opted_in"
+        case promptCardEnabled = "prompts_card_opted_in"
         case promptRemindersEnabled = "prompts_reminders_opted_in"
         case reminderDays = "reminders_days"
         case reminderTime = "reminders_time"

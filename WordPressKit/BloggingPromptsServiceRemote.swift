@@ -134,7 +134,7 @@ open class BloggingPromptsServiceRemote: ServiceRemoteWordPressComREST {
 // MARK: - Private helpers
 
 private extension BloggingPromptsServiceRemote {
-    /// An intermediate object that represents the response structure after updating the prompts settings.
+    /// An intermediate object representing the response structure after updating the prompts settings.
     ///
     /// If there is at least one updated field, the remote will return the full `RemoteBloggingPromptsSettings` object in the `updated` key.
     /// Otherwise, if no fields are changed, the remote will assign an empty array to the `updated` key.
