@@ -140,5 +140,21 @@ private extension BloggingPromptsServiceRemote {
     /// Otherwise, if no fields are changed, the remote will assign an empty array to the `updated` key.
     struct UpdateBloggingPromptsSettingsResponse: Decodable {
         let updated: RemoteBloggingPromptsSettings?
+
+        private enum CodingKeys: String, CodingKey {
+            case updated
+        }
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+
+            // return nil when no fields are changed.
+            if let _ = try? container.decode(Array.self, forKey: .updated) {
+                self.updated = nil
+                return
+            }
+
+            self.updated = try container.decode(RemoteBloggingPromptsSettings.self, forKey: .updated)
+        }
     }
 }

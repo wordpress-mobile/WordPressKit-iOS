@@ -605,6 +605,9 @@
 		FAD1344B259094C300A8FEB1 /* JetpackBackup.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD1344A259094C300A8FEB1 /* JetpackBackup.swift */; };
 		FAD1345125909DEA00A8FEB1 /* JetpackBackupServiceRemoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD1345025909DEA00A8FEB1 /* JetpackBackupServiceRemoteTests.swift */; };
 		FE20A6A4282A96C00025E975 /* RemoteBloggingPromptsSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE20A6A3282A96C00025E975 /* RemoteBloggingPromptsSettings.swift */; };
+		FE20A6A6282BC68D0025E975 /* blogging-prompts-settings-fetch-success.json in Resources */ = {isa = PBXBuildFile; fileRef = FE20A6A5282BC68D0025E975 /* blogging-prompts-settings-fetch-success.json */; };
+		FE20A6A8282BC83A0025E975 /* blogging-prompts-settings-update-with-response.json in Resources */ = {isa = PBXBuildFile; fileRef = FE20A6A7282BC83A0025E975 /* blogging-prompts-settings-update-with-response.json */; };
+		FE20A6AA282BC8710025E975 /* blogging-prompts-settings-update-empty-response.json in Resources */ = {isa = PBXBuildFile; fileRef = FE20A6A9282BC8710025E975 /* blogging-prompts-settings-update-empty-response.json */; };
 		FEB7A88F271873BD00A8CF85 /* reader-post-comments-update-notification-success.json in Resources */ = {isa = PBXBuildFile; fileRef = FEB7A88E271873BD00A8CF85 /* reader-post-comments-update-notification-success.json */; };
 		FEE4EF57272FDD4B003CDA3C /* RemoteCommentV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE4EF56272FDD4B003CDA3C /* RemoteCommentV2.swift */; };
 		FEE4EF59272FF78C003CDA3C /* CommentServiceRemoteREST+ApiV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE4EF58272FF78C003CDA3C /* CommentServiceRemoteREST+ApiV2.swift */; };
@@ -1262,6 +1265,9 @@
 		FAD1344A259094C300A8FEB1 /* JetpackBackup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JetpackBackup.swift; sourceTree = "<group>"; };
 		FAD1345025909DEA00A8FEB1 /* JetpackBackupServiceRemoteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JetpackBackupServiceRemoteTests.swift; sourceTree = "<group>"; };
 		FE20A6A3282A96C00025E975 /* RemoteBloggingPromptsSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteBloggingPromptsSettings.swift; sourceTree = "<group>"; };
+		FE20A6A5282BC68D0025E975 /* blogging-prompts-settings-fetch-success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "blogging-prompts-settings-fetch-success.json"; sourceTree = "<group>"; };
+		FE20A6A7282BC83A0025E975 /* blogging-prompts-settings-update-with-response.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "blogging-prompts-settings-update-with-response.json"; sourceTree = "<group>"; };
+		FE20A6A9282BC8710025E975 /* blogging-prompts-settings-update-empty-response.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "blogging-prompts-settings-update-empty-response.json"; sourceTree = "<group>"; };
 		FEB7A88E271873BD00A8CF85 /* reader-post-comments-update-notification-success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "reader-post-comments-update-notification-success.json"; sourceTree = "<group>"; };
 		FEE4EF56272FDD4B003CDA3C /* RemoteCommentV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteCommentV2.swift; sourceTree = "<group>"; };
 		FEE4EF58272FF78C003CDA3C /* CommentServiceRemoteREST+ApiV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CommentServiceRemoteREST+ApiV2.swift"; sourceTree = "<group>"; };
@@ -2012,6 +2018,9 @@
 				FA79F1952591809C00D235A9 /* backup-get-backup-status-in-progress-success.json */,
 				FA79F1862591730D00D235A9 /* backup-prepare-backup-success.json */,
 				FEEFD8B3280DD60200A3E261 /* blogging-prompts-success.json */,
+				FE20A6A5282BC68D0025E975 /* blogging-prompts-settings-fetch-success.json */,
+				FE20A6A7282BC83A0025E975 /* blogging-prompts-settings-update-with-response.json */,
+				FE20A6A9282BC8710025E975 /* blogging-prompts-settings-update-empty-response.json */,
 				ABD95B8425DD6DA200735BEE /* comment-likes-success.json */,
 				FEE4EF5E2730334D003CDA3C /* comments-v2-view-context-success.json */,
 				FEE4EF6027303361003CDA3C /* comments-v2-edit-context-success.json */,
@@ -2725,6 +2734,7 @@
 				40819771221DFDB700A298E4 /* stats-posts-data.json in Resources */,
 				740B23EE1F17FB7E00067A2A /* xmlrpc-malformed-request-xml-error.xml in Resources */,
 				826016F91F9FAF6300533B6C /* activity-log-success-3.json in Resources */,
+				FE20A6A8282BC83A0025E975 /* blogging-prompts-settings-update-with-response.json in Resources */,
 				8B749E8A25AF819700023F03 /* jetpack-capabilities-malformed.json in Resources */,
 				93BD27551EE73442002BB00B /* auth-send-login-email-invalid-client-failure.json in Resources */,
 				826016FD1F9FAF6300533B6C /* activity-log-bad-json-failure.json in Resources */,
@@ -2766,6 +2776,7 @@
 				93BD27581EE73442002BB00B /* auth-send-login-email-success.json in Resources */,
 				74B335E01F06F6290053A184 /* WordPressComRestApiFailInvalidInput.json in Resources */,
 				F3FF8A27279C967200E5C90F /* site-email-followers-get-failure.json in Resources */,
+				FE20A6A6282BC68D0025E975 /* blogging-prompts-settings-fetch-success.json in Resources */,
 				FFE247C320C9D749002DF3A2 /* reader-site-search-blog-id-fallback.json in Resources */,
 				93BD27651EE73442002BB00B /* me-sites-visibility-success.json in Resources */,
 				404057D0221C46790060250C /* stats-videos-data.json in Resources */,
@@ -2848,6 +2859,7 @@
 				BA4BFC582498C04D005C83E7 /* plugin-update-jetpack-already-updated.json in Resources */,
 				740B23E51F17FB4200067A2A /* xmlrpc-metaweblog-newpost-bad-xml-failure.xml in Resources */,
 				74C473C91EF335B8009918F2 /* site-active-purchases-empty-response.json in Resources */,
+				FE20A6AA282BC8710025E975 /* blogging-prompts-settings-update-empty-response.json in Resources */,
 				FEE4EF5D2730315C003CDA3C /* empty-array.json in Resources */,
 				93A4232326CBC845004CCA31 /* me-settings-close-account-success.json in Resources */,
 				740B23EA1F17FB4200067A2A /* xmlrpc-wp-getpost-success.xml in Resources */,
