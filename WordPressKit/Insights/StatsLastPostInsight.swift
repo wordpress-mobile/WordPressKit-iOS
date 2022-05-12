@@ -6,6 +6,7 @@ public struct StatsLastPostInsight {
     public let commentsCount: Int
     public let viewsCount: Int
     public let postID: Int
+    public let featuredImageURL: URL?
 
     public init(title: String,
                 url: URL,
@@ -13,7 +14,8 @@ public struct StatsLastPostInsight {
                 likesCount: Int,
                 commentsCount: Int,
                 viewsCount: Int,
-                postID: Int) {
+                postID: Int,
+                featuredImageURL: URL?) {
         self.title = title
         self.url = url
         self.publishedDate = publishedDate
@@ -21,6 +23,7 @@ public struct StatsLastPostInsight {
         self.commentsCount = commentsCount
         self.viewsCount = viewsCount
         self.postID = postID
+        self.featuredImageURL = featuredImageURL
     }
 }
 
@@ -31,7 +34,7 @@ extension StatsLastPostInsight: StatsInsightData {
         return ["order_by": "date",
                 "number": "1",
                 "type": "post",
-                "fields": "ID, title, URL, discussion, like_count, date"]
+                "fields": "ID, title, URL, discussion, like_count, date, featured_image"]
     }
 
     public static var pathComponent: String {
@@ -69,5 +72,12 @@ extension StatsLastPostInsight: StatsInsightData {
         self.commentsCount = commentsCount
         self.viewsCount = views
         self.postID = postID
+
+        if let featuredImage = jsonDictionary["featured_image"] as? String,
+           let featuredURL = URL(string: featuredImage) {
+            self.featuredImageURL = featuredURL
+        } else {
+            self.featuredImageURL = nil
+        }
     }
 }
