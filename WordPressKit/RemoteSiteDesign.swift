@@ -33,6 +33,7 @@ public struct RemoteSiteDesign: Codable {
     public let mobileScreenshot: String?
     public let tabletScreenshot: String?
     public let themeSlug: String?
+    public let groups: [String]?
     public let segmentID: Int64?
     public let categories: [RemoteSiteDesignCategory]
 
@@ -44,6 +45,7 @@ public struct RemoteSiteDesign: Codable {
         case mobileScreenshot = "preview_mobile"
         case tabletScreenshot = "preview_tablet"
         case themeSlug = "theme"
+        case groups
         case segmentID = "segment_id"
         case categories
     }
@@ -57,6 +59,7 @@ public struct RemoteSiteDesign: Codable {
         mobileScreenshot = try? map.decode(String.self, forKey: .mobileScreenshot)
         tabletScreenshot = try? map.decode(String.self, forKey: .tabletScreenshot)
         themeSlug = try? map.decode(String.self, forKey: .themeSlug)
+        groups = try? map.decode([String].self, forKey: .groups)
         segmentID = try? map.decode(Int64.self, forKey: .segmentID)
         categories = try map.decode([RemoteSiteDesignCategory].self, forKey: .categories)
     }
