@@ -5,6 +5,7 @@ import XCTest
 class BloggingPromptsServiceRemoteTests: RemoteTestCase, RESTTestable {
 
     private let siteID = NSNumber(value: 1)
+    private let utcTimeZone = TimeZone(secondsFromGMT: 0)!
     private let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.locale = .init(identifier: "en_US_POSIX")
@@ -53,7 +54,7 @@ class BloggingPromptsServiceRemoteTests: RemoteTestCase, RESTTestable {
             XCTAssertEqual(firstPrompt.content, "<!-- wp:pullquote -->\n<figure class=\"wp-block-pullquote\"><blockquote><p>Was there a toy or thing you always wanted as a child, during the holidays or on your birthday, but never received? Tell us about it.</p><cite>(courtesy of plinky.com)</cite></blockquote></figure>\n<!-- /wp:pullquote -->")
             XCTAssertEqual(firstPrompt.attribution, "dayone")
 
-            let firstDateComponents = firstPrompt.date.dateAndTimeComponents()
+            let firstDateComponents = Calendar.current.dateComponents(in: self.utcTimeZone, from: firstPrompt.date)
             XCTAssertEqual(firstDateComponents.year!, 2022)
             XCTAssertEqual(firstDateComponents.month!, 5)
             XCTAssertEqual(firstDateComponents.day!, 3)
@@ -66,7 +67,7 @@ class BloggingPromptsServiceRemoteTests: RemoteTestCase, RESTTestable {
             XCTAssertEqual(secondPrompt.answeredUserAvatarURLs.count, 1)
             XCTAssertTrue(secondPrompt.attribution.isEmpty)
 
-            let secondDateComponents = secondPrompt.date.dateAndTimeComponents()
+            let secondDateComponents = Calendar.current.dateComponents(in: self.utcTimeZone, from: secondPrompt.date)
             XCTAssertEqual(secondDateComponents.year!, 2021)
             XCTAssertEqual(secondDateComponents.month!, 9)
             XCTAssertEqual(secondDateComponents.day!, 12)
