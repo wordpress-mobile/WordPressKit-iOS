@@ -22,7 +22,7 @@ public struct RemoteBloggingPromptsSettings: Codable {
         case reminderTime = "reminders_time"
         case isPotentialBloggingSite = "is_potential_blogging_site"
     }
-    
+
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(promptRemindersEnabled, forKey: .promptRemindersEnabled)
