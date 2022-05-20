@@ -10,5 +10,6 @@
         "saturday": true,
         "sunday": false
     },
-    "reminders_time": "14.30 UTC"
+    "reminders_time": "14.30",
+    "is_potential_blogging_site": true
 }

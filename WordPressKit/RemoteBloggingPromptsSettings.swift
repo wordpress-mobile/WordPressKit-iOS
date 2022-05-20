@@ -3,6 +3,7 @@ public struct RemoteBloggingPromptsSettings: Codable {
     public var promptRemindersEnabled: Bool
     public var reminderDays: ReminderDays
     public var reminderTime: String
+    public var isPotentialBloggingSite: Bool
 
     public struct ReminderDays: Codable {
         public var monday: Bool
@@ -19,5 +20,6 @@ public struct RemoteBloggingPromptsSettings: Codable {
         case promptRemindersEnabled = "prompts_reminders_opted_in"
         case reminderDays = "reminders_days"
         case reminderTime = "reminders_time"
+        case isPotentialBloggingSite = "is_potential_blogging_site"
     }
 }

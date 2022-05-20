@@ -123,7 +123,8 @@ class BloggingPromptsServiceRemoteTests: RemoteTestCase, RESTTestable {
             XCTAssertTrue(settings.reminderDays.saturday)
             XCTAssertFalse(settings.reminderDays.sunday)
 
-            XCTAssertEqual(settings.reminderTime, "14.30 UTC")
+            XCTAssertEqual(settings.reminderTime, "14.30")
+            XCTAssertEqual(settings.isPotentialBloggingSite, true)
             expect.fulfill()
         }
 
@@ -182,7 +183,7 @@ private extension BloggingPromptsServiceRemoteTests {
             sunday: true
         )
 
-        return .init(promptCardEnabled: false, promptRemindersEnabled: true, reminderDays: reminderDays, reminderTime: "12.59 UTC")
+        return .init(promptCardEnabled: false, promptRemindersEnabled: true, reminderDays: reminderDays, reminderTime: "12.59 UTC", isPotentialBloggingSite: true)
     }
 
 }
