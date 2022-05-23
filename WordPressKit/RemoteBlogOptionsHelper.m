@@ -36,7 +36,8 @@
                                           @"is_wpforteams_site",
                                           @"show_on_front",
                                           @"page_on_front",
-                                          @"page_for_posts"
+                                          @"page_for_posts",
+                                          @"blogging_prompts_settings"
                                           ];
 
         for (NSString *key in optionsDirectMapKeys) {
