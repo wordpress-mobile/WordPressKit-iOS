@@ -563,7 +563,11 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
 
     parameters[@"parent"] = post.parentID ?: @"false";
     parameters[@"featured_image"] = post.postThumbnailID ? [post.postThumbnailID stringValue] : @"";
-    parameters[@"metadata"] = [self metadataForPost:post];
+
+    NSArray *metadata = [self metadataForPost:post];
+    if (metadata.count > 0) {
+        parameters[@"metadata"] = metadata;
+    }
     
     if (post.isStickyPost != nil) {
         parameters[@"sticky"] = post.isStickyPost.boolValue ? @"true" : @"false";
