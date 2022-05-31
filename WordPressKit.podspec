@@ -2,7 +2,7 @@
 
 Pod::Spec.new do |s|
   s.name          = 'WordPressKit'
-  s.version       = '4.53.0-beta.x'
+  s.version       = '4.53.0'
 
   s.summary       = 'WordPressKit offers a clean and simple WordPress.com and WordPress.org API.'
   s.description   = <<-DESC
