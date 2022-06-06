@@ -2617,6 +2617,7 @@
 				9368C7811EC5EF1B0092CE8E /* Frameworks */,
 				9368C7821EC5EF1B0092CE8E /* Resources */,
 				B07A9DD36A28DB40846D1682 /* [CP] Embed Pods Frameworks */,
+				3FB7632D284DCC9A0091C04F /* Run SwiftLint */,
 			);
 			buildRules = (
 			);
@@ -3010,7 +3011,25 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "$SRCROOT/Pods/SwiftLint/swiftlint lint\n";
+			shellScript = "$SRCROOT/Pods/SwiftLint/swiftlint lint --path $SRCROOT/WordPressKit\n";
+		};
+		3FB7632D284DCC9A0091C04F /* Run SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Run SwiftLint";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "$SRCROOT/Pods/SwiftLint/swiftlint lint --path $SRCROOT/WordPressKitTests\n";
 		};
 		50C31E8D1B97D5FA0D543935 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
