@@ -23,7 +23,7 @@ import CocoaLumberjack
         case .notWordPressError:
             return NSLocalizedString("That doesn't look like a WordPress site.", comment: "Message to show to user when he tries to add a self-hosted site that isn't a WordPress site.")
         case .mobilePluginRedirectedError:
-            return NSLocalizedString("You seem to have installed a mobile plugin from DudaMobile which is preventing the app to connect to your blog", comment: "")
+            return NSLocalizedString("You seem to have installed a mobile plugin from DudaMobile which is preventing the app to connect to your blog", comment: "Message to show to a user when they try to add a self-hosted side with a pluging from DudaMobile.")
         case .invalid:
             return NSLocalizedString("Couldn't connect to the WordPress site. There is no valid WordPress site at this address. Check the site address (URL) you entered.", comment: "Error message shown a URL points to a valid site but not a WordPress site.")
         case .blocked:
