@@ -96,3 +96,6 @@ vendor/
 # https://github.com/johnno1962/injectionforxcode
 
 iOSInjectionProject/
+
+# SwiftLint Remote Config Cache
+.swiftlint/RemoteConfigCache
