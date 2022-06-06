@@ -33,3 +33,7 @@ target 'WordPressKitTests' do
   pod 'OHHTTPStubs/Swift', '~> 9.0'
   pod 'OCMock', '~> 3.4'
 end
+
+abstract_target 'CLI' do
+  pod 'SwiftLint'
+end
