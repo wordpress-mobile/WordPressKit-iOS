@@ -36,7 +36,13 @@ open class HTTPAuthenticationAlertController {
 
     private static func controllerForServerTrustChallenge(_ challenge: URLAuthenticationChallenge) -> UIAlertController {
         let title = NSLocalizedString("Certificate error", comment: "Popup title for wrong SSL certificate.")
-        let message = String(format: NSLocalizedString("The certificate for this server is invalid. You might be connecting to a server that is pretending to be “%@” which could put your confidential information at risk.\n\nWould you like to trust the certificate anyway?", comment: ""), challenge.protectionSpace.host)
+        let message = String(
+            format: NSLocalizedString(
+                "The certificate for this server is invalid. You might be connecting to a server that is pretending to be “%@” which could put your confidential information at risk.\n\nWould you like to trust the certificate anyway?",
+                comment: "Message in the wrong SSL certificate popup"
+            ),
+            challenge.protectionSpace.host
+        )
         let controller =  UIAlertController(title: title, message: message, preferredStyle: .alert)
 
         let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: "Cancel button label"),
