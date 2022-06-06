@@ -37,13 +37,24 @@ steps:
   #################
   # Lint
   #################
-  - label: "🧹 Lint"
+  - label: "🧹 Lint Pod"
     key: "lint"
     command: |
       # See https://github.com/Automattic/bash-cache-buildkite-plugin/issues/16
       gem install bundler:2.3.4
 
       lint_pod
+    env: *common_env
+    plugins: *common_plugins
+
+  - label: "🧹 Lint Source"
+    key: "danger"
+    command: |
+      # See https://github.com/Automattic/bash-cache-buildkite-plugin/issues/16
+      gem install bundler:2.3.4
+
+      bundle install
+      bundle exec danger
     env: *common_env
     plugins: *common_plugins
 
