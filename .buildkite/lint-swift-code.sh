@@ -12,4 +12,5 @@ fi
 gem install bundler:2.3.4
 
 bundle install
+bundle exec pod install
 bundle exec danger
