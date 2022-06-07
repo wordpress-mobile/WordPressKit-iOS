@@ -27,9 +27,13 @@ if [ "$DANGER_EXIT_CODE" -ne 0 ] ; then
     echo "Danger failed the build"
     # FIXME: ShellCheck tells us this cat is useless (SC2002)
     cat danger_output | buildkite-agent annotate \
-      --style 'error' \
-      --context 'ctx-error' \
+      --style 'error'
     exit 1
+else
+  # FIXME: ShellCheck tells us this cat is useless (SC2002)
+  # FIXME: Also, this is just for debug, really, Danger should fail on SwiftLint warnings...
+    cat danger_output | buildkite-agent annotate \
+      --style 'info'
 fi
 
 # Now that we don't need to trap error codes to annotate the build with extra
