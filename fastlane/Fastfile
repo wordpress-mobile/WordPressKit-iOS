@@ -1,5 +1,9 @@
 # frozen_string_literal: true
 
+def super_long_method_to_trigger_rubocop_violation_super_long_method_to_trigger_rubocop_violation_super_long_method_to_trigger_rubocop_violation_super_long_method_to_trigger_rubocop_violation_super_long_method_to_trigger_rubocop_violation
+  true
+end
+
 default_platform(:ios)
 
 platform :ios do
