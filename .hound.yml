@@ -1,2 +1,5 @@
 rubocop:
   config_file: .rubocop.yml
+  # This is not the latest RuboCop available, only the latest on Hound.
+  # It should be enough to let Hound play nice with our RuboCop config.
+  version: 1.22.1
