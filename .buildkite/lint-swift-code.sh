@@ -8,9 +8,14 @@ if [[ -z $DANGER_GITHUB_API_TOKEN ]]; then
   echo "Can't find DANGER_GITHUB_API_TOKEN"
 fi
 
+echo "--- :rubygems: Setting up Gems"
 # See https://github.com/Automattic/bash-cache-buildkite-plugin/issues/16
 gem install bundler:2.3.4
 
-bundle install
-bundle exec pod install
+install_gems
+
+echo "--- :cocoapods: Setting up Pods"
+install_cocoapods
+
+echo "--- :swift::danger: Running SwiftLint via Danger"
 bundle exec danger
