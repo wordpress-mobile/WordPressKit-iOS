@@ -1,9 +1,5 @@
 #!/bin/bash -eu
 
-if [[ -z $GITHUB_TOKEN ]]; then
-  echo "Can't find GITHUB_TOKEN"
-fi
-
 if [[ -z $DANGER_GITHUB_API_TOKEN ]]; then
   echo "Can't find DANGER_GITHUB_API_TOKEN"
 fi
