@@ -16,7 +16,7 @@ struct MockPluginDirectoryProvider {
                                           faqHTML: self.getJetpackFAQHTML(),
                                           changelogHTML: self.getJetpackChangeLogHTML(),
                                           rating: 82)
-        return plugin
+        return plugin;
     }
 
     static func getJetpackDescriptionHTML() -> String? {
