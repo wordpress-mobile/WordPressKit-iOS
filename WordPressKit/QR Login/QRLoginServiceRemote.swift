@@ -3,7 +3,7 @@ import WordPressShared
 
 public class QRLoginServiceRemote: ServiceRemoteWordPressComREST {
     /// Validates the incoming QR Login token and retrieves the requesting browser, and location
-    public func validate(token: String, data: String, success: @escaping(QRLoginValidationResponse) -> Void, failure: @escaping(Error?, QRLoginError?) -> Void) {
+    public func validate(token: String, data: String, success: @escaping (QRLoginValidationResponse) -> Void, failure: @escaping (Error?, QRLoginError?) -> Void) {
         let path = self.path(forEndpoint: "auth/qr-code/validate", withVersion: ._2_0)
         let parameters = [ "token": token, "data": data ] as [String: AnyObject]
 
