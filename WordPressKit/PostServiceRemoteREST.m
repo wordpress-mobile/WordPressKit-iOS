@@ -590,12 +590,17 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
     return [post.metadata wp_map:^id(NSDictionary *meta) {
         NSNumber *metaID = [meta objectForKey:@"id"];
         NSString *metaValue = [meta objectForKey:@"value"];
+        NSString *metaKey = [meta objectForKey:@"key"];
         NSString *operation = @"update";
-        if (metaID && !metaValue) {
-            operation = @"delete";
-        } else if (!metaID && metaValue) {
-            operation = @"add";
+
+        if (!metaKey) {
+            if (metaID && !metaValue) {
+                operation = @"delete";
+            } else if (!metaID && metaValue) {
+                operation = @"add";
+            }
         }
+
         NSMutableDictionary *modifiedMeta = [meta mutableCopy];
         modifiedMeta[@"operation"] = operation;
         return [NSDictionary dictionaryWithDictionary:modifiedMeta];
