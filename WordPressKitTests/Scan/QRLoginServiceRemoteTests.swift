@@ -65,7 +65,7 @@ class QRLoginServiceRemoteTests: RemoteTestCase, RESTTestable {
     //
     func testInvalidJSON() {
         let expect = expectation(description: "Validate the failure object is being returned")
-        stubRemoteResponse("wpcom/v2/auth/qr-code/validate", data:"foo".data(using: .utf8)!, contentType: .ApplicationJSON)
+        stubRemoteResponse("wpcom/v2/auth/qr-code/validate", data: "foo".data(using: .utf8)!, contentType: .ApplicationJSON)
 
         qrLoginServiceRemote.validate(token: "expired_token", data: "expired_data") { _ in
             XCTFail("This request should not succeed")
@@ -75,7 +75,6 @@ class QRLoginServiceRemoteTests: RemoteTestCase, RESTTestable {
         }
 
         waitForExpectations(timeout: timeout, handler: nil)
-
     }
 
     // MARK: - Authenticate Tests
@@ -102,7 +101,7 @@ class QRLoginServiceRemoteTests: RemoteTestCase, RESTTestable {
 
         qrLoginServiceRemote.authenticate(token: "valid_token", data: "valid_data") { authenticated in
             XCTFail("This request should not succeed")
-        } failure: { error in 
+        } failure: { error in
             expect.fulfill()
         }
 
@@ -111,15 +110,16 @@ class QRLoginServiceRemoteTests: RemoteTestCase, RESTTestable {
 
     // Calls the failure block when parsing invalid JSON
     func testAuthenticateInvalidJSON() {
-            let expect = expectation(description: "Failed Authentication")
-            stubRemoteResponse("wpcom/v2/auth/qr-code/authenticate", data: "foo".data(using: .utf8)!, contentType: .ApplicationJSON)
+        let expect = expectation(description: "Failed Authentication")
+        stubRemoteResponse("wpcom/v2/auth/qr-code/authenticate", data: "foo".data(using: .utf8)!, contentType: .ApplicationJSON)
 
-            qrLoginServiceRemote.authenticate(token: "valid_token", data: "valid_data") { authenticated in
-                XCTFail("This request should not succeed")
-            } failure: { error in
-                expect.fulfill()
-            }
-
-            waitForExpectations(timeout: timeout, handler: nil)
+        qrLoginServiceRemote.authenticate(token: "valid_token", data: "valid_data") { authenticated in
+            XCTFail("This request should not succeed")
+        } failure: { error in
+            expect.fulfill()
         }
+
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
 }
+
