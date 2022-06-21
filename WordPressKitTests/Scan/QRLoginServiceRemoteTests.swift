@@ -122,4 +122,3 @@ class QRLoginServiceRemoteTests: RemoteTestCase, RESTTestable {
         waitForExpectations(timeout: timeout, handler: nil)
     }
 }
-
