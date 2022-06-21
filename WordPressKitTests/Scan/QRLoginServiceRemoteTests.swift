@@ -112,7 +112,7 @@ class QRLoginServiceRemoteTests: RemoteTestCase, RESTTestable {
     // Calls the failure block when parsing invalid JSON
     func testAuthenticateInvalidJSON() {
             let expect = expectation(description: "Failed Authentication")
-            stubRemoteResponse("wpcom/v2/auth/qr-code/authenticate", data:"foo".data(using: .utf8)!, contentType: .ApplicationJSON)
+            stubRemoteResponse("wpcom/v2/auth/qr-code/authenticate", data: "foo".data(using: .utf8)!, contentType: .ApplicationJSON)
 
             qrLoginServiceRemote.authenticate(token: "valid_token", data: "valid_data") { authenticated in
                 XCTFail("This request should not succeed")
