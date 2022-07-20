@@ -5,6 +5,8 @@
 @property (nonatomic, strong, nullable) NSNumber *mediaID;
 @property (nonatomic, strong, nullable) NSURL *url;
 @property (nonatomic, strong, nullable) NSURL *localURL;
+@property (nonatomic, strong, nullable) NSURL *largeURL;
+@property (nonatomic, strong, nullable) NSURL *mediumURL;
 @property (nonatomic, strong, nullable) NSURL *guid;
 @property (nonatomic, strong, nullable) NSDate *date;
 @property (nonatomic, strong, nullable) NSNumber *postID;
