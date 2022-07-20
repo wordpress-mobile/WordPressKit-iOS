@@ -697,6 +697,7 @@
 		32FC20CD255DCC6100CD0A7B /* JetpackScanThreat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JetpackScanThreat.swift; sourceTree = "<group>"; };
 		3F3195AC266FF94B00397EE7 /* ZendeskMetadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZendeskMetadata.swift; sourceTree = "<group>"; };
 		3F758FD224F6C68200BBA2FC /* AnnouncementServiceRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnouncementServiceRemote.swift; sourceTree = "<group>"; };
+		3FB8642D288813E9003A86BE /* UnitTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = UnitTests.xctestplan; sourceTree = "<group>"; };
 		40247DF92120D8E100AE1C3C /* AutomatedTransferService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutomatedTransferService.swift; sourceTree = "<group>"; };
 		40247DFB2120E69600AE1C3C /* AutomatedTransferStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutomatedTransferStatus.swift; sourceTree = "<group>"; };
 		404057C4221B30400060250C /* StatsSearchTermTimeIntervalData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsSearchTermTimeIntervalData.swift; sourceTree = "<group>"; };
@@ -1779,6 +1780,7 @@
 		9368C7881EC5EF1B0092CE8E /* WordPressKitTests */ = {
 			isa = PBXGroup;
 			children = (
+				3FB8642D288813E9003A86BE /* UnitTests.xctestplan */,
 				57A38E572624FF1000472480 /* Fakes */,
 				93BD27421EE73384002BB00B /* Mock Data */,
 				930F52BA1ECF8A67002F921B /* Tests */,

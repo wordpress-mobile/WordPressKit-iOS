@@ -1,0 +1,31 @@
+{
+  "configurations" : [
+    {
+      "id" : "B58CA930-5A01-4F98-9102-96CF9929E998",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:WordPressKit.xcodeproj",
+      "identifier" : "9368C77A1EC5EF1B0092CE8E",
+      "name" : "WordPressKit"
+    }
+  },
+  "testTargets" : [
+    {
+      "skippedTests" : [
+        "RemoteTestCase"
+      ],
+      "target" : {
+        "containerPath" : "container:WordPressKit.xcodeproj",
+        "identifier" : "9368C7831EC5EF1B0092CE8E",
+        "name" : "WordPressKitTests"
+      }
+    }
+  ],
+  "version" : 1
+}
