@@ -3874,7 +3874,7 @@
 			repositoryURL = "https://github.com/buildkite/test-collector-swift";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 0.1.1;
+				minimumVersion = 0.3.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
