@@ -24,7 +24,6 @@ steps:
         --env BUILDKITE_PULL_REQUEST_REPO=$$BUILDKITE_PULL_REQUEST_REPO \
         --env BUILDKITE_PULL_REQUEST=$$BUILDKITE_PULL_REQUEST \
         --env DANGER_GITHUB_API_TOKEN=$$DANGER_GITHUB_API_TOKEN \
-        --env BUNDLE_GEMFILE=./Gemfile \
         docker.io/dangersystems/danger-rb --fail-on-errors=true
     agents:
       queue: default
