@@ -45,6 +45,8 @@ steps:
         # We need to forward the environment variables Danger needs to the
         # container.
         #
+        # (`$$` is Buildkite's syntax to interpolate shell values from YAML)
+        #
         # See
         # https://github.com/danger/danger/blob/eca19719d3e585fe1cc46bc5377f9aa955ebf609/spec/lib/danger/ci_sources/buildkite_spec.rb#L6-L9
         docker run -it --rm -v `pwd`:`pwd` -w `pwd` \
@@ -52,6 +54,7 @@ steps:
           --env BUILDKITE_REPO=$$BUILDKITE_REPO \
           --env BUILDKITE_PULL_REQUEST_REPO=$$BUILDKITE_PULL_REQUEST_REPO \
           --env BUILDKITE_PULL_REQUEST=$$BUILDKITE_PULL_REQUEST \
+          --env DANGER_GITHUB_API_TOKEN=$$DANGER_GITHUB_API_TOKEN \
           docker.io/dangersystems/danger-rb --fail-on-errors=true
       agents:
         queue: default
