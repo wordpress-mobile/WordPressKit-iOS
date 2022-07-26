@@ -31,12 +31,19 @@ steps:
   #################
   # Lint
   #################
-  - label: "🧹 Lint"
-    key: "lint"
-    command: |
-      lint_pod
-    env: *common_env
-    plugins: *common_plugins
+  - group: "🔎 Lint"
+    steps:
+    - label: "🧹 Lint Pod"
+      key: "lint"
+      command: lint_pod
+      env: *common_env
+      plugins: *common_plugins
+
+    - label: "🧹 Lint Source"
+      key: "danger"
+      command: |
+        docker run -it --rm -v `pwd`:`pwd` -w `pwd` \
+          docker.io/dangersystems/danger-rb --fail-on-errors=true
 
   #################
   # Publish the Podspec (if we're building a tag)
