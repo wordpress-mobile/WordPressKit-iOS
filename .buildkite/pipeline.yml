@@ -45,7 +45,7 @@ steps:
         docker run -it --rm -v `pwd`:`pwd` -w `pwd` \
           docker.io/dangersystems/danger-rb --fail-on-errors=true
       agents:
-        queue: "upload"
+        queue: default
 
   #################
   # Publish the Podspec (if we're building a tag)
