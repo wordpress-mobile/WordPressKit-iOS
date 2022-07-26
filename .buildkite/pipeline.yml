@@ -18,7 +18,7 @@ steps:
       #
       # See
       # https://github.com/danger/danger/blob/eca19719d3e585fe1cc46bc5377f9aa955ebf609/spec/lib/danger/ci_sources/buildkite_spec.rb#L6-L9
-      docker run -it --rm -v `pwd`:`pwd` -w `pwd` \
+      docker-compose run -it --rm -v `pwd`:`pwd` -w `pwd` \
         --env BUILDKITE=$$BUILDKITE \
         --env BUILDKITE_REPO=$$BUILDKITE_REPO \
         --env BUILDKITE_PULL_REQUEST_REPO=$$BUILDKITE_PULL_REQUEST_REPO \
