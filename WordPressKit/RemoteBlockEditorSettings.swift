@@ -5,7 +5,7 @@ public class RemoteBlockEditorSettings: Codable {
         case isFSETheme = "__unstableEnableFullSiteEditingBlocks"
         case galleryWithImageBlocks = "__unstableGalleryWithImageBlocks"
         case quoteBlockV2 = "__experimentalEnableQuoteBlockV2"
-        case listBlockV2 = "__experimentalEnablelistBlockV2"
+        case listBlockV2 = "__experimentalEnableListBlockV2"
         case rawStyles = "__experimentalStyles"
         case rawFeatures = "__experimentalFeatures"
         case colors
