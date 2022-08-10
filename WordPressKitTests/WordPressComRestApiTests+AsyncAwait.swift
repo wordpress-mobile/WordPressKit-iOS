@@ -71,23 +71,18 @@ class WordPressComRestApiAsyncAwaitTests: XCTestCase {
     }
 
     func testSuccessfullPostCodableCall() async throws {
-        stub(
-            condition: { request in
-                // Stub all POST requests other than those to the Buildkite Test Analytics API.
-                // We need those to go through for Test Analytics reporting.
-                request.httpMethod == "POST" && request.url?.host != TestCollector.apiHost
-            },
-            response: { request in
-                let bodyString = String(data: request.ohhttpStubs_httpBody ?? Data(),
-                                        encoding: String.Encoding.utf8)
+        // Stub all POST requests other than those to the Buildkite Test Analytics API,
+        // which we need them to go through for Test Analytics reporting.
+        stub(condition: isMethodPOST() && !isHost(TestCollector.apiHost)) { request in
+            let bodyString = String(data: request.ohhttpStubs_httpBody ?? Data(),
+                                    encoding: String.Encoding.utf8)
 
-                if bodyString != "foo=bar" {
-                    XCTFail("Incorrect POST params sent.")
-                }
-
-                return HTTPStubsResponse(jsonObject: ["number": 123], statusCode: 200, headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
+            if bodyString != "foo=bar" {
+                XCTFail("Incorrect POST params sent.")
             }
-        )
+
+            return HTTPStubsResponse(jsonObject: ["number": 123], statusCode: 200, headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
+        }
 
         let api = WordPressComRestApi(oAuthToken: "fakeToken")
         let anyModel: AnyModel = try await api.post(url, parameters: ["foo": "bar"])
