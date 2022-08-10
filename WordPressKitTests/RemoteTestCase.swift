@@ -133,7 +133,7 @@ extension RemoteTestCase {
         stub(condition: { request in
             // Stub all requests other than those to the Buildkite Test Analytics API.
             // We need those to go through for Test Analytics reporting.
-            request.url != TestCollector.apiURL
+            request.url?.host != TestCollector.apiHost
         }) { response in
             XCTFail("Unexpected network request was made to: \(response.url!.absoluteString)")
             let notConnectedError = NSError(domain: NSURLErrorDomain, code: Int(CFNetworkErrors.cfurlErrorNotConnectedToInternet.rawValue), userInfo: nil)

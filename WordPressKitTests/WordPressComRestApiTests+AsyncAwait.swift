@@ -75,7 +75,7 @@ class WordPressComRestApiAsyncAwaitTests: XCTestCase {
             condition: { request in
                 // Stub all POST requests other than those to the Buildkite Test Analytics API.
                 // We need those to go through for Test Analytics reporting.
-                request.httpMethod == "POST" && request.url != TestCollector.apiURL
+                request.httpMethod == "POST" && request.url?.host != TestCollector.apiHost
             },
             response: { request in
                 let bodyString = String(data: request.ohhttpStubs_httpBody ?? Data(),
