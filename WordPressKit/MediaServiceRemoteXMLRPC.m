@@ -273,12 +273,12 @@
     }
     remoteMedia.file = [link lastPathComponent] ?: [[xmlRPC objectForKeyPath:@"file"] lastPathComponent];
     
-    if ([xmlRPC valueForKeyPath:@"metadata.sizes.large.file"] != nil) {
-        remoteMedia.largeURL = [NSURL URLWithString: [NSString stringWithFormat:@"%@%@", remoteMedia.url.URLByDeletingLastPathComponent, [xmlRPC valueForKeyPath:@"metadata.sizes.large.file"]]];
+    if ([xmlRPC stringForKeyPath:@"metadata.sizes.large.file"] != nil) {
+        remoteMedia.largeURL = [NSURL URLWithString: [NSString stringWithFormat:@"%@%@", remoteMedia.url.URLByDeletingLastPathComponent, [xmlRPC stringForKeyPath:@"metadata.sizes.large.file"]]];
     }
     
-    if ([xmlRPC valueForKeyPath:@"metadata.sizes.medium.file"] != nil) {
-        remoteMedia.mediumURL = [NSURL URLWithString: [NSString stringWithFormat:@"%@%@", remoteMedia.url.URLByDeletingLastPathComponent, [xmlRPC valueForKeyPath:@"metadata.sizes.medium.file"]]];
+    if ([xmlRPC stringForKeyPath:@"metadata.sizes.medium.file"] != nil) {
+        remoteMedia.mediumURL = [NSURL URLWithString: [NSString stringWithFormat:@"%@%@", remoteMedia.url.URLByDeletingLastPathComponent, [xmlRPC stringForKeyPath:@"metadata.sizes.medium.file"]]];
     }
 
     if (xmlRPC[@"date_created_gmt"] != nil) {
