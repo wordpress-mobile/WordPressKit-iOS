@@ -5,6 +5,7 @@ public class RemoteBlockEditorSettings: Codable {
         case isFSETheme = "__unstableEnableFullSiteEditingBlocks"
         case galleryWithImageBlocks = "__unstableGalleryWithImageBlocks"
         case quoteBlockV2 = "__experimentalEnableQuoteBlockV2"
+        case listBlockV2 = "__experimentalEnableListBlockV2"
         case rawStyles = "__experimentalStyles"
         case rawFeatures = "__experimentalFeatures"
         case colors
@@ -14,6 +15,7 @@ public class RemoteBlockEditorSettings: Codable {
     public let isFSETheme: Bool
     public let galleryWithImageBlocks: Bool
     public let quoteBlockV2: Bool
+    public let listBlockV2: Bool
     public let rawStyles: String?
     public let rawFeatures: String?
     public let colors: [[String: String]]?
@@ -40,6 +42,7 @@ public class RemoteBlockEditorSettings: Codable {
         self.isFSETheme = (try? map.decode(Bool.self, forKey: .isFSETheme)) ?? false
         self.galleryWithImageBlocks = (try? map.decode(Bool.self, forKey: .galleryWithImageBlocks)) ?? false
         self.quoteBlockV2 = (try? map.decode(Bool.self, forKey: .quoteBlockV2)) ?? false
+        self.listBlockV2 = (try? map.decode(Bool.self, forKey: .listBlockV2)) ?? false
         self.rawStyles = RemoteBlockEditorSettings.parseToString(map, .rawStyles)
         self.rawFeatures = RemoteBlockEditorSettings.parseToString(map, .rawFeatures)
         self.colors = try? map.decode([[String: String]].self, forKey: .colors)
