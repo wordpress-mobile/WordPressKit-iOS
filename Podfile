@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+install! 'cocoapods', warn_for_unused_master_specs_repo: false
+
 source 'https://cdn.cocoapods.org/'
 
 inhibit_all_warnings!
