@@ -90,9 +90,9 @@ extension StatsAnnualAndMostPopularTimeInsight: StatsInsightData {
         let hourComponents = DateComponents(hour: highestHour)
 
         self.mostPopularDayOfWeek = weekDayComponent
-        self.mostPopularDayOfWeekPercentage = Int(highestDayOfWeekPercentageValue)
+        self.mostPopularDayOfWeekPercentage = Int(highestDayOfWeekPercentageValue.rounded())
         self.mostPopularHour = hourComponents
-        self.mostPopularHourPercentage = Int(highestHourPercentageValue)
+        self.mostPopularHourPercentage = Int(highestHourPercentageValue.rounded())
 
         self.annualInsightsYear = currentYear
 
