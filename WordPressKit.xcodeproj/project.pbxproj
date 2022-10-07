@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0152100C28EDA9E400DD6783 /* StatsAnnualAndMostPopularTimeInsightDecodingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0152100B28EDA9E400DD6783 /* StatsAnnualAndMostPopularTimeInsightDecodingTests.swift */; };
 		1769DEAA24729AFF00F42EFC /* HomepageSettingsServiceRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1769DEA924729AFF00F42EFC /* HomepageSettingsServiceRemote.swift */; };
 		17BF9A6C20C7DC3300BF57D2 /* reader-site-search-success.json in Resources */ = {isa = PBXBuildFile; fileRef = 17BF9A6B20C7DC3300BF57D2 /* reader-site-search-success.json */; };
 		17BF9A7220C7E18200BF57D2 /* reader-site-search-success-hasmore.json in Resources */ = {isa = PBXBuildFile; fileRef = 17BF9A6D20C7E18100BF57D2 /* reader-site-search-success-hasmore.json */; };
@@ -666,6 +667,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0152100B28EDA9E400DD6783 /* StatsAnnualAndMostPopularTimeInsightDecodingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsAnnualAndMostPopularTimeInsightDecodingTests.swift; sourceTree = "<group>"; };
 		1769DEA924729AFF00F42EFC /* HomepageSettingsServiceRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomepageSettingsServiceRemote.swift; sourceTree = "<group>"; };
 		17BF9A6B20C7DC3300BF57D2 /* reader-site-search-success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "reader-site-search-success.json"; sourceTree = "<group>"; };
 		17BF9A6D20C7E18100BF57D2 /* reader-site-search-success-hasmore.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "reader-site-search-success-hasmore.json"; sourceTree = "<group>"; };
@@ -1731,6 +1733,7 @@
 			isa = PBXGroup;
 			children = (
 				40F9880B221ACEEE00B7B369 /* StatsRemoteV2Tests.swift */,
+				0152100B28EDA9E400DD6783 /* StatsAnnualAndMostPopularTimeInsightDecodingTests.swift */,
 			);
 			name = Stats;
 			sourceTree = "<group>";
@@ -3337,6 +3340,7 @@
 				F3FF8A21279C8EE200E5C90F /* RemotePersonTests.swift in Sources */,
 				73D5930521E5541200E4CF84 /* WordPressComServiceRemoteTests+SiteVerticals.swift in Sources */,
 				8BB5F62427A9A5D100B2FFAF /* DashboardServiceRemoteTests.swift in Sources */,
+				0152100C28EDA9E400DD6783 /* StatsAnnualAndMostPopularTimeInsightDecodingTests.swift in Sources */,
 				17CE77F420C701C8001DEA5A /* ReaderSiteSearchServiceRemoteTests.swift in Sources */,
 				73A2F38D21E7FC8200388609 /* WordPressComServiceRemoteTests+SiteVerticalsPrompt.swift in Sources */,
 				74C473AF1EF2F7D1009918F2 /* SiteManagementServiceRemoteTests.swift in Sources */,
