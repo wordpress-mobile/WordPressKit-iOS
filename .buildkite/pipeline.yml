@@ -18,7 +18,12 @@ steps:
       install_cocoapods
 
       echo "+++ Where did the Pods go? 🤔"
+      set -x
       ls
+      ls Pods
+      ls Pods/SwiftLint
+      file Pods/SwiftLint/swiftlint
+      set +x
 
       echo "--- :rubocop: Check stuff via Danger"
       bundle exec danger --fail-on-errors=true
