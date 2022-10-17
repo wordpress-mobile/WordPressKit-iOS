@@ -11,20 +11,13 @@ steps:
   - label: "🧹 Lint Source"
     key: "danger"
     command: |
-      # We need to forward the environment variables Danger needs to the
-      # container.
-      #
-      # (`$$` is Buildkite's syntax to interpolate shell values from YAML)
-      #
-      # See
-      # https://github.com/danger/danger/blob/eca19719d3e585fe1cc46bc5377f9aa955ebf609/spec/lib/danger/ci_sources/buildkite_spec.rb#L6-L9
-      docker run -it --rm -v `pwd`:`pwd` -w `pwd` \
-        --env BUILDKITE=$$BUILDKITE \
-        --env BUILDKITE_REPO=$$BUILDKITE_REPO \
-        --env BUILDKITE_PULL_REQUEST_REPO=$$BUILDKITE_PULL_REQUEST_REPO \
-        --env BUILDKITE_PULL_REQUEST=$$BUILDKITE_PULL_REQUEST \
-        --env DANGER_GITHUB_API_TOKEN=$$DANGER_GITHUB_API_TOKEN \
-        --env BUNDLE_GEMFILE=./Gemfile \
-        docker.io/dangersystems/danger-rb --fail-on-errors=true
+      echo "--- :rubygems: Setting up Gems"
+      install_gems
+
+      echo "--- :cocoapods: Setting up Pods (will it work in the android queue?)"
+      install_cocoapods
+
+      echo "--- :rubocop: Check stuff via Danger"
+      bundle exec danger --fail-on-errors=true
     agents:
-      queue: default
+      queue: android
