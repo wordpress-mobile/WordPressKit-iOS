@@ -17,6 +17,9 @@ steps:
       echo "--- :cocoapods: Setting up Pods (will it work in the android queue?)"
       install_cocoapods
 
+      echo "+++ Where did the Pods go? 🤔"
+      ls
+
       echo "--- :rubocop: Check stuff via Danger"
       bundle exec danger --fail-on-errors=true
     plugins: *common_plugins
