@@ -19,5 +19,6 @@ steps:
 
       echo "--- :rubocop: Check stuff via Danger"
       bundle exec danger --fail-on-errors=true
+    plugins: *common_plugins
     agents:
       queue: android
