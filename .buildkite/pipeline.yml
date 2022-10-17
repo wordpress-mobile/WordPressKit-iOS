@@ -23,6 +23,7 @@ steps:
       ls Pods
       ls Pods/SwiftLint
       file Pods/SwiftLint/swiftlint
+      uname
       set +x
 
       echo "--- :rubocop: Check stuff via Danger"
