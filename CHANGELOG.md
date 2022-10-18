@@ -4,19 +4,33 @@ The format of this document is inspired by [Keep a Changelog](https://keepachang
 
 <!-- This is a comment, you won't see it when GitHub renders the Markdown file.
 
-Types of changes:
+When releasing a new version:
 
-- Breaking Changes
-- New Features
-- Bug Fixes
-- Internal Changes
--->
+1. Remove any empty entry (those with `_None._`)
+2. Update the `## Unreleased` header to `## [<version_number>](https://github.com/wordpress-mobile/WordPressKit-iOS/releases/tag/<version_number>)`
+3. Add a new "Unreleased" section for the next iteration, by copy/pasting the following template:
 
 ## Unreleased
 
-<!-- When adding a new version, use this template
-## [<version_number>](https://github.com/wordpress-mobile/WordPressKit-iOS/releases/tag/<version_number>)
+### Breaking Changes
+
+_None._
+
+### New Features
+
+_None._
+
+### Bug Fixes
+
+_None._
+
+### Internal Changes
+
+_None._
+
 -->
+
+## Unreleased
 
 ### Breaking Changes
 
