@@ -1,36 +1,94 @@
-//
-//  RemoteConfigRemoteTests.swift
-//  WordPressKitTests
-//
-//  Created by Hassaan El-Garem on 19/10/2022.
-//  Copyright © 2022 Automattic Inc. All rights reserved.
-//
-
 import XCTest
+@testable import WordPressKit
 
-final class RemoteConfigRemoteTests: XCTestCase {
+final class RemoteConfigRemoteTests: RemoteTestCase, RESTTestable {
+    
+    // MARK: Variables
+    
+    private let endpoint = "/wpcom/v2/mobile/remote-config"
+    
+    // MARK: Tests
+    
+    func testThatResponsesAreHandledCorrectly() throws {
+        // Given
+        let dictionary = ["key1": "value", "key2": "value2"]
+        let data = try JSONEncoder().encode(dictionary)
+        stubRemoteResponse(endpoint, data: data, contentType: .ApplicationJSON)
 
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
-    }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+        // When
+        let expectation = XCTestExpectation()
+        RemoteConfigRemote(wordPressComRestApi: getRestApi()).getRemoteConfig { result in
+            
+            // Then
+            let response = try! result.get() as? [String: String]
+            XCTAssertEqual(response, dictionary)
+            expectation.fulfill()
         }
+
+        wait(for: [expectation], timeout: 1)
+    }
+    
+    func testThatEmptyResponsesAreHandledCorrectly() throws {
+        // Given
+        let emptyDictionary: [String: String] = [:]
+        let data = try JSONEncoder().encode(emptyDictionary)
+        stubRemoteResponse(endpoint, data: data, contentType: .ApplicationJSON)
+
+        // When
+        let expectation = XCTestExpectation()
+        RemoteConfigRemote(wordPressComRestApi: getRestApi()).getRemoteConfig { result in
+            
+            // Then
+            XCTAssertEqual(0, try! result.get().count)
+            expectation.fulfill()
+        }
+
+        wait(for: [expectation], timeout: 1)
+    }
+    
+    func testThatMalformedResponsesReturnEmptyArray() throws {
+        // Given
+        let data = try toJSON(object: ["Invalid"])
+        stubRemoteResponse(endpoint, data: data, contentType: .ApplicationJSON)
+
+        // When
+        let expectation = XCTestExpectation()
+        RemoteConfigRemote(wordPressComRestApi: getRestApi()).getRemoteConfig { result in
+            
+            // Then
+            switch result {
+                case .success: XCTFail()
+                case .failure: expectation.fulfill()
+            }
+        }
+
+        wait(for: [expectation], timeout: 1)
+    }
+
+    func testThatRequestErrorReturnsFailureResponse() {
+        // Given
+        stubRemoteResponse(endpoint, data: Data(), contentType: .NoContentType, status: 400)
+
+        // When
+        let expectation = XCTestExpectation()
+        RemoteConfigRemote(wordPressComRestApi: getRestApi()).getRemoteConfig { result in
+            
+            // Then
+            if case .success = result {
+                XCTFail()
+            }
+            expectation.fulfill()
+        }
+        
+        wait(for: [expectation], timeout: 1)
+    }
+    
+    // MARK: Helpers
+    
+    private func toJSON<T: Codable>(object: T) throws -> Data {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = [.sortedKeys, .prettyPrinted]
+        return try encoder.encode(object)
     }
 
 }
