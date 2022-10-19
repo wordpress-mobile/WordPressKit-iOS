@@ -2,13 +2,13 @@ import XCTest
 @testable import WordPressKit
 
 final class RemoteConfigRemoteTests: RemoteTestCase, RESTTestable {
-    
+
     // MARK: Variables
-    
+
     private let endpoint = "/wpcom/v2/mobile/remote-config"
-    
+
     // MARK: Tests
-    
+
     func testThatResponsesAreHandledCorrectly() throws {
         // Given
         let dictionary = ["key1": "value", "key2": "value2"]
@@ -18,7 +18,7 @@ final class RemoteConfigRemoteTests: RemoteTestCase, RESTTestable {
         // When
         let expectation = XCTestExpectation()
         RemoteConfigRemote(wordPressComRestApi: getRestApi()).getRemoteConfig { result in
-            
+
             // Then
             let response = try! result.get() as? [String: String]
             XCTAssertEqual(response, dictionary)
@@ -27,7 +27,7 @@ final class RemoteConfigRemoteTests: RemoteTestCase, RESTTestable {
 
         wait(for: [expectation], timeout: 1)
     }
-    
+
     func testThatEmptyResponsesAreHandledCorrectly() throws {
         // Given
         let emptyDictionary: [String: String] = [:]
@@ -37,7 +37,7 @@ final class RemoteConfigRemoteTests: RemoteTestCase, RESTTestable {
         // When
         let expectation = XCTestExpectation()
         RemoteConfigRemote(wordPressComRestApi: getRestApi()).getRemoteConfig { result in
-            
+
             // Then
             XCTAssertEqual(0, try! result.get().count)
             expectation.fulfill()
@@ -45,7 +45,7 @@ final class RemoteConfigRemoteTests: RemoteTestCase, RESTTestable {
 
         wait(for: [expectation], timeout: 1)
     }
-    
+
     func testThatMalformedResponsesReturnEmptyArray() throws {
         // Given
         let data = try toJSON(object: ["Invalid"])
@@ -54,7 +54,7 @@ final class RemoteConfigRemoteTests: RemoteTestCase, RESTTestable {
         // When
         let expectation = XCTestExpectation()
         RemoteConfigRemote(wordPressComRestApi: getRestApi()).getRemoteConfig { result in
-            
+
             // Then
             switch result {
                 case .success: XCTFail()
@@ -72,19 +72,19 @@ final class RemoteConfigRemoteTests: RemoteTestCase, RESTTestable {
         // When
         let expectation = XCTestExpectation()
         RemoteConfigRemote(wordPressComRestApi: getRestApi()).getRemoteConfig { result in
-            
+
             // Then
             if case .success = result {
                 XCTFail()
             }
             expectation.fulfill()
         }
-        
+
         wait(for: [expectation], timeout: 1)
     }
-    
+
     // MARK: Helpers
-    
+
     private func toJSON<T: Codable>(object: T) throws -> Data {
         let encoder = JSONEncoder()
         encoder.outputFormatting = [.sortedKeys, .prettyPrinted]

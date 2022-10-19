@@ -22,7 +22,7 @@ open class RemoteConfigRemote: ServiceRemoteWordPressComREST {
             } else {
                 callback(.failure(RemoteConfigRemoteError.InvalidDataError))
             }
-            
+
         }, failure: { error, response in
             DDLogError("Error retrieving remote config values")
             DDLogError("\(error)")
