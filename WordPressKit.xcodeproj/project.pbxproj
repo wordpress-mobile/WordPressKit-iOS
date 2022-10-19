@@ -329,6 +329,8 @@
 		7E3E7A4C20E443AA0075D159 /* NSMutableParagraphStyle+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3E7A4B20E443AA0075D159 /* NSMutableParagraphStyle+extensions.swift */; };
 		7EC60EBE22DC4F9000FB0336 /* EditorServiceRemoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EC60EBD22DC4F9000FB0336 /* EditorServiceRemoteTests.swift */; };
 		7EC60EC022DC5D7C00FB0336 /* EditorSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EC60EBF22DC5D7C00FB0336 /* EditorSettings.swift */; };
+		803DE80F28FFA787007D4E9C /* RemoteConfigRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803DE80E28FFA787007D4E9C /* RemoteConfigRemote.swift */; };
+		803DE81128FFA9C4007D4E9C /* RemoteConfigRemoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803DE81028FFA9C4007D4E9C /* RemoteConfigRemoteTests.swift */; };
 		8236EB4D2024B9F8007C7CF9 /* RemoteBlogJetpackModulesSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8236EB4C2024B9F8007C7CF9 /* RemoteBlogJetpackModulesSettings.swift */; };
 		826016F11F9FA13A00533B6C /* ActivityServiceRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826016F01F9FA13A00533B6C /* ActivityServiceRemote.swift */; };
 		826016F31F9FA17B00533B6C /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826016F21F9FA17B00533B6C /* Activity.swift */; };
@@ -991,6 +993,8 @@
 		7E3E7A4B20E443AA0075D159 /* NSMutableParagraphStyle+extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableParagraphStyle+extensions.swift"; sourceTree = "<group>"; };
 		7EC60EBD22DC4F9000FB0336 /* EditorServiceRemoteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorServiceRemoteTests.swift; sourceTree = "<group>"; };
 		7EC60EBF22DC5D7C00FB0336 /* EditorSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorSettings.swift; sourceTree = "<group>"; };
+		803DE80E28FFA787007D4E9C /* RemoteConfigRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigRemote.swift; sourceTree = "<group>"; };
+		803DE81028FFA9C4007D4E9C /* RemoteConfigRemoteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigRemoteTests.swift; sourceTree = "<group>"; };
 		8236EB4C2024B9F8007C7CF9 /* RemoteBlogJetpackModulesSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteBlogJetpackModulesSettings.swift; sourceTree = "<group>"; };
 		826016F01F9FA13A00533B6C /* ActivityServiceRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityServiceRemote.swift; sourceTree = "<group>"; };
 		826016F21F9FA17B00533B6C /* Activity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Activity.swift; sourceTree = "<group>"; };
@@ -1903,6 +1907,7 @@
 				D816857021EDACD10049883E /* WordPressComServiceRemote+SiteSegments.swift */,
 				730E869E21E44EFD00753E1A /* WordPressComServiceRemote+SiteVerticals.swift */,
 				73A2F38921E7F81E00388609 /* WordPressComServiceRemote+SiteVerticalsPrompt.swift */,
+				803DE80E28FFA787007D4E9C /* RemoteConfigRemote.swift */,
 			);
 			name = Services;
 			sourceTree = "<group>";
@@ -2499,6 +2504,7 @@
 				F9E56DFA24EB18C300916770 /* FeatureFlagRemoteTests.swift */,
 				24ADA24D24F9B32D001B5DAE /* FeatureFlagSerializationTest.swift */,
 				465F88BE263B54EE00F4C950 /* ChecksumUtilTests.swift */,
+				803DE81028FFA9C4007D4E9C /* RemoteConfigRemoteTests.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -3064,6 +3070,7 @@
 				7430C9A41F1927180051B8E6 /* ReaderPostServiceRemote.m in Sources */,
 				C797196D2679007B0072F984 /* JetpackPluginManagementClient.swift in Sources */,
 				408197882220A35000A298E4 /* StatsLastPostInsight.swift in Sources */,
+				803DE80F28FFA787007D4E9C /* RemoteConfigRemote.swift in Sources */,
 				F9E56DF624EB11EF00916770 /* FeatureFlag.swift in Sources */,
 				8B2F4BE724ABC8A90056C08A /* ReaderPostServiceRemote+Cards.swift in Sources */,
 				8B16CE8E25250039007BE5A9 /* RemoteReaderPost.swift in Sources */,
@@ -3295,6 +3302,7 @@
 				32AF21E3236DEB3C001C6502 /* PostServiceRemoteRESTAutosaveTests.swift in Sources */,
 				3236F79A24AE406D0088E8F3 /* ReaderTopicServiceRemote+InterestsTests.swift in Sources */,
 				FEE4EF5B27302317003CDA3C /* CommentServiceRemoteREST+APIv2Tests.swift in Sources */,
+				803DE81128FFA9C4007D4E9C /* RemoteConfigRemoteTests.swift in Sources */,
 				74B5F0DE1EF82A9600B411E7 /* BlogServiceRemoteRESTTests.m in Sources */,
 				ABD95B7F25DD6C4B00735BEE /* CommentServiceRemoteRESTLikesTests.swift in Sources */,
 				8B749E8225AF7DDA00023F03 /* JetpackCapabilitiesServiceRemoteTests.swift in Sources */,
