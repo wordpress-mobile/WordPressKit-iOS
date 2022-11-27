@@ -34,7 +34,7 @@ _None._
 
 ### Breaking Changes
 
-_None._
+- Remove CocoaLumberjack. Use `WPKitSetLoggingDelegate` to assign a logger to this library. [#550]
 
 ### New Features
 
