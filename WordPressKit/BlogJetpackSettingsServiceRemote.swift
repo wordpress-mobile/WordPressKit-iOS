@@ -1,6 +1,5 @@
 import Foundation
 import WordPressShared
-import CocoaLumberjack
 
 public class BlogJetpackSettingsServiceRemote: ServiceRemoteWordPressComREST {
 

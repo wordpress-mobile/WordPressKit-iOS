@@ -412,7 +412,7 @@ NSString * const MenusRemoteKeyClasses = @"classes";
 
 - (void)handleResponseErrorWithMessage:(NSString *)message url:(NSString *)urlStr failure:(nullable MenusServiceRemoteFailureBlock)failure
 {
-    DDLogError(@"%@ - URL: %@", message, urlStr);
+    WPKitLogError(@"%@ - URL: %@", message, urlStr);
     NSError *error = [NSError errorWithDomain:NSURLErrorDomain
                                          code:NSURLErrorBadServerResponse
                                      userInfo:@{NSLocalizedDescriptionKey: message}];

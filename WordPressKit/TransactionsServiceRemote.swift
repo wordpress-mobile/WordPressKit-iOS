@@ -1,6 +1,5 @@
 import Foundation
 import WordPressShared
-import CocoaLumberjack
 
 @objc public class TransactionsServiceRemote: ServiceRemoteWordPressComREST {
 
@@ -29,7 +28,7 @@ import CocoaLumberjack
                                         let decodedResult = try JSONDecoder.apiDecoder.decode([WPCountry].self, from: data)
                                         success(decodedResult)
                                     } catch {
-                                        DDLogError("Error parsing Supported Countries (\(error)): \(response)")
+                                        WPKitLogError("Error parsing Supported Countries (\(error)): \(response)")
                                         failure(error)
                                     }
         }, failure: { error, _ in

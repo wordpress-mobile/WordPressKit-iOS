@@ -1,6 +1,5 @@
 import Foundation
 import WordPressShared
-import CocoaLumberjack
 
 public class PlanServiceRemote: ServiceRemoteWordPressComREST {
     public typealias AvailablePlans = (plans: [RemoteWpcomPlan], groups: [RemotePlanGroup], features: [RemotePlanFeature])

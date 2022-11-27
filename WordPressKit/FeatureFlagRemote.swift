@@ -44,11 +44,11 @@ open class FeatureFlagRemote: ServiceRemoteWordPressComREST {
                                     }
 
                                 }, failure: { error, response in
-                                    DDLogError("Error retrieving remote feature flags")
-                                    DDLogError("\(error)")
+                                    WPKitLogError("Error retrieving remote feature flags")
+                                    WPKitLogError("\(error)")
 
                                     if let response = response {
-                                        DDLogDebug("Response Code: \(response.statusCode)")
+                                        WPKitLogDebug("Response Code: \(response.statusCode)")
                                     }
 
                                     callback(.failure(error))

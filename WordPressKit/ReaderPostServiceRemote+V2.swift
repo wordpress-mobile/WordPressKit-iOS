@@ -23,7 +23,7 @@ extension ReaderPostServiceRemote {
                                     let posts = postsDictionary?.compactMap { RemoteReaderPost(dictionary: $0) } ?? []
                                     success(posts, nextPageHandle)
         }, failure: { error, _ in
-            DDLogError("Error fetching reader posts: \(error)")
+            WPKitLogError("Error fetching reader posts: \(error)")
             failure(error)
         })
     }

@@ -1,6 +1,5 @@
 import Foundation
 import WordPressShared
-import CocoaLumberjack
 
 @objc public class PlanServiceRemote_ApiVersion1_3: ServiceRemoteWordPressComREST {
 
@@ -20,9 +19,9 @@ import CocoaLumberjack
                 do {
                     try success(PlanServiceRemote_ApiVersion1_3.mapPlansResponse(response))
                 } catch {
-                    DDLogError("Error parsing plans response for site \(siteID)")
-                    DDLogError("\(error)")
-                    DDLogDebug("Full response: \(response)")
+                    WPKitLogError("Error parsing plans response for site \(siteID)")
+                    WPKitLogError("\(error)")
+                    WPKitLogDebug("Full response: \(response)")
                     failure(error)
                 }
             },
@@ -53,7 +52,7 @@ import CocoaLumberjack
                     currentlyActivePlan = decodedResult
                 }
             } catch let error {
-                DDLogError("Error parsing plans response for site \(error)")
+                WPKitLogError("Error parsing plans response for site \(error)")
             }
         }
 

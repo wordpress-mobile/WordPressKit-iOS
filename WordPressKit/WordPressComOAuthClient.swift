@@ -1,4 +1,3 @@
-import CocoaLumberjack
 import Alamofire
 
 @objc public enum WordPressComOAuthError: Int {
@@ -140,7 +139,7 @@ public final class WordPressComOAuthClient: NSObject {
             .responseJSON(completionHandler: { response in
                 switch response.result {
                 case .success(let responseObject):
-                    DDLogVerbose("Received OAuth2 response: \(self.cleanedUpResponseForLogging(responseObject as AnyObject? ?? "nil" as AnyObject))")
+                    WPKitLogVerbose("Received OAuth2 response: \(self.cleanedUpResponseForLogging(responseObject as AnyObject? ?? "nil" as AnyObject))")
                     guard let responseDictionary = responseObject as? [String: AnyObject],
                         let authToken = responseDictionary["access_token"] as? String else {
                             let defaultError = NSError(domain: WordPressComOAuthClient.WordPressComOAuthErrorDomain,
@@ -152,7 +151,7 @@ public final class WordPressComOAuthClient: NSObject {
                     success(authToken)
                 case .failure(let error):
                     let nserror = self.processError(response: response, originalError: error)
-                    DDLogError("Error receiving OAuth2 token: \(nserror)")
+                    WPKitLogError("Error receiving OAuth2 token: \(nserror)")
                     failure(nserror)
                 }
             })
@@ -271,7 +270,7 @@ public final class WordPressComOAuthClient: NSObject {
             .responseJSON(completionHandler: { response in
                 switch response.result {
                 case .success(let responseObject):
-                    DDLogVerbose("Received Social Login Oauth response.")
+                    WPKitLogVerbose("Received Social Login Oauth response.")
 
                     let defaultError = NSError(domain: WordPressComOAuthClient.WordPressComOAuthErrorDomain,
                                                code: WordPressComOAuthError.unknown.rawValue,
@@ -396,7 +395,7 @@ public final class WordPressComOAuthClient: NSObject {
             .responseJSON(completionHandler: { response in
                 switch response.result {
                 case .success(let responseObject):
-                    DDLogVerbose("Received Social Login Oauth response: \(self.cleanedUpResponseForLogging(responseObject as AnyObject? ?? "nil" as AnyObject))")
+                    WPKitLogVerbose("Received Social Login Oauth response: \(self.cleanedUpResponseForLogging(responseObject as AnyObject? ?? "nil" as AnyObject))")
                     guard let responseDictionary = responseObject as? [String: AnyObject],
                         let responseData = responseDictionary["data"] as? [String: AnyObject],
                         let authToken = responseData["bearer_token"] as? String else {

@@ -23,7 +23,7 @@ public extension PostServiceRemoteREST {
                                         failure(error)
                                     }
         }, failure: { error, _ in
-            DDLogError("\(error)")
+            WPKitLogError("\(error)")
             failure(error)
         })
     }
@@ -52,7 +52,7 @@ private extension PostServiceRemoteREST {
             }
             completion(revisions, nil)
         } catch {
-            DDLogError("\(error)")
+            WPKitLogError("\(error)")
             completion(nil, error)
         }
     }

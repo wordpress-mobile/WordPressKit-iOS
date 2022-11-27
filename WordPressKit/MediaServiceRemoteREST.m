@@ -173,7 +173,7 @@ const NSInteger WPRestErrorCodeMediaNew = 10;
                                     }
                                 }
                             } failure:^(NSError *error, NSHTTPURLResponse *httpResponse) {
-                                DDLogDebug(@"Error uploading multiple media files: %@", [error localizedDescription]);
+                                WPKitLogDebug(@"Error uploading multiple media files: %@", [error localizedDescription]);
                                 if (failure) {
                                     failure(error);
                                 }
@@ -226,7 +226,7 @@ const NSInteger WPRestErrorCodeMediaNew = 10;
                                                                             }
 
                                                                         } failure:^(NSError *error, NSHTTPURLResponse *httpResponse) {
-                                                                            DDLogDebug(@"Error uploading file: %@", [error localizedDescription]);
+                                                                            WPKitLogDebug(@"Error uploading file: %@", [error localizedDescription]);
                                                                             if (failure) {
                                                                                 failure(error);
                                                                             }
@@ -236,7 +236,7 @@ const NSInteger WPRestErrorCodeMediaNew = 10;
 }
 
 - (NSError *)processMediaUploadErrors:(NSArray *)errorList {
-    DDLogDebug(@"Error uploading file: %@", errorList);
+    WPKitLogDebug(@"Error uploading file: %@", errorList);
     NSError * error = nil;
     if (errorList.count > 0) {
         NSString *errorMessage = [errorList.firstObject description];

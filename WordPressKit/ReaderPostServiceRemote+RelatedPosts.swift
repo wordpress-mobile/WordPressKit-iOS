@@ -35,12 +35,12 @@ extension ReaderPostServiceRemote {
 
                     success(envelope.posts)
                 } catch {
-                    DDLogError("Error parsing the reader related posts response: \(error)")
+                    WPKitLogError("Error parsing the reader related posts response: \(error)")
                     failure(error)
                 }
             },
             failure: { (error, _) in
-                DDLogError("Error fetching reader related posts: \(error)")
+                WPKitLogError("Error fetching reader related posts: \(error)")
                 failure(error)
             }
         )

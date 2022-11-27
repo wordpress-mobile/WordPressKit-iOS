@@ -1,5 +1,4 @@
 import Foundation
-import CocoaLumberjack
 
 /// Allows the construction of a request for domain suggestions.
 ///
@@ -90,7 +89,7 @@ public class DomainsServiceRemote: ServiceRemoteWordPressComREST {
                 do {
                     try success(mapDomainsResponse(response))
                 } catch {
-                    DDLogError("Error parsing domains response (\(error)): \(response)")
+                    WPKitLogError("Error parsing domains response (\(error)): \(response)")
                     failure(error)
                 }
             }, failure: {
@@ -134,7 +133,7 @@ public class DomainsServiceRemote: ServiceRemoteWordPressComREST {
                     let decodedResult = try JSONDecoder.apiDecoder.decode([WPState].self, from: data)
                     success(decodedResult)
                 } catch {
-                    DDLogError("Error parsing State list for country code (\(error)): \(response)")
+                    WPKitLogError("Error parsing State list for country code (\(error)): \(response)")
                     failure(error)
                 }
         }, failure: { error, _ in
@@ -156,7 +155,7 @@ public class DomainsServiceRemote: ServiceRemoteWordPressComREST {
                     let decodedResult = try JSONDecoder.apiDecoder.decode(DomainContactInformation.self, from: data)
                     success(decodedResult)
                 } catch {
-                    DDLogError("Error parsing DomainContactInformation  (\(error)): \(response)")
+                    WPKitLogError("Error parsing DomainContactInformation  (\(error)): \(response)")
                     failure(error)
                 }
         }) { (error, _) in
@@ -182,7 +181,7 @@ public class DomainsServiceRemote: ServiceRemoteWordPressComREST {
                     let decodedResult = try JSONDecoder.apiDecoder.decode(ValidateDomainContactInformationResponse.self, from: data)
                     success(decodedResult)
                 } catch {
-                    DDLogError("Error parsing ValidateDomainContactInformationResponse  (\(error)): \(response)")
+                    WPKitLogError("Error parsing ValidateDomainContactInformationResponse  (\(error)): \(response)")
                     failure(error)
                 }
         }) { (error, _) in
@@ -219,7 +218,7 @@ public class DomainsServiceRemote: ServiceRemoteWordPressComREST {
                                         let suggestions = try map(suggestions: response)
                                         success(suggestions)
                                     } catch {
-                                        DDLogError("Error parsing domains response (\(error)): \(response)")
+                                        WPKitLogError("Error parsing domains response (\(error)): \(response)")
                                         failure(error)
                                     }
         }, failure: {

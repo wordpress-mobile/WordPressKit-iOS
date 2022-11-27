@@ -344,7 +344,7 @@ static NSString * const TaxonomyXMLRPCOffsetParameter = @"offset";
                                 method:(NSString *)methodStr
                                failure:(nullable void(^)(NSError *error))failure
 {
-    DDLogError(@"%@ - method: %@", message, methodStr);
+    WPKitLogError(@"%@ - method: %@", message, methodStr);
     NSError *error = [NSError errorWithDomain:NSURLErrorDomain
                                          code:NSURLErrorBadServerResponse
                                      userInfo:@{NSLocalizedDescriptionKey: message}];

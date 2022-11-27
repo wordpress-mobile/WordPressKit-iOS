@@ -19,11 +19,11 @@ extension ReaderTopicServiceRemote {
 
                                         success(envelope.interests)
                                     } catch {
-                                        DDLogError("Error parsing the reader interests response: \(error)")
+                                        WPKitLogError("Error parsing the reader interests response: \(error)")
                                         failure(error)
                                     }
         }, failure: { error, _ in
-            DDLogError("Error fetching reader interests: \(error)")
+            WPKitLogError("Error fetching reader interests: \(error)")
 
             failure(error)
         })
@@ -39,7 +39,7 @@ extension ReaderTopicServiceRemote {
         wordPressComRestApi.POST(path, parameters: parameters, success: { _, _ in
             success()
         }) { error, _ in
-            DDLogError("Error fetching reader interests: \(error)")
+            WPKitLogError("Error fetching reader interests: \(error)")
 
             failure(error)
         }

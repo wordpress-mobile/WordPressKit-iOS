@@ -195,7 +195,7 @@ public extension WordPressComServiceRemote {
         do {
             requestParameters = try encodeRequestParameters(request: request)
         } catch {
-            DDLogError("Failed to encode \(SiteCreationRequest.self) : \(error)")
+            WPKitLogError("Failed to encode \(SiteCreationRequest.self) : \(error)")
 
             completion(.failure(SiteCreationError.requestEncodingFailure))
             return
@@ -205,7 +205,7 @@ public extension WordPressComServiceRemote {
             path,
             parameters: requestParameters,
             success: { [weak self] responseObject, httpResponse in
-                DDLogInfo("\(responseObject) | \(String(describing: httpResponse))")
+                WPKitLogInfo("\(responseObject) | \(String(describing: httpResponse))")
 
                 guard let self = self else {
                     return
@@ -215,12 +215,12 @@ public extension WordPressComServiceRemote {
                     let response = try self.decodeResponse(responseObject: responseObject)
                     completion(.success(response))
                 } catch {
-                    DDLogError("Failed to decode \(SiteCreationResponse.self) : \(error.localizedDescription)")
+                    WPKitLogError("Failed to decode \(SiteCreationResponse.self) : \(error.localizedDescription)")
                     completion(.failure(SiteCreationError.responseDecodingFailure))
                 }
         },
             failure: { error, httpResponse in
-                DDLogError("\(error) | \(String(describing: httpResponse))")
+                WPKitLogError("\(error) | \(String(describing: httpResponse))")
                 completion(.failure(SiteCreationError.serviceFailure))
         })
     }

@@ -1,5 +1,4 @@
 import Alamofire
-import CocoaLumberjack
 import Foundation
 import WordPressShared
 
@@ -108,7 +107,7 @@ public class CookieNonceAuthenticator: Authenticator {
 private extension CookieNonceAuthenticator {
 
     func startLoginSequence(manager: SessionManager) {
-        DDLogInfo("Starting Cookie+Nonce login sequence for \(loginURL)")
+        WPKitLogInfo("Starting Cookie+Nonce login sequence for \(loginURL)")
         guard let nonceRetrievalURL = nonceRetrievalMethod.buildURL(base: adminURL) else {
             return invalidateLoginSequence(error: .invalidNewPostURL)
         }
@@ -124,7 +123,7 @@ private extension CookieNonceAuthenticator {
                     self.invalidateLoginSequence(error: .postLoginFailed(error))
                 case .success(let page):
                     let redirectedTo = response.response?.url?.absoluteString ?? "nil"
-                    DDLogInfo("Posted Login to \(self.loginURL), redirected to \(redirectedTo)")
+                    WPKitLogInfo("Posted Login to \(self.loginURL), redirected to \(redirectedTo)")
                     guard let nonce = self.nonceRetrievalMethod.retrieveNonce(from: page) else {
                         return self.invalidateLoginSequence(error: .missingNonce)
                     }
@@ -135,7 +134,7 @@ private extension CookieNonceAuthenticator {
     }
 
     func successfulLoginSequence() {
-        DDLogInfo("Completed Cookie+Nonce login sequence for \(loginURL)")
+        WPKitLogInfo("Completed Cookie+Nonce login sequence for \(loginURL)")
         completeRequests(true)
     }
 
@@ -147,7 +146,7 @@ private extension CookieNonceAuthenticator {
                 canRetry = true
             }
         }
-        DDLogError("Aborting Cookie+Nonce login sequence for \(loginURL)")
+        WPKitLogError("Aborting Cookie+Nonce login sequence for \(loginURL)")
         completeRequests(false)
         isAuthenticating = false
     }
