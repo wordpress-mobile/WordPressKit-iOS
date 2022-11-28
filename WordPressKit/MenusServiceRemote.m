@@ -3,7 +3,6 @@
 #import "RemoteMenuItem.h"
 #import "RemoteMenuLocation.h"
 #import "WPKit-Swift.h"
-#import "WPKitLoggingPrivate.h"
 @import WordPressShared;
 @import NSObject_SafeExpectations;
 

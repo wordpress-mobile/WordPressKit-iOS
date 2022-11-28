@@ -1,7 +1,6 @@
 #import "ReaderSiteServiceRemote.h"
 #import "RemoteReaderSite.h"
 #import "WPKit-Swift.h"
-#import "WPKitLoggingPrivate.h"
 @import NSObject_SafeExpectations;
 @import WordPressShared;
 
