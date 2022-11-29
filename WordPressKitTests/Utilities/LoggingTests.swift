@@ -3,11 +3,11 @@ import XCTest
 @testable import WordPressKit
 
 private class CaptureLogs: NSObject, WordPressLoggingDelegate {
-    var verboseLogs = [String]()
-    var debugLogs = [String]()
-    var infoLogs = [String]()
-    var warningLogs = [String]()
-    var errorLogs = [String]()
+    private(set) var verboseLogs = [String]()
+    private(set) var debugLogs = [String]()
+    private(set) var infoLogs = [String]()
+    private(set) var warningLogs = [String]()
+    private(set)var errorLogs = [String]()
 
     func logError(_ str: String) {
         errorLogs.append(str)
