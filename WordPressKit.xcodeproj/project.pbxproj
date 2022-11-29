@@ -507,8 +507,6 @@
 		ABD95B8525DD6DA200735BEE /* comment-likes-success.json in Resources */ = {isa = PBXBuildFile; fileRef = ABD95B8425DD6DA200735BEE /* comment-likes-success.json */; };
 		B5969E1C20A49AC4005E9DF1 /* NSString+MD5.h in Headers */ = {isa = PBXBuildFile; fileRef = B5969E1920A49AC4005E9DF1 /* NSString+MD5.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B5969E1D20A49AC4005E9DF1 /* NSString+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = B5969E1A20A49AC4005E9DF1 /* NSString+MD5.m */; };
-		B5A4822820AC6BA9009D95F6 /* WPKitLoggingPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = B5A4822620AC6BA8009D95F6 /* WPKitLoggingPrivate.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		B5A4822920AC6BA9009D95F6 /* WPKitLoggingPrivate.m in Sources */ = {isa = PBXBuildFile; fileRef = B5A4822720AC6BA9009D95F6 /* WPKitLoggingPrivate.m */; };
 		B5A4822B20AC6C0B009D95F6 /* WPKitLogging.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A4822A20AC6C0B009D95F6 /* WPKitLogging.swift */; };
 		B5A4822E20AC6C1A009D95F6 /* WPKitLogging.m in Sources */ = {isa = PBXBuildFile; fileRef = B5A4822C20AC6C19009D95F6 /* WPKitLogging.m */; };
 		B5A4822F20AC6C1A009D95F6 /* WPKitLogging.h in Headers */ = {isa = PBXBuildFile; fileRef = B5A4822D20AC6C1A009D95F6 /* WPKitLogging.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1177,8 +1175,6 @@
 		B56D96B0202C9B7500485233 /* WordPressUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = WordPressUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5969E1920A49AC4005E9DF1 /* NSString+MD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+MD5.h"; sourceTree = "<group>"; };
 		B5969E1A20A49AC4005E9DF1 /* NSString+MD5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+MD5.m"; sourceTree = "<group>"; };
-		B5A4822620AC6BA8009D95F6 /* WPKitLoggingPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WPKitLoggingPrivate.h; sourceTree = "<group>"; };
-		B5A4822720AC6BA9009D95F6 /* WPKitLoggingPrivate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WPKitLoggingPrivate.m; sourceTree = "<group>"; };
 		B5A4822A20AC6C0B009D95F6 /* WPKitLogging.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WPKitLogging.swift; path = WordPressKit/WPKitLogging.swift; sourceTree = SOURCE_ROOT; };
 		B5A4822C20AC6C19009D95F6 /* WPKitLogging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPKitLogging.m; path = WordPressKit/WPKitLogging.m; sourceTree = SOURCE_ROOT; };
 		B5A4822D20AC6C1A009D95F6 /* WPKitLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WPKitLogging.h; path = WordPressKit/WPKitLogging.h; sourceTree = SOURCE_ROOT; };
@@ -2388,8 +2384,6 @@
 				B5A4822A20AC6C0B009D95F6 /* WPKitLogging.swift */,
 				B5A4822D20AC6C1A009D95F6 /* WPKitLogging.h */,
 				B5A4822C20AC6C19009D95F6 /* WPKitLogging.m */,
-				B5A4822620AC6BA8009D95F6 /* WPKitLoggingPrivate.h */,
-				B5A4822720AC6BA9009D95F6 /* WPKitLoggingPrivate.m */,
 				1A4F98662279A87D00D86E8E /* WPKit-Swift.h */,
 			);
 			path = Private;
@@ -2540,7 +2534,6 @@
 			files = (
 				9368C78C1EC5EF1B0092CE8E /* WordPressKit.h in Headers */,
 				93C674F11EE8351E00BFAF05 /* NSMutableDictionary+Helpers.h in Headers */,
-				B5A4822820AC6BA9009D95F6 /* WPKitLoggingPrivate.h in Headers */,
 				93BD273C1EE73282002BB00B /* AccountServiceRemoteREST.h in Headers */,
 				93BD27711EE737A8002BB00B /* ServiceRemoteWordPressXMLRPC.h in Headers */,
 				93BD276F1EE737A8002BB00B /* ServiceRemoteWordPressComREST.h in Headers */,
@@ -3136,7 +3129,6 @@
 				E13EE1471F33258E00C15787 /* PluginServiceRemote.swift in Sources */,
 				93BD276A1EE736A8002BB00B /* RemoteUser.m in Sources */,
 				742362D71F10250600BD0A7F /* MenusServiceRemote.m in Sources */,
-				B5A4822920AC6BA9009D95F6 /* WPKitLoggingPrivate.m in Sources */,
 				E6D0EE621F7EF9CE0064D3FC /* AccountServiceRemoteREST+SocialService.swift in Sources */,
 				7430C9B61F1927C50051B8E6 /* RemoteReaderSiteInfo.m in Sources */,
 				8BB5F62127A99A2000B2FFAF /* DashboardServiceRemote.swift in Sources */,
