@@ -97,7 +97,7 @@ public extension WordPressComServiceRemote {
             remotePath,
             parameters: nil,
             success: { [weak self] responseObject, httpResponse in
-                DDLogInfo("\(responseObject) | \(String(describing: httpResponse))")
+                WPKitLogInfo("\(responseObject) | \(String(describing: httpResponse))")
 
                 guard let self = self else {
                     return
@@ -108,12 +108,12 @@ public extension WordPressComServiceRemote {
                     let validContent = self.validSegments(response)
                     completion(.success(validContent))
                 } catch {
-                    DDLogError("Failed to decode \([SiteVertical].self) : \(error.localizedDescription)")
+                    WPKitLogError("Failed to decode \([SiteVertical].self) : \(error.localizedDescription)")
                     completion(.failure(SiteSegmentsError.responseDecodingFailure))
                 }
             },
             failure: { error, httpResponse in
-                DDLogError("\(error) | \(String(describing: httpResponse))")
+                WPKitLogError("\(error) | \(String(describing: httpResponse))")
                 completion(.failure(SiteSegmentsError.serviceFailure))
         })
     }

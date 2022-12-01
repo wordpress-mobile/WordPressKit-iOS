@@ -24,11 +24,11 @@ open class RemoteConfigRemote: ServiceRemoteWordPressComREST {
             }
 
         }, failure: { error, response in
-            DDLogError("Error retrieving remote config values")
-            DDLogError("\(error)")
+            WPKitLogError("Error retrieving remote config values")
+            WPKitLogError("\(error)")
 
             if let response = response {
-                DDLogDebug("Response Code: \(response.statusCode)")
+                WPKitLogDebug("Response Code: \(response.statusCode)")
             }
 
             callback(.failure(error))

@@ -2,7 +2,6 @@
 #import "BlogServiceRemoteREST.h"
 #import "NSMutableDictionary+Helpers.h"
 #import "RemotePostType.h"
-#import "WPKitLoggingPrivate.h"
 #import "WPKit-Swift.h"
 @import NSObject_SafeExpectations;
 @import WordPressShared;
@@ -148,7 +147,7 @@ static NSInteger const RemoteBlogUncategorizedCategory                      = 1;
                   return [self remotePostTypeWithDictionary:json];
               }];
               if (!postTypes.count) {
-                  DDLogError(@"Response to %@ did not include post types for site.", requestUrl);
+                  WPKitLogError(@"Response to %@ did not include post types for site.", requestUrl);
                   failure(nil);
                   return;
               }

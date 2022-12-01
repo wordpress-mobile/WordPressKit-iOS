@@ -9,11 +9,9 @@ platform :ios, '13.0'
 
 def wordpresskit_pods
   pod 'Alamofire', '~> 4.8.0'
-  pod 'CocoaLumberjack', '~> 3.4'
-  pod 'WordPressShared', '~> 1.15-beta' # will use release and beta versions up to 2.0
+  pod 'WordPressShared', '~> 2.0.0-beta.2'
   pod 'NSObject-SafeExpectations', '~> 0.0.4'
   pod 'wpxmlrpc', '~> 0.9.0'
-  # pod 'wpxmlrpc', :git => 'https://github.com/wordpress-mobile/wpxmlrpc.git', :branch => 'feature/update-xcode-settings'
   pod 'UIDeviceIdentifier', '~> 2.0'
 end
 

@@ -49,7 +49,7 @@ public extension WordPressComServiceRemote {
             path,
             parameters: requestParameters,
             success: { [weak self] responseObject, httpResponse in
-                DDLogInfo("\(responseObject) | \(String(describing: httpResponse))")
+                WPKitLogInfo("\(responseObject) | \(String(describing: httpResponse))")
 
                 guard let self = self else {
                     return
@@ -59,12 +59,12 @@ public extension WordPressComServiceRemote {
                     let response = try self.decodeResponse(responseObject: responseObject)
                     completion(response)
                 } catch {
-                    DDLogError("Failed to decode SiteVerticalsPrompt : \(error.localizedDescription)")
+                    WPKitLogError("Failed to decode SiteVerticalsPrompt : \(error.localizedDescription)")
                     completion(nil)
                 }
             },
             failure: { error, httpResponse in
-                DDLogError("\(error) | \(String(describing: httpResponse))")
+                WPKitLogError("\(error) | \(String(describing: httpResponse))")
                 completion(nil)
         })
     }

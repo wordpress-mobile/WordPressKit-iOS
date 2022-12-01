@@ -2,7 +2,6 @@
 #import "RemotePostTag.h"
 #import "RemoteTaxonomyPaging.h"
 #import "RemotePostCategory.h"
-#import "WPKitLoggingPrivate.h"
 #import "WPKit-Swift.h"
 @import NSObject_SafeExpectations;
 @import WordPressShared;
@@ -345,7 +344,7 @@ static NSUInteger const TaxonomyRESTNumberMaxValue = 1000;
                                    url:(NSString *)urlStr
                                failure:(nullable void(^)(NSError *error))failure
 {
-    DDLogError(@"%@ - URL: %@", message, urlStr);
+    WPKitLogError(@"%@ - URL: %@", message, urlStr);
     NSError *error = [NSError errorWithDomain:NSURLErrorDomain
                                          code:NSURLErrorBadServerResponse
                                      userInfo:@{NSLocalizedDescriptionKey: message}];

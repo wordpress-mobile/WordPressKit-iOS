@@ -1,7 +1,6 @@
 #import "ReaderSiteServiceRemote.h"
 #import "RemoteReaderSite.h"
 #import "WPKit-Swift.h"
-#import "WPKitLoggingPrivate.h"
 @import NSObject_SafeExpectations;
 @import WordPressShared;
 
@@ -87,7 +86,7 @@ NSString * const ReaderSiteServiceRemoteErrorDomain = @"ReaderSiteServiceRemoteE
         BOOL subscribed = [[dict numberForKey:@"subscribed"] boolValue];
         if (!subscribed) {
             if (failure) {
-                DDLogError(@"Error following site at url: %@", siteURL);
+                WPKitLogError(@"Error following site at url: %@", siteURL);
                 NSError *error = [self errorForUnsuccessfulFollowSite];
                 failure(error);
             }
@@ -116,7 +115,7 @@ NSString * const ReaderSiteServiceRemoteErrorDomain = @"ReaderSiteServiceRemoteE
         BOOL subscribed = [[dict numberForKey:@"subscribed"] boolValue];
         if (subscribed) {
             if (failure) {
-                DDLogError(@"Error unfollowing site at url: %@", siteURL);
+                WPKitLogError(@"Error unfollowing site at url: %@", siteURL);
                 NSError *error = [self errorForUnsuccessfulFollowSite];
                 failure(error);
             }

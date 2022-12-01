@@ -44,11 +44,11 @@ extension ReaderPostServiceRemote {
 
                                         success(envelope.cards, envelope.nextPageHandle)
                                     } catch {
-                                        DDLogError("Error parsing the reader cards response: \(error)")
+                                        WPKitLogError("Error parsing the reader cards response: \(error)")
                                         failure(error)
                                     }
         }, failure: { error, _ in
-            DDLogError("Error fetching reader cards: \(error)")
+            WPKitLogError("Error fetching reader cards: \(error)")
 
             failure(error)
         })

@@ -3,7 +3,6 @@
 #import "RemoteMenuItem.h"
 #import "RemoteMenuLocation.h"
 #import "WPKit-Swift.h"
-#import "WPKitLoggingPrivate.h"
 @import WordPressShared;
 @import NSObject_SafeExpectations;
 
@@ -412,7 +411,7 @@ NSString * const MenusRemoteKeyClasses = @"classes";
 
 - (void)handleResponseErrorWithMessage:(NSString *)message url:(NSString *)urlStr failure:(nullable MenusServiceRemoteFailureBlock)failure
 {
-    DDLogError(@"%@ - URL: %@", message, urlStr);
+    WPKitLogError(@"%@ - URL: %@", message, urlStr);
     NSError *error = [NSError errorWithDomain:NSURLErrorDomain
                                          code:NSURLErrorBadServerResponse
                                      userInfo:@{NSLocalizedDescriptionKey: message}];

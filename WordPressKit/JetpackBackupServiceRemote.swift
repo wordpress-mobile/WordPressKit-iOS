@@ -1,6 +1,5 @@
 import Foundation
 import WordPressShared
-import CocoaLumberjack
 
 open class JetpackBackupServiceRemote: ServiceRemoteWordPressComREST {
 

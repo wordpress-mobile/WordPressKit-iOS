@@ -1,6 +1,5 @@
 import Foundation
 import WordPressShared
-import CocoaLumberjack
 
 open class ActivityServiceRemote: ServiceRemoteWordPressComREST {
 
@@ -68,9 +67,9 @@ open class ActivityServiceRemote: ServiceRemoteWordPressComREST {
                                         let hasMore = totalItems > pageNumber * (count + 1)
                                         success(activities, hasMore)
                                     } catch {
-                                        DDLogError("Error parsing activity response for site \(siteID)")
-                                        DDLogError("\(error)")
-                                        DDLogDebug("Full response: \(response)")
+                                        WPKitLogError("Error parsing activity response for site \(siteID)")
+                                        WPKitLogError("\(error)")
+                                        WPKitLogDebug("Full response: \(response)")
                                         failure(error)
                                     }
                                 }, failure: { error, _ in
@@ -113,9 +112,9 @@ open class ActivityServiceRemote: ServiceRemoteWordPressComREST {
                                         let groups = try self.mapActivityGroupsResponse(response)
                                         success(groups)
                                     } catch {
-                                        DDLogError("Error parsing activity groups for site \(siteID)")
-                                        DDLogError("\(error)")
-                                        DDLogDebug("Full response: \(response)")
+                                        WPKitLogError("Error parsing activity groups for site \(siteID)")
+                                        WPKitLogError("\(error)")
+                                        WPKitLogDebug("Full response: \(response)")
                                         failure(error)
                                     }
                                 }, failure: { error, _ in
@@ -147,9 +146,9 @@ open class ActivityServiceRemote: ServiceRemoteWordPressComREST {
                                         let status = try RewindStatus(dictionary: rewindStatus)
                                         success(status)
                                     } catch {
-                                        DDLogError("Error parsing rewind response for site \(siteID)")
-                                        DDLogError("\(error)")
-                                        DDLogDebug("Full response: \(response)")
+                                        WPKitLogError("Error parsing rewind response for site \(siteID)")
+                                        WPKitLogError("\(error)")
+                                        WPKitLogDebug("Full response: \(response)")
                                         failure(ResponseError.decodingFailure)
                                     }
                                 }, failure: { error, _ in

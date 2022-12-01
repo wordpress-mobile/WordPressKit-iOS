@@ -1,6 +1,5 @@
 import XCTest
 import WordPressShared
-import CocoaLumberjack
 @testable import WordPressKit
 
 class TransactionsServiceRemoteTests: RemoteTestCase, RESTTestable {

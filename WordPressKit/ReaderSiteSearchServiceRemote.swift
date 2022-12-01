@@ -45,7 +45,7 @@ public class ReaderSiteSearchServiceRemote: ServiceRemoteWordPressComREST {
                                         failure(error)
                                     }
         }, failure: { error, _ in
-            DDLogError("\(error)")
+            WPKitLogError("\(error)")
             failure(error)
         })
     }
@@ -63,8 +63,8 @@ private extension ReaderSiteSearchServiceRemote {
             let feeds = envelope.feeds.filter({ $0.feedID != nil || $0.blogID != nil })
             return (feeds, envelope.total)
         } catch {
-            DDLogError("\(error)")
-            DDLogDebug("Full response: \(response)")
+            WPKitLogError("\(error)")
+            WPKitLogDebug("Full response: \(response)")
             throw ReaderSiteSearchServiceRemote.ResponseError.decodingFailure
         }
     }
