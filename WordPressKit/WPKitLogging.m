@@ -23,7 +23,7 @@ void WPKitSetLoggingDelegate(id<WordPressLoggingDelegate> _Nullable logger)
             NSLog(@"[WordPressKit] Warning: %@ does not implement " #logFunc, logger); \
             return; \
         } \
-        [logger performSelector:@selector(logFunc) withObject:[[NSString alloc] initWithFormat:str arguments:args]]; \
+        [logger logFunc [[NSString alloc] initWithFormat:str arguments:args]]; \
     })
 
 #define WPKitLog(logFunc) \
@@ -51,7 +51,7 @@ void WPKitLogInfo(NSString *str, ...)    {
                 return;
             }
             NSString *message = [[NSString alloc] initWithFormat:str arguments:args];
-            [logger performSelector:@selector(logInfo:) withObject:message];
+            [logger logInfo:message];
         });
         va_end(args);
     });
