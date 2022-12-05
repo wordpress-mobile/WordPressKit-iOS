@@ -57,6 +57,17 @@
     XCTAssertEqualObjects(self.logger.errorLogs, (@[@"This is an error log", @"This is an error log with an argument"]));
 }
 
+- (void)testLogging2
+{
+    WPKitLogError(@"This is an error log");
+    WPKitLogError(@"This is an error log %@", @"with an argument");
+    XCTAssertEqualObjects(self.logger.errorLogs, (@[@"This is an error log", @"This is an error log with an argument"]));
+
+    WPKitLogInfo(@"This is an info log");
+    WPKitLogInfo(@"This is an info log %@", @"with an argument");
+    XCTAssertEqualObjects(self.logger.infoLogs, (@[@"This is an info log", @"This is an info log with an argument"]));
+}
+
 - (void)testUnimplementedLoggingMethod
 {
     XCTAssertNoThrow(WPKitLogVerbose(@"verbose logging is not implemented"));
