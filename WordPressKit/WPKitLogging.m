@@ -23,6 +23,8 @@ void WPKitSetLoggingDelegate(id<WordPressLoggingDelegate> _Nullable logger)
             NSLog(@"[WordPressKit] Warning: %@ does not implement " #logFunc, logger); \
             return; \
         } \
+        /* Originally `performSelector:withObject:` was used to call the logging function, but for unknown reason */ \
+        /* it causes a crash on `objc_retain`. So I have to switch to this strange "syntax" to call the logging function directly. */ \
         [logger logFunc [[NSString alloc] initWithFormat:str arguments:args]]; \
     })
 
@@ -36,26 +38,7 @@ void WPKitSetLoggingDelegate(id<WordPressLoggingDelegate> _Nullable logger)
 
 void WPKitLogError(NSString *str, ...)   { WPKitLog(logError:); }
 void WPKitLogWarning(NSString *str, ...) { WPKitLog(logWarning:); }
-void WPKitLogInfo(NSString *str, ...)    {
-    ({
-        va_list args;
-        va_start(args, str);
-        ({
-            id<WordPressLoggingDelegate> logger = WPKitGetLoggingDelegate();
-            if (logger == NULL) {
-                NSLog(@"[WordPressKit] Warning: please call `WPKitSetLoggingDelegate` to set a error logger."); \
-                return;
-            }
-            if (![logger respondsToSelector:@selector(logInfo:)]) {
-                NSLog(@"[WordPressKit] Warning: %@ does not implement ", logger);
-                return;
-            }
-            NSString *message = [[NSString alloc] initWithFormat:str arguments:args];
-            [logger logInfo:message];
-        });
-        va_end(args);
-    });
-}
+void WPKitLogInfo(NSString *str, ...)    { WPKitLog(logInfo:); }
 void WPKitLogDebug(NSString *str, ...)   { WPKitLog(logDebug:); }
 void WPKitLogVerbose(NSString *str, ...) { WPKitLog(logVerbose:); }
 
