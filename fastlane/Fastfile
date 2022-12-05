@@ -12,7 +12,7 @@ platform :ios do
       buildlog_path: File.join(__dir__, '.build', 'logs'),
       derived_data_path: File.join(__dir__, '.build', 'derived-data')
     )
-  rescue => ex
+  rescue StandardError => e
     $stdout.puts '^^^ +++'
     $stdout.puts 'Test failed!'
 
@@ -25,6 +25,6 @@ platform :ios do
       )
     end
 
-    raise ex
+    raise e
   end
 end
