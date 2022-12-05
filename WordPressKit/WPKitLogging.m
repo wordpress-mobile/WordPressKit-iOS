@@ -50,7 +50,8 @@ void WPKitLogInfo(NSString *str, ...)    {
                 NSLog(@"[WordPressKit] Warning: %@ does not implement ", logger);
                 return;
             }
-            [logger performSelector:@selector(logInfo:) withObject:[[NSString alloc] initWithFormat:str arguments:args]];
+            NSString *message = [[NSString alloc] initWithFormat:str arguments:args];
+            [logger performSelector:@selector(logInfo:) withObject:message];
         });
         va_end(args);
     });
