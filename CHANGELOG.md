@@ -34,7 +34,7 @@ _None._
 
 ### Breaking Changes
 
-- Remove CocoaLumberjack. Use `WPKitSetLoggingDelegate` to assign a logger to this library. [#550]
+_None._
 
 ### New Features
 
@@ -43,6 +43,16 @@ _None._
 ### Bug Fixes
 
 _None._
+
+### Internal Changes
+
+_None._
+
+## [5.0.0](https://github.com/wordpress-mobile/WordPressKit-iOS/releases/tag/5.0.0)
+
+### Breaking Changes
+
+- Remove CocoaLumberjack. Use `WPKitSetLoggingDelegate` to assign a logger to this library. [#550]
 
 ### Internal Changes
 
