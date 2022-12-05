@@ -8,8 +8,23 @@ platform :ios do
     run_tests(
       scheme: 'WordPressKit',
       prelaunch_simulator: true,
+      result_bundle: true,
       buildlog_path: File.join(__dir__, '.build', 'logs'),
       derived_data_path: File.join(__dir__, '.build', 'derived-data')
     )
+  rescue => ex
+    $stdout.puts '^^^ +++'
+    $stdout.puts 'Test failed!'
+
+    result_bundle_path = 'fastlane/test_output/WordPressKit.xcresult'
+    if File.exist?(File.join(Bundler.root, result_bundle_path))
+      zip(
+        path: result_bundle_path,
+        output_path: "#{result_bundle_path}.zip",
+        verbose: false
+      )
+    end
+
+    raise ex
   end
 end
