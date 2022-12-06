@@ -11,7 +11,7 @@ def wordpresskit_pods
   pod 'Alamofire', '~> 4.8.0'
   pod 'WordPressShared', '~> 2.0.0-beta.2'
   pod 'NSObject-SafeExpectations', '~> 0.0.4'
-  pod 'wpxmlrpc', '~> 0.9.0'
+  pod 'wpxmlrpc', '~> 0.10.0'
   pod 'UIDeviceIdentifier', '~> 2.0'
 end
 
