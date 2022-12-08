@@ -1,6 +1,4 @@
 #import "ReaderTopicServiceRemote.h"
-#import "RemoteReaderTopic.h"
-#import "RemoteReaderSiteInfo.h"
 #import "WPKit-Swift.h"
 @import NSObject_SafeExpectations;
 @import WordPressShared;
