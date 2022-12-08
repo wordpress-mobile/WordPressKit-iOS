@@ -46,7 +46,7 @@ _None._
 
 ### Internal Changes
 
-_None._
+- Change the NSObject+SafeExpectations dependency to `~> 0.0.4`.
 
 ## [5.0.0](https://github.com/wordpress-mobile/WordPressKit-iOS/releases/tag/5.0.0)
 
