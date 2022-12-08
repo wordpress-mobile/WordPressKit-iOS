@@ -57,22 +57,22 @@ open class SharingServiceRemote: ServiceRemoteWordPressComREST {
                 }
 
                 let responseString = responseObject.description as NSString
-                let services = responseDict.forKey(ServiceDictionaryKeys.services) as NSDictionary
+                let services: NSDictionary = (responseDict.forKey(ServiceDictionaryKeys.services) as? NSDictionary) ?? NSDictionary()
 
                 let publicizeServices: [RemotePublicizeService] = services.allKeys.map { (key) -> RemotePublicizeService in
-                    let dict = services.forKey(key) as NSDictionary
+                    let dict = (services.forKey(key) as? NSDictionary) ?? NSDictionary()
                     let pub = RemotePublicizeService()
 
-                    pub.connectURL = dict.string(forKey: ServiceDictionaryKeys.connectURL)
-                    pub.detail = dict.string(forKey: ServiceDictionaryKeys.description)
-                    pub.externalUsersOnly = dict.number(forKey: ServiceDictionaryKeys.externalUsersOnly).boolValue
-                    pub.icon = dict.string(forKey: ServiceDictionaryKeys.icon)
-                    pub.serviceID = dict.string(forKey: ServiceDictionaryKeys.ID)
-                    pub.jetpackModuleRequired = dict.string(forKey: ServiceDictionaryKeys.jetpackModuleRequired)
-                    pub.jetpackSupport = dict.number(forKey: ServiceDictionaryKeys.jetpackSupport).boolValue
-                    pub.label = dict.string(forKey: ServiceDictionaryKeys.label)
-                    pub.multipleExternalUserIDSupport = dict.number(forKey: ServiceDictionaryKeys.multipleExternalUserIDSupport).boolValue
-                    pub.type = dict.string(forKey: ServiceDictionaryKeys.type)
+                    pub.connectURL = dict.string(forKey: ServiceDictionaryKeys.connectURL) ?? ""
+                    pub.detail = dict.string(forKey: ServiceDictionaryKeys.description) ?? ""
+                    pub.externalUsersOnly = dict.number(forKey: ServiceDictionaryKeys.externalUsersOnly)?.boolValue ?? false
+                    pub.icon = dict.string(forKey: ServiceDictionaryKeys.icon) ?? ""
+                    pub.serviceID = dict.string(forKey: ServiceDictionaryKeys.ID) ?? ""
+                    pub.jetpackModuleRequired = dict.string(forKey: ServiceDictionaryKeys.jetpackModuleRequired) ?? ""
+                    pub.jetpackSupport = dict.number(forKey: ServiceDictionaryKeys.jetpackSupport)?.boolValue ?? false
+                    pub.label = dict.string(forKey: ServiceDictionaryKeys.label) ?? ""
+                    pub.multipleExternalUserIDSupport = dict.number(forKey: ServiceDictionaryKeys.multipleExternalUserIDSupport)?.boolValue ?? false
+                    pub.type = dict.string(forKey: ServiceDictionaryKeys.type) ?? ""
 
                     // We're not guarenteed to get the right order by inspecting the
                     // response dictionary's keys. Instead, we can check the index
@@ -112,7 +112,7 @@ open class SharingServiceRemote: ServiceRemoteWordPressComREST {
                     return
                 }
 
-                let connections: Array = responseDict.array(forKey: ConnectionDictionaryKeys.connections)
+                let connections = responseDict.array(forKey: ConnectionDictionaryKeys.connections) ?? []
                 let keyringConnections: [KeyringConnection] = connections.map { (dict) -> KeyringConnection in
                     let conn = KeyringConnection()
                     let dict = dict as AnyObject
@@ -186,7 +186,7 @@ open class SharingServiceRemote: ServiceRemoteWordPressComREST {
                     return
                 }
 
-                let connections: Array = responseDict.array(forKey: ConnectionDictionaryKeys.connections)
+                let connections = responseDict.array(forKey: ConnectionDictionaryKeys.connections) ?? []
                 let publicizeConnections: [RemotePublicizeConnection] = connections.compactMap { (dict) -> RemotePublicizeConnection? in
                     let conn = self.remotePublicizeConnectionFromDictionary(dict as! NSDictionary)
                     return conn
@@ -421,7 +421,7 @@ open class SharingServiceRemote: ServiceRemoteWordPressComREST {
                     return
                 }
 
-                let buttons = responseDict.array(forKey: SharingButtonsKeys.sharingButtons) as NSArray
+                let buttons = responseDict.array(forKey: SharingButtonsKeys.sharingButtons) as? NSArray ?? NSArray()
                 let sharingButtons = self.remoteSharingButtonsFromDictionary(buttons)
 
                 onSuccess(sharingButtons)
@@ -457,7 +457,7 @@ open class SharingServiceRemote: ServiceRemoteWordPressComREST {
                     return
                 }
 
-                let buttons = responseDict.array(forKey: SharingButtonsKeys.updated) as NSArray
+                let buttons = responseDict.array(forKey: SharingButtonsKeys.updated) as? NSArray ?? NSArray()
                 let sharingButtons = self.remoteSharingButtonsFromDictionary(buttons)
 
                 onSuccess(sharingButtons)
