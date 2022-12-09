@@ -34,7 +34,7 @@ _None._
 
 ### Breaking Changes
 
-_None._
+- Re-implement a few reader model types in Swift. [#556]
 
 ### New Features
 

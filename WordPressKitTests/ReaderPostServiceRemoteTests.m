@@ -1,6 +1,5 @@
 #import <XCTest/XCTest.h>
 #import "ReaderTopicServiceRemote.h"
-#import "RemoteReaderTopic.h"
 #import "ReaderPostServiceRemote.h"
 #import "RemoteReaderPost.h"
 #import "WPKit-Swift.h"

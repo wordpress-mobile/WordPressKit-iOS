@@ -43,13 +43,11 @@ public struct RemoteReaderCard: Decodable {
             let sitesArray = try container.decode([Any].self, forKey: .data)
 
             sites = sitesArray.compactMap {
-                // Since RemoteReaderSiteInfo is written in Obj-C and doesn't support decoding
-                // attempt to recast the response as a dictionary value to be passed to the init below
-                guard let dict = $0 as? [AnyHashable: Any] else {
+                guard let dict = $0 as? NSDictionary else {
                     return nil
                 }
 
-                return RemoteReaderSiteInfo(forSiteResponse: dict, isFeed: false)
+                return RemoteReaderSiteInfo.siteInfo(forSiteResponse: dict, isFeed: false)
             }
 
         default:
