@@ -1,7 +1,6 @@
 #import <Foundation/Foundation.h>
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
-#import "RemoteBlog.h"
 #import "BlogServiceRemoteREST.h"
 @import OHHTTPStubs;
 @import WordPressKit;
