@@ -3,7 +3,7 @@ extension NSObject {
     var allProperties: [String: Any] {
         let properties = Mirror(reflecting: self)
             .children
-            .compactMap { child in
+            .compactMap { child -> (String, Any)? in
                 if let label = child.label {
                     return (label, child.value)
                 } else {
