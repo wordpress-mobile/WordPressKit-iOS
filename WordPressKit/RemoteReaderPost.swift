@@ -72,6 +72,17 @@ public extension RemoteReaderPost {
         return (siteName as NSString).summarized()
     }
 
+    /// Retrives the post site's URL
+    ///
+    /// - Parameter dict A dictionary representing a post object from the REST API.
+    /// - Returns The URL path of the post's site.
+    @objc(siteURLFromPostDictionary:)
+    class func siteURL(romPostDictionary dict: NSDictionary) -> String {
+        dict.string(forKeyPath: "meta.data.site.URL")
+            ?? dict.string(forKey: postRESTKeySiteURL)
+            ?? ""
+    }
+
 }
 
 private let postRESTKeyEmail = "email"
@@ -79,6 +90,7 @@ private let postRESTKeyIsExternal = "is_external"
 private let postRESTKeyIsJetpack = "is_jetpack"
 private let postRESTKeyTags = "tags";
 private let postRESTKeySiteName = "site_name";
+private let postRESTKeySiteURL = "site_URL";
 
 // The minimum email length: a@a.aa
 private let minimalEmailLength = 6

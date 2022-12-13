@@ -43,7 +43,6 @@ NSString * const PostRESTKeySharingEnabled = @"sharing_enabled";
 NSString * const PostRESTKeySiteID = @"site_ID";
 NSString * const PostRESTKeySiteIsAtomic = @"site_is_atomic";
 NSString * const PostRESTKeySiteIsPrivate = @"site_is_private";
-NSString * const PostRESTKeySiteURL = @"site_URL";
 NSString * const PostRESTKeySlug = @"slug";
 NSString * const PostRESTKeyStatus = @"status";
 NSString * const PostRESTKeyTitle = @"title";
@@ -97,7 +96,7 @@ static const NSUInteger ReaderPostTitleLength = 30;
     self.siteIconURL = [self stringOrEmptyString:[dict stringForKeyPath:@"meta.data.site.icon.img"]];
     self.blogName = [RemoteReaderPost siteNameFromPostDictionary:dict];
     self.blogDescription = [self siteDescriptionFromPostDictionary:dict];
-    self.blogURL = [self siteURLFromPostDictionary:dict];
+    self.blogURL = [RemoteReaderPost siteURLFromPostDictionary:dict];
     self.commentCount = [discussionDict numberForKey:PostRESTKeyCommentCount];
     self.commentsOpen = [[discussionDict numberForKey:PostRESTKeyCommentsOpen] boolValue];
     self.content = [self postContentFromPostDictionary:dict];
@@ -476,24 +475,6 @@ static const NSUInteger ReaderPostTitleLength = 30;
 {
     NSString *description = [self stringOrEmptyString:[dict stringForKeyPath:@"meta.data.site.description"]];
     return [self makePlainText:description];
-}
-
-/**
- Retrives the post site's URL
-
- @param dict A dictionary representing a post object from the REST API.
- @return The URL path of the post's site.
- */
-- (NSString *)siteURLFromPostDictionary:(NSDictionary *)dict
-{
-    NSString *siteURL = [self stringOrEmptyString:[dict stringForKey:PostRESTKeySiteURL]];
-
-    NSString *metaSiteURL = [dict stringForKeyPath:@"meta.data.site.URL"];
-    if (metaSiteURL != nil) {
-        siteURL = metaSiteURL;
-    }
-
-    return siteURL;
 }
 
 /**

@@ -11,7 +11,6 @@
 - (RemoteReaderPost *)formatPostDictionary:(NSDictionary *)dict;
 - (BOOL)siteIsAtomicFromPostDictionary:(NSDictionary *)dict;
 - (BOOL)siteIsPrivateFromPostDictionary:(NSDictionary *)dict;
-- (NSString *)siteURLFromPostDictionary:(NSDictionary *)dict;
 - (NSString *)featuredImageFromPostDictionary:(NSDictionary *)dict;
 - (NSDate *)sortDateFromPostDictionary:(NSDictionary *)dict;
 - (NSString *)sanitizeFeaturedImageString:(NSString *)img;
@@ -139,15 +138,13 @@
 }
 
 - (void)testSiteURLFromDictionary {
-    RemoteReaderPost *remoteReaderPost = [RemoteReaderPost alloc];
-
     NSString *site = @"http://site.com";
     NSDictionary *dict = @{@"site_URL": site};
-    NSString *siteURL = [remoteReaderPost siteURLFromPostDictionary:dict];
+    NSString *siteURL = [RemoteReaderPost siteURLFromPostDictionary:dict];
     XCTAssertEqual(siteURL, site, @"The returned site did not match what was expected.");
 
     dict = [self metaDictionaryWithKey:@"URL" value:site];
-    siteURL = [remoteReaderPost siteURLFromPostDictionary:dict];
+    siteURL = [RemoteReaderPost siteURLFromPostDictionary:dict];
     XCTAssertEqual(siteURL, site, @"The returned site did not match what was expected.");
 }
 
