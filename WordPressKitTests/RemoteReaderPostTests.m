@@ -16,7 +16,6 @@
 - (NSString *)featuredImageFromPostDictionary:(NSDictionary *)dict;
 - (NSDate *)sortDateFromPostDictionary:(NSDictionary *)dict;
 - (BOOL)isWPComFromPostDictionary:(NSDictionary *)dict;
-- (NSString *)authorEmailFromAuthorDictionary:(NSDictionary *)dict;
 - (NSString *)sanitizeFeaturedImageString:(NSString *)img;
 - (NSDictionary *)primaryAndSecondaryTagsFromPostDictionary:(NSDictionary *)dict;
 - (NSString *)removeInlineStyles:(NSString *)string;
@@ -250,16 +249,14 @@
 }
 
 - (void)testAuthorEmailFromDictionary {
-    RemoteReaderPost *remoteReaderPost = [RemoteReaderPost alloc];
-
     NSString *emailStr = @"a@a.aa";
     NSDictionary *dict = @{@"email": emailStr};
-    NSString *str = [remoteReaderPost authorEmailFromAuthorDictionary:dict];
+    NSString *str = [RemoteReaderPost authorEmailFromAuthorDictionary:dict];
     XCTAssertEqual(emailStr, str, @"The email returned did not match.");
 
     emailStr = @"0";
     dict = @{@"email": emailStr};
-    str = [remoteReaderPost authorEmailFromAuthorDictionary:dict];
+    str = [RemoteReaderPost authorEmailFromAuthorDictionary:dict];
     XCTAssertTrue([str length] == 0, @"If the value of email is 0, an empty string should be returned.");
 }
 

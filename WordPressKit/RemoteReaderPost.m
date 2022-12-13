@@ -17,7 +17,6 @@ NSString * const PostRESTKeyDateLiked = @"date_liked";
 NSString * const PostRESTKeyDiscoverMetadata = @"discover_metadata";
 NSString * const PostRESTKeyDiscussion = @"discussion";
 NSString * const PostRESTKeyEditorial = @"editorial";
-NSString * const PostRESTKeyEmail = @"email";
 NSString * const PostRESTKeyExcerpt = @"excerpt";
 NSString * const PostRESTKeyFeaturedMedia = @"featured_media";
 NSString * const PostRESTKeyFeaturedImage = @"featured_image";
@@ -94,7 +93,7 @@ static const NSUInteger ReaderPostTitleLength = 30;
     self.author = [self stringOrEmptyString:[authorDict stringForKey:PostRESTKeyNiceName]]; // typically the author's screen name
     self.authorAvatarURL = [self stringOrEmptyString:[authorDict stringForKey:PostRESTKeyAvatarURL]];
     self.authorDisplayName = [[self stringOrEmptyString:[authorDict stringForKey:PostRESTKeyName]] stringByDecodingXMLCharacters]; // Typically the author's given name
-    self.authorEmail = [self authorEmailFromAuthorDictionary:authorDict];
+    self.authorEmail = [RemoteReaderPost authorEmailFromAuthorDictionary:authorDict];
     self.authorURL = [self stringOrEmptyString:[authorDict stringForKey:PostRESTKeyURL]];
     self.siteIconURL = [self stringOrEmptyString:[dict stringForKeyPath:@"meta.data.site.icon.img"]];
     self.blogName = [self siteNameFromPostDictionary:dict];
@@ -383,23 +382,6 @@ static const NSUInteger ReaderPostTitleLength = 30;
 
 #pragma mark - Data sanitization methods
 
-/**
- The v1 API result is inconsistent in that it will return a 0 when there is no author email.
-
- @param dict The author dictionary.
- @return The author's email address or an empty string.
- */
-- (NSString *)authorEmailFromAuthorDictionary:(NSDictionary *)dict
-{
-    NSString *authorEmail = [dict stringForKey:PostRESTKeyEmail];
-
-    // if 0 or less than minimum email length. a@a.aa
-    if ([authorEmail isEqualToString:@"0"] || [authorEmail length] < 6) {
-        authorEmail = @"";
-    }
-
-    return authorEmail;
-}
 
 /**
  Parse whether the post belongs to a wpcom blog.
