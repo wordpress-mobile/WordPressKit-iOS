@@ -50,12 +50,35 @@ public extension RemoteReaderPost {
         return ""
     }
 
+    /// Get the name of the post's site.
+    ///
+    /// - Parameter dict A dictionary representing a post object from the REST API.
+    /// - Returns The name of the post's site or an empty string.
+    @objc(siteNameFromPostDictionary:)
+    class func siteName(fromPostDictionary dict: NSDictionary) -> String {
+        // Blog Name
+        var siteName = dict.string(forKey: postRESTKeySiteName) ?? ""
+
+        // For some endpoints blogname is defined in meta
+        if let metaBlogName = dict.string(forKeyPath: "meta.data.site.name") {
+            siteName = metaBlogName;
+        }
+
+        // Values set in editorial trumps the rest
+        if let editorialSiteName = dict.string(forKeyPath: "editorial.blog_name") {
+            siteName = editorialSiteName
+        }
+
+        return (siteName as NSString).summarized()
+    }
+
 }
 
 private let postRESTKeyEmail = "email"
 private let postRESTKeyIsExternal = "is_external"
 private let postRESTKeyIsJetpack = "is_jetpack"
 private let postRESTKeyTags = "tags";
+private let postRESTKeySiteName = "site_name";
 
 // The minimum email length: a@a.aa
 private let minimalEmailLength = 6

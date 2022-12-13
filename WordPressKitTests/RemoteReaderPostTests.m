@@ -12,7 +12,6 @@
 - (BOOL)siteIsAtomicFromPostDictionary:(NSDictionary *)dict;
 - (BOOL)siteIsPrivateFromPostDictionary:(NSDictionary *)dict;
 - (NSString *)siteURLFromPostDictionary:(NSDictionary *)dict;
-- (NSString *)siteNameFromPostDictionary:(NSDictionary *)dict;
 - (NSString *)featuredImageFromPostDictionary:(NSDictionary *)dict;
 - (NSDate *)sortDateFromPostDictionary:(NSDictionary *)dict;
 - (NSString *)sanitizeFeaturedImageString:(NSString *)img;
@@ -153,25 +152,23 @@
 }
 
 - (void)testSiteNameFromDictionary {
-    RemoteReaderPost *remoteReaderPost = [RemoteReaderPost alloc];
-
     NSString *name = @"foo";
     NSDictionary *dict = @{@"site_name": name};
-    NSString *siteName = [remoteReaderPost siteNameFromPostDictionary:dict];
+    NSString *siteName = [RemoteReaderPost siteNameFromPostDictionary:dict];
     XCTAssertEqualObjects(siteName, name, @"The returned site name did not match what was expected.");
 
     dict = [self metaDictionaryWithKey:@"name" value:name];
-    siteName = [remoteReaderPost siteNameFromPostDictionary:dict];
+    siteName = [RemoteReaderPost siteNameFromPostDictionary:dict];
     XCTAssertEqualObjects(siteName, name, @"The returned site name did not match what was expected.");
 
     dict = [self editorialDictionaryWithKey:@"blog_name" value:name];
-    siteName = [remoteReaderPost siteNameFromPostDictionary:dict];
+    siteName = [RemoteReaderPost siteNameFromPostDictionary:dict];
     XCTAssertEqualObjects(siteName, name, @"The returned site name did not match what was expected.");
 
     // Make sure editorial trumps other content.
     NSMutableDictionary *mDict = [dict mutableCopy];
     [mDict setObject:@"bar" forKey:@"site_name"];
-    siteName = [remoteReaderPost siteNameFromPostDictionary:dict];
+    siteName = [RemoteReaderPost siteNameFromPostDictionary:dict];
     XCTAssertEqualObjects(siteName, name, @"The returned site name did not match what was expected.");
 
 }

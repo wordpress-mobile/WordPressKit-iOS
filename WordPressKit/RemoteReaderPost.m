@@ -43,7 +43,6 @@ NSString * const PostRESTKeySharingEnabled = @"sharing_enabled";
 NSString * const PostRESTKeySiteID = @"site_ID";
 NSString * const PostRESTKeySiteIsAtomic = @"site_is_atomic";
 NSString * const PostRESTKeySiteIsPrivate = @"site_is_private";
-NSString * const PostRESTKeySiteName = @"site_name";
 NSString * const PostRESTKeySiteURL = @"site_URL";
 NSString * const PostRESTKeySlug = @"slug";
 NSString * const PostRESTKeyStatus = @"status";
@@ -96,7 +95,7 @@ static const NSUInteger ReaderPostTitleLength = 30;
     self.authorEmail = [RemoteReaderPost authorEmailFromAuthorDictionary:authorDict];
     self.authorURL = [self stringOrEmptyString:[authorDict stringForKey:PostRESTKeyURL]];
     self.siteIconURL = [self stringOrEmptyString:[dict stringForKeyPath:@"meta.data.site.icon.img"]];
-    self.blogName = [self siteNameFromPostDictionary:dict];
+    self.blogName = [RemoteReaderPost siteNameFromPostDictionary:dict];
     self.blogDescription = [self siteDescriptionFromPostDictionary:dict];
     self.blogURL = [self siteURLFromPostDictionary:dict];
     self.commentCount = [discussionDict numberForKey:PostRESTKeyCommentCount];
@@ -465,32 +464,6 @@ static const NSUInteger ReaderPostTitleLength = 30;
     NSString *content = [dict stringForKey:PostRESTKeyContent];
     NSString *imageToDisplay = [DisplayableImageHelper searchPostContentForImageToDisplay:content];
     return [self stringOrEmptyString:imageToDisplay];
-}
-
-/**
- Get the name of the post's site.
-
- @param dict A dictionary representing a post object from the REST API.
- @return The name of the post's site or an empty string.
- */
-- (NSString *)siteNameFromPostDictionary:(NSDictionary *)dict
-{
-    // Blog Name
-    NSString *siteName = [self stringOrEmptyString:[dict stringForKey:PostRESTKeySiteName]];
-
-    // For some endpoints blogname is defined in meta
-    NSString *metaBlogName = [dict stringForKeyPath:@"meta.data.site.name"];
-    if (metaBlogName != nil) {
-        siteName = metaBlogName;
-    }
-
-    // Values set in editorial trumps the rest
-    NSString *editorialSiteName = [dict stringForKeyPath:@"editorial.blog_name"];
-    if (editorialSiteName != nil) {
-        siteName = editorialSiteName;
-    }
-
-    return [self makePlainText:siteName];
 }
 
 /**
