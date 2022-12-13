@@ -123,7 +123,7 @@ static const NSUInteger ReaderPostTitleLength = 30;
     self.sortRank = @(self.sortDate.timeIntervalSinceReferenceDate);
     self.status = [self stringOrEmptyString:[dict stringForKey:PostRESTKeyStatus]];
     self.summary = [self postSummaryFromPostDictionary:dict orPostContent:self.content];
-    self.tags = [self tagsFromPostDictionary:dict];
+    self.tags = [RemoteReaderPost tagsFromPostDictionary:dict];
     self.isSharingEnabled = [[dict numberForKey:PostRESTKeySharingEnabled] boolValue];
     self.isLikesEnabled = [[dict numberForKey:PostRESTKeyLikesEnabled] boolValue];
     self.organizationID = [dict numberForKeyPath:PostRESTKeyOrganizationID] ?: @0;
@@ -381,23 +381,6 @@ static const NSUInteger ReaderPostTitleLength = 30;
 }
 
 #pragma mark - Data sanitization methods
-
-/**
- Get the tags assigned to a post and return them as a comma separated string.
-
- @param dict A dictionary representing a post object from the REST API.
- @return A comma separated list of tags, or an empty string if no tags are found.
- */
-- (NSString *)tagsFromPostDictionary:(NSDictionary *)dict
-{
-    NSDictionary *tagsDict = [dict dictionaryForKey:PostRESTKeyTags];
-    NSArray *tagsList = [NSArray arrayWithArray:[tagsDict allKeys]];
-    NSString *tags = [tagsList componentsJoinedByString:@", "];
-    if (tags == nil) {
-        tags = @"";
-    }
-    return tags;
-}
 
 /**
  Get the date the post should be sorted by.

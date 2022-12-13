@@ -37,11 +37,25 @@ public extension RemoteReaderPost {
         return !isJetpack && !isExternal
     }
 
+    /// Get the tags assigned to a post and return them as a comma separated string.
+    ///
+    /// - Parameter dict A dictionary representing a post object from the REST API.
+    /// - Returns A comma separated list of tags, or an empty string if no tags are found.
+    @objc(tagsFromPostDictionary:)
+    class func tags(fromPostDictionary dict: NSDictionary) -> String {
+        if let tagsDict = dict[postRESTKeyTags] as? [String: Any] {
+            return tagsDict.keys.joined(separator: ", ")
+        }
+
+        return ""
+    }
+
 }
 
 private let postRESTKeyEmail = "email"
 private let postRESTKeyIsExternal = "is_external"
 private let postRESTKeyIsJetpack = "is_jetpack"
+private let postRESTKeyTags = "tags";
 
 // The minimum email length: a@a.aa
 private let minimalEmailLength = 6
