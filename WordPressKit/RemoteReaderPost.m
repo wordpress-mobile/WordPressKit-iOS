@@ -112,7 +112,7 @@ static const NSUInteger ReaderPostTitleLength = 30;
     self.isFollowing = [[dict numberForKey:PostRESTKeyIsFollowing] boolValue];
     self.isLiked = [[dict numberForKey:PostRESTKeyILike] boolValue];
     self.isReblogged = [[dict numberForKey:PostRESTKeyIsReblogged] boolValue];
-    self.isWPCom = [self isWPComFromPostDictionary:dict];
+    self.isWPCom = [RemoteReaderPost isWPComFromPostDictionary:dict];
     self.likeCount = [dict numberForKey:PostRESTKeyLikeCount];
     self.permalink = [self stringOrEmptyString:[dict stringForKey:PostRESTKeyURL]];
     self.postID = [dict numberForKey:PostRESTKeyID];
@@ -381,21 +381,6 @@ static const NSUInteger ReaderPostTitleLength = 30;
 }
 
 #pragma mark - Data sanitization methods
-
-
-/**
- Parse whether the post belongs to a wpcom blog.
-
- @param dict A dictionary representing a post object from the REST API
- @return YES if the post belongs to a wpcom blog, else NO
- */
-- (BOOL)isWPComFromPostDictionary:(NSDictionary *)dict
-{
-    BOOL isExternal = [[dict numberForKey:PostRESTKeyIsExternal] boolValue];
-    BOOL isJetpack = [[dict numberForKey:PostRESTKeyIsJetpack] boolValue];
-
-    return !isJetpack && !isExternal;
-}
 
 /**
  Get the tags assigned to a post and return them as a comma separated string.

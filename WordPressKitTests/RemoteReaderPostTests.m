@@ -15,7 +15,6 @@
 - (NSString *)siteNameFromPostDictionary:(NSDictionary *)dict;
 - (NSString *)featuredImageFromPostDictionary:(NSDictionary *)dict;
 - (NSDate *)sortDateFromPostDictionary:(NSDictionary *)dict;
-- (BOOL)isWPComFromPostDictionary:(NSDictionary *)dict;
 - (NSString *)sanitizeFeaturedImageString:(NSString *)img;
 - (NSDictionary *)primaryAndSecondaryTagsFromPostDictionary:(NSDictionary *)dict;
 - (NSString *)removeInlineStyles:(NSString *)string;
@@ -234,16 +233,14 @@
 }
 
 - (void)testIsWPComFromDictionary {
-    RemoteReaderPost *remoteReaderPost = [RemoteReaderPost alloc];
-
     NSString *jsonStrFalse = @"{\"is_external\": false}";
     NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:[jsonStrFalse dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
-    BOOL isWPCom = [remoteReaderPost isWPComFromPostDictionary:dict];
+    BOOL isWPCom = [RemoteReaderPost isWPComFromPostDictionary:dict];
     XCTAssertTrue(isWPCom, @"A blog that is not external should be wpcom");
 
     NSString *jsonStrTrue = @"{\"is_external\": true}";
     dict = [NSJSONSerialization JSONObjectWithData:[jsonStrTrue dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
-    isWPCom = [remoteReaderPost isWPComFromPostDictionary:dict];
+    isWPCom = [RemoteReaderPost isWPComFromPostDictionary:dict];
     XCTAssertFalse(isWPCom, @"A blog that is external should not be wpcom");
 
 }

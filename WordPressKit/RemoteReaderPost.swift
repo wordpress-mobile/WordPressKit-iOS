@@ -26,9 +26,22 @@ public extension RemoteReaderPost {
         return ""
     }
 
+    /// Parse whether the post belongs to a wpcom blog.
+    ///
+    /// - Parameter dict A dictionary representing a post object from the REST API
+    /// - Returns YES if the post belongs to a wpcom blog, else NO
+    @objc(isWPComFromPostDictionary:)
+    class func isWPCom(fromPostDictionary dict: NSDictionary) -> Bool {
+        let isExternal = dict.number(forKey: postRESTKeyIsExternal)?.boolValue ?? false
+        let isJetpack = dict.number(forKey: postRESTKeyIsJetpack)?.boolValue ?? false
+        return !isJetpack && !isExternal
+    }
+
 }
 
 private let postRESTKeyEmail = "email"
+private let postRESTKeyIsExternal = "is_external"
+private let postRESTKeyIsJetpack = "is_jetpack"
 
 // The minimum email length: a@a.aa
 private let minimalEmailLength = 6
