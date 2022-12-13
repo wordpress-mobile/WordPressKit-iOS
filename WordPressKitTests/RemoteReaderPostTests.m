@@ -19,7 +19,6 @@
 - (NSString *)authorEmailFromAuthorDictionary:(NSDictionary *)dict;
 - (NSString *)sanitizeFeaturedImageString:(NSString *)img;
 - (NSDictionary *)primaryAndSecondaryTagsFromPostDictionary:(NSDictionary *)dict;
-- (NSNumber *)readingTimeForWordCount:(NSNumber *)wordCount;
 - (NSString *)removeInlineStyles:(NSString *)string;
 - (NSString *)removeForbiddenTags:(NSString *)string;
 - (NSString *)postTitleFromPostDictionary:(NSDictionary *)dict;
@@ -337,22 +336,20 @@
 
 - (void)testReadingTimeFromDictionary
 {
-    RemoteReaderPost *remoteReaderPost = [RemoteReaderPost alloc];
-
     NSNumber *readingTime;
-    readingTime = [remoteReaderPost readingTimeForWordCount:@0];
+    readingTime = [RemoteReaderPost readingTimeForWordCount:@0];
     XCTAssertTrue([readingTime integerValue] == 0, @"Zero wordcount should return zero reading time.");
 
-    readingTime = [remoteReaderPost readingTimeForWordCount:@250];
+    readingTime = [RemoteReaderPost readingTimeForWordCount:@250];
     XCTAssertTrue([readingTime integerValue] == 0, @"Brief word count should return zero reading time.");
 
-    readingTime = [remoteReaderPost readingTimeForWordCount:@500];
+    readingTime = [RemoteReaderPost readingTimeForWordCount:@500];
     XCTAssertTrue([readingTime integerValue] == 2, @"500 words should take about 2 minutes to read");
 
-    readingTime = [remoteReaderPost readingTimeForWordCount:@700];
+    readingTime = [RemoteReaderPost readingTimeForWordCount:@700];
     XCTAssertTrue([readingTime integerValue] == 2, @"700 words should take about 2 minutes to read.");
 
-    readingTime = [remoteReaderPost readingTimeForWordCount:@1000];
+    readingTime = [RemoteReaderPost readingTimeForWordCount:@1000];
     XCTAssertTrue([readingTime integerValue] == 4, @"1000 words should take about 4 minutes to read");
 }
 

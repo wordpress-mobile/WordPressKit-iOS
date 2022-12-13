@@ -1,17 +1,18 @@
 import Foundation
 
-struct ReaderPostsEnvelope: Decodable {
-    var posts: [RemoteReaderPost]
-    var nextPageHandle: String?
+public extension RemoteReaderPost {
 
-    private enum CodingKeys: String, CodingKey {
-        case posts
-        case nextPageHandle = "next_page_handle"
+    @objc(readingTimeForWordCount:)
+    class func readingTime(forWordCount wordCount: NSNumber) -> NSNumber {
+        let count = wordCount.intValue
+        let minutesToRead = count / avgWordsPerMinuteRead;
+        if minutesToRead < minutesToReadThreshold {
+            return 0
+        }
+        return minutesToRead as NSNumber
     }
 
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        let postDictionary = try container.decode([String: Any].self, forKey: .posts)
-        posts = [RemoteReaderPost(dictionary: postDictionary)]
-    }
 }
+
+private let avgWordsPerMinuteRead = 250
+private let minutesToReadThreshold = 2

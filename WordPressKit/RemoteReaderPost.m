@@ -75,8 +75,6 @@ NSString * const CrossPostMetaXCommentPermalink = @"xcomment_original_permalink"
 NSString * const CrossPostMetaXPostOrigin = @"xpost_origin";
 NSString * const CrossPostMetaCommentPrefix = @"comment-";
 
-static const NSInteger AvgWordsPerMinuteRead = 250;
-static const NSInteger MinutesToReadThreshold = 2;
 static const NSUInteger ReaderPostTitleLength = 30;
 
 @implementation RemoteReaderPost
@@ -158,7 +156,7 @@ static const NSUInteger ReaderPostTitleLength = 30;
     self.isExternal = [[dict numberForKey:PostRESTKeyIsExternal] boolValue];
     self.isJetpack = [[dict numberForKey:PostRESTKeyIsJetpack] boolValue];
     self.wordCount = [dict numberForKey:PostRESTKeyWordCount];
-    self.readingTime = [self readingTimeForWordCount:self.wordCount];
+    self.readingTime = [RemoteReaderPost readingTimeForWordCount:self.wordCount];
 
     NSDictionary *railcar = [dict dictionaryForKey:PostRESTKeyRailcar];
     if (railcar) {
@@ -280,16 +278,6 @@ static const NSUInteger ReaderPostTitleLength = 30;
              TagKeySecondary:secondaryTag,
              TagKeySecondarySlug:secondaryTagSlug,
              };
-}
-
-- (NSNumber *)readingTimeForWordCount:(NSNumber *)wordCount
-{
-    NSInteger count = [wordCount integerValue];
-    NSInteger minutesToRead = count / AvgWordsPerMinuteRead;
-    if (minutesToRead < MinutesToReadThreshold) {
-        return @(0);
-    }
-    return @(minutesToRead);
 }
 
 /**
