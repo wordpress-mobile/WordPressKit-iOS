@@ -12,6 +12,6 @@ import Foundation
     public var postID: NSNumber?
     public var likeCount: NSNumber?
     public var commentCount: NSNumber?
-    public var taxonomies: NSArray?
+    public var taxonomies: [String]?
 
 }
