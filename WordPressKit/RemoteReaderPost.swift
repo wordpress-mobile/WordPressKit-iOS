@@ -5,7 +5,7 @@ public extension RemoteReaderPost {
     @objc(readingTimeForWordCount:)
     class func readingTime(forWordCount wordCount: NSNumber) -> NSNumber {
         let count = wordCount.intValue
-        let minutesToRead = count / avgWordsPerMinuteRead;
+        let minutesToRead = count / avgWordsPerMinuteRead
         if minutesToRead < minutesToReadThreshold {
             return 0
         }
@@ -61,7 +61,7 @@ public extension RemoteReaderPost {
 
         // For some endpoints blogname is defined in meta
         if let metaBlogName = dict.string(forKeyPath: "meta.data.site.name") {
-            siteName = metaBlogName;
+            siteName = metaBlogName
         }
 
         // Values set in editorial trumps the rest
@@ -105,11 +105,11 @@ public extension RemoteReaderPost {
 private let postRESTKeyEmail = "email"
 private let postRESTKeyIsExternal = "is_external"
 private let postRESTKeyIsJetpack = "is_jetpack"
-private let postRESTKeyTags = "tags";
-private let postRESTKeySiteName = "site_name";
-private let postRESTKeySiteURL = "site_URL";
-private let postRESTKeySiteIsAtomic = "site_is_atomic";
-private let postRESTKeySiteIsPrivate = "site_is_private";
+private let postRESTKeyTags = "tags"
+private let postRESTKeySiteName = "site_name"
+private let postRESTKeySiteURL = "site_URL"
+private let postRESTKeySiteIsAtomic = "site_is_atomic"
+private let postRESTKeySiteIsPrivate = "site_is_private"
 
 // The minimum email length: a@a.aa
 private let minimalEmailLength = 6
