@@ -83,6 +83,23 @@ public extension RemoteReaderPost {
             ?? ""
     }
 
+    @objc(siteIsAtomicFromPostDictionary:)
+    class func siteIsAtomic(fromPostDictionary dict: NSDictionary) -> Bool {
+        dict.number(forKey: postRESTKeySiteIsAtomic)?.boolValue ?? false
+    }
+
+
+    /// Retrives the privacy preference for the post's site.
+    ///
+    /// - Parameter dict A dictionary representing a post object from the REST API.
+    /// - Returns YES if the site is private.
+    @objc(siteIsPrivateFromPostDictionary:)
+    class func siteIsPrivate(fromPostDictionary dict: NSDictionary) -> Bool {
+        dict.number(forKeyPath: "meta.data.site.is_private")?.boolValue
+            ?? dict.number(forKey: postRESTKeySiteIsPrivate)?.boolValue
+            ?? false
+    }
+
 }
 
 private let postRESTKeyEmail = "email"
@@ -91,6 +108,8 @@ private let postRESTKeyIsJetpack = "is_jetpack"
 private let postRESTKeyTags = "tags";
 private let postRESTKeySiteName = "site_name";
 private let postRESTKeySiteURL = "site_URL";
+private let postRESTKeySiteIsAtomic = "site_is_atomic";
+private let postRESTKeySiteIsPrivate = "site_is_private";
 
 // The minimum email length: a@a.aa
 private let minimalEmailLength = 6

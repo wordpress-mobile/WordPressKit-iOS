@@ -41,8 +41,6 @@ NSString * const PostRESTKeyPostCount = @"post_count";
 NSString * const PostRESTKeyScore = @"score";
 NSString * const PostRESTKeySharingEnabled = @"sharing_enabled";
 NSString * const PostRESTKeySiteID = @"site_ID";
-NSString * const PostRESTKeySiteIsAtomic = @"site_is_atomic";
-NSString * const PostRESTKeySiteIsPrivate = @"site_is_private";
 NSString * const PostRESTKeySlug = @"slug";
 NSString * const PostRESTKeyStatus = @"status";
 NSString * const PostRESTKeyTitle = @"title";
@@ -105,8 +103,8 @@ static const NSUInteger ReaderPostTitleLength = 30;
     self.feedID = [dict numberForKey:PostRESTKeyFeedID];
     self.feedItemID = [dict numberForKey:PostRESTKeyFeedItemID];
     self.globalID = [self stringOrEmptyString:[dict stringForKey:PostRESTKeyGlobalID]];
-    self.isBlogAtomic = [self siteIsAtomicFromPostDictionary:dict];
-    self.isBlogPrivate = [self siteIsPrivateFromPostDictionary:dict];
+    self.isBlogAtomic = [RemoteReaderPost siteIsAtomicFromPostDictionary:dict];
+    self.isBlogPrivate = [RemoteReaderPost siteIsPrivateFromPostDictionary:dict];
     self.isFollowing = [[dict numberForKey:PostRESTKeyIsFollowing] boolValue];
     self.isLiked = [[dict numberForKey:PostRESTKeyILike] boolValue];
     self.isReblogged = [[dict numberForKey:PostRESTKeyIsReblogged] boolValue];
@@ -514,31 +512,6 @@ static const NSUInteger ReaderPostTitleLength = 30;
         summary = [self createSummaryFromContent:content];
     }
     return summary;
-}
-
-- (BOOL)siteIsAtomicFromPostDictionary:(NSDictionary *)dict
-{
-    NSNumber *isAtomic = [dict numberForKey:PostRESTKeySiteIsAtomic];
-
-    return [isAtomic boolValue];
-}
-
-/**
- Retrives the privacy preference for the post's site.
-
- @param dict A dictionary representing a post object from the REST API.
- @return YES if the site is private.
- */
-- (BOOL)siteIsPrivateFromPostDictionary:(NSDictionary *)dict
-{
-    NSNumber *isPrivate = [dict numberForKey:PostRESTKeySiteIsPrivate];
-
-    NSNumber *metaIsPrivate = [dict numberForKeyPath:@"meta.data.site.is_private"];
-    if (metaIsPrivate != nil) {
-        isPrivate = metaIsPrivate;
-    }
-
-    return [isPrivate boolValue];
 }
 
 - (NSArray *)slugsFromDiscoverPostTaxonomies:(NSArray *)discoverPostTaxonomies

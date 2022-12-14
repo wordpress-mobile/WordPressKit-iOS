@@ -9,8 +9,6 @@
 @interface RemoteReaderPost ()
 
 - (RemoteReaderPost *)formatPostDictionary:(NSDictionary *)dict;
-- (BOOL)siteIsAtomicFromPostDictionary:(NSDictionary *)dict;
-- (BOOL)siteIsPrivateFromPostDictionary:(NSDictionary *)dict;
 - (NSString *)featuredImageFromPostDictionary:(NSDictionary *)dict;
 - (NSDate *)sortDateFromPostDictionary:(NSDictionary *)dict;
 - (NSString *)sanitizeFeaturedImageString:(NSString *)img;
@@ -102,38 +100,34 @@
 - (void)testSiteIsAtomic {
     NSString *key = @"site_is_atomic";
 
-    RemoteReaderPost *remoteReaderPost = [RemoteReaderPost alloc];
-
     NSDictionary *dict = @{key: @"1"};
-    BOOL isAtomic = [remoteReaderPost siteIsAtomicFromPostDictionary:dict];
+    BOOL isAtomic = [RemoteReaderPost siteIsAtomicFromPostDictionary:dict];
     XCTAssertTrue(isAtomic, @"Site should be atomic.");
 
     dict = @{key: @"0"};
-    isAtomic = [remoteReaderPost siteIsAtomicFromPostDictionary:dict];
+    isAtomic = [RemoteReaderPost siteIsAtomicFromPostDictionary:dict];
     XCTAssertFalse(isAtomic, @"Site should not be atomic.");
 
     dict = @{};
-    isAtomic = [remoteReaderPost siteIsAtomicFromPostDictionary:dict];
+    isAtomic = [RemoteReaderPost siteIsAtomicFromPostDictionary:dict];
     XCTAssertFalse(isAtomic, @"Site should not be atomic.");
 }
 
 - (void)testSiteIsPrivate {
-    RemoteReaderPost *remoteReaderPost = [RemoteReaderPost alloc];
-
     NSDictionary *dict = @{@"site_is_private": @"1"};
-    BOOL isPrivate = [remoteReaderPost siteIsPrivateFromPostDictionary:dict];
+    BOOL isPrivate = [RemoteReaderPost siteIsPrivateFromPostDictionary:dict];
     XCTAssertTrue(isPrivate, @"Site should be private.");
 
     dict = @{@"site_is_private": @"0"};
-    isPrivate = [remoteReaderPost siteIsPrivateFromPostDictionary:dict];
+    isPrivate = [RemoteReaderPost siteIsPrivateFromPostDictionary:dict];
     XCTAssertFalse(isPrivate, @"Site should not be private.");
 
     dict = [self metaDictionaryWithKey:@"is_private" value:@"1"];
-    isPrivate = [remoteReaderPost siteIsPrivateFromPostDictionary:dict];
+    isPrivate = [RemoteReaderPost siteIsPrivateFromPostDictionary:dict];
     XCTAssertTrue(isPrivate, @"Meta site should be private.");
 
     dict = [self metaDictionaryWithKey:@"is_private" value:@"0"];
-    isPrivate = [remoteReaderPost siteIsPrivateFromPostDictionary:dict];
+    isPrivate = [RemoteReaderPost siteIsPrivateFromPostDictionary:dict];
     XCTAssertFalse(isPrivate, @"Meta site should not be private.");
 }
 
