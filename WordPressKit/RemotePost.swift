@@ -9,7 +9,8 @@ import ObjectiveC
     public static let statusPublish = "publish"
     public static let statusScheduled = "future"
     public static let statusTrash = "trash"
-    public static let statusDeleted = "deleted" // Returned by wpcom REST API when a post is permanently deleted.
+    /// Returned by the WordPress.com REST API when a post is permanently deleted.
+    public static let statusDeleted = "deleted"
 
     public var postID: NSNumber?
     public var siteID: NSNumber?
