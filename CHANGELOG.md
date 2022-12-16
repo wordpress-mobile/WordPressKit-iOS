@@ -47,6 +47,7 @@ _None._
 ### Internal Changes
 
 - Change the NSObject+SafeExpectations dependency to `~> 0.0.4`. [#555]
+- Remove unnecessary json encoding. [#563]
 
 ## [5.0.0](https://github.com/wordpress-mobile/WordPressKit-iOS/releases/tag/5.0.0)
 
