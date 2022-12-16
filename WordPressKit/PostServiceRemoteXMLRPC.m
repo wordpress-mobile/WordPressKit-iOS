@@ -1,6 +1,4 @@
 #import "PostServiceRemoteXMLRPC.h"
-#import "RemotePost.h"
-#import "RemotePostCategory.h"
 #import "NSMutableDictionary+Helpers.h"
 #import "WPKit-Swift.h"
 @import NSObject_SafeExpectations;
@@ -54,7 +52,14 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
                options:(NSDictionary *)options
                success:(void (^)(NSArray <RemotePost *> *remotePosts))success
                failure:(void (^)(NSError *error))failure {
-    NSArray *statuses = @[PostStatusDraft, PostStatusPending, PostStatusPrivate, PostStatusPublish, PostStatusScheduled, PostStatusTrash];
+    NSArray *statuses = @[
+        RemotePost.statusDraft,
+        RemotePost.statusPending,
+        RemotePost.statusPrivate,
+        RemotePost.statusPublish,
+        RemotePost.statusScheduled,
+        RemotePost.statusTrash
+    ];
     NSString *postStatus = [statuses componentsJoinedByString:@","];
     NSDictionary *extraParameters = @{
                                       @"number": @40,
@@ -343,8 +348,8 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
 {
     // Scheduled posts are synced with a post_status of 'publish' but we want to
     // work with a status of 'future' from within the app.
-    if ([status isEqualToString:PostStatusPublish] && date == [date laterDate:[NSDate date]]) {
-        return PostStatusScheduled;
+    if ([status isEqualToString:RemotePost.statusPublish] && date == [date laterDate:[NSDate date]]) {
+        return RemotePost.statusScheduled;
     }
     return status;
 }
@@ -426,8 +431,8 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
     // This is an apparent inconsistency in the XML-RPC API as 'future' should
     // be a valid status.
     // https://codex.wordpress.org/Post_Status_Transitions
-    if (post.status == nil || [post.status isEqualToString:PostStatusScheduled]) {
-        post.status = PostStatusPublish;
+    if (post.status == nil || [post.status isEqualToString:RemotePost.statusScheduled]) {
+        post.status = RemotePost.statusPublish;
     }
 
     // At least as of 5.2.2, Private and/or Password Protected posts can't be stickied.
@@ -439,7 +444,7 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
     //
     // https://github.com/WordPress/WordPress/blob/master/wp-includes/class-wp-xmlrpc-server.php
     //
-    BOOL shouldIncludeStickyField = ![post.status isEqualToString:PostStatusPrivate] && post.password == nil;
+    BOOL shouldIncludeStickyField = ![post.status isEqualToString:RemotePost.statusPrivate] && post.password == nil;
 
     if (post.isStickyPost != nil && shouldIncludeStickyField) {
         postParams[@"sticky"] = post.isStickyPost.boolValue ? @"true" : @"false";

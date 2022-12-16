@@ -132,6 +132,11 @@
 		4A68E3D329406AA0004AC3DC /* RemoteMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A68E3D029406AA0004AC3DC /* RemoteMenu.swift */; };
 		4A68E3D429406AA0004AC3DC /* RemoteMenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A68E3D129406AA0004AC3DC /* RemoteMenuItem.swift */; };
 		4A68E3D529406AA0004AC3DC /* RemoteMenuLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A68E3D229406AA0004AC3DC /* RemoteMenuLocation.swift */; };
+		4A68E3E52942910B004AC3DC /* RemotePostType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A68E3E42942910B004AC3DC /* RemotePostType.swift */; };
+		4A68E3E729429392004AC3DC /* RemotePostTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A68E3E629429392004AC3DC /* RemotePostTag.swift */; };
+		4A68E3E9294296EF004AC3DC /* RemotePostCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A68E3E8294296EF004AC3DC /* RemotePostCategory.swift */; };
+		4A68E3EB294297B8004AC3DC /* RemotePost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A68E3EA294297B8004AC3DC /* RemotePost.swift */; };
+		4A68E3ED2942A196004AC3DC /* NSObject+Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A68E3EC2942A196004AC3DC /* NSObject+Debug.swift */; };
 		57BCD3D426209D9500292CB3 /* AppTransportSecuritySettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57BCD3D326209D9500292CB3 /* AppTransportSecuritySettings.swift */; };
 		730E869F21E44EFD00753E1A /* WordPressComServiceRemote+SiteVerticals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 730E869E21E44EFD00753E1A /* WordPressComServiceRemote+SiteVerticals.swift */; };
 		731BA83621DECD61000FDFCD /* SiteCreationRequestEncodingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 731BA83521DECD61000FDFCD /* SiteCreationRequestEncodingTests.swift */; };
@@ -173,10 +178,6 @@
 		740B23BA1F17EC7300067A2A /* PostServiceRemoteXMLRPC.h in Headers */ = {isa = PBXBuildFile; fileRef = 740B23B51F17EC7300067A2A /* PostServiceRemoteXMLRPC.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		740B23BB1F17EC7300067A2A /* PostServiceRemoteXMLRPC.m in Sources */ = {isa = PBXBuildFile; fileRef = 740B23B61F17EC7300067A2A /* PostServiceRemoteXMLRPC.m */; };
 		740B23BD1F17ECB500067A2A /* PostServiceRemoteOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 740B23BC1F17ECB500067A2A /* PostServiceRemoteOptions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		740B23C21F17EE8000067A2A /* RemotePostCategory.h in Headers */ = {isa = PBXBuildFile; fileRef = 740B23BE1F17EE8000067A2A /* RemotePostCategory.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		740B23C31F17EE8000067A2A /* RemotePostCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 740B23BF1F17EE8000067A2A /* RemotePostCategory.m */; };
-		740B23C41F17EE8000067A2A /* RemotePost.h in Headers */ = {isa = PBXBuildFile; fileRef = 740B23C01F17EE8000067A2A /* RemotePost.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		740B23C51F17EE8000067A2A /* RemotePost.m in Sources */ = {isa = PBXBuildFile; fileRef = 740B23C11F17EE8000067A2A /* RemotePost.m */; };
 		740B23D21F17F6BB00067A2A /* PostServiceRemoteRESTTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 740B23D01F17F6BB00067A2A /* PostServiceRemoteRESTTests.m */; };
 		740B23D31F17F6BB00067A2A /* PostServiceRemoteXMLRPCTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 740B23D11F17F6BB00067A2A /* PostServiceRemoteXMLRPCTests.swift */; };
 		740B23D61F17F7C100067A2A /* XMLRPCTestable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 740B23D51F17F7C100067A2A /* XMLRPCTestable.swift */; };
@@ -250,8 +251,6 @@
 		74B5F0DE1EF82A9600B411E7 /* BlogServiceRemoteRESTTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 74B5F0DD1EF82A9600B411E7 /* BlogServiceRemoteRESTTests.m */; };
 		74B5F0E21EF82D2100B411E7 /* SiteServiceRemoteWordPressComREST.h in Headers */ = {isa = PBXBuildFile; fileRef = 74B5F0E01EF82D2100B411E7 /* SiteServiceRemoteWordPressComREST.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		74B5F0E31EF82D2100B411E7 /* SiteServiceRemoteWordPressComREST.m in Sources */ = {isa = PBXBuildFile; fileRef = 74B5F0E11EF82D2100B411E7 /* SiteServiceRemoteWordPressComREST.m */; };
-		74B5F0E61EF8699C00B411E7 /* RemotePostType.h in Headers */ = {isa = PBXBuildFile; fileRef = 74B5F0E41EF8699C00B411E7 /* RemotePostType.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		74B5F0E71EF8699C00B411E7 /* RemotePostType.m in Sources */ = {isa = PBXBuildFile; fileRef = 74B5F0E51EF8699C00B411E7 /* RemotePostType.m */; };
 		74BA04F21F06DC0A00ED5CD8 /* CommentServiceRemote.h in Headers */ = {isa = PBXBuildFile; fileRef = 74BA04ED1F06DC0A00ED5CD8 /* CommentServiceRemote.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		74BA04F31F06DC0A00ED5CD8 /* CommentServiceRemoteREST.h in Headers */ = {isa = PBXBuildFile; fileRef = 74BA04EE1F06DC0A00ED5CD8 /* CommentServiceRemoteREST.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		74BA04F41F06DC0A00ED5CD8 /* CommentServiceRemoteREST.m in Sources */ = {isa = PBXBuildFile; fileRef = 74BA04EF1F06DC0A00ED5CD8 /* CommentServiceRemoteREST.m */; };
@@ -387,8 +386,6 @@
 		9311A6891F22625A00704AC9 /* TaxonomyServiceRemoteREST.m in Sources */ = {isa = PBXBuildFile; fileRef = 9311A6821F22625A00704AC9 /* TaxonomyServiceRemoteREST.m */; };
 		9311A68A1F22625A00704AC9 /* TaxonomyServiceRemoteXMLRPC.h in Headers */ = {isa = PBXBuildFile; fileRef = 9311A6831F22625A00704AC9 /* TaxonomyServiceRemoteXMLRPC.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9311A68B1F22625A00704AC9 /* TaxonomyServiceRemoteXMLRPC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9311A6841F22625A00704AC9 /* TaxonomyServiceRemoteXMLRPC.m */; };
-		93188D1E1F2262BF0028ED4D /* RemotePostTag.h in Headers */ = {isa = PBXBuildFile; fileRef = 93188D1C1F2262BF0028ED4D /* RemotePostTag.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		93188D1F1F2262BF0028ED4D /* RemotePostTag.m in Sources */ = {isa = PBXBuildFile; fileRef = 93188D1D1F2262BF0028ED4D /* RemotePostTag.m */; };
 		93188D221F2264E60028ED4D /* TaxonomyServiceRemoteRESTTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 93188D211F2264E60028ED4D /* TaxonomyServiceRemoteRESTTests.m */; };
 		931924241F1662FA0069CBCC /* JSONLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 931924231F1662FA0069CBCC /* JSONLoader.swift */; };
 		9368C7851EC5EF1B0092CE8E /* WordPressKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9368C77B1EC5EF1B0092CE8E /* WordPressKit.framework */; };
@@ -786,6 +783,11 @@
 		4A68E3D029406AA0004AC3DC /* RemoteMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteMenu.swift; sourceTree = "<group>"; };
 		4A68E3D129406AA0004AC3DC /* RemoteMenuItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteMenuItem.swift; sourceTree = "<group>"; };
 		4A68E3D229406AA0004AC3DC /* RemoteMenuLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteMenuLocation.swift; sourceTree = "<group>"; };
+		4A68E3E42942910B004AC3DC /* RemotePostType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemotePostType.swift; sourceTree = "<group>"; };
+		4A68E3E629429392004AC3DC /* RemotePostTag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemotePostTag.swift; sourceTree = "<group>"; };
+		4A68E3E8294296EF004AC3DC /* RemotePostCategory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemotePostCategory.swift; sourceTree = "<group>"; };
+		4A68E3EA294297B8004AC3DC /* RemotePost.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemotePost.swift; sourceTree = "<group>"; };
+		4A68E3EC2942A196004AC3DC /* NSObject+Debug.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSObject+Debug.swift"; sourceTree = "<group>"; };
 		57BCD3D326209D9500292CB3 /* AppTransportSecuritySettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTransportSecuritySettings.swift; sourceTree = "<group>"; };
 		6C2A33D76FD1052D6F30466D /* Pods-WordPressKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WordPressKit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WordPressKit/Pods-WordPressKit.debug.xcconfig"; sourceTree = "<group>"; };
 		6F2E0CC4FA01B5475A378DA2 /* Pods-WordPressKitTests.release-alpha.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WordPressKitTests.release-alpha.xcconfig"; path = "Pods/Target Support Files/Pods-WordPressKitTests/Pods-WordPressKitTests.release-alpha.xcconfig"; sourceTree = "<group>"; };
@@ -829,10 +831,6 @@
 		740B23B51F17EC7300067A2A /* PostServiceRemoteXMLRPC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostServiceRemoteXMLRPC.h; sourceTree = "<group>"; };
 		740B23B61F17EC7300067A2A /* PostServiceRemoteXMLRPC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostServiceRemoteXMLRPC.m; sourceTree = "<group>"; };
 		740B23BC1F17ECB500067A2A /* PostServiceRemoteOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostServiceRemoteOptions.h; sourceTree = "<group>"; };
-		740B23BE1F17EE8000067A2A /* RemotePostCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RemotePostCategory.h; sourceTree = "<group>"; };
-		740B23BF1F17EE8000067A2A /* RemotePostCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RemotePostCategory.m; sourceTree = "<group>"; };
-		740B23C01F17EE8000067A2A /* RemotePost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RemotePost.h; sourceTree = "<group>"; };
-		740B23C11F17EE8000067A2A /* RemotePost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RemotePost.m; sourceTree = "<group>"; };
 		740B23D01F17F6BB00067A2A /* PostServiceRemoteRESTTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostServiceRemoteRESTTests.m; sourceTree = "<group>"; };
 		740B23D11F17F6BB00067A2A /* PostServiceRemoteXMLRPCTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostServiceRemoteXMLRPCTests.swift; sourceTree = "<group>"; };
 		740B23D51F17F7C100067A2A /* XMLRPCTestable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMLRPCTestable.swift; sourceTree = "<group>"; };
@@ -905,8 +903,6 @@
 		74B5F0DD1EF82A9600B411E7 /* BlogServiceRemoteRESTTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlogServiceRemoteRESTTests.m; sourceTree = "<group>"; };
 		74B5F0E01EF82D2100B411E7 /* SiteServiceRemoteWordPressComREST.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SiteServiceRemoteWordPressComREST.h; sourceTree = "<group>"; };
 		74B5F0E11EF82D2100B411E7 /* SiteServiceRemoteWordPressComREST.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SiteServiceRemoteWordPressComREST.m; sourceTree = "<group>"; };
-		74B5F0E41EF8699C00B411E7 /* RemotePostType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RemotePostType.h; sourceTree = "<group>"; };
-		74B5F0E51EF8699C00B411E7 /* RemotePostType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RemotePostType.m; sourceTree = "<group>"; };
 		74BA04ED1F06DC0A00ED5CD8 /* CommentServiceRemote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentServiceRemote.h; sourceTree = "<group>"; };
 		74BA04EE1F06DC0A00ED5CD8 /* CommentServiceRemoteREST.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentServiceRemoteREST.h; sourceTree = "<group>"; };
 		74BA04EF1F06DC0A00ED5CD8 /* CommentServiceRemoteREST.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentServiceRemoteREST.m; sourceTree = "<group>"; };
@@ -1043,8 +1039,6 @@
 		9311A6821F22625A00704AC9 /* TaxonomyServiceRemoteREST.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaxonomyServiceRemoteREST.m; sourceTree = "<group>"; };
 		9311A6831F22625A00704AC9 /* TaxonomyServiceRemoteXMLRPC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaxonomyServiceRemoteXMLRPC.h; sourceTree = "<group>"; };
 		9311A6841F22625A00704AC9 /* TaxonomyServiceRemoteXMLRPC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaxonomyServiceRemoteXMLRPC.m; sourceTree = "<group>"; };
-		93188D1C1F2262BF0028ED4D /* RemotePostTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RemotePostTag.h; sourceTree = "<group>"; };
-		93188D1D1F2262BF0028ED4D /* RemotePostTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RemotePostTag.m; sourceTree = "<group>"; };
 		93188D211F2264E60028ED4D /* TaxonomyServiceRemoteRESTTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaxonomyServiceRemoteRESTTests.m; sourceTree = "<group>"; };
 		931924231F1662FA0069CBCC /* JSONLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONLoader.swift; sourceTree = "<group>"; };
 		9368C77B1EC5EF1B0092CE8E /* WordPressKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = WordPressKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1606,6 +1600,7 @@
 				8B2F4BEC24ABCAEF0056C08A /* Decodable+Dictionary.swift */,
 				8C5734F825681A6A005E61EE /* Enum+UnknownCaseRepresentable.swift */,
 				8B52B900257AC5A200221663 /* Date+endOfDay.swift */,
+				4A68E3EC2942A196004AC3DC /* NSObject+Debug.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -1936,14 +1931,10 @@
 				74D67F071F15BEB70010C5ED /* RemotePerson.swift */,
 				439A44D92107C93000795ED7 /* RemotePlan_ApiVersion1_3.swift */,
 				E61A51A521B172A900A5F902 /* RemoteWpcomPlan.swift */,
-				740B23C01F17EE8000067A2A /* RemotePost.h */,
-				740B23C11F17EE8000067A2A /* RemotePost.m */,
-				740B23BE1F17EE8000067A2A /* RemotePostCategory.h */,
-				740B23BF1F17EE8000067A2A /* RemotePostCategory.m */,
-				93188D1C1F2262BF0028ED4D /* RemotePostTag.h */,
-				93188D1D1F2262BF0028ED4D /* RemotePostTag.m */,
-				74B5F0E41EF8699C00B411E7 /* RemotePostType.h */,
-				74B5F0E51EF8699C00B411E7 /* RemotePostType.m */,
+				4A68E3EA294297B8004AC3DC /* RemotePost.swift */,
+				4A68E3E8294296EF004AC3DC /* RemotePostCategory.swift */,
+				4A68E3E629429392004AC3DC /* RemotePostTag.swift */,
+				4A68E3E42942910B004AC3DC /* RemotePostType.swift */,
 				93F50A401F227C9700B5BEBA /* RemoteProfile.swift */,
 				74E2294F1F1E741B0085F7F2 /* RemotePublicizeConnection.swift */,
 				74E2294D1F1E73FE0085F7F2 /* RemotePublicizeService.swift */,
@@ -2518,7 +2509,6 @@
 				93BD27691EE736A8002BB00B /* RemoteUser.h in Headers */,
 				74B5F0DC1EF829B800B411E7 /* BlogServiceRemote.h in Headers */,
 				74B5F0D71EF8299B00B411E7 /* BlogServiceRemoteREST.h in Headers */,
-				74B5F0E61EF8699C00B411E7 /* RemotePostType.h in Headers */,
 				74B5F0D91EF8299B00B411E7 /* BlogServiceRemoteXMLRPC.h in Headers */,
 				74B5F0E21EF82D2100B411E7 /* SiteServiceRemoteWordPressComREST.h in Headers */,
 				74DA56341F06EAF000FE9BF4 /* MediaServiceRemoteXMLRPC.h in Headers */,
@@ -2545,12 +2535,9 @@
 				9311A6851F22625A00704AC9 /* RemoteTaxonomyPaging.h in Headers */,
 				9311A68A1F22625A00704AC9 /* TaxonomyServiceRemoteXMLRPC.h in Headers */,
 				9311A6881F22625A00704AC9 /* TaxonomyServiceRemoteREST.h in Headers */,
-				93188D1E1F2262BF0028ED4D /* RemotePostTag.h in Headers */,
 				9311A6871F22625A00704AC9 /* TaxonomyServiceRemote.h in Headers */,
 				9309994D1F1657C600F006A1 /* ThemeServiceRemote.h in Headers */,
 				B5969E1C20A49AC4005E9DF1 /* NSString+MD5.h in Headers */,
-				740B23C41F17EE8000067A2A /* RemotePost.h in Headers */,
-				740B23C21F17EE8000067A2A /* RemotePostCategory.h in Headers */,
 				B5A4822F20AC6C1A009D95F6 /* WPKitLogging.h in Headers */,
 				9309995B1F16616A00F006A1 /* RemoteTheme.h in Headers */,
 				1A4F98672279A87D00D86E8E /* WPKit-Swift.h in Headers */,
@@ -3026,7 +3013,9 @@
 				FF807252241FB90E00809AF5 /* Authenticator.swift in Sources */,
 				464BAB0B262F6736006AEED5 /* RemoteBlockEditorSettings.swift in Sources */,
 				FEFFD99126C1347D00F34231 /* ShareAppContentServiceRemote.swift in Sources */,
+				4A68E3ED2942A196004AC3DC /* NSObject+Debug.swift in Sources */,
 				74585B8E1F0D51A100E7E667 /* DomainsServiceRemote.swift in Sources */,
+				4A68E3E9294296EF004AC3DC /* RemotePostCategory.swift in Sources */,
 				4625B965253A343900C04AAD /* RemotePageLayouts.swift in Sources */,
 				FEF7419B2808591C002C4203 /* BloggingPromptsServiceRemote.swift in Sources */,
 				7430C9A41F1927180051B8E6 /* ReaderPostServiceRemote.m in Sources */,
@@ -3047,6 +3036,7 @@
 				4625B96C253A357500C04AAD /* PageLayoutServiceRemote.swift in Sources */,
 				E6B0460925E5B4DD00DF6F4F /* RemoteInviteLink.swift in Sources */,
 				436D56332118D7AA00CEAA33 /* TransactionsServiceRemote.swift in Sources */,
+				4A68E3EB294297B8004AC3DC /* RemotePost.swift in Sources */,
 				93BD27721EE737A9002BB00B /* ServiceRemoteWordPressXMLRPC.m in Sources */,
 				C76F456825B9F30E00BFEC87 /* JetpackScanHistory.swift in Sources */,
 				E1D6B556200E46F300325669 /* WPTimeZone.swift in Sources */,
@@ -3065,6 +3055,7 @@
 				4A68E3DF29407100004AC3DC /* RemoteReaderTopic.swift in Sources */,
 				74A44DCC1F13C533006CD8F4 /* NotificationSyncServiceRemote.swift in Sources */,
 				8BB66DB02523C181000B29DA /* ReaderPostServiceRemote+V2.swift in Sources */,
+				4A68E3E52942910B004AC3DC /* RemotePostType.swift in Sources */,
 				74E229501F1E741B0085F7F2 /* RemotePublicizeConnection.swift in Sources */,
 				40E7FEB722106A8D0032834E /* StatsCommentsInsight.swift in Sources */,
 				9856BE962630B5C200C12FEB /* RemoteUser+Likes.swift in Sources */,
@@ -3147,10 +3138,7 @@
 				74D67F061F1528470010C5ED /* PeopleServiceRemote.swift in Sources */,
 				467C20692626243D00DB5A38 /* WordPressRestApi.swift in Sources */,
 				98DC787522BAEBF200267279 /* StatsAllAnnualInsight.swift in Sources */,
-				740B23C31F17EE8000067A2A /* RemotePostCategory.m in Sources */,
 				8B2F4BF124ACE3C30056C08A /* RemoteReaderInterest.swift in Sources */,
-				74B5F0E71EF8699C00B411E7 /* RemotePostType.m in Sources */,
-				93188D1F1F2262BF0028ED4D /* RemotePostTag.m in Sources */,
 				74D67F081F15BEB70010C5ED /* RemotePerson.swift in Sources */,
 				FEE4EF59272FF78C003CDA3C /* CommentServiceRemoteREST+ApiV2.swift in Sources */,
 				984E34EB22EF7209005C3F92 /* StatsFileDownloadsTimeIntervalData.swift in Sources */,
@@ -3201,7 +3189,6 @@
 				F9E56DF824EB125600916770 /* FeatureFlagRemote.swift in Sources */,
 				40247DFC2120E69600AE1C3C /* AutomatedTransferStatus.swift in Sources */,
 				730E869F21E44EFD00753E1A /* WordPressComServiceRemote+SiteVerticals.swift in Sources */,
-				740B23C51F17EE8000067A2A /* RemotePost.m in Sources */,
 				404057C5221B30400060250C /* StatsSearchTermTimeIntervalData.swift in Sources */,
 				40247DFA2120D8E100AE1C3C /* AutomatedTransferService.swift in Sources */,
 				74E2295B1F1E77290085F7F2 /* KeyringConnection.swift in Sources */,
@@ -3215,6 +3202,7 @@
 				439A44D82107C85E00795ED7 /* PlanServiceRemote_ApiVersion1_3.swift in Sources */,
 				93C674EE1EE834B700BFAF05 /* RemoteBlogSettings.swift in Sources */,
 				436D5641211B7F4400CEAA33 /* DomainContactInformation.swift in Sources */,
+				4A68E3E729429392004AC3DC /* RemotePostTag.swift in Sources */,
 				FA28A3D6259079960082C7B0 /* JetpackRestoreTypes.swift in Sources */,
 				32FC20CE255DCC6100CD0A7B /* JetpackScanThreat.swift in Sources */,
 				3F3195AD266FF94B00397EE7 /* ZendeskMetadata.swift in Sources */,
