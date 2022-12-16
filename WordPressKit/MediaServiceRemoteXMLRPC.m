@@ -1,5 +1,4 @@
 #import "MediaServiceRemoteXMLRPC.h"
-#import "RemoteMedia.h"
 #import "WPKit-Swift.h"
 
 @import WordPressShared;

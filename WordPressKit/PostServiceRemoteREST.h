@@ -1,10 +1,10 @@
 #import <Foundation/Foundation.h>
 #import <WordPressKit/PostServiceRemote.h>
 #import <WordPressKit/SiteServiceRemoteWordPressComREST.h>
-#import <WordPressKit/RemoteMedia.h>
 
 @class RemoteUser;
 @class RemoteLikeUser;
+@class RemoteMedia;
 
 @interface PostServiceRemoteREST : SiteServiceRemoteWordPressComREST <PostServiceRemote>
 
