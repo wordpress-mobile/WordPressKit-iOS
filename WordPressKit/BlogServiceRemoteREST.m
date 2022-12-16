@@ -1,7 +1,6 @@
 #import <Foundation/Foundation.h>
 #import "BlogServiceRemoteREST.h"
 #import "NSMutableDictionary+Helpers.h"
-#import "RemotePostType.h"
 #import "WPKit-Swift.h"
 @import NSObject_SafeExpectations;
 @import WordPressShared;

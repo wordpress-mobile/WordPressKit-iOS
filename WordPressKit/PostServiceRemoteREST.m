@@ -1,6 +1,4 @@
 #import "PostServiceRemoteREST.h"
-#import "RemotePost.h"
-#import "RemotePostCategory.h"
 #import "WPKit-Swift.h"
 @import WordPressShared;
 @import NSObject_SafeExpectations;

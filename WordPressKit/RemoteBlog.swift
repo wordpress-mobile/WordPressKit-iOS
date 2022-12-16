@@ -5,31 +5,31 @@ import NSObject_SafeExpectations
 @objcMembers public class RemoteBlog: NSObject {
 
     /// The ID of the Blog entity.
-    public var blogID: NSNumber?
+    public var blogID: NSNumber!
 
     /// The organization ID of the Blog entity.
-    public var organizationID: NSNumber?
+    public var organizationID: NSNumber!
 
     /// Represents the Blog Name.
-    public var name: String?
+    public var name: String!
 
     /// Description of the WordPress Blog.
-    public var tagline: String?
+    public var tagline: String!
 
     /// Represents the Blog Name.
-    public var url: String?
+    public var url: String!
 
     /// Maps to the XMLRPC endpoint.
-    public var xmlrpc: String?
+    public var xmlrpc: String!
 
     /// Site Icon's URL.
-    public var icon: String?
+    public var icon: String!
 
     /// Product ID of the site's current plan, if it has one.
-    public var planID: NSNumber?
+    public var planID: NSNumber!
 
     /// Product name of the site's current plan, if it has one.
-    public var planTitle: String?
+    public var planTitle: String!
 
     /// Indicates whether the current's blog plan is paid, or not.
     public var hasPaidPlan: Bool = false
@@ -44,16 +44,16 @@ import NSObject_SafeExpectations
     public var visible: Bool = false
 
     /// Blog's options preferences.
-    public var options: NSDictionary?
+    public var options: NSDictionary!
 
     /// Blog's capabilities: Indicate which actions are allowed / not allowed, for the current user.
-    public var capabilities: NSDictionary?
+    public var capabilities: NSDictionary!
 
     /// Blog's total disk quota space.
-    public var quotaSpaceAllowed: NSNumber?
+    public var quotaSpaceAllowed: NSNumber!
 
     /// Blog's total disk quota space used.
-    public var quotaSpaceUsed: NSNumber?
+    public var quotaSpaceUsed: NSNumber!
 
     /// Parses details from a JSON dictionary, as returned by the WordPress.com REST API.
     public init(JSONDictionary json: NSDictionary) {
