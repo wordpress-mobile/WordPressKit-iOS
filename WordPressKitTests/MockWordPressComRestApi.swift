@@ -19,13 +19,13 @@ class MockWordPressComRestApi: WordPressComRestApi {
         return Progress()
     }
 
-    override func GETData(_ URLString: String, parameters: [String : AnyObject]?, completion: @escaping (Result<(Data, HTTPURLResponse?), Error>) -> Void) {
+    override func GETData(_ URLString: String, parameters: [String: AnyObject]?, completion: @escaping (Result<(Data, HTTPURLResponse?), Error>) -> Void) {
         getMethodCalled = true
         URLStringPassedIn = URLString
         parametersPassedIn = parameters as AnyObject?
     }
 
-    override func POST(_ URLString: String, parameters: [String : AnyObject]?, completion: @escaping (Result<(Data, HTTPURLResponse?), Error>) -> Void) {
+    override func POST(_ URLString: String, parameters: [String: AnyObject]?, completion: @escaping (Result<(Data, HTTPURLResponse?), Error>) -> Void) {
         postMethodCalled = true
         URLStringPassedIn = URLString
         parametersPassedIn = parameters as AnyObject?
