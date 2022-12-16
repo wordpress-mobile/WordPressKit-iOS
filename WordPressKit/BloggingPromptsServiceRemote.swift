@@ -43,11 +43,10 @@ open class BloggingPromptsServiceRemote: ServiceRemoteWordPressComREST {
             return params
         }()
 
-        wordPressComRestApi.GET(path, parameters: requestParameter as [String: AnyObject]) { result, _ in
+        wordPressComRestApi.GETData(path, parameters: requestParameter as [String: AnyObject]) { result in
             switch result {
-            case .success(let responseObject):
+            case .success((let data, _)):
                 do {
-                    let data = try JSONSerialization.data(withJSONObject: responseObject, options: [])
                     let decoder = JSONDecoder.apiDecoder
                     // our API decoder assumes that we're converting from snake case.
                     // revert it to default so the CodingKeys match the actual response keys.

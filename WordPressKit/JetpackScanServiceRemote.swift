@@ -35,20 +35,15 @@ public class JetpackScanServiceRemote: ServiceRemoteWordPressComREST {
     public func getScanForSite(_ siteID: Int, success: @escaping(JetpackScan) -> Void, failure: @escaping(Error) -> Void) {
         let path = self.scanPath(for: siteID)
 
-        wordPressComRestApi.GET(path, parameters: nil, success: { (response, _) in
-            do {
-                let decoder = JSONDecoder.apiDecoder
-                let data = try JSONSerialization.data(withJSONObject: response, options: [])
-                let envelope = try decoder.decode(JetpackScan.self, from: data)
-
-                success(envelope)
-            } catch {
-                failure(error)
-            }
-
-        }, failure: { (error, _) in
-            failure(error)
-        })
+        wordPressComRestApi.GETData(path, parameters: nil) { result in
+            result
+                .flatMap { data, _ in
+                    Result {
+                        try JSONDecoder.apiDecoder.decode(JetpackScan.self, from: data)
+                    }
+                }
+                .invoke(success, or: failure)
+        }
     }
 
     // MARK: - Threats
@@ -67,19 +62,19 @@ public class JetpackScanServiceRemote: ServiceRemoteWordPressComREST {
         let path = self.path(forEndpoint: "sites/\(siteID)/alerts/fix", withVersion: ._2_0)
         let parameters = ["threat_ids": threats.map { $0.id as AnyObject }] as [String: AnyObject]
 
-        wordPressComRestApi.POST(path, parameters: parameters, success: { (response, _) in
-            do {
-                let decoder = JSONDecoder.apiDecoder
-                let data = try JSONSerialization.data(withJSONObject: response, options: [])
-                let envelope = try decoder.decode(JetpackThreatFixResponse.self, from: data)
-
-                success(envelope)
-            } catch {
+        wordPressComRestApi.POST(path, parameters: parameters) { result in
+            let transformed = result.flatMap { data, _ in
+                Result {
+                    try JSONDecoder.apiDecoder.decode(JetpackThreatFixResponse.self, from: data)
+                }
+            }
+            switch transformed {
+            case let .success(response):
+                success(response)
+            case let .failure(error):
                 failure(error)
             }
-        }, failure: { (error, _) in
-            failure(error)
-        })
+        }
     }
 
     /// Begins the fix process for a single threat
@@ -113,38 +108,30 @@ public class JetpackScanServiceRemote: ServiceRemoteWordPressComREST {
         let path = self.path(forEndpoint: "sites/\(siteID)/alerts/fix", withVersion: ._2_0)
         let parameters = ["threat_ids": threats.map { $0.id as AnyObject }] as [String: AnyObject]
 
-        wordPressComRestApi.GET(path, parameters: parameters, success: { (response, _) in
-            do {
-                let decoder = JSONDecoder.apiDecoder
-                let data = try JSONSerialization.data(withJSONObject: response, options: [])
-                let envelope = try decoder.decode(JetpackThreatFixResponse.self, from: data)
-
-                success(envelope)
-            } catch {
-                failure(error)
-            }
-        }, failure: { (error, _) in
-            failure(error)
-        })
+        wordPressComRestApi.GETData(path, parameters: parameters) { result in
+            result
+                .flatMap { data, _ in
+                    Result {
+                        try JSONDecoder.apiDecoder.decode(JetpackThreatFixResponse.self, from: data)
+                    }
+                }
+                .invoke(success, or: failure)
+        }
     }
 
     // MARK: - History
     public func getHistoryForSite(_ siteID: Int, success: @escaping(JetpackScanHistory) -> Void, failure: @escaping(Error) -> Void) {
         let path = scanPath(for: siteID, with: "history")
 
-        wordPressComRestApi.GET(path, parameters: nil, success: { (response, _) in
-            do {
-                let decoder = JSONDecoder.apiDecoder
-                let data = try JSONSerialization.data(withJSONObject: response, options: [])
-                let envelope = try decoder.decode(JetpackScanHistory.self, from: data)
-
-                success(envelope)
-            } catch {
-                failure(error)
-            }
-        }, failure: { (error, _) in
-            failure(error)
-        })
+        wordPressComRestApi.GETData(path, parameters: nil) { result in
+            result
+                .flatMap { data, _ in
+                    Result {
+                        try JSONDecoder.apiDecoder.decode(JetpackScanHistory.self, from: data)
+                    }
+                }
+                .invoke(success, or: failure)
+        }
     }
 
     // MARK: - Private

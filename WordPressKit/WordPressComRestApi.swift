@@ -271,6 +271,22 @@ open class WordPressComRestApi: NSObject {
                     completion: completion)
     }
 
+
+    /**
+     Executes a POST request to the specified endpoint defined on URLString
+
+     - parameter URLString:  the url string to be added to the baseURL
+     - parameter parameters: the parameters to be encoded on the request
+     - returns completion: callback to receive the response
+     */
+    open func POST(
+        _ URLString: String,
+        parameters: [String: AnyObject]?,
+        completion: @escaping (Swift.Result<(Data, HTTPURLResponse?), Error>) -> Void
+    ) {
+        dataRequest(method: .post, urlString: URLString, parameters: parameters, encoding: JSONEncoding.default, completion: completion)
+    }
+
     /**
      Executes a POST request to the specified endpoint defined on URLString
 

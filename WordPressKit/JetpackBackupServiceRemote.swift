@@ -29,18 +29,15 @@ open class JetpackBackupServiceRemote: ServiceRemoteWordPressComREST {
             parameters["types"] = types.toDictionary() as AnyObject
         }
 
-        wordPressComRestApi.POST(path, parameters: parameters, success: { response, _ in
-            do {
-                let decoder = JSONDecoder.apiDecoder
-                let data = try JSONSerialization.data(withJSONObject: response, options: [])
-                let envelope = try decoder.decode(JetpackBackup.self, from: data)
-                success(envelope)
-            } catch {
-                failure(error)
-            }
-        }, failure: { error, _ in
-            failure(error)
-        })
+        wordPressComRestApi.POST(path, parameters: parameters) { result in
+            result
+                .flatMap { data, _ in
+                    Result {
+                        try JSONDecoder.apiDecoder.decode(JetpackBackup.self, from: data)
+                    }
+                }
+                .invoke(success, or: failure)
+        }
     }
 
     /// Get the backup download status for a site and downloadID.
@@ -109,18 +106,15 @@ open class JetpackBackupServiceRemote: ServiceRemoteWordPressComREST {
             path = backupPath(for: siteID)
         }
 
-        wordPressComRestApi.GET(path, parameters: nil, success: { response, _ in
-            do {
-                let decoder = JSONDecoder.apiDecoder
-                let data = try JSONSerialization.data(withJSONObject: response, options: [])
-                let envelope = try decoder.decode(T.self, from: data)
-                success(envelope)
-            } catch {
-                failure(error)
-            }
-        }, failure: { error, _ in
-            failure(error)
-        })
+        wordPressComRestApi.GETData(path, parameters: nil) { result in
+            result
+                .flatMap { data, _ in
+                    Result {
+                        try JSONDecoder.apiDecoder.decode(T.self, from: data)
+                    }
+                }
+                .invoke(success, or: failure)
+        }
     }
 
     private func backupPath(for siteID: Int, with path: String? = nil) -> String {
