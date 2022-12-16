@@ -1,6 +1,6 @@
 #import <Foundation/Foundation.h>
-#import <WordPressKit/RemoteComment.h>
 
+@class RemoteComment;
 
 // Used to determine which 'status' parameter to use when fetching Comments.
 typedef enum {

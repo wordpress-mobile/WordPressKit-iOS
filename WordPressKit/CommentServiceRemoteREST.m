@@ -1,7 +1,5 @@
 #import "CommentServiceRemoteREST.h"
 #import "WPKit-Swift.h"
-#import "RemoteComment.h"
-#import "RemoteUser.h"
 
 @import NSObject_SafeExpectations;
 @import WordPressShared;

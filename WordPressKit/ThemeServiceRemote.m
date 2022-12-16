@@ -1,6 +1,4 @@
 #import "ThemeServiceRemote.h"
-
-#import "RemoteTheme.h"
 #import "WPKit-Swift.h"
 @import NSObject_SafeExpectations;
 
