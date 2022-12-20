@@ -19,11 +19,11 @@ import ObjectiveC
     public var authorEmail: String?
     public var authorURL: String?
     public var authorID: NSNumber?
-    public var date: NSDate?
-    public var dateModified: NSDate?
+    public var date: Date?
+    public var dateModified: Date?
     public var title: String?
-    public var URL: NSURL?
-    public var shortURL: NSURL?
+    public var URL: URL?
+    public var shortURL: URL?
     public var content: String?
     public var excerpt: String?
     public var slug: String?
@@ -46,9 +46,9 @@ import ObjectiveC
     public var commentCount: NSNumber?
     public var likeCount: NSNumber?
 
-    public var categories: NSArray?
-    public var revisions: NSArray?
-    public var tags: NSArray?
+    public var categories: [RemotePostCategory]?
+    public var revisions: [NSNumber]?
+    public var tags: [String]?
     public var pathForDisplayImage: String?
     public var isStickyPost: NSNumber?
     public var isFeaturedImageChanged: Bool = false

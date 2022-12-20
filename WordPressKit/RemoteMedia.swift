@@ -20,7 +20,7 @@ import Foundation
     public var height: NSNumber?
     public var width: NSNumber?
     public var shortcode: String?
-    public var exif: NSDictionary?
+    public var exif: [String: Any]?
     public var videopressGUID: String?
     public var length: NSNumber?
     public var remoteThumbnailURL: String?
