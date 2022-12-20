@@ -26,5 +26,5 @@ class RemotePostTests: RemoteTestCase, RESTTestable {
         }
         wait(for: [apiResponseRecived], timeout: 1)
     }
-    
+
 }
