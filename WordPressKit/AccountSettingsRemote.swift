@@ -157,8 +157,7 @@ public class AccountSettingsRemote: ServiceRemoteWordPressComREST {
     }
 
     private func settingsFromResponse(_ responseObject: AnyObject) throws -> AccountSettings {
-        guard let
-            response = responseObject as? [String: AnyObject],
+        guard let response = responseObject as? [String: AnyObject],
             let firstName = response["first_name"] as? String,
             let lastName = response["last_name"] as? String,
             let displayName = response["display_name"] as? String,
@@ -172,10 +171,12 @@ public class AccountSettingsRemote: ServiceRemoteWordPressComREST {
             let webAddress = response["user_URL"] as? String,
             let language = response["language"] as? String,
             let tracksOptOut = response["tracks_opt_out"] as? Bool,
-            let blockEmailNotifications = response["subscription_delivery_email_blocked"] as? Bool else {
-                WPKitLogError("Error decoding me/settings response: \(responseObject)")
-                throw ResponseError.decodingFailure
-            }
+            let blockEmailNotifications = response["subscription_delivery_email_blocked"] as? Bool
+        else {
+            WPKitLogError("Error decoding me/settings response: \(responseObject)")
+            throw ResponseError.decodingFailure
+        }
+        let twoStepEnabled = response["two_step_enabled"] as? Bool ?? false
 
         let aboutMeText = aboutMe.decodingXMLCharacters()
 
@@ -192,7 +193,8 @@ public class AccountSettingsRemote: ServiceRemoteWordPressComREST {
                                webAddress: webAddress,
                                language: language,
                                tracksOptOut: tracksOptOut,
-                               blockEmailNotifications: blockEmailNotifications)
+                               blockEmailNotifications: blockEmailNotifications,
+                               twoStepEnabled: twoStepEnabled)
     }
 
     private func fieldNameForChange(_ change: AccountSettingsChange) -> String {
