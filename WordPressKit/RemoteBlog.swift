@@ -47,7 +47,7 @@ import NSObject_SafeExpectations
     public var options: NSDictionary!
 
     /// Blog's capabilities: Indicate which actions are allowed / not allowed, for the current user.
-    public var capabilities: NSDictionary!
+    public var capabilities: [String: Bool]!
 
     /// Blog's total disk quota space.
     public var quotaSpaceAllowed: NSNumber!
@@ -56,7 +56,8 @@ import NSObject_SafeExpectations
     public var quotaSpaceUsed: NSNumber!
 
     /// Parses details from a JSON dictionary, as returned by the WordPress.com REST API.
-    public init(JSONDictionary json: NSDictionary) {
+    @objc(initWithJSONDictionary:)
+    public init(jsonDictionary json: NSDictionary) {
         self.blogID = json.number(forKey: "ID")
         self.organizationID = json.number(forKey: "organization_id")
         self.name = json.string(forKey: "name")
@@ -65,7 +66,7 @@ import NSObject_SafeExpectations
         self.xmlrpc = json.string(forKeyPath: "meta.links.xmlrpc")
         self.jetpack = json.number(forKey: "jetpack")?.boolValue ?? false
         self.icon = json.string(forKeyPath: "icon.img")
-        self.capabilities = json.object(forKey: "capabilities") as? NSDictionary
+        self.capabilities = json.object(forKey: "capabilities") as? [String: Bool]
         self.isAdmin = json.number(forKeyPath: "capabilities.manage_options")?.boolValue ?? false
         self.visible = json.number(forKey: "visible")?.boolValue ?? false
         self.options = RemoteBlogOptionsHelper.mapOptions(fromResponse: json)
