@@ -6,6 +6,7 @@ class RemotePostTests: RemoteTestCase, RESTTestable {
     private var remote: PostServiceRemoteREST!
 
     override func setUp() {
+        super.setUp()
         remote = PostServiceRemoteREST(wordPressComRestApi: getRestApi(), siteID: 123)
     }
 
