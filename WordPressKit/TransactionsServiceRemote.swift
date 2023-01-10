@@ -16,24 +16,15 @@ import WordPressShared
         let endPoint = "me/transactions/supported-countries/"
         let servicePath = path(forEndpoint: endPoint, withVersion: ._1_1)
 
-        wordPressComRestApi.GET(servicePath,
-                                parameters: nil,
-                                success: {
-                                    response, _ in
-                                    do {
-                                        guard let json = response as? [AnyObject] else {
-                                            throw ResponseError.decodingFailure
-                                        }
-                                        let data = try JSONSerialization.data(withJSONObject: json, options: .prettyPrinted)
-                                        let decodedResult = try JSONDecoder.apiDecoder.decode([WPCountry].self, from: data)
-                                        success(decodedResult)
-                                    } catch {
-                                        WPKitLogError("Error parsing Supported Countries (\(error)): \(response)")
-                                        failure(error)
-                                    }
-        }, failure: { error, _ in
-            failure(error)
-        })
+        wordPressComRestApi.GETData(servicePath, parameters: nil) { result in
+            result
+                .flatMap { data, _ in
+                    Result {
+                        try JSONDecoder.apiDecoder.decode([WPCountry].self, from: data)
+                    }
+                }
+                .invoke(success, or: failure)
+        }
     }
 
     /// Creates a shopping cart for a domain purchase
