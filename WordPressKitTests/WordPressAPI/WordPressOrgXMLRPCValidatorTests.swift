@@ -39,7 +39,12 @@ final class WordPressOrgXMLRPCValidatorTests: XCTestCase {
         wait(for: [expectation], timeout: 2.0)
 
         // Then
-        XCTAssertEqual(schemes, Set(arrayLiteral: "https"))
+        if #available(iOS 16.0, *) {
+            // 'NSAllowsArbitraryLoads' is true on iOS 16.
+            XCTAssertEqual(schemes, ["https", "http"])
+        } else {
+            XCTAssertEqual(schemes, ["https"])
+        }
     }
 
     func testItWillGuessXMLRPCOnBothHTTPAndHTTPSIfUnsecuredConnectionsAreAllowed() {
