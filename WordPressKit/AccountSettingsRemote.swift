@@ -171,12 +171,12 @@ public class AccountSettingsRemote: ServiceRemoteWordPressComREST {
             let webAddress = response["user_URL"] as? String,
             let language = response["language"] as? String,
             let tracksOptOut = response["tracks_opt_out"] as? Bool,
-            let blockEmailNotifications = response["subscription_delivery_email_blocked"] as? Bool
+            let blockEmailNotifications = response["subscription_delivery_email_blocked"] as? Bool,
+            let twoStepEnabled = response["two_step_enabled"] as? Bool
         else {
             WPKitLogError("Error decoding me/settings response: \(responseObject)")
             throw ResponseError.decodingFailure
         }
-        let twoStepEnabled = response["two_step_enabled"] as? Bool ?? false
 
         let aboutMeText = aboutMe.decodingXMLCharacters()
 
