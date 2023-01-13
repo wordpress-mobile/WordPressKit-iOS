@@ -35,6 +35,7 @@ _None._
 ### Breaking Changes
 
 - Re-implement a few reader model types in Swift. [#556, #557, #558]
+- Implicityly Unwrapped Optionals in some model types are removed. [#569]
 
 ### New Features
 
