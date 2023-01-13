@@ -27,23 +27,23 @@ private let DeliveryMethodEmailKey = "email"
 private let DeliveryMethodNotificationKey = "notification"
 
 @objcMembers public class RemoteReaderSiteInfo: NSObject {
-    public var feedID: NSNumber!
-    public var feedURL: String!
+    public var feedID: NSNumber?
+    public var feedURL: String?
     public var isFollowing: Bool = false
     public var isJetpack: Bool = false
     public var isPrivate: Bool = false
     public var isVisible: Bool = false
-    public var organizationID: NSNumber!
-    public var postCount: NSNumber!
-    public var siteBlavatar: String!
-    public var siteDescription: String!
-    public var siteID: NSNumber!
-    public var siteName: String!
-    public var siteURL: String!
-    public var subscriberCount: NSNumber!
-    public var unseenCount: NSNumber!
-    public var postsEndpoint: String!
-    public var endpointPath: String!
+    public var organizationID: NSNumber?
+    public var postCount: NSNumber?
+    public var siteBlavatar: String?
+    public var siteDescription: String?
+    public var siteID: NSNumber?
+    public var siteName: String?
+    public var siteURL: String?
+    public var subscriberCount: NSNumber?
+    public var unseenCount: NSNumber?
+    public var postsEndpoint: String?
+    public var endpointPath: String?
 
     public var postSubscription: RemoteReaderSiteInfoSubscriptionPost?
     public var emailSubscription: RemoteReaderSiteInfoSubscriptionEmail?
