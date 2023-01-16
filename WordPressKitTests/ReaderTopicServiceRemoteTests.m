@@ -3,10 +3,6 @@
 #import "ReaderTopicServiceRemote.h"
 #import "WPKit-Swift.h"
 
-@interface ReaderTopicServiceRemote()
-- (RemoteReaderTopic *)normalizeTopicDictionary:(NSDictionary *)topicDict subscribed:(BOOL)subscribed recommended:(BOOL)recommended;
-@end
-
 @interface ReaderTopicServiceRemoteTests : XCTestCase
 @end
 
@@ -56,19 +52,19 @@
     ReaderTopicServiceRemote *remoteService = nil;
     XCTAssertNoThrow(remoteService = [self service]);
 
-    RemoteReaderTopic *remoteTopic = [remoteService normalizeTopicDictionary:topicDictionaryWithID subscribed:YES recommended:YES];
+    RemoteReaderTopic *remoteTopic = [[RemoteReaderTopic alloc] initWithDictionary:topicDictionaryWithID subscribed:YES recommended:YES];
     XCTAssertTrue(remoteTopic.isRecommended, @"Remote topic should be recommended but wasn't.");
     XCTAssertTrue(remoteTopic.isSubscribed, @"Remote topic should be subscribed but wasn't.");
     XCTAssertTrue([remoteTopic.path isEqualToString:topicDictionaryWithID[@"URL"]], @"Remote topic path did not match.");
     XCTAssertEqual(remoteTopic.title, topicDictionaryWithID[@"display_name"], @"Remote topic should prefer display_name over title.");
     XCTAssertEqual([remoteTopic.topicID integerValue], [topicDictionaryWithID[@"ID"] integerValue], @"Remote topic ID did not match.");
 
-    remoteTopic = [remoteService normalizeTopicDictionary:topicDictionaryWithoutID subscribed:NO recommended:NO];
+    remoteTopic = [[RemoteReaderTopic alloc] initWithDictionary:topicDictionaryWithoutID subscribed:NO recommended:NO];
     XCTAssertFalse(remoteTopic.isRecommended, @"Remote topic should not be recommended but was.");
     XCTAssertFalse(remoteTopic.isSubscribed, @"Remote topic should not be subscribed but was.");
     XCTAssertTrue([remoteTopic.path isEqualToString:topicDictionaryWithID[@"URL"]], @"Remote topic path did not match.");
     XCTAssertEqual(remoteTopic.title, topicDictionaryWithID[@"title"], @"Remote topic title did not match.");
-    XCTAssertEqual(remoteTopic.topicID, @0, @"Remote topic ID was not 0.");
+    XCTAssertEqual(remoteTopic.topicID.intValue, 0, @"Remote topic ID was not 0.");
 }
 
 @end

@@ -8,15 +8,7 @@ static NSString * const TopicMenuSectionSubscribedKey = @"subscribed";
 static NSString * const TopicMenuSectionRecommendedKey = @"recommended";
 static NSString * const TopicRemovedTagKey = @"removed_tag";
 static NSString * const TopicAddedTagKey = @"added_tag";
-static NSString * const TopicDictionaryIDKey = @"ID";
-static NSString * const TopicDictionaryOrganizationIDKey = @"organization_id";
-static NSString * const TopicDictionaryOwnerKey = @"owner";
-static NSString * const TopicDictionarySlugKey = @"slug";
 static NSString * const TopicDictionaryTagKey = @"tag";
-static NSString * const TopicDictionaryTitleKey = @"title";
-static NSString * const TopicDictionaryTypeKey = @"type";
-static NSString * const TopicDictionaryDisplayNameKey = @"display_name";
-static NSString * const TopicDictionaryURLKey = @"URL";
 static NSString * const TopicNotFoundMarker = @"-notfound-";
 
 @implementation ReaderTopicServiceRemote
@@ -303,39 +295,8 @@ static NSString * const TopicNotFoundMarker = @"-notfound-";
 
 - (RemoteReaderTopic *)normalizeMenuTopicDictionary:(NSDictionary *)topicDict subscribed:(BOOL)subscribed recommended:(BOOL)recommended
 {
-    RemoteReaderTopic *topic = [self normalizeTopicDictionary:topicDict subscribed:subscribed recommended:recommended];
+    RemoteReaderTopic *topic = [[RemoteReaderTopic alloc] initWithDictionary:topicDict subscribed:subscribed recommended:recommended];
     topic.isMenuItem = YES;
-    return topic;
-}
-
-/**
- Normalizes the supplied topics dictionary, ensuring expected keys are always present.
-
- @param topicDict The topic `NSDictionary` to normalize.
- @param subscribed Whether the current account subscribes to the topic.
- @param recommended Whether the topic is recommended.
- @return A RemoteReaderTopic instance.
- */
-- (RemoteReaderTopic *)normalizeTopicDictionary:(NSDictionary *)topicDict
-                                     subscribed:(BOOL)subscribed
-                                    recommended:(BOOL)recommended
-{
-    NSNumber *topicID = [topicDict numberForKey:TopicDictionaryIDKey];
-    if (topicID == nil) {
-        topicID = @0;
-    }
-
-    RemoteReaderTopic *topic = [[RemoteReaderTopic alloc] init];
-    topic.topicID = topicID;
-    topic.isSubscribed = subscribed;
-    topic.isRecommended = recommended;
-    topic.owner = [topicDict stringForKey:TopicDictionaryOwnerKey];
-    topic.path = [[topicDict stringForKey:TopicDictionaryURLKey] lowercaseString];
-    topic.slug = [topicDict stringForKey:TopicDictionarySlugKey];
-    topic.title = [topicDict stringForKey:TopicDictionaryDisplayNameKey] ?: [topicDict stringForKey:TopicDictionaryTitleKey];
-    topic.type = [topicDict stringForKey:TopicDictionaryTypeKey];
-    topic.organizationID = [topicDict numberForKeyPath:TopicDictionaryOrganizationIDKey] ?: @0;
-
     return topic;
 }
 
