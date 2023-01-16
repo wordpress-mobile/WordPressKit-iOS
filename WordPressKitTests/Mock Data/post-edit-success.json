@@ -1,0 +1,161 @@
+{
+  "ID": 9,
+  "site_ID": 123,
+  "author": {
+    "ID": 455,
+    "login": "author",
+    "email": "author@email.com",
+    "name": "author",
+    "first_name": "",
+    "last_name": "",
+    "nice_name": "author",
+    "URL": "http:\/\/wordpresskittest.wordpress.com",
+    "avatar_URL": "https:\/\/0.gravatar.com\/avatar\/1?s=96&d=identicon&r=G",
+    "profile_URL": "https:\/\/en.gravatar.com\/author",
+    "site_ID": 123
+  },
+  "date": "2022-12-11T21:37:26+13:00",
+  "modified": "2022-12-20T12:00:42+13:00",
+  "title": "Draft",
+  "URL": "https:\/\/wordpresskittest.wordpress.com\/2022\/12\/11\/draft\/",
+  "short_URL": "https:\/\/wp.me\/123-draft",
+  "content": "Edited",
+  "excerpt": "",
+  "slug": "draft",
+  "guid": "https:\/\/wordpresskittest.wordpress.com\/?p=9",
+  "status": "publish",
+  "sticky": false,
+  "password": "",
+  "parent": false,
+  "type": "post",
+  "discussion": {
+    "comments_open": true,
+    "comment_status": "open",
+    "pings_open": true,
+    "ping_status": "open",
+    "comment_count": 4
+  },
+  "likes_enabled": true,
+  "sharing_enabled": true,
+  "like_count": 0,
+  "i_like": false,
+  "is_reblogged": false,
+  "is_following": true,
+  "global_ID": "61971ad",
+  "featured_image": "",
+  "post_thumbnail": null,
+  "format": "standard",
+  "geo": false,
+  "menu_order": 0,
+  "page_template": "",
+  "publicize_URLs": [],
+  "terms": {
+    "category": {
+      "Uncategorized": {
+        "ID": 1,
+        "name": "Uncategorized",
+        "slug": "uncategorized",
+        "description": "",
+        "post_count": 1,
+        "parent": 0,
+        "meta": {
+          "links": {
+            "self": "https:\/\/public-api.wordpress.com\/rest\/v1.1\/sites\/123\/categories\/slug:uncategorized",
+            "help": "https:\/\/public-api.wordpress.com\/rest\/v1.2\/sites\/123\/categories\/slug:uncategorized\/help",
+            "site": "https:\/\/public-api.wordpress.com\/rest\/v1.2\/sites\/123"
+          }
+        }
+      }
+    },
+    "post_tag": {
+      "random-tag": {
+        "ID": 67890,
+        "name": "random-tag",
+        "slug": "random-tag",
+        "description": "",
+        "post_count": 1,
+        "meta": {
+          "links": {
+            "self": "https:\/\/public-api.wordpress.com\/rest\/v1.1\/sites\/123\/tags\/slug:random-tag",
+            "help": "https:\/\/public-api.wordpress.com\/rest\/v1.2\/sites\/123\/tags\/slug:random-tag\/help",
+            "site": "https:\/\/public-api.wordpress.com\/rest\/v1.2\/sites\/123"
+          }
+        }
+      }
+    },
+    "post_format": {},
+    "mentions": {}
+  },
+  "tags": {
+    "random-tag": {
+      "ID": 67890,
+      "name": "random-tag",
+      "slug": "random-tag",
+      "description": "",
+      "post_count": 1,
+      "meta": {
+        "links": {
+          "self": "https:\/\/public-api.wordpress.com\/rest\/v1.1\/sites\/123\/tags\/slug:random-tag",
+          "help": "https:\/\/public-api.wordpress.com\/rest\/v1.2\/sites\/123\/tags\/slug:random-tag\/help",
+          "site": "https:\/\/public-api.wordpress.com\/rest\/v1.2\/sites\/123"
+        }
+      }
+    }
+  },
+  "categories": {
+    "Uncategorized": {
+      "ID": 1,
+      "name": "Uncategorized",
+      "slug": "uncategorized",
+      "description": "",
+      "post_count": 1,
+      "parent": 0,
+      "meta": {
+        "links": {
+          "self": "https:\/\/public-api.wordpress.com\/rest\/v1.1\/sites\/123\/categories\/slug:uncategorized",
+          "help": "https:\/\/public-api.wordpress.com\/rest\/v1.2\/sites\/123\/categories\/slug:uncategorized\/help",
+          "site": "https:\/\/public-api.wordpress.com\/rest\/v1.2\/sites\/123"
+        }
+      }
+    }
+  },
+  "attachments": {},
+  "attachment_count": 0,
+  "metadata": [
+    {
+      "id": "120",
+      "key": "jabber_published",
+      "value": "48"
+    },
+    {
+      "id": "129",
+      "key": "timeline_notification",
+      "value": "52"
+    },
+    {
+      "id": "131",
+      "key": "wordads_ufa",
+      "value": "s:wpcom-ufa-v3-beta:11"
+    }
+  ],
+  "meta": {
+    "links": {
+      "self": "https:\/\/public-api.wordpress.com\/rest\/v1.1\/sites\/123\/posts\/9",
+      "help": "https:\/\/public-api.wordpress.com\/rest\/v1.2\/sites\/123\/posts\/9\/help",
+      "site": "https:\/\/public-api.wordpress.com\/rest\/v1.2\/sites\/123",
+      "replies": "https:\/\/public-api.wordpress.com\/rest\/v1.1\/sites\/123\/posts\/9\/replies\/",
+      "likes": "https:\/\/public-api.wordpress.com\/rest\/v1.2\/sites\/123\/posts\/9\/likes\/"
+    }
+  },
+  "capabilities": {
+    "publish_post": true,
+    "delete_post": true,
+    "edit_post": true
+  },
+  "revisions": [
+    61,
+    60,
+    57
+  ],
+  "other_URLs": {}
+}
