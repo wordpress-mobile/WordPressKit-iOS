@@ -19,7 +19,7 @@ PODS:
     - OHHTTPStubs/Default
   - UIDeviceIdentifier (2.2.0)
   - WordPressShared (2.0.0-beta.2)
-  - wpxmlrpc (0.9.0)
+  - wpxmlrpc (0.10.0)
 
 DEPENDENCIES:
   - Alamofire (~> 4.8.0)
@@ -29,7 +29,7 @@ DEPENDENCIES:
   - OHHTTPStubs/Swift (~> 9.0)
   - UIDeviceIdentifier (~> 2.0)
   - WordPressShared (~> 2.0.0-beta.2)
-  - wpxmlrpc (~> 0.9.0)
+  - wpxmlrpc (~> 0.10.0)
 
 SPEC REPOS:
   trunk:
@@ -48,8 +48,8 @@ SPEC CHECKSUMS:
   OHHTTPStubs: 90eac6d8f2c18317baeca36698523dc67c513831
   UIDeviceIdentifier: f33af270ba9045ea18b31d9aab88e42a0082ea67
   WordPressShared: 04403b43f821c4ed2b84a2112ef9f64f1e7cdceb
-  wpxmlrpc: bf55a43a7e710bd2a4fb8c02dfe83b1246f14f13
+  wpxmlrpc: 68db063041e85d186db21f674adf08d9c70627fd
 
-PODFILE CHECKSUM: 1ef97fe2f82b603af51c77b68405a14d8e07063f
+PODFILE CHECKSUM: 5e4ba02626e43d8ae1cdc02077e9086e8861cd77
 
 COCOAPODS: 1.11.3

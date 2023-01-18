@@ -24,7 +24,7 @@ Pod::Spec.new do |s|
 
   s.dependency 'Alamofire', '~> 4.8.0'
   s.dependency 'NSObject-SafeExpectations', '~> 0.0.4'
-  s.dependency 'wpxmlrpc', '~> 0.9'
+  s.dependency 'wpxmlrpc', '~> 0.10'
   s.dependency 'UIDeviceIdentifier', '~> 2.0'
 
   # Use a loose restriction that allows both production and beta versions, up to the next major version.
