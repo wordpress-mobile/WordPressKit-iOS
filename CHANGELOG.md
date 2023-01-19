@@ -39,7 +39,7 @@ _None._
 
 ### New Features
 
-_None._
+- Add `twoStepEnabled` property to `AccountSettings` model. [#567]
 
 ### Bug Fixes
 

@@ -18,6 +18,7 @@ public struct AccountSettings {
     public let language: String    // language
     public let tracksOptOut: Bool
     public let blockEmailNotifications: Bool
+    public let twoStepEnabled: Bool // two_step_enabled
 
     public init(firstName: String,
                 lastName: String,
@@ -32,7 +33,8 @@ public struct AccountSettings {
                 webAddress: String,
                 language: String,
                 tracksOptOut: Bool,
-                blockEmailNotifications: Bool) {
+                blockEmailNotifications: Bool,
+                twoStepEnabled: Bool) {
         self.firstName = firstName
         self.lastName = lastName
         self.displayName = displayName
@@ -47,6 +49,7 @@ public struct AccountSettings {
         self.language = language
         self.tracksOptOut = tracksOptOut
         self.blockEmailNotifications = blockEmailNotifications
+        self.twoStepEnabled = twoStepEnabled
     }
 }
 
