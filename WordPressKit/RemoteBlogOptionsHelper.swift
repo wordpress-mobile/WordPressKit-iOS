@@ -32,7 +32,8 @@ import Foundation
                 "show_on_front",
                 "page_on_front",
                 "page_for_posts",
-                "blogging_prompts_settings"
+                "blogging_prompts_settings",
+                "jetpack_connection_active_plugins"
             ]
             for key in optionsDirectMapKeys {
                 if let value = response.value(forKeyPath: "options.\(key)") {
