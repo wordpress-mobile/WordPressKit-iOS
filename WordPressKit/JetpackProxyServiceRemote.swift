@@ -9,43 +9,34 @@ public class JetpackProxyServiceRemote: ServiceRemoteWordPressComREST {
         case delete
     }
 
-    enum ParameterKey: String {
-        case json
-        case path
-        case body
-        case query
-        case locale
-    }
-
     /// The old-fashioned way.
-    /// TODO: Documentation.
+    /// TODO: Docs.
     ///
     public func proxyRequest(for siteID: Int,
                              path: String,
                              method: DotComMethod,
-                             parameters: [String: AnyHashable]? = nil,
+                             parameters: [String: AnyHashable] = [:],
                              locale: String? = nil,
                              completion: @escaping (Result<AnyObject, Error>) -> Void) -> Progress? {
         let urlString = self.path(forEndpoint: "jetpack-blogs/\(siteID)/rest-api", withVersion: ._1_1)
 
-        // construct the request parameters to be forwarded to the actual endpoint.
+        // Construct the request parameters to be forwarded to the actual endpoint.
         var requestParams: [String: AnyHashable] = [
-            ParameterKey.json.rawValue: "true",
-            ParameterKey.path.rawValue: "\(path)&_method=\(method.rawValue)"
+            "json": "true",
+            "path": "\(path)&_method=\(method.rawValue)"
         ]
 
-        let bodyParameterKey: ParameterKey = (method == .get ? .query : .body)
-
-        // the parameters need to be encoded into a JSON string.
-        if let parameters,
-           !parameters.isEmpty,
+        // The parameters need to be encoded into a JSON string.
+        if !parameters.isEmpty,
            let data = try? JSONSerialization.data(withJSONObject: parameters, options: []),
            let jsonString = String(data: data, encoding: .utf8) {
-            requestParams[bodyParameterKey.rawValue] = jsonString
+            // Use "query" for the body parameters if the method is GET. Otherwise, always use "body".
+            let bodyParameterKey = (method == .get ? "query" : "body")
+            requestParams[bodyParameterKey] = jsonString
         }
 
         if let locale {
-            requestParams[ParameterKey.locale.rawValue] = locale
+            requestParams["locale"] = locale
         }
 
         return wordPressComRestApi.POST(urlString, parameters: requestParams as [String: AnyObject]) { response, _ in
