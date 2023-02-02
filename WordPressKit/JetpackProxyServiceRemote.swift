@@ -1,7 +1,7 @@
-/// The Jetpack Proxy.
-/// TODO: Documentation
+/// Encapsulates Jetpack Proxy requests.
 public class JetpackProxyServiceRemote: ServiceRemoteWordPressComREST {
 
+    /// Represents the most common HTTP methods for the proxied request.
     public enum DotComMethod: String {
         case get
         case post
@@ -9,9 +9,17 @@ public class JetpackProxyServiceRemote: ServiceRemoteWordPressComREST {
         case delete
     }
 
-    /// The old-fashioned way.
-    /// TODO: Docs.
+    /// Sends a proxied request to a Jetpack-connected site through the Jetpack Proxy API.
+    /// The proxy API expects the client to be authenticated with a WordPress.com account.
     ///
+    /// - Parameters:
+    ///   - siteID: The dotcom ID of the Jetpack-connected site.
+    ///   - path: The request endpoint to be proxied.
+    ///   - method: The HTTP method for the proxied request.
+    ///   - parameters: The request parameter for the proxied request. Defaults to empty.
+    ///   - locale: The user locale, if any. Defaults to nil.
+    ///   - completion: Closure called after the request completes.
+    /// - Returns: A Progress object, which can be used to cancel the request if needed.
     public func proxyRequest(for siteID: Int,
                              path: String,
                              method: DotComMethod,
