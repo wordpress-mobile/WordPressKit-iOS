@@ -20,6 +20,7 @@ public class JetpackProxyServiceRemote: ServiceRemoteWordPressComREST {
     ///   - locale: The user locale, if any. Defaults to nil.
     ///   - completion: Closure called after the request completes.
     /// - Returns: A Progress object, which can be used to cancel the request if needed.
+    @discardableResult
     public func proxyRequest(for siteID: Int,
                              path: String,
                              method: DotComMethod,
@@ -43,7 +44,8 @@ public class JetpackProxyServiceRemote: ServiceRemoteWordPressComREST {
             requestParams[bodyParameterKey] = jsonString
         }
 
-        if let locale {
+        if let locale,
+           !locale.isEmpty {
             requestParams["locale"] = locale
         }
 

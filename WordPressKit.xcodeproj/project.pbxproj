@@ -615,6 +615,7 @@
 		FE20A6AA282BC8710025E975 /* blogging-prompts-settings-update-empty-response.json in Resources */ = {isa = PBXBuildFile; fileRef = FE20A6A9282BC8710025E975 /* blogging-prompts-settings-update-empty-response.json */; };
 		FEAE3AC7298AC2A300E05A24 /* JetpackProxyServiceRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEAE3AC6298AC2A300E05A24 /* JetpackProxyServiceRemote.swift */; };
 		FEB7A88F271873BD00A8CF85 /* reader-post-comments-update-notification-success.json in Resources */ = {isa = PBXBuildFile; fileRef = FEB7A88E271873BD00A8CF85 /* reader-post-comments-update-notification-success.json */; };
+		FED77253298B819900C2346E /* JetpackProxyServiceRemoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FED77252298B819900C2346E /* JetpackProxyServiceRemoteTests.swift */; };
 		FEE4EF57272FDD4B003CDA3C /* RemoteCommentV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE4EF56272FDD4B003CDA3C /* RemoteCommentV2.swift */; };
 		FEE4EF59272FF78C003CDA3C /* CommentServiceRemoteREST+ApiV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE4EF58272FF78C003CDA3C /* CommentServiceRemoteREST+ApiV2.swift */; };
 		FEE4EF5B27302317003CDA3C /* CommentServiceRemoteREST+APIv2Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE4EF5A27302317003CDA3C /* CommentServiceRemoteREST+APIv2Tests.swift */; };
@@ -1281,6 +1282,7 @@
 		FE20A6A9282BC8710025E975 /* blogging-prompts-settings-update-empty-response.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "blogging-prompts-settings-update-empty-response.json"; sourceTree = "<group>"; };
 		FEAE3AC6298AC2A300E05A24 /* JetpackProxyServiceRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JetpackProxyServiceRemote.swift; sourceTree = "<group>"; };
 		FEB7A88E271873BD00A8CF85 /* reader-post-comments-update-notification-success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "reader-post-comments-update-notification-success.json"; sourceTree = "<group>"; };
+		FED77252298B819900C2346E /* JetpackProxyServiceRemoteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JetpackProxyServiceRemoteTests.swift; sourceTree = "<group>"; };
 		FEE4EF56272FDD4B003CDA3C /* RemoteCommentV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteCommentV2.swift; sourceTree = "<group>"; };
 		FEE4EF58272FF78C003CDA3C /* CommentServiceRemoteREST+ApiV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CommentServiceRemoteREST+ApiV2.swift"; sourceTree = "<group>"; };
 		FEE4EF5A27302317003CDA3C /* CommentServiceRemoteREST+APIv2Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CommentServiceRemoteREST+APIv2Tests.swift"; sourceTree = "<group>"; };
@@ -2333,6 +2335,7 @@
 				3297E1DC2564649D00287D21 /* Scan */,
 				9A2D0B2A225E0E22009E585F /* JetpackServiceRemoteTests.swift */,
 				8B749E8125AF7DDA00023F03 /* JetpackCapabilitiesServiceRemoteTests.swift */,
+				FED77252298B819900C2346E /* JetpackProxyServiceRemoteTests.swift */,
 			);
 			name = Jetpack;
 			sourceTree = "<group>";
@@ -3270,6 +3273,7 @@
 				FEE4EF5B27302317003CDA3C /* CommentServiceRemoteREST+APIv2Tests.swift in Sources */,
 				803DE81128FFA9C4007D4E9C /* RemoteConfigRemoteTests.swift in Sources */,
 				74B5F0DE1EF82A9600B411E7 /* BlogServiceRemoteRESTTests.m in Sources */,
+				FED77253298B819900C2346E /* JetpackProxyServiceRemoteTests.swift in Sources */,
 				ABD95B7F25DD6C4B00735BEE /* CommentServiceRemoteRESTLikesTests.swift in Sources */,
 				8B749E8225AF7DDA00023F03 /* JetpackCapabilitiesServiceRemoteTests.swift in Sources */,
 				74E2294B1F1E73340085F7F2 /* SharingServiceRemoteTests.m in Sources */,
