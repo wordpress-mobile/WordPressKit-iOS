@@ -7,12 +7,13 @@ class JetpackProxyServiceRemoteTests: XCTestCase {
     let siteID = 1001
 
     private var remote: JetpackProxyServiceRemote {
-        .init(wordPressComRestApi: api)
+        print(">>> CALL: \(api)")
+        return .init(wordPressComRestApi: api)
     }
 
     // MARK: - Tests
 
-    func testProxyRequestEndpointIsCorrect() {
+    func testProxyRequestEndpoint() {
         // the mock rest API doesn't append the base URL, so we're just going to verify the path.
         let urlString = "rest/v1.1/jetpack-blogs/\(siteID)/rest-api"
 
@@ -24,7 +25,7 @@ class JetpackProxyServiceRemoteTests: XCTestCase {
         XCTAssertTrue(passedURLString.hasSuffix(urlString))
     }
 
-    func testJSONParameterIsCorrect() {
+    func testJSONParameter() {
         remote.proxyRequest(for: siteID, path: "path", method: .get) { _ in }
 
         guard let passedParameter = api.parametersPassedIn as? [String: AnyObject] else {
@@ -33,7 +34,7 @@ class JetpackProxyServiceRemoteTests: XCTestCase {
         XCTAssertEqual(passedParameter["json"] as? String, "true")
     }
 
-    func testPathParameterIsCorrect() {
+    func testPathParameter() {
         let path = "/wp/v2/posts"
         let method = JetpackProxyServiceRemote.DotComMethod.get
 
@@ -45,7 +46,7 @@ class JetpackProxyServiceRemoteTests: XCTestCase {
         XCTAssertEqual(passedParameter["path"] as? String, "\(path)&_method=\(method.rawValue)")
     }
 
-    func testBodyParameterKeyForGETMethodIsCorrect() {
+    func testBodyParameterKeyForGETMethod() {
         let method = JetpackProxyServiceRemote.DotComMethod.get
         let params = ["key": "value"]
 
@@ -57,7 +58,7 @@ class JetpackProxyServiceRemoteTests: XCTestCase {
         XCTAssertNotNil(passedParameter["query"])
     }
 
-    func testBodyParameterKeyForPOSTMethodIsCorrect() {
+    func testBodyParameterKeyForPOSTMethod() {
         let method = JetpackProxyServiceRemote.DotComMethod.post
         let params = ["key": "value"]
 
@@ -69,7 +70,7 @@ class JetpackProxyServiceRemoteTests: XCTestCase {
         XCTAssertNotNil(passedParameter["body"])
     }
 
-    func testBodyParameterEncodingIsCorrect() {
+    func testBodyParameterEncoding() {
         let method = JetpackProxyServiceRemote.DotComMethod.post
         let params = [
             "key1": "value1",
@@ -98,7 +99,7 @@ class JetpackProxyServiceRemoteTests: XCTestCase {
         XCTAssertNil(passedParameter["body"])
     }
 
-    func testLocaleParameterIsCorrect() {
+    func testLocaleParameter() {
         let locale = "en_US"
 
         remote.proxyRequest(for: siteID, path: "path", method: .post, locale: locale) { _ in }
