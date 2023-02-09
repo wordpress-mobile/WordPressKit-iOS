@@ -17,7 +17,7 @@ open class BlazeServiceRemote: ServiceRemoteWordPressComREST {
 
         wordPressComRestApi.GET(path, parameters: nil, success: { response, _ in
 
-            if let json = reponse as? [String: Any],
+            if let json = response as? [String: Any],
                let approved = json["approved"] as? Bool {
                 callback(.success(approved))
             } else {
