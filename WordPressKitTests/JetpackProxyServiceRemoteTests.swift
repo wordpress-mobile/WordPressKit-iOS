@@ -7,7 +7,6 @@ class JetpackProxyServiceRemoteTests: XCTestCase {
     let siteID = 1001
 
     private var remote: JetpackProxyServiceRemote {
-        print(">>> CALL: \(api)")
         return .init(wordPressComRestApi: api)
     }
 
