@@ -72,7 +72,7 @@ import NSObject_SafeExpectations
         self.options = RemoteBlogOptionsHelper.mapOptions(fromResponse: json)
         self.planID = json.number(forKeyPath: "plan.product_id")
         self.planTitle = json.string(forKeyPath: "plan.product_name_short")
-        self.hasPaidPlan = !(json.number(forKeyPath: "plan.is_free")?.boolValue ?? false)
+        self.hasPaidPlan = !(json.number(forKeyPath: "plan.is_free")?.boolValue ?? true)
         self.quotaSpaceAllowed = json.number(forKeyPath: "quota.space_allowed")
         self.quotaSpaceUsed = json.number(forKeyPath: "quota.space_used")
     }
