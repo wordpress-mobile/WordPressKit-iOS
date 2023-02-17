@@ -9,17 +9,10 @@
 @interface RemoteReaderPost ()
 
 - (RemoteReaderPost *)formatPostDictionary:(NSDictionary *)dict;
-- (BOOL)siteIsAtomicFromPostDictionary:(NSDictionary *)dict;
-- (BOOL)siteIsPrivateFromPostDictionary:(NSDictionary *)dict;
-- (NSString *)siteURLFromPostDictionary:(NSDictionary *)dict;
-- (NSString *)siteNameFromPostDictionary:(NSDictionary *)dict;
 - (NSString *)featuredImageFromPostDictionary:(NSDictionary *)dict;
 - (NSDate *)sortDateFromPostDictionary:(NSDictionary *)dict;
-- (BOOL)isWPComFromPostDictionary:(NSDictionary *)dict;
-- (NSString *)authorEmailFromAuthorDictionary:(NSDictionary *)dict;
 - (NSString *)sanitizeFeaturedImageString:(NSString *)img;
 - (NSDictionary *)primaryAndSecondaryTagsFromPostDictionary:(NSDictionary *)dict;
-- (NSNumber *)readingTimeForWordCount:(NSNumber *)wordCount;
 - (NSString *)removeInlineStyles:(NSString *)string;
 - (NSString *)removeForbiddenTags:(NSString *)string;
 - (NSString *)postTitleFromPostDictionary:(NSDictionary *)dict;
@@ -107,74 +100,66 @@
 - (void)testSiteIsAtomic {
     NSString *key = @"site_is_atomic";
 
-    RemoteReaderPost *remoteReaderPost = [RemoteReaderPost alloc];
-
     NSDictionary *dict = @{key: @"1"};
-    BOOL isAtomic = [remoteReaderPost siteIsAtomicFromPostDictionary:dict];
+    BOOL isAtomic = [RemoteReaderPost siteIsAtomicFromPostDictionary:dict];
     XCTAssertTrue(isAtomic, @"Site should be atomic.");
 
     dict = @{key: @"0"};
-    isAtomic = [remoteReaderPost siteIsAtomicFromPostDictionary:dict];
+    isAtomic = [RemoteReaderPost siteIsAtomicFromPostDictionary:dict];
     XCTAssertFalse(isAtomic, @"Site should not be atomic.");
 
     dict = @{};
-    isAtomic = [remoteReaderPost siteIsAtomicFromPostDictionary:dict];
+    isAtomic = [RemoteReaderPost siteIsAtomicFromPostDictionary:dict];
     XCTAssertFalse(isAtomic, @"Site should not be atomic.");
 }
 
 - (void)testSiteIsPrivate {
-    RemoteReaderPost *remoteReaderPost = [RemoteReaderPost alloc];
-
     NSDictionary *dict = @{@"site_is_private": @"1"};
-    BOOL isPrivate = [remoteReaderPost siteIsPrivateFromPostDictionary:dict];
+    BOOL isPrivate = [RemoteReaderPost siteIsPrivateFromPostDictionary:dict];
     XCTAssertTrue(isPrivate, @"Site should be private.");
 
     dict = @{@"site_is_private": @"0"};
-    isPrivate = [remoteReaderPost siteIsPrivateFromPostDictionary:dict];
+    isPrivate = [RemoteReaderPost siteIsPrivateFromPostDictionary:dict];
     XCTAssertFalse(isPrivate, @"Site should not be private.");
 
     dict = [self metaDictionaryWithKey:@"is_private" value:@"1"];
-    isPrivate = [remoteReaderPost siteIsPrivateFromPostDictionary:dict];
+    isPrivate = [RemoteReaderPost siteIsPrivateFromPostDictionary:dict];
     XCTAssertTrue(isPrivate, @"Meta site should be private.");
 
     dict = [self metaDictionaryWithKey:@"is_private" value:@"0"];
-    isPrivate = [remoteReaderPost siteIsPrivateFromPostDictionary:dict];
+    isPrivate = [RemoteReaderPost siteIsPrivateFromPostDictionary:dict];
     XCTAssertFalse(isPrivate, @"Meta site should not be private.");
 }
 
 - (void)testSiteURLFromDictionary {
-    RemoteReaderPost *remoteReaderPost = [RemoteReaderPost alloc];
-
     NSString *site = @"http://site.com";
     NSDictionary *dict = @{@"site_URL": site};
-    NSString *siteURL = [remoteReaderPost siteURLFromPostDictionary:dict];
+    NSString *siteURL = [RemoteReaderPost siteURLFromPostDictionary:dict];
     XCTAssertEqual(siteURL, site, @"The returned site did not match what was expected.");
 
     dict = [self metaDictionaryWithKey:@"URL" value:site];
-    siteURL = [remoteReaderPost siteURLFromPostDictionary:dict];
+    siteURL = [RemoteReaderPost siteURLFromPostDictionary:dict];
     XCTAssertEqual(siteURL, site, @"The returned site did not match what was expected.");
 }
 
 - (void)testSiteNameFromDictionary {
-    RemoteReaderPost *remoteReaderPost = [RemoteReaderPost alloc];
-
     NSString *name = @"foo";
     NSDictionary *dict = @{@"site_name": name};
-    NSString *siteName = [remoteReaderPost siteNameFromPostDictionary:dict];
+    NSString *siteName = [RemoteReaderPost siteNameFromPostDictionary:dict];
     XCTAssertEqualObjects(siteName, name, @"The returned site name did not match what was expected.");
 
     dict = [self metaDictionaryWithKey:@"name" value:name];
-    siteName = [remoteReaderPost siteNameFromPostDictionary:dict];
+    siteName = [RemoteReaderPost siteNameFromPostDictionary:dict];
     XCTAssertEqualObjects(siteName, name, @"The returned site name did not match what was expected.");
 
     dict = [self editorialDictionaryWithKey:@"blog_name" value:name];
-    siteName = [remoteReaderPost siteNameFromPostDictionary:dict];
+    siteName = [RemoteReaderPost siteNameFromPostDictionary:dict];
     XCTAssertEqualObjects(siteName, name, @"The returned site name did not match what was expected.");
 
     // Make sure editorial trumps other content.
     NSMutableDictionary *mDict = [dict mutableCopy];
     [mDict setObject:@"bar" forKey:@"site_name"];
-    siteName = [remoteReaderPost siteNameFromPostDictionary:dict];
+    siteName = [RemoteReaderPost siteNameFromPostDictionary:dict];
     XCTAssertEqualObjects(siteName, name, @"The returned site name did not match what was expected.");
 
 }
@@ -236,31 +221,27 @@
 }
 
 - (void)testIsWPComFromDictionary {
-    RemoteReaderPost *remoteReaderPost = [RemoteReaderPost alloc];
-
     NSString *jsonStrFalse = @"{\"is_external\": false}";
     NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:[jsonStrFalse dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
-    BOOL isWPCom = [remoteReaderPost isWPComFromPostDictionary:dict];
+    BOOL isWPCom = [RemoteReaderPost isWPComFromPostDictionary:dict];
     XCTAssertTrue(isWPCom, @"A blog that is not external should be wpcom");
 
     NSString *jsonStrTrue = @"{\"is_external\": true}";
     dict = [NSJSONSerialization JSONObjectWithData:[jsonStrTrue dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
-    isWPCom = [remoteReaderPost isWPComFromPostDictionary:dict];
+    isWPCom = [RemoteReaderPost isWPComFromPostDictionary:dict];
     XCTAssertFalse(isWPCom, @"A blog that is external should not be wpcom");
 
 }
 
 - (void)testAuthorEmailFromDictionary {
-    RemoteReaderPost *remoteReaderPost = [RemoteReaderPost alloc];
-
     NSString *emailStr = @"a@a.aa";
     NSDictionary *dict = @{@"email": emailStr};
-    NSString *str = [remoteReaderPost authorEmailFromAuthorDictionary:dict];
+    NSString *str = [RemoteReaderPost authorEmailFromAuthorDictionary:dict];
     XCTAssertEqual(emailStr, str, @"The email returned did not match.");
 
     emailStr = @"0";
     dict = @{@"email": emailStr};
-    str = [remoteReaderPost authorEmailFromAuthorDictionary:dict];
+    str = [RemoteReaderPost authorEmailFromAuthorDictionary:dict];
     XCTAssertTrue([str length] == 0, @"If the value of email is 0, an empty string should be returned.");
 }
 
@@ -337,22 +318,20 @@
 
 - (void)testReadingTimeFromDictionary
 {
-    RemoteReaderPost *remoteReaderPost = [RemoteReaderPost alloc];
-
     NSNumber *readingTime;
-    readingTime = [remoteReaderPost readingTimeForWordCount:@0];
+    readingTime = [RemoteReaderPost readingTimeForWordCount:@0];
     XCTAssertTrue([readingTime integerValue] == 0, @"Zero wordcount should return zero reading time.");
 
-    readingTime = [remoteReaderPost readingTimeForWordCount:@250];
+    readingTime = [RemoteReaderPost readingTimeForWordCount:@250];
     XCTAssertTrue([readingTime integerValue] == 0, @"Brief word count should return zero reading time.");
 
-    readingTime = [remoteReaderPost readingTimeForWordCount:@500];
+    readingTime = [RemoteReaderPost readingTimeForWordCount:@500];
     XCTAssertTrue([readingTime integerValue] == 2, @"500 words should take about 2 minutes to read");
 
-    readingTime = [remoteReaderPost readingTimeForWordCount:@700];
+    readingTime = [RemoteReaderPost readingTimeForWordCount:@700];
     XCTAssertTrue([readingTime integerValue] == 2, @"700 words should take about 2 minutes to read.");
 
-    readingTime = [remoteReaderPost readingTimeForWordCount:@1000];
+    readingTime = [RemoteReaderPost readingTimeForWordCount:@1000];
     XCTAssertTrue([readingTime integerValue] == 4, @"1000 words should take about 4 minutes to read");
 }
 

@@ -16,7 +16,6 @@ NSString * const PostRESTKeyDateLiked = @"date_liked";
 NSString * const PostRESTKeyDiscoverMetadata = @"discover_metadata";
 NSString * const PostRESTKeyDiscussion = @"discussion";
 NSString * const PostRESTKeyEditorial = @"editorial";
-NSString * const PostRESTKeyEmail = @"email";
 NSString * const PostRESTKeyExcerpt = @"excerpt";
 NSString * const PostRESTKeyFeaturedMedia = @"featured_media";
 NSString * const PostRESTKeyFeaturedImage = @"featured_image";
@@ -41,10 +40,6 @@ NSString * const PostRESTKeyPostCount = @"post_count";
 NSString * const PostRESTKeyScore = @"score";
 NSString * const PostRESTKeySharingEnabled = @"sharing_enabled";
 NSString * const PostRESTKeySiteID = @"site_ID";
-NSString * const PostRESTKeySiteIsAtomic = @"site_is_atomic";
-NSString * const PostRESTKeySiteIsPrivate = @"site_is_private";
-NSString * const PostRESTKeySiteName = @"site_name";
-NSString * const PostRESTKeySiteURL = @"site_URL";
 NSString * const PostRESTKeySlug = @"slug";
 NSString * const PostRESTKeyStatus = @"status";
 NSString * const PostRESTKeyTitle = @"title";
@@ -74,8 +69,6 @@ NSString * const CrossPostMetaXCommentPermalink = @"xcomment_original_permalink"
 NSString * const CrossPostMetaXPostOrigin = @"xpost_origin";
 NSString * const CrossPostMetaCommentPrefix = @"comment-";
 
-static const NSInteger AvgWordsPerMinuteRead = 250;
-static const NSInteger MinutesToReadThreshold = 2;
 static const NSUInteger ReaderPostTitleLength = 30;
 
 @implementation RemoteReaderPost
@@ -95,12 +88,12 @@ static const NSUInteger ReaderPostTitleLength = 30;
     self.author = [self stringOrEmptyString:[authorDict stringForKey:PostRESTKeyNiceName]]; // typically the author's screen name
     self.authorAvatarURL = [self stringOrEmptyString:[authorDict stringForKey:PostRESTKeyAvatarURL]];
     self.authorDisplayName = [[self stringOrEmptyString:[authorDict stringForKey:PostRESTKeyName]] stringByDecodingXMLCharacters]; // Typically the author's given name
-    self.authorEmail = [self authorEmailFromAuthorDictionary:authorDict];
+    self.authorEmail = [RemoteReaderPost authorEmailFromAuthorDictionary:authorDict];
     self.authorURL = [self stringOrEmptyString:[authorDict stringForKey:PostRESTKeyURL]];
     self.siteIconURL = [self stringOrEmptyString:[dict stringForKeyPath:@"meta.data.site.icon.img"]];
-    self.blogName = [self siteNameFromPostDictionary:dict];
+    self.blogName = [RemoteReaderPost siteNameFromPostDictionary:dict];
     self.blogDescription = [self siteDescriptionFromPostDictionary:dict];
-    self.blogURL = [self siteURLFromPostDictionary:dict];
+    self.blogURL = [RemoteReaderPost siteURLFromPostDictionary:dict];
     self.commentCount = [discussionDict numberForKey:PostRESTKeyCommentCount];
     self.commentsOpen = [[discussionDict numberForKey:PostRESTKeyCommentsOpen] boolValue];
     self.content = [self postContentFromPostDictionary:dict];
@@ -109,12 +102,12 @@ static const NSUInteger ReaderPostTitleLength = 30;
     self.feedID = [dict numberForKey:PostRESTKeyFeedID];
     self.feedItemID = [dict numberForKey:PostRESTKeyFeedItemID];
     self.globalID = [self stringOrEmptyString:[dict stringForKey:PostRESTKeyGlobalID]];
-    self.isBlogAtomic = [self siteIsAtomicFromPostDictionary:dict];
-    self.isBlogPrivate = [self siteIsPrivateFromPostDictionary:dict];
+    self.isBlogAtomic = [RemoteReaderPost siteIsAtomicFromPostDictionary:dict];
+    self.isBlogPrivate = [RemoteReaderPost siteIsPrivateFromPostDictionary:dict];
     self.isFollowing = [[dict numberForKey:PostRESTKeyIsFollowing] boolValue];
     self.isLiked = [[dict numberForKey:PostRESTKeyILike] boolValue];
     self.isReblogged = [[dict numberForKey:PostRESTKeyIsReblogged] boolValue];
-    self.isWPCom = [self isWPComFromPostDictionary:dict];
+    self.isWPCom = [RemoteReaderPost isWPComFromPostDictionary:dict];
     self.likeCount = [dict numberForKey:PostRESTKeyLikeCount];
     self.permalink = [self stringOrEmptyString:[dict stringForKey:PostRESTKeyURL]];
     self.postID = [dict numberForKey:PostRESTKeyID];
@@ -125,7 +118,7 @@ static const NSUInteger ReaderPostTitleLength = 30;
     self.sortRank = @(self.sortDate.timeIntervalSinceReferenceDate);
     self.status = [self stringOrEmptyString:[dict stringForKey:PostRESTKeyStatus]];
     self.summary = [self postSummaryFromPostDictionary:dict orPostContent:self.content];
-    self.tags = [self tagsFromPostDictionary:dict];
+    self.tags = [RemoteReaderPost tagsFromPostDictionary:dict];
     self.isSharingEnabled = [[dict numberForKey:PostRESTKeySharingEnabled] boolValue];
     self.isLikesEnabled = [[dict numberForKey:PostRESTKeyLikesEnabled] boolValue];
     self.organizationID = [dict numberForKeyPath:PostRESTKeyOrganizationID] ?: @0;
@@ -157,7 +150,7 @@ static const NSUInteger ReaderPostTitleLength = 30;
     self.isExternal = [[dict numberForKey:PostRESTKeyIsExternal] boolValue];
     self.isJetpack = [[dict numberForKey:PostRESTKeyIsJetpack] boolValue];
     self.wordCount = [dict numberForKey:PostRESTKeyWordCount];
-    self.readingTime = [self readingTimeForWordCount:self.wordCount];
+    self.readingTime = [RemoteReaderPost readingTimeForWordCount:self.wordCount];
 
     NSDictionary *railcar = [dict dictionaryForKey:PostRESTKeyRailcar];
     if (railcar) {
@@ -281,16 +274,6 @@ static const NSUInteger ReaderPostTitleLength = 30;
              };
 }
 
-- (NSNumber *)readingTimeForWordCount:(NSNumber *)wordCount
-{
-    NSInteger count = [wordCount integerValue];
-    NSInteger minutesToRead = count / AvgWordsPerMinuteRead;
-    if (minutesToRead < MinutesToReadThreshold) {
-        return @(0);
-    }
-    return @(minutesToRead);
-}
-
 /**
  Composes discover attribution if needed.
 
@@ -395,55 +378,6 @@ static const NSUInteger ReaderPostTitleLength = 30;
 #pragma mark - Data sanitization methods
 
 /**
- The v1 API result is inconsistent in that it will return a 0 when there is no author email.
-
- @param dict The author dictionary.
- @return The author's email address or an empty string.
- */
-- (NSString *)authorEmailFromAuthorDictionary:(NSDictionary *)dict
-{
-    NSString *authorEmail = [dict stringForKey:PostRESTKeyEmail];
-
-    // if 0 or less than minimum email length. a@a.aa
-    if ([authorEmail isEqualToString:@"0"] || [authorEmail length] < 6) {
-        authorEmail = @"";
-    }
-
-    return authorEmail;
-}
-
-/**
- Parse whether the post belongs to a wpcom blog.
-
- @param dict A dictionary representing a post object from the REST API
- @return YES if the post belongs to a wpcom blog, else NO
- */
-- (BOOL)isWPComFromPostDictionary:(NSDictionary *)dict
-{
-    BOOL isExternal = [[dict numberForKey:PostRESTKeyIsExternal] boolValue];
-    BOOL isJetpack = [[dict numberForKey:PostRESTKeyIsJetpack] boolValue];
-
-    return !isJetpack && !isExternal;
-}
-
-/**
- Get the tags assigned to a post and return them as a comma separated string.
-
- @param dict A dictionary representing a post object from the REST API.
- @return A comma separated list of tags, or an empty string if no tags are found.
- */
-- (NSString *)tagsFromPostDictionary:(NSDictionary *)dict
-{
-    NSDictionary *tagsDict = [dict dictionaryForKey:PostRESTKeyTags];
-    NSArray *tagsList = [NSArray arrayWithArray:[tagsDict allKeys]];
-    NSString *tags = [tagsList componentsJoinedByString:@", "];
-    if (tags == nil) {
-        tags = @"";
-    }
-    return tags;
-}
-
-/**
  Get the date the post should be sorted by.
 
  @param dict A dictionary representing a post object from the REST API.
@@ -529,32 +463,6 @@ static const NSUInteger ReaderPostTitleLength = 30;
 }
 
 /**
- Get the name of the post's site.
-
- @param dict A dictionary representing a post object from the REST API.
- @return The name of the post's site or an empty string.
- */
-- (NSString *)siteNameFromPostDictionary:(NSDictionary *)dict
-{
-    // Blog Name
-    NSString *siteName = [self stringOrEmptyString:[dict stringForKey:PostRESTKeySiteName]];
-
-    // For some endpoints blogname is defined in meta
-    NSString *metaBlogName = [dict stringForKeyPath:@"meta.data.site.name"];
-    if (metaBlogName != nil) {
-        siteName = metaBlogName;
-    }
-
-    // Values set in editorial trumps the rest
-    NSString *editorialSiteName = [dict stringForKeyPath:@"editorial.blog_name"];
-    if (editorialSiteName != nil) {
-        siteName = editorialSiteName;
-    }
-
-    return [self makePlainText:siteName];
-}
-
-/**
  Get the description of the post's site.
 
  @param dict A dictionary representing a post object from the REST API.
@@ -564,24 +472,6 @@ static const NSUInteger ReaderPostTitleLength = 30;
 {
     NSString *description = [self stringOrEmptyString:[dict stringForKeyPath:@"meta.data.site.description"]];
     return [self makePlainText:description];
-}
-
-/**
- Retrives the post site's URL
-
- @param dict A dictionary representing a post object from the REST API.
- @return The URL path of the post's site.
- */
-- (NSString *)siteURLFromPostDictionary:(NSDictionary *)dict
-{
-    NSString *siteURL = [self stringOrEmptyString:[dict stringForKey:PostRESTKeySiteURL]];
-
-    NSString *metaSiteURL = [dict stringForKeyPath:@"meta.data.site.URL"];
-    if (metaSiteURL != nil) {
-        siteURL = metaSiteURL;
-    }
-
-    return siteURL;
 }
 
 /**
@@ -621,31 +511,6 @@ static const NSUInteger ReaderPostTitleLength = 30;
         summary = [self createSummaryFromContent:content];
     }
     return summary;
-}
-
-- (BOOL)siteIsAtomicFromPostDictionary:(NSDictionary *)dict
-{
-    NSNumber *isAtomic = [dict numberForKey:PostRESTKeySiteIsAtomic];
-
-    return [isAtomic boolValue];
-}
-
-/**
- Retrives the privacy preference for the post's site.
-
- @param dict A dictionary representing a post object from the REST API.
- @return YES if the site is private.
- */
-- (BOOL)siteIsPrivateFromPostDictionary:(NSDictionary *)dict
-{
-    NSNumber *isPrivate = [dict numberForKey:PostRESTKeySiteIsPrivate];
-
-    NSNumber *metaIsPrivate = [dict numberForKeyPath:@"meta.data.site.is_private"];
-    if (metaIsPrivate != nil) {
-        isPrivate = metaIsPrivate;
-    }
-
-    return [isPrivate boolValue];
 }
 
 - (NSArray *)slugsFromDiscoverPostTaxonomies:(NSArray *)discoverPostTaxonomies
