@@ -48,6 +48,17 @@ _None._
 
 _None._
 
+## 6.1.0
+
+### New Features
+
+- Add remote to make requests to self-hosted, Jetpack-connected sites via the Jetpack Proxy API [#576]
+- Add Blaze status endpoint [#577]
+
+### Bug Fixes
+
+- Fixes regression in logic to decode whether user has a free plan from JSON [#578]
+
 ## 6.0.0
 
 ### Breaking Changes
