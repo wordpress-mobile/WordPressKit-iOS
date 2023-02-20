@@ -7,7 +7,7 @@ The format of this document is inspired by [Keep a Changelog](https://keepachang
 When releasing a new version:
 
 1. Remove any empty section (those with `_None._`)
-2. Update the `## Unreleased` header to `## [<version_number>](https://github.com/wordpress-mobile/WordPressKit-iOS/releases/tag/<version_number>)`
+2. Update the `## Unreleased` header to `## <version_number>`
 3. Add a new "Unreleased" section for the next iteration, by copy/pasting the following template:
 
 ## Unreleased
@@ -48,7 +48,18 @@ _None._
 
 _None._
 
-## [6.0.0](https://github.com/wordpress-mobile/WordPressKit-iOS/releases/tag/6.0.0)
+## 6.1.0
+
+### New Features
+
+- Add remote to make requests to self-hosted, Jetpack-connected sites via the Jetpack Proxy API [#576]
+- Add Blaze status endpoint [#577]
+
+### Bug Fixes
+
+- Fixes regression in logic to decode whether user has a free plan from JSON [#578]
+
+## 6.0.0
 
 ### Breaking Changes
 
@@ -65,10 +76,10 @@ _None._
 
 ### Internal Changes
 
-- Change the NSObject+SafeExpectations dependency to `~> 0.0.4`. [#555]
+- Change the `NSObject+SafeExpectations` dependency to `~> 0.0.4`. [#555]
 - Use Xcode 14.2 on CI. [#568]
 
-## [5.0.0](https://github.com/wordpress-mobile/WordPressKit-iOS/releases/tag/5.0.0)
+## 5.0.0
 
 ### Breaking Changes
 
