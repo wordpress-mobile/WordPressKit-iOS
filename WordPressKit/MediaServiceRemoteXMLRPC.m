@@ -246,6 +246,19 @@
     }
 }
 
+-(void)getVideoPressToken:(NSString *)videoPressID
+                           success:(void (^)(NSString *token))success
+                           failure:(void (^)(NSError *))failure
+{
+    // The endpoint `wpcom/v2/sites/<wpcom-site>/media/videopress-playback-jwt/<videopress-guid>` is not available in XML-RPC.
+    if (failure) {
+        NSError *error = [NSError errorWithDomain:NSURLErrorDomain
+                                             code:NSURLErrorUnsupportedURL
+                                         userInfo:nil];
+        failure(error);
+    }
+}
+
 #pragma mark - Private methods
 
 - (NSArray *)remoteMediaFromXMLRPCArray:(NSArray *)xmlrpcArray
