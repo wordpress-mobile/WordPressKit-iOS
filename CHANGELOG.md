@@ -58,6 +58,7 @@ _None._
 ### Bug Fixes
 
 - Fixes regression in logic to decode whether user has a free plan from JSON [#578]
+- Changes the feature flag platform identifier to `ios`
 
 ## 6.0.0
 
