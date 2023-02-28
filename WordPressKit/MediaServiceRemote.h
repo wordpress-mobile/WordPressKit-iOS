@@ -69,5 +69,16 @@
                            success:(void (^)(NSURL *videoURL, NSURL *posterURL))success
                            failure:(void (^)(NSError *))failure;
 
+/**
+ Retrieves the VideoPress token for the request videoPressID.
+ The token is required to play private VideoPress videos.
+
+ @param videoPressID the videoPressID to search for.
+ @param success a block to be executed if the the token is fetched successfully for the VideoPress video.
+ @param failure a block to be executed if the token can't be fetched for the VideoPress video.
+ */
+-(void)getVideoPressToken:(NSString *)videoPressID
+                           success:(void (^)(NSString *token))success
+                           failure:(void (^)(NSError *))failure;
 
 @end

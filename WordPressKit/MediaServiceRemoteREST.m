@@ -344,6 +344,39 @@ const NSInteger WPRestErrorCodeMediaNew = 10;
                            }];
 }
 
+-(void)getVideoPressToken:(NSString *)videoPressID
+                           success:(void (^)(NSString *token))success
+                           failure:(void (^)(NSError *))failure
+{
+    
+    NSString *path = [NSString stringWithFormat:@"sites/%@/media/videopress-playback-jwt/%@", self.siteID, videoPressID];
+    NSString *requestUrl = [self pathForEndpoint:path
+                                     withVersion:ServiceRemoteWordPressComRESTApiVersion_2_0];
+
+    [self.wordPressComRestApi POST:requestUrl
+                        parameters:nil
+                           success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
+                               NSDictionary *response = (NSDictionary *)responseObject;
+                               NSString *token = [response stringForKey:@"metadata_token"];
+                               if (token) {
+                                   if (success) {
+                                       success(token);
+                                   }
+                               } else {
+                                   if (failure) {
+                                       NSError *error = [NSError errorWithDomain:WordPressComRestApiErrorDomain
+                                                                            code:WordPressComRestApiErrorUnknown
+                                                                        userInfo:nil];
+                                       failure(error);
+                                   }
+                               }
+                           } failure:^(NSError *error, NSHTTPURLResponse *response) {
+                               if (failure) {
+                                   failure(error);
+                               }
+                           }];
+}
+
 + (NSArray *)remoteMediaFromJSONArray:(NSArray *)jsonMedia
 {
     return [jsonMedia wp_map:^id(NSDictionary *json) {
