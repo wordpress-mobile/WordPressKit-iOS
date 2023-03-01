@@ -349,41 +349,6 @@ const NSInteger WPRestErrorCodeMediaNew = 10;
     }];
 }
 
--(void)getVideoURLFromVideoPressID:(NSString *)videoPressID
-                           success:(void (^)(NSURL *videoURL, NSURL *posterURL))success
-                           failure:(void (^)(NSError *))failure
-{
-    NSString *path = [NSString stringWithFormat:@"videos/%@", videoPressID];
-    NSString *requestUrl = [self pathForEndpoint:path
-                                     withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
-
-    [self.wordPressComRestApi GET:requestUrl
-                        parameters:nil
-                           success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
-                               NSDictionary *response = (NSDictionary *)responseObject;
-                               NSString *urlString = [response stringForKey:@"original"];
-                               NSString *posterURLString = [response stringForKey:@"poster"];
-                               NSURL *videoURL = [NSURL URLWithString:urlString];
-                               NSURL *posterURL = [NSURL URLWithString:posterURLString];
-                               if (videoURL) {
-                                   if (success) {
-                                       success(videoURL, posterURL);
-                                   }
-                               } else {
-                                   if (failure) {
-                                       NSError *error = [NSError errorWithDomain:WordPressComRestApiErrorDomain
-                                                                            code:WordPressComRestApiErrorUnknown
-                                                                        userInfo:nil];
-                                       failure(error);
-                                   }
-                               }
-                           } failure:^(NSError *error, NSHTTPURLResponse *response) {
-                               if (failure) {
-                                   failure(error);
-                               }
-                           }];
-}
-
 -(void)getVideoPressToken:(NSString *)videoPressID
                            success:(void (^)(NSString *token))success
                            failure:(void (^)(NSError *))failure

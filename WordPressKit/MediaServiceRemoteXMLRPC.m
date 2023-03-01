@@ -247,19 +247,6 @@
     }
 }
 
--(void)getVideoURLFromVideoPressID:(NSString *)videoPressID
-                           success:(void (^)(NSURL *videoURL, NSURL *posterURL))success
-                           failure:(void (^)(NSError *))failure
-{
-    //Sergio Estevao: 2017-04-12 this option doens't exist on XML-RPC so we will always fail the request
-    if (failure) {
-        NSError *error = [NSError errorWithDomain:NSURLErrorDomain
-                                             code:NSURLErrorUnsupportedURL
-                                         userInfo:nil];
-        failure(error);
-    }
-}
-
 -(void)getVideoPressToken:(NSString *)videoPressID
                            success:(void (^)(NSString *token))success
                            failure:(void (^)(NSError *))failure
