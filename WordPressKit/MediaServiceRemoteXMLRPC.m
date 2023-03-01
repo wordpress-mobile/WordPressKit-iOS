@@ -233,6 +233,20 @@
                  }];
 }
 
+-(void)getMetadataFromVideoPressID:(NSString *)videoPressID
+                     isSitePrivate:(BOOL)includeToken
+                           success:(void (^)(RemoteVideoPressVideo *video))success
+                           failure:(void (^)(NSError *))failure
+{
+    // ⚠️ The endpoint used for fetching the metadata  is not available in XML-RPC.
+    if (failure) {
+        NSError *error = [NSError errorWithDomain:NSURLErrorDomain
+                                             code:NSURLErrorUnsupportedURL
+                                         userInfo:nil];
+        failure(error);
+    }
+}
+
 -(void)getVideoURLFromVideoPressID:(NSString *)videoPressID
                            success:(void (^)(NSURL *videoURL, NSURL *posterURL))success
                            failure:(void (^)(NSError *))failure

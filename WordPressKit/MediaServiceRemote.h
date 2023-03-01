@@ -1,6 +1,7 @@
 #import <Foundation/Foundation.h>
 
 @class RemoteMedia;
+@class RemoteVideoPressVideo;
 
 @protocol MediaServiceRemote <NSObject>
 
@@ -57,6 +58,22 @@
 - (void)getMediaLibraryCountForType:(NSString *)mediaType
                         withSuccess:(void (^)(NSInteger))success
                             failure:(void (^)(NSError *))failure;
+
+/**
+ *  Retrieves the metadata of a VideoPress video.
+ *
+ *  The metadata parameters can be found in the API reference:
+ *  https://developer.wordpress.com/docs/api/1.1/get/videos/%24guid/
+ *
+ *  @param videoPressID ID of the video in VideoPress.
+ *  @param isSitePrivate true if the site is private, this will be used to determine the fetch of the VideoPress token.
+ *  @param success a block to be executed when the metadata is fetched successfully.
+ *  @param failure a block to be executed when the metadata can't be fetched.
+ */
+-(void)getMetadataFromVideoPressID:(NSString *)videoPressID
+                     isSitePrivate:(BOOL)isSitePrivate
+                           success:(void (^)(RemoteVideoPressVideo *metadata))success
+                           failure:(void (^)(NSError *))failure;
 
 /**
  Retrieves the VideoPress URL for the request videoPressID
