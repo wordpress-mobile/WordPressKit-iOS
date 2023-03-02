@@ -34,7 +34,7 @@ _None._
 
 ### Breaking Changes
 
-_None._
+- Refactor the logic to fetch metadata of VideoPress videos [#581]
 
 ### New Features
 
