@@ -15,7 +15,7 @@ open class FeatureFlagRemote: ServiceRemoteWordPressComREST {
 
         let parameters: [String: AnyObject] = [
             "device_id": deviceId as NSString,
-            "platform": "apple" as NSString,
+            "platform": "ios" as NSString,
             "build_number": NSString(string: Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "Unknown"),
             "marketing_version": NSString(string: Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "Unknown"),
             "identifier": NSString(string: Bundle.main.bundleIdentifier ?? "Unknown")

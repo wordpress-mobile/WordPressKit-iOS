@@ -42,7 +42,7 @@ _None._
 
 ### Bug Fixes
 
-_None._
+- Changes the feature flag platform identifier to `ios`
 
 ### Internal Changes
 
