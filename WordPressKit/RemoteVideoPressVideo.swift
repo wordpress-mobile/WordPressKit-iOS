@@ -2,13 +2,13 @@ import Foundation
 
 /// This enum matches the privacy setting constants defined in Jetpack:
 /// https://github.com/Automattic/jetpack/blob/a2ccfb7978184e306211292a66ed49dcf38a517f/projects/packages/videopress/src/utility-functions.php#L13-L17
-@objc public enum VideoPressPrivacySetting: Int {
+@objc public enum VideoPressPrivacySetting: Int, Encodable {
     case isPublic = 0
     case isPrivate = 1
     case siteDefault = 2
 }
 
-@objcMembers public class RemoteVideoPressVideo: NSObject {
+@objcMembers public class RemoteVideoPressVideo: NSObject, Encodable {
 
     /// The following properties match the response parameters from the `videos` endpoint:
     /// https://developer.wordpress.com/docs/api/1.1/get/videos/%24guid/
@@ -22,9 +22,9 @@ import Foundation
     public var id: String
     public var title: String?
     public var videoDescription: String?
-    public var width: NSNumber?
-    public var height: NSNumber?
-    public var duration: NSNumber?
+    public var width: Int?
+    public var height: Int?
+    public var duration: Int?
     public var displayEmbed: Bool?
     public var allowDownload: Bool?
     public var rating: String?
@@ -33,20 +33,24 @@ import Foundation
     public var originalURL: URL?
     public var watermarkURL: URL?
     public var bgColor: String?
-    public var blogId: NSNumber?
-    public var postId: NSNumber?
+    public var blogId: Int?
+    public var postId: Int?
     public var finished: Bool?
 
     public var token: String?
+
+    enum CodingKeys: String, CodingKey {
+        case id, title, description, width, height, duration, displayEmbed, allowDownload, rating, privacySetting, posterURL, originalURL, watermarkURL, bgColor, blogId, postId, finished, token, playURL
+    }
 
     public init(dictionary metadataDict: NSDictionary, id: String) {
         self.id = id
 
         title = metadataDict.string(forKey: "title")
         videoDescription = metadataDict.string(forKey: "descrption")
-        width = metadataDict.number(forKey: "width")
-        height = metadataDict.number(forKey: "height")
-        duration = metadataDict.number(forKey: "duration")
+        width = metadataDict.number(forKey: "width")?.intValue
+        height = metadataDict.number(forKey: "height")?.intValue
+        duration = metadataDict.number(forKey: "duration")?.intValue
         displayEmbed = metadataDict.object(forKey: "display_embed") as? Bool
         allowDownload = metadataDict.object(forKey: "allow_download") as? Bool
         rating = metadataDict.string(forKey: "rating")
@@ -63,8 +67,8 @@ import Foundation
             watermarkURL = URL(string: watermark)
         }
         bgColor = metadataDict.string(forKey: "bg_color")
-        blogId = metadataDict.number(forKey: "blog_id")
-        postId = metadataDict.number(forKey: "post_id")
+        blogId = metadataDict.number(forKey: "blog_id")?.intValue
+        postId = metadataDict.number(forKey: "post_id")?.intValue
         finished = metadataDict.object(forKey: "finished") as? Bool
     }
 
@@ -85,27 +89,39 @@ import Foundation
         return videoPlayURL
     }
 
-    public func toDict() -> [String: Any] {
-        return [
-            "id": self.id,
-            "title": self.title ?? "",
-            "description": self.videoDescription ?? "",
-            "width": self.width ?? 0,
-            "height": self.height ?? 0,
-            "duration": self.duration ?? 0,
-            "displayEmbed": self.displayEmbed!,
-            "allowDownload": self.allowDownload!,
-            "rating": self.rating ?? "",
-            "privacySetting": self.privacySetting,
-            "posterURL": self.posterURL?.absoluteString ?? "",
-            "originalURL": self.originalURL?.absoluteString ?? "",
-            "watermarkURL": self.watermarkURL?.absoluteString ?? "",
-            "bgColor": self.bgColor ?? "",
-            "blogId": self.blogId ?? -1,
-            "postId": self.postId ?? -1,
-            "finished": self.finished!,
-            "token": self.token ?? "",
-            "playURL": self.getPlayURL()?.absoluteString ?? self.originalURL?.absoluteString ?? ""
-        ]
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(id, forKey: .id)
+        try container.encode(title, forKey: .title)
+        try container.encode(videoDescription, forKey: .description)
+        try container.encode(width, forKey: .width)
+        try container.encode(height, forKey: .height)
+        try container.encode(duration, forKey: .duration)
+        try container.encode(displayEmbed, forKey: .displayEmbed)
+        try container.encode(allowDownload, forKey: .allowDownload)
+        try container.encode(rating, forKey: .rating)
+        try container.encode(privacySetting, forKey: .privacySetting)
+        try container.encode(posterURL, forKey: .posterURL)
+        try container.encode(originalURL, forKey: .originalURL)
+        try container.encode(watermarkURL, forKey: .watermarkURL)
+        try container.encode(bgColor, forKey: .bgColor)
+        try container.encode(blogId, forKey: .blogId)
+        try container.encode(postId, forKey: .postId)
+        try container.encode(finished, forKey: .finished)
+        try container.encode(token, forKey: .token)
+        let playURL = getPlayURL()?.absoluteString ?? self.originalURL?.absoluteString ?? ""
+        try container.encode(playURL, forKey: .playURL)
+    }
+
+    public func asDictionary() -> [String: Any] {
+        guard
+            let data = try? JSONEncoder().encode(self),
+            let dictionary = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any]
+        else {
+            assertionFailure("Encoding of RemoteVideoPressVideo failed")
+            return [String: Any]()
+        }
+        return dictionary
     }
 }
