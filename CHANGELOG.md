@@ -42,11 +42,19 @@ _None._
 
 ### Bug Fixes
 
-- Changes the feature flag platform identifier to `ios`
+_None._
 
 ### Internal Changes
 
 _None._
+
+## 6.2.0
+
+_This should have been 6.1.1 because there was only a bug fix, but I realized it only after the release had already been published on CocoaPods. – @mokagio_
+
+### Bug Fixes
+
+- Changes the feature flag platform identifier to `ios` [#582]
 
 ## 6.1.0
 
