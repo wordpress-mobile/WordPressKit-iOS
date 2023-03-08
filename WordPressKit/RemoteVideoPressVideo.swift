@@ -74,7 +74,7 @@ import Foundation
 
     /// Returns the specified URL adding the token as a query parameter, which is required to play private videos.
     /// - Parameters:
-    ///   - url
+    ///   - url: URL to include the token.
     ///
     /// - Returns: The specified URL with the token as a query parameter.
     @objc(getURLWithToken:)
