@@ -40,7 +40,7 @@ import Foundation
     public var token: String?
 
     enum CodingKeys: String, CodingKey {
-        case id, title, description, width, height, duration, displayEmbed, allowDownload, rating, privacySetting, posterURL, originalURL, watermarkURL, bgColor, blogId, postId, finished, token, playURL
+        case id, title, description, width, height, duration, displayEmbed, allowDownload, rating, privacySetting, posterURL, originalURL, watermarkURL, bgColor, blogId, postId, finished, token
     }
 
     public init(dictionary metadataDict: NSDictionary, id: String) {
@@ -72,21 +72,24 @@ import Foundation
         finished = metadataDict.object(forKey: "finished") as? Bool
     }
 
-    /// Returns the URL that should be used to play the video.
+    /// Returns the specified URL adding the token as a query parameter, which is required to play private videos.
+    /// - Parameters:
+    ///   - url
     ///
-    /// The URL used is the original but adding the token as a query parameter, which is required to play private videos.
-    public func getPlayURL() -> URL? {
-        guard var videoPlayURL = self.originalURL else {
+    /// - Returns: The specified URL with the token as a query parameter.
+    @objc(getURLWithToken:)
+    public func getURLWithToken(url: URL?) -> URL? {
+        guard var urlWithToken = url else {
             return nil
         }
-        if let token = self.token, var urlComponents = URLComponents(url: videoPlayURL, resolvingAgainstBaseURL: true) {
+        if let token = self.token, var urlComponents = URLComponents(url: urlWithToken, resolvingAgainstBaseURL: true) {
             let metadataTokenParam = URLQueryItem(name: "metadata_token", value: token)
             var queryItems: [URLQueryItem] = urlComponents.queryItems ?? []
             queryItems.append(metadataTokenParam)
             urlComponents.queryItems = queryItems
-            videoPlayURL = urlComponents.url!
+            urlWithToken = urlComponents.url!
         }
-        return videoPlayURL
+        return urlWithToken
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -110,8 +113,6 @@ import Foundation
         try container.encode(postId, forKey: .postId)
         try container.encode(finished, forKey: .finished)
         try container.encode(token, forKey: .token)
-        let playURL = getPlayURL()?.absoluteString ?? self.originalURL?.absoluteString ?? ""
-        try container.encode(playURL, forKey: .playURL)
     }
 
     public func asDictionary() -> [String: Any] {
