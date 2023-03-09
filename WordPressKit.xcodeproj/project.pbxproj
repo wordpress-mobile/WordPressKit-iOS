@@ -20,6 +20,7 @@
 		17D936252475D8AB008B2205 /* RemoteHomepageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D936242475D8AB008B2205 /* RemoteHomepageType.swift */; };
 		1A4F98672279A87D00D86E8E /* WPKit-Swift.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A4F98662279A87D00D86E8E /* WPKit-Swift.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		1DAC3D2629AF4F250068FE13 /* RemoteVideoPressVideo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DAC3D2529AF4F250068FE13 /* RemoteVideoPressVideo.swift */; };
+		1DC837C229B9F04F009DCD4B /* RemoteVideoPressVideoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC837C129B9F04F009DCD4B /* RemoteVideoPressVideoTests.swift */; };
 		1DF972BA29B0DF8C007A72BC /* videopress-token.json in Resources */ = {isa = PBXBuildFile; fileRef = 1DF972B729B0DF8C007A72BC /* videopress-token.json */; };
 		1DF972BF29B107E7007A72BC /* videopress-private-video.json in Resources */ = {isa = PBXBuildFile; fileRef = 1DF972BC29B107E7007A72BC /* videopress-private-video.json */; };
 		1DF972C029B107E7007A72BC /* videopress-public-video.json in Resources */ = {isa = PBXBuildFile; fileRef = 1DF972BD29B107E7007A72BC /* videopress-public-video.json */; };
@@ -683,6 +684,7 @@
 		17D936242475D8AB008B2205 /* RemoteHomepageType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteHomepageType.swift; sourceTree = "<group>"; };
 		1A4F98662279A87D00D86E8E /* WPKit-Swift.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "WPKit-Swift.h"; sourceTree = "<group>"; };
 		1DAC3D2529AF4F250068FE13 /* RemoteVideoPressVideo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteVideoPressVideo.swift; sourceTree = "<group>"; };
+		1DC837C129B9F04F009DCD4B /* RemoteVideoPressVideoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteVideoPressVideoTests.swift; sourceTree = "<group>"; };
 		1DF972B729B0DF8C007A72BC /* videopress-token.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "videopress-token.json"; sourceTree = "<group>"; };
 		1DF972BC29B107E7007A72BC /* videopress-private-video.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "videopress-private-video.json"; sourceTree = "<group>"; };
 		1DF972BD29B107E7007A72BC /* videopress-public-video.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "videopress-public-video.json"; sourceTree = "<group>"; };
@@ -2470,6 +2472,7 @@
 			children = (
 				F3FF8A1B279C86E000E5C90F /* Stats */,
 				F3FF8A20279C8EE200E5C90F /* RemotePersonTests.swift */,
+				1DC837C129B9F04F009DCD4B /* RemoteVideoPressVideoTests.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -3293,6 +3296,7 @@
 				BAFA775624ADAB3C000F0D3A /* MockPluginDirectoryEntryProvider.swift in Sources */,
 				9AB6D64A218727D60008F274 /* PostServiceRemoteRESTRevisionsTest.swift in Sources */,
 				7430C9BD1F192C0F0051B8E6 /* ReaderPostServiceRemoteTests.m in Sources */,
+				1DC837C229B9F04F009DCD4B /* RemoteVideoPressVideoTests.swift in Sources */,
 				FAD1345125909DEA00A8FEB1 /* JetpackBackupServiceRemoteTests.swift in Sources */,
 				8B2F4BE924ABC9DC0056C08A /* ReaderPostServiceRemote+CardsTests.swift in Sources */,
 				40F9880C221ACEEE00B7B369 /* StatsRemoteV2Tests.swift in Sources */,
