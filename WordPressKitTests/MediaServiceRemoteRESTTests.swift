@@ -1,8 +1,7 @@
 import XCTest
-import OHHTTPStubs
 @testable import WordPressKit
 
-class MediaServiceRemoteRESTTests: XCTestCase {
+class MediaServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
 
     let mockRemoteApi = MockWordPressComRestApi()
     var mediaServiceRemote: MediaServiceRemoteREST!
@@ -11,11 +10,6 @@ class MediaServiceRemoteRESTTests: XCTestCase {
     override func setUp() {
         super.setUp()
         mediaServiceRemote = MediaServiceRemoteREST(wordPressComRestApi: mockRemoteApi, siteID: NSNumber(value: siteID))
-    }
-
-    override func tearDown() {
-        super.tearDown()
-        HTTPStubs.removeAllStubs()
     }
 
     func mockRemoteMedia() -> RemoteMedia {
@@ -27,30 +21,6 @@ class MediaServiceRemoteRESTTests: XCTestCase {
         remoteMedia.mimeType = "img/jpeg"
         remoteMedia.file = "file_name"
         return remoteMedia
-    }
-
-    func mockVideoPressMetadataResponse(mockData: String) {
-        stub(condition: { request in
-            guard let url = request.url?.absoluteString else {
-                return false
-            }
-            return url.contains("/videos/")
-        }) { _ in
-            let stubPath = OHPathForFile(mockData, type(of: self))
-            return fixture(filePath: stubPath!, headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
-        }
-    }
-
-    func mockVideoPressTokenResponse() {
-        stub(condition: { request in
-            guard let url = request.url?.absoluteString else {
-                return false
-            }
-            return url.contains("/media/videopress-playback-jwt/")
-        }) { _ in
-            let stubPath = OHPathForFile("videopress-token.json", type(of: self))
-            return fixture(filePath: stubPath!, headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
-        }
     }
 
     func testGetMediaWithIDPath() {
@@ -379,7 +349,6 @@ class MediaServiceRemoteRESTTests: XCTestCase {
     }
 
     func testGetMetadataFromVideoPressIDPath() {
-
         let id = "AbCDeF"
         let expectedPath = mediaServiceRemote.path(forEndpoint: "videos/\(id)", withVersion: ._1_1)
         mediaServiceRemote.getMetadataFromVideoPressID(id, isSitePrivate: false, success: nil, failure: nil)
@@ -390,10 +359,9 @@ class MediaServiceRemoteRESTTests: XCTestCase {
     func testGetMetadataFromPublicVideoPressIDPath() {
         let id = "AbCDeF"
         // Mock VideoPress metadata response.
-        mockVideoPressMetadataResponse(mockData: "videopress-public-video.json")
+        stubRemoteResponse("/videos", filename: "videopress-public-video.json", contentType: .ApplicationHTML)
         let expect = self.expectation(description: "VideoPress metadata is fetched for a public video in a private site")
-        let api = WordPressComRestApi(oAuthToken: nil, userAgent: nil)
-        let mediaServiceRemote = MediaServiceRemoteREST(wordPressComRestApi: api, siteID: NSNumber(value: siteID))
+        let mediaServiceRemote = MediaServiceRemoteREST(wordPressComRestApi: getRestApi(), siteID: NSNumber(value: siteID))
         mediaServiceRemote.getMetadataFromVideoPressID(id, isSitePrivate: true, success: { metadata in
             expect.fulfill()
             XCTAssertNotNil(metadata)
@@ -409,13 +377,10 @@ class MediaServiceRemoteRESTTests: XCTestCase {
     func testGetMetadataFromPrivateVideoPressIDPath() {
         let id = "AbCDeF"
         let token = "videopress-token"
-        // Mock VideoPress metadata response.
-        mockVideoPressMetadataResponse(mockData: "videopress-private-video.json")
-        // Mock VideoPress token response.
-        mockVideoPressTokenResponse()
+        stubRemoteResponse("/videos", filename: "videopress-private-video.json", contentType: .ApplicationHTML)
+        stubRemoteResponse("/media/videopress-playback-jwt", filename: "videopress-token.json", contentType: .ApplicationHTML)
         let expect = self.expectation(description: "VideoPress metadata is fetched for a private video in public site")
-        let api = WordPressComRestApi(oAuthToken: nil, userAgent: nil)
-        let mediaServiceRemote = MediaServiceRemoteREST(wordPressComRestApi: api, siteID: NSNumber(value: siteID))
+        let mediaServiceRemote = MediaServiceRemoteREST(wordPressComRestApi: getRestApi(), siteID: NSNumber(value: siteID))
         mediaServiceRemote.getMetadataFromVideoPressID(id, isSitePrivate: false, success: { metadata in
             expect.fulfill()
             XCTAssertNotNil(metadata)
@@ -431,13 +396,10 @@ class MediaServiceRemoteRESTTests: XCTestCase {
     func testGetMetadataFromSiteDefaultVideoPressIDPath() {
         let id = "AbCDeF"
         let token = "videopress-token"
-        // Mock VideoPress metadata response.
-        mockVideoPressMetadataResponse(mockData: "videopress-site-default-video.json")
-        // Mock VideoPress token response.
-        mockVideoPressTokenResponse()
+        stubRemoteResponse("/videos", filename: "videopress-site-default-video.json", contentType: .ApplicationHTML)
+        stubRemoteResponse("/media/videopress-playback-jwt", filename: "videopress-token.json", contentType: .ApplicationHTML)
         let expect = self.expectation(description: "VideoPress metadata is fetched for a site default video in a private site")
-        let api = WordPressComRestApi(oAuthToken: nil, userAgent: nil)
-        let mediaServiceRemote = MediaServiceRemoteREST(wordPressComRestApi: api, siteID: NSNumber(value: siteID))
+        let mediaServiceRemote = MediaServiceRemoteREST(wordPressComRestApi: getRestApi(), siteID: NSNumber(value: siteID))
         mediaServiceRemote.getMetadataFromVideoPressID(id, isSitePrivate: true, success: { metadata in
             expect.fulfill()
             XCTAssertNotNil(metadata)
@@ -453,21 +415,9 @@ class MediaServiceRemoteRESTTests: XCTestCase {
     func testGetVideoPressToken() {
         let id = "AbCDeF"
         let token = "videopress-token"
-
-        // Mock VideoPress token response.
-        stub(condition: { request in
-            guard let url = request.url?.absoluteString else {
-                return false
-            }
-            return url.contains("/media/videopress-playback-jwt/")
-        }) { _ in
-            let stubPath = OHPathForFile("videopress-token.json", type(of: self))
-            return fixture(filePath: stubPath!, headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
-        }
-
+        stubRemoteResponse("/media/videopress-playback-jwt", filename: "videopress-token.json", contentType: .ApplicationHTML)
         let expect = self.expectation(description: "VideoPress token is fetched for a video")
-        let api = WordPressComRestApi(oAuthToken: nil, userAgent: nil)
-        let mediaServiceRemote = MediaServiceRemoteREST(wordPressComRestApi: api, siteID: NSNumber(value: siteID))
+        let mediaServiceRemote = MediaServiceRemoteREST(wordPressComRestApi: getRestApi(), siteID: NSNumber(value: siteID))
         mediaServiceRemote.getVideoPressToken(id, success: { result in
             expect.fulfill()
             XCTAssertEqual(result, token)
