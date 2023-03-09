@@ -47,7 +47,7 @@ import Foundation
         self.id = id
 
         title = metadataDict.string(forKey: "title")
-        videoDescription = metadataDict.string(forKey: "descrption")
+        videoDescription = metadataDict.string(forKey: "description")
         width = metadataDict.number(forKey: "width")?.intValue
         height = metadataDict.number(forKey: "height")?.intValue
         duration = metadataDict.number(forKey: "duration")?.intValue
