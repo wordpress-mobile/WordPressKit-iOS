@@ -77,13 +77,13 @@ open class WordPressOrgRestApi: NSObject, WordPressRestApi {
         sessionManager.session.invalidateAndCancel()
     }
 
-    private lazy var sessionManager: Alamofire.SessionManager = {
+    private lazy var sessionManager: Alamofire.Session = {
         let sessionConfiguration = URLSessionConfiguration.default
-        let sessionManager = self.makeSessionManager(configuration: sessionConfiguration)
+        let sessionManager = self.makeSession(configuration: sessionConfiguration)
         return sessionManager
     }()
 
-    private func makeSessionManager(configuration sessionConfiguration: URLSessionConfiguration) -> Alamofire.SessionManager {
+    private func makeSession(configuration sessionConfiguration: URLSessionConfiguration) -> Alamofire.Session {
         var additionalHeaders: [String: AnyObject] = [:]
         if let userAgent = self.userAgent {
             additionalHeaders["User-Agent"] = userAgent as AnyObject?
@@ -91,9 +91,9 @@ open class WordPressOrgRestApi: NSObject, WordPressRestApi {
 
         sessionConfiguration.httpAdditionalHeaders = additionalHeaders
 
-        let sessionManager = Alamofire.SessionManager(configuration: sessionConfiguration)
-        sessionManager.adapter = authenticator
-        sessionManager.retrier = authenticator
+        let sessionManager = Alamofire.Session(configuration: sessionConfiguration)
+//        sessionManager.adapter = authenticator
+//        sessionManager.retrier = authenticator
         return sessionManager
     }
 }

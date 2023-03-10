@@ -78,24 +78,24 @@ open class WordPressComRestApi: NSObject {
      */
     @objc open var appendsPreferredLanguageLocale = true
 
-    private lazy var sessionManager: Alamofire.SessionManager = {
+    private lazy var sessionManager: Alamofire.Session = {
         let sessionConfiguration = URLSessionConfiguration.default
-        let sessionManager = self.makeSessionManager(configuration: sessionConfiguration)
+        let sessionManager = self.makeSession(configuration: sessionConfiguration)
         return sessionManager
     }()
 
-    private lazy var uploadSessionManager: Alamofire.SessionManager = {
+    private lazy var uploadSession: Alamofire.Session = {
         if self.backgroundUploads {
             let sessionConfiguration = URLSessionConfiguration.background(withIdentifier: self.backgroundSessionIdentifier)
             sessionConfiguration.sharedContainerIdentifier = self.sharedContainerIdentifier
-            let sessionManager = self.makeSessionManager(configuration: sessionConfiguration)
+            let sessionManager = self.makeSession(configuration: sessionConfiguration)
             return sessionManager
         }
 
         return self.sessionManager
     }()
 
-    private func makeSessionManager(configuration sessionConfiguration: URLSessionConfiguration) -> Alamofire.SessionManager {
+    private func makeSession(configuration sessionConfiguration: URLSessionConfiguration) -> Alamofire.Session {
         var additionalHeaders: [String: AnyObject] = [:]
         if let oAuthToken = self.oAuthToken {
             additionalHeaders["Authorization"] = "Bearer \(oAuthToken)" as AnyObject?
@@ -105,7 +105,7 @@ open class WordPressComRestApi: NSObject {
         }
 
         sessionConfiguration.httpAdditionalHeaders = additionalHeaders
-        let sessionManager = Alamofire.SessionManager(configuration: sessionConfiguration)
+        let sessionManager = Alamofire.Session(configuration: sessionConfiguration)
 
         return sessionManager
     }
@@ -155,7 +155,7 @@ open class WordPressComRestApi: NSObject {
 
     deinit {
         sessionManager.session.finishTasksAndInvalidate()
-        uploadSessionManager.session.finishTasksAndInvalidate()
+        uploadSession.session.finishTasksAndInvalidate()
     }
 
     /// Cancels all outgoing tasks asynchronously without invalidating the session.
@@ -170,7 +170,7 @@ open class WordPressComRestApi: NSObject {
      */
     @objc open func invalidateAndCancelTasks() {
         sessionManager.session.invalidateAndCancel()
-        uploadSessionManager.session.invalidateAndCancel()
+        uploadSession.session.invalidateAndCancel()
     }
 
     @objc func setInvalidTokenHandler(_ handler: @escaping () -> Void) {
@@ -325,34 +325,34 @@ open class WordPressComRestApi: NSObject {
             progress.completedUnitCount = taskProgress.completedUnitCount
         }
 
-        uploadSessionManager.upload(multipartFormData: { (multipartFormData) in
-            for filePart in fileParts {
-                multipartFormData.append(filePart.url, withName: filePart.parameterName, fileName: filePart.filename, mimeType: filePart.mimeType)
-            }
-        }, to: URLString, encodingCompletion: { (encodingResult) in
-            switch encodingResult {
-            case .success(let upload, _, _):
-                if let taskIdentifier = upload.task?.taskIdentifier {
-                    requestEnqueued?(NSNumber(value: taskIdentifier))
-                }
-                let dataRequest = upload.validate().responseJSON(completionHandler: { response in
-                    switch response.result {
-                    case .success(let responseObject):
-                        progress.completedUnitCount = progress.totalUnitCount
-                        success(responseObject as AnyObject, response.response)
-                    case .failure(let error):
-                        let nserror = self.processError(response: response, originalError: error)
-                        failure(nserror, response.response)
-                    }
-                }).uploadProgress(closure: progressUpdater)
-
-                progress.cancellationHandler = {
-                    dataRequest.cancel()
-                }
-            case .failure(let encodingError):
-                failure(encodingError as NSError, nil)
-            }
-        })
+//        uploadSession.upload(multipartFormData: { (multipartFormData) in
+//            for filePart in fileParts {
+//                multipartFormData.append(filePart.url, withName: filePart.parameterName, fileName: filePart.filename, mimeType: filePart.mimeType)
+//            }
+//        }, to: URLString, encodingCompletion: { (encodingResult) in
+//            switch encodingResult {
+//            case .success(let upload, _, _):
+//                if let taskIdentifier = upload.task?.taskIdentifier {
+//                    requestEnqueued?(NSNumber(value: taskIdentifier))
+//                }
+//                let dataRequest = upload.validate().responseJSON(completionHandler: { response in
+//                    switch response.result {
+//                    case .success(let responseObject):
+//                        progress.completedUnitCount = progress.totalUnitCount
+//                        success(responseObject as AnyObject, response.response)
+//                    case .failure(let error):
+//                        let nserror = self.processError(response: response, originalError: error)
+//                        failure(nserror, response.response)
+//                    }
+//                }).uploadProgress(closure: progressUpdater)
+//
+//                progress.cancellationHandler = {
+//                    dataRequest.cancel()
+//                }
+//            case .failure(let encodingError):
+//                failure(encodingError as NSError, nil)
+//            }
+//        })
 
         return progress
     }
@@ -373,7 +373,7 @@ open class WordPressComRestApi: NSObject {
     /// added to the path of requests. This approach did not consider request parameters.
     ///
     /// This method now considers both the path and specified request parameters when performing the substitution.
-    /// It only accounts for the locale parameter. AlamoFire encodes other parameters via `SessionManager.request(_:method:parameters:encoding:headers:)`
+    /// It only accounts for the locale parameter. AlamoFire encodes other parameters via `Session.request(_:method:parameters:encoding:headers:)`
     ///
     /// - Parameters:
     ///   - path: the path for the request, which might include `locale`
@@ -541,7 +541,7 @@ public final class FilePart: NSObject {
 extension WordPressComRestApi {
 
     /// A custom error processor to handle error responses when status codes are betwen 400 and 500
-    func processError(response: DataResponse<Any>, originalError: Error) -> NSError {
+    func processError(response: AFDataResponse<Any>, originalError: Error) -> NSError {
 
         let originalNSError = originalError as NSError
         guard let afError = originalError as?  AFError, case AFError.responseValidationFailed(_) = afError, let httpResponse = response.response, (400...500).contains(httpResponse.statusCode), let data = response.data else {

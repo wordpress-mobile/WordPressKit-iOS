@@ -9,14 +9,22 @@ public typealias RequestAuthenticationValidator = (URLRequest) -> Bool
 public protocol Authenticator: RequestRetrier & RequestAdapter {}
 
 public extension Authenticator {
-    func should(_ manager: SessionManager, retry request: Request, with error: Error, completion: @escaping RequestRetryCompletion) {
-        completion(false, 0.0)
+    func should(_ manager: Session, retry request: Request, with error: Error, completion: @escaping (RetryResult) -> Void) {
+        completion(.retry)
     }
 }
 
 // MARK: - Token Auth
 
 public struct TokenAuthenticator: Authenticator {
+    public func retry(_ request: Alamofire.Request, for session: Alamofire.Session, dueTo error: Error, completion: @escaping (Alamofire.RetryResult) -> Void) {
+
+    }
+
+    public func adapt(_ urlRequest: URLRequest, for session: Alamofire.Session, completion: @escaping (Result<URLRequest, Error>) -> Void) {
+       
+    }
+
     fileprivate let token: Secret<String>
     fileprivate let shouldAuthenticate: RequestAuthenticationValidator
 
@@ -38,6 +46,13 @@ public struct TokenAuthenticator: Authenticator {
 // MARK: - Cookie Nonce Auth
 
 public class CookieNonceAuthenticator: Authenticator {
+    public func retry(_ request: Request, for session: Session, dueTo error: Swift.Error, completion: @escaping (RetryResult) -> Void) {
+    }
+
+    public func adapt(_ urlRequest: URLRequest, for session: Session, completion: @escaping (Result<URLRequest, Swift.Error>) -> Void) {
+        
+    }
+
     private let username: String
     private let password: Secret<String>
     private let loginURL: URL
@@ -48,7 +63,7 @@ public class CookieNonceAuthenticator: Authenticator {
     // It is likely that there is something preventing us from extracting a nonce
     private var canRetry = true
     private var isAuthenticating = false
-    private var requestsToRetry = [RequestRetryCompletion]()
+    private var requestsToRetry = [RetryResult]()
     private var nonceRetrievalMethod: NonceRetrievalMethod = .newPostScrap
 
     public init(username: String, password: String, loginURL: URL, adminURL: URL, version: String = "5.0", nonce: String? = nil) {
@@ -76,7 +91,7 @@ public class CookieNonceAuthenticator: Authenticator {
     }
 
     // MARK: Retrier
-    public func should(_ manager: SessionManager, retry request: Request, with error: Swift.Error, completion: @escaping RequestRetryCompletion) {
+    public func should(_ manager: Session, retry request: Request, with error: Swift.Error, completion: @escaping (RetryResult) -> Void) {
         guard
             canRetry,
             // Only retry once
@@ -86,10 +101,10 @@ public class CookieNonceAuthenticator: Authenticator {
             // Only retry because of failed authorization
             case .responseValidationFailed(reason: .unacceptableStatusCode(code: 401)) = error as? AFError
         else {
-            return completion(false, 0.0)
+            return completion(.retry)
         }
 
-        requestsToRetry.append(completion)
+//        requestsToRetry.append(completion)
         if !isAuthenticating {
             startLoginSequence(manager: manager)
         }
@@ -106,7 +121,7 @@ public class CookieNonceAuthenticator: Authenticator {
 // MARK: Private helpers
 private extension CookieNonceAuthenticator {
 
-    func startLoginSequence(manager: SessionManager) {
+    func startLoginSequence(manager: Session) {
         WPKitLogInfo("Starting Cookie+Nonce login sequence for \(loginURL)")
         guard let nonceRetrievalURL = nonceRetrievalMethod.buildURL(base: adminURL) else {
             return invalidateLoginSequence(error: .invalidNewPostURL)
@@ -153,7 +168,7 @@ private extension CookieNonceAuthenticator {
 
     func completeRequests(_ shouldRetry: Bool) {
         requestsToRetry.forEach { (completion) in
-            completion(shouldRetry, 0.0)
+//            completion(shouldRetry, 0.0)
         }
         requestsToRetry.removeAll()
     }

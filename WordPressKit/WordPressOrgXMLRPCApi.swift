@@ -26,48 +26,48 @@ open class WordPressOrgXMLRPCApi: NSObject {
     ///
     @objc public static let minimumSupportedVersion = "4.0"
 
-    private var _sessionManager: Alamofire.SessionManager?
-    private var sessionManager: Alamofire.SessionManager {
+    private var _sessionManager: Alamofire.Session?
+    private var sessionManager: Alamofire.Session {
         guard let sessionManager = _sessionManager else {
             let sessionConfiguration = URLSessionConfiguration.default
-            let sessionManager = self.makeSessionManager(configuration: sessionConfiguration)
+            let sessionManager = self.makeSession(configuration: sessionConfiguration)
             _sessionManager = sessionManager
             return sessionManager
         }
         return sessionManager
     }
 
-    private var _uploadSessionManager: Alamofire.SessionManager?
-    private var uploadSessionManager: Alamofire.SessionManager {
+    private var _uploadSession: Alamofire.Session?
+    private var uploadSession: Alamofire.Session {
         if self.backgroundUploads {
-            guard let uploadSessionManager = _uploadSessionManager else {
+            guard let uploadSession = _uploadSession else {
                 let sessionConfiguration = URLSessionConfiguration.background(withIdentifier: self.backgroundSessionIdentifier)
-                let sessionManager = self.makeSessionManager(configuration: sessionConfiguration)
-                _uploadSessionManager = sessionManager
+                let sessionManager = self.makeSession(configuration: sessionConfiguration)
+                _uploadSession = sessionManager
                 return sessionManager
             }
-            return uploadSessionManager
+            return uploadSession
         }
         return sessionManager
     }
 
-    private func makeSessionManager(configuration sessionConfiguration: URLSessionConfiguration) -> Alamofire.SessionManager {
+    private func makeSession(configuration sessionConfiguration: URLSessionConfiguration) -> Alamofire.Session {
         var additionalHeaders: [String: AnyObject] = ["Accept-Encoding": "gzip, deflate" as AnyObject]
         if let userAgent = self.userAgent {
             additionalHeaders["User-Agent"] = userAgent as AnyObject?
         }
         sessionConfiguration.httpAdditionalHeaders = additionalHeaders
-        let sessionManager = Alamofire.SessionManager(configuration: sessionConfiguration)
+        let sessionManager = Alamofire.Session(configuration: sessionConfiguration)
 
         let sessionDidReceiveChallengeWithCompletion: ((URLSession, URLAuthenticationChallenge, @escaping(URLSession.AuthChallengeDisposition, URLCredential?) -> Void) -> Void) = { [weak self] session, authenticationChallenge, completionHandler in
             self?.urlSession(session, didReceive: authenticationChallenge, completionHandler: completionHandler)
         }
-        sessionManager.delegate.sessionDidReceiveChallengeWithCompletion = sessionDidReceiveChallengeWithCompletion
+//        sessionManager.delegate.sessionDidReceiveChallengeWithCompletion = sessionDidReceiveChallengeWithCompletion
 
         let  taskDidReceiveChallengeWithCompletion: ((URLSession, URLSessionTask, URLAuthenticationChallenge, @escaping(URLSession.AuthChallengeDisposition, URLCredential?) -> Void) -> Void) = { [weak self] session, task, authenticationChallenge, completionHandler in
             self?.urlSession(session, task: task, didReceive: authenticationChallenge, completionHandler: completionHandler)
         }
-        sessionManager.delegate.taskDidReceiveChallengeWithCompletion = taskDidReceiveChallengeWithCompletion
+//        sessionManager.delegate.taskDidReceiveChallengeWithCompletion = taskDidReceiveChallengeWithCompletion
         return sessionManager
     }
 
@@ -97,7 +97,7 @@ open class WordPressOrgXMLRPCApi: NSObject {
 
     deinit {
         _sessionManager?.session.finishTasksAndInvalidate()
-        _uploadSessionManager?.session.finishTasksAndInvalidate()
+        _uploadSession?.session.finishTasksAndInvalidate()
     }
 
     /**
@@ -105,7 +105,7 @@ open class WordPressOrgXMLRPCApi: NSObject {
      */
     @objc open func invalidateAndCancelTasks() {
         sessionManager.session.invalidateAndCancel()
-        uploadSessionManager.session.invalidateAndCancel()
+        uploadSession.session.invalidateAndCancel()
     }
 
     // MARK: - Network requests
@@ -201,7 +201,7 @@ open class WordPressOrgXMLRPCApi: NSObject {
                 return
             }
 
-            let uploadRequest = self.uploadSessionManager.upload(fileURL, with: request)
+            let uploadRequest = self.uploadSession.upload(fileURL, with: request)
                 .uploadProgress { (requestProgress) in
                     progress.totalUnitCount = requestProgress.totalUnitCount + 1
                     progress.completedUnitCount = requestProgress.completedUnitCount

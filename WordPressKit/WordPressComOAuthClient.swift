@@ -45,26 +45,26 @@ public final class WordPressComOAuthClient: NSObject {
     private let wordPressComBaseUrl: String
     private let wordPressComApiBaseUrl: String
 
-    private let oauth2SessionManager: SessionManager = {
+    private let oauth2Session: Session = {
         return WordPressComOAuthClient.sessionManager()
     }()
 
-    private let socialSessionManager: SessionManager = {
+    private let socialSession: Session = {
         return WordPressComOAuthClient.sessionManager()
     }()
 
-    private let social2FASessionManager: SessionManager = {
+    private let social2FASession: Session = {
         return WordPressComOAuthClient.sessionManager()
     }()
 
-    private let socialNewSMS2FASessionManager: SessionManager = {
+    private let socialNewSMS2FASession: Session = {
         return WordPressComOAuthClient.sessionManager()
     }()
 
-    private class func sessionManager() -> SessionManager {
+    private class func sessionManager() -> Session {
         let configuration = URLSessionConfiguration.ephemeral
         configuration.httpAdditionalHeaders = ["Accept": "application/json"]
-        let sessionManager = SessionManager(configuration: .ephemeral)
+        let sessionManager = Session(configuration: .ephemeral)
 
         return sessionManager
     }
@@ -134,7 +134,7 @@ public final class WordPressComOAuthClient: NSObject {
             parameters["wpcom_otp"] = multifactorCode as AnyObject?
         }
 
-        oauth2SessionManager.request(WordPressComURL.oAuthBase.url(base: wordPressComApiBaseUrl), method: .post, parameters: parameters)
+        oauth2Session.request(WordPressComURL.oAuthBase.url(base: wordPressComApiBaseUrl), method: .post, parameters: parameters)
             .validate()
             .responseJSON(completionHandler: { response in
                 switch response.result {
@@ -177,7 +177,7 @@ public final class WordPressComOAuthClient: NSObject {
             "wpcom_resend_otp": true
         ] as [String: Any]
 
-        oauth2SessionManager.request(WordPressComURL.oAuthBase.url(base: wordPressComApiBaseUrl), method: .post, parameters: parameters)
+        oauth2Session.request(WordPressComURL.oAuthBase.url(base: wordPressComApiBaseUrl), method: .post, parameters: parameters)
             .validate()
             .responseJSON(completionHandler: { response in
                 switch response.result {
@@ -212,7 +212,7 @@ public final class WordPressComOAuthClient: NSObject {
             "wpcom_resend_otp": true
             ] as [String: Any]
 
-        socialNewSMS2FASessionManager.request(WordPressComURL.socialLoginNewSMS2FA.url(base: wordPressComBaseUrl), method: .post, parameters: parameters)
+        socialNewSMS2FASession.request(WordPressComURL.socialLoginNewSMS2FA.url(base: wordPressComBaseUrl), method: .post, parameters: parameters)
             .validate()
             .responseJSON(completionHandler: { response in
                 switch response.result {
@@ -265,7 +265,7 @@ public final class WordPressComOAuthClient: NSObject {
             ] as [String: Any]
 
         // Passes an empty string for the path. The session manager was composed with the full endpoint path.
-        socialSessionManager.request(WordPressComURL.socialLogin.url(base: wordPressComBaseUrl), method: .post, parameters: parameters)
+        socialSession.request(WordPressComURL.socialLogin.url(base: wordPressComBaseUrl), method: .post, parameters: parameters)
             .validate()
             .responseJSON(completionHandler: { response in
                 switch response.result {
@@ -390,7 +390,7 @@ public final class WordPressComOAuthClient: NSObject {
             ] as [String: Any]
 
         // Passes an empty string for the path. The session manager was composed with the full endpoint path.
-        social2FASessionManager.request(WordPressComURL.socialLogin2FA.url(base: wordPressComBaseUrl), method: .post, parameters: parameters)
+        social2FASession.request(WordPressComURL.socialLogin2FA.url(base: wordPressComBaseUrl), method: .post, parameters: parameters)
             .validate()
             .responseJSON(completionHandler: { response in
                 switch response.result {
@@ -471,7 +471,7 @@ extension WordPressComOAuthClient {
     /// A error processor to handle error responses when status codes are betwen 400 and 500.
     /// Some HTTP requests include a response body even in a failure scenario. This method ensures
     /// it is available via an error's userInfo dictionary.
-    func processError(response: DataResponse<Any>, originalError: Error) -> NSError {
+    func processError(response: AFDataResponse<Any>, originalError: Error) -> NSError {
         let originalNSError = originalError as NSError
         guard let afError = originalError as?  AFError,
             case AFError.responseValidationFailed(_) = afError,

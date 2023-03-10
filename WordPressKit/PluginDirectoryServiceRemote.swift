@@ -134,11 +134,11 @@ public struct PluginDirectoryServiceRemote {
 
     public func getPluginFeed(_ feedType: PluginDirectoryFeedType,
                               pageNumber: Int = 1,
-                              completion: @escaping (Result<PluginDirectoryFeedPage>) -> Void) {
+                              completion: @escaping (AFResult<PluginDirectoryFeedPage>) -> Void) {
         PluginDirectoryFeedEndpoint(feedType: feedType).request(completion: completion)
     }
 
-    public func getPluginInformation(slug: String, completion: @escaping (Result<PluginDirectoryEntry>) -> Void) {
+    public func getPluginInformation(slug: String, completion: @escaping (AFResult<PluginDirectoryEntry>) -> Void) {
         PluginDirectoryGetInformationEndpoint(slug: slug).request(completion: completion)
     }
 }

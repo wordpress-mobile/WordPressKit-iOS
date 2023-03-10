@@ -11,10 +11,10 @@ let authorizationHeader = "Authorization"
 let nonceHeader = "X-WP-Nonce"
 
 class AuthenticatorTests: XCTestCase {
-    var manager = SessionManager()
+    var manager = Session()
 
     override func setUp() {
-        manager = SessionManager()
+        manager = Session()
     }
 
     override func tearDown() {
