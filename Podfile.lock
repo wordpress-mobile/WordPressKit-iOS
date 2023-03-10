@@ -22,7 +22,7 @@ PODS:
   - wpxmlrpc (0.10.0)
 
 DEPENDENCIES:
-  - Alamofire (~> 5.6.0)
+  - Alamofire (= 5.6.4)
   - NSObject-SafeExpectations (~> 0.0.4)
   - OCMock (~> 3.4)
   - OHHTTPStubs (~> 9.0)
@@ -50,6 +50,6 @@ SPEC CHECKSUMS:
   WordPressShared: f93f99269258b46dad04f4e4dbf540ce2e5c1e66
   wpxmlrpc: 68db063041e85d186db21f674adf08d9c70627fd
 
-PODFILE CHECKSUM: 198731f4c48b7fcdefdbe6012ee92422d45c6494
+PODFILE CHECKSUM: b896fb3a0b065c6654f7b2a8c8ebd4b4355ffcae
 
 COCOAPODS: 1.11.3
