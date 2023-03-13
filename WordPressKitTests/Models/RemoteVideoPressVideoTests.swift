@@ -49,15 +49,13 @@ class RemoteVideoPressVideoTests: XCTestCase {
         let metadata = mockVideoPressMetadata(id)
         let token = "videopress-token"
         let video = RemoteVideoPressVideo(dictionary: metadata, id: id)
-        let originalURL = video.originalURL!.absoluteString
+        let originalURL = video.originalURL!
 
         video.token = token
-        XCTAssertEqual(video.getURLWithToken(url: video.originalURL), URL(string: "\(originalURL)?metadata_token=\(token)"))
+        XCTAssertEqual(video.getURLWithToken(url: originalURL), URL(string: "\(originalURL.absoluteString)?metadata_token=\(token)"))
 
         video.token = nil
-        XCTAssertEqual(video.getURLWithToken(url: video.originalURL), video.originalURL)
-
-        XCTAssertNil(video.getURLWithToken(url: nil))
+        XCTAssertNil(video.getURLWithToken(url: originalURL))
     }
 
     func testAsDictionary() throws {

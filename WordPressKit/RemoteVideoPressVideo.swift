@@ -76,20 +76,15 @@ import Foundation
     /// - Parameters:
     ///   - url: URL to include the token.
     ///
-    /// - Returns: The specified URL with the token as a query parameter.
+    /// - Returns: The specified URL with the token as a query parameter. It will return `nil` if the token is not present.
     @objc(getURLWithToken:)
-    public func getURLWithToken(url: URL?) -> URL? {
-        guard var urlWithToken = url else {
+    public func getURLWithToken(url: URL) -> URL? {
+        guard let token, var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: true) else {
             return nil
         }
-        if let token = self.token, var urlComponents = URLComponents(url: urlWithToken, resolvingAgainstBaseURL: true) {
-            let metadataTokenParam = URLQueryItem(name: "metadata_token", value: token)
-            var queryItems: [URLQueryItem] = urlComponents.queryItems ?? []
-            queryItems.append(metadataTokenParam)
-            urlComponents.queryItems = queryItems
-            urlWithToken = urlComponents.url!
-        }
-        return urlWithToken
+        let metadataTokenParam = URLQueryItem(name: "metadata_token", value: token)
+        urlComponents.queryItems = (urlComponents.queryItems ?? []) + [metadataTokenParam]
+        return urlComponents.url
     }
 
     public func encode(to encoder: Encoder) throws {
