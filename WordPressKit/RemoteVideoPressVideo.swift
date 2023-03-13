@@ -40,7 +40,7 @@ import Foundation
     public var token: String?
 
     enum CodingKeys: String, CodingKey {
-        case id, title, description, width, height, duration, displayEmbed, allowDownload, rating, privacySetting, posterURL, originalURL, watermarkURL, bgColor, blogId, postId, finished, token
+        case id, title, videoDescription = "description", width, height, duration, displayEmbed, allowDownload, rating, privacySetting, posterURL, originalURL, watermarkURL, bgColor, blogId, postId, finished, token
     }
 
     public init(dictionary metadataDict: NSDictionary, id: String) {
@@ -85,29 +85,6 @@ import Foundation
         let metadataTokenParam = URLQueryItem(name: "metadata_token", value: token)
         urlComponents.queryItems = (urlComponents.queryItems ?? []) + [metadataTokenParam]
         return urlComponents.url
-    }
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-
-        try container.encode(id, forKey: .id)
-        try container.encode(title, forKey: .title)
-        try container.encode(videoDescription, forKey: .description)
-        try container.encode(width, forKey: .width)
-        try container.encode(height, forKey: .height)
-        try container.encode(duration, forKey: .duration)
-        try container.encode(displayEmbed, forKey: .displayEmbed)
-        try container.encode(allowDownload, forKey: .allowDownload)
-        try container.encode(rating, forKey: .rating)
-        try container.encode(privacySetting, forKey: .privacySetting)
-        try container.encode(posterURL, forKey: .posterURL)
-        try container.encode(originalURL, forKey: .originalURL)
-        try container.encode(watermarkURL, forKey: .watermarkURL)
-        try container.encode(bgColor, forKey: .bgColor)
-        try container.encode(blogId, forKey: .blogId)
-        try container.encode(postId, forKey: .postId)
-        try container.encode(finished, forKey: .finished)
-        try container.encode(token, forKey: .token)
     }
 
     public func asDictionary() -> [String: Any] {
