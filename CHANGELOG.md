@@ -38,7 +38,7 @@ _None._
 
 ### New Features
 
-_None._
+- Add ability to fetch free and paid domains. [#585]
 
 ### Bug Fixes
 
