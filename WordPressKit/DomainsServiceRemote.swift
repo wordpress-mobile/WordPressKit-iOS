@@ -25,18 +25,20 @@ public struct DomainSuggestion: Codable {
     public let costString: String
     public let cost: Double?
     public let saleCost: Double?
+    public let isFree: Bool
 
     public var domainNameStrippingSubdomain: String {
         return domainName.components(separatedBy: ".").first ?? domainName
     }
 
-    public init(domainName: String, productID: Int?, supportsPrivacy: Bool?, costString: String, cost: Double? = nil, saleCost: Double? = nil) {
+    public init(domainName: String, productID: Int?, supportsPrivacy: Bool?, costString: String, cost: Double? = nil, saleCost: Double? = nil, isFree: Bool = false) {
         self.domainName = domainName
         self.productID = productID
         self.supportsPrivacy = supportsPrivacy
         self.costString = costString
         self.cost = cost
         self.saleCost = saleCost
+        self.isFree = isFree
     }
 
     public init(json: [String: AnyObject]) throws {
@@ -50,6 +52,7 @@ public struct DomainSuggestion: Codable {
         self.costString = json["cost"] as? String ?? ""
         self.cost = json["raw_price"] as? Double
         self.saleCost = json["sale_cost"] as? Double
+        self.isFree = json["is_free"] as? Bool ?? false
     }
 }
 
