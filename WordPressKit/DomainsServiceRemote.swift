@@ -26,12 +26,22 @@ public struct DomainSuggestion: Codable {
     public let cost: Double?
     public let saleCost: Double?
     public let isFree: Bool
+    public let currencyCode: String?
 
     public var domainNameStrippingSubdomain: String {
         return domainName.components(separatedBy: ".").first ?? domainName
     }
 
-    public init(domainName: String, productID: Int?, supportsPrivacy: Bool?, costString: String, cost: Double? = nil, saleCost: Double? = nil, isFree: Bool = false) {
+    public init(
+        domainName: String,
+        productID: Int?,
+        supportsPrivacy: Bool?,
+        costString: String,
+        cost: Double? = nil,
+        saleCost: Double? = nil,
+        isFree: Bool = false,
+        currencyCode: String? = nil
+    ) {
         self.domainName = domainName
         self.productID = productID
         self.supportsPrivacy = supportsPrivacy
@@ -39,6 +49,7 @@ public struct DomainSuggestion: Codable {
         self.cost = cost
         self.saleCost = saleCost
         self.isFree = isFree
+        self.currencyCode = currencyCode
     }
 
     public init(json: [String: AnyObject]) throws {
@@ -53,6 +64,7 @@ public struct DomainSuggestion: Codable {
         self.cost = json["raw_price"] as? Double
         self.saleCost = json["sale_cost"] as? Double
         self.isFree = json["is_free"] as? Bool ?? false
+        self.currencyCode = json["currency_code"] as? String
     }
 }
 
