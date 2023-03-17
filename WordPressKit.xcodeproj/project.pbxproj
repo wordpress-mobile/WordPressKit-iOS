@@ -19,6 +19,12 @@
 		17CE77F420C701C8001DEA5A /* ReaderSiteSearchServiceRemoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CE77F320C701C8001DEA5A /* ReaderSiteSearchServiceRemoteTests.swift */; };
 		17D936252475D8AB008B2205 /* RemoteHomepageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D936242475D8AB008B2205 /* RemoteHomepageType.swift */; };
 		1A4F98672279A87D00D86E8E /* WPKit-Swift.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A4F98662279A87D00D86E8E /* WPKit-Swift.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1DAC3D2629AF4F250068FE13 /* RemoteVideoPressVideo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DAC3D2529AF4F250068FE13 /* RemoteVideoPressVideo.swift */; };
+		1DC837C229B9F04F009DCD4B /* RemoteVideoPressVideoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC837C129B9F04F009DCD4B /* RemoteVideoPressVideoTests.swift */; };
+		1DF972BA29B0DF8C007A72BC /* videopress-token.json in Resources */ = {isa = PBXBuildFile; fileRef = 1DF972B729B0DF8C007A72BC /* videopress-token.json */; };
+		1DF972BF29B107E7007A72BC /* videopress-private-video.json in Resources */ = {isa = PBXBuildFile; fileRef = 1DF972BC29B107E7007A72BC /* videopress-private-video.json */; };
+		1DF972C029B107E7007A72BC /* videopress-public-video.json in Resources */ = {isa = PBXBuildFile; fileRef = 1DF972BD29B107E7007A72BC /* videopress-public-video.json */; };
+		1DF972C129B107E7007A72BC /* videopress-site-default-video.json in Resources */ = {isa = PBXBuildFile; fileRef = 1DF972BE29B107E7007A72BC /* videopress-site-default-video.json */; };
 		240315B0A1D6C2B981572B5B /* Pods_WordPressKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED05C8FF3E61D93CE5BA527E /* Pods_WordPressKitTests.framework */; };
 		24ADA24E24F9B32D001B5DAE /* FeatureFlagSerializationTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24ADA24D24F9B32D001B5DAE /* FeatureFlagSerializationTest.swift */; };
 		3236F77824AE34B40088E8F3 /* ReaderTopicServiceRemote+Interests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3236F77724AE34B40088E8F3 /* ReaderTopicServiceRemote+Interests.swift */; };
@@ -677,6 +683,12 @@
 		17CE77F320C701C8001DEA5A /* ReaderSiteSearchServiceRemoteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderSiteSearchServiceRemoteTests.swift; sourceTree = "<group>"; };
 		17D936242475D8AB008B2205 /* RemoteHomepageType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteHomepageType.swift; sourceTree = "<group>"; };
 		1A4F98662279A87D00D86E8E /* WPKit-Swift.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "WPKit-Swift.h"; sourceTree = "<group>"; };
+		1DAC3D2529AF4F250068FE13 /* RemoteVideoPressVideo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteVideoPressVideo.swift; sourceTree = "<group>"; };
+		1DC837C129B9F04F009DCD4B /* RemoteVideoPressVideoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteVideoPressVideoTests.swift; sourceTree = "<group>"; };
+		1DF972B729B0DF8C007A72BC /* videopress-token.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "videopress-token.json"; sourceTree = "<group>"; };
+		1DF972BC29B107E7007A72BC /* videopress-private-video.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "videopress-private-video.json"; sourceTree = "<group>"; };
+		1DF972BD29B107E7007A72BC /* videopress-public-video.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "videopress-public-video.json"; sourceTree = "<group>"; };
+		1DF972BE29B107E7007A72BC /* videopress-site-default-video.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "videopress-site-default-video.json"; sourceTree = "<group>"; };
 		24ADA24D24F9B32D001B5DAE /* FeatureFlagSerializationTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureFlagSerializationTest.swift; sourceTree = "<group>"; };
 		264F5C834541BBF2018F4964 /* Pods-WordPressKitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WordPressKitTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WordPressKitTests/Pods-WordPressKitTests.debug.xcconfig"; sourceTree = "<group>"; };
 		3236F77724AE34B40088E8F3 /* ReaderTopicServiceRemote+Interests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReaderTopicServiceRemote+Interests.swift"; sourceTree = "<group>"; };
@@ -1992,6 +2004,7 @@
 				FEE4EF56272FDD4B003CDA3C /* RemoteCommentV2.swift */,
 				FEF7419C28085D89002C4203 /* RemoteBloggingPrompt.swift */,
 				FE20A6A3282A96C00025E975 /* RemoteBloggingPromptsSettings.swift */,
+				1DAC3D2529AF4F250068FE13 /* RemoteVideoPressVideo.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -2250,6 +2263,10 @@
 				E1787DAF200E564B004CB3AF /* timezones.json */,
 				436D5642211B7F9B00CEAA33 /* validate-domain-contact-information-response-fail.json */,
 				436D5644211B801000CEAA33 /* validate-domain-contact-information-response-success.json */,
+				1DF972BC29B107E7007A72BC /* videopress-private-video.json */,
+				1DF972BD29B107E7007A72BC /* videopress-public-video.json */,
+				1DF972BE29B107E7007A72BC /* videopress-site-default-video.json */,
+				1DF972B729B0DF8C007A72BC /* videopress-token.json */,
 				FFE247A920C891E5002DF3A2 /* WordPressComAuthenticateWithIDToken2FANeededSuccess.json */,
 				FFE247AB20C891E5002DF3A2 /* WordPressComAuthenticateWithIDTokenBearerTokenSuccess.json */,
 				FFE247AE20C891E6002DF3A2 /* WordPressComAuthenticateWithIDTokenExistingUserNeedsConnection.json */,
@@ -2455,6 +2472,7 @@
 			children = (
 				F3FF8A1B279C86E000E5C90F /* Stats */,
 				F3FF8A20279C8EE200E5C90F /* RemotePersonTests.swift */,
+				1DC837C129B9F04F009DCD4B /* RemoteVideoPressVideoTests.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -2695,6 +2713,7 @@
 				74C473B51EF320CC009918F2 /* site-delete-bad-json-failure.json in Resources */,
 				740B23E21F17FB4200067A2A /* xmlrpc-metaweblog-editpost-change-format-failure.xml in Resources */,
 				FFE247BD20C9C88B002DF3A2 /* empty.json in Resources */,
+				1DF972BA29B0DF8C007A72BC /* videopress-token.json in Resources */,
 				BA8EA71324A056C300D5CC9F /* plugin-service-remote-featured-malformed.json in Resources */,
 				436D5643211B7F9B00CEAA33 /* validate-domain-contact-information-response-fail.json in Resources */,
 				AB49D09725D1AC0A0084905B /* post-likes-success.json in Resources */,
@@ -2787,6 +2806,7 @@
 				740B23EE1F17FB7E00067A2A /* xmlrpc-malformed-request-xml-error.xml in Resources */,
 				826016F91F9FAF6300533B6C /* activity-log-success-3.json in Resources */,
 				FE20A6A8282BC83A0025E975 /* blogging-prompts-settings-update-with-response.json in Resources */,
+				1DF972BF29B107E7007A72BC /* videopress-private-video.json in Resources */,
 				8B749E8A25AF819700023F03 /* jetpack-capabilities-malformed.json in Resources */,
 				93BD27551EE73442002BB00B /* auth-send-login-email-invalid-client-failure.json in Resources */,
 				826016FD1F9FAF6300533B6C /* activity-log-bad-json-failure.json in Resources */,
@@ -2850,6 +2870,7 @@
 				93BD27631EE73442002BB00B /* me-sites-visibility-bad-json-failure.json in Resources */,
 				17BF9A7220C7E18200BF57D2 /* reader-site-search-success-hasmore.json in Resources */,
 				9AB6D64B21872A0D0008F274 /* post-revisions-success.json in Resources */,
+				1DF972C029B107E7007A72BC /* videopress-public-video.json in Resources */,
 				C92EFF6925E7403F00E0308D /* common-starter-site-designs-success.json in Resources */,
 				7433BC131EFC45C7002D9E92 /* site-plans-bad-json-failure.json in Resources */,
 				74B335DE1F06F5A50053A184 /* WordPressComRestApiFailInvalidJSON.json in Resources */,
@@ -2884,6 +2905,7 @@
 				9A881750223C01E400A3AB20 /* jetpack-service-error-install-failure.json in Resources */,
 				74FC6F431F191C1D00112505 /* notifications-load-all.json in Resources */,
 				74C473C11EF32C74009918F2 /* site-export-missing-status-failure.json in Resources */,
+				1DF972C129B107E7007A72BC /* videopress-site-default-video.json in Resources */,
 				828A2400201B671F004F6859 /* activity-restore-success.json in Resources */,
 				826016FC1F9FAF6300533B6C /* activity-log-success-2.json in Resources */,
 				C738CAF928622BB1001BE107 /* qrlogin-authenticate-failed-400.json in Resources */,
@@ -3107,6 +3129,7 @@
 				74E2295C1F1E77290085F7F2 /* KeyringConnectionExternalUser.swift in Sources */,
 				E1BD95151FD5A2B800CD5CE3 /* PluginDirectoryServiceRemote.swift in Sources */,
 				7430C9D71F1933210051B8E6 /* RemoteReaderCrossPostMeta.swift in Sources */,
+				1DAC3D2629AF4F250068FE13 /* RemoteVideoPressVideo.swift in Sources */,
 				FA68CD152993C6CD00FA4C29 /* BlazeServiceRemote.swift in Sources */,
 				4081976F221DDE9B00A298E4 /* StatsTopPostsTimeIntervalData.swift in Sources */,
 				9311A68B1F22625A00704AC9 /* TaxonomyServiceRemoteXMLRPC.m in Sources */,
@@ -3273,6 +3296,7 @@
 				BAFA775624ADAB3C000F0D3A /* MockPluginDirectoryEntryProvider.swift in Sources */,
 				9AB6D64A218727D60008F274 /* PostServiceRemoteRESTRevisionsTest.swift in Sources */,
 				7430C9BD1F192C0F0051B8E6 /* ReaderPostServiceRemoteTests.m in Sources */,
+				1DC837C229B9F04F009DCD4B /* RemoteVideoPressVideoTests.swift in Sources */,
 				FAD1345125909DEA00A8FEB1 /* JetpackBackupServiceRemoteTests.swift in Sources */,
 				8B2F4BE924ABC9DC0056C08A /* ReaderPostServiceRemote+CardsTests.swift in Sources */,
 				40F9880C221ACEEE00B7B369 /* StatsRemoteV2Tests.swift in Sources */,

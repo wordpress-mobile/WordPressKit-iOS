@@ -1,7 +1,7 @@
 import XCTest
 @testable import WordPressKit
 
-class MediaServiceRemoteRESTTests: XCTestCase {
+class MediaServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
 
     let mockRemoteApi = MockWordPressComRestApi()
     var mediaServiceRemote: MediaServiceRemoteREST!
@@ -346,5 +346,85 @@ class MediaServiceRemoteRESTTests: XCTestCase {
         XCTAssertEqual(remoteMediaArray[1].alt, alt)
         XCTAssertEqual(remoteMediaArray[1].height?.intValue, height)
         XCTAssertEqual(remoteMediaArray[1].width?.intValue, width)
+    }
+
+    func testGetMetadataFromVideoPressIDPath() {
+        let id = "AbCDeF"
+        let expectedPath = mediaServiceRemote.path(forEndpoint: "videos/\(id)", withVersion: ._1_1)
+        mediaServiceRemote.getMetadataFromVideoPressID(id, isSitePrivate: false, success: nil, failure: nil)
+        XCTAssertTrue(mockRemoteApi.getMethodCalled, "Wrong method, expected GET got \(mockRemoteApi.methodCalled())")
+        XCTAssertEqual(mockRemoteApi.URLStringPassedIn, expectedPath, "Wrong path")
+    }
+
+    func testGetMetadataFromPublicVideoPressIDPath() {
+        let id = "AbCDeF"
+        // Mock VideoPress metadata response.
+        stubRemoteResponse("/videos", filename: "videopress-public-video.json", contentType: .ApplicationHTML)
+        let expect = self.expectation(description: "VideoPress metadata is fetched for a public video in a private site")
+        let mediaServiceRemote = MediaServiceRemoteREST(wordPressComRestApi: getRestApi(), siteID: NSNumber(value: siteID))
+        mediaServiceRemote.getMetadataFromVideoPressID(id, isSitePrivate: true, success: { metadata in
+            expect.fulfill()
+            XCTAssertNotNil(metadata)
+            XCTAssertEqual(metadata?.id, id)
+            XCTAssertNil(metadata?.token)
+        }, failure: { _ in
+            expect.fulfill()
+            XCTFail("This call should be successfull")
+        })
+        self.waitForExpectations(timeout: 2, handler: nil)
+    }
+
+    func testGetMetadataFromPrivateVideoPressIDPath() {
+        let id = "AbCDeF"
+        let token = "videopress-token"
+        stubRemoteResponse("/videos", filename: "videopress-private-video.json", contentType: .ApplicationHTML)
+        stubRemoteResponse("/media/videopress-playback-jwt", filename: "videopress-token.json", contentType: .ApplicationHTML)
+        let expect = self.expectation(description: "VideoPress metadata is fetched for a private video in public site")
+        let mediaServiceRemote = MediaServiceRemoteREST(wordPressComRestApi: getRestApi(), siteID: NSNumber(value: siteID))
+        mediaServiceRemote.getMetadataFromVideoPressID(id, isSitePrivate: false, success: { metadata in
+            expect.fulfill()
+            XCTAssertNotNil(metadata)
+            XCTAssertEqual(metadata?.id, id)
+            XCTAssertEqual(metadata?.token, token)
+        }, failure: { _ in
+            expect.fulfill()
+            XCTFail("This call should be successfull")
+        })
+        self.waitForExpectations(timeout: 2, handler: nil)
+    }
+
+    func testGetMetadataFromSiteDefaultVideoPressIDPath() {
+        let id = "AbCDeF"
+        let token = "videopress-token"
+        stubRemoteResponse("/videos", filename: "videopress-site-default-video.json", contentType: .ApplicationHTML)
+        stubRemoteResponse("/media/videopress-playback-jwt", filename: "videopress-token.json", contentType: .ApplicationHTML)
+        let expect = self.expectation(description: "VideoPress metadata is fetched for a site default video in a private site")
+        let mediaServiceRemote = MediaServiceRemoteREST(wordPressComRestApi: getRestApi(), siteID: NSNumber(value: siteID))
+        mediaServiceRemote.getMetadataFromVideoPressID(id, isSitePrivate: true, success: { metadata in
+            expect.fulfill()
+            XCTAssertNotNil(metadata)
+            XCTAssertEqual(metadata?.id, id)
+            XCTAssertEqual(metadata?.token, token)
+        }, failure: { _ in
+            expect.fulfill()
+            XCTFail("This call should be successfull")
+        })
+        self.waitForExpectations(timeout: 2, handler: nil)
+    }
+
+    func testGetVideoPressToken() {
+        let id = "AbCDeF"
+        let token = "videopress-token"
+        stubRemoteResponse("/media/videopress-playback-jwt", filename: "videopress-token.json", contentType: .ApplicationHTML)
+        let expect = self.expectation(description: "VideoPress token is fetched for a video")
+        let mediaServiceRemote = MediaServiceRemoteREST(wordPressComRestApi: getRestApi(), siteID: NSNumber(value: siteID))
+        mediaServiceRemote.getVideoPressToken(id, success: { result in
+            expect.fulfill()
+            XCTAssertEqual(result, token)
+        }, failure: { _ in
+            expect.fulfill()
+            XCTFail("This call should be successfull")
+        })
+        self.waitForExpectations(timeout: 2, handler: nil)
     }
 }

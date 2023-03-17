@@ -1,6 +1,7 @@
 #import <Foundation/Foundation.h>
 
 @class RemoteMedia;
+@class RemoteVideoPressVideo;
 
 @protocol MediaServiceRemote <NSObject>
 
@@ -59,15 +60,31 @@
                             failure:(void (^)(NSError *))failure;
 
 /**
- Retrieves the VideoPress URL for the request videoPressID
-
- @param videoPressID the videoPressID to search for
- @param success a block to be executed if the the video is found on VideoPress and the URL is valid
- @param failure a block to be executed if the video is not found on VideoPress.
+ *  Retrieves the metadata of a VideoPress video.
+ *
+ *  The metadata parameters can be found in the API reference:
+ *  https://developer.wordpress.com/docs/api/1.1/get/videos/%24guid/
+ *
+ *  @param videoPressID ID of the video in VideoPress.
+ *  @param isSitePrivate true if the site is private, this will be used to determine the fetch of the VideoPress token.
+ *  @param success a block to be executed when the metadata is fetched successfully.
+ *  @param failure a block to be executed when the metadata can't be fetched.
  */
--(void)getVideoURLFromVideoPressID:(NSString *)videoPressID
-                           success:(void (^)(NSURL *videoURL, NSURL *posterURL))success
+-(void)getMetadataFromVideoPressID:(NSString *)videoPressID
+                     isSitePrivate:(BOOL)isSitePrivate
+                           success:(void (^)(RemoteVideoPressVideo *metadata))success
                            failure:(void (^)(NSError *))failure;
 
+/**
+ Retrieves the VideoPress token for the request videoPressID.
+ The token is required to play private VideoPress videos.
+
+ @param videoPressID the videoPressID to search for.
+ @param success a block to be executed if the the token is fetched successfully for the VideoPress video.
+ @param failure a block to be executed if the token can't be fetched for the VideoPress video.
+ */
+-(void)getVideoPressToken:(NSString *)videoPressID
+                           success:(void (^)(NSString *token))success
+                           failure:(void (^)(NSError *))failure;
 
 @end

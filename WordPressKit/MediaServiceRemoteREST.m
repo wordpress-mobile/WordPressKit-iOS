@@ -309,25 +309,63 @@ const NSInteger WPRestErrorCodeMediaNew = 10;
                            }];
 }
 
--(void)getVideoURLFromVideoPressID:(NSString *)videoPressID
-                           success:(void (^)(NSURL *videoURL, NSURL *posterURL))success
+-(void)getMetadataFromVideoPressID:(NSString *)videoPressID
+                     isSitePrivate:(BOOL)isSitePrivate
+                           success:(void (^)(RemoteVideoPressVideo *metadata))success
                            failure:(void (^)(NSError *))failure
 {
     NSString *path = [NSString stringWithFormat:@"videos/%@", videoPressID];
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
-
+    
     [self.wordPressComRestApi GET:requestUrl
+                       parameters:nil
+                          success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
+        NSDictionary *response = (NSDictionary *)responseObject;
+        RemoteVideoPressVideo *video = [[RemoteVideoPressVideo alloc] initWithDictionary:response id:videoPressID];
+
+        BOOL needsToken = video.privacySetting == VideoPressPrivacySettingIsPrivate || (video.privacySetting == VideoPressPrivacySettingSiteDefault && isSitePrivate);
+        if(needsToken) {
+            [self getVideoPressToken:videoPressID success:^(NSString *token) {
+                video.token = token;
+                if (success) {
+                    success(video);
+                }
+            } failure:^(NSError * error) {
+                if (failure) {
+                    failure(error);
+                }
+            }];
+        }
+        else {
+            if (success) {
+                success(video);
+            }
+        }
+    } failure:^(NSError *error, NSHTTPURLResponse *response) {
+        if (failure) {
+            failure(error);
+        }
+    }];
+}
+
+-(void)getVideoPressToken:(NSString *)videoPressID
+                           success:(void (^)(NSString *token))success
+                           failure:(void (^)(NSError *))failure
+{
+    
+    NSString *path = [NSString stringWithFormat:@"sites/%@/media/videopress-playback-jwt/%@", self.siteID, videoPressID];
+    NSString *requestUrl = [self pathForEndpoint:path
+                                     withVersion:ServiceRemoteWordPressComRESTApiVersion_2_0];
+
+    [self.wordPressComRestApi POST:requestUrl
                         parameters:nil
                            success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
                                NSDictionary *response = (NSDictionary *)responseObject;
-                               NSString *urlString = [response stringForKey:@"original"];
-                               NSString *posterURLString = [response stringForKey:@"poster"];
-                               NSURL *videoURL = [NSURL URLWithString:urlString];
-                               NSURL *posterURL = [NSURL URLWithString:posterURLString];
-                               if (videoURL) {
+                               NSString *token = [response stringForKey:@"metadata_token"];
+                               if (token) {
                                    if (success) {
-                                       success(videoURL, posterURL);
+                                       success(token);
                                    }
                                } else {
                                    if (failure) {
