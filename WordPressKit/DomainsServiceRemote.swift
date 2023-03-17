@@ -23,16 +23,33 @@ public struct DomainSuggestion: Codable {
     public let productID: Int?
     public let supportsPrivacy: Bool?
     public let costString: String
+    public let cost: Double?
+    public let saleCost: Double?
+    public let isFree: Bool
+    public let currencyCode: String?
 
     public var domainNameStrippingSubdomain: String {
         return domainName.components(separatedBy: ".").first ?? domainName
     }
 
-    public init(domainName: String, productID: Int?, supportsPrivacy: Bool?, costString: String) {
+    public init(
+        domainName: String,
+        productID: Int?,
+        supportsPrivacy: Bool?,
+        costString: String,
+        cost: Double? = nil,
+        saleCost: Double? = nil,
+        isFree: Bool = false,
+        currencyCode: String? = nil
+    ) {
         self.domainName = domainName
         self.productID = productID
         self.supportsPrivacy = supportsPrivacy
         self.costString = costString
+        self.cost = cost
+        self.saleCost = saleCost
+        self.isFree = isFree
+        self.currencyCode = currencyCode
     }
 
     public init(json: [String: AnyObject]) throws {
@@ -44,6 +61,10 @@ public struct DomainSuggestion: Codable {
         self.productID = json["product_id"] as? Int ?? nil
         self.supportsPrivacy = json["supports_privacy"] as? Bool ?? nil
         self.costString = json["cost"] as? String ?? ""
+        self.cost = json["raw_price"] as? Double
+        self.saleCost = json["sale_cost"] as? Double
+        self.isFree = json["is_free"] as? Bool ?? false
+        self.currencyCode = json["currency_code"] as? String
     }
 }
 
@@ -57,6 +78,10 @@ public class DomainsServiceRemote: ServiceRemoteWordPressComREST {
         case includeWordPressDotCom
         case onlyWordPressDotCom
         case wordPressDotComAndDotBlogSubdomains
+
+        /// Includes free dotcom and dotblog sudomains and paid domains.
+        case freeAndPaid
+
         case allowlistedTopLevelDomains([String])
 
         fileprivate func parameters() -> [String: AnyObject] {
@@ -73,6 +98,10 @@ public class DomainsServiceRemote: ServiceRemoteWordPressComREST {
                         "vendor": "dot" as AnyObject,
                         "only_wordpressdotcom": true as AnyObject,
                         "include_wordpressdotcom": true as AnyObject]
+            case .freeAndPaid:
+                return ["include_dotblogsubdomain": true as AnyObject,
+                        "include_wordpressdotcom": true as AnyObject,
+                        "vendor": "mobile" as AnyObject]
             case .allowlistedTopLevelDomains(let allowlistedTLDs):
                 return ["tlds": allowlistedTLDs.joined(separator: ",") as AnyObject]
             }
