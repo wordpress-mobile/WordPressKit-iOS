@@ -417,19 +417,20 @@ class AccountServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
 
         stubRemoteResponse(meSitesEndpoint, filename: setSiteVisibilityFailureMockFilename, contentType: .ApplicationJSON, status: 403)
         let blogsToChangeVisibility: [NSNumber: Bool] = [NSNumber(value: Int32(siteID)): true]
-        remote.updateBlogsVisibility(blogsToChangeVisibility, success: {
-            XCTFail("This callback shouldn't get called")
-            expect.fulfill()
-        }, failure: { error in
-            guard let error = error as NSError? else {
-                XCTFail("The returned error could not be cast as NSError")
+        remote.updateBlogsVisibility(
+            blogsToChangeVisibility,
+            success: {},
+            failure: { error in
+                guard let error = error as NSError? else {
+                    XCTFail("The returned error could not be cast as NSError")
+                    return
+                }
+
+                XCTAssertEqual(error.domain, String(reflecting: WordPressComRestApiError.self), "The error domain should be WordPressComRestApiError")
+                XCTAssertEqual(error.code, WordPressComRestApiError.authorizationRequired.rawValue, "The error code should be 2 - authorizationRequired")
                 expect.fulfill()
-                return
             }
-            XCTAssertEqual(error.domain, String(reflecting: WordPressComRestApiError.self), "The error domain should be WordPressComRestApiError")
-            XCTAssertEqual(error.code, WordPressComRestApiError.authorizationRequired.rawValue, "The error code should be 2 - authorizationRequired")
-            expect.fulfill()
-        })
+        )
 
         waitForExpectations(timeout: timeout, handler: nil)
     }
