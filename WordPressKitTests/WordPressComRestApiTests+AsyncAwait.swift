@@ -1,4 +1,3 @@
-import BuildkiteTestCollector
 import XCTest
 import OHHTTPStubs
 import WordPressShared
@@ -71,9 +70,7 @@ class WordPressComRestApiAsyncAwaitTests: XCTestCase {
     }
 
     func testSuccessfullPostCodableCall() async throws {
-        // Stub all POST requests other than those to the Buildkite Test Analytics API,
-        // which we need them to go through for Test Analytics reporting.
-        stub(condition: isMethodPOST() && !isHost(TestCollector.apiHost)) { request in
+        stub(condition: isMethodPOST()) { request in
             let bodyString = String(data: request.ohhttpStubs_httpBody ?? Data(),
                                     encoding: String.Encoding.utf8)
 
