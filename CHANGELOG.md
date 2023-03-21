@@ -34,11 +34,11 @@ _None._
 
 ### Breaking Changes
 
-- Refactor the logic to fetch metadata of VideoPress videos [#581]
+_None._
 
 ### New Features
 
-- Add ability to fetch free and paid domains. [#585]
+_None._
 
 ### Bug Fixes
 
@@ -47,6 +47,17 @@ _None._
 ### Internal Changes
 
 _None._
+
+
+## 7.0.0
+
+### Breaking Changes
+
+- Refactor the logic to fetch metadata of VideoPress videos [#581]
+
+### New Features
+
+- Add ability to fetch free and paid domains. [#585]
 
 ## 6.2.0
 
