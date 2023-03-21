@@ -47,7 +47,8 @@
       "containerPath" : "container:WordPressKit.xcodeproj",
       "identifier" : "9368C77A1EC5EF1B0092CE8E",
       "name" : "WordPressKit"
-    }
+    },
+    "testRepetitionMode" : "retryOnFailure"
   },
   "testTargets" : [
     {
