@@ -234,7 +234,6 @@ class WordPressComRestApiTests: XCTestCase {
         let progress1 = api.multipartPOST(wordPressMediaNewEndpointPath, parameters: nil, fileParts: [filePart], success: { (_: AnyObject, _: HTTPURLResponse?) in
                 XCTFail("This call should fail")
             }, failure: { (error, _) in
-                print(error)
                 XCTAssert(error.domain == NSURLErrorDomain, "The error domain should be NSURLErrorDomain")
                 XCTAssert(error.code == NSURLErrorCancelled, "The error code should be NSURLErrorCancelled")
             }
