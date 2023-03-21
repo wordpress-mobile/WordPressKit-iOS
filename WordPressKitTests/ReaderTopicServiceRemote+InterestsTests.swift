@@ -57,13 +57,13 @@ class ReaderTopicServiceRemoteInterestsTests: RemoteTestCase, RESTTestable {
         let expect = expectation(description: "Get reader interests fails")
         stubRemoteResponse("read/interests", filename: "reader-interests-success.json", contentType: .ApplicationJSON, status: 503)
 
-        readerTopicServiceRemote.fetchInterests({ _ in
-            XCTFail("This callback shouldn't get called")
-            expect.fulfill()
-        }, failure: { error in
-            XCTAssertNotNil(error)
-            expect.fulfill()
-        })
+        readerTopicServiceRemote.fetchInterests(
+            { _ in },
+            failure: { error in
+                XCTAssertNotNil(error)
+                expect.fulfill()
+            }
+        )
 
         waitForExpectations(timeout: timeout, handler: nil)
     }
