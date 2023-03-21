@@ -97,14 +97,16 @@ class WordPressComRestApiTests: XCTestCase {
 
         let expect = self.expectation(description: "One callback should be invoked")
         let api = WordPressComRestApi(oAuthToken: "fakeToken")
-        api.GET(wordPressMediaRoutePath, parameters: nil, success: { (_: AnyObject, _: HTTPURLResponse?) in
-            expect.fulfill()
-            XCTFail("This call should fail")
-            }, failure: { (error, _) in
+        api.GET(
+            wordPressMediaRoutePath,
+            parameters: nil,
+            success: { (_, _) in },
+            failure: { (error, _) in
                 expect.fulfill()
                 XCTAssert(error.domain == String(reflecting: WordPressComRestApiError.self), "The error should a WordPressComRestApiError")
                 XCTAssert(error.code == Int(WordPressComRestApiError.invalidToken.rawValue), "The error code should be invalid token")
-        })
+            }
+        )
         self.waitForExpectations(timeout: 2, handler: nil)
     }
 
