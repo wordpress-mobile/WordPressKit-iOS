@@ -13,8 +13,7 @@ steps:
   #################
   - label: "🧪 Build and Test"
     key: "test"
-    command: |
-      build_and_test_pod
+    command: .buildkite/build-and-test.sh
     artifact_paths:
       - fastlane/test_output/*.xcresult.zip
       - fastlane/test_output/report.html
