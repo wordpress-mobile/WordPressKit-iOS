@@ -18,7 +18,7 @@ _None._
 
 ### New Features
 
-_None._
+Add POST request to WP.org Rest API.
 
 ### Bug Fixes
 
