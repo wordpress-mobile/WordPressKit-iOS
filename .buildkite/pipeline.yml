@@ -1,7 +1,7 @@
 # Nodes with values to reuse in the pipeline.
 common_params:
   plugins: &common_plugins
-    - automattic/a8c-ci-toolkit#2.13.0
+    - automattic/a8c-ci-toolkit#2.15.0
   # Common environment values to use with the `env` key.
   env: &common_env
     IMAGE_ID: xcode-14.2
@@ -13,10 +13,11 @@ steps:
   #################
   - label: "🧪 Build and Test"
     key: "test"
-    command: |
-      build_and_test_pod
+    command: .buildkite/build-and-test.sh
     artifact_paths:
-      - "fastlane/test_output/*.xcresult.zip"
+      - fastlane/test_output/*.xcresult.zip
+      - fastlane/test_output/report.html
+      - fastlane/test_output/report.junit
     env: *common_env
     plugins: *common_plugins
 
