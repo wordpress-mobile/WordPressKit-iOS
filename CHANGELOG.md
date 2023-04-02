@@ -46,8 +46,13 @@ _None._
 
 ### Internal Changes
 
-Add POST requests helper in `WordPressOrgRestApi`. [#589]
+_None._
 
+## 7.1.0
+
+### New Features
+
+- Add POST requests method to `WordPressOrgRestApi`. [#589]
 
 ## 7.0.0
 
