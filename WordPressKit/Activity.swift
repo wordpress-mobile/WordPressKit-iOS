@@ -89,17 +89,17 @@ public struct Activity: Decodable {
         }
     }
 
-    public lazy var isRewindComplete: Bool = {
+    public var isRewindComplete: Bool {
         return self.name == ActivityName.rewindComplete
-    }()
+    }
 
-    public lazy var isFullBackup: Bool = {
+    public var isFullBackup: Bool {
         return self.name == ActivityName.fullBackup
-    }()
+    }
 
-    public lazy var isRewindable: Bool = {
+    public var isRewindable: Bool {
         return rewindID != nil && rewindable
-    }()
+    }
 }
 
 private extension Activity {
