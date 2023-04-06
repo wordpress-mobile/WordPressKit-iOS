@@ -29,13 +29,13 @@ open class ActivityServiceRemote: ServiceRemoteWordPressComREST {
     /// - Returns: An array of activities and a boolean indicating if there's more activities to fetch.
     ///
     open func getActivityForSite(_ siteID: Int,
-                                   offset: Int = 0,
-                                   count: Int,
-                                   after: Date? = nil,
-                                   before: Date? = nil,
-                                   group: [String] = [],
-                                   success: @escaping (_ activities: [Activity], _ hasMore: Bool) -> Void,
-                                   failure: @escaping (Error) -> Void) {
+                                 offset: Int = 0,
+                                 count: Int,
+                                 after: Date? = nil,
+                                 before: Date? = nil,
+                                 group: [String] = [],
+                                 success: @escaping (_ activities: [Activity], _ hasMore: Bool) -> Void,
+                                 failure: @escaping (Error) -> Void) {
 
         var path = URLComponents(string: "sites/\(siteID)/activity")
 
@@ -130,8 +130,8 @@ open class ActivityServiceRemote: ServiceRemoteWordPressComREST {
     /// - Returns: The current rewind status for the site.
     ///
     open func getRewindStatus(_ siteID: Int,
-                                success: @escaping (RewindStatus) -> Void,
-                                failure: @escaping (Error) -> Void) {
+                              success: @escaping (RewindStatus) -> Void,
+                              failure: @escaping (Error) -> Void) {
         let endpoint = "sites/\(siteID)/rewind"
         let path = self.path(forEndpoint: endpoint, withVersion: ._2_0)
 
@@ -170,8 +170,8 @@ private extension ActivityServiceRemote {
     func mapActivitiesResponse(_ response: AnyObject) throws -> ([Activity], Int) {
 
         guard let json = response as? [String: AnyObject],
-            let totalItems = json["totalItems"] as? Int else {
-                throw ActivityServiceRemote.ResponseError.decodingFailure
+              let totalItems = json["totalItems"] as? Int else {
+            throw ActivityServiceRemote.ResponseError.decodingFailure
         }
 
         guard totalItems > 0 else {
@@ -179,15 +179,20 @@ private extension ActivityServiceRemote {
         }
 
         guard let current = json["current"] as? [String: AnyObject],
-            let orderedItems = current["orderedItems"] as? [[String: AnyObject]] else {
-                throw ActivityServiceRemote.ResponseError.decodingFailure
+              let orderedItems = current["orderedItems"] as? [[String: AnyObject]] else {
+            throw ActivityServiceRemote.ResponseError.decodingFailure
         }
 
-        let activities = try orderedItems.map { activity -> Activity in
-            return try Activity(dictionary: activity)
-        }
+        do {
+            let decoder = JSONDecoder.apiDecoder
+            let data = try JSONSerialization.data(withJSONObject: orderedItems, options: [])
+            let activities = try decoder.decode([Activity].self, from: data)
 
-        return (activities, totalItems)
+            return (activities, totalItems)
+
+        } catch {
+            throw ActivityServiceRemote.ResponseError.decodingFailure
+        }
     }
 
     func mapActivityGroupsResponse(_ response: AnyObject) throws -> ([ActivityGroup]) {
@@ -197,7 +202,7 @@ private extension ActivityServiceRemote {
         }
 
         guard let rawGroups = json["groups"] as? [String: AnyObject] else {
-                throw ActivityServiceRemote.ResponseError.decodingFailure
+            throw ActivityServiceRemote.ResponseError.decodingFailure
         }
 
         let groups: [ActivityGroup] = try rawGroups.map { (key, value) -> ActivityGroup in
