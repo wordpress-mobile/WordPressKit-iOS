@@ -6,16 +6,16 @@
         "text": "What are your biggest challenges?",
         "attribution": "dayone",
         "answered": false,
-        "answered_users_count": 163,
+        "answered_users_count": 5,
         "answered_users_sample": [
             {
-                "avatar": "https:\/\/0.gravatar.com\/avatar\/6e8b2b626a2957a8c3dab8d7975312f3?s=96&d=identicon&r=G"
+                "avatar": "https://0.gravatar.com/avatar/example1?s=96&d=identicon&r=G"
             },
             {
-                "avatar": "https:\/\/0.gravatar.com\/avatar\/9141c60b8552f2abf7e24a920fbdea06?s=96&d=identicon&r=G"
+                "avatar": "https://0.gravatar.com/avatar/example2?s=96&d=identicon&r=G"
             },
             {
-                "avatar": "https:\/\/2.gravatar.com\/avatar\/eecf0f2582ab2ca79099bb271bc71048?s=96&d=identicon&r=G"
+                "avatar": "https://0.gravatar.com/avatar/example3?s=96&d=identicon&r=G"
             }
         ],
         "answered_link": "https:\/\/wordpress.com\/tag\/dailyprompt-1804",
@@ -27,17 +27,11 @@
         "label": "Daily writing prompt",
         "text": "Do you play in your daily life? What says “playtime” to you?",
         "attribution": "",
-        "answered": false,
-        "answered_users_count": 157,
+        "answered": true,
+        "answered_users_count": 1,
         "answered_users_sample": [
             {
-                "avatar": "https:\/\/1.gravatar.com\/avatar\/7cc81799d26564e1596756ec5626fc59?s=96&d=identicon&r=G"
-            },
-            {
-                "avatar": "https:\/\/2.gravatar.com\/avatar\/b77d2e787ac3ab959eb472fca4655fe4?s=96&d=identicon&r=G"
-            },
-            {
-                "avatar": "https:\/\/1.gravatar.com\/avatar\/186fdaab897df0bc8feb65be199d00d3?s=96&d=identicon&r=G"
+                "avatar": "https://0.gravatar.com/avatar/example?s=96&d=identicon&r=G"
             }
         ],
         "answered_link": "https:\/\/wordpress.com\/tag\/dailyprompt-1805",

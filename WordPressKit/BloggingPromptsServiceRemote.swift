@@ -26,7 +26,7 @@ open class BloggingPromptsServiceRemote: ServiceRemoteWordPressComREST {
                            number: Int? = nil,
                            fromDate: Date? = nil,
                            completion: @escaping (Result<[RemoteBloggingPrompt], Error>) -> Void) {
-        let path = path(forEndpoint: "sites/\(siteID)/blogging-prompts", withVersion: ._2_0)
+        let path = path(forEndpoint: "sites/\(siteID)/blogging-prompts", withVersion: ._3_0)
         let requestParameter: [String: AnyHashable] = {
             var params = [String: AnyHashable]()
 
@@ -52,8 +52,8 @@ open class BloggingPromptsServiceRemote: ServiceRemoteWordPressComREST {
                     // our API decoder assumes that we're converting from snake case.
                     // revert it to default so the CodingKeys match the actual response keys.
                     decoder.keyDecodingStrategy = .useDefaultKeys
-                    let response = try decoder.decode([String: [RemoteBloggingPrompt]].self, from: data)
-                    completion(.success(response.values.first ?? []))
+                    let response = try decoder.decode([RemoteBloggingPrompt].self, from: data)
+                    completion(.success(response))
                 } catch {
                     completion(.failure(error))
                 }

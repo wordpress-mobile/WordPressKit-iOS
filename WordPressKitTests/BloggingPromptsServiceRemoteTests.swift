@@ -48,29 +48,33 @@ class BloggingPromptsServiceRemoteTests: RemoteTestCase, RESTTestable {
             XCTAssertEqual(prompts.count, 2)
 
             let firstPrompt = prompts.first!
-            XCTAssertEqual(firstPrompt.promptID, 239)
-            XCTAssertEqual(firstPrompt.text, "Was there a toy or thing you always wanted as a child, during the holidays or on your birthday, but never received? Tell us about it.")
-            XCTAssertEqual(firstPrompt.title, "Prompt number 1")
-            XCTAssertEqual(firstPrompt.content, "<!-- wp:pullquote -->\n<figure class=\"wp-block-pullquote\"><blockquote><p>Was there a toy or thing you always wanted as a child, during the holidays or on your birthday, but never received? Tell us about it.</p><cite>(courtesy of plinky.com)</cite></blockquote></figure>\n<!-- /wp:pullquote -->")
+            XCTAssertEqual(firstPrompt.promptID, 1804)
+            XCTAssertEqual(firstPrompt.text, "What are your biggest challenges?")
             XCTAssertEqual(firstPrompt.attribution, "dayone")
 
             let firstDateComponents = Calendar.current.dateComponents(in: self.utcTimeZone, from: firstPrompt.date)
-            XCTAssertEqual(firstDateComponents.year!, 2022)
-            XCTAssertEqual(firstDateComponents.month!, 5)
-            XCTAssertEqual(firstDateComponents.day!, 3)
+            XCTAssertEqual(firstDateComponents.year!, 2020)
+            XCTAssertEqual(firstDateComponents.month!, 1)
+            XCTAssertEqual(firstDateComponents.day!, 1)
 
             XCTAssertFalse(firstPrompt.answered)
-            XCTAssertEqual(firstPrompt.answeredUsersCount, 0)
+            XCTAssertEqual(firstPrompt.answeredUsersCount, 5)
+
+            XCTAssertNotNil(firstPrompt.answeredLink)
+            XCTAssertEqual(firstPrompt.answeredLink!.absoluteString, "https://wordpress.com/tag/dailyprompt-1804")
+
+            XCTAssertEqual(firstPrompt.answeredLinkText, "View all responses")
 
             let secondPrompt = prompts.last!
+            XCTAssertTrue(secondPrompt.answered)
             XCTAssertEqual(secondPrompt.answeredUsersCount, 1)
             XCTAssertEqual(secondPrompt.answeredUserAvatarURLs.count, 1)
             XCTAssertTrue(secondPrompt.attribution.isEmpty)
 
             let secondDateComponents = Calendar.current.dateComponents(in: self.utcTimeZone, from: secondPrompt.date)
-            XCTAssertEqual(secondDateComponents.year!, 2021)
-            XCTAssertEqual(secondDateComponents.month!, 9)
-            XCTAssertEqual(secondDateComponents.day!, 12)
+            XCTAssertEqual(secondDateComponents.year!, 2020)
+            XCTAssertEqual(secondDateComponents.month!, 1)
+            XCTAssertEqual(secondDateComponents.day!, 2)
 
             let avatarURL = secondPrompt.answeredUserAvatarURLs.first!
             XCTAssertEqual(avatarURL.absoluteString, expectedAvatarURLString)
