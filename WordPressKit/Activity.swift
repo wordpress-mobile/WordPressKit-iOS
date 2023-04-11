@@ -1,6 +1,23 @@
 import Foundation
 
-open class Activity {
+public struct Activity: Decodable {
+
+    private enum CodingKeys: String, CodingKey {
+        case activityId
+        case summary
+        case content
+        case published
+        case name
+        case type
+        case gridicon
+        case status
+        case isRewindable
+        case rewindId
+        case actor
+        case object
+        case items
+    }
+
     public let activityID: String
     public let summary: String
     public let text: String
@@ -14,75 +31,75 @@ open class Activity {
     public let object: ActivityObject?
     public let target: ActivityObject?
     public let items: [ActivityObject]?
-    public let content: AnyObject?
+    public let content: [String: Any]?
 
     private let rewindable: Bool
 
-    public init(dictionary: [String: AnyObject]) throws {
-        guard let id = dictionary["activity_id"] as? String else {
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        guard let id = try container.decodeIfPresent(String.self, forKey: .activityId) else {
             throw Error.missingActivityId
         }
-        guard let summaryText = dictionary["summary"] as? String else {
+        guard let summaryText = try container.decodeIfPresent(String.self, forKey: .summary) else {
             throw Error.missingSummary
         }
-        guard let contentDictionary = dictionary["content"] as? [String: AnyObject],
-              let contentText = contentDictionary["text"] as? String else {
+        guard let content = try container.decodeIfPresent([String: Any].self, forKey: .content),
+              let contentText = content["text"] as? String else {
             throw Error.missingContentText
         }
-        guard let publishedString = dictionary["published"] as? String else {
+        guard let published = try container.decodeIfPresent(Date.self, forKey: .published) else {
             throw Error.missingPublishedDate
         }
-        guard let publishedDate = Date.dateWithISO8601WithMillisecondsString(publishedString) else {
-            throw Error.incorrectPusblishedDateFormat
+
+        self.activityID = id
+        self.summary = summaryText
+        self.content = content
+        self.text = contentText
+        self.published = published
+        self.name = try container.decodeIfPresent(String.self, forKey: .name) ?? ""
+        self.type = try container.decodeIfPresent(String.self, forKey: .type) ?? ""
+        self.gridicon = try container.decodeIfPresent(String.self, forKey: .gridicon) ?? ""
+        self.status = try container.decodeIfPresent(String.self, forKey: .status) ?? ""
+        self.rewindable = try container.decodeIfPresent(Bool.self, forKey: .isRewindable) ?? false
+        self.rewindID = try container.decodeIfPresent(String.self, forKey: .rewindId)
+
+        if let actorData = try container.decodeIfPresent([String: Any].self, forKey: .actor) {
+            self.actor = ActivityActor(dictionary: actorData)
+        } else {
+            self.actor = nil
         }
 
-        activityID = id
-        summary = summaryText
-        text = contentText
-        published = publishedDate
-        name = dictionary["name"] as? String ?? ""
-        type = dictionary["type"] as? String ?? ""
-        gridicon = dictionary["gridicon"] as? String ?? ""
-        status = dictionary["status"] as? String ?? ""
-        rewindable = dictionary["is_rewindable"] as? Bool ?? false
-        rewindID = dictionary["rewind_id"] as? String
-        if let actorData = dictionary["actor"] as? [String: AnyObject] {
-            actor = ActivityActor(dictionary: actorData)
+        if let objectData = try container.decodeIfPresent([String: Any].self, forKey: .object) {
+            self.object = ActivityObject(dictionary: objectData)
         } else {
-            actor = nil
-        }
-        if let objectData = dictionary["object"] as? [String: AnyObject] {
-            object = ActivityObject(dictionary: objectData)
-        } else {
-            object = nil
-        }
-        if let targetData = dictionary["actor"] as? [String: AnyObject] {
-            target = ActivityObject(dictionary: targetData)
-        } else {
-            target = nil
-        }
-        if let orderedItems = dictionary["items"] as? [[String: AnyObject]] {
-            items = orderedItems.map { item -> ActivityObject in
-                return ActivityObject(dictionary: item)
-            }
-        } else {
-            items = nil
+            self.object = nil
         }
 
-        content = dictionary["content"]
+        if let targetData = try container.decodeIfPresent([String: Any].self, forKey: .actor) {
+            self.target = ActivityObject(dictionary: targetData)
+        } else {
+            self.target = nil
+        }
+
+        if let orderedItems = try container.decodeIfPresent(Array<Any>.self, forKey: .items) as? [[String: Any]] {
+            self.items = orderedItems.map { ActivityObject(dictionary: $0) }
+        } else {
+            self.items = nil
+        }
     }
 
-    public lazy var isRewindComplete: Bool = {
+    public var isRewindComplete: Bool {
         return self.name == ActivityName.rewindComplete
-    }()
+    }
 
-    public lazy var isFullBackup: Bool = {
+    public var isFullBackup: Bool {
         return self.name == ActivityName.fullBackup
-    }()
+    }
 
-    public lazy var isRewindable: Bool = {
+    public var isRewindable: Bool {
         return rewindID != nil && rewindable
-    }()
+    }
 }
 
 private extension Activity {
@@ -95,14 +112,14 @@ private extension Activity {
     }
 }
 
-public class ActivityActor {
+public struct ActivityActor {
     public let displayName: String
     public let type: String
     public let wpcomUserID: String
     public let avatarURL: String
     public let role: String
 
-    init(dictionary: [String: AnyObject]) {
+    init(dictionary: [String: Any]) {
         displayName = dictionary["name"] as? String ?? ""
         type = dictionary["type"] as? String ?? ""
         wpcomUserID = dictionary["wp_com_user_id"] as? String ?? ""
@@ -116,16 +133,16 @@ public class ActivityActor {
 
     public lazy var isJetpack: Bool = {
         return self.type == ActivityActorType.application &&
-               self.displayName == ActivityActorApplicationType.jetpack
+            self.displayName == ActivityActorApplicationType.jetpack
     }()
 }
 
-public class ActivityObject {
+public struct ActivityObject {
     public let name: String
     public let type: String
     public let attributes: [String: Any]
 
-    init(dictionary: [String: AnyObject]) {
+    init(dictionary: [String: Any]) {
         name = dictionary["name"] as? String ?? ""
         type = dictionary["type"] as? String ?? ""
         let mutableDictionary = NSMutableDictionary(dictionary: dictionary)
