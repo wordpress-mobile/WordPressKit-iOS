@@ -15,29 +15,38 @@ open class BloggingPromptsServiceRemote: ServiceRemoteWordPressComREST {
     }
 
     /// Fetches a number of blogging prompts for the specified site.
-    /// Note that this method hits wpcom/v2, which means the `WordPressComRestAPI` needs to be initialized with `LocaleKeyV2`.
+    /// Note that this method hits wpcom/v3, which means the `WordPressComRestAPI` needs to be initialized with `LocaleKeyV2`.
     ///
     /// - Parameters:
     ///   - siteID: Used to check which prompts have been answered for the site with given `siteID`.
     ///   - number: The number of prompts to query. When not specified, this will default to remote implementation.
     ///   - fromDate: When specified, this will fetch prompts from the given date. When not specified, this will default to remote implementation.
+    ///   - ignoresYear: When set to true, this will convert the date to a custom format that ignores the year part. Defaults to false.
     ///   - completion: A closure that will be called when the fetch request completes.
     open func fetchPrompts(for siteID: NSNumber,
                            number: Int? = nil,
                            fromDate: Date? = nil,
+                           ignoresYear: Bool = false,
                            completion: @escaping (Result<[RemoteBloggingPrompt], Error>) -> Void) {
         let path = path(forEndpoint: "sites/\(siteID)/blogging-prompts", withVersion: ._3_0)
         let requestParameter: [String: AnyHashable] = {
             var params = [String: AnyHashable]()
 
-            if let number = number, number > 0 {
-                params["number"] = number
+            if let number, number > 0 {
+                params["per_page"] = number
             }
 
-            if let fromDate = fromDate {
+            if let fromDate {
                 // convert to yyyy-MM-dd format, excluding the timezone information.
                 // the date parameter doesn't need to be timezone-accurate since prompts are grouped by date.
-                params["from"] = Self.dateFormatter.string(from: fromDate)
+                var dateString = Self.dateFormatter.string(from: fromDate)
+
+                // when the year needs to be ignored, we'll transform the dateString to match the "--mm-dd" format.
+                if ignoresYear, !dateString.isEmpty {
+                    dateString = "-" + dateString.dropFirst(4)
+                }
+
+                params["after"] = dateString
             }
 
             return params

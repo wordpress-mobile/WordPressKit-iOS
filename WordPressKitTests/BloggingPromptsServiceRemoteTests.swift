@@ -105,6 +105,21 @@ class BloggingPromptsServiceRemoteTests: RemoteTestCase, RESTTestable {
         XCTAssertEqual(params[.dateKey] as! String, expectedDateString)
     }
 
+    func test_fetchPrompts_givenIgnoresYearIsTrue_convertsDateToCustomFormat() {
+        let requestDate = dateFormatter.date(from: "2023-04-05")
+        let customMockApi = MockWordPressComRestApi()
+        service = BloggingPromptsServiceRemote(wordPressComRestApi: customMockApi)
+
+        // no-op; we just need to check the passed params.
+        service.fetchPrompts(for: siteID, number: 1, fromDate: requestDate, ignoresYear: true, completion: { _ in })
+
+        XCTAssertNotNil(customMockApi.parametersPassedIn as? [String: AnyObject])
+        let params = customMockApi.parametersPassedIn! as! [String: AnyObject]
+
+        XCTAssertNotNil(params[.dateKey])
+        XCTAssertEqual(params[.dateKey] as! String, "--04-05")
+    }
+
     func test_fetchSettings_returnsRemoteSettings() {
         stubRemoteResponse(.bloggingPromptsEndpoint, filename: .mockFetchSettingsFilename, contentType: .ApplicationJSON)
 
@@ -199,6 +214,6 @@ private extension String {
     static let mockFetchSettingsFilename = "blogging-prompts-settings-fetch-success.json"
     static let mockUpdateSettingsReturningObjectFilename = "blogging-prompts-settings-update-with-response.json"
     static let mockUpdateSettingsReturningEmptyFilename = "blogging-prompts-settings-update-empty-response.json"
-    static let numberKey = "number"
-    static let dateKey = "from"
+    static let numberKey = "per_page"
+    static let dateKey = "after"
 }
