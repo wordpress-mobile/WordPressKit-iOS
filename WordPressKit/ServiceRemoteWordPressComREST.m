@@ -6,6 +6,7 @@ ServiceRemoteWordPressComRESTApiVersion const ServiceRemoteWordPressComRESTApiVe
 ServiceRemoteWordPressComRESTApiVersion const ServiceRemoteWordPressComRESTApiVersion_1_2 = 1002;
 ServiceRemoteWordPressComRESTApiVersion const ServiceRemoteWordPressComRESTApiVersion_1_3 = 1003;
 ServiceRemoteWordPressComRESTApiVersion const ServiceRemoteWordPressComRESTApiVersion_2_0 = 2000;
+ServiceRemoteWordPressComRESTApiVersion const ServiceRemoteWordPressComRESTApiVersion_3_0 = 3000;
 
 static NSString* const ServiceRemoteWordPressComRESTApiVersionStringInvalid = @"invalid_api_version";
 static NSString* const ServiceRemoteWordPressComRESTApiVersionString_1_0 = @"rest/v1";
@@ -13,6 +14,7 @@ static NSString* const ServiceRemoteWordPressComRESTApiVersionString_1_1 = @"res
 static NSString* const ServiceRemoteWordPressComRESTApiVersionString_1_2 = @"rest/v1.2";
 static NSString* const ServiceRemoteWordPressComRESTApiVersionString_1_3 = @"rest/v1.3";
 static NSString* const ServiceRemoteWordPressComRESTApiVersionString_2_0 = @"wpcom/v2";
+static NSString* const ServiceRemoteWordPressComRESTApiVersionString_3_0 = @"wpcom/v3";
 
 @interface ServiceRemoteWordPressComREST ()
 @end
@@ -56,6 +58,10 @@ static NSString* const ServiceRemoteWordPressComRESTApiVersionString_2_0 = @"wpc
 
         case ServiceRemoteWordPressComRESTApiVersion_2_0:
             result = ServiceRemoteWordPressComRESTApiVersionString_2_0;
+            break;
+
+        case ServiceRemoteWordPressComRESTApiVersion_3_0:
+            result = ServiceRemoteWordPressComRESTApiVersionString_3_0;
             break;
 
         default:
