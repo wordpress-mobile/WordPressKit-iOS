@@ -3,7 +3,7 @@ import Foundation
 public struct Activity: Decodable {
 
     private enum CodingKeys: String, CodingKey {
-        case activityId
+        case activityId = "activity_id"
         case summary
         case content
         case published
@@ -11,8 +11,8 @@ public struct Activity: Decodable {
         case type
         case gridicon
         case status
-        case isRewindable
-        case rewindId
+        case isRewindable = "is_rewindable"
+        case rewindId = "rewind_id"
         case actor
         case object
         case items
