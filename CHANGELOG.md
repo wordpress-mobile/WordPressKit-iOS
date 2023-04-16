@@ -48,6 +48,24 @@ _None._
 
 _None._
 
+## 7.2.0
+
+### Breaking Changes
+
+_None._
+
+### New Features
+
+- `Activity` now conforms to `Decodable` [#591]
+
+### Bug Fixes
+
+_None._
+
+### Internal Changes
+
+_None._
+
 ## 7.1.0
 
 ### New Features
