@@ -184,7 +184,8 @@ private extension ActivityServiceRemote {
         }
 
         do {
-            let decoder = JSONDecoder.apiDecoder
+            let decoder = JSONDecoder()
+            decoder.dateDecodingStrategy = .supportMultipleDateFormats
             let data = try JSONSerialization.data(withJSONObject: orderedItems, options: [])
             let activities = try decoder.decode([Activity].self, from: data)
 
