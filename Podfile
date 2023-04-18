@@ -5,7 +5,9 @@ source 'https://cdn.cocoapods.org/'
 inhibit_all_warnings!
 use_frameworks!
 
-platform :ios, '13.0'
+APP_IOS_DEPLOYMENT_TARGET = Gem::Version.new('13.0')
+
+platform :ios, APP_IOS_DEPLOYMENT_TARGET
 
 def wordpresskit_pods
   pod 'Alamofire', '~> 4.8.0'
@@ -30,4 +32,15 @@ target 'WordPressKitTests' do
   pod 'OHHTTPStubs', '~> 9.0'
   pod 'OHHTTPStubs/Swift', '~> 9.0'
   pod 'OCMock', '~> 3.4'
+end
+
+# Let Pods targets inherit deployment target from the app
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    target.build_configurations.each do |configuration|
+      ios_deployment_key = 'IPHONEOS_DEPLOYMENT_TARGET'
+      pod_ios_deployment_target = Gem::Version.new(configuration.build_settings[ios_deployment_key])
+      configuration.build_settings.delete(ios_deployment_key) if pod_ios_deployment_target <= APP_IOS_DEPLOYMENT_TARGET
+    end
+  end
 end
