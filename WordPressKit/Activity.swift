@@ -48,7 +48,8 @@ public struct Activity: Decodable {
               let contentText = content["text"] as? String else {
             throw Error.missingContentText
         }
-        guard let published = try container.decodeIfPresent(Date.self, forKey: .published) else {
+        guard let publishedString = try container.decodeIfPresent(String.self, forKey: .published),
+            let published = Date.dateWithISO8601WithMillisecondsString(publishedString) else {
             throw Error.missingPublishedDate
         }
 
