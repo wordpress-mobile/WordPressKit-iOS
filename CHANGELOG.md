@@ -48,23 +48,17 @@ _None._
 
 _None._
 
-## 7.2.0
+## 8.0.0
 
 ### Breaking Changes
 
-_None._
+- `Activity` now conforms to `Decodable` and no longer offers `init(dictionary:)` [#591] – _This was originally shipped as 7.2.0 before we realized it was a breaking change._
+
+## 7.2.0
 
 ### New Features
 
 - `Activity` now conforms to `Decodable` [#591]
-
-### Bug Fixes
-
-_None._
-
-### Internal Changes
-
-_None._
 
 ## 7.1.0
 
