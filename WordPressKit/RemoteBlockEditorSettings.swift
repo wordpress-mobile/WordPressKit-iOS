@@ -2,6 +2,7 @@ import Foundation
 
 public class RemoteBlockEditorSettings: Codable {
     enum CodingKeys: String, CodingKey {
+        case isFSETheme = "__unstableIsBlockBasedTheme"
         case galleryWithImageBlocks = "__unstableGalleryWithImageBlocks"
         case quoteBlockV2 = "__experimentalEnableQuoteBlockV2"
         case listBlockV2 = "__experimentalEnableListBlockV2"
@@ -38,7 +39,7 @@ public class RemoteBlockEditorSettings: Codable {
 
     required public init(from decoder: Decoder) throws {
         let map = try decoder.container(keyedBy: CodingKeys.self)
-        self.isFSETheme = ((try? map.decode([String: Any].self, forKey: .rawStyles)) != nil) ? true : false
+        self.isFSETheme = (try? map.decode(Bool.self, forKey: .isFSETheme)) ?? false
         self.galleryWithImageBlocks = (try? map.decode(Bool.self, forKey: .galleryWithImageBlocks)) ?? false
         self.quoteBlockV2 = (try? map.decode(Bool.self, forKey: .quoteBlockV2)) ?? false
         self.listBlockV2 = (try? map.decode(Bool.self, forKey: .listBlockV2)) ?? false
@@ -76,6 +77,6 @@ public struct RemoteEditorThemeSupport: Codable {
         let map = try decoder.container(keyedBy: CodingKeys.self)
         self.colors = try? map.decode([[String: String]].self, forKey: .colors)
         self.gradients = try? map.decode([[String: String]].self, forKey: .gradients)
-        self.blockTemplates = ((try? map.decode(Bool.self, forKey: .blockTemplates)) != nil)
+        self.blockTemplates = (try? map.decode(Bool.self, forKey: .blockTemplates)) ?? false
     }
 }
