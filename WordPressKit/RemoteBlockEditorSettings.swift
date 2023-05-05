@@ -2,7 +2,7 @@ import Foundation
 
 public class RemoteBlockEditorSettings: Codable {
     enum CodingKeys: String, CodingKey {
-        case isFSETheme = "__unstableEnableFullSiteEditingBlocks"
+        case isFSETheme = "__unstableIsBlockBasedTheme"
         case galleryWithImageBlocks = "__unstableGalleryWithImageBlocks"
         case quoteBlockV2 = "__experimentalEnableQuoteBlockV2"
         case listBlockV2 = "__experimentalEnableListBlockV2"
@@ -66,14 +66,17 @@ public struct RemoteEditorThemeSupport: Codable {
     enum CodingKeys: String, CodingKey {
         case colors = "editor-color-palette"
         case gradients = "editor-gradient-presets"
+        case blockTemplates = "block-templates"
     }
 
     public let colors: [[String: String]]?
     public let gradients: [[String: String]]?
+    public let blockTemplates: Bool
 
     public init(from decoder: Decoder) throws {
         let map = try decoder.container(keyedBy: CodingKeys.self)
         self.colors = try? map.decode([[String: String]].self, forKey: .colors)
         self.gradients = try? map.decode([[String: String]].self, forKey: .gradients)
+        self.blockTemplates = (try? map.decode(Bool.self, forKey: .blockTemplates)) ?? false
     }
 }
