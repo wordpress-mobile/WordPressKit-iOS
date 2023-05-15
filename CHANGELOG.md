@@ -48,6 +48,12 @@ _None._
 
 _None._
 
+## 8.1.0
+
+### Internal Changes
+
+- Update editor settings models for block based themes [#598]
+
 ## 8.0.0
 
 ### Breaking Changes
