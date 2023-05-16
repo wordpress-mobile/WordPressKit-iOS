@@ -71,7 +71,9 @@ open class SharingServiceRemote: ServiceRemoteWordPressComREST {
                                          success: (([RemotePublicizeService]) -> Void)?,
                                          failure: ((NSError?) -> Void)?) {
         let path = path(forEndpoint: "sites/\(siteID)/external-services", withVersion: ._2_0)
-        wordPressComRestApi.GET(path, parameters: nil) { result, httpResponse in
+        let params = ["type": "publicize" as AnyObject]
+
+        wordPressComRestApi.GET(path, parameters: params) { result, httpResponse in
             switch result {
             case .success(let response):
                 guard let responseDict = response as? NSDictionary else {
