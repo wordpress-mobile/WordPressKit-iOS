@@ -35,7 +35,7 @@ final class SharingServiceRemoteTests: RemoteTestCase, RESTTestable {
         let expectation = expectation(description: "Publicize services v2.0 should succeed")
         let pathToStub = "sites/\(mockID)/external-services"
         let mockService = SharingServiceRemote(wordPressComRestApi: getRestApi())
-        
+
         stubRemoteResponse(pathToStub, filename: publicizeServicesMockFilename, contentType: .ApplicationJSON)
 
         mockService.getPublicizeServices(for: mockID) { publicizeServices in
