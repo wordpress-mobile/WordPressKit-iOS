@@ -44,50 +44,47 @@ open class SharingServiceRemote: ServiceRemoteWordPressComREST {
         let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
         let params = ["type": "publicize"]
 
-        wordPressComRestApi.GET(path,
-            parameters: params as [String: AnyObject]?,
-            success: { (responseObject: AnyObject, httpResponse: HTTPURLResponse?) in
-                guard let onSuccess = success else {
-                    return
-                }
+        wordPressComRestApi.GET(path, parameters: params as [String: AnyObject]?) { responseObject, httpResponse in
+            guard let onSuccess = success else {
+                return
+            }
 
-                guard let responseDict = responseObject as? NSDictionary else {
+            guard let responseDict = responseObject as? NSDictionary else {
+                failure?(self.errorForUnexpectedResponse(httpResponse))
+                return
+            }
+
+            onSuccess(self.remotePublicizeServicesFromDictionary(responseDict))
+
+        } failure: { error, _ in
+            failure?(error)
+        }
+    }
+
+    /// Fetches the list of Publicize services for a specified siteID.
+    ///
+    /// - Parameters:
+    ///   - siteID: The WordPress.com ID of the site.
+    ///   - success: An optional success block accepting an array of `RemotePublicizeService` objects.
+    ///   - failure: An optional failure block accepting an `NSError` argument.
+    @objc open func getPublicizeServices(for siteID: NSNumber,
+                                         success: (([RemotePublicizeService]) -> Void)?,
+                                         failure: ((NSError?) -> Void)?) {
+        let path = path(forEndpoint: "sites/\(siteID)/external-services", withVersion: ._2_0)
+        wordPressComRestApi.GET(path, parameters: nil) { result, httpResponse in
+            switch result {
+            case .success(let response):
+                guard let responseDict = response as? NSDictionary else {
                     failure?(self.errorForUnexpectedResponse(httpResponse))
                     return
                 }
 
-                let responseString = responseObject.description as NSString
-                let services: NSDictionary = (responseDict.forKey(ServiceDictionaryKeys.services) as? NSDictionary) ?? NSDictionary()
+                success?(self.remotePublicizeServicesFromDictionary(responseDict))
 
-                let publicizeServices: [RemotePublicizeService] = services.allKeys.map { (key) -> RemotePublicizeService in
-                    let dict = (services.forKey(key) as? NSDictionary) ?? NSDictionary()
-                    let pub = RemotePublicizeService()
-
-                    pub.connectURL = dict.string(forKey: ServiceDictionaryKeys.connectURL) ?? ""
-                    pub.detail = dict.string(forKey: ServiceDictionaryKeys.description) ?? ""
-                    pub.externalUsersOnly = dict.number(forKey: ServiceDictionaryKeys.externalUsersOnly)?.boolValue ?? false
-                    pub.icon = dict.string(forKey: ServiceDictionaryKeys.icon) ?? ""
-                    pub.serviceID = dict.string(forKey: ServiceDictionaryKeys.ID) ?? ""
-                    pub.jetpackModuleRequired = dict.string(forKey: ServiceDictionaryKeys.jetpackModuleRequired) ?? ""
-                    pub.jetpackSupport = dict.number(forKey: ServiceDictionaryKeys.jetpackSupport)?.boolValue ?? false
-                    pub.label = dict.string(forKey: ServiceDictionaryKeys.label) ?? ""
-                    pub.multipleExternalUserIDSupport = dict.number(forKey: ServiceDictionaryKeys.multipleExternalUserIDSupport)?.boolValue ?? false
-                    pub.type = dict.string(forKey: ServiceDictionaryKeys.type) ?? ""
-
-                    // We're not guarenteed to get the right order by inspecting the
-                    // response dictionary's keys. Instead, we can check the index
-                    // of each service in the response string.
-                    pub.order = NSNumber(value: responseString.range(of: pub.serviceID).location)
-
-                    return pub
-                }
-
-                onSuccess(publicizeServices)
-
-            },
-            failure: { (error: NSError, _: HTTPURLResponse?) in
-                failure?(error)
-            })
+            case .failure(let error):
+                failure?(error as NSError)
+            }
+        }
     }
 
     /// Fetches the current user's list of keyring connections.
@@ -511,6 +508,34 @@ open class SharingServiceRemote: ServiceRemoteWordPressComREST {
 
             return dict
         })
+    }
+
+    private func remotePublicizeServicesFromDictionary(_ dictionary: NSDictionary) -> [RemotePublicizeService] {
+        let responseString = dictionary.description as NSString
+        let services: NSDictionary = (dictionary.forKey(ServiceDictionaryKeys.services) as? NSDictionary) ?? NSDictionary()
+
+        return services.allKeys.map { key in
+            let dict = (services.forKey(key) as? NSDictionary) ?? NSDictionary()
+            let pub = RemotePublicizeService()
+
+            pub.connectURL = dict.string(forKey: ServiceDictionaryKeys.connectURL) ?? ""
+            pub.detail = dict.string(forKey: ServiceDictionaryKeys.description) ?? ""
+            pub.externalUsersOnly = dict.number(forKey: ServiceDictionaryKeys.externalUsersOnly)?.boolValue ?? false
+            pub.icon = dict.string(forKey: ServiceDictionaryKeys.icon) ?? ""
+            pub.serviceID = dict.string(forKey: ServiceDictionaryKeys.ID) ?? ""
+            pub.jetpackModuleRequired = dict.string(forKey: ServiceDictionaryKeys.jetpackModuleRequired) ?? ""
+            pub.jetpackSupport = dict.number(forKey: ServiceDictionaryKeys.jetpackSupport)?.boolValue ?? false
+            pub.label = dict.string(forKey: ServiceDictionaryKeys.label) ?? ""
+            pub.multipleExternalUserIDSupport = dict.number(forKey: ServiceDictionaryKeys.multipleExternalUserIDSupport)?.boolValue ?? false
+            pub.type = dict.string(forKey: ServiceDictionaryKeys.type) ?? ""
+
+            // We're not guarenteed to get the right order by inspecting the
+            // response dictionary's keys. Instead, we can check the index
+            // of each service in the response string.
+            pub.order = NSNumber(value: responseString.range(of: pub.serviceID).location)
+
+            return pub
+        }
     }
 }
 
