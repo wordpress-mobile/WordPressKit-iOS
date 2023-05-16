@@ -318,7 +318,6 @@
 		74DA563A1F06EB3000FE9BF4 /* RemoteMedia.h in Headers */ = {isa = PBXBuildFile; fileRef = 74DA56381F06EB3000FE9BF4 /* RemoteMedia.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		74DA563B1F06EB3000FE9BF4 /* RemoteMedia.m in Sources */ = {isa = PBXBuildFile; fileRef = 74DA56391F06EB3000FE9BF4 /* RemoteMedia.m */; };
 		74E229491F1E73060085F7F2 /* SharingServiceRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E229481F1E73060085F7F2 /* SharingServiceRemote.swift */; };
-		74E2294B1F1E73340085F7F2 /* SharingServiceRemoteTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 74E2294A1F1E73340085F7F2 /* SharingServiceRemoteTests.m */; };
 		74E2294E1F1E73FE0085F7F2 /* RemotePublicizeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E2294D1F1E73FE0085F7F2 /* RemotePublicizeService.swift */; };
 		74E229501F1E741B0085F7F2 /* RemotePublicizeConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E2294F1F1E741B0085F7F2 /* RemotePublicizeConnection.swift */; };
 		74E2295B1F1E77290085F7F2 /* KeyringConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E229591F1E77290085F7F2 /* KeyringConnection.swift */; };
@@ -623,6 +622,8 @@
 		FE20A6A6282BC68D0025E975 /* blogging-prompts-settings-fetch-success.json in Resources */ = {isa = PBXBuildFile; fileRef = FE20A6A5282BC68D0025E975 /* blogging-prompts-settings-fetch-success.json */; };
 		FE20A6A8282BC83A0025E975 /* blogging-prompts-settings-update-with-response.json in Resources */ = {isa = PBXBuildFile; fileRef = FE20A6A7282BC83A0025E975 /* blogging-prompts-settings-update-with-response.json */; };
 		FE20A6AA282BC8710025E975 /* blogging-prompts-settings-update-empty-response.json in Resources */ = {isa = PBXBuildFile; fileRef = FE20A6A9282BC8710025E975 /* blogging-prompts-settings-update-empty-response.json */; };
+		FE5096522A13938500DDD071 /* SharingServiceRemoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE5096512A13938500DDD071 /* SharingServiceRemoteTests.swift */; };
+		FE5096562A13B7F200DDD071 /* sites-external-services.json in Resources */ = {isa = PBXBuildFile; fileRef = FE5096552A13B7F200DDD071 /* sites-external-services.json */; };
 		FEAE3AC7298AC2A300E05A24 /* JetpackProxyServiceRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEAE3AC6298AC2A300E05A24 /* JetpackProxyServiceRemote.swift */; };
 		FEB7A88F271873BD00A8CF85 /* reader-post-comments-update-notification-success.json in Resources */ = {isa = PBXBuildFile; fileRef = FEB7A88E271873BD00A8CF85 /* reader-post-comments-update-notification-success.json */; };
 		FED77253298B819900C2346E /* JetpackProxyServiceRemoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FED77252298B819900C2346E /* JetpackProxyServiceRemoteTests.swift */; };
@@ -986,7 +987,6 @@
 		74DA56381F06EB3000FE9BF4 /* RemoteMedia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RemoteMedia.h; sourceTree = "<group>"; };
 		74DA56391F06EB3000FE9BF4 /* RemoteMedia.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RemoteMedia.m; sourceTree = "<group>"; };
 		74E229481F1E73060085F7F2 /* SharingServiceRemote.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharingServiceRemote.swift; sourceTree = "<group>"; };
-		74E2294A1F1E73340085F7F2 /* SharingServiceRemoteTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SharingServiceRemoteTests.m; sourceTree = "<group>"; };
 		74E2294D1F1E73FE0085F7F2 /* RemotePublicizeService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemotePublicizeService.swift; sourceTree = "<group>"; };
 		74E2294F1F1E741B0085F7F2 /* RemotePublicizeConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemotePublicizeConnection.swift; sourceTree = "<group>"; };
 		74E229591F1E77290085F7F2 /* KeyringConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyringConnection.swift; sourceTree = "<group>"; };
@@ -1300,6 +1300,8 @@
 		FE20A6A5282BC68D0025E975 /* blogging-prompts-settings-fetch-success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "blogging-prompts-settings-fetch-success.json"; sourceTree = "<group>"; };
 		FE20A6A7282BC83A0025E975 /* blogging-prompts-settings-update-with-response.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "blogging-prompts-settings-update-with-response.json"; sourceTree = "<group>"; };
 		FE20A6A9282BC8710025E975 /* blogging-prompts-settings-update-empty-response.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "blogging-prompts-settings-update-empty-response.json"; sourceTree = "<group>"; };
+		FE5096512A13938500DDD071 /* SharingServiceRemoteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingServiceRemoteTests.swift; sourceTree = "<group>"; };
+		FE5096552A13B7F200DDD071 /* sites-external-services.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "sites-external-services.json"; sourceTree = "<group>"; };
 		FEAE3AC6298AC2A300E05A24 /* JetpackProxyServiceRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JetpackProxyServiceRemote.swift; sourceTree = "<group>"; };
 		FEB7A88E271873BD00A8CF85 /* reader-post-comments-update-notification-success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "reader-post-comments-update-notification-success.json"; sourceTree = "<group>"; };
 		FED77252298B819900C2346E /* JetpackProxyServiceRemoteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JetpackProxyServiceRemoteTests.swift; sourceTree = "<group>"; };
@@ -1608,7 +1610,7 @@
 		74E2294C1F1E73650085F7F2 /* Sharing */ = {
 			isa = PBXGroup;
 			children = (
-				74E2294A1F1E73340085F7F2 /* SharingServiceRemoteTests.m */,
+				FE5096512A13938500DDD071 /* SharingServiceRemoteTests.swift */,
 				FEFFD99A26C1598F00F34231 /* ShareAppContentServiceRemoteTests.swift */,
 			);
 			name = Sharing;
@@ -2209,6 +2211,7 @@
 				74C473C21EF32DD7009918F2 /* site-export-failure.json */,
 				74C473C01EF32C74009918F2 /* site-export-missing-status-failure.json */,
 				74C473BA1EF328D8009918F2 /* site-export-success.json */,
+				FE5096552A13B7F200DDD071 /* sites-external-services.json */,
 				74D67F221F15C3740010C5ED /* site-followers-delete-auth-failure.json */,
 				74D67F231F15C3740010C5ED /* site-followers-delete-bad-json-failure.json */,
 				74D67F241F15C3740010C5ED /* site-followers-delete-failure.json */,
@@ -2970,6 +2973,7 @@
 				7403A2FA1EF06FEB00DED7DC /* me-settings-change-firstname-success.json in Resources */,
 				74D67F321F15C3740010C5ED /* site-followers-delete-success.json in Resources */,
 				93F50A481F227F3600B5BEBA /* xmlrpc-response-valid-but-unexpected-dictionary.xml in Resources */,
+				FE5096562A13B7F200DDD071 /* sites-external-services.json in Resources */,
 				93BD27601EE73442002BB00B /* me-sites-bad-json-failure.json in Resources */,
 				17BF9A7320C7E18200BF57D2 /* reader-site-search-failure.json in Resources */,
 				FFE247B120C891E6002DF3A2 /* WordPressComSocial2FACodeSuccess.json in Resources */,
@@ -3323,7 +3327,6 @@
 				FED77253298B819900C2346E /* JetpackProxyServiceRemoteTests.swift in Sources */,
 				ABD95B7F25DD6C4B00735BEE /* CommentServiceRemoteRESTLikesTests.swift in Sources */,
 				8B749E8225AF7DDA00023F03 /* JetpackCapabilitiesServiceRemoteTests.swift in Sources */,
-				74E2294B1F1E73340085F7F2 /* SharingServiceRemoteTests.m in Sources */,
 				FEFFD99B26C1598F00F34231 /* ShareAppContentServiceRemoteTests.swift in Sources */,
 				FEEFD8B7280EC91B00A3E261 /* BloggingPromptsServiceRemoteTests.swift in Sources */,
 				73B3DAD621FBB20D00B2CF18 /* WordPressComRestApiTests+Locale.swift in Sources */,
@@ -3371,6 +3374,7 @@
 				17CE77F420C701C8001DEA5A /* ReaderSiteSearchServiceRemoteTests.swift in Sources */,
 				73A2F38D21E7FC8200388609 /* WordPressComServiceRemoteTests+SiteVerticalsPrompt.swift in Sources */,
 				74C473AF1EF2F7D1009918F2 /* SiteManagementServiceRemoteTests.swift in Sources */,
+				FE5096522A13938500DDD071 /* SharingServiceRemoteTests.swift in Sources */,
 				FFA4D4AA2423B10A00BF5180 /* WordPressOrgRestApiTests.swift in Sources */,
 				74A44DD51F13C6D8006CD8F4 /* PushAuthenticationServiceRemoteTests.swift in Sources */,
 				731BA83621DECD61000FDFCD /* SiteCreationRequestEncodingTests.swift in Sources */,
