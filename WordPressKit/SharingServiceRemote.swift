@@ -528,6 +528,7 @@ open class SharingServiceRemote: ServiceRemoteWordPressComREST {
             pub.label = dict.string(forKey: ServiceDictionaryKeys.label) ?? ""
             pub.multipleExternalUserIDSupport = dict.number(forKey: ServiceDictionaryKeys.multipleExternalUserIDSupport)?.boolValue ?? false
             pub.type = dict.string(forKey: ServiceDictionaryKeys.type) ?? ""
+            pub.status = dict.string(forKey: ServiceDictionaryKeys.status) ?? ""
 
             // We're not guarenteed to get the right order by inspecting the
             // response dictionary's keys. Instead, we can check the index
@@ -552,6 +553,7 @@ private struct ServiceDictionaryKeys {
     static let multipleExternalUserIDSupport = "multiple_external_user_ID_support"
     static let services = "services"
     static let type = "type"
+    static let status = "status"
 }
 
 // Keys for both KeyringConnection and PublicizeConnection dictionaries
