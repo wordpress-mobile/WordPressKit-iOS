@@ -178,7 +178,8 @@
             "post-thumbnails": true,
             "responsive-embeds": true,
             "title-tag": true,
-            "wp-block-styles": true
+            "wp-block-styles": true,
+            "block-templates": false
         },
         "_links": {
             "self": [
