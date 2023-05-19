@@ -12,4 +12,5 @@ import Foundation
     @objc open var order: NSNumber = 0
     @objc open var serviceID = ""
     @objc open var type = ""
+    @objc open var status = ""
 }
