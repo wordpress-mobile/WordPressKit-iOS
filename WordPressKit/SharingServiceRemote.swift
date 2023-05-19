@@ -45,16 +45,12 @@ open class SharingServiceRemote: ServiceRemoteWordPressComREST {
         let params = ["type": "publicize"]
 
         wordPressComRestApi.GET(path, parameters: params as [String: AnyObject]?) { responseObject, httpResponse in
-            guard let onSuccess = success else {
-                return
-            }
-
             guard let responseDict = responseObject as? NSDictionary else {
                 failure?(self.errorForUnexpectedResponse(httpResponse))
                 return
             }
 
-            onSuccess(self.remotePublicizeServicesFromDictionary(responseDict))
+            success?(self.remotePublicizeServicesFromDictionary(responseDict))
 
         } failure: { error, _ in
             failure?(error)
