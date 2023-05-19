@@ -36,6 +36,7 @@ extension BlockEditorSettingsServiceRemoteTests {
                 XCTAssertFalse(result!.checksum.isEmpty)
                 XCTAssertGreaterThan(result!.themeSupport!.colors!.count, 0)
                 XCTAssertGreaterThan(result!.themeSupport!.gradients!.count, 0)
+                XCTAssertTrue(result!.themeSupport!.blockTemplates)
             case .failure:
                 XCTFail("This payload should parse successfully")
             }
@@ -84,7 +85,10 @@ extension BlockEditorSettingsServiceRemoteTests {
         var theme = mockedResponse[0]
         var themeSupport = theme[RemoteEditorTheme.CodingKeys.themeSupport.stringValue] as! [String: Any]
         themeSupport[RemoteEditorThemeSupport.CodingKeys.colors.stringValue] = "false"
+
+        themeSupport[RemoteEditorThemeSupport.CodingKeys.blockTemplates.stringValue] = "false"
         theme[RemoteEditorTheme.CodingKeys.themeSupport.stringValue] = themeSupport
+
         mockedResponse[0] = theme
 
         service.fetchTheme(forSiteID: siteID) { (response) in
@@ -94,6 +98,32 @@ extension BlockEditorSettingsServiceRemoteTests {
                 XCTAssertFalse(result!.checksum.isEmpty)
                 XCTAssertNil(result!.themeSupport!.colors)
                 XCTAssertGreaterThan(result!.themeSupport!.gradients!.count, 0)
+                XCTAssertFalse(result!.themeSupport!.blockTemplates)
+            case .failure:
+                XCTFail("This payload should parse successfully")
+            }
+            waitExpectation.fulfill()
+        }
+        mockRemoteApi.successBlockPassedIn!(mockedResponse as AnyObject, HTTPURLResponse())
+
+        waitForExpectations(timeout: 0.1)
+        validateEditorThemeRequest()
+    }
+
+    func testFetchThemeNoThemeSupport() {
+        let waitExpectation = expectation(description: "Theme should be successfully fetched")
+        var mockedResponse = mockedData(withFilename: twentytwentyoneResponseFilename) as! [[String: Any]]
+        var theme = mockedResponse[0]
+        var themeSupport = theme[RemoteEditorTheme.CodingKeys.themeSupport.stringValue] as! [String: Any]
+
+        themeSupport.removeValue(forKey: RemoteEditorThemeSupport.CodingKeys.blockTemplates.stringValue)
+        theme[RemoteEditorTheme.CodingKeys.themeSupport.stringValue] = themeSupport
+        mockedResponse[0] = theme
+
+        service.fetchTheme(forSiteID: siteID) { (response) in
+            switch response {
+            case .success(let result):
+                XCTAssertFalse(result!.themeSupport!.blockTemplates)
             case .failure:
                 XCTFail("This payload should parse successfully")
             }
@@ -139,6 +169,7 @@ extension BlockEditorSettingsServiceRemoteTests {
             case .success(let result):
                 self.validateFetchBlockEditorSettingsResults(result)
                 XCTAssertNil(result!.rawStyles)
+                XCTAssertFalse(result!.isFSETheme)
             case .failure:
                 XCTFail("This payload should parse successfully")
             }
@@ -160,9 +191,31 @@ extension BlockEditorSettingsServiceRemoteTests {
                 self.validateFetchBlockEditorSettingsResults(result)
 
                 XCTAssertNotNil(result!.rawStyles)
+                XCTAssertTrue(result!.isFSETheme)
                 let gssRawJson = result!.rawStyles!.data(using: .utf8)!
                 let vaildJson = try? JSONSerialization.jsonObject(with: gssRawJson, options: [])
                 XCTAssertNotNil(vaildJson)
+            case .failure:
+                XCTFail("This payload should parse successfully")
+            }
+            waitExpectation.fulfill()
+        }
+        mockRemoteApi.successBlockPassedIn!(mockedResponse as AnyObject, HTTPURLResponse())
+
+        waitForExpectations(timeout: 0.1)
+        validateFetchBlockEditorSettingsRequest()
+    }
+
+    func testFetchBlockEditorSettingsNoFSETheme() {
+        let waitExpectation = expectation(description: "Block Settings should be successfully fetched")
+        var mockedResponse = mockedData(withFilename: blockSettingsThemeJSONResponseFilename) as! [String: Any]
+        mockedResponse.removeValue(forKey: RemoteBlockEditorSettings.CodingKeys.isFSETheme.stringValue)
+
+        service.fetchBlockEditorSettings(forSiteID: siteID) { (response) in
+            switch response {
+            case .success(let result):
+                self.validateFetchBlockEditorSettingsResults(result)
+                XCTAssertFalse(result!.isFSETheme)
             case .failure:
                 XCTFail("This payload should parse successfully")
             }

@@ -1,4 +1,5 @@
 {
+    "__unstableIsBlockBasedTheme": false,
     "__unstableEnableFullSiteEditingBlocks": true,
     "alignWide": true,
     "allowedBlockTypes": true,
