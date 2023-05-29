@@ -48,6 +48,12 @@ _None._
 
 _None._
 
+## 8.2.0
+
+### New Features
+
+- Add WordPress.com `/v2` external services endpoint [#600]
+
 ## 8.1.0
 
 ### Internal Changes
