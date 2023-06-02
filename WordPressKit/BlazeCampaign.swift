@@ -1,20 +1,5 @@
 import Foundation
 
-public final class BlazeCampaignsResponse: Decodable {
-    public let campaigns: [BlazeCampaign]?
-    public let totalItems: Int?
-    public let totalPages: Int?
-    public let page: Int?
-
-    public init(totalItems: Int?, campaigns: [BlazeCampaign]?, totalPages: Int?, page: Int?) {
-        self.totalItems = totalItems
-        self.campaigns = campaigns
-        self.totalPages = totalPages
-        self.page = page
-    }
-}
-
-// MARK: - BlazeCampaign
 public final class BlazeCampaign: Decodable {
     public let campaignID: Int
     public let name: String?
@@ -25,7 +10,7 @@ public final class BlazeCampaign: Decodable {
     public let targetURL: String?
     public let contentConfig: ContentConfig?
     public let creativeHTML: String?
-    
+
     public enum Status: String, Decodable {
         case scheduled
         case created
@@ -36,26 +21,26 @@ public final class BlazeCampaign: Decodable {
         case finished
         case processing
         case unknown
-        
+
         public init(from decoder: Decoder) throws {
             let status = try? String(from: decoder)
             self = status.flatMap(Status.init) ?? .unknown
         }
     }
-        
+
     public struct ContentConfig: Decodable {
         public let title: String?
         public let snippet: String?
         public let clickURL: String?
         public let imageURL: String?
-        
+
         enum CodingKeys: String, CodingKey {
             case title = "title"
             case snippet = "snippet"
             case clickURL = "clickUrl"
             case imageURL = "imageUrl"
         }
-        
+
         public init(title: String?, snippet: String?, clickURL: String?, imageURL: String?) {
             self.title = title
             self.snippet = snippet
@@ -63,7 +48,7 @@ public final class BlazeCampaign: Decodable {
             self.imageURL = imageURL
         }
     }
-    
+
     public init(campaignID: Int, name: String?, startDate: Date?, endDate: Date?, status: Status, budgetCents: Int?, targetURL: String?, contentConfig: ContentConfig?, creativeHTML: String?) {
         self.campaignID = campaignID
         self.name = name
@@ -75,7 +60,7 @@ public final class BlazeCampaign: Decodable {
         self.contentConfig = contentConfig
         self.creativeHTML = creativeHTML
     }
-    
+
     enum CodingKeys: String, CodingKey {
         case campaignID = "campaignId"
         case name

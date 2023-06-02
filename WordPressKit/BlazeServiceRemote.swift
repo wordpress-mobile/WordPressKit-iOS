@@ -16,14 +16,12 @@ public final class BlazeServiceRemote: ServiceRemoteWordPressComREST {
         let path = self.path(forEndpoint: endpoint, withVersion: ._2_0)
 
         wordPressComRestApi.GET(path, parameters: nil, success: { response, _ in
-
             if let json = response as? [String: Any],
                let approved = json["approved"] as? Bool {
                 callback(.success(approved))
             } else {
                 callback(.failure(BlazeServiceRemoteError.InvalidDataError))
             }
-
         }, failure: { error, response in
             WPKitLogError("Error retrieving blaze status")
             WPKitLogError("\(error)")
@@ -35,10 +33,27 @@ public final class BlazeServiceRemote: ServiceRemoteWordPressComREST {
             callback(.failure(error))
         })
     }
-    
+
     // MARK: - Campaigns
-    
-    func getCampaigns(forSiteId siteId: Int, page: Int = 1, callback: @escaping (Result<BlazeCampaignsResponse, Error>) -> Void) {
+
+    func getCampaignsSummary(forsSiteId siteId: Int, callback: @escaping (Result<BlazeCampaignsSummaryResponse, Error>) -> Void) {
+        let endpoint = "sites/\(siteId)/wordads/dsp/api/v1/campaigns/site/\(siteId)/summary"
+        let path = self.path(forEndpoint: endpoint, withVersion: ._2_0)
+        wordPressComRestApi.GET(path, parameters: nil, success: { response, _ in
+            do {
+                let data = try JSONSerialization.data(withJSONObject: response)
+                let response = try JSONDecoder.apiDecoder.decode(BlazeCampaignsSummaryResponse.self, from: data)
+                callback(.success((response)))
+            } catch {
+                WPKitLogError("Error parsing campaigns response: \(error), \(response)")
+                callback(.failure(error))
+            }
+        }, failure: { error, _ in
+            callback(.failure(error))
+        })
+    }
+
+    func getCampaignsSearch(forSiteId siteId: Int, page: Int = 1, callback: @escaping (Result<BlazeCampaignsSearchResponse, Error>) -> Void) {
         let endpoint = "sites/\(siteId)/wordads/dsp/api/v1/search/campaigns"
         let path = self.path(forEndpoint: endpoint, withVersion: ._2_0)
         wordPressComRestApi.GET(path, parameters: [
@@ -49,7 +64,7 @@ public final class BlazeServiceRemote: ServiceRemoteWordPressComREST {
         ], success: { response, _ in
             do {
                 let data = try JSONSerialization.data(withJSONObject: response)
-                let response = try JSONDecoder.apiDecoder.decode(BlazeCampaignsResponse.self, from: data)
+                let response = try JSONDecoder.apiDecoder.decode(BlazeCampaignsSearchResponse.self, from: data)
                 callback(.success((response)))
             } catch {
                 WPKitLogError("Error parsing campaigns response: \(error), \(response)")
