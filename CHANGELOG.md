@@ -38,7 +38,7 @@ _None._
 
 ### New Features
 
-_None._
+- Add Blaze campaigns search endpoint [#605]
 
 ### Bug Fixes
 
