@@ -11,8 +11,6 @@
 		0CB1905E2A2A5E83004D3E80 /* BlazeCampaign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB1905D2A2A5E83004D3E80 /* BlazeCampaign.swift */; };
 		0CB190612A2A6A13004D3E80 /* blaze-campaigns-search.json in Resources */ = {isa = PBXBuildFile; fileRef = 0CB1905F2A2A6943004D3E80 /* blaze-campaigns-search.json */; };
 		0CB190652A2A7569004D3E80 /* BlazeCampaignsSearchResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB190642A2A7569004D3E80 /* BlazeCampaignsSearchResponse.swift */; };
-		0CB190672A2A7589004D3E80 /* BlazeCampaignsSummaryResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB190662A2A7589004D3E80 /* BlazeCampaignsSummaryResponse.swift */; };
-		0CB190682A2A76CB004D3E80 /* blaze-campaigns-summary.json in Resources */ = {isa = PBXBuildFile; fileRef = 0CB190622A2A7527004D3E80 /* blaze-campaigns-summary.json */; };
 		1769DEAA24729AFF00F42EFC /* HomepageSettingsServiceRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1769DEA924729AFF00F42EFC /* HomepageSettingsServiceRemote.swift */; };
 		17BF9A6C20C7DC3300BF57D2 /* reader-site-search-success.json in Resources */ = {isa = PBXBuildFile; fileRef = 17BF9A6B20C7DC3300BF57D2 /* reader-site-search-success.json */; };
 		17BF9A7220C7E18200BF57D2 /* reader-site-search-success-hasmore.json in Resources */ = {isa = PBXBuildFile; fileRef = 17BF9A6D20C7E18100BF57D2 /* reader-site-search-success-hasmore.json */; };
@@ -682,9 +680,7 @@
 		0152100B28EDA9E400DD6783 /* StatsAnnualAndMostPopularTimeInsightDecodingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsAnnualAndMostPopularTimeInsightDecodingTests.swift; sourceTree = "<group>"; };
 		0CB1905D2A2A5E83004D3E80 /* BlazeCampaign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlazeCampaign.swift; sourceTree = "<group>"; };
 		0CB1905F2A2A6943004D3E80 /* blaze-campaigns-search.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "blaze-campaigns-search.json"; sourceTree = "<group>"; };
-		0CB190622A2A7527004D3E80 /* blaze-campaigns-summary.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "blaze-campaigns-summary.json"; sourceTree = "<group>"; };
 		0CB190642A2A7569004D3E80 /* BlazeCampaignsSearchResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlazeCampaignsSearchResponse.swift; sourceTree = "<group>"; };
-		0CB190662A2A7589004D3E80 /* BlazeCampaignsSummaryResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlazeCampaignsSummaryResponse.swift; sourceTree = "<group>"; };
 		1769DEA924729AFF00F42EFC /* HomepageSettingsServiceRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomepageSettingsServiceRemote.swift; sourceTree = "<group>"; };
 		17BF9A6B20C7DC3300BF57D2 /* reader-site-search-success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "reader-site-search-success.json"; sourceTree = "<group>"; };
 		17BF9A6D20C7E18100BF57D2 /* reader-site-search-success-hasmore.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "reader-site-search-success-hasmore.json"; sourceTree = "<group>"; };
@@ -1378,7 +1374,6 @@
 			isa = PBXGroup;
 			children = (
 				0CB1905D2A2A5E83004D3E80 /* BlazeCampaign.swift */,
-				0CB190662A2A7589004D3E80 /* BlazeCampaignsSummaryResponse.swift */,
 				0CB190642A2A7569004D3E80 /* BlazeCampaignsSearchResponse.swift */,
 			);
 			name = Blaze;
@@ -2337,7 +2332,6 @@
 				C738CAF628622B94001BE107 /* qrlogin-authenticate-200.json */,
 				C738CAF828622BB1001BE107 /* qrlogin-authenticate-failed-400.json */,
 				0CB1905F2A2A6943004D3E80 /* blaze-campaigns-search.json */,
-				0CB190622A2A7527004D3E80 /* blaze-campaigns-summary.json */,
 			);
 			path = "Mock Data";
 			sourceTree = "<group>";
@@ -2991,7 +2985,6 @@
 				4081977E221F269A00A298E4 /* stats-visits-month.json in Resources */,
 				826016FB1F9FAF6300533B6C /* activity-log-auth-failure.json in Resources */,
 				BA4BFC5A2498C3E5005C83E7 /* plugin-update-gutenberg-needs-update.json in Resources */,
-				0CB190682A2A76CB004D3E80 /* blaze-campaigns-summary.json in Resources */,
 				73D592FB21E550D300E4CF84 /* site-verticals-multiple.json in Resources */,
 				7403A2F61EF06FEB00DED7DC /* me-settings-change-aboutme-success.json in Resources */,
 				40F9880E221ACFB400B7B369 /* stats-streak-result.json in Resources */,
@@ -3150,7 +3143,6 @@
 				57BCD3D426209D9500292CB3 /* AppTransportSecuritySettings.swift in Sources */,
 				9311A6891F22625A00704AC9 /* TaxonomyServiceRemoteREST.m in Sources */,
 				9AB6D647218705E90008F274 /* RemoteDiff.swift in Sources */,
-				0CB190672A2A7589004D3E80 /* BlazeCampaignsSummaryResponse.swift in Sources */,
 				93BD277C1EE73944002BB00B /* HTTPAuthenticationAlertController.swift in Sources */,
 				7433BC011EFC4505002D9E92 /* PlanServiceRemote.swift in Sources */,
 				4041405E220F9EF500CF7C5B /* StatsDotComFollowersInsight.swift in Sources */,
