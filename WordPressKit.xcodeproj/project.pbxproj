@@ -625,7 +625,7 @@
 		FE5096522A13938500DDD071 /* SharingServiceRemoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE5096512A13938500DDD071 /* SharingServiceRemoteTests.swift */; };
 		FE5096562A13B7F200DDD071 /* sites-external-services.json in Resources */ = {isa = PBXBuildFile; fileRef = FE5096552A13B7F200DDD071 /* sites-external-services.json */; };
 		FE50965F2A2E42A500DDD071 /* JetpackSocialServiceRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE50965E2A2E42A500DDD071 /* JetpackSocialServiceRemote.swift */; };
-		FE5096612A2F852E00DDD071 /* RemoteJetpackSocialConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE5096602A2F852E00DDD071 /* RemoteJetpackSocialConfig.swift */; };
+		FE5096612A2F852E00DDD071 /* RemotePublicizeInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE5096602A2F852E00DDD071 /* RemotePublicizeInfo.swift */; };
 		FEAE3AC7298AC2A300E05A24 /* JetpackProxyServiceRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEAE3AC6298AC2A300E05A24 /* JetpackProxyServiceRemote.swift */; };
 		FEB7A88F271873BD00A8CF85 /* reader-post-comments-update-notification-success.json in Resources */ = {isa = PBXBuildFile; fileRef = FEB7A88E271873BD00A8CF85 /* reader-post-comments-update-notification-success.json */; };
 		FED77253298B819900C2346E /* JetpackProxyServiceRemoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FED77252298B819900C2346E /* JetpackProxyServiceRemoteTests.swift */; };
@@ -1305,7 +1305,7 @@
 		FE5096512A13938500DDD071 /* SharingServiceRemoteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingServiceRemoteTests.swift; sourceTree = "<group>"; };
 		FE5096552A13B7F200DDD071 /* sites-external-services.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "sites-external-services.json"; sourceTree = "<group>"; };
 		FE50965E2A2E42A500DDD071 /* JetpackSocialServiceRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JetpackSocialServiceRemote.swift; sourceTree = "<group>"; };
-		FE5096602A2F852E00DDD071 /* RemoteJetpackSocialConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteJetpackSocialConfig.swift; sourceTree = "<group>"; };
+		FE5096602A2F852E00DDD071 /* RemotePublicizeInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemotePublicizeInfo.swift; sourceTree = "<group>"; };
 		FEAE3AC6298AC2A300E05A24 /* JetpackProxyServiceRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JetpackProxyServiceRemote.swift; sourceTree = "<group>"; };
 		FEB7A88E271873BD00A8CF85 /* reader-post-comments-update-notification-success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "reader-post-comments-update-notification-success.json"; sourceTree = "<group>"; };
 		FED77252298B819900C2346E /* JetpackProxyServiceRemoteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JetpackProxyServiceRemoteTests.swift; sourceTree = "<group>"; };
@@ -1961,7 +1961,7 @@
 				74650F731F0EA1E200188EDB /* RemoteGravatarProfile.swift */,
 				17D936242475D8AB008B2205 /* RemoteHomepageType.swift */,
 				E6B0460825E5B4DD00DF6F4F /* RemoteInviteLink.swift */,
-				FE5096602A2F852E00DDD071 /* RemoteJetpackSocialConfig.swift */,
+				FE5096602A2F852E00DDD071 /* RemotePublicizeInfo.swift */,
 				74DA56381F06EB3000FE9BF4 /* RemoteMedia.h */,
 				74DA56391F06EB3000FE9BF4 /* RemoteMedia.m */,
 				4A68E3D029406AA0004AC3DC /* RemoteMenu.swift */,
@@ -3186,7 +3186,7 @@
 				FACBDD1A25ECA2FB0026705B /* ReaderPostServiceRemote+RelatedPosts.swift in Sources */,
 				7328420421CD786C00126755 /* WordPressComServiceRemote+SiteCreation.swift in Sources */,
 				32FC1D28255C91ED00CD0A7B /* JetpackScan.swift in Sources */,
-				FE5096612A2F852E00DDD071 /* RemoteJetpackSocialConfig.swift in Sources */,
+				FE5096612A2F852E00DDD071 /* RemotePublicizeInfo.swift in Sources */,
 				826016F31F9FA17B00533B6C /* Activity.swift in Sources */,
 				4A68E3D329406AA0004AC3DC /* RemoteMenu.swift in Sources */,
 				40819783221F5C8200A298E4 /* StatsPostDetails.swift in Sources */,
