@@ -16,8 +16,8 @@ public class JetpackSocialServiceRemote: ServiceRemoteWordPressComREST {
             case .success(let responseObject):
                 do {
                     let data = try JSONSerialization.data(withJSONObject: responseObject)
-                    let config = try JSONDecoder.apiDecoder.decode(RemoteJetpackSocialConfig.self, from: data)
-                    completion(.success(config.publicizeInfo))
+                    let info = try? JSONDecoder.apiDecoder.decode(RemotePublicizeInfo.self, from: data)
+                    completion(.success(info))
                 } catch {
                     completion(.failure(error))
                 }
