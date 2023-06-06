@@ -624,6 +624,7 @@
 		FE20A6AA282BC8710025E975 /* blogging-prompts-settings-update-empty-response.json in Resources */ = {isa = PBXBuildFile; fileRef = FE20A6A9282BC8710025E975 /* blogging-prompts-settings-update-empty-response.json */; };
 		FE5096522A13938500DDD071 /* SharingServiceRemoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE5096512A13938500DDD071 /* SharingServiceRemoteTests.swift */; };
 		FE5096562A13B7F200DDD071 /* sites-external-services.json in Resources */ = {isa = PBXBuildFile; fileRef = FE5096552A13B7F200DDD071 /* sites-external-services.json */; };
+		FE50965F2A2E42A500DDD071 /* JetpackSocialServiceRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE50965E2A2E42A500DDD071 /* JetpackSocialServiceRemote.swift */; };
 		FEAE3AC7298AC2A300E05A24 /* JetpackProxyServiceRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEAE3AC6298AC2A300E05A24 /* JetpackProxyServiceRemote.swift */; };
 		FEB7A88F271873BD00A8CF85 /* reader-post-comments-update-notification-success.json in Resources */ = {isa = PBXBuildFile; fileRef = FEB7A88E271873BD00A8CF85 /* reader-post-comments-update-notification-success.json */; };
 		FED77253298B819900C2346E /* JetpackProxyServiceRemoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FED77252298B819900C2346E /* JetpackProxyServiceRemoteTests.swift */; };
@@ -1302,6 +1303,7 @@
 		FE20A6A9282BC8710025E975 /* blogging-prompts-settings-update-empty-response.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "blogging-prompts-settings-update-empty-response.json"; sourceTree = "<group>"; };
 		FE5096512A13938500DDD071 /* SharingServiceRemoteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingServiceRemoteTests.swift; sourceTree = "<group>"; };
 		FE5096552A13B7F200DDD071 /* sites-external-services.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "sites-external-services.json"; sourceTree = "<group>"; };
+		FE50965E2A2E42A500DDD071 /* JetpackSocialServiceRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JetpackSocialServiceRemote.swift; sourceTree = "<group>"; };
 		FEAE3AC6298AC2A300E05A24 /* JetpackProxyServiceRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JetpackProxyServiceRemote.swift; sourceTree = "<group>"; };
 		FEB7A88E271873BD00A8CF85 /* reader-post-comments-update-notification-success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "reader-post-comments-update-notification-success.json"; sourceTree = "<group>"; };
 		FED77252298B819900C2346E /* JetpackProxyServiceRemoteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JetpackProxyServiceRemoteTests.swift; sourceTree = "<group>"; };
@@ -1851,6 +1853,7 @@
 				8B749DEC25AF3E4600023F03 /* JetpackCapabilitiesServiceRemote.swift */,
 				32FC1D27255C91ED00CD0A7B /* JetpackScanServiceRemote.swift */,
 				9A2D0B27225E0119009E585F /* JetpackServiceRemote.swift */,
+				FE50965E2A2E42A500DDD071 /* JetpackSocialServiceRemote.swift */,
 				FEAE3AC6298AC2A300E05A24 /* JetpackProxyServiceRemote.swift */,
 				439A44D52107C66A00795ED7 /* JSONDecoderExtension.swift */,
 				74DA56361F06EB0500FE9BF4 /* MediaServiceRemote.h */,
@@ -3273,6 +3276,7 @@
 				436D5641211B7F4400CEAA33 /* DomainContactInformation.swift in Sources */,
 				FA28A3D6259079960082C7B0 /* JetpackRestoreTypes.swift in Sources */,
 				32FC20CE255DCC6100CD0A7B /* JetpackScanThreat.swift in Sources */,
+				FE50965F2A2E42A500DDD071 /* JetpackSocialServiceRemote.swift in Sources */,
 				3F3195AD266FF94B00397EE7 /* ZendeskMetadata.swift in Sources */,
 				40A71C6E220E1D8E002E3D25 /* StatsServiceRemoteV2.swift in Sources */,
 				82FFBF521F45F04100F4573F /* RemoteBlogJetpackMonitorSettings.swift in Sources */,
