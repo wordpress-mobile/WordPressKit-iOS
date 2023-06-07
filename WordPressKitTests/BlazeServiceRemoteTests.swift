@@ -9,10 +9,11 @@ final class BlazeServiceRemoteTests: RemoteTestCase, RESTTestable {
 
     // MARK: - Properties
 
-    var statusEndpoint: String { return "sites/\(siteId)/blaze/status" }
+    var statusEndpoint: String { "sites/\(siteId)/blaze/status" }
+    var searchEndpoint: String { "sites/\(siteId)/wordads/dsp/api/v1/search/campaigns/site/\(siteId)" }
     var service: BlazeServiceRemote!
 
-    // MARK: - Tests
+    // MARK: - Get Status
 
     func testGetStatusReturnsSuccess() throws {
         // Given
@@ -79,15 +80,18 @@ final class BlazeServiceRemoteTests: RemoteTestCase, RESTTestable {
 
     // MARK: - Campaigns
 
-    func testDecodeCampaignsSearchResponse() throws {
+    func testGetCampagnsSuccess() throws {
         // Given
-        let url = try XCTUnwrap(Bundle(for: BlazeServiceRemoteTests.self).url(forResource: "blaze-campaigns-search", withExtension: "json"))
-        let data = try Data(contentsOf: url)
+        let bundle = Bundle(for: BlazeServiceRemoteTests.self)
+        let url = try XCTUnwrap(bundle.url(forResource: "blaze-campaigns-search", withExtension: "json"))
+        stubRemoteResponse(searchEndpoint, data: try Data(contentsOf: url), contentType: .ApplicationJSON)
 
         // When
-        let response = try JSONDecoder.apiDecoder.decode(BlazeCampaignsSearchResponse.self, from: data)
+        let result = try getSearchCampaignsResult()
 
         // Then
+        let response = try result.get()
+
         XCTAssertEqual(response.totalItems, 1)
         XCTAssertEqual(response.totalPages, 1)
         XCTAssertEqual(response.page, 1)
@@ -109,5 +113,49 @@ final class BlazeServiceRemoteTests: RemoteTestCase, RESTTestable {
         let stats = try XCTUnwrap(campaign.stats)
         XCTAssertEqual(stats.impressionsTotal, 1000)
         XCTAssertEqual(stats.clicksTotal, 235)
+    }
+
+    func testGetCampagnsSuccessFailureInvalidJSON() throws {
+        // Given
+        let data = #"{ "campaigns": "XXXX" }"#.data(using: .utf8)!
+        stubRemoteResponse(searchEndpoint, data: data, contentType: .ApplicationJSON)
+
+        // When
+        let result = try getSearchCampaignsResult()
+
+        // Then
+        switch result {
+        case .success:
+            XCTFail("Expected failure")
+        case .failure:
+            break // OK
+        }
+    }
+
+    func testGetCampagnsSuccessFailureUnauthorized() throws {
+        // Given
+        stubRemoteResponse(searchEndpoint, data: Data(), contentType: .NoContentType, status: 403)
+
+        // When
+        let result = try getSearchCampaignsResult()
+
+        // Then
+        switch result {
+        case .success:
+            XCTFail("Expected failure")
+        case .failure:
+            break // OK
+        }
+    }
+
+    private func getSearchCampaignsResult() throws -> Result<BlazeCampaignsSearchResponse, Error> {
+        var result: Result<BlazeCampaignsSearchResponse, Error>?
+        let expectation = self.expectation(description: "requestCompleted")
+        BlazeServiceRemote(wordPressComRestApi: getRestApi()).searchCampaigns(forSiteId: siteId) {
+            result = $0
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 1)
+        return try XCTUnwrap(result)
     }
 }
