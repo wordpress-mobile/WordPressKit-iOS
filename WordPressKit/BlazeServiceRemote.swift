@@ -45,8 +45,7 @@ open class BlazeServiceRemote: ServiceRemoteWordPressComREST {
         let endpoint = "sites/\(siteId)/wordads/dsp/api/v1/search/campaigns/site/\(siteId)"
         let path = self.path(forEndpoint: endpoint, withVersion: ._2_0)
         wordPressComRestApi.GET(path, parameters: [
-            "page": "\(page)" as AnyObject,
-            "site_id": "\(siteId)" as AnyObject
+            "page": "\(page)" as AnyObject
         ], success: { response, _ in
             do {
                 let data = try JSONSerialization.data(withJSONObject: response)
