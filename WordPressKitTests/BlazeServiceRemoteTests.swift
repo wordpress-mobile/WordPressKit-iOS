@@ -80,7 +80,7 @@ final class BlazeServiceRemoteTests: RemoteTestCase, RESTTestable {
 
     // MARK: - Campaigns
 
-    func testGetCampagnsSuccess() throws {
+    func testGetCampaignsSuccess() throws {
         // Given
         let bundle = Bundle(for: BlazeServiceRemoteTests.self)
         let url = try XCTUnwrap(bundle.url(forResource: "blaze-campaigns-search", withExtension: "json"))
@@ -115,7 +115,7 @@ final class BlazeServiceRemoteTests: RemoteTestCase, RESTTestable {
         XCTAssertEqual(stats.clicksTotal, 235)
     }
 
-    func testGetCampagnsSuccessFailureInvalidJSON() throws {
+    func testGetCampaignsSuccessFailureInvalidJSON() throws {
         // Given
         let data = #"{ "campaigns": "XXXX" }"#.data(using: .utf8)!
         stubRemoteResponse(searchEndpoint, data: data, contentType: .ApplicationJSON)
@@ -132,7 +132,7 @@ final class BlazeServiceRemoteTests: RemoteTestCase, RESTTestable {
         }
     }
 
-    func testGetCampagnsSuccessFailureUnauthorized() throws {
+    func testGetCampaignsSuccessFailureUnauthorized() throws {
         // Given
         stubRemoteResponse(searchEndpoint, data: Data(), contentType: .NoContentType, status: 403)
 
