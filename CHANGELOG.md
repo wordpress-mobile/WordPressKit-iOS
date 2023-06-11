@@ -38,7 +38,7 @@ _None._
 
 ### New Features
 
-- Add Blaze campaigns search endpoint [#605]
+_None._
 
 ### Bug Fixes
 
@@ -47,6 +47,16 @@ _None._
 ### Internal Changes
 
 _None._
+
+### Breaking Changes
+
+_None._
+
+## 8.3.0
+
+### New Features
+
+- Add Blaze campaigns search endpoint [#605]
 
 ## 8.2.0
 
