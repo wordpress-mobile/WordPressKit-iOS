@@ -39,17 +39,17 @@ final class SharingServiceRemoteTests: RemoteTestCase, RESTTestable {
         stubRemoteResponse(pathToStub, filename: publicizeServicesMockFilename, contentType: .ApplicationJSON)
 
         mockService.getPublicizeServices(for: mockID) { publicizeServices in
-            guard let firstService = publicizeServices.first else {
+            guard let facebookService = publicizeServices.first(where: { $0.serviceID == "facebook" }) else {
                 XCTFail("Expected a RemotePublicizeService to exist")
                 return
             }
-            XCTAssertTrue(firstService.status.isEmpty)
+            XCTAssertTrue(facebookService.status.isEmpty)
 
-            guard let secondService = publicizeServices.last else {
+            guard let twitterService = publicizeServices.first(where: { $0.serviceID == "twitter"}) else {
                 XCTFail("Expected a RemotePublicizeService to exist")
                 return
             }
-            XCTAssertEqual(secondService.status, "unsupported")
+            XCTAssertEqual(twitterService.status, "unsupported")
 
             expectation.fulfill()
 
