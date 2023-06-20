@@ -48,6 +48,16 @@ _None._
 
 _None._
 
+### Breaking Changes
+
+_None._
+
+## 8.3.0
+
+### New Features
+
+- Add Blaze campaigns search endpoint [#605]
+
 ## 8.2.0
 
 ### New Features
