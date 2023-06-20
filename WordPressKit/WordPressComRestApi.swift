@@ -37,6 +37,10 @@ public enum ResponseType {
 
 open class WordPressComRestApi: NSObject {
 
+    enum Errors: Error {
+        case invalidResponse
+    }
+
     // MARK: Properties
 
     @objc public static let ErrorKeyErrorCode       = "WordPressComRestApiErrorCodeKey"
@@ -442,7 +446,6 @@ open class WordPressComRestApi: NSObject {
         return URLSession(configuration: configuration)
     }()
 
-    // TODO: when migrating to Xcode 13.2 make this available to iOS 13
     /**
      Executes a GET request to the specified endpoint
 
@@ -450,7 +453,7 @@ open class WordPressComRestApi: NSObject {
 
      - returns: a tuple containing the `Data` of the response and the `URLResponse` object
      */
-    @available(iOS 15.0.0, *)
+    @available(iOS 13.0, *)
     public func get(_ urlString: String) async throws -> (Data, URLResponse) {
         guard let url = URL(string: urlString) else {
             throw WordPressComRestApiError.malformedURL
@@ -468,14 +471,13 @@ open class WordPressComRestApi: NSObject {
 
      - returns: a `Decodable` object of the `Type` given
      */
-    @available(iOS 15.0.0, *)
+    @available(iOS 13.0, *)
     public func get<T: Decodable>(_ urlString: String) async throws -> T {
         let (data, _) = try await get(urlString)
         let object = try JSONDecoder().decode(T.self, from: data)
         return object
     }
 
-    // TODO: when migrating to Xcode 13.2 make this available to iOS 13
     /**
      Executes a POST request to the specified endpoint
 
@@ -484,7 +486,7 @@ open class WordPressComRestApi: NSObject {
 
      - returns: a tuple containing the `Data` of the response and the `URLResponse` object
      */
-    @available(iOS 15.0.0, *)
+    @available(iOS 13.0, *)
     public func post(_ urlString: String, parameters: [String: Any]? = nil) async throws -> (Data, URLResponse) {
         guard let url = URL(string: urlString) else {
             throw WordPressComRestApiError.malformedURL
@@ -498,10 +500,23 @@ open class WordPressComRestApi: NSObject {
             request.httpBody = parameters.percentEncoded()
         }
 
-        return try await urlSession.data(for: request, delegate: nil)
+        return try await withCheckedThrowingContinuation { continuation in
+            urlSession.dataTask(with: request) { data, urlResponse, error in
+                if let error {
+                    continuation.resume(throwing: error)
+                    return
+                }
+
+                if let data, let urlResponse {
+                    continuation.resume(with: .success((data, urlResponse)))
+                    return
+                }
+
+                continuation.resume(throwing: Errors.invalidResponse)
+            }
+        }
     }
 
-    // TODO: when migrating to Xcode 13.2 make this available to iOS 13
     /**
      Executes a POST request to the specified endpoint
 
@@ -511,7 +526,7 @@ open class WordPressComRestApi: NSObject {
 
      - returns: a `Decodable` object of the `Type` given
      */
-    @available(iOS 15.0.0, *)
+    @available(iOS 13.0, *)
     public func post<T: Decodable>(_ urlString: String, parameters: [String: Any]? = nil) async throws -> T {
         let (data, _) = try await post(urlString, parameters: parameters)
         let object = try JSONDecoder().decode(T.self, from: data)
