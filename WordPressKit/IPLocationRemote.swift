@@ -8,7 +8,7 @@ public final class IPLocationRemote: ServiceRemoteWordPressComREST {
     ///
     public func fetchIPCountryCode(completion: @escaping (Result<String, Error>) -> Void) {
 
-        let path = WordPressComOAuthClient.WordPressComOAuthDefaultApiBaseUrl + "geo/"
+        let path = WordPressComOAuthClient.WordPressComOAuthDefaultApiBaseUrl + "/geo/"
         guard let url = URL(string: path) else {
             return completion(.failure(IPLocationError.malformedURL))
         }
