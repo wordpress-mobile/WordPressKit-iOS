@@ -8,6 +8,7 @@
             "end_date": "2023-06-01T19:15:45.000Z",
             "status_smart": 0,
             "status": "canceled",
+            "ui_status": "canceled",
             "subscription_id": 117499,
             "display_name": "Test User",
             "avatar_url": "https://0.gravatar.com/avatar/614d27bcc21db12e7c49b516b4750387?s=96&amp;d=identicon&amp;r=G",
