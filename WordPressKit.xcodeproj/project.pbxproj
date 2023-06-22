@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0152100C28EDA9E400DD6783 /* StatsAnnualAndMostPopularTimeInsightDecodingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0152100B28EDA9E400DD6783 /* StatsAnnualAndMostPopularTimeInsightDecodingTests.swift */; };
+		0847B92C2A4442730044D32F /* IPLocationRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0847B92B2A4442730044D32F /* IPLocationRemote.swift */; };
 		0CB1905E2A2A5E83004D3E80 /* BlazeCampaign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB1905D2A2A5E83004D3E80 /* BlazeCampaign.swift */; };
 		0CB190612A2A6A13004D3E80 /* blaze-campaigns-search.json in Resources */ = {isa = PBXBuildFile; fileRef = 0CB1905F2A2A6943004D3E80 /* blaze-campaigns-search.json */; };
 		0CB190652A2A7569004D3E80 /* BlazeCampaignsSearchResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB190642A2A7569004D3E80 /* BlazeCampaignsSearchResponse.swift */; };
@@ -684,6 +685,7 @@
 
 /* Begin PBXFileReference section */
 		0152100B28EDA9E400DD6783 /* StatsAnnualAndMostPopularTimeInsightDecodingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsAnnualAndMostPopularTimeInsightDecodingTests.swift; sourceTree = "<group>"; };
+		0847B92B2A4442730044D32F /* IPLocationRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPLocationRemote.swift; sourceTree = "<group>"; };
 		0C3A2A412A2E7BA500FD91D6 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		0CB1905D2A2A5E83004D3E80 /* BlazeCampaign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlazeCampaign.swift; sourceTree = "<group>"; };
 		0CB1905F2A2A6943004D3E80 /* blaze-campaigns-search.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "blaze-campaigns-search.json"; sourceTree = "<group>"; };
@@ -1876,6 +1878,7 @@
 				F9E56DF724EB125600916770 /* FeatureFlagRemote.swift */,
 				74650F711F0EA1A700188EDB /* GravatarServiceRemote.swift */,
 				1769DEA924729AFF00F42EFC /* HomepageSettingsServiceRemote.swift */,
+				0847B92B2A4442730044D32F /* IPLocationRemote.swift */,
 				FAD1344425908F5F00A8FEB1 /* JetpackBackupServiceRemote.swift */,
 				8B749DEC25AF3E4600023F03 /* JetpackCapabilitiesServiceRemote.swift */,
 				32FC1D27255C91ED00CD0A7B /* JetpackScanServiceRemote.swift */,
@@ -3213,6 +3216,7 @@
 				9F4E52002088E38200424676 /* ObjectValidation.swift in Sources */,
 				7EC60EC022DC5D7C00FB0336 /* EditorSettings.swift in Sources */,
 				7403A3021EF0726E00DED7DC /* AccountSettings.swift in Sources */,
+				0847B92C2A4442730044D32F /* IPLocationRemote.swift in Sources */,
 				40E7FEA9220FA4060032834E /* StatsEmailFollowersInsight.swift in Sources */,
 				404057DA221C9D560060250C /* StatsTopReferrersTimeIntervalData.swift in Sources */,
 				826016F11F9FA13A00533B6C /* ActivityServiceRemote.swift in Sources */,
