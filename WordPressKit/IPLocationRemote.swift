@@ -18,7 +18,9 @@ public final class IPLocationRemote: ServiceRemoteWordPressComREST {
             if let data = data {
                 /// do exception handler so that our app does not crash
                 do {
-                    let result = try JSONDecoder.apiDecoder.decode(RemoteIPCountryCode.self, from: data)
+                    let decoder = JSONDecoder.apiDecoder
+                    decoder.keyDecodingStrategy = .useDefaultKeys
+                    let result = try decoder.decode(RemoteIPCountryCode.self, from: data)
                     completion(.success(result.countryCode))
                 } catch {
                     print(error.localizedDescription)
