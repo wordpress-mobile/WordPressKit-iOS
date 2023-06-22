@@ -7,26 +7,26 @@ public final class IPLocationRemote: ServiceRemoteWordPressComREST {
     /// Fetches the country code from the device ip.
     ///
     public func fetchIPCountryCode(completion: @escaping (Result<String, Error>) -> Void) {
-        let path = "https://public-api.wordpress.com/geo/"
 
-        wordPressComRestApi.GET(path, parameters: nil) { result, _ in
-            switch result {
-            case .success(let responseObject):
+        let path = WordPressComOAuthClient.WordPressComOAuthDefaultApiBaseUrl + "geo/"
+        guard let url = URL(string: path) else {
+            return completion(.failure(IPLocationError.malformedURL))
+        }
+
+        let request = URLRequest(url: url)
+        let task = URLSession.shared.dataTask(with: request) { data, _,error in
+            if let data = data {
+                /// do exception handler so that our app does not crash
                 do {
-                    let data = try JSONSerialization.data(withJSONObject: responseObject, options: [])
-                    let decoder = JSONDecoder.apiDecoder
-                    // our API decoder assumes that we're converting from snake case.
-                    // revert it to default so the CodingKeys match the actual response keys.
-                    let response = try decoder.decode(RemoteIPCountryCode.self, from: data)
-                    completion(.success(response.countryCode))
+                    let result = try JSONDecoder.apiDecoder.decode(RemoteIPCountryCode.self, from: data)
+                    completion(.success(result.countryCode))
                 } catch {
+                    print(error.localizedDescription)
                     completion(.failure(error))
                 }
-
-            case .failure(let error):
-                completion(.failure(error))
             }
         }
+        task.resume()
     }
 }
 
