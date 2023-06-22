@@ -6,7 +6,7 @@ public final class IPLocationRemote: ServiceRemoteWordPressComREST {
 
     /// Fetches the country code from the device ip.
     ///
-    public func fetchIPCountryCode(onCompletion: @escaping (Result<String, Error>) -> Void) {
+    public func fetchIPCountryCode(completion: @escaping (Result<String, Error>) -> Void) {
         let path = path(forEndpoint: wordPressComRestApi.baseURLString + "geo/", withVersion: ._2_0)
 
         wordPressComRestApi.GET(path, parameters: nil) { result, _ in
