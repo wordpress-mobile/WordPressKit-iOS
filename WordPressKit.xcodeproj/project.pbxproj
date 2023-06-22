@@ -627,6 +627,12 @@
 		FE20A6AA282BC8710025E975 /* blogging-prompts-settings-update-empty-response.json in Resources */ = {isa = PBXBuildFile; fileRef = FE20A6A9282BC8710025E975 /* blogging-prompts-settings-update-empty-response.json */; };
 		FE5096522A13938500DDD071 /* SharingServiceRemoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE5096512A13938500DDD071 /* SharingServiceRemoteTests.swift */; };
 		FE5096562A13B7F200DDD071 /* sites-external-services.json in Resources */ = {isa = PBXBuildFile; fileRef = FE5096552A13B7F200DDD071 /* sites-external-services.json */; };
+		FE50965F2A2E42A500DDD071 /* JetpackSocialServiceRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE50965E2A2E42A500DDD071 /* JetpackSocialServiceRemote.swift */; };
+		FE5096612A2F852E00DDD071 /* RemotePublicizeInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE5096602A2F852E00DDD071 /* RemotePublicizeInfo.swift */; };
+		FE5096632A309DE000DDD071 /* jetpack-social-no-publicize.json in Resources */ = {isa = PBXBuildFile; fileRef = FE5096622A309DE000DDD071 /* jetpack-social-no-publicize.json */; };
+		FE5096652A309DEE00DDD071 /* jetpack-social-with-publicize.json in Resources */ = {isa = PBXBuildFile; fileRef = FE5096642A309DEE00DDD071 /* jetpack-social-with-publicize.json */; };
+		FE5096682A309E4600DDD071 /* JetpackSocialServiceRemoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE5096672A309E4600DDD071 /* JetpackSocialServiceRemoteTests.swift */; };
+		FE50966A2A30A4F900DDD071 /* jetpack-social-403.json in Resources */ = {isa = PBXBuildFile; fileRef = FE5096692A30A4F900DDD071 /* jetpack-social-403.json */; };
 		FEAE3AC7298AC2A300E05A24 /* JetpackProxyServiceRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEAE3AC6298AC2A300E05A24 /* JetpackProxyServiceRemote.swift */; };
 		FEB7A88F271873BD00A8CF85 /* reader-post-comments-update-notification-success.json in Resources */ = {isa = PBXBuildFile; fileRef = FEB7A88E271873BD00A8CF85 /* reader-post-comments-update-notification-success.json */; };
 		FED77253298B819900C2346E /* JetpackProxyServiceRemoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FED77252298B819900C2346E /* JetpackProxyServiceRemoteTests.swift */; };
@@ -1309,6 +1315,12 @@
 		FE20A6A9282BC8710025E975 /* blogging-prompts-settings-update-empty-response.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "blogging-prompts-settings-update-empty-response.json"; sourceTree = "<group>"; };
 		FE5096512A13938500DDD071 /* SharingServiceRemoteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingServiceRemoteTests.swift; sourceTree = "<group>"; };
 		FE5096552A13B7F200DDD071 /* sites-external-services.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "sites-external-services.json"; sourceTree = "<group>"; };
+		FE50965E2A2E42A500DDD071 /* JetpackSocialServiceRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JetpackSocialServiceRemote.swift; sourceTree = "<group>"; };
+		FE5096602A2F852E00DDD071 /* RemotePublicizeInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemotePublicizeInfo.swift; sourceTree = "<group>"; };
+		FE5096622A309DE000DDD071 /* jetpack-social-no-publicize.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "jetpack-social-no-publicize.json"; sourceTree = "<group>"; };
+		FE5096642A309DEE00DDD071 /* jetpack-social-with-publicize.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "jetpack-social-with-publicize.json"; sourceTree = "<group>"; };
+		FE5096672A309E4600DDD071 /* JetpackSocialServiceRemoteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JetpackSocialServiceRemoteTests.swift; sourceTree = "<group>"; };
+		FE5096692A30A4F900DDD071 /* jetpack-social-403.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "jetpack-social-403.json"; sourceTree = "<group>"; };
 		FEAE3AC6298AC2A300E05A24 /* JetpackProxyServiceRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JetpackProxyServiceRemote.swift; sourceTree = "<group>"; };
 		FEB7A88E271873BD00A8CF85 /* reader-post-comments-update-notification-success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "reader-post-comments-update-notification-success.json"; sourceTree = "<group>"; };
 		FED77252298B819900C2346E /* JetpackProxyServiceRemoteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JetpackProxyServiceRemoteTests.swift; sourceTree = "<group>"; };
@@ -1868,6 +1880,7 @@
 				8B749DEC25AF3E4600023F03 /* JetpackCapabilitiesServiceRemote.swift */,
 				32FC1D27255C91ED00CD0A7B /* JetpackScanServiceRemote.swift */,
 				9A2D0B27225E0119009E585F /* JetpackServiceRemote.swift */,
+				FE50965E2A2E42A500DDD071 /* JetpackSocialServiceRemote.swift */,
 				FEAE3AC6298AC2A300E05A24 /* JetpackProxyServiceRemote.swift */,
 				439A44D52107C66A00795ED7 /* JSONDecoderExtension.swift */,
 				74DA56361F06EB0500FE9BF4 /* MediaServiceRemote.h */,
@@ -1974,6 +1987,7 @@
 				74650F731F0EA1E200188EDB /* RemoteGravatarProfile.swift */,
 				17D936242475D8AB008B2205 /* RemoteHomepageType.swift */,
 				E6B0460825E5B4DD00DF6F4F /* RemoteInviteLink.swift */,
+				FE5096602A2F852E00DDD071 /* RemotePublicizeInfo.swift */,
 				74DA56381F06EB3000FE9BF4 /* RemoteMedia.h */,
 				74DA56391F06EB3000FE9BF4 /* RemoteMedia.m */,
 				4A68E3D029406AA0004AC3DC /* RemoteMenu.swift */,
@@ -2127,6 +2141,9 @@
 				9A88173A223BFE5100A3AB20 /* jetpack-service-error-unknown.json */,
 				9A881738223BFC8E00A3AB20 /* jetpack-service-failure.json */,
 				9AD75C7A223BEF7A00AED6F4 /* jetpack-service-success.json */,
+				FE5096622A309DE000DDD071 /* jetpack-social-no-publicize.json */,
+				FE5096642A309DEE00DDD071 /* jetpack-social-with-publicize.json */,
+				FE5096692A30A4F900DDD071 /* jetpack-social-403.json */,
 				93BD274B1EE73442002BB00B /* me-auth-failure.json */,
 				93BD274C1EE73442002BB00B /* me-bad-json-failure.json */,
 				7403A2E71EF06FEB00DED7DC /* me-settings-auth-failure.json */,
@@ -2383,6 +2400,7 @@
 		9A2D0B29225E0DF7009E585F /* Jetpack */ = {
 			isa = PBXGroup;
 			children = (
+				FE5096662A309E3700DDD071 /* Social */,
 				3297E1DC2564649D00287D21 /* Scan */,
 				9A2D0B2A225E0E22009E585F /* JetpackServiceRemoteTests.swift */,
 				8B749E8125AF7DDA00023F03 /* JetpackCapabilitiesServiceRemoteTests.swift */,
@@ -2559,6 +2577,14 @@
 			name = Backup;
 			sourceTree = "<group>";
 		};
+		FE5096662A309E3700DDD071 /* Social */ = {
+			isa = PBXGroup;
+			children = (
+				FE5096672A309E4600DDD071 /* JetpackSocialServiceRemoteTests.swift */,
+			);
+			path = Social;
+			sourceTree = "<group>";
+		};
 		FEEFD8B5280EC8C800A3E261 /* BloggingPrompts */ = {
 			isa = PBXGroup;
 			children = (
@@ -2733,6 +2759,7 @@
 				74D67F211F15C3240010C5ED /* people-validate-invitation-success.json in Resources */,
 				8B074A4E27AC2FFD003A2EB8 /* dashboard-400-invalid-card.json in Resources */,
 				3297E28D25647E0300287D21 /* jetpack-scan-enqueue-success.json in Resources */,
+				FE50966A2A30A4F900DDD071 /* jetpack-social-403.json in Resources */,
 				7403A2F71EF06FEB00DED7DC /* me-settings-change-display-name-bad-json-failure.json in Resources */,
 				74B335E41F06F6B30053A184 /* WordPressComRestApiMultipleErrors.json in Resources */,
 				740B23E61F17FB4200067A2A /* xmlrpc-metaweblog-newpost-invalid-posttype-failure.xml in Resources */,
@@ -2841,6 +2868,7 @@
 				826016FD1F9FAF6300533B6C /* activity-log-bad-json-failure.json in Resources */,
 				74C473CD1EF336BD009918F2 /* site-active-purchases-bad-json-failure.json in Resources */,
 				436D5645211B801100CEAA33 /* validate-domain-contact-information-response-success.json in Resources */,
+				FE5096652A309DEE00DDD071 /* jetpack-social-with-publicize.json in Resources */,
 				74D67F351F15C3740010C5ED /* site-users-delete-not-member-failure.json in Resources */,
 				E1E89C681FD6B2E9006E7A33 /* plugin-directory-jetpack.json in Resources */,
 				74D67F201F15C3240010C5ED /* people-validate-invitation-failure.json in Resources */,
@@ -2899,6 +2927,7 @@
 				E6B0461525E5B6F500DF6F4F /* sites-invites-links-disable-empty.json in Resources */,
 				93BD27631EE73442002BB00B /* me-sites-visibility-bad-json-failure.json in Resources */,
 				17BF9A7220C7E18200BF57D2 /* reader-site-search-success-hasmore.json in Resources */,
+				FE5096632A309DE000DDD071 /* jetpack-social-no-publicize.json in Resources */,
 				9AB6D64B21872A0D0008F274 /* post-revisions-success.json in Resources */,
 				1DF972C029B107E7007A72BC /* videopress-public-video.json in Resources */,
 				C92EFF6925E7403F00E0308D /* common-starter-site-designs-success.json in Resources */,
@@ -3201,6 +3230,7 @@
 				FACBDD1A25ECA2FB0026705B /* ReaderPostServiceRemote+RelatedPosts.swift in Sources */,
 				7328420421CD786C00126755 /* WordPressComServiceRemote+SiteCreation.swift in Sources */,
 				32FC1D28255C91ED00CD0A7B /* JetpackScan.swift in Sources */,
+				FE5096612A2F852E00DDD071 /* RemotePublicizeInfo.swift in Sources */,
 				826016F31F9FA17B00533B6C /* Activity.swift in Sources */,
 				4A68E3D329406AA0004AC3DC /* RemoteMenu.swift in Sources */,
 				40819783221F5C8200A298E4 /* StatsPostDetails.swift in Sources */,
@@ -3295,6 +3325,7 @@
 				436D5641211B7F4400CEAA33 /* DomainContactInformation.swift in Sources */,
 				FA28A3D6259079960082C7B0 /* JetpackRestoreTypes.swift in Sources */,
 				32FC20CE255DCC6100CD0A7B /* JetpackScanThreat.swift in Sources */,
+				FE50965F2A2E42A500DDD071 /* JetpackSocialServiceRemote.swift in Sources */,
 				3F3195AD266FF94B00397EE7 /* ZendeskMetadata.swift in Sources */,
 				40A71C6E220E1D8E002E3D25 /* StatsServiceRemoteV2.swift in Sources */,
 				82FFBF521F45F04100F4573F /* RemoteBlogJetpackMonitorSettings.swift in Sources */,
@@ -3316,6 +3347,7 @@
 				8B2F4BE524ABB3C70056C08A /* RemoteReaderPostTests.m in Sources */,
 				748437EF1F1D4D8B00E8DDAF /* MenusServiceRemoteTests.m in Sources */,
 				73D5930121E550F500E4CF84 /* SiteVerticalsResponseDecodingTests.swift in Sources */,
+				FE5096682A309E4600DDD071 /* JetpackSocialServiceRemoteTests.swift in Sources */,
 				74A44DD41F13C6D8006CD8F4 /* RemoteNotificationTests.swift in Sources */,
 				74A923B21F2BE2DF00EC8F92 /* RESTTestable.swift in Sources */,
 				74155E251EF87DDF00A06AEA /* ServiceRemoteRESTTests.m in Sources */,
