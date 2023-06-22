@@ -17,8 +17,8 @@ public final class IPLocationRemote: ServiceRemoteWordPressComREST {
                     let decoder = JSONDecoder.apiDecoder
                     // our API decoder assumes that we're converting from snake case.
                     // revert it to default so the CodingKeys match the actual response keys.
-                    let response = try decoder.decode(String.self, from: data)
-                    completion(.success(response.values.first ?? []))
+                    let response = try decoder.decode(RemoteIPCountryCode.self, from: data)
+                    completion(.success(response.countryCode))
                 } catch {
                     completion(.failure(error))
                 }
@@ -38,21 +38,10 @@ public extension IPLocationRemote {
     }
 }
 
-/// Private mapper used to extract the country code from the `IPLocationRemote` response.
-///
-private struct IPCountryCodeMapper: Mapper {
-
-    /// Response envelope
-    ///
-    struct Response: Decodable {
-        enum CodingKeys: String, CodingKey {
-            case countryCode = "country_short"
-        }
-
-        let countryCode: String
+public struct RemoteIPCountryCode: Decodable {
+    enum CodingKeys: String, CodingKey {
+        case countryCode = "country_short"
     }
 
-    func map(response: Data) throws -> String {
-        try JSONDecoder().decode(Response.self, from: response).countryCode
-    }
+    let countryCode: String
 }
