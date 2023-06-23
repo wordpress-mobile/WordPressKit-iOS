@@ -3,6 +3,9 @@ import Foundation
 /// Remote type to fetch the user's IP Location using the public `geo` API.
 ///
 public final class IPLocationRemote: ServiceRemoteWordPressComREST {
+    private enum Constants {
+        static let jsonDecoder = JSONDecoder()
+    }
 
     /// Fetches the country code from the device ip.
     ///
@@ -14,26 +17,23 @@ public final class IPLocationRemote: ServiceRemoteWordPressComREST {
         }
 
         let request = URLRequest(url: url)
-        let task = URLSession.shared.dataTask(with: request) { data, _,error in
-            if let data = data {
-                /// do exception handler so that our app does not crash
-                do {
-                    let decoder = JSONDecoder.apiDecoder
-                    decoder.keyDecodingStrategy = .useDefaultKeys
-                    let result = try decoder.decode(RemoteIPCountryCode.self, from: data)
-                    completion(.success(result.countryCode))
-                } catch {
-                    print(error.localizedDescription)
-                    completion(.failure(error))
-                }
+        let task = URLSession.shared.dataTask(with: request) { data, _, error in
+            guard let data else {
+                return
+            }
+            
+            do {
+                let result = try Constants.jsonDecoder.decode(RemoteIPCountryCode.self, from: data)
+                completion(.success(result.countryCode))
+            } catch {
+                print(error.localizedDescription)
+                completion(.failure(error))
             }
         }
         task.resume()
     }
 }
 
-/// `IPLocationRemote` known errors
-///
 public extension IPLocationRemote {
     enum IPLocationError: Error {
         case malformedURL
