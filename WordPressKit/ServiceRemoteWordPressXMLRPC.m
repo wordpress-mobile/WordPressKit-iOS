@@ -1,13 +1,5 @@
 #import "ServiceRemoteWordPressXMLRPC.h"
 
-@interface ServiceRemoteWordPressXMLRPC()
-
-@property (nonatomic, strong, readwrite) WordPressOrgXMLRPCApi *api;
-@property (nonatomic, copy) NSString *username;
-@property (nonatomic, copy) NSString *password;
-
-@end
-
 @implementation ServiceRemoteWordPressXMLRPC
 
 - (id)initWithApi:(WordPressOrgXMLRPCApi *)api username:(NSString *)username password:(NSString *)password

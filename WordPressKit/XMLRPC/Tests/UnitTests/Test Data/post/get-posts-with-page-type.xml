@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<methodCall>
+  <methodName>wp.getPosts</methodName>
+  <params>
+    <param>
+      <value>
+        <int>1</int>
+      </value>
+    </param>
+    <param>
+      <value>
+        <string>WP_USER</string>
+      </value>
+    </param>
+    <param>
+      <value>
+        <string>WP_PASSWORD</string>
+      </value>
+    </param>
+    <param>
+      <value>
+        <struct>
+          <member>
+            <name>post_type</name>
+            <value>
+              <string>page</string>
+            </value>
+          </member>
+        </struct>
+      </value>
+    </param>
+  </params>
+</methodCall>

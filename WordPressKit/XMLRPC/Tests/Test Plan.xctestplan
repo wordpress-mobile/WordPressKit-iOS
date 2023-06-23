@@ -1,0 +1,41 @@
+{
+  "configurations" : [
+    {
+      "id" : "9A3DAEBD-4307-4A01-BDC7-D362843D6286",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : {
+      "targets" : [
+        {
+          "containerPath" : "container:",
+          "identifier" : "XMLRPC",
+          "name" : "XMLRPC"
+        }
+      ]
+    },
+    "testExecutionOrdering" : "random"
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "UnitTests",
+        "name" : "UnitTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "e2eTests",
+        "name" : "e2eTests"
+      }
+    }
+  ],
+  "version" : 1
+}

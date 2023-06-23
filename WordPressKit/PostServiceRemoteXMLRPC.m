@@ -47,7 +47,7 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
 - (void)getPostsOfType:(NSString *)postType
                success:(void (^)(NSArray <RemotePost *> *remotePosts))success
                failure:(void (^)(NSError *))failure {
-    [self getPostsOfType:postType options:nil success:success failure:failure];
+    [self getPostsOfType:postType options:@{} success:success failure:failure];
 }
 
 - (void)getPostsOfType:(NSString *)postType
@@ -130,9 +130,7 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
         if (failure) {
             NSDictionary *userInfo = @{NSLocalizedDescriptionKey: @"Can't edit a post if it's not in the server"};
             NSError *error = [NSError errorWithDomain:WordPressAppErrorDomain code:0 userInfo:userInfo];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                failure(error);
-            });
+            failure(error);
         }
         return;
     }

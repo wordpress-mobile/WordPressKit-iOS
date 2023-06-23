@@ -7,7 +7,7 @@ open class WordPressOrgXMLRPCApi: NSObject {
     public typealias SuccessResponseBlock = (AnyObject, HTTPURLResponse?) -> Void
     public typealias FailureReponseBlock = (_ error: NSError, _ httpResponse: HTTPURLResponse?) -> Void
 
-    private let endpoint: URL
+    let endpoint: URL
     private let userAgent: String?
     private var backgroundUploads: Bool
     private var backgroundSessionIdentifier: String

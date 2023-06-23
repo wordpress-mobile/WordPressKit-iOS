@@ -57,7 +57,7 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
                success:(void (^)(NSArray <RemotePost *> *remotePosts))success
                failure:(void (^)(NSError *))failure
 {
-    [self getPostsOfType:postType options:nil success:success failure:failure];
+    [self getPostsOfType:postType options:@{} success:success failure:failure];
 }
 
 - (void)getPostsOfType:(NSString *)postType

@@ -5,6 +5,9 @@
       location = "group:WordPressKit.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:WordPressKit/XMLRPC">
+   </FileRef>
+   <FileRef
       location = "group:Pods/Pods.xcodeproj">
    </FileRef>
 </Workspace>

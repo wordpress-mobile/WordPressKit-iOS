@@ -3,6 +3,7 @@
 
 @class RemotePost;
 
+NS_ASSUME_NONNULL_BEGIN
 @protocol PostServiceRemote <NSObject>
 
 /**
@@ -59,8 +60,8 @@
  *  @param      failure     The block that will be executed on failure.  Can be nil.
  */
 - (void)updatePost:(RemotePost *)post
-           success:(void (^)(RemotePost *post))success
-           failure:(void (^)(NSError *error))failure;
+           success:(void (^ _Nonnull )(RemotePost *post))success
+           failure:( void (^ _Nonnull )(NSError * _Nonnull error))failure;
 
 /**
  *  @brief      Deletes a post.
@@ -69,9 +70,9 @@
  *  @param      success     The block that will be executed on success.  Can be nil.
  *  @param      failure     The block that will be executed on failure.  Can be nil.
  */
-- (void)deletePost:(RemotePost *)post
-           success:(void (^)(void))success
-           failure:(void (^)(NSError *error))failure;
+- (void)deletePost:(RemotePost *_Nonnull)post
+           success:(void (^_Nonnull)(void))success
+           failure:(void (^_Nonnull)(NSError * _Nonnull error))failure;
 
 /**
  *  @brief      Trashes a post.
@@ -80,9 +81,9 @@
  *  @param      success     The block that will be executed on success.  Can be nil.
  *  @param      failure     The block that will be executed on failure.  Can be nil.
  */
-- (void)trashPost:(RemotePost *)post
-          success:(void (^)(RemotePost *))success
-          failure:(void (^)(NSError *))failure;
+- (void)trashPost:(RemotePost *_Nonnull)post
+          success:(void (^_Nonnull)(RemotePost *_Nonnull))success
+          failure:(void (^_Nonnull)(NSError *_Nonnull))failure;
 
 /**
  *  @brief      Restores a post.
@@ -91,15 +92,16 @@
  *  @param      success     The block that will be executed on success.  Can be nil.
  *  @param      failure     The block that will be executed on failure.  Can be nil.
  */
-- (void)restorePost:(RemotePost *)post
-            success:(void (^)(RemotePost *))success
-            failure:(void (^)(NSError *error))failure;
+- (void)restorePost:(RemotePost *_Nonnull)post
+            success:(void (^_Nonnull)(RemotePost *_Nonnull))success
+            failure:(void (^_Nonnull)(NSError * _Nonnull error))failure;
 
 /**
  *  @brief      Returns a dictionary set with option parameters of the PostServiceRemoteOptions protocol.
  *
  *  @param      options  The object with set remote options.  Cannot be nil.
  */
-- (NSDictionary *)dictionaryWithRemoteOptions:(id <PostServiceRemoteOptions>)options;
+- (NSDictionary *_Nonnull)dictionaryWithRemoteOptions:(id <PostServiceRemoteOptions>_Nonnull)options;
 
 @end
+NS_ASSUME_NONNULL_END

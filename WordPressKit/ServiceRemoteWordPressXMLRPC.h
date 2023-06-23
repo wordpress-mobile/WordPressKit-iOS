@@ -9,6 +9,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (id)initWithApi:(WordPressOrgXMLRPCApi *)api username:(NSString *)username password:(NSString *)password;
 
 @property (nonatomic, readonly) WordPressOrgXMLRPCApi *api;
+@property (nonatomic, copy) NSString *username;
+@property (nonatomic, copy) NSString *password;
 
 - (NSArray *)defaultXMLRPCArguments;
 - (NSArray *)XMLRPCArgumentsWithExtra:(_Nullable id)extra;
