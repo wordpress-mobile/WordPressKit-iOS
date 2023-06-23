@@ -38,7 +38,7 @@ _None._
 
 ### New Features
 
-_None._
+- Add `IPLocationRemote` [#613]
 
 ### Bug Fixes
 
