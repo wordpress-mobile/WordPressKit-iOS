@@ -37,6 +37,7 @@ final class BlazeServiceRemoteTests: RemoteTestCase, RESTTestable {
         XCTAssertEqual(campaign.startDate, ISO8601DateFormatter().date(from: "2023-06-13T00:00:00Z"))
         XCTAssertEqual(campaign.endDate, ISO8601DateFormatter().date(from: "2023-06-01T19:15:45Z"))
         XCTAssertEqual(campaign.status, .canceled)
+        XCTAssertEqual(campaign.uiStatus, .canceled)
         XCTAssertEqual(campaign.budgetCents, 500)
         XCTAssertEqual(campaign.targetURL, "https://alextest9123.wordpress.com/2023/06/01/test-post/")
         XCTAssertEqual(campaign.contentConfig?.title, "Test Post - don't approve")

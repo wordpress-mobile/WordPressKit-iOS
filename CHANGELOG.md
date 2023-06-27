@@ -38,7 +38,7 @@ _None._
 
 ### New Features
 
-_None._
+- Add `ui_status` field to `BlazeCampaign` [#611]
 
 ### Bug Fixes
 
