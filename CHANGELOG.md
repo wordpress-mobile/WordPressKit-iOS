@@ -48,9 +48,12 @@ _None._
 
 _None._
 
-### Breaking Changes
+## 8.4.0
 
-_None._
+### New Features
+
+- Add new endpoint to fetch Jetpack Social Publicize configurations [#606]
+- Add `can_blaze` property to blog options [#609]
 
 ## 8.3.0
 
