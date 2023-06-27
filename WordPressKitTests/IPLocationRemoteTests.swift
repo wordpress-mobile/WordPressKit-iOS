@@ -7,11 +7,12 @@ final class IPLocationRemoteTests: XCTestCase {
     let apiURL = URL(string: "https://public-api.wordpress.com/geo/")!
 
     override func setUp() {
-      let configuration = URLSessionConfiguration.default
-      configuration.protocolClasses = [MockURLProtocol.self]
-      let urlSession = URLSession.init(configuration: configuration)
+        super.setUp()
+        let configuration = URLSessionConfiguration.default
+        configuration.protocolClasses = [MockURLProtocol.self]
+        let urlSession = URLSession.init(configuration: configuration)
 
-      remote = IPLocationRemote(urlSession: urlSession)
+        remote = IPLocationRemote(urlSession: urlSession)
     }
 
     func testCountryCodeIsCorrectlyParsed() {
