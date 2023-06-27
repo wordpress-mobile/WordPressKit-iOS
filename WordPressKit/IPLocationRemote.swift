@@ -24,6 +24,7 @@ public final class IPLocationRemote {
         let request = URLRequest(url: url)
         let task = urlSession.dataTask(with: request) { data, _, error in
             guard let data else {
+                completion(.failure(IPLocationError.requestFailure(error)))
                 return
             }
 
@@ -41,6 +42,7 @@ public final class IPLocationRemote {
 public extension IPLocationRemote {
     enum IPLocationError: Error {
         case malformedURL
+        case requestFailure(Error?)
     }
 }
 
