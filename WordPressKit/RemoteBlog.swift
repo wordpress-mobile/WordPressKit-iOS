@@ -34,6 +34,9 @@ import NSObject_SafeExpectations
     /// Indicates whether the current's blog plan is paid, or not.
     public var hasPaidPlan: Bool = false
 
+    /// Features available for the current blog's plan.
+    public var planActiveFeatures = [String]()
+
     /// Indicates whether it's a jetpack site, or not.
     public var jetpack: Bool = false
 
@@ -73,6 +76,7 @@ import NSObject_SafeExpectations
         self.planID = json.number(forKeyPath: "plan.product_id")
         self.planTitle = json.string(forKeyPath: "plan.product_name_short")
         self.hasPaidPlan = !(json.number(forKeyPath: "plan.is_free")?.boolValue ?? true)
+        self.planActiveFeatures = (json.array(forKeyPath: "plan.features.active") as? [String]) ?? []
         self.quotaSpaceAllowed = json.number(forKeyPath: "quota.space_allowed")
         self.quotaSpaceUsed = json.number(forKeyPath: "quota.space_used")
     }
