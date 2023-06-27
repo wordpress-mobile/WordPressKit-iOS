@@ -1,6 +1,6 @@
 import Foundation
 
-public final class BlazeCampaign: Decodable {
+public final class BlazeCampaign: Codable {
     public let campaignID: Int
     public let name: String?
     public let startDate: Date?
@@ -44,7 +44,7 @@ public final class BlazeCampaign: Decodable {
         case creativeHTML = "creativeHtml"
     }
 
-    public enum Status: String, Decodable {
+    public enum Status: String, Codable {
         case scheduled
         case created
         case rejected
@@ -61,7 +61,7 @@ public final class BlazeCampaign: Decodable {
         }
     }
 
-    public struct Stats: Decodable {
+    public struct Stats: Codable {
         public let impressionsTotal: Int?
         public let clicksTotal: Int?
 
@@ -71,7 +71,7 @@ public final class BlazeCampaign: Decodable {
         }
     }
 
-    public struct ContentConfig: Decodable {
+    public struct ContentConfig: Codable {
         public let title: String?
         public let snippet: String?
         public let clickURL: String?
