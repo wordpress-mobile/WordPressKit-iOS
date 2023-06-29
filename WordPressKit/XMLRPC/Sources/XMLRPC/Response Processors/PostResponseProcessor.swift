@@ -27,6 +27,14 @@ extension XMLRPCDictionary {
         return intValue
     }
 
+    func dateValue(for key: String) throws -> Date {
+        guard let object = self.object(forKey: key) as? Date else {
+            throw CocoaError(.coderInvalidValue)
+        }
+
+        return object
+    }
+
     func stringIntegerValue(for key: TermMember) throws -> Int {
         try stringIntegerValue(for: key.rawValue)
     }
@@ -162,51 +170,3 @@ public struct PostResponseProcessor {
         )
     }
 }
-
-
-//
-//- (RemotePost *)remotePostFromXMLRPCDictionary:(NSDictionary *)xmlrpcDictionary {
-//    RemotePost *post = [RemotePost new];
-//
-//    post.postID = [xmlrpcDictionary numberForKey:@"post_id"];
-//    post.date = xmlrpcDictionary[@"post_date_gmt"];
-//    post.dateModified = xmlrpcDictionary[@"post_modified_gmt"];
-//    if (xmlrpcDictionary[@"link"]) {
-//        post.URL = [NSURL URLWithString:xmlrpcDictionary[@"link"]];
-//    }
-//    post.title = xmlrpcDictionary[@"post_title"];
-//    post.content = xmlrpcDictionary[@"post_content"];
-//    post.excerpt = xmlrpcDictionary[@"post_excerpt"];
-//    post.slug = xmlrpcDictionary[@"post_name"];
-//    post.authorID = [xmlrpcDictionary numberForKey:@"post_author"];
-//    post.status = [self statusForPostStatus:xmlrpcDictionary[@"post_status"] andDate:post.date];
-//    post.password = xmlrpcDictionary[@"post_password"];
-//    if ([post.password isEmpty]) {
-//        post.password = nil;
-//    }
-//    post.parentID = [xmlrpcDictionary numberForKey:@"post_parent"];
-//    // When there is no featured image, post_thumbnail is an empty array :(
-//    NSDictionary *thumbnailDict = [xmlrpcDictionary dictionaryForKey:@"post_thumbnail"];
-//    post.postThumbnailID = [thumbnailDict numberForKey:@"attachment_id"];
-//    post.postThumbnailPath = [thumbnailDict stringForKey:@"link"];
-//    post.type = xmlrpcDictionary[@"post_type"];
-//    post.format = xmlrpcDictionary[@"post_format"];
-//
-//    post.metadata = xmlrpcDictionary[@"custom_fields"];
-//
-//    NSArray *terms = [xmlrpcDictionary arrayForKey:@"terms"];
-//    post.tags = [self tagsFromXMLRPCTermsArray:terms];
-//    post.categories = [self remoteCategoriesFromXMLRPCTermsArray:terms];
-//
-//    post.isStickyPost = [xmlrpcDictionary numberForKeyPath:@"sticky"];
-//
-//    // Pick an image to use for display
-//    if (post.postThumbnailPath) {
-//        post.pathForDisplayImage = post.postThumbnailPath;
-//    } else {
-//        // parse content for a suitable image.
-//        post.pathForDisplayImage = [DisplayableImageHelper searchPostContentForImageToDisplay:post.content];
-//    }
-//
-//    return post;
-//}

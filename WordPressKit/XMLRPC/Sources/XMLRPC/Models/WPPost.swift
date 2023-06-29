@@ -1,6 +1,6 @@
 import Foundation
 
-public struct WPPost {
+public struct WPPost: Codable {
     public let id: Int
     public let title: String?
     public let date: Date
@@ -48,6 +48,18 @@ Post Link               : \(link)
 Post Terms              : \(terms.count) Terms (See Below)
 ============================================================
 """
+    }
+}
+
+/// SwiftUI Support
+extension WPPost: Identifiable, Hashable {
+    public static func == (lhs: WPPost, rhs: WPPost) -> Bool {
+        lhs.id == rhs.id
+    }
+
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.id)
+        hasher.combine(self.guid)
     }
 }
 

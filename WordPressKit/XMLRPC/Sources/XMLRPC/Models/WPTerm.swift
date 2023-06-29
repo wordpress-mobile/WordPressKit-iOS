@@ -1,6 +1,6 @@
 import Foundation
 
-public struct WPTerm {
+public struct WPTerm: Codable {
     public let termID: Int
     public let name: String
     public let slug: String

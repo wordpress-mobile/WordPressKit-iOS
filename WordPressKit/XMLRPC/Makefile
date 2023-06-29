@@ -1,5 +1,6 @@
 format-test-data:
-	xmllint --format Tests/UnitTests/Test Data/_components/struct/PostQuery.xml
+#	xmllint --format Tests/UnitTests/Test Data/_components/struct/PostQuery.xml
+	xmllint --format "Tests/UnitTests/Test Data/errors/InsufficientArgumentsError.xml" | tee "Tests/UnitTests/Test Data/errors/InsufficientArgumentsError.xml"
 
 start-db-server:
 	docker run --name mysql --rm -p 3306:3306 -eMYSQL_USER=wordpress -eMYSQL_PASSWORD=wordpress -eMYSQL_DATABASE=wordpress -eMYSQL_RANDOM_ROOT_PASSWORD=true -d mysql
