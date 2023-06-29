@@ -39,6 +39,7 @@ _None._
 ### New Features
 
 - Add `IPLocationRemote` [#613]
+- Add `ui_status` field to `BlazeCampaign` [#611]
 
 ### Bug Fixes
 

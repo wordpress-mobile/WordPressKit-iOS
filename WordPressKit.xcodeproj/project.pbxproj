@@ -638,6 +638,9 @@
 		FEAE3AC7298AC2A300E05A24 /* JetpackProxyServiceRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEAE3AC6298AC2A300E05A24 /* JetpackProxyServiceRemote.swift */; };
 		FEB7A88F271873BD00A8CF85 /* reader-post-comments-update-notification-success.json in Resources */ = {isa = PBXBuildFile; fileRef = FEB7A88E271873BD00A8CF85 /* reader-post-comments-update-notification-success.json */; };
 		FED77253298B819900C2346E /* JetpackProxyServiceRemoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FED77252298B819900C2346E /* JetpackProxyServiceRemoteTests.swift */; };
+		FEE48EF62A4B3602008A48E0 /* BlogServiceRemote+ActiveFeaturesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE48EF52A4B3602008A48E0 /* BlogServiceRemote+ActiveFeaturesTests.swift */; };
+		FEE48EF82A4B3E43008A48E0 /* sites-site-active-features.json in Resources */ = {isa = PBXBuildFile; fileRef = FEE48EF72A4B3E43008A48E0 /* sites-site-active-features.json */; };
+		FEE48EFA2A4B3E50008A48E0 /* sites-site-no-active-features.json in Resources */ = {isa = PBXBuildFile; fileRef = FEE48EF92A4B3E50008A48E0 /* sites-site-no-active-features.json */; };
 		FEE4EF57272FDD4B003CDA3C /* RemoteCommentV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE4EF56272FDD4B003CDA3C /* RemoteCommentV2.swift */; };
 		FEE4EF59272FF78C003CDA3C /* CommentServiceRemoteREST+ApiV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE4EF58272FF78C003CDA3C /* CommentServiceRemoteREST+ApiV2.swift */; };
 		FEE4EF5B27302317003CDA3C /* CommentServiceRemoteREST+APIv2Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE4EF5A27302317003CDA3C /* CommentServiceRemoteREST+APIv2Tests.swift */; };
@@ -1328,6 +1331,9 @@
 		FEAE3AC6298AC2A300E05A24 /* JetpackProxyServiceRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JetpackProxyServiceRemote.swift; sourceTree = "<group>"; };
 		FEB7A88E271873BD00A8CF85 /* reader-post-comments-update-notification-success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "reader-post-comments-update-notification-success.json"; sourceTree = "<group>"; };
 		FED77252298B819900C2346E /* JetpackProxyServiceRemoteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JetpackProxyServiceRemoteTests.swift; sourceTree = "<group>"; };
+		FEE48EF52A4B3602008A48E0 /* BlogServiceRemote+ActiveFeaturesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BlogServiceRemote+ActiveFeaturesTests.swift"; sourceTree = "<group>"; };
+		FEE48EF72A4B3E43008A48E0 /* sites-site-active-features.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "sites-site-active-features.json"; sourceTree = "<group>"; };
+		FEE48EF92A4B3E50008A48E0 /* sites-site-no-active-features.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "sites-site-no-active-features.json"; sourceTree = "<group>"; };
 		FEE4EF56272FDD4B003CDA3C /* RemoteCommentV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteCommentV2.swift; sourceTree = "<group>"; };
 		FEE4EF58272FF78C003CDA3C /* CommentServiceRemoteREST+ApiV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CommentServiceRemoteREST+ApiV2.swift"; sourceTree = "<group>"; };
 		FEE4EF5A27302317003CDA3C /* CommentServiceRemoteREST+APIv2Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CommentServiceRemoteREST+APIv2Tests.swift"; sourceTree = "<group>"; };
@@ -1610,6 +1616,7 @@
 			isa = PBXGroup;
 			children = (
 				74B5F0DD1EF82A9600B411E7 /* BlogServiceRemoteRESTTests.m */,
+				FEE48EF52A4B3602008A48E0 /* BlogServiceRemote+ActiveFeaturesTests.swift */,
 			);
 			name = Blog;
 			sourceTree = "<group>";
@@ -2308,6 +2315,8 @@
 				40819774221E497C00A298E4 /* stats-published-posts.json */,
 				404057DB221C9FD70060250C /* stats-referrer-data.json */,
 				404057C6221B36070060250C /* stats-search-term-result.json */,
+				FEE48EF72A4B3E43008A48E0 /* sites-site-active-features.json */,
+				FEE48EF92A4B3E50008A48E0 /* sites-site-no-active-features.json */,
 				40F9880D221ACFB400B7B369 /* stats-streak-result.json */,
 				404057CA221B80BC0060250C /* stats-top-authors.json */,
 				404057CF221C46780060250C /* stats-videos-data.json */,
@@ -2894,6 +2903,7 @@
 				E6B0461325E5B6F500DF6F4F /* sites-invites-links-disable.json in Resources */,
 				98E1A60D27AB621200C61A7F /* xmlrpc-site-comment-success.xml in Resources */,
 				74C473C71EF334D4009918F2 /* site-active-purchases-none-active-success.json in Resources */,
+				FEE48EFA2A4B3E50008A48E0 /* sites-site-no-active-features.json in Resources */,
 				FA87FE0D24EB4450003FBEE3 /* reader-post-comments-unsubscribe-success.json in Resources */,
 				98E1A60B27AB604600C61A7F /* site-comment-success.json in Resources */,
 				829BA4321FACF187003ADEEA /* activity-rewind-status-restore-finished.json in Resources */,
@@ -2984,6 +2994,7 @@
 				C738CAF928622BB1001BE107 /* qrlogin-authenticate-failed-400.json in Resources */,
 				74D67F1E1F15C3240010C5ED /* people-send-invitation-failure.json in Resources */,
 				7403A3001EF06FEB00DED7DC /* me-settings-success.json in Resources */,
+				FEE48EF82A4B3E43008A48E0 /* sites-site-active-features.json in Resources */,
 				439A44DE2107CF6F00795ED7 /* site-plans-v3-bad-json-failure.json in Resources */,
 				74B335EA1F06F76B0053A184 /* xmlrpc-response-getpost.xml in Resources */,
 				FEE4EF6127303361003CDA3C /* comments-v2-edit-context-success.json in Resources */,
@@ -3433,6 +3444,7 @@
 				4A1DEF46293051C600322608 /* LoggingTests.m in Sources */,
 				930999521F1658F800F006A1 /* ThemeServiceRemoteTests.m in Sources */,
 				8BE67ED324AD05D3004DB4C9 /* Decodable+DictionaryTests.swift in Sources */,
+				FEE48EF62A4B3602008A48E0 /* BlogServiceRemote+ActiveFeaturesTests.swift in Sources */,
 				74B335DA1F06F3D60053A184 /* WordPressComRestApiTests.swift in Sources */,
 				FA87FE0724EB39C4003FBEE3 /* ReaderPostServiceRemote+SubscriptionTests.swift in Sources */,
 				7403A2E61EF06F7000DED7DC /* AccountSettingsRemoteTests.swift in Sources */,
