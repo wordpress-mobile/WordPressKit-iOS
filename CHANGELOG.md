@@ -38,8 +38,7 @@ _None._
 
 ### New Features
 
-- Add `IPLocationRemote` [#613]
-- Add `ui_status` field to `BlazeCampaign` [#611]
+_None._
 
 ### Bug Fixes
 
@@ -48,6 +47,13 @@ _None._
 ### Internal Changes
 
 _None._
+
+## 8.5.0
+
+### New Features
+
+- Add `IPLocationRemote` [#613]
+- Add `ui_status` field to `BlazeCampaign` [#611]
 
 ## 8.4.0
 
