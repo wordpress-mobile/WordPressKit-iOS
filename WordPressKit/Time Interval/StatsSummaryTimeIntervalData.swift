@@ -1,18 +1,18 @@
-public enum StatsPeriodUnit: Int {
+public enum StatsPeriodUnit: Int, Codable {
     case day
     case week
     case month
     case year
 }
 
-public enum StatsSummaryType: Int {
+public enum StatsSummaryType: Int, Codable {
     case views
     case visitors
     case likes
     case comments
 }
 
-public struct StatsSummaryTimeIntervalData {
+public struct StatsSummaryTimeIntervalData: Codable {
     public let period: StatsPeriodUnit
     public let periodEndDate: Date
 
@@ -27,7 +27,7 @@ public struct StatsSummaryTimeIntervalData {
     }
 }
 
-public struct StatsSummaryData {
+public struct StatsSummaryData: Codable {
     public let period: StatsPeriodUnit
     public let periodStartDate: Date
 

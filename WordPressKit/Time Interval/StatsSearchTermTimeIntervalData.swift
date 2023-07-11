@@ -1,4 +1,4 @@
-public struct StatsSearchTermTimeIntervalData {
+public struct StatsSearchTermTimeIntervalData: Codable {
     public let period: StatsPeriodUnit
     public let periodEndDate: Date
 
@@ -22,7 +22,7 @@ public struct StatsSearchTermTimeIntervalData {
     }
 }
 
-public struct StatsSearchTerm {
+public struct StatsSearchTerm: Codable {
     public let term: String
     public let viewsCount: Int
 

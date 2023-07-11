@@ -1,4 +1,4 @@
-public struct StatsFileDownloadsTimeIntervalData {
+public struct StatsFileDownloadsTimeIntervalData: Codable {
     public let period: StatsPeriodUnit
     public let periodEndDate: Date
 
@@ -19,7 +19,7 @@ public struct StatsFileDownloadsTimeIntervalData {
     }
 }
 
-public struct StatsFileDownload {
+public struct StatsFileDownload: Codable {
     public let file: String
     public let downloadCount: Int
 

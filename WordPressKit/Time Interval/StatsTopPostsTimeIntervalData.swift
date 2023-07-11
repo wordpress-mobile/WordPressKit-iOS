@@ -1,4 +1,4 @@
-public struct StatsTopPostsTimeIntervalData {
+public struct StatsTopPostsTimeIntervalData: Codable {
     public let period: StatsPeriodUnit
     public let periodEndDate: Date
 

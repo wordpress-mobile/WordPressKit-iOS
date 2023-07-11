@@ -1,4 +1,4 @@
-public struct StatsTopClicksTimeIntervalData {
+public struct StatsTopClicksTimeIntervalData: Codable {
     public let period: StatsPeriodUnit
     public let periodEndDate: Date
 
@@ -20,7 +20,7 @@ public struct StatsTopClicksTimeIntervalData {
     }
 }
 
-public struct StatsClick {
+public struct StatsClick: Codable {
     public let title: String
     public let clicksCount: Int
     public let clickedURL: URL?

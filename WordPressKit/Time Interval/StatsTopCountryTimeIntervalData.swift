@@ -1,4 +1,4 @@
-public struct StatsTopCountryTimeIntervalData {
+public struct StatsTopCountryTimeIntervalData: Codable {
     public let period: StatsPeriodUnit
     public let periodEndDate: Date
 
@@ -20,7 +20,7 @@ public struct StatsTopCountryTimeIntervalData {
     }
 }
 
-public struct StatsCountry {
+public struct StatsCountry: Codable {
     public let name: String
     public let code: String
     public let viewsCount: Int

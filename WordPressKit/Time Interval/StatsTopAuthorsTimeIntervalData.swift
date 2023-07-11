@@ -1,4 +1,4 @@
-public struct StatsTopAuthorsTimeIntervalData {
+public struct StatsTopAuthorsTimeIntervalData: Codable {
     public let period: StatsPeriodUnit
     public let periodEndDate: Date
 
@@ -13,7 +13,7 @@ public struct StatsTopAuthorsTimeIntervalData {
     }
 }
 
-public struct StatsTopAuthor {
+public struct StatsTopAuthor: Codable {
     public let name: String
     public let iconURL: URL?
     public let viewsCount: Int
@@ -30,9 +30,9 @@ public struct StatsTopAuthor {
     }
 }
 
-public struct StatsTopPost {
+public struct StatsTopPost: Codable {
 
-    public enum Kind {
+    public enum Kind: Codable {
         case unknown
         case post
         case page

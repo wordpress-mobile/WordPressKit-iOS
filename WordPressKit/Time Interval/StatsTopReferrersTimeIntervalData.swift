@@ -1,4 +1,4 @@
-public struct StatsTopReferrersTimeIntervalData {
+public struct StatsTopReferrersTimeIntervalData: Codable {
     public let period: StatsPeriodUnit
     public let periodEndDate: Date
 
@@ -20,7 +20,7 @@ public struct StatsTopReferrersTimeIntervalData {
     }
 }
 
-public struct StatsReferrer {
+public struct StatsReferrer: Codable {
     public let title: String
     public let viewsCount: Int
     public let url: URL?
