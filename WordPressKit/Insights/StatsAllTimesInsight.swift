@@ -1,4 +1,4 @@
-public struct StatsAllTimesInsight {
+public struct StatsAllTimesInsight: Codable {
     public let postsCount: Int
     public let viewsCount: Int
     public let bestViewsDay: Date

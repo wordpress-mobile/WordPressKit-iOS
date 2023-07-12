@@ -1,4 +1,4 @@
-public struct StatsCommentsInsight {
+public struct StatsCommentsInsight: Codable {
     public let topPosts: [StatsTopCommentsPost]
     public let topAuthors: [StatsTopCommentsAuthor]
 
@@ -33,7 +33,7 @@ extension StatsCommentsInsight: StatsInsightData {
 
 }
 
-public struct StatsTopCommentsAuthor {
+public struct StatsTopCommentsAuthor: Codable {
     public let name: String
     public let commentCount: Int
     public let iconURL: URL?
@@ -47,7 +47,7 @@ public struct StatsTopCommentsAuthor {
     }
 }
 
-public struct StatsTopCommentsPost {
+public struct StatsTopCommentsPost: Codable {
     public let name: String
     public let postID: String
     public let commentCount: Int

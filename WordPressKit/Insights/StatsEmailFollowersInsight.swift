@@ -1,4 +1,4 @@
-public struct StatsEmailFollowersInsight {
+public struct StatsEmailFollowersInsight: Codable {
     public let emailFollowersCount: Int
     public let topEmailFollowers: [StatsFollower]
 

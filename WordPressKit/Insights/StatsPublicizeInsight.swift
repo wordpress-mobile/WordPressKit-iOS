@@ -1,4 +1,4 @@
-public struct StatsPublicizeInsight {
+public struct StatsPublicizeInsight: Codable {
     public let publicizeServices: [StatsPublicizeService]
 
     public init(publicizeServices: [StatsPublicizeService]) {
@@ -27,7 +27,7 @@ extension StatsPublicizeInsight: StatsInsightData {
 
 }
 
-public struct StatsPublicizeService {
+public struct StatsPublicizeService: Codable {
     public let name: String
     public let followers: Int
     public let iconURL: URL?

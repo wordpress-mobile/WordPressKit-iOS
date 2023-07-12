@@ -1,4 +1,4 @@
-public struct StatsPostingStreakInsight {
+public struct StatsPostingStreakInsight: Codable {
     public let currentStreakStart: Date
     public let currentStreakEnd: Date
     public let currentStreakLength: Int
@@ -27,7 +27,7 @@ public struct StatsPostingStreakInsight {
     }
 }
 
-public struct PostingStreakEvent {
+public struct PostingStreakEvent: Codable {
     public let date: Date
     public let postCount: Int
 

@@ -1,4 +1,4 @@
-public struct StatsDotComFollowersInsight {
+public struct StatsDotComFollowersInsight: Codable {
     public let dotComFollowersCount: Int
     public let topDotComFollowers: [StatsFollower]
 
@@ -39,7 +39,7 @@ extension StatsDotComFollowersInsight: StatsInsightData {
     fileprivate static let dateFormatter = ISO8601DateFormatter()
 }
 
-public struct StatsFollower {
+public struct StatsFollower: Codable {
     public let id: String?
     public let name: String
     public let subscribedDate: Date

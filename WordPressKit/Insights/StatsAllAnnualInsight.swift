@@ -1,4 +1,4 @@
-public struct StatsAllAnnualInsight {
+public struct StatsAllAnnualInsight: Codable {
     public let allAnnualInsights: [StatsAnnualInsight]
 
     public init(allAnnualInsights: [StatsAnnualInsight]) {
@@ -6,7 +6,7 @@ public struct StatsAllAnnualInsight {
     }
 }
 
-public struct StatsAnnualInsight {
+public struct StatsAnnualInsight: Codable {
     public let year: Int
     public let totalPostsCount: Int
     public let totalWordsCount: Int

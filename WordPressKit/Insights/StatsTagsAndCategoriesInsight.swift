@@ -1,4 +1,4 @@
-public struct StatsTagsAndCategoriesInsight {
+public struct StatsTagsAndCategoriesInsight: Codable {
     public let topTagsAndCategories: [StatsTagAndCategory]
 
     public init(topTagsAndCategories: [StatsTagAndCategory]) {
@@ -25,9 +25,9 @@ extension StatsTagsAndCategoriesInsight: StatsInsightData {
     }
 }
 
-public struct StatsTagAndCategory {
+public struct StatsTagAndCategory: Codable {
 
-    public enum Kind {
+    public enum Kind: Codable {
         case tag
         case category
         case folder
