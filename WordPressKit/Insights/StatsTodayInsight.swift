@@ -1,4 +1,4 @@
-public struct StatsTodayInsight {
+public struct StatsTodayInsight: Codable {
     public let viewsCount: Int
     public let visitorsCount: Int
     public let likesCount: Int
