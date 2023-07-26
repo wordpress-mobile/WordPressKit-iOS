@@ -42,7 +42,7 @@ _None._
 
 ### Bug Fixes
 
-_None._
+- Correctly set `mime_type` in media library count API calls [#620]
 
 ### Internal Changes
 
