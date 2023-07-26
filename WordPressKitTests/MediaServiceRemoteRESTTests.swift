@@ -214,16 +214,39 @@ class MediaServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
         XCTAssertEqual(mockRemoteApi.URLStringPassedIn, expectedPath, "Wrong path")
     }
 
-    func testGetMediaLibraryCount() {
-
+    func testGetMediaLibraryCountNoType() throws {
         let expectedCount = 3
         let response = ["found": expectedCount]
+
         var remoteCount = 0
         mediaServiceRemote.getMediaLibraryCount(forType: nil, withSuccess: { (count) in
             remoteCount = count
         }, failure: nil)
+        // Note: This needs to be called here, after triggerting the API request, or it won't take effect
+        // The behavior seems odd and ought to be researched.
         mockRemoteApi.successBlockPassedIn?(response as AnyObject, HTTPURLResponse())
+
         XCTAssertEqual(remoteCount, expectedCount)
+        let params = try XCTUnwrap(mockRemoteApi.parametersPassedIn as? [String: Any])
+        XCTAssertNil(params["mime_type"] as? String)
+    }
+
+    func testGetMediaLibraryCountWithType() throws {
+        let expectedCount = 3
+        let response = ["found": expectedCount]
+
+        var remoteCount = 0
+        mediaServiceRemote.getMediaLibraryCount(forType: "a_type", withSuccess: { (count) in
+            remoteCount = count
+        }, failure: nil)
+        // Note: This needs to be called here, after triggerting the API request, or it won't take effect.
+        // The behavior seems odd and ought to be researched.
+        mockRemoteApi.successBlockPassedIn?(response as AnyObject, HTTPURLResponse())
+
+        XCTAssertEqual(remoteCount, expectedCount)
+        let params = try XCTUnwrap(mockRemoteApi.parametersPassedIn as? [String: Any])
+        let type = try XCTUnwrap(params["mime_type"] as? String)
+        XCTAssertEqual(type, "a_type")
     }
 
     func testRemoteMediaJSONParsing() {
