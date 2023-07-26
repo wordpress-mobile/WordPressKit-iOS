@@ -80,7 +80,7 @@
 {
     NSDictionary *data = @{};
     if (mediaType) {
-        data = @{@"filter":@{ @"media_type": mediaType }};
+        data = @{@"filter":@{ @"mime_type": mediaType }};
     }
     NSArray *parameters = [self XMLRPCArgumentsWithExtra:data];
     [self.api callMethod:@"wp.getMediaLibrary"

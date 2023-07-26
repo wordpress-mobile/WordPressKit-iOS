@@ -101,7 +101,7 @@ const NSInteger WPRestErrorCodeMediaNew = 10;
     
     NSMutableDictionary *parameters = [NSMutableDictionary dictionaryWithDictionary:@{ @"number" : @1 }];
     if (mediaType) {
-        parameters[@"media_type"] = mediaType;
+        parameters[@"mime_type"] = mediaType;
     }
     
     [self.wordPressComRestApi GET:requestUrl
