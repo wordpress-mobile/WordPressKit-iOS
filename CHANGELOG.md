@@ -42,11 +42,17 @@ _None._
 
 ### Bug Fixes
 
-- Correctly set `mime_type` in media library count API calls [#620]
+_None._
 
 ### Internal Changes
 
 _None._
+
+## 8.5.1
+
+### Bug Fixes
+
+- Correctly set `mime_type` in media library count API calls [#620]
 
 ## 8.5.0
 
