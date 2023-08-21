@@ -57,7 +57,7 @@ open class WordPressComRestApi: NSObject {
 
     @objc public static let defaultBackgroundSessionIdentifier = "org.wordpress.wpcomrestapi"
 
-    private let oAuthToken: String?
+    public let oAuthToken: String?
 
     private let userAgent: String?
 
@@ -173,7 +173,7 @@ open class WordPressComRestApi: NSObject {
         uploadSessionManager.session.invalidateAndCancel()
     }
 
-    @objc func setInvalidTokenHandler(_ handler: @escaping () -> Void) {
+    @objc public func setInvalidTokenHandler(_ handler: @escaping () -> Void) {
         invalidTokenHandler = handler
     }
 
