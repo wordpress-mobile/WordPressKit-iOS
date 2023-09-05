@@ -87,7 +87,7 @@ private extension LoadMediaLibraryTests {
             finished.fulfill()
         }
 
-        wait(for: [finished], timeout: 5000)
+        wait(for: [finished], timeout: 0.5)
 
         return result
     }
