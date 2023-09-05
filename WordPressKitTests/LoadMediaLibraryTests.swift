@@ -18,7 +18,7 @@ class LoadMediaLibraryTests: XCTestCase {
     fileprivate var kind: Kind = .wpcom
 
     func testSmallLibrary() {
-        let mediaLibrary = MediaLibraryTestSupport(total: 50)
+        let mediaLibrary = MediaLibraryTestSupport(totalMedia: 50)
         let (pageLoad, success, failure) = load(mediaLibrary: mediaLibrary, failAtPage: -1)
         XCTAssertEqual(pageLoad.count, 0)
         XCTAssertEqual(success?.count, 50)
@@ -26,7 +26,7 @@ class LoadMediaLibraryTests: XCTestCase {
     }
 
     func testTwoPageLibrary() {
-        let mediaLibrary = MediaLibraryTestSupport(total: 120)
+        let mediaLibrary = MediaLibraryTestSupport(totalMedia: 120)
         let (pageLoad, success, failure) = load(mediaLibrary: mediaLibrary, failAtPage: -1)
         XCTAssertEqual(pageLoad.count, 1)
         XCTAssertEqual(success?.count, 120)
@@ -34,7 +34,7 @@ class LoadMediaLibraryTests: XCTestCase {
     }
 
     func testLargeLibrary() {
-        let mediaLibrary = MediaLibraryTestSupport(total: 650)
+        let mediaLibrary = MediaLibraryTestSupport(totalMedia: 650)
         let (pageLoad, success, failure) = load(mediaLibrary: mediaLibrary, failAtPage: -1)
         XCTAssertEqual(pageLoad.count, 6)
         XCTAssertEqual(success?.count, 650)
@@ -42,7 +42,7 @@ class LoadMediaLibraryTests: XCTestCase {
     }
 
     func testFailure() {
-        let mediaLibrary = MediaLibraryTestSupport(total: 550)
+        let mediaLibrary = MediaLibraryTestSupport(totalMedia: 550)
         let (pageLoad, success, failure) = load(mediaLibrary: mediaLibrary, failAtPage: 3)
         XCTAssertEqual(pageLoad.count, 2)
         XCTAssertNil(success)

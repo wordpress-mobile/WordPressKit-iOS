@@ -30,8 +30,8 @@ class MediaLibraryTestSupport {
         }
     }
 
-    init(total: Int) {
-        media = (1...total).map { id in
+    init(totalMedia: Int) {
+        media = (1...totalMedia).map { id in
             Media(
                 mediaID: id,
                 postID: (1...12345).randomElement()!,
