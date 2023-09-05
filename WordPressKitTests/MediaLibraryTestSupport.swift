@@ -1,4 +1,5 @@
 import Foundation
+import XCTest
 import UniformTypeIdentifiers
 import OHHTTPStubs
 import wpxmlrpc
@@ -103,7 +104,7 @@ extension MediaLibraryTestSupport {
             return .init(data: Data(), statusCode: 200, headers: nil)
         }
 
-        assert(delegate.methodName == "wp.getMediaLibrary")
+        XCTAssertEqual(delegate.methodName, "wp.getMediaLibrary")
 
         let number = delegate.params["number"] as? Int ?? 100
         let offset = delegate.params["offset"] as? Int ?? 0
