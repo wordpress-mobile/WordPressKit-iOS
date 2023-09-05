@@ -38,7 +38,14 @@
             failure:(void (^)(NSError *error))failure;
 
 /**
- *  Get Media items from blog using the options parameter.
+ *  Get all WordPress Media Library items in batches.
+ *
+ *  The `pageLoad` block is called with media items in each page, except the last page. If there is only one page of media
+ *  items, the `pageLoad` block will not be called.
+ *
+ *  The `success` block is called with all media items in the Media Library. Calling this block marks the end of the loading.
+ *
+ *  The `failure` block is called when any API call fails. Calling this block marks the end of the loading.
  *
  *  @param pageLoad a block to be executed when each page of media is loaded.
  *  @param success a block to be executed when the request finishes with success.
