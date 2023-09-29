@@ -79,7 +79,7 @@ public class DomainsServiceRemote: ServiceRemoteWordPressComREST {
         case onlyWordPressDotCom
         case wordPressDotComAndDotBlogSubdomains
 
-        /// Includes free dotcom and dotblog sudomains and paid domains.
+        /// Includes free dotcom sudomains and paid domains.
         case freeAndPaid
 
         case allowlistedTopLevelDomains([String])
@@ -99,7 +99,7 @@ public class DomainsServiceRemote: ServiceRemoteWordPressComREST {
                         "only_wordpressdotcom": true as AnyObject,
                         "include_wordpressdotcom": true as AnyObject]
             case .freeAndPaid:
-                return ["include_dotblogsubdomain": true as AnyObject,
+                return ["include_dotblogsubdomain": false as AnyObject,
                         "include_wordpressdotcom": true as AnyObject,
                         "vendor": "mobile" as AnyObject]
             case .allowlistedTopLevelDomains(let allowlistedTLDs):

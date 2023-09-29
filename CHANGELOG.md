@@ -48,6 +48,12 @@ _None._
 
 _None._
 
+## 8.5.2
+
+### Bug Fixes
+
+- Exclude dot blog subdomains from freeAndPaid domain query [#627]
+
 ## 8.5.1
 
 ### Bug Fixes
