@@ -36,77 +36,58 @@ import WordPressShared
         })
     }
 
-    /// Creates a shopping cart for a domain purchase
+    /// Creates a shopping cart with products
     /// - Parameters:
     ///   - siteID: id of the current site
-    ///   - domainSuggestion: suggested new domain to purchase
+    ///   - products: an array of products to be added to the newly created cart
     ///   - temporary: true if the card is temporary, false otherwise
-    ///   - privacyProtectionEnabled: true if privacy protection on the given domain is enabled
-    private func createDomainShoppingCart(siteID: Int,
-                                          domainSuggestion: DomainSuggestion,
-                                          privacyProtectionEnabled: Bool,
-                                          temporary: Bool,
-                                          success: @escaping (CartResponse) -> Void,
-                                          failure: @escaping (Error) -> Void) {
+    public func createShoppingCart(siteID: Int,
+                                   products: [TransactionsServiceProduct],
+                                   temporary: Bool,
+                                   success: @escaping (CartResponse) -> Void,
+                                   failure: @escaping (Error) -> Void) {
 
         let endPoint = "me/shopping-cart/\(siteID)"
         let urlPath = path(forEndpoint: endPoint, withVersion: ._1_1)
 
-        var productDictionary: [String: AnyObject] = ["product_id": domainSuggestion.productID as AnyObject,
-                                                      "meta": domainSuggestion.domainName as AnyObject]
+        var productsDictionary: [[String: AnyObject]] = []
 
-        if privacyProtectionEnabled {
-            productDictionary["extra"] = ["privacy": true] as AnyObject
+        for product in products {
+            switch product {
+            case .domain(let domainSuggestion, let privacyProtectionEnabled):
+                productsDictionary.append(["product_id":domainSuggestion.productID as AnyObject,
+                                           "meta": domainSuggestion.domainName as AnyObject,
+                                           "extra": ["privacy": privacyProtectionEnabled] as AnyObject])
+
+            case .plan(let productId):
+                productsDictionary.append(["product_id":productId as AnyObject])
+            case .other(let productDict):
+                productsDictionary.append(productDict)
+            }
         }
 
         let parameters: [String: AnyObject] = ["temporary": (temporary ? "true" : "false") as AnyObject,
-                                               "products": [productDictionary] as AnyObject]
+                                               "products": productsDictionary as AnyObject]
 
         wordPressComRestApi.POST(urlPath,
                                  parameters: parameters,
                                  success: { (response, _) in
 
-                                    guard let jsonResponse = response as? [String: AnyObject],
-                                        let cart = CartResponse(jsonDictionary: jsonResponse),
-                                        !cart.products.isEmpty else {
+            guard let jsonResponse = response as? [String: AnyObject],
+                  let cart = CartResponse(jsonDictionary: jsonResponse),
+                  !cart.products.isEmpty else {
 
-                                        failure(TransactionsServiceRemote.ResponseError.decodingFailure)
-                                        return
-                                    }
+                failure(TransactionsServiceRemote.ResponseError.decodingFailure)
+                return
+            }
 
-                                    success(cart)
+            success(cart)
         }) { (error, _) in
             failure(error)
         }
     }
 
-    /// Creates a temporary shopping cart for a domain purchase
-    public func createTemporaryDomainShoppingCart(siteID: Int,
-                                                  domainSuggestion: DomainSuggestion,
-                                                  privacyProtectionEnabled: Bool,
-                                                  success: @escaping (CartResponse) -> Void,
-                                                  failure: @escaping (Error) -> Void) {
-        createDomainShoppingCart(siteID: siteID,
-                                 domainSuggestion: domainSuggestion,
-                                 privacyProtectionEnabled: privacyProtectionEnabled,
-                                 temporary: true,
-                                 success: success,
-                                 failure: failure)
-    }
-
-    /// Creates a persistent shopping  cart for a domain purchase
-    public func createPersistentDomainShoppingCart(siteID: Int,
-                                                   domainSuggestion: DomainSuggestion,
-                                                   privacyProtectionEnabled: Bool,
-                                                   success: @escaping (CartResponse) -> Void,
-                                                   failure: @escaping (Error) -> Void) {
-        createDomainShoppingCart(siteID: siteID,
-                                 domainSuggestion: domainSuggestion,
-                                 privacyProtectionEnabled: privacyProtectionEnabled,
-                                 temporary: false,
-                                 success: success,
-                                 failure: failure)
-    }
+    // MARK: - Domains
 
     public func redeemCartUsingCredits(cart: CartResponse,
                                        domainContactInformation: [String: String],
@@ -129,6 +110,43 @@ import WordPressShared
             failure(error)
         }
     }
+
+    /// Creates a temporary shopping cart for a domain purchase
+    @available(*, deprecated, message: "Use createShoppingCart(_:) and pass an array of specific products instead")
+    public func createTemporaryDomainShoppingCart(siteID: Int,
+                                                  domainSuggestion: DomainSuggestion,
+                                                  privacyProtectionEnabled: Bool,
+                                                  success: @escaping (CartResponse) -> Void,
+                                                  failure: @escaping (Error) -> Void) {
+        createShoppingCart(siteID: siteID,
+                           products: [.domain(domainSuggestion, privacyProtectionEnabled)],
+                           temporary: true,
+                           success: success,
+                           failure: failure)
+    }
+
+    /// Creates a persistent shopping  cart for a domain purchase
+    @available(*, deprecated, message: "Use createShoppingCart(_:) and pass an array of specific products instead")
+    public func createPersistentDomainShoppingCart(siteID: Int,
+                                                   domainSuggestion: DomainSuggestion,
+                                                   privacyProtectionEnabled: Bool,
+                                                   success: @escaping (CartResponse) -> Void,
+                                                   failure: @escaping (Error) -> Void) {
+        createShoppingCart(siteID: siteID,
+                           products: [.domain(domainSuggestion, privacyProtectionEnabled)],
+                           temporary: false,
+                           success: success,
+                           failure: failure)
+    }
+}
+
+public enum TransactionsServiceProduct {
+    public typealias ProductId = Int
+    public typealias PrivacyProtection = Bool
+
+    case domain(DomainSuggestion, PrivacyProtection)
+    case plan(ProductId)
+    case other([String: AnyObject])
 }
 
 public struct CartResponse {
