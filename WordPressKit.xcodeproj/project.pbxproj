@@ -607,6 +607,7 @@
 		F3FF8A27279C967200E5C90F /* site-email-followers-get-failure.json in Resources */ = {isa = PBXBuildFile; fileRef = F3FF8A26279C967200E5C90F /* site-email-followers-get-failure.json */; };
 		F3FF8A29279C991B00E5C90F /* site-email-followers-get-success-more-pages.json in Resources */ = {isa = PBXBuildFile; fileRef = F3FF8A28279C991B00E5C90F /* site-email-followers-get-success-more-pages.json */; };
 		F4B0F4732ACAF498003ABC61 /* DomainsServiceRemote+AllDomains.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B0F4722ACAF498003ABC61 /* DomainsServiceRemote+AllDomains.swift */; };
+		F4B0F4782ACB4262003ABC61 /* all-domains.json in Resources */ = {isa = PBXBuildFile; fileRef = F4B0F4772ACB4262003ABC61 /* all-domains.json */; };
 		F9E56DF624EB11EF00916770 /* FeatureFlag.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9E56DF524EB11EF00916770 /* FeatureFlag.swift */; };
 		F9E56DF824EB125600916770 /* FeatureFlagRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9E56DF724EB125600916770 /* FeatureFlagRemote.swift */; };
 		F9E56DFB24EB18C300916770 /* FeatureFlagRemoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9E56DFA24EB18C300916770 /* FeatureFlagRemoteTests.swift */; };
@@ -1307,6 +1308,7 @@
 		F3FF8A26279C967200E5C90F /* site-email-followers-get-failure.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "site-email-followers-get-failure.json"; sourceTree = "<group>"; };
 		F3FF8A28279C991B00E5C90F /* site-email-followers-get-success-more-pages.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "site-email-followers-get-success-more-pages.json"; sourceTree = "<group>"; };
 		F4B0F4722ACAF498003ABC61 /* DomainsServiceRemote+AllDomains.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DomainsServiceRemote+AllDomains.swift"; sourceTree = "<group>"; };
+		F4B0F4772ACB4262003ABC61 /* all-domains.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "all-domains.json"; sourceTree = "<group>"; };
 		F9E56DF524EB11EF00916770 /* FeatureFlag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureFlag.swift; sourceTree = "<group>"; };
 		F9E56DF724EB125600916770 /* FeatureFlagRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureFlagRemote.swift; sourceTree = "<group>"; };
 		F9E56DFA24EB18C300916770 /* FeatureFlagRemoteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureFlagRemoteTests.swift; sourceTree = "<group>"; };
@@ -2101,6 +2103,7 @@
 		93BD27421EE73384002BB00B /* Mock Data */ = {
 			isa = PBXGroup;
 			children = (
+				F4B0F4742ACB4176003ABC61 /* Domains */,
 				937250EB267A15060086075F /* stats-referrer-mark-as-spam.json */,
 				465F8892263B094900F4C950 /* BlockEditorSettings */,
 				FA4261712570CC91003A01E2 /* activity-groups-bad-json-failure.json */,
@@ -2599,6 +2602,14 @@
 			path = Domains;
 			sourceTree = "<group>";
 		};
+		F4B0F4742ACB4176003ABC61 /* Domains */ = {
+			isa = PBXGroup;
+			children = (
+				F4B0F4772ACB4262003ABC61 /* all-domains.json */,
+			);
+			path = Domains;
+			sourceTree = "<group>";
+		};
 		F9E56DF924EB18A300916770 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
@@ -2872,6 +2883,7 @@
 				74FC6F421F191C1D00112505 /* notifications-load-hash.json in Resources */,
 				98F884D626BC6909009ADF57 /* site-comments-success.json in Resources */,
 				930999571F16598A00F006A1 /* get-purchased-themes-v1.1.json in Resources */,
+				F4B0F4782ACB4262003ABC61 /* all-domains.json in Resources */,
 				E6C1E8491EF21FC100D139D9 /* is-passwordless-account-no-account-found.json in Resources */,
 				7403A2F81EF06FEB00DED7DC /* me-settings-change-display-name-success.json in Resources */,
 				9A881751223C01E400A3AB20 /* jetpack-service-error-install-response.json in Resources */,

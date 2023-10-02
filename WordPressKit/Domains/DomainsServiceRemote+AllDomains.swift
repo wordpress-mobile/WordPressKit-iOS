@@ -31,22 +31,7 @@ extension DomainsServiceRemote {
         let domains: [AllDomainsResultDomain]
     }
 
-    public struct AllDomainsResultDomain: Decodable {
-        enum CodingKeys: String, CodingKey {
-            case domain
-            case blogId = "blog_id"
-            case blogName = "blog_name"
-            case type
-            case isDomainOnlySite = "is_domain_only_site"
-            case isWpcomStagingDomain = "is_wpcom_staging_domain"
-            case hasRegistration = "has_registration"
-            case registrationDate = "registration_date"
-            case expiryDate = "expiry"
-            case wpcomDomain = "wpcom_domain"
-            case currentUserIsOwner = "current_user_is_owner"
-            case siteSlug = "site_slug"
-        }
-
+    public struct AllDomainsResultDomain {
         let domain: String
         let blogId: Int
         let blogName: String
@@ -59,31 +44,49 @@ extension DomainsServiceRemote {
         let wpcomDomain: Bool
         let currentUserIsOwner: Bool?
         let siteSlug: String
+    }
+}
 
-        public init(from decoder: Decoder) throws {
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-            self.domain = try container.decode(String.self, forKey: .domain)
-            self.blogId = try container.decode(Int.self, forKey: .blogId)
-            self.blogName = try container.decode(String.self, forKey: .blogName)
-            self.type = try container.decode(String.self, forKey: .type)
-            self.isDomainOnlySite = try container.decode(Bool.self, forKey: .isDomainOnlySite)
-            self.isWpcomStagingDomain = try container.decode(Bool.self, forKey: .isWpcomStagingDomain)
-            self.hasRegistration = try container.decode(Bool.self, forKey: .hasRegistration)
-            self.wpcomDomain = try container.decode(Bool.self, forKey: .wpcomDomain)
-            self.currentUserIsOwner = try container.decode(Bool?.self, forKey: .currentUserIsOwner)
-            self.siteSlug = try container.decode(String.self, forKey: .siteSlug)
-            self.registrationDate = try {
-                if let timestamp = try? container.decodeIfPresent(String.self, forKey: .registrationDate), !timestamp.isEmpty {
-                    return try container.decode(Date.self, forKey: .registrationDate)
-                }
-                return nil
-            }()
-            self.expiryDate = try {
-                if let timestamp = try? container.decodeIfPresent(String.self, forKey: .expiryDate), !timestamp.isEmpty {
-                    return try container.decode(Date.self, forKey: .expiryDate)
-                }
-                return nil
-            }()
-        }
+extension DomainsServiceRemote.AllDomainsResultDomain: Decodable {
+
+    enum CodingKeys: String, CodingKey {
+        case domain
+        case blogId = "blog_id"
+        case blogName = "blog_name"
+        case type
+        case isDomainOnlySite = "is_domain_only_site"
+        case isWpcomStagingDomain = "is_wpcom_staging_domain"
+        case hasRegistration = "has_registration"
+        case registrationDate = "registration_date"
+        case expiryDate = "expiry"
+        case wpcomDomain = "wpcom_domain"
+        case currentUserIsOwner = "current_user_is_owner"
+        case siteSlug = "site_slug"
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.domain = try container.decode(String.self, forKey: .domain)
+        self.blogId = try container.decode(Int.self, forKey: .blogId)
+        self.blogName = try container.decode(String.self, forKey: .blogName)
+        self.type = try container.decode(String.self, forKey: .type)
+        self.isDomainOnlySite = try container.decode(Bool.self, forKey: .isDomainOnlySite)
+        self.isWpcomStagingDomain = try container.decode(Bool.self, forKey: .isWpcomStagingDomain)
+        self.hasRegistration = try container.decode(Bool.self, forKey: .hasRegistration)
+        self.wpcomDomain = try container.decode(Bool.self, forKey: .wpcomDomain)
+        self.currentUserIsOwner = try container.decode(Bool?.self, forKey: .currentUserIsOwner)
+        self.siteSlug = try container.decode(String.self, forKey: .siteSlug)
+        self.registrationDate = try {
+            if let timestamp = try? container.decodeIfPresent(String.self, forKey: .registrationDate), !timestamp.isEmpty {
+                return try container.decode(Date.self, forKey: .registrationDate)
+            }
+            return nil
+        }()
+        self.expiryDate = try {
+            if let timestamp = try? container.decodeIfPresent(String.self, forKey: .expiryDate), !timestamp.isEmpty {
+                return try container.decode(Date.self, forKey: .expiryDate)
+            }
+            return nil
+        }()
     }
 }

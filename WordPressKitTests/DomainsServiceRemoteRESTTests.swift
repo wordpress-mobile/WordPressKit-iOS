@@ -18,10 +18,13 @@ class DomainsServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
     let validateDomainContactInformationSuccess = "validate-domain-contact-information-response-success.json"
     let getDomainContactInformationSuccess      = "domain-contact-information-response-success.json"
     let domainServiceInvalidQuery               = "domain-service-invalid-query.json"
+    let allDomainsMockFilename                  = "all-domains.json"
 
     // MARK: - Properties
 
     var domainsEndpoint: String { return "sites/\(siteID)/domains" }
+
+    var allDomainsEndpoint: String { return "all-domains" }
 
     var remote: DomainsServiceRemote!
 
@@ -237,5 +240,26 @@ class DomainsServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
         })
 
         waitForExpectations(timeout: timeout, handler: nil)
+    }
+
+    // MARK: - Get All Domains Tests
+
+    func testGetAllDomainsSucceeds() {
+        let expect = expectation(description: "Get All Domains Succeeds")
+
+        stubRemoteResponse(allDomainsEndpoint, filename: allDomainsMockFilename, contentType: .ApplicationJSON, status: 200)
+
+        remote.getAllDomains { result in
+            switch result {
+            case .success(let domains):
+                let expectedCount = 10
+                XCTAssertEqual(domains.count, expectedCount, "There should be \(expectedCount) domains returned.")
+            case .failure:
+                XCTFail("Get All Domains request failed")
+            }
+            expect.fulfill()
+        }
+
+        waitForExpectations(timeout: timeout)
     }
 }
