@@ -48,6 +48,12 @@ _None._
 
 _None._
 
+## 8.6.0
+
+### Bug Fixes
+
+- Add `createShoppingCart` method to add domains and plans when creating a new cart [#628]
+
 ## 8.5.2
 
 ### Bug Fixes
