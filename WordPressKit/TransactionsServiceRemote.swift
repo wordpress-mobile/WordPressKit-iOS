@@ -55,12 +55,12 @@ import WordPressShared
         for product in products {
             switch product {
             case .domain(let domainSuggestion, let privacyProtectionEnabled):
-                productsDictionary.append(["product_id":domainSuggestion.productID as AnyObject,
+                productsDictionary.append(["product_id": domainSuggestion.productID as AnyObject,
                                            "meta": domainSuggestion.domainName as AnyObject,
                                            "extra": ["privacy": privacyProtectionEnabled] as AnyObject])
 
             case .plan(let productId):
-                productsDictionary.append(["product_id":productId as AnyObject])
+                productsDictionary.append(["product_id": productId as AnyObject])
             case .other(let productDict):
                 productsDictionary.append(productDict)
             }
