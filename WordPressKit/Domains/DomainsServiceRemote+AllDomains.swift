@@ -35,7 +35,7 @@ extension DomainsServiceRemote {
         let domain: String
         let blogId: Int
         let blogName: String
-        let type: String
+        let type: DomainType
         let isDomainOnlySite: Bool
         let isWpcomStagingDomain: Bool
         let hasRegistration: Bool
@@ -69,7 +69,6 @@ extension DomainsServiceRemote.AllDomainsResultDomain: Decodable {
         self.domain = try container.decode(String.self, forKey: .domain)
         self.blogId = try container.decode(Int.self, forKey: .blogId)
         self.blogName = try container.decode(String.self, forKey: .blogName)
-        self.type = try container.decode(String.self, forKey: .type)
         self.isDomainOnlySite = try container.decode(Bool.self, forKey: .isDomainOnlySite)
         self.isWpcomStagingDomain = try container.decode(Bool.self, forKey: .isWpcomStagingDomain)
         self.hasRegistration = try container.decode(Bool.self, forKey: .hasRegistration)
@@ -88,5 +87,7 @@ extension DomainsServiceRemote.AllDomainsResultDomain: Decodable {
             }
             return nil
         }()
+        let type: String = try container.decode(String.self, forKey: .type)
+        self.type = .init(type: type, wpComDomain: wpcomDomain, hasRegistration: hasRegistration)
     }
 }

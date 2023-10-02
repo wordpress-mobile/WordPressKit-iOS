@@ -24,6 +24,32 @@ final class AllDomainsResultDomainTests: XCTestCase {
         assertEqual(output, otherDomain: expectedOutput)
     }
 
+    func testDecoding2() throws {
+        // Given
+        let decoder = makeDecoder()
+        let input = try makeInput(registrationDate: "", expiryDate: nil)
+
+        // When
+        let output = try decoder.decode(Domain.self, from: input)
+
+        // Then
+        let expectedOutput = makeDomain(registrationDate: "", expiryDate: nil)
+        assertEqual(output, otherDomain: expectedOutput)
+    }
+
+    func testDecoding3() throws {
+        // Given
+        let decoder = makeDecoder()
+        let input = try makeInput(type: "mapping", hasRegistration: true)
+
+        // When
+        let output = try decoder.decode(Domain.self, from: input)
+
+        // Then
+        let expectedOutput = makeDomain(type: .registered, hasRegistration: true)
+        assertEqual(output, otherDomain: expectedOutput)
+    }
+
     // MARK: - Helpers
 
     private func assertEqual(_ domain: Domain, otherDomain: Domain) {
@@ -50,7 +76,7 @@ final class AllDomainsResultDomainTests: XCTestCase {
         domain: String = Defaults.domain,
         blogId: Int = Defaults.blogId,
         blogName: String = Defaults.blogName,
-        type: String = "redirect",
+        type: DomainType = .siteRedirect,
         isDomainOnlySite: Bool = Defaults.isDomainOnlySite,
         isWpcomStagingDomain: Bool = Defaults.isWpcomStagingDomain,
         hasRegistration: Bool = Defaults.hasRegistration,
