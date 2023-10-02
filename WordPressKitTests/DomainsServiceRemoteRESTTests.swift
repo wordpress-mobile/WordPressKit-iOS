@@ -24,7 +24,7 @@ class DomainsServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
 
     var domainsEndpoint: String { return "sites/\(siteID)/domains" }
 
-    var allDomainsEndpoint: String { return "all-domains" }
+    var allDomainsEndpoint: String { return "get-all-domains-response" }
 
     var remote: DomainsServiceRemote!
 
