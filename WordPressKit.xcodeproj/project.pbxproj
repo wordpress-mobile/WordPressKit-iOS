@@ -606,6 +606,7 @@
 		F3FF8A25279C960F00E5C90F /* site-email-followers-get-auth-failure.json in Resources */ = {isa = PBXBuildFile; fileRef = F3FF8A24279C960F00E5C90F /* site-email-followers-get-auth-failure.json */; };
 		F3FF8A27279C967200E5C90F /* site-email-followers-get-failure.json in Resources */ = {isa = PBXBuildFile; fileRef = F3FF8A26279C967200E5C90F /* site-email-followers-get-failure.json */; };
 		F3FF8A29279C991B00E5C90F /* site-email-followers-get-success-more-pages.json in Resources */ = {isa = PBXBuildFile; fileRef = F3FF8A28279C991B00E5C90F /* site-email-followers-get-success-more-pages.json */; };
+		F4B0F4732ACAF498003ABC61 /* DomainsServiceRemote+AllDomains.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B0F4722ACAF498003ABC61 /* DomainsServiceRemote+AllDomains.swift */; };
 		F9E56DF624EB11EF00916770 /* FeatureFlag.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9E56DF524EB11EF00916770 /* FeatureFlag.swift */; };
 		F9E56DF824EB125600916770 /* FeatureFlagRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9E56DF724EB125600916770 /* FeatureFlagRemote.swift */; };
 		F9E56DFB24EB18C300916770 /* FeatureFlagRemoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9E56DFA24EB18C300916770 /* FeatureFlagRemoteTests.swift */; };
@@ -1305,6 +1306,7 @@
 		F3FF8A24279C960F00E5C90F /* site-email-followers-get-auth-failure.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "site-email-followers-get-auth-failure.json"; sourceTree = "<group>"; };
 		F3FF8A26279C967200E5C90F /* site-email-followers-get-failure.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "site-email-followers-get-failure.json"; sourceTree = "<group>"; };
 		F3FF8A28279C991B00E5C90F /* site-email-followers-get-success-more-pages.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "site-email-followers-get-success-more-pages.json"; sourceTree = "<group>"; };
+		F4B0F4722ACAF498003ABC61 /* DomainsServiceRemote+AllDomains.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DomainsServiceRemote+AllDomains.swift"; sourceTree = "<group>"; };
 		F9E56DF524EB11EF00916770 /* FeatureFlag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureFlag.swift; sourceTree = "<group>"; };
 		F9E56DF724EB125600916770 /* FeatureFlagRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureFlagRemote.swift; sourceTree = "<group>"; };
 		F9E56DFA24EB18C300916770 /* FeatureFlagRemoteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureFlagRemoteTests.swift; sourceTree = "<group>"; };
@@ -1878,6 +1880,7 @@
 		9368C79B1EC62EB70092CE8E /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				F4B0F4712ACAF47D003ABC61 /* Domains */,
 				93BD27381EE73282002BB00B /* AccountServiceRemote.h */,
 				93BD27391EE73282002BB00B /* AccountServiceRemoteREST.h */,
 				93BD273A1EE73282002BB00B /* AccountServiceRemoteREST.m */,
@@ -1904,7 +1907,6 @@
 				74BA04F01F06DC0A00ED5CD8 /* CommentServiceRemoteXMLRPC.h */,
 				74BA04F11F06DC0A00ED5CD8 /* CommentServiceRemoteXMLRPC.m */,
 				8BB5F62027A99A2000B2FFAF /* DashboardServiceRemote.swift */,
-				74585B8D1F0D51A100E7E667 /* DomainsServiceRemote.swift */,
 				7E0D64FE22D855700092AD10 /* EditorServiceRemote.swift */,
 				E182BF691FD961810001D850 /* Endpoint.swift */,
 				F9E56DF724EB125600916770 /* FeatureFlagRemote.swift */,
@@ -2588,6 +2590,15 @@
 			path = Insights;
 			sourceTree = "<group>";
 		};
+		F4B0F4712ACAF47D003ABC61 /* Domains */ = {
+			isa = PBXGroup;
+			children = (
+				74585B8D1F0D51A100E7E667 /* DomainsServiceRemote.swift */,
+				F4B0F4722ACAF498003ABC61 /* DomainsServiceRemote+AllDomains.swift */,
+			);
+			path = Domains;
+			sourceTree = "<group>";
+		};
 		F9E56DF924EB18A300916770 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
@@ -3246,6 +3257,7 @@
 				E194CB731FBDEF6500B0A8B8 /* PluginState.swift in Sources */,
 				404057D6221C92660060250C /* StatsTopClicksTimeIntervalData.swift in Sources */,
 				9AF4F2FC218331DC00570E4B /* PostServiceRemoteREST+Revisions.swift in Sources */,
+				F4B0F4732ACAF498003ABC61 /* DomainsServiceRemote+AllDomains.swift in Sources */,
 				E13EE1471F33258E00C15787 /* PluginServiceRemote.swift in Sources */,
 				93BD276A1EE736A8002BB00B /* RemoteUser.m in Sources */,
 				742362D71F10250600BD0A7F /* MenusServiceRemote.m in Sources */,
