@@ -18,13 +18,13 @@ class DomainsServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
     let validateDomainContactInformationSuccess = "validate-domain-contact-information-response-success.json"
     let getDomainContactInformationSuccess      = "domain-contact-information-response-success.json"
     let domainServiceInvalidQuery               = "domain-service-invalid-query.json"
-    let allDomainsMockFilename                  = "all-domains.json"
+    let allDomainsMockFilename                  = "get-all-domains-response.json"
 
     // MARK: - Properties
 
     var domainsEndpoint: String { return "sites/\(siteID)/domains" }
 
-    var allDomainsEndpoint: String { return "get-all-domains-response" }
+    var allDomainsEndpoint: String { return "all-domains" }
 
     var remote: DomainsServiceRemote!
 
