@@ -335,6 +335,11 @@ public final class WordPressComOAuthClient: NSObject {
             nonceInfo.nonceAuthenticator = nonceAuthenticator
         }
 
+        // atm, used for requesting and verifying a security key.
+        if let nonceWebauthn = data["two_step_nonce_webauthn"] as? String {
+            nonceInfo.nonceWebauthn = nonceWebauthn
+        }
+
         // atm, the only use of the more vague "two_step_nonce" key is when requesting a new SMS code
         if let nonce = data["two_step_nonce"] as? String {
             nonceInfo.nonceSMS = nonce
