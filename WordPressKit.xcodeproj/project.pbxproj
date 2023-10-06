@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -33,6 +33,7 @@
 		1DF972C129B107E7007A72BC /* videopress-site-default-video.json in Resources */ = {isa = PBXBuildFile; fileRef = 1DF972BE29B107E7007A72BC /* videopress-site-default-video.json */; };
 		240315B0A1D6C2B981572B5B /* Pods_WordPressKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED05C8FF3E61D93CE5BA527E /* Pods_WordPressKitTests.framework */; };
 		24ADA24E24F9B32D001B5DAE /* FeatureFlagSerializationTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24ADA24D24F9B32D001B5DAE /* FeatureFlagSerializationTest.swift */; };
+		264E09B32AD0B3BB004B5A5F /* WebauthChallengeInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 264E09B22AD0B3BB004B5A5F /* WebauthChallengeInfo.swift */; };
 		3236F77824AE34B40088E8F3 /* ReaderTopicServiceRemote+Interests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3236F77724AE34B40088E8F3 /* ReaderTopicServiceRemote+Interests.swift */; };
 		3236F79A24AE406D0088E8F3 /* ReaderTopicServiceRemote+InterestsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3236F79924AE406D0088E8F3 /* ReaderTopicServiceRemote+InterestsTests.swift */; };
 		3236F79C24AE413A0088E8F3 /* reader-interests-success.json in Resources */ = {isa = PBXBuildFile; fileRef = 3236F79B24AE413A0088E8F3 /* reader-interests-success.json */; };
@@ -716,6 +717,7 @@
 		1DF972BD29B107E7007A72BC /* videopress-public-video.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "videopress-public-video.json"; sourceTree = "<group>"; };
 		1DF972BE29B107E7007A72BC /* videopress-site-default-video.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "videopress-site-default-video.json"; sourceTree = "<group>"; };
 		24ADA24D24F9B32D001B5DAE /* FeatureFlagSerializationTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureFlagSerializationTest.swift; sourceTree = "<group>"; };
+		264E09B22AD0B3BB004B5A5F /* WebauthChallengeInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebauthChallengeInfo.swift; sourceTree = "<group>"; };
 		264F5C834541BBF2018F4964 /* Pods-WordPressKitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WordPressKitTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WordPressKitTests/Pods-WordPressKitTests.debug.xcconfig"; sourceTree = "<group>"; };
 		3236F77724AE34B40088E8F3 /* ReaderTopicServiceRemote+Interests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReaderTopicServiceRemote+Interests.swift"; sourceTree = "<group>"; };
 		3236F79924AE406D0088E8F3 /* ReaderTopicServiceRemote+InterestsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReaderTopicServiceRemote+InterestsTests.swift"; sourceTree = "<group>"; };
@@ -2060,6 +2062,7 @@
 				436D563B2118E18D00CEAA33 /* WPState.swift */,
 				E1D6B555200E46F200325669 /* WPTimeZone.swift */,
 				E632D7771F6E047400297F6D /* SocialLogin2FANonceInfo.swift */,
+				264E09B22AD0B3BB004B5A5F /* WebauthChallengeInfo.swift */,
 				17CE77F020C6EB41001DEA5A /* ReaderFeed.swift */,
 				32E1DD22236AA09A008914B0 /* RemotePostAutosave.swift */,
 				F9E56DF524EB11EF00916770 /* FeatureFlag.swift */,
@@ -3334,6 +3337,7 @@
 				74A44DD11F13C64B006CD8F4 /* RemoteNotificationSettings.swift in Sources */,
 				FEF7419D28085D89002C4203 /* RemoteBloggingPrompt.swift in Sources */,
 				74DA56331F06EAF000FE9BF4 /* MediaServiceRemoteREST.m in Sources */,
+				264E09B32AD0B3BB004B5A5F /* WebauthChallengeInfo.swift in Sources */,
 				17CD0CC320C58A0D000D9620 /* ReaderSiteSearchServiceRemote.swift in Sources */,
 				74DA563B1F06EB3000FE9BF4 /* RemoteMedia.m in Sources */,
 				9311A6861F22625A00704AC9 /* RemoteTaxonomyPaging.m in Sources */,
