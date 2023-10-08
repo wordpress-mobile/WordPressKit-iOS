@@ -53,6 +53,7 @@ _None._
 ### New Features
 
 - Add `createShoppingCart` method to add domains and plans when creating a new cart [#628]
+- Update `WordPressComOAuthClient` to add support to webauthn endpoints.
 
 ## 8.5.2
 
