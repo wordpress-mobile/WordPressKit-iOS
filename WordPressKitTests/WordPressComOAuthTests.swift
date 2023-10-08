@@ -60,7 +60,7 @@ class WordPressComOAuthTests: XCTestCase {
 
         let expect = self.expectation(description: "One callback should be invoked")
         let client = WordPressComOAuthClient(clientID: "Fake", secret: "Fake")
-        client.authenticateWithUsername("fakeUser", password: "wrongPassword", multifactorCode: nil,  needsMultifactor: { _, _ in
+        client.authenticateWithUsername("fakeUser", password: "wrongPassword", multifactorCode: nil, needsMultifactor: { _, _ in
             expect.fulfill()
             XCTFail("This call should fail")
         }, success: { (_) in
@@ -82,7 +82,7 @@ class WordPressComOAuthTests: XCTestCase {
 
         let expect = self.expectation(description: "Call should complete")
         let client = WordPressComOAuthClient(clientID: "Fake", secret: "Fake")
-        client.authenticateWithUsername("fakeUser", password: "wrongPassword", multifactorCode: nil,  needsMultifactor: { _, _ in
+        client.authenticateWithUsername("fakeUser", password: "wrongPassword", multifactorCode: nil, needsMultifactor: { _, _ in
             expect.fulfill()
             XCTFail("This call should fail")
         }, success: { (_) in
@@ -99,7 +99,7 @@ class WordPressComOAuthTests: XCTestCase {
         client.authenticateWithUsername("fakeUser", password: "fakePassword", multifactorCode: "fakeMultifactor", needsMultifactor: { _, _ in
             expect.fulfill()
             XCTFail("This call should fail")
-        },  success: { (_) in
+        }, success: { (_) in
             expectation2.fulfill()
             XCTFail("This call should fail")
         }, failure: { (error) in
@@ -118,7 +118,7 @@ class WordPressComOAuthTests: XCTestCase {
 
         let expect = self.expectation(description: "Call should complete")
         let client = WordPressComOAuthClient(clientID: "Fake", secret: "Fake")
-        client.authenticateWithUsername("fakeUser", password: "wrongPassword", multifactorCode: nil,  needsMultifactor: { userID, nonceInfo in
+        client.authenticateWithUsername("fakeUser", password: "wrongPassword", multifactorCode: nil, needsMultifactor: { userID, nonceInfo in
             expect.fulfill()
             XCTAssertEqual(userID, 1234)
             XCTAssertEqual(nonceInfo.nonceWebauthn, "two_step_nonce_webauthn")

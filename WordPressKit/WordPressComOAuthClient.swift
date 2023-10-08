@@ -456,7 +456,7 @@ public final class WordPressComOAuthClient: NSObject {
             "two_step_nonce": twoStepNonce,
             "client_data": clientDataString,
             "get_bearer_token": true,
-            "create_2fa_cookies_only" : true
+            "create_2fa_cookies_only" : true,
         ]
 
         webauthnSessionManager.request(WordPressComURL.webauthnAuthentication.url(base: wordPressComBaseUrl), method: .post, parameters: parameters)
