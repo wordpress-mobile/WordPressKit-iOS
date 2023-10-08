@@ -181,6 +181,7 @@ class WordPressComOAuthTests: XCTestCase {
             expect.fulfill()
             XCTAssertEqual(userID, 1)
             XCTAssertEqual(nonceInfo.nonceBackup, "two_step_nonce_backup")
+            XCTAssertEqual(nonceInfo.nonceWebauthn, "two_step_nonce_webauthn")
         }, existingUserNeedsConnection: { _ in
             expect.fulfill()
             XCTFail("This call should need multifactor")
