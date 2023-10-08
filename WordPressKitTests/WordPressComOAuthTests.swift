@@ -11,6 +11,8 @@ class WordPressComOAuthTests: XCTestCase {
         case socialLoginNewSMS2FA = "https://wordpress.com/wp-login.php?action=send-sms-code-endpoint"
         case socialLogin2FA = "https://wordpress.com/wp-login.php?action=two-step-authentication-endpoint&version=1.0"
         case socialLogin = "https://wordpress.com/wp-login.php?action=social-login-endpoint&version=1.0"
+        case requestWebauthnChallenge = "https://wordpress.com/wp-login.php?action=webauthn-challenge-endpoint"
+        case verifySignature = "https://wordpress.com/wp-login.php?action=webauthn-authentication-endpoint"
     }
 
     override func setUp() {
@@ -241,4 +243,50 @@ class WordPressComOAuthTests: XCTestCase {
         self.waitForExpectations(timeout: 2, handler: nil)
     }
 
+    func testRequestWebauthnChallengeReturnsCompleteChallengeInfo() {
+        stub(condition: isOauthTokenRequest(url: .requestWebauthnChallenge)) { _ in
+            let stubPath = OHPathForFile("WordPressComOAuthRequestChallenge.json", type(of: self))
+            return fixture(filePath: stubPath!, headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
+        }
+
+        let expect = self.expectation(description: "One callback should be invoked")
+        let client = WordPressComOAuthClient(clientID: "Fake", secret: "Fake")
+        client.requestWebauthnChallenge(userID: 123, twoStepNonce: "twoStepNonce", success: { challengeInfo in
+            expect.fulfill()
+            let expectedChallengeInfo = WebauthnChallengeInfo(challenge: "challenge", rpID: "wordpress.com", twoStepNonce: "two_step_nonce")
+            XCTAssertEqual(challengeInfo.challenge, expectedChallengeInfo.challenge)
+            XCTAssertEqual(challengeInfo.rpID, expectedChallengeInfo.rpID)
+            XCTAssertEqual(challengeInfo.twoStepNonce, expectedChallengeInfo.twoStepNonce)
+        }, failure: { _ in
+            expect.fulfill()
+            XCTFail("This call should be successful")
+        })
+        self.waitForExpectations(timeout: 2, handler: nil)
+    }
+
+    func testAuthenticateWebauthSignatureReturnsOauthToken() {
+        stub(condition: isOauthTokenRequest(url: .verifySignature)) { _ in
+            let stubPath = OHPathForFile("WordPressComOAuthAuthenticateSignature.json", type(of: self))
+            return fixture(filePath: stubPath!, headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
+        }
+
+        let expect = self.expectation(description: "One callback should be invoked")
+        let client = WordPressComOAuthClient(clientID: "Fake", secret: "Fake")
+        client.authenticateWebauthnSignature(userId: 123,
+                                             twoStepNonce: "twoStepNOnce",
+                                             credentialID: "credential-id".data(using: .utf8) ?? Data(),
+                                             clientDataJson: "{}".data(using: .utf8) ?? Data(),
+                                             authenticatorData: "authenticator-data".data(using: .utf8) ?? Data(),
+                                             signature: "signature".data(using: .utf8) ?? Data(),
+                                             userHandle: "user-handle".data(using: .utf8) ?? Data(),
+                                             success: { token in
+            expect.fulfill()
+            XCTAssertEqual(token, "bearer_token")
+        },
+                                             failure: { _ in
+            expect.fulfill()
+            XCTFail("This call should be successful")
+        })
+        self.waitForExpectations(timeout: 2, handler: nil)
+    }
 }
