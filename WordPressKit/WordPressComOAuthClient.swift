@@ -113,27 +113,30 @@ public final class WordPressComOAuthClient: NSObject {
         self.wordPressComApiBaseUrl = wordPressComApiBaseUrl
     }
 
-    /// Authenticates on WordPress.com with Multifactor code.
+    /// Authenticates on WordPress.com using the OAuth endpoints.
     ///
     /// - Parameters:
     ///     - username: the account's username.
     ///     - password: the account's password.
     ///     - multifactorCode: Multifactor Authentication One-Time-Password. If not needed, can be nil
+    ///     - needsMultifactor: @escaping (_ userID: Int, _ nonceInfo: SocialLogin2FANonceInfo) -> Void,
     ///     - success: block to be called if authentication was successful. The OAuth2 token is passed as a parameter.
     ///     - failure: block to be called if authentication failed. The error object is passed as a parameter.
     ///
     @objc public func authenticateWithUsername(_ username: String,
-                                  password: String,
-                                  multifactorCode: String?,
-                                  success: @escaping (_ authToken: String?) -> Void,
-                                  failure: @escaping (_ error: NSError) -> Void ) {
+                                               password: String,
+                                               multifactorCode: String?,
+                                               needsMultifactor: @escaping (_ userID: Int, _ nonceInfo: SocialLogin2FANonceInfo) -> Void,
+                                               success: @escaping (_ authToken: String?) -> Void,
+                                               failure: @escaping (_ error: NSError) -> Void ) {
         var parameters: [String: AnyObject] = [
             "username": username as AnyObject,
             "password": password as AnyObject,
             "grant_type": "password" as AnyObject,
             "client_id": clientID as AnyObject,
             "client_secret": secret as AnyObject,
-            "wpcom_supports_2fa": true as AnyObject
+            "wpcom_supports_2fa": true as AnyObject,
+            "with_auth_types": true as AnyObject
         ]
 
         if let multifactorCode = multifactorCode, !multifactorCode.isEmpty {
@@ -146,15 +149,31 @@ public final class WordPressComOAuthClient: NSObject {
                 switch response.result {
                 case .success(let responseObject):
                     WPKitLogVerbose("Received OAuth2 response: \(self.cleanedUpResponseForLogging(responseObject as AnyObject? ?? "nil" as AnyObject))")
-                    guard let responseDictionary = responseObject as? [String: AnyObject],
-                        let authToken = responseDictionary["access_token"] as? String else {
-                            let defaultError = NSError(domain: WordPressComOAuthClient.WordPressComOAuthErrorDomain,
-                                                       code: WordPressComOAuthError.unknown.rawValue,
-                                                       userInfo: nil)
-                            failure(defaultError)
-                            return
+
+                    let defaultError = NSError(domain: WordPressComOAuthClient.WordPressComOAuthErrorDomain,
+                                               code: WordPressComOAuthError.unknown.rawValue,
+                                               userInfo: nil)
+
+                    guard let responseDictionary = responseObject as? [String: AnyObject] else {
+                        return failure(defaultError)
                     }
-                    success(authToken)
+
+                    // If we found an access_token, we are authed.
+                    if let authToken = responseDictionary["access_token"] as? String {
+                        return success(authToken)
+                    }
+
+                    // If there is no access token, check for a security key nonce
+                    guard let responseData = responseDictionary["data"] as? [String: AnyObject],
+                          let userID = responseData["user_id"] as? Int,
+                          let _ = responseData["two_step_nonce_webauthn"] else {
+                        failure(defaultError)
+                        return
+                    }
+
+                    let nonceInfo = self.extractNonceInfo(data: responseData)
+                    needsMultifactor(userID, nonceInfo)
+
                 case .failure(let error):
                     let nserror = self.processError(response: response, originalError: error)
                     WPKitLogError("Error receiving OAuth2 token: \(nserror)")

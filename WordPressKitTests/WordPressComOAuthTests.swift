@@ -38,13 +38,16 @@ class WordPressComOAuthTests: XCTestCase {
 
         let expect = self.expectation(description: "One callback should be invoked")
         let client = WordPressComOAuthClient(clientID: "Fake", secret: "Fake")
-        client.authenticateWithUsername("fakeUser", password: "fakePass", multifactorCode: nil, success: { (token) in
+        client.authenticateWithUsername("fakeUser", password: "fakePass", multifactorCode: nil, needsMultifactor: { _, _ in
+            expect.fulfill()
+            XCTFail("This call should be successful")
+        }, success: { (token) in
             expect.fulfill()
             XCTAssert(!token!.isEmpty, "There should be a token available")
             XCTAssert(token == "fakeToken", "There should be a token available")
         }, failure: { (_) in
             expect.fulfill()
-            XCTFail("This call should be successfull")
+            XCTFail("This call should be successful")
         })
         self.waitForExpectations(timeout: 2, handler: nil)
     }
@@ -57,7 +60,10 @@ class WordPressComOAuthTests: XCTestCase {
 
         let expect = self.expectation(description: "One callback should be invoked")
         let client = WordPressComOAuthClient(clientID: "Fake", secret: "Fake")
-        client.authenticateWithUsername("fakeUser", password: "wrongPassword", multifactorCode: nil, success: { (_) in
+        client.authenticateWithUsername("fakeUser", password: "wrongPassword", multifactorCode: nil,  needsMultifactor: { _, _ in
+            expect.fulfill()
+            XCTFail("This call should fail")
+        }, success: { (_) in
             expect.fulfill()
             XCTFail("This call should fail")
         }, failure: { (error) in
@@ -76,7 +82,10 @@ class WordPressComOAuthTests: XCTestCase {
 
         let expect = self.expectation(description: "Call should complete")
         let client = WordPressComOAuthClient(clientID: "Fake", secret: "Fake")
-        client.authenticateWithUsername("fakeUser", password: "wrongPassword", multifactorCode: nil, success: { (_) in
+        client.authenticateWithUsername("fakeUser", password: "wrongPassword", multifactorCode: nil,  needsMultifactor: { _, _ in
+            expect.fulfill()
+            XCTFail("This call should fail")
+        }, success: { (_) in
             expect.fulfill()
             XCTFail("This call should fail")
         }, failure: { (error) in
@@ -87,13 +96,38 @@ class WordPressComOAuthTests: XCTestCase {
         self.waitForExpectations(timeout: 2, handler: nil)
 
         let expectation2 = self.expectation(description: "Call should complete")
-        client.authenticateWithUsername("fakeUser", password: "fakePassword", multifactorCode: "fakeMultifactor", success: { (_) in
+        client.authenticateWithUsername("fakeUser", password: "fakePassword", multifactorCode: "fakeMultifactor", needsMultifactor: { _, _ in
+            expect.fulfill()
+            XCTFail("This call should fail")
+        },  success: { (_) in
             expectation2.fulfill()
             XCTFail("This call should fail")
         }, failure: { (error) in
             expectation2.fulfill()
             XCTAssert(error.domain == WordPressComOAuthClient.WordPressComOAuthErrorDomain, "The error should an WordPressComOAuthError")
             XCTAssert(error.code == Int(WordPressComOAuthError.needsMultifactorCode.rawValue), "The code should be needs multifactor")
+        })
+        self.waitForExpectations(timeout: 2, handler: nil)
+    }
+
+    func testAuthenticateUsernameRequiresWebauthnMultifactorAuthentication() {
+        stub(condition: isOauthTokenRequest(url: .oAuthTokenUrl)) { _ in
+            let stubPath = OHPathForFile("WordPressComOAuthNeedsWebauthnMFA.json", type(of: self))
+            return fixture(filePath: stubPath!, headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
+        }
+
+        let expect = self.expectation(description: "Call should complete")
+        let client = WordPressComOAuthClient(clientID: "Fake", secret: "Fake")
+        client.authenticateWithUsername("fakeUser", password: "wrongPassword", multifactorCode: nil,  needsMultifactor: { userID, nonceInfo in
+            expect.fulfill()
+            XCTAssertEqual(userID, 1234)
+            XCTAssertEqual(nonceInfo.nonceWebauthn, "two_step_nonce_webauthn")
+        }, success: { (_) in
+            expect.fulfill()
+            XCTFail("This call should need multifactor")
+        }, failure: { (error) in
+            expect.fulfill()
+            XCTFail("This call should need multifactor")
         })
         self.waitForExpectations(timeout: 2, handler: nil)
     }
