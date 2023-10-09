@@ -306,7 +306,7 @@ class WordPressComOAuthTests: XCTestCase {
 
         let expect = self.expectation(description: "One callback should be invoked")
         let client = WordPressComOAuthClient(clientID: "Fake", secret: "Fake")
-        client.authenticateWebauthnSignature(userId: 123,
+        client.authenticateWebauthnSignature(userID: 123,
                                              twoStepNonce: "twoStepNOnce",
                                              credentialID: "credential-id".data(using: .utf8) ?? Data(),
                                              clientDataJson: "{}".data(using: .utf8) ?? Data(),

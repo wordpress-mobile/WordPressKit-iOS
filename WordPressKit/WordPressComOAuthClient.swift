@@ -358,7 +358,7 @@ public final class WordPressComOAuthClient: NSObject {
                                                success: @escaping (_ challengeData: WebauthnChallengeInfo) -> Void,
                                                failure: @escaping (_ error: NSError) -> Void ) {
 
-        var parameters: [String: Any] = [
+        let parameters: [String: Any] = [
             "user_id": userID,
             "client_id": clientID,
             "client_secret": secret,
@@ -415,7 +415,7 @@ public final class WordPressComOAuthClient: NSObject {
     ///     - success: block to be called if authentication was successful. The auth token is passed as a parameter.
     ///     - failure: block to be called if authentication failed. The error object is passed as a parameter.
     ///
-    @objc public func authenticateWebauthnSignature(userId: Int64,
+    @objc public func authenticateWebauthnSignature(userID: Int64,
                                                     twoStepNonce: String,
                                                     credentialID: Data,
                                                     clientDataJson: Data,
@@ -449,14 +449,14 @@ public final class WordPressComOAuthClient: NSObject {
               }
 
         let parameters: [String: Any] = [
-            "user_id": userId,
+            "user_id": userID,
             "client_id": clientID,
             "client_secret": secret,
             "auth_type": "webauthn",
             "two_step_nonce": twoStepNonce,
             "client_data": clientDataString,
             "get_bearer_token": true,
-            "create_2fa_cookies_only" : true,
+            "create_2fa_cookies_only": true,
         ]
 
         webauthnSessionManager.request(WordPressComURL.webauthnAuthentication.url(base: wordPressComBaseUrl), method: .post, parameters: parameters)
