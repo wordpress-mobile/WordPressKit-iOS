@@ -287,7 +287,7 @@ class WordPressComOAuthTests: XCTestCase {
         let client = WordPressComOAuthClient(clientID: "Fake", secret: "Fake")
         client.requestWebauthnChallenge(userID: 123, twoStepNonce: "twoStepNonce", success: { challengeInfo in
             expect.fulfill()
-            let expectedChallengeInfo = WebauthnChallengeInfo(challenge: "challenge", rpID: "wordpress.com", twoStepNonce: "two_step_nonce")
+            let expectedChallengeInfo = WebauthnChallengeInfo(challenge: "challenge", rpID: "wordpress.com", twoStepNonce: "two_step_nonce", allowedCredentialIDs: ["credential-id, credential-id-2"])
             XCTAssertEqual(challengeInfo.challenge, expectedChallengeInfo.challenge)
             XCTAssertEqual(challengeInfo.rpID, expectedChallengeInfo.rpID)
             XCTAssertEqual(challengeInfo.twoStepNonce, expectedChallengeInfo.twoStepNonce)

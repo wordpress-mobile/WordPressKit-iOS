@@ -15,9 +15,14 @@ import Foundation
     ///
     @objc public var twoStepNonce = ""
 
-    init(challenge: String, rpID: String, twoStepNonce: String) {
+    /// Allowed credential IDs.
+    ///
+    @objc public var allowedCredentialIDs: [String] = []
+
+    init(challenge: String, rpID: String, twoStepNonce: String, allowedCredentialIDs: [String]) {
         self.challenge = challenge
         self.rpID = rpID
         self.twoStepNonce = twoStepNonce
+        self.allowedCredentialIDs = allowedCredentialIDs
     }
 }

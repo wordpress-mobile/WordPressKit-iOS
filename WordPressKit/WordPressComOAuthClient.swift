@@ -386,12 +386,14 @@ public final class WordPressComOAuthClient: NSObject {
                     guard
                         let challenge = responseData["challenge"] as? String,
                         let nonce = responseData["two_step_nonce"] as? String,
-                        let rpID = responseData["rpId"] as? String
+                        let rpID = responseData["rpId"] as? String,
+                        let allowCredentials = responseData["allowCredentials"] as? [[String: Any]]
                     else {
                         return failure(defaultError)
                     }
 
-                    let challengeData = WebauthnChallengeInfo(challenge: challenge, rpID: rpID, twoStepNonce: nonce)
+                    let allowedCredentialIDs = allowCredentials.compactMap { $0["id"] as? String }
+                    let challengeData = WebauthnChallengeInfo(challenge: challenge, rpID: rpID, twoStepNonce: nonce, allowedCredentialIDs: allowedCredentialIDs)
                     success(challengeData)
 
                 case .failure(let error):
