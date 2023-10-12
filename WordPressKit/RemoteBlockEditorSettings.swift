@@ -8,6 +8,7 @@ public class RemoteBlockEditorSettings: Codable {
         case listBlockV2 = "__experimentalEnableListBlockV2"
         case rawStyles = "__experimentalStyles"
         case rawFeatures = "__experimentalFeatures"
+        case gutenbergVersion = "gutenbergVersion"
         case colors
         case gradients
     }
@@ -18,6 +19,7 @@ public class RemoteBlockEditorSettings: Codable {
     public let listBlockV2: Bool
     public let rawStyles: String?
     public let rawFeatures: String?
+    public let gutenbergVersion: String?
     public let colors: [[String: String]]?
     public let gradients: [[String: String]]?
 
@@ -45,6 +47,7 @@ public class RemoteBlockEditorSettings: Codable {
         self.listBlockV2 = (try? map.decode(Bool.self, forKey: .listBlockV2)) ?? false
         self.rawStyles = RemoteBlockEditorSettings.parseToString(map, .rawStyles)
         self.rawFeatures = RemoteBlockEditorSettings.parseToString(map, .rawFeatures)
+        self.gutenbergVersion = (try? map.decode(String.self, forKey: .gutenbergVersion)) ?? ""
         self.colors = try? map.decode([[String: String]].self, forKey: .colors)
         self.gradients = try? map.decode([[String: String]].self, forKey: .gradients)
     }
