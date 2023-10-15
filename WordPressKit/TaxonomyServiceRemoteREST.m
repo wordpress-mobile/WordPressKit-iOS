@@ -293,7 +293,7 @@ static NSUInteger const TaxonomyRESTNumberMaxValue = 1000;
     RemotePostCategory *category = [RemotePostCategory new];
     category.categoryID = [jsonCategory numberForKey:TaxonomyRESTIDParameter];
     category.name = [jsonCategory stringForKey:TaxonomyRESTNameParameter];
-    category.parentID = [jsonCategory numberForKey:TaxonomyRESTParentParameter];
+    category.parentID = [jsonCategory numberForKey:TaxonomyRESTParentParameter] ?: @0;
     return category;
 }
 

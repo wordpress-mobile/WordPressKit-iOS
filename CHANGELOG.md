@@ -38,7 +38,7 @@ _None._
 
 ### New Features
 
-_None._
+- `RemotePostCategory.parent` is set to zero when API returns `"parent": null` [#630]
 
 ### Bug Fixes
 

@@ -85,6 +85,51 @@
                                    failure:^(NSError * _Nonnull error) {}];
 }
 
+/// Verify `RemotePostCategory.parent` is `@0` instead of `nil` when the corresponding JSON response is `"parent": null`.
+- (void)testThatGetCategoriesWithNilParent
+{
+    NSString *url = [self GETtaxonomyURLWithType:@"categories"];
+
+    WordPressComRestApi *api = self.service.wordPressComRestApi;
+    NSDictionary *json = @{
+        @"found": @1,
+        @"categories": @[
+          @{
+            @"ID": @97,
+            @"name": @"Uncategorized",
+            @"slug": @"uncategorized",
+            @"description": @"",
+            @"post_count": @0,
+            @"feed_url": @"https://blog.wordpress.com/category/uncategorized/feed/",
+            @"parent": [NSNull null],
+            @"meta": @{
+              @"links": @{
+                @"self": @"https://public-api.wordpress.com/rest/v1.1/sites/42/categories/slug:uncategorized",
+                @"help": @"https://public-api.wordpress.com/rest/v1.1/sites/42/categories/slug:uncategorized/help",
+                @"site": @"https://public-api.wordpress.com/rest/v1.1/sites/42"
+              }
+            }
+          }
+        ]
+      };
+    NSHTTPURLResponse *response = OCMStrictClassMock([NSHTTPURLResponse class]);
+    OCMStub([api GET:[OCMArg isEqual:url]
+          parameters:[OCMArg any]
+             success:([OCMArg invokeBlockWithArgs:json, response, nil])
+             failure:[OCMArg isNotNil]]);
+
+    XCTestExpectation *parentIsZero = [self expectationWithDescription:@"parent should be zero"];
+    id success = ^(NSArray<RemotePostCategory *> * _Nonnull categories) {
+        if ([categories.firstObject.parentID isEqualToNumber:@0]) {
+            [parentIsZero fulfill];
+        }
+    };
+    [self.service getCategoriesWithSuccess:success
+                                   failure:^(NSError * _Nonnull error) {}];
+
+    [self waitForExpectations:@[parentIsZero] timeout:0.1];
+}
+
 - (void)testThatGetCategoriesWithPagingWorks
 {
     RemoteTaxonomyPaging *paging = OCMStrictClassMock([RemoteTaxonomyPaging class]);
