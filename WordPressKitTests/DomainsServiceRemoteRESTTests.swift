@@ -24,7 +24,7 @@ class DomainsServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
 
     var domainsEndpoint: String { return "sites/\(siteID)/domains" }
 
-    var allDomainsEndpoint: String { return "all-domains" }
+    var allDomainsEndpoint: String { return "rest/v1.1/all-domains" }
 
     var remote: DomainsServiceRemote!
 
@@ -249,7 +249,10 @@ class DomainsServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
 
         stubRemoteResponse(allDomainsEndpoint, filename: allDomainsMockFilename, contentType: .ApplicationJSON, status: 200)
 
-        remote.getAllDomains { result in
+        var params = DomainsServiceRemote.GetAllDomainsParams()
+        params.resolveStatus = true
+        params.locale = "en"
+        remote.getAllDomains(params: params) { result in
             switch result {
             case .success(let domains):
                 let expectedCount = 10
