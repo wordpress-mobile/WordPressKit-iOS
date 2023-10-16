@@ -259,6 +259,32 @@ class WordPressComOAuthClientTests: XCTestCase {
         waitForExpectations(timeout: 2, handler: nil)
     }
 
+    func testAuthenticateUsernameRequiresWebauthnMultifactorAuthentication_withoutMFAClosure() {
+        stub(condition: isOauthTokenRequest(url: .oAuthTokenUrl)) { _ in
+            let stubPath = OHPathForFile("WordPressComOAuthNeedsWebauthnMFA.json", type(of: self))
+            return fixture(filePath: stubPath!, headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
+        }
+
+        let expect = expectation(description: "Call should complete")
+        let client = WordPressComOAuthClient(clientID: "Fake", secret: "Fake")
+        client.authenticateWithUsername(
+            "fakeUser",
+            password: "wrongPassword",
+            multifactorCode: nil,
+            needsMultifactor: nil,
+            success: { _ in
+                expect.fulfill()
+                XCTFail("Expected to fail, but run the success block")
+            },
+            failure: { error in
+                expect.fulfill()
+                XCTAssertEqual(error.domain, WordPressComOAuthClient.WordPressComOAuthErrorDomain)
+                XCTAssertEqual(error.code, WordPressComOAuthError.noMultifactorHandlerGiven.rawValue)
+            }
+        )
+        waitForExpectations(timeout: 2, handler: nil)
+    }
+
     func testRequestOneTimeCodeWithUsername() {
         stub(condition: isOauthTokenRequest(url: .oAuthTokenUrl)) { _ in
             let stubPath = OHPathForFile("WordPressComOAuthNeeds2FAFail.json", type(of: self))
