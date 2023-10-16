@@ -4,9 +4,8 @@ extension DomainsServiceRemote {
 
     // MARK: - API
 
-    public func getAllDomains(completion: @escaping (Result<[AllDomainsResultDomain], Error>) -> Void) {
-        let endpoint = "all-domains"
-        let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
+    public func getAllDomains(params: GetAllDomainsParams = .init(), completion: @escaping (Result<[AllDomainsResultDomain], Error>) -> Void) {
+        let path = self.getAllDomainsPath(params: params)
         self.wordPressComRestApi.GET(path, parameters: nil) { result, _ in
             do {
                 switch result {
@@ -25,13 +24,39 @@ extension DomainsServiceRemote {
         }
     }
 
+    private func getAllDomainsPath(params: GetAllDomainsParams) -> String {
+        let endpoint = "all-domains"
+        let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
+        var components = URLComponents(string: path)
+        var queryItems = [URLQueryItem]()
+        if let resolveStatus = params.resolveStatus {
+            queryItems.append(.init(name: "resolve_status", value: "\(resolveStatus)"))
+        }
+        if let locale = params.locale {
+            queryItems.append(.init(name: "locale", value: locale))
+        }
+        return components?.url?.absoluteString ?? path
+    }
+
     // MARK: - Types
+
+    public struct GetAllDomainsParams {
+        var resolveStatus: Bool?
+        var locale: String?
+
+        public init() {
+        }
+    }
 
     private struct AllDomainsResult: Decodable {
         let domains: [AllDomainsResultDomain]
     }
 
     public struct AllDomainsResultDomain {
+        struct Status {
+            let status: String
+            let type: String
+        }
         let domain: String
         let blogId: Int
         let blogName: String
@@ -44,6 +69,14 @@ extension DomainsServiceRemote {
         let wpcomDomain: Bool
         let currentUserIsOwner: Bool?
         let siteSlug: String
+        let status: Status
+    }
+}
+
+extension DomainsServiceRemote.AllDomainsResultDomain.Status: Decodable {
+    enum CodingKeys: String, CodingKey {
+        case status
+        case type = "status_type"
     }
 }
 
@@ -62,6 +95,7 @@ extension DomainsServiceRemote.AllDomainsResultDomain: Decodable {
         case wpcomDomain = "wpcom_domain"
         case currentUserIsOwner = "current_user_is_owner"
         case siteSlug = "site_slug"
+        case status = "domain_status"
     }
 
     public init(from decoder: Decoder) throws {
@@ -89,5 +123,6 @@ extension DomainsServiceRemote.AllDomainsResultDomain: Decodable {
         }()
         let type: String = try container.decode(String.self, forKey: .type)
         self.type = .init(type: type, wpComDomain: wpcomDomain, hasRegistration: hasRegistration)
+        self.status = try container.decode(Status.self, forKey: .status)
     }
 }
