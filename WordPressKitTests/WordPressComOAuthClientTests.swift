@@ -15,10 +15,6 @@ class WordPressComOAuthClientTests: XCTestCase {
         case verifySignature = "https://wordpress.com/wp-login.php?action=webauthn-authentication-endpoint"
     }
 
-    override func setUp() {
-        super.setUp()
-    }
-
     override func tearDown() {
         super.tearDown()
         HTTPStubs.removeAllStubs()
