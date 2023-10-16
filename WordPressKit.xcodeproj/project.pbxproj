@@ -669,7 +669,7 @@
 		FFA4D4AD2423B1FE00BF5180 /* wp-admin-post-new.html in Resources */ = {isa = PBXBuildFile; fileRef = FFA4D4AC2423B1FE00BF5180 /* wp-admin-post-new.html */; };
 		FFA4D4B02423B33800BF5180 /* wp-forbidden.json in Resources */ = {isa = PBXBuildFile; fileRef = FFA4D4AE2423B33800BF5180 /* wp-forbidden.json */; };
 		FFA4D4B12423B33800BF5180 /* wp-pages.json in Resources */ = {isa = PBXBuildFile; fileRef = FFA4D4AF2423B33800BF5180 /* wp-pages.json */; };
-		FFE247A720C891D1002DF3A2 /* WordPressComOAuthTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFE247A620C891D1002DF3A2 /* WordPressComOAuthTests.swift */; };
+		FFE247A720C891D1002DF3A2 /* WordPressComOAuthClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFE247A620C891D1002DF3A2 /* WordPressComOAuthClientTests.swift */; };
 		FFE247AF20C891E6002DF3A2 /* WordPressComOAuthWrongPasswordFail.json in Resources */ = {isa = PBXBuildFile; fileRef = FFE247A820C891E5002DF3A2 /* WordPressComOAuthWrongPasswordFail.json */; };
 		FFE247B020C891E6002DF3A2 /* WordPressComAuthenticateWithIDToken2FANeededSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = FFE247A920C891E5002DF3A2 /* WordPressComAuthenticateWithIDToken2FANeededSuccess.json */; };
 		FFE247B120C891E6002DF3A2 /* WordPressComSocial2FACodeSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = FFE247AA20C891E5002DF3A2 /* WordPressComSocial2FACodeSuccess.json */; };
@@ -1368,7 +1368,7 @@
 		FFA4D4AC2423B1FE00BF5180 /* wp-admin-post-new.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = "wp-admin-post-new.html"; sourceTree = "<group>"; };
 		FFA4D4AE2423B33800BF5180 /* wp-forbidden.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "wp-forbidden.json"; sourceTree = "<group>"; };
 		FFA4D4AF2423B33800BF5180 /* wp-pages.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "wp-pages.json"; sourceTree = "<group>"; };
-		FFE247A620C891D1002DF3A2 /* WordPressComOAuthTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WordPressComOAuthTests.swift; sourceTree = "<group>"; };
+		FFE247A620C891D1002DF3A2 /* WordPressComOAuthClientTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WordPressComOAuthClientTests.swift; sourceTree = "<group>"; };
 		FFE247A820C891E5002DF3A2 /* WordPressComOAuthWrongPasswordFail.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = WordPressComOAuthWrongPasswordFail.json; sourceTree = "<group>"; };
 		FFE247A920C891E5002DF3A2 /* WordPressComAuthenticateWithIDToken2FANeededSuccess.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = WordPressComAuthenticateWithIDToken2FANeededSuccess.json; sourceTree = "<group>"; };
 		FFE247AA20C891E5002DF3A2 /* WordPressComSocial2FACodeSuccess.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = WordPressComSocial2FACodeSuccess.json; sourceTree = "<group>"; };
@@ -1749,27 +1749,10 @@
 		930F52BA1ECF8A67002F921B /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				74155E241EF87DDF00A06AEA /* ServiceRemoteRESTTests.m */,
-				FFA4D4A92423B10A00BF5180 /* AuthenticatorTests.swift */,
-				BA62CFE824B592E000978BE1 /* DynamicMockProvider.swift */,
-				931924231F1662FA0069CBCC /* JSONLoader.swift */,
-				BAFA775524ADAB3C000F0D3A /* MockPluginDirectoryEntryProvider.swift */,
-				BAB0E36324AD599700B3D22C /* MockPluginStateProvider.swift */,
-				9F3E0BA920873772009CB5BA /* MockServiceRequest.swift */,
-				74B335D71F06F1CA0053A184 /* MockWordPressComRestApi.swift */,
-				93AB06031EE8838400EF8764 /* RemoteTestCase.swift */,
-				74A923B11F2BE2DF00EC8F92 /* RESTTestable.swift */,
-				3F3C9E9B289A3E31009A1357 /* TestCollector+Constants.swift */,
-				FFE247A620C891D1002DF3A2 /* WordPressComOAuthTests.swift */,
-				74B335D91F06F3D60053A184 /* WordPressComRestApiTests.swift */,
-				8B9F0CAD2762414F00DBE144 /* WordPressComRestApiTests+AsyncAwait.swift */,
-				73B3DAD521FBB20D00B2CF18 /* WordPressComRestApiTests+Locale.swift */,
-				FFA4D4A82423B10A00BF5180 /* WordPressOrgRestApiTests.swift */,
-				74B335DB1F06F4180053A184 /* WordPressOrgXMLRPCApiTests.swift */,
-				740B23D51F17F7C100067A2A /* XMLRPCTestable.swift */,
 				93BD273E1EE732CC002BB00B /* Accounts */,
 				826016FE1F9FD59400533B6C /* Activity */,
 				F194E1212417ED7E00874408 /* Authentication */,
+				FFA4D4A92423B10A00BF5180 /* AuthenticatorTests.swift */,
 				FAD1345425909DF500A8FEB1 /* Backup */,
 				FA1D0F8F299535020025D76C /* Blaze */,
 				465F88A5263B370300F4C950 /* BlockEditorSettings */,
@@ -1778,11 +1761,17 @@
 				ABD95B7D25DD6C2400735BEE /* Comment */,
 				8BB5F62227A9A5AF00B2FFAF /* Dashboard */,
 				74585B911F0D520700E7E667 /* Domains */,
+				BA62CFE824B592E000978BE1 /* DynamicMockProvider.swift */,
 				7EC60EBC22DC4F5A00FB0336 /* Editor */,
 				8BE67ED124AD05B5004DB4C9 /* Extensions */,
 				9A2D0B29225E0DF7009E585F /* Jetpack */,
+				931924231F1662FA0069CBCC /* JSONLoader.swift */,
 				74FA25F81F1FDA240044BC54 /* Media */,
 				74D97CB91F1CF6E200AC49B7 /* Menu */,
+				BAFA775524ADAB3C000F0D3A /* MockPluginDirectoryEntryProvider.swift */,
+				BAB0E36324AD599700B3D22C /* MockPluginStateProvider.swift */,
+				9F3E0BA920873772009CB5BA /* MockServiceRequest.swift */,
+				74B335D71F06F1CA0053A184 /* MockWordPressComRestApi.swift */,
 				F3FF8A1A279C86AF00E5C90F /* Models */,
 				74A44DD61F13C6F3006CD8F4 /* Notifications */,
 				74D67F0B1F15C2570010C5ED /* People */,
@@ -1792,17 +1781,28 @@
 				08C7493C2A45E9E3000DA0E2 /* Privacy */,
 				C738CAED286222C9001BE107 /* QR Login */,
 				7430C9BF1F192C210051B8E6 /* Reader */,
+				93AB06031EE8838400EF8764 /* RemoteTestCase.swift */,
+				74A923B11F2BE2DF00EC8F92 /* RESTTestable.swift */,
+				74155E241EF87DDF00A06AEA /* ServiceRemoteRESTTests.m */,
 				74E2294C1F1E73650085F7F2 /* Sharing */,
 				74C473AD1EF2F7BF009918F2 /* Site */,
 				4624223C2548C235002B8A12 /* SiteDesigns */,
 				4625B96A253A34D300C04AAD /* StarterPageLayouts */,
 				930F52BB1ECF8A78002F921B /* Stats */,
 				93188D201F2264A80028ED4D /* Taxonomy */,
+				3F3C9E9B289A3E31009A1357 /* TestCollector+Constants.swift */,
 				9309994F1F1658DB00F006A1 /* Theme */,
 				436D56362118DC2800CEAA33 /* Transactions */,
 				93F50A421F227CC400B5BEBA /* Users */,
 				F9E56DF924EB18A300916770 /* Utilities */,
 				57A38E502624F7D000472480 /* WordPressAPI */,
+				FFE247A620C891D1002DF3A2 /* WordPressComOAuthClientTests.swift */,
+				74B335D91F06F3D60053A184 /* WordPressComRestApiTests.swift */,
+				8B9F0CAD2762414F00DBE144 /* WordPressComRestApiTests+AsyncAwait.swift */,
+				73B3DAD521FBB20D00B2CF18 /* WordPressComRestApiTests+Locale.swift */,
+				FFA4D4A82423B10A00BF5180 /* WordPressOrgRestApiTests.swift */,
+				74B335DB1F06F4180053A184 /* WordPressOrgXMLRPCApiTests.swift */,
+				740B23D51F17F7C100067A2A /* XMLRPCTestable.swift */,
 			);
 			name = Tests;
 			sourceTree = "<group>";
@@ -1865,11 +1865,11 @@
 		9368C7881EC5EF1B0092CE8E /* WordPressKitTests */ = {
 			isa = PBXGroup;
 			children = (
-				3FB8642D288813E9003A86BE /* UnitTests.xctestplan */,
 				57A38E572624FF1000472480 /* Fakes */,
+				9368C78B1EC5EF1B0092CE8E /* Info.plist */,
 				93BD27421EE73384002BB00B /* Mock Data */,
 				930F52BA1ECF8A67002F921B /* Tests */,
-				9368C78B1EC5EF1B0092CE8E /* Info.plist */,
+				3FB8642D288813E9003A86BE /* UnitTests.xctestplan */,
 				93BD273F1EE73310002BB00B /* WordPressKitTests-Bridging-Header.h */,
 			);
 			path = WordPressKitTests;
@@ -3452,7 +3452,7 @@
 				7433BC051EFC4556002D9E92 /* PlanServiceRemoteTests.swift in Sources */,
 				46ABD0E6262EEDAB00C7FF24 /* FakeInfoDictionaryObjectProvider.swift in Sources */,
 				740B23D61F17F7C100067A2A /* XMLRPCTestable.swift in Sources */,
-				FFE247A720C891D1002DF3A2 /* WordPressComOAuthTests.swift in Sources */,
+				FFE247A720C891D1002DF3A2 /* WordPressComOAuthClientTests.swift in Sources */,
 				93AB06041EE8838400EF8764 /* RemoteTestCase.swift in Sources */,
 				BA2A78FA24A486D300BB6F53 /* SitePluginTests.swift in Sources */,
 				465F88A7263B371D00F4C950 /* BlockEditorSettingsServiceRemoteTests.swift in Sources */,

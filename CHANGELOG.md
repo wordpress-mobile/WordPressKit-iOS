@@ -42,18 +42,21 @@ _None._
 
 ### Bug Fixes
 
-_None._
+- Fixed a breaking changes introduced in 8.7.0 [#632]
 
 ### Internal Changes
 
 _None._
+
+## 8.7.0
+
+- Update `WordPressComOAuthClient` to add support to webauthn endpoints [#629]
 
 ## 8.6.0
 
 ### New Features
 
 - Add `createShoppingCart` method to add domains and plans when creating a new cart [#628]
-- Update `WordPressComOAuthClient` to add support to webauthn endpoints.
 
 ## 8.5.2
 

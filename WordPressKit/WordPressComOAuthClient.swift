@@ -10,6 +10,11 @@ import Alamofire
     case socialLoginExistingUserUnconnected
     case invalidTwoStepCode
     case unknownUser
+    /// The API response requires handling MFA, but the caller didn't specify a handler.
+    ///
+    /// Use to ensure backwards compatibility in `authenticateWithUsername(...)` calls after support for the MFA closure
+    /// was introduced.
+    case noMultifactorHandlerGiven
 }
 
 /// `WordPressComOAuthClient` encapsulates the pattern of authenticating against WordPress.com OAuth2 service.
@@ -126,7 +131,7 @@ public final class WordPressComOAuthClient: NSObject {
     @objc public func authenticateWithUsername(_ username: String,
                                                password: String,
                                                multifactorCode: String?,
-                                               needsMultifactor: @escaping (_ userID: Int, _ nonceInfo: SocialLogin2FANonceInfo) -> Void,
+                                               needsMultifactor: ((_ userID: Int, _ nonceInfo: SocialLogin2FANonceInfo) -> Void)? = .none,
                                                success: @escaping (_ authToken: String?) -> Void,
                                                failure: @escaping (_ error: NSError) -> Void ) {
         var parameters: [String: AnyObject] = [
@@ -168,6 +173,17 @@ public final class WordPressComOAuthClient: NSObject {
                           let userID = responseData["user_id"] as? Int,
                           let _ = responseData["two_step_nonce_webauthn"] else {
                         failure(defaultError)
+                        return
+                    }
+
+                    guard let needsMultifactor else {
+                        failure(
+                            NSError(
+                                domain: WordPressComOAuthClient.WordPressComOAuthErrorDomain,
+                                code: WordPressComOAuthError.noMultifactorHandlerGiven.rawValue,
+                                userInfo: nil
+                            )
+                        )
                         return
                     }
 
