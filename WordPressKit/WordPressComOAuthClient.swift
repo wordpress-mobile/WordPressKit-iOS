@@ -126,7 +126,7 @@ public final class WordPressComOAuthClient: NSObject {
     @objc public func authenticateWithUsername(_ username: String,
                                                password: String,
                                                multifactorCode: String?,
-                                               needsMultifactor: @escaping (_ userID: Int, _ nonceInfo: SocialLogin2FANonceInfo) -> Void,
+                                               needsMultifactor: ((_ userID: Int, _ nonceInfo: SocialLogin2FANonceInfo) -> Void)? = .none,
                                                success: @escaping (_ authToken: String?) -> Void,
                                                failure: @escaping (_ error: NSError) -> Void ) {
         var parameters: [String: AnyObject] = [
@@ -172,7 +172,7 @@ public final class WordPressComOAuthClient: NSObject {
                     }
 
                     let nonceInfo = self.extractNonceInfo(data: responseData)
-                    needsMultifactor(userID, nonceInfo)
+                    needsMultifactor?(userID, nonceInfo)
 
                 case .failure(let error):
                     let nserror = self.processError(response: response, originalError: error)

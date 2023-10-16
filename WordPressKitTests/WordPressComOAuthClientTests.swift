@@ -26,6 +26,31 @@ class WordPressComOAuthClientTests: XCTestCase {
         }
     }
 
+    func testAuthenticateUsernameNo2FASuccessCase() {
+        stub(condition: isOauthTokenRequest(url: .oAuthTokenUrl)) { _ in
+            let stubPath = OHPathForFile("WordPressComOAuthSuccess.json", type(of: self))
+            return fixture(filePath: stubPath!, headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
+        }
+
+        let expect = expectation(description: "One callback should be invoked")
+        let client = WordPressComOAuthClient(clientID: "Fake", secret: "Fake")
+        client.authenticateWithUsername(
+            "fakeUser",
+            password: "fakePass",
+            multifactorCode: nil,
+            success: { (token) in
+                expect.fulfill()
+                XCTAssert(!token!.isEmpty, "There should be a token available")
+                XCTAssert(token == "fakeToken", "There should be a token available")
+            },
+            failure: { (_) in
+                expect.fulfill()
+                XCTFail("This call should be successful")
+            }
+        )
+        waitForExpectations(timeout: 2, handler: nil)
+    }
+
     func testAuthenticateUsernameNo2FASuccessCase_withMFAClosure() {
         stub(condition: isOauthTokenRequest(url: .oAuthTokenUrl)) { _ in
             let stubPath = OHPathForFile("WordPressComOAuthSuccess.json", type(of: self))
@@ -55,6 +80,31 @@ class WordPressComOAuthClientTests: XCTestCase {
         waitForExpectations(timeout: 2, handler: nil)
     }
 
+    func testAuthenticateUsernameNo2FAFailureWrongPasswordCase() {
+        stub(condition: isOauthTokenRequest(url: .oAuthTokenUrl)) { _ in
+            let stubPath = OHPathForFile("WordPressComOAuthWrongPasswordFail.json", type(of: self))
+            return fixture(filePath: stubPath!, status: 400, headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
+        }
+
+        let expect = expectation(description: "One callback should be invoked")
+        let client = WordPressComOAuthClient(clientID: "Fake", secret: "Fake")
+        client.authenticateWithUsername(
+            "fakeUser",
+            password: "wrongPassword",
+            multifactorCode: nil,
+            success: { (_) in
+                expect.fulfill()
+                XCTFail("This call should fail")
+            },
+            failure: { (error) in
+                expect.fulfill()
+                XCTAssert(error.domain == WordPressComOAuthClient.WordPressComOAuthErrorDomain, "The error should an WordPressComOAuthError")
+                XCTAssert(error.code == Int(WordPressComOAuthError.invalidRequest.rawValue), "The code should be invalid request")
+            }
+        )
+        waitForExpectations(timeout: 2, handler: nil)
+    }
+
     func testAuthenticateUsernameNo2FAFailureWrongPasswordCase_withMFAClosure() {
         stub(condition: isOauthTokenRequest(url: .oAuthTokenUrl)) { _ in
             let stubPath = OHPathForFile("WordPressComOAuthWrongPasswordFail.json", type(of: self))
@@ -79,6 +129,52 @@ class WordPressComOAuthClientTests: XCTestCase {
                 expect.fulfill()
                 XCTAssert(error.domain == WordPressComOAuthClient.WordPressComOAuthErrorDomain, "The error should an WordPressComOAuthError")
                 XCTAssert(error.code == Int(WordPressComOAuthError.invalidRequest.rawValue), "The code should be invalid request")
+            }
+        )
+        waitForExpectations(timeout: 2, handler: nil)
+    }
+
+    func testAuthenticateUsername2FAWrong2FACase() {
+        stub(condition: isOauthTokenRequest(url: .oAuthTokenUrl)) { _ in
+            let stubPath = OHPathForFile("WordPressComOAuthNeeds2FAFail.json", type(of: self))
+            return fixture(filePath: stubPath!, status: 400, headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
+        }
+
+        let expect = expectation(description: "Call should complete")
+        let client = WordPressComOAuthClient(clientID: "Fake", secret: "Fake")
+        client.authenticateWithUsername(
+            "fakeUser",
+            password: "wrongPassword",
+            multifactorCode: nil,
+            success: { (_) in
+                expect.fulfill()
+                XCTFail("This call should fail")
+            },
+            failure: { (error) in
+                expect.fulfill()
+                XCTAssert(error.domain == WordPressComOAuthClient.WordPressComOAuthErrorDomain, "The error should an WordPressComOAuthError")
+                XCTAssert(error.code == Int(WordPressComOAuthError.needsMultifactorCode.rawValue), "The code should be needs multifactor")
+            }
+        )
+        waitForExpectations(timeout: 2, handler: nil)
+
+        let expectation2 = expectation(description: "Call should complete")
+        client.authenticateWithUsername(
+            "fakeUser",
+            password: "fakePassword",
+            multifactorCode: "fakeMultifactor",
+            needsMultifactor: { _, _ in
+                expect.fulfill()
+                XCTFail("This call should fail")
+            },
+            success: { (_) in
+                expectation2.fulfill()
+                XCTFail("This call should fail")
+            },
+            failure: { (error) in
+                expectation2.fulfill()
+                XCTAssert(error.domain == WordPressComOAuthClient.WordPressComOAuthErrorDomain, "The error should an WordPressComOAuthError")
+                XCTAssert(error.code == Int(WordPressComOAuthError.needsMultifactorCode.rawValue), "The code should be needs multifactor")
             }
         )
         waitForExpectations(timeout: 2, handler: nil)
