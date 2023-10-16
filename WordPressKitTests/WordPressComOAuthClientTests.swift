@@ -34,17 +34,24 @@ class WordPressComOAuthClientTests: XCTestCase {
 
         let expect = expectation(description: "One callback should be invoked")
         let client = WordPressComOAuthClient(clientID: "Fake", secret: "Fake")
-        client.authenticateWithUsername("fakeUser", password: "fakePass", multifactorCode: nil, needsMultifactor: { _, _ in
-            expect.fulfill()
-            XCTFail("This call should be successful")
-        }, success: { (token) in
-            expect.fulfill()
-            XCTAssert(!token!.isEmpty, "There should be a token available")
-            XCTAssert(token == "fakeToken", "There should be a token available")
-        }, failure: { (_) in
-            expect.fulfill()
-            XCTFail("This call should be successful")
-        })
+        client.authenticateWithUsername(
+            "fakeUser",
+            password: "fakePass",
+            multifactorCode: nil,
+            needsMultifactor: { _, _ in
+                expect.fulfill()
+                XCTFail("This call should be successful")
+            },
+            success: { (token) in
+                expect.fulfill()
+                XCTAssert(!token!.isEmpty, "There should be a token available")
+                XCTAssert(token == "fakeToken", "There should be a token available")
+            },
+            failure: { (_) in
+                expect.fulfill()
+                XCTFail("This call should be successful")
+            }
+        )
         waitForExpectations(timeout: 2, handler: nil)
     }
 
@@ -56,17 +63,24 @@ class WordPressComOAuthClientTests: XCTestCase {
 
         let expect = expectation(description: "One callback should be invoked")
         let client = WordPressComOAuthClient(clientID: "Fake", secret: "Fake")
-        client.authenticateWithUsername("fakeUser", password: "wrongPassword", multifactorCode: nil, needsMultifactor: { _, _ in
-            expect.fulfill()
-            XCTFail("This call should fail")
-        }, success: { (_) in
-            expect.fulfill()
-            XCTFail("This call should fail")
-        }, failure: { (error) in
-            expect.fulfill()
-            XCTAssert(error.domain == WordPressComOAuthClient.WordPressComOAuthErrorDomain, "The error should an WordPressComOAuthError")
-            XCTAssert(error.code == Int(WordPressComOAuthError.invalidRequest.rawValue), "The code should be invalid request")
-        })
+        client.authenticateWithUsername(
+            "fakeUser",
+            password: "wrongPassword",
+            multifactorCode: nil,
+            needsMultifactor: { _, _ in
+                expect.fulfill()
+                XCTFail("This call should fail")
+            },
+            success: { (_) in
+                expect.fulfill()
+                XCTFail("This call should fail")
+            },
+            failure: { (error) in
+                expect.fulfill()
+                XCTAssert(error.domain == WordPressComOAuthClient.WordPressComOAuthErrorDomain, "The error should an WordPressComOAuthError")
+                XCTAssert(error.code == Int(WordPressComOAuthError.invalidRequest.rawValue), "The code should be invalid request")
+            }
+        )
         waitForExpectations(timeout: 2, handler: nil)
     }
 
@@ -78,31 +92,45 @@ class WordPressComOAuthClientTests: XCTestCase {
 
         let expect = expectation(description: "Call should complete")
         let client = WordPressComOAuthClient(clientID: "Fake", secret: "Fake")
-        client.authenticateWithUsername("fakeUser", password: "wrongPassword", multifactorCode: nil, needsMultifactor: { _, _ in
-            expect.fulfill()
-            XCTFail("This call should fail")
-        }, success: { (_) in
-            expect.fulfill()
-            XCTFail("This call should fail")
-        }, failure: { (error) in
-            expect.fulfill()
-            XCTAssert(error.domain == WordPressComOAuthClient.WordPressComOAuthErrorDomain, "The error should an WordPressComOAuthError")
-            XCTAssert(error.code == Int(WordPressComOAuthError.needsMultifactorCode.rawValue), "The code should be needs multifactor")
-        })
+        client.authenticateWithUsername(
+            "fakeUser",
+            password: "wrongPassword",
+            multifactorCode: nil,
+            needsMultifactor: { _, _ in
+                expect.fulfill()
+                XCTFail("This call should fail")
+            },
+            success: { (_) in
+                expect.fulfill()
+                XCTFail("This call should fail")
+            },
+            failure: { (error) in
+                expect.fulfill()
+                XCTAssert(error.domain == WordPressComOAuthClient.WordPressComOAuthErrorDomain, "The error should an WordPressComOAuthError")
+                XCTAssert(error.code == Int(WordPressComOAuthError.needsMultifactorCode.rawValue), "The code should be needs multifactor")
+            }
+        )
         waitForExpectations(timeout: 2, handler: nil)
 
         let expectation2 = expectation(description: "Call should complete")
-        client.authenticateWithUsername("fakeUser", password: "fakePassword", multifactorCode: "fakeMultifactor", needsMultifactor: { _, _ in
-            expect.fulfill()
-            XCTFail("This call should fail")
-        }, success: { (_) in
-            expectation2.fulfill()
-            XCTFail("This call should fail")
-        }, failure: { (error) in
-            expectation2.fulfill()
-            XCTAssert(error.domain == WordPressComOAuthClient.WordPressComOAuthErrorDomain, "The error should an WordPressComOAuthError")
-            XCTAssert(error.code == Int(WordPressComOAuthError.needsMultifactorCode.rawValue), "The code should be needs multifactor")
-        })
+        client.authenticateWithUsername(
+            "fakeUser",
+            password: "fakePassword",
+            multifactorCode: "fakeMultifactor",
+            needsMultifactor: { _, _ in
+                expect.fulfill()
+                XCTFail("This call should fail")
+            },
+            success: { (_) in
+                expectation2.fulfill()
+                XCTFail("This call should fail")
+            },
+            failure: { (error) in
+                expectation2.fulfill()
+                XCTAssert(error.domain == WordPressComOAuthClient.WordPressComOAuthErrorDomain, "The error should an WordPressComOAuthError")
+                XCTAssert(error.code == Int(WordPressComOAuthError.needsMultifactorCode.rawValue), "The code should be needs multifactor")
+            }
+        )
         waitForExpectations(timeout: 2, handler: nil)
     }
 
@@ -114,17 +142,24 @@ class WordPressComOAuthClientTests: XCTestCase {
 
         let expect = expectation(description: "Call should complete")
         let client = WordPressComOAuthClient(clientID: "Fake", secret: "Fake")
-        client.authenticateWithUsername("fakeUser", password: "wrongPassword", multifactorCode: nil, needsMultifactor: { userID, nonceInfo in
-            expect.fulfill()
-            XCTAssertEqual(userID, 1234)
-            XCTAssertEqual(nonceInfo.nonceWebauthn, "two_step_nonce_webauthn")
-        }, success: { (_) in
-            expect.fulfill()
-            XCTFail("This call should need multifactor")
-        }, failure: { (error) in
-            expect.fulfill()
-            XCTFail("This call should need multifactor")
-        })
+        client.authenticateWithUsername(
+            "fakeUser",
+            password: "wrongPassword",
+            multifactorCode: nil,
+            needsMultifactor: { userID, nonceInfo in
+                expect.fulfill()
+                XCTAssertEqual(userID, 1234)
+                XCTAssertEqual(nonceInfo.nonceWebauthn, "two_step_nonce_webauthn")
+            },
+            success: { (_) in
+                expect.fulfill()
+                XCTFail("This call should need multifactor")
+            },
+            failure: { (error) in
+                expect.fulfill()
+                XCTFail("This call should need multifactor")
+            }
+        )
         waitForExpectations(timeout: 2, handler: nil)
     }
 
@@ -176,23 +211,28 @@ class WordPressComOAuthClientTests: XCTestCase {
 
         let expect = expectation(description: "One callback should be invoked")
         let client = WordPressComOAuthClient(clientID: "Fake", secret: "Fake")
-        client.authenticateWithIDToken("token",
-                                       service: "google",
-                                       success: { (token) in
-                                        expect.fulfill()
-                                        XCTAssert(!token!.isEmpty, "There should be a token available")
-                                        XCTAssert(token == "bearer_token", "The newNonce should match")
-        }, needsMultifactor: { (_, _) in
-            expect.fulfill()
-            XCTFail("This call should be successful")
-        }, existingUserNeedsConnection: { _ in
-            expect.fulfill()
-            XCTFail("This call should be successful")
-        }, failure: { (_) in
-            expect.fulfill()
-            XCTFail("This call should be successful")
+        client.authenticateWithIDToken(
+            "token",
+            service: "google",
+            success: { (token) in
+                expect.fulfill()
+                XCTAssert(!token!.isEmpty, "There should be a token available")
+                XCTAssert(token == "bearer_token", "The newNonce should match")
+            },
+            needsMultifactor: { (_, _) in
+                expect.fulfill()
+                XCTFail("This call should be successful")
+            },
+            existingUserNeedsConnection: { _ in
+                expect.fulfill()
+                XCTFail("This call should be successful")
+            },
+            failure: { (_) in
+                expect.fulfill()
+                XCTFail("This call should be successful")
 
-        })
+            }
+        )
         waitForExpectations(timeout: 2, handler: nil)
     }
 
@@ -204,24 +244,29 @@ class WordPressComOAuthClientTests: XCTestCase {
 
         let expect = expectation(description: "One callback should be invoked")
         let client = WordPressComOAuthClient(clientID: "Fake", secret: "Fake")
-        client.authenticateWithIDToken("token",
-                                       service: "google",
-                                       success: { (_) in
-                                        expect.fulfill()
-                                        XCTFail("This call should need multifactor")
-        }, needsMultifactor: { (userID, nonceInfo) in
-            expect.fulfill()
-            XCTAssertEqual(userID, 1)
-            XCTAssertEqual(nonceInfo.nonceBackup, "two_step_nonce_backup")
-            XCTAssertEqual(nonceInfo.nonceWebauthn, "two_step_nonce_webauthn")
-        }, existingUserNeedsConnection: { _ in
-            expect.fulfill()
-            XCTFail("This call should need multifactor")
-        }, failure: { (_) in
-            expect.fulfill()
-            XCTFail("This call should need multifactor")
+        client.authenticateWithIDToken(
+            "token",
+            service: "google",
+            success: { (_) in
+                expect.fulfill()
+                XCTFail("This call should need multifactor")
+            },
+            needsMultifactor: { (userID, nonceInfo) in
+                expect.fulfill()
+                XCTAssertEqual(userID, 1)
+                XCTAssertEqual(nonceInfo.nonceBackup, "two_step_nonce_backup")
+                XCTAssertEqual(nonceInfo.nonceWebauthn, "two_step_nonce_webauthn")
+            },
+            existingUserNeedsConnection: { _ in
+                expect.fulfill()
+                XCTFail("This call should need multifactor")
+            },
+            failure: { (_) in
+                expect.fulfill()
+                XCTFail("This call should need multifactor")
 
-        })
+            }
+        )
         waitForExpectations(timeout: 2, handler: nil)
     }
 
@@ -233,22 +278,27 @@ class WordPressComOAuthClientTests: XCTestCase {
 
         let expect = expectation(description: "One callback should be invoked")
         let client = WordPressComOAuthClient(clientID: "Fake", secret: "Fake")
-        client.authenticateWithIDToken("token",
-                                       service: "google",
-                                       success: { (_) in
-                                        expect.fulfill()
-                                        XCTFail("This call should invoke user needs connection")
-        }, needsMultifactor: { (_, _) in
-            expect.fulfill()
-            XCTFail("This call should invoke user needs connection")
-        }, existingUserNeedsConnection: { email in
-            expect.fulfill()
-            XCTAssertEqual(email, "email")
-        }, failure: { (_) in
-            expect.fulfill()
-            XCTFail("This call should invoke user needs connection")
+        client.authenticateWithIDToken(
+            "token",
+            service: "google",
+            success: { (_) in
+                expect.fulfill()
+                XCTFail("This call should invoke user needs connection")
+            },
+            needsMultifactor: { (_, _) in
+                expect.fulfill()
+                XCTFail("This call should invoke user needs connection")
+            },
+            existingUserNeedsConnection: { email in
+                expect.fulfill()
+                XCTAssertEqual(email, "email")
+            },
+            failure: { (_) in
+                expect.fulfill()
+                XCTFail("This call should invoke user needs connection")
 
-        })
+            }
+        )
         waitForExpectations(timeout: 2, handler: nil)
     }
 
