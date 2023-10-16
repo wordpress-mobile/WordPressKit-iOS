@@ -32,7 +32,7 @@ class WordPressComOAuthClientTests: XCTestCase {
             return fixture(filePath: stubPath!, headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
         }
 
-        let expect = self.expectation(description: "One callback should be invoked")
+        let expect = expectation(description: "One callback should be invoked")
         let client = WordPressComOAuthClient(clientID: "Fake", secret: "Fake")
         client.authenticateWithUsername("fakeUser", password: "fakePass", multifactorCode: nil, needsMultifactor: { _, _ in
             expect.fulfill()
@@ -45,7 +45,7 @@ class WordPressComOAuthClientTests: XCTestCase {
             expect.fulfill()
             XCTFail("This call should be successful")
         })
-        self.waitForExpectations(timeout: 2, handler: nil)
+        waitForExpectations(timeout: 2, handler: nil)
     }
 
     func testAuthenticateUsernameNo2FAFailureWrongPasswordCase() {
@@ -54,7 +54,7 @@ class WordPressComOAuthClientTests: XCTestCase {
             return fixture(filePath: stubPath!, status: 400, headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
         }
 
-        let expect = self.expectation(description: "One callback should be invoked")
+        let expect = expectation(description: "One callback should be invoked")
         let client = WordPressComOAuthClient(clientID: "Fake", secret: "Fake")
         client.authenticateWithUsername("fakeUser", password: "wrongPassword", multifactorCode: nil, needsMultifactor: { _, _ in
             expect.fulfill()
@@ -67,7 +67,7 @@ class WordPressComOAuthClientTests: XCTestCase {
             XCTAssert(error.domain == WordPressComOAuthClient.WordPressComOAuthErrorDomain, "The error should an WordPressComOAuthError")
             XCTAssert(error.code == Int(WordPressComOAuthError.invalidRequest.rawValue), "The code should be invalid request")
         })
-        self.waitForExpectations(timeout: 2, handler: nil)
+        waitForExpectations(timeout: 2, handler: nil)
     }
 
     func testAuthenticateUsername2FAWrong2FACase() {
@@ -76,7 +76,7 @@ class WordPressComOAuthClientTests: XCTestCase {
             return fixture(filePath: stubPath!, status: 400, headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
         }
 
-        let expect = self.expectation(description: "Call should complete")
+        let expect = expectation(description: "Call should complete")
         let client = WordPressComOAuthClient(clientID: "Fake", secret: "Fake")
         client.authenticateWithUsername("fakeUser", password: "wrongPassword", multifactorCode: nil, needsMultifactor: { _, _ in
             expect.fulfill()
@@ -89,9 +89,9 @@ class WordPressComOAuthClientTests: XCTestCase {
             XCTAssert(error.domain == WordPressComOAuthClient.WordPressComOAuthErrorDomain, "The error should an WordPressComOAuthError")
             XCTAssert(error.code == Int(WordPressComOAuthError.needsMultifactorCode.rawValue), "The code should be needs multifactor")
         })
-        self.waitForExpectations(timeout: 2, handler: nil)
+        waitForExpectations(timeout: 2, handler: nil)
 
-        let expectation2 = self.expectation(description: "Call should complete")
+        let expectation2 = expectation(description: "Call should complete")
         client.authenticateWithUsername("fakeUser", password: "fakePassword", multifactorCode: "fakeMultifactor", needsMultifactor: { _, _ in
             expect.fulfill()
             XCTFail("This call should fail")
@@ -103,7 +103,7 @@ class WordPressComOAuthClientTests: XCTestCase {
             XCTAssert(error.domain == WordPressComOAuthClient.WordPressComOAuthErrorDomain, "The error should an WordPressComOAuthError")
             XCTAssert(error.code == Int(WordPressComOAuthError.needsMultifactorCode.rawValue), "The code should be needs multifactor")
         })
-        self.waitForExpectations(timeout: 2, handler: nil)
+        waitForExpectations(timeout: 2, handler: nil)
     }
 
     func testAuthenticateUsernameRequiresWebauthnMultifactorAuthentication() {
@@ -112,7 +112,7 @@ class WordPressComOAuthClientTests: XCTestCase {
             return fixture(filePath: stubPath!, headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
         }
 
-        let expect = self.expectation(description: "Call should complete")
+        let expect = expectation(description: "Call should complete")
         let client = WordPressComOAuthClient(clientID: "Fake", secret: "Fake")
         client.authenticateWithUsername("fakeUser", password: "wrongPassword", multifactorCode: nil, needsMultifactor: { userID, nonceInfo in
             expect.fulfill()
@@ -125,7 +125,7 @@ class WordPressComOAuthClientTests: XCTestCase {
             expect.fulfill()
             XCTFail("This call should need multifactor")
         })
-        self.waitForExpectations(timeout: 2, handler: nil)
+        waitForExpectations(timeout: 2, handler: nil)
     }
 
     func testRequestOneTimeCodeWithUsername() {
@@ -134,7 +134,7 @@ class WordPressComOAuthClientTests: XCTestCase {
             return fixture(filePath: stubPath!, headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
         }
 
-        let expect = self.expectation(description: "One callback should be invoked")
+        let expect = expectation(description: "One callback should be invoked")
         let client = WordPressComOAuthClient(clientID: "Fake", secret: "Fake")
         client.requestOneTimeCodeWithUsername("fakeUser", password: "fakePassword",
                                               success: { () in
@@ -144,7 +144,7 @@ class WordPressComOAuthClientTests: XCTestCase {
             XCTFail("This call should be successful")
 
         })
-        self.waitForExpectations(timeout: 2, handler: nil)
+        waitForExpectations(timeout: 2, handler: nil)
     }
 
     func testRequestSocial2FACodeWithUserID() {
@@ -153,7 +153,7 @@ class WordPressComOAuthClientTests: XCTestCase {
             return fixture(filePath: stubPath!, headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
         }
 
-        let expect = self.expectation(description: "One callback should be invoked")
+        let expect = expectation(description: "One callback should be invoked")
         let client = WordPressComOAuthClient(clientID: "Fake", secret: "Fake")
         client.requestSocial2FACodeWithUserID(0, nonce: "nonce",
         success: { (newNonce) in
@@ -165,7 +165,7 @@ class WordPressComOAuthClientTests: XCTestCase {
             XCTFail("This call should be successful")
 
         })
-        self.waitForExpectations(timeout: 2, handler: nil)
+        waitForExpectations(timeout: 2, handler: nil)
     }
 
     func testAuthenticateWithIDToken() {
@@ -174,7 +174,7 @@ class WordPressComOAuthClientTests: XCTestCase {
             return fixture(filePath: stubPath!, headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
         }
 
-        let expect = self.expectation(description: "One callback should be invoked")
+        let expect = expectation(description: "One callback should be invoked")
         let client = WordPressComOAuthClient(clientID: "Fake", secret: "Fake")
         client.authenticateWithIDToken("token",
                                        service: "google",
@@ -193,7 +193,7 @@ class WordPressComOAuthClientTests: XCTestCase {
             XCTFail("This call should be successful")
 
         })
-        self.waitForExpectations(timeout: 2, handler: nil)
+        waitForExpectations(timeout: 2, handler: nil)
     }
 
     func testAuthenticateWithIDToken2FANeeded() {
@@ -202,7 +202,7 @@ class WordPressComOAuthClientTests: XCTestCase {
             return fixture(filePath: stubPath!, headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
         }
 
-        let expect = self.expectation(description: "One callback should be invoked")
+        let expect = expectation(description: "One callback should be invoked")
         let client = WordPressComOAuthClient(clientID: "Fake", secret: "Fake")
         client.authenticateWithIDToken("token",
                                        service: "google",
@@ -222,7 +222,7 @@ class WordPressComOAuthClientTests: XCTestCase {
             XCTFail("This call should need multifactor")
 
         })
-        self.waitForExpectations(timeout: 2, handler: nil)
+        waitForExpectations(timeout: 2, handler: nil)
     }
 
     func testAuthenticateWithIDTokenUserNeedsConnection() {
@@ -231,7 +231,7 @@ class WordPressComOAuthClientTests: XCTestCase {
             return fixture(filePath: stubPath!, status: 400, headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
         }
 
-        let expect = self.expectation(description: "One callback should be invoked")
+        let expect = expectation(description: "One callback should be invoked")
         let client = WordPressComOAuthClient(clientID: "Fake", secret: "Fake")
         client.authenticateWithIDToken("token",
                                        service: "google",
@@ -249,7 +249,7 @@ class WordPressComOAuthClientTests: XCTestCase {
             XCTFail("This call should invoke user needs connection")
 
         })
-        self.waitForExpectations(timeout: 2, handler: nil)
+        waitForExpectations(timeout: 2, handler: nil)
     }
 
     func testAuthenticateSocialLoginUser() {
@@ -258,7 +258,7 @@ class WordPressComOAuthClientTests: XCTestCase {
             return fixture(filePath: stubPath!, headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
         }
 
-        let expect = self.expectation(description: "One callback should be invoked")
+        let expect = expectation(description: "One callback should be invoked")
         let client = WordPressComOAuthClient(clientID: "Fake", secret: "Fake")
         client.authenticateSocialLoginUser(1, authType: "authenticator", twoStepCode: "two_step_code", twoStepNonce: "two_step_nonce",
                                        success: { (token) in
@@ -270,7 +270,7 @@ class WordPressComOAuthClientTests: XCTestCase {
             XCTFail("This call should be successful")
 
         })
-        self.waitForExpectations(timeout: 2, handler: nil)
+        waitForExpectations(timeout: 2, handler: nil)
     }
 
     func testRequestWebauthnChallengeReturnsCompleteChallengeInfo() {
@@ -279,7 +279,7 @@ class WordPressComOAuthClientTests: XCTestCase {
             return fixture(filePath: stubPath!, headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
         }
 
-        let expect = self.expectation(description: "One callback should be invoked")
+        let expect = expectation(description: "One callback should be invoked")
         let client = WordPressComOAuthClient(clientID: "Fake", secret: "Fake")
         client.requestWebauthnChallenge(userID: 123, twoStepNonce: "twoStepNonce", success: { challengeInfo in
             expect.fulfill()
@@ -291,7 +291,7 @@ class WordPressComOAuthClientTests: XCTestCase {
             expect.fulfill()
             XCTFail("This call should be successful")
         })
-        self.waitForExpectations(timeout: 2, handler: nil)
+        waitForExpectations(timeout: 2, handler: nil)
     }
 
     func testAuthenticateWebauthSignatureReturnsOauthToken() {
@@ -300,7 +300,7 @@ class WordPressComOAuthClientTests: XCTestCase {
             return fixture(filePath: stubPath!, headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
         }
 
-        let expect = self.expectation(description: "One callback should be invoked")
+        let expect = expectation(description: "One callback should be invoked")
         let client = WordPressComOAuthClient(clientID: "Fake", secret: "Fake")
         client.authenticateWebauthnSignature(userID: 123,
                                              twoStepNonce: "twoStepNOnce",
@@ -317,6 +317,6 @@ class WordPressComOAuthClientTests: XCTestCase {
             expect.fulfill()
             XCTFail("This call should be successful")
         })
-        self.waitForExpectations(timeout: 2, handler: nil)
+        waitForExpectations(timeout: 2, handler: nil)
     }
 }
