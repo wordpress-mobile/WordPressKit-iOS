@@ -4,7 +4,7 @@ import OHHTTPStubs
 
 @testable import WordPressKit
 
-class WordPressComOAuthTests: XCTestCase {
+class WordPressComOAuthClientTests: XCTestCase {
 
     enum OAuthURL: String {
         case oAuthTokenUrl = "https://public-api.wordpress.com/oauth2/token"
