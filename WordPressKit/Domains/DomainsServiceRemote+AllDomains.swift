@@ -4,7 +4,7 @@ extension DomainsServiceRemote {
 
     // MARK: - API
 
-    public func getAllDomains(params: GetAllDomainsParams = .init(), completion: @escaping (Result<[AllDomainsResultDomain], Error>) -> Void) {
+    public func getAllDomains(params: GetAllDomainsParams? = nil, completion: @escaping (Result<[AllDomainsResultDomain], Error>) -> Void) {
         let path = self.getAllDomainsPath(params: params)
         self.wordPressComRestApi.GET(path, parameters: nil) { result, _ in
             do {
@@ -24,28 +24,27 @@ extension DomainsServiceRemote {
         }
     }
 
-    private func getAllDomainsPath(params: GetAllDomainsParams) -> String {
+    private func getAllDomainsPath(params: GetAllDomainsParams?) -> String {
         let endpoint = "all-domains"
         let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
         var components = URLComponents(string: path)
         var queryItems = [URLQueryItem]()
-        if let resolveStatus = params.resolveStatus {
+        if let resolveStatus = params?.resolveStatus {
             queryItems.append(.init(name: "resolve_status", value: "\(resolveStatus)"))
         }
-        if let locale = params.locale {
+        if let locale = params?.locale {
             queryItems.append(.init(name: "locale", value: locale))
         }
+        components?.queryItems = queryItems
         return components?.url?.absoluteString ?? path
     }
 
     // MARK: - Types
 
     public struct GetAllDomainsParams {
-        var resolveStatus: Bool?
-        var locale: String?
-
-        public init() {
-        }
+        public var resolveStatus: Bool?
+        public var locale: String?
+        public init() {}
     }
 
     private struct AllDomainsResult: Decodable {
@@ -69,7 +68,7 @@ extension DomainsServiceRemote {
         let wpcomDomain: Bool
         let currentUserIsOwner: Bool?
         let siteSlug: String
-        let status: Status
+        let status: Status?
     }
 }
 
@@ -123,6 +122,6 @@ extension DomainsServiceRemote.AllDomainsResultDomain: Decodable {
         }()
         let type: String = try container.decode(String.self, forKey: .type)
         self.type = .init(type: type, wpComDomain: wpcomDomain, hasRegistration: hasRegistration)
-        self.status = try container.decode(Status.self, forKey: .status)
+        self.status = try container.decodeIfPresent(Status.self, forKey: .status)
     }
 }

@@ -174,11 +174,7 @@
       "expiry": "2023-10-10T00:00:00+00:00",
       "wpcom_domain": true,
       "current_user_is_owner": false,
-      "site_slug": "imaginaryblog10.wordpress.com",
-      "domain_status": {
-          "status": "Active",
-          "status_type": "success"
-      }
+      "site_slug": "imaginaryblog10.wordpress.com"
     }
   ]
 }

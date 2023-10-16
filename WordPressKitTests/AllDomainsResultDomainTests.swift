@@ -64,8 +64,8 @@ final class AllDomainsResultDomainTests: XCTestCase {
         XCTAssertEqual(domain.wpcomDomain, otherDomain.wpcomDomain)
         XCTAssertEqual(domain.currentUserIsOwner, otherDomain.currentUserIsOwner)
         XCTAssertEqual(domain.siteSlug, otherDomain.siteSlug)
-        XCTAssertEqual(domain.status.status, otherDomain.status.status)
-        XCTAssertEqual(domain.status.type, otherDomain.status.type)
+        XCTAssertEqual(domain.status?.status, otherDomain.status?.status)
+        XCTAssertEqual(domain.status?.type, otherDomain.status?.type)
     }
 
     private func makeDecoder() -> JSONDecoder {
