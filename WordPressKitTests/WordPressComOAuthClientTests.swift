@@ -26,7 +26,7 @@ class WordPressComOAuthClientTests: XCTestCase {
         }
     }
 
-    func testAuthenticateUsernameNo2FASuccessCase() {
+    func testAuthenticateUsernameNo2FASuccessCase_withMFAClosure() {
         stub(condition: isOauthTokenRequest(url: .oAuthTokenUrl)) { _ in
             let stubPath = OHPathForFile("WordPressComOAuthSuccess.json", type(of: self))
             return fixture(filePath: stubPath!, headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
@@ -55,7 +55,7 @@ class WordPressComOAuthClientTests: XCTestCase {
         waitForExpectations(timeout: 2, handler: nil)
     }
 
-    func testAuthenticateUsernameNo2FAFailureWrongPasswordCase() {
+    func testAuthenticateUsernameNo2FAFailureWrongPasswordCase_withMFAClosure() {
         stub(condition: isOauthTokenRequest(url: .oAuthTokenUrl)) { _ in
             let stubPath = OHPathForFile("WordPressComOAuthWrongPasswordFail.json", type(of: self))
             return fixture(filePath: stubPath!, status: 400, headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
@@ -84,7 +84,7 @@ class WordPressComOAuthClientTests: XCTestCase {
         waitForExpectations(timeout: 2, handler: nil)
     }
 
-    func testAuthenticateUsername2FAWrong2FACase() {
+    func testAuthenticateUsername2FAWrong2FACase_withMFAClosure() {
         stub(condition: isOauthTokenRequest(url: .oAuthTokenUrl)) { _ in
             let stubPath = OHPathForFile("WordPressComOAuthNeeds2FAFail.json", type(of: self))
             return fixture(filePath: stubPath!, status: 400, headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
