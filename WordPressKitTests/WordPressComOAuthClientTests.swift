@@ -153,7 +153,7 @@ class WordPressComOAuthClientTests: XCTestCase {
             failure: { (error) in
                 expect.fulfill()
                 XCTAssert(error.domain == WordPressComOAuthClient.WordPressComOAuthErrorDomain, "The error should an WordPressComOAuthError")
-                XCTAssert(error.code == Int(WordPressComOAuthError.needsMultifactorCode.rawValue), "The code should be needs multifactor")
+                XCTAssert(error.code == Int(WordPressComOAuthError.needsMultifactorCode.rawValue), "The code should 'be needs multifactor'")
             }
         )
         waitForExpectations(timeout: 2, handler: nil)
