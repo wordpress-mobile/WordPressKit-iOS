@@ -10,11 +10,6 @@ import Alamofire
     case socialLoginExistingUserUnconnected
     case invalidTwoStepCode
     case unknownUser
-    /// The API response requires handling MFA, but the caller didn't specify a handler.
-    ///
-    /// Use to ensure backwards compatibility in `authenticateWithUsername(...)` calls after support for the MFA closure
-    /// was introduced.
-    case noMultifactorHandlerGiven
 }
 
 /// `WordPressComOAuthClient` encapsulates the pattern of authenticating against WordPress.com OAuth2 service.
@@ -120,6 +115,32 @@ public final class WordPressComOAuthClient: NSObject {
 
     /// Authenticates on WordPress.com using the OAuth endpoints.
     ///
+    /// Delegates to `authenticateWithUsername(_:, password:, multifactorCode:, needsMultifactor:, success:, failure:)`.
+    /// Here to provide source-compatibility with the Objective-C layer, where using a default parameter (`needsMultifactor: ... = nil`) doesn't result in a method signature without the parameter.
+    ///
+    /// - Parameters:
+    ///     - username: the account's username.
+    ///     - password: the account's password.
+    ///     - multifactorCode: Multifactor Authentication One-Time-Password. If not needed, can be nil
+    ///     - success: block to be called if authentication was successful. The OAuth2 token is passed as a parameter.
+    ///     - failure: block to be called if authentication failed. The error object is passed as a parameter.
+    @objc public func authenticateWithUsername(_ username: String,
+                                               password: String,
+                                               multifactorCode: String?,
+                                               success: @escaping (_ authToken: String?) -> Void,
+                                               failure: @escaping (_ error: NSError) -> Void ) {
+        authenticateWithUsername(
+            username,
+            password: password,
+            multifactorCode: multifactorCode,
+            needsMultifactor: nil,
+            success: success,
+            failure: failure
+        )
+    }
+
+    /// Authenticates on WordPress.com using the OAuth endpoints.
+    ///
     /// - Parameters:
     ///     - username: the account's username.
     ///     - password: the account's password.
@@ -180,8 +201,10 @@ public final class WordPressComOAuthClient: NSObject {
                         failure(
                             NSError(
                                 domain: WordPressComOAuthClient.WordPressComOAuthErrorDomain,
-                                code: WordPressComOAuthError.noMultifactorHandlerGiven.rawValue,
-                                userInfo: nil
+                                code: WordPressComOAuthError.unknown.rawValue,
+                                userInfo: [
+                                    NSLocalizedDescriptionKey: "Response requires handling the MFA Webauthn flow but handler given ('needsMultifactor' parameter)."
+                                ]
                             )
                         )
                         return
