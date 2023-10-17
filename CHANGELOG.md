@@ -39,6 +39,7 @@ _None._
 ### New Features
 
 - `RemotePostCategory.parent` is set to zero when API returns `"parent": null` [#630]
+- Add `tag` parameter to `PostServiceRemoteOptions` [#634]
 
 ### Bug Fixes
 
