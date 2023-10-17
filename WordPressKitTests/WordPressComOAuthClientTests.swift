@@ -279,7 +279,8 @@ class WordPressComOAuthClientTests: XCTestCase {
             failure: { error in
                 expect.fulfill()
                 XCTAssertEqual(error.domain, WordPressComOAuthClient.WordPressComOAuthErrorDomain)
-                XCTAssertEqual(error.code, WordPressComOAuthError.noMultifactorHandlerGiven.rawValue)
+                XCTAssertEqual(error.code, WordPressComOAuthError.unknown.rawValue)
+                XCTAssertEqual(error.localizedDescription, "Response requires handling the MFAN Webauthn flow but handler given ('needsMultifactor' parameter).")
             }
         )
         waitForExpectations(timeout: 2, handler: nil)

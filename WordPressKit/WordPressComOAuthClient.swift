@@ -10,11 +10,6 @@ import Alamofire
     case socialLoginExistingUserUnconnected
     case invalidTwoStepCode
     case unknownUser
-    /// The API response requires handling MFA, but the caller didn't specify a handler.
-    ///
-    /// Use to ensure backwards compatibility in `authenticateWithUsername(...)` calls after support for the MFA closure
-    /// was introduced.
-    case noMultifactorHandlerGiven
 }
 
 /// `WordPressComOAuthClient` encapsulates the pattern of authenticating against WordPress.com OAuth2 service.
@@ -206,8 +201,10 @@ public final class WordPressComOAuthClient: NSObject {
                         failure(
                             NSError(
                                 domain: WordPressComOAuthClient.WordPressComOAuthErrorDomain,
-                                code: WordPressComOAuthError.noMultifactorHandlerGiven.rawValue,
-                                userInfo: nil
+                                code: WordPressComOAuthError.unknown.rawValue,
+                                userInfo: [
+                                    NSLocalizedDescriptionKey: "Response requires handling the MFAN Webauthn flow but handler given ('needsMultifactor' parameter)."
+                                ]
                             )
                         )
                         return
