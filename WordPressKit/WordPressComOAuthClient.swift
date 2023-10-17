@@ -203,7 +203,7 @@ public final class WordPressComOAuthClient: NSObject {
                                 domain: WordPressComOAuthClient.WordPressComOAuthErrorDomain,
                                 code: WordPressComOAuthError.unknown.rawValue,
                                 userInfo: [
-                                    NSLocalizedDescriptionKey: "Response requires handling the MFAN Webauthn flow but handler given ('needsMultifactor' parameter)."
+                                    NSLocalizedDescriptionKey: "Response requires handling the MFA Webauthn flow but handler given ('needsMultifactor' parameter)."
                                 ]
                             )
                         )
