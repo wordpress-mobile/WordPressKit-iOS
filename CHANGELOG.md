@@ -39,7 +39,7 @@ _None._
 ### New Features
 
 - `RemotePostCategory.parent` is set to zero when API returns `"parent": null` [#630]
-- Add an API in `DomainServiceRemote` to fetch All Domains.
+- Add an API in `DomainServiceRemote` to fetch All Domains. [#626]
 
 ### Bug Fixes
 
