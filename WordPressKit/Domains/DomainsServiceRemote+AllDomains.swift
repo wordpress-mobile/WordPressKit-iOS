@@ -4,8 +4,8 @@ extension DomainsServiceRemote {
 
     // MARK: - API
 
-    public func getAllDomains(params: AllDomainsEndpointParams? = nil, completion: @escaping (AllDomainsEndpointResult) -> Void) {
-        let path = self.getAllDomainsPath(params: params)
+    public func fetchAllDomains(params: AllDomainsEndpointParams? = nil, completion: @escaping (AllDomainsEndpointResult) -> Void) {
+        let path = self.allDomainsEndpointPath(params: params)
         self.wordPressComRestApi.GET(path, parameters: nil) { result, _ in
             do {
                 switch result {
@@ -24,7 +24,7 @@ extension DomainsServiceRemote {
         }
     }
 
-    private func getAllDomainsPath(params: AllDomainsEndpointParams?) -> String {
+    private func allDomainsEndpointPath(params: AllDomainsEndpointParams?) -> String {
         let endpoint = "all-domains"
         let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
         var components = URLComponents(string: path)
