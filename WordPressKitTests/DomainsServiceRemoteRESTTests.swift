@@ -1,5 +1,7 @@
 import Foundation
 import XCTest
+import OHHTTPStubs
+
 @testable import WordPressKit
 
 class DomainsServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
@@ -247,7 +249,15 @@ class DomainsServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
     func testGetAllDomainsSucceeds() {
         let expect = expectation(description: "Get All Domains Succeeds")
 
-        stubRemoteResponse(allDomainsEndpoint, filename: allDomainsMockFilename, contentType: .ApplicationJSON, status: 200)
+        stub { request -> Bool in
+            let url = request.url
+            let matched = url?.path == "/rest/v1.1/all-domains" && url?.query == "resolve_status=true&locale=en"
+            XCTAssertTrue(matched)
+            return matched
+        } response: { request in
+            let path = OHPathForFile(self.allDomainsMockFilename, type(of: self)) ?? ""
+            return fixture(filePath: path, status: 200, headers: nil)
+        }
 
         var params = DomainsServiceRemote.GetAllDomainsParams()
         params.resolveStatus = true
