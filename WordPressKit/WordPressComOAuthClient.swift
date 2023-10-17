@@ -120,6 +120,32 @@ public final class WordPressComOAuthClient: NSObject {
 
     /// Authenticates on WordPress.com using the OAuth endpoints.
     ///
+    /// Delegates to `authenticateWithUsername(_:, password:, multifactorCode:, needsMultifactor:, success:, failure:)`.
+    /// Here to provide source-compatibility with the Objective-C layer, where using a default parameter (`needsMultifactor: ... = nil`) doesn't result in a method signature without the parameter.
+    ///
+    /// - Parameters:
+    ///     - username: the account's username.
+    ///     - password: the account's password.
+    ///     - multifactorCode: Multifactor Authentication One-Time-Password. If not needed, can be nil
+    ///     - success: block to be called if authentication was successful. The OAuth2 token is passed as a parameter.
+    ///     - failure: block to be called if authentication failed. The error object is passed as a parameter.
+    @objc public func authenticateWithUsername(_ username: String,
+                                               password: String,
+                                               multifactorCode: String?,
+                                               success: @escaping (_ authToken: String?) -> Void,
+                                               failure: @escaping (_ error: NSError) -> Void ) {
+        authenticateWithUsername(
+            username,
+            password: password,
+            multifactorCode: multifactorCode,
+            needsMultifactor: nil,
+            success: success,
+            failure: failure
+        )
+    }
+
+    /// Authenticates on WordPress.com using the OAuth endpoints.
+    ///
     /// - Parameters:
     ///     - username: the account's username.
     ///     - password: the account's password.
