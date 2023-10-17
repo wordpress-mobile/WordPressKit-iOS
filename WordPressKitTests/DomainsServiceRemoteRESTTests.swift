@@ -259,7 +259,7 @@ class DomainsServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
             return fixture(filePath: path, status: 200, headers: nil)
         }
 
-        var params = DomainsServiceRemote.GetAllDomainsParams()
+        var params = DomainsServiceRemote.AllDomainsEndpointParams()
         params.resolveStatus = true
         params.locale = "en"
         remote.getAllDomains(params: params) { result in

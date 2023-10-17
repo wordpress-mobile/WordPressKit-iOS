@@ -64,7 +64,7 @@ final class AllDomainsResultDomainTests: XCTestCase {
         XCTAssertEqual(domain.wpcomDomain, otherDomain.wpcomDomain)
         XCTAssertEqual(domain.currentUserIsOwner, otherDomain.currentUserIsOwner)
         XCTAssertEqual(domain.siteSlug, otherDomain.siteSlug)
-        XCTAssertEqual(domain.status?.status, otherDomain.status?.status)
+        XCTAssertEqual(domain.status?.value, otherDomain.status?.value)
         XCTAssertEqual(domain.status?.type, otherDomain.status?.type)
     }
 
@@ -134,7 +134,7 @@ final class AllDomainsResultDomainTests: XCTestCase {
             "wpcom_domain": wpcomDomain,
             "current_user_is_owner": currentUserIsOwner as Any,
             "site_slug": siteSlug,
-            "domain_status": ["status": status.status, "status_type": status.type]
+            "domain_status": ["status": status.value, "status_type": status.type]
         ]
         return try JSONSerialization.data(withJSONObject: json, options: .prettyPrinted)
     }
@@ -151,10 +151,10 @@ final class AllDomainsResultDomainTests: XCTestCase {
         static let wpcomDomain: Bool = false
         static let currentUserIsOwner: Bool? = false
         static let siteSlug: String = "exampleblog1.wordpress.com"
-        static let status: DomainStatus = .init(status: "Active", type: "success")
+        static let status: DomainStatus = .init(value: "Active", type: "success")
     }
 
-    typealias Domain = DomainsServiceRemote.AllDomainsResultDomain
+    typealias Domain = DomainsServiceRemote.AllDomainsListItem
     typealias DomainStatus = Domain.Status
 
 }

@@ -4,7 +4,7 @@ extension DomainsServiceRemote {
 
     // MARK: - API
 
-    public func getAllDomains(params: GetAllDomainsParams? = nil, completion: @escaping (Result<[AllDomainsResultDomain], Error>) -> Void) {
+    public func getAllDomains(params: AllDomainsEndpointParams? = nil, completion: @escaping (AllDomainsEndpointResult) -> Void) {
         let path = self.getAllDomainsPath(params: params)
         self.wordPressComRestApi.GET(path, parameters: nil) { result, _ in
             do {
@@ -13,7 +13,7 @@ extension DomainsServiceRemote {
                     let data = try JSONSerialization.data(withJSONObject: result, options: [])
                     let decoder = JSONDecoder()
                     decoder.dateDecodingStrategy = .iso8601
-                    let result = try decoder.decode(AllDomainsResult.self, from: data)
+                    let result = try decoder.decode(AllDomainsEndpointResponse.self, from: data)
                     completion(.success(result.domains))
                 case .failure(let error):
                     throw error
@@ -24,7 +24,7 @@ extension DomainsServiceRemote {
         }
     }
 
-    private func getAllDomainsPath(params: GetAllDomainsParams?) -> String {
+    private func getAllDomainsPath(params: AllDomainsEndpointParams?) -> String {
         let endpoint = "all-domains"
         let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
         var components = URLComponents(string: path)
@@ -39,21 +39,19 @@ extension DomainsServiceRemote {
         return components?.url?.absoluteString ?? path
     }
 
-    // MARK: - Types
+    // MARK: - Public Types
 
-    public struct GetAllDomainsParams {
+    public typealias AllDomainsEndpointResult = Result<[AllDomainsListItem], Error>
+
+    public struct AllDomainsEndpointParams {
         public var resolveStatus: Bool?
         public var locale: String?
         public init() {}
     }
 
-    private struct AllDomainsResult: Decodable {
-        let domains: [AllDomainsResultDomain]
-    }
-
-    public struct AllDomainsResultDomain {
+    public struct AllDomainsListItem {
         struct Status {
-            let status: String
+            let value: String
             let type: String
         }
         let domain: String
@@ -70,16 +68,24 @@ extension DomainsServiceRemote {
         let siteSlug: String
         let status: Status?
     }
+
+    // MARK: - Private Types
+
+    private struct AllDomainsEndpointResponse: Decodable {
+        let domains: [AllDomainsListItem]
+    }
 }
 
-extension DomainsServiceRemote.AllDomainsResultDomain.Status: Decodable {
+// MARK: - Extension
+
+extension DomainsServiceRemote.AllDomainsListItem.Status: Decodable {
     enum CodingKeys: String, CodingKey {
-        case status
+        case value = "status"
         case type = "status_type"
     }
 }
 
-extension DomainsServiceRemote.AllDomainsResultDomain: Decodable {
+extension DomainsServiceRemote.AllDomainsListItem: Decodable {
 
     enum CodingKeys: String, CodingKey {
         case domain
