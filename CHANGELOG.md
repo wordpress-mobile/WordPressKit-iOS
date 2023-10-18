@@ -38,15 +38,22 @@ _None._
 
 ### New Features
 
-- `RemotePostCategory.parent` is set to zero when API returns `"parent": null` [#630]
+_None._
 
 ### Bug Fixes
 
-- Fixed a breaking changes introduced in 8.7.0 [#632]
+_None._
 
 ### Internal Changes
 
 _None._
+
+## 8.7.1
+
+### Bug Fixes
+
+- `RemotePostCategory.parent` is set to zero when API returns `"parent": null` [#630]
+- Fixed a breaking changes introduced in 8.7.0 [#632, #633]
 
 ## 8.7.0
 
