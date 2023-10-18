@@ -124,6 +124,7 @@ public final class WordPressComOAuthClient: NSObject {
     ///     - multifactorCode: Multifactor Authentication One-Time-Password. If not needed, can be nil
     ///     - success: block to be called if authentication was successful. The OAuth2 token is passed as a parameter.
     ///     - failure: block to be called if authentication failed. The error object is passed as a parameter.
+    @available(*, deprecated, message: "Here for legacy compatiblity. Use the verions with explicit `needsMultifactor` parameter.")
     @objc public func authenticateWithUsername(_ username: String,
                                                password: String,
                                                multifactorCode: String?,
@@ -152,7 +153,7 @@ public final class WordPressComOAuthClient: NSObject {
     @objc public func authenticateWithUsername(_ username: String,
                                                password: String,
                                                multifactorCode: String?,
-                                               needsMultifactor: ((_ userID: Int, _ nonceInfo: SocialLogin2FANonceInfo) -> Void)? = .none,
+                                               needsMultifactor: ((_ userID: Int, _ nonceInfo: SocialLogin2FANonceInfo) -> Void)?,
                                                success: @escaping (_ authToken: String?) -> Void,
                                                failure: @escaping (_ error: NSError) -> Void ) {
         var parameters: [String: AnyObject] = [
