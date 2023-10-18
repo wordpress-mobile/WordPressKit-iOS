@@ -26,7 +26,7 @@ class DomainsServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
 
     var domainsEndpoint: String { return "sites/\(siteID)/domains" }
 
-    var allDomainsEndpoint: String { return "rest/v1.1/all-domains" }
+    var allDomainsEndpoint: String { return "/rest/v1.1/all-domains" }
 
     var remote: DomainsServiceRemote!
 
@@ -251,7 +251,7 @@ class DomainsServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
 
         stub { request -> Bool in
             let url = request.url
-            let matched = url?.path == self.allDomainsEndpoint && url?.query == "resolve_status=true&locale=en"
+            let matched = url?.path == self.allDomainsEndpoint && url?.query == "no_wpcom=true&resolve_status=true&locale=en"
             XCTAssertTrue(matched)
             return matched
         } response: { request in
@@ -260,6 +260,7 @@ class DomainsServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
         }
 
         var params = DomainsServiceRemote.AllDomainsEndpointParams()
+        params.noWPCOM = true
         params.resolveStatus = true
         params.locale = "en"
         remote.fetchAllDomains(params: params) { result in

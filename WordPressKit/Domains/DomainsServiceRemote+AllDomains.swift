@@ -29,6 +29,9 @@ extension DomainsServiceRemote {
         let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
         var components = URLComponents(string: path)
         var queryItems = [URLQueryItem]()
+        if let noWPCOM = params?.noWPCOM {
+            queryItems.append(.init(name: "no_wpcom", value: "\(noWPCOM)"))
+        }
         if let resolveStatus = params?.resolveStatus {
             queryItems.append(.init(name: "resolve_status", value: "\(resolveStatus)"))
         }
@@ -46,6 +49,7 @@ extension DomainsServiceRemote {
     public struct AllDomainsEndpointParams {
         public var resolveStatus: Bool?
         public var locale: String?
+        public var noWPCOM: Bool?
         public init() {}
     }
 
