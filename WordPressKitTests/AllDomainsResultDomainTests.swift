@@ -11,7 +11,8 @@ final class AllDomainsResultDomainTests: XCTestCase {
 
     // MARK: - Tests
 
-    func testDecoding1() throws {
+    /// Tests decoding with default input defined in `Defaults` enum.
+    func testDecodingWithDefaultInput() throws {
         // Given
         let decoder = makeDecoder()
         let input = try makeInput()
@@ -24,7 +25,8 @@ final class AllDomainsResultDomainTests: XCTestCase {
         assertEqual(output, otherDomain: expectedOutput)
     }
 
-    func testDecoding2() throws {
+    /// Tests decoding with empty `registrationDate` and `expiryDate`.
+    func testDecodingWithEmptyExpiryAndRegistrationDates() throws {
         // Given
         let decoder = makeDecoder()
         let input = try makeInput(registrationDate: "", expiryDate: nil)
@@ -37,7 +39,8 @@ final class AllDomainsResultDomainTests: XCTestCase {
         assertEqual(output, otherDomain: expectedOutput)
     }
 
-    func testDecoding3() throws {
+    /// Tests decoding with `type = mapping` and `hasRegistration = true`.
+    func testDecodingWithRegistrationAndMappingType() throws {
         // Given
         let decoder = makeDecoder()
         let input = try makeInput(type: "mapping", hasRegistration: true)
