@@ -4,6 +4,12 @@ extension DomainsServiceRemote {
 
     // MARK: - API
 
+    /// Makes a call request to `GET /v1.1/all-domains` and returns a list of domain objects.
+    ///
+    /// The endpoint accepts 3 **optionals** query params:
+    /// - `resolve_status` of type `boolean`. If `true`, the response will include a `status` attribute for each `domain` object.
+    /// - `no_wpcom`of type `boolean`. If `true`, the respnse won't include `wpcom` domains.
+    /// - `locale` of type `string`. Used for string localization.
     public func fetchAllDomains(params: AllDomainsEndpointParams? = nil, completion: @escaping (AllDomainsEndpointResult) -> Void) {
         let path = self.path(forEndpoint: "all-domains", withVersion: ._1_1)
         var parameters: [String: AnyObject]?
