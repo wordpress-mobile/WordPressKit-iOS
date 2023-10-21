@@ -246,6 +246,47 @@ class DomainsServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
 
     // MARK: - Get All Domains Tests
 
+    func testAllDomainsEndpointParamsEncodingSucceds() throws {
+        // Given
+        let encoder = JSONEncoder()
+        var params = DomainsServiceRemote.AllDomainsEndpointParams()
+        params.locale = "en"
+        params.noWPCOM = true
+        params.resolveStatus = false
+
+        // When
+        let data = try encoder.encode(params)
+        let json = try JSONSerialization.jsonObject(with: data) as? [String: String]
+
+        // Then
+        let expectedValue = [
+            "resolve_status": "false",
+            "no_wpcom": "true",
+            "locale": "en"
+        ]
+        XCTAssertEqual(json, expectedValue)
+    }
+
+    func testAllDomainsEndpointParamsEncodingFails() throws {
+        // Given
+        let encoder = JSONEncoder()
+        var params = DomainsServiceRemote.AllDomainsEndpointParams()
+        params.locale = "en"
+        params.resolveStatus = true
+
+        // When
+        let data = try encoder.encode(params)
+        let json = try JSONSerialization.jsonObject(with: data) as? [String: String]
+
+        // Then
+        let expectedValue = [
+            "resolve_status": "false",
+            "no_wpcom": "true",
+            "locale": "en"
+        ]
+        XCTAssertNotEqual(json, expectedValue)
+    }
+
     func testAllDomainsEndpointSucceeds() {
         let expect = expectation(description: "Get All Domains Succeeds")
         let expectedPath = allDomainsEndpoint
@@ -282,5 +323,19 @@ class DomainsServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
         }
 
         waitForExpectations(timeout: timeout)
+    }
+
+    // MARK: - Helpers
+
+    private func assertEncoding(of params: DomainsServiceRemote.AllDomainsEndpointParams, toEqual expectedValue: [String: String]) throws {
+        // Given
+        let encoder = JSONEncoder()
+
+        // When
+        let data = try encoder.encode(params)
+        let json = try JSONSerialization.jsonObject(with: data) as? [String: String]
+
+        // Then
+        XCTAssertEqual(json, expectedValue)
     }
 }
