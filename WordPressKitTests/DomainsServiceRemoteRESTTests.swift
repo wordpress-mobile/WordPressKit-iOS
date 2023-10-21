@@ -246,7 +246,7 @@ class DomainsServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
 
     // MARK: - Get All Domains Tests
 
-    func testGetAllDomainsSucceeds() {
+    func testAllDomainsEndpointSucceeds() {
         let expect = expectation(description: "Get All Domains Succeeds")
         let expectedPath = allDomainsEndpoint
         let expectedQueryParams = [
