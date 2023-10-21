@@ -157,8 +157,8 @@ class DomainsServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
 
         remote.getStates(for: countryCode,
                          success: { (stateList) in
-                            XCTAssert(stateList.count == 0)
-                            expect.fulfill()
+            XCTAssert(stateList.count == 0)
+            expect.fulfill()
         }) { (_) in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
@@ -181,10 +181,10 @@ class DomainsServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
                 XCTAssert(reponse.messages!.postalCode![0] == "This field is required.")
                 XCTAssert(reponse.messages!.email![0] == "The 'Email' field does not appear to be valid.")
                 expect.fulfill()
-        }) { (_) in
-            XCTFail("This callback shouldn't get called")
-            expect.fulfill()
-        }
+            }) { (_) in
+                XCTFail("This callback shouldn't get called")
+                expect.fulfill()
+            }
         waitForExpectations(timeout: timeout, handler: nil)
     }
 
@@ -200,10 +200,10 @@ class DomainsServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
             domainNames: ["someblog.blog"], success: { (reponse) in
                 XCTAssert(reponse.success)
                 expect.fulfill()
-        }) { (_) in
-            XCTFail("This callback shouldn't get called")
-            expect.fulfill()
-        }
+            }) { (_) in
+                XCTFail("This callback shouldn't get called")
+                expect.fulfill()
+            }
         waitForExpectations(timeout: timeout, handler: nil)
     }
 
@@ -220,10 +220,10 @@ class DomainsServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
                 XCTAssert(reponse.lastName == nil)
                 XCTAssert(reponse.postalCode == "12345")
                 expect.fulfill()
-        }) { (_) in
-            XCTFail("This callback shouldn't get called")
-            expect.fulfill()
-        }
+            }) { (_) in
+                XCTFail("This callback shouldn't get called")
+                expect.fulfill()
+            }
         waitForExpectations(timeout: timeout, handler: nil)
     }
 
@@ -323,19 +323,5 @@ class DomainsServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
         }
 
         waitForExpectations(timeout: timeout)
-    }
-
-    // MARK: - Helpers
-
-    private func assertEncoding(of params: DomainsServiceRemote.AllDomainsEndpointParams, toEqual expectedValue: [String: String]) throws {
-        // Given
-        let encoder = JSONEncoder()
-
-        // When
-        let data = try encoder.encode(params)
-        let json = try JSONSerialization.jsonObject(with: data) as? [String: String]
-
-        // Then
-        XCTAssertEqual(json, expectedValue)
     }
 }
