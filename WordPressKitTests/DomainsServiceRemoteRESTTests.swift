@@ -248,12 +248,19 @@ class DomainsServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
 
     func testGetAllDomainsSucceeds() {
         let expect = expectation(description: "Get All Domains Succeeds")
+        let expectedPath = allDomainsEndpoint
+        let expectedQueryParams = [
+            "resolve_status": "true",
+            "no_wpcom": "true",
+            "locale": "en"
+        ]
 
-        stub { request -> Bool in
-            let url = request.url
-            let matched = url?.path == self.allDomainsEndpoint && url?.query == "no_wpcom=true&resolve_status=true&locale=en"
-            XCTAssertTrue(matched)
-            return matched
+        stub { req -> Bool in
+            let containsQueryParams = containsQueryParams(expectedQueryParams)(req)
+            let matchesPath = isPath(expectedPath)(req)
+            let matchesURL = containsQueryParams && matchesPath
+            XCTAssertTrue(matchesURL)
+            return matchesURL
         } response: { request in
             let path = OHPathForFile(self.allDomainsMockFilename, type(of: self)) ?? ""
             return fixture(filePath: path, status: 200, headers: nil)

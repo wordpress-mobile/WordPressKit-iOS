@@ -5,8 +5,17 @@ extension DomainsServiceRemote {
     // MARK: - API
 
     public func fetchAllDomains(params: AllDomainsEndpointParams? = nil, completion: @escaping (AllDomainsEndpointResult) -> Void) {
-        let path = self.allDomainsEndpointPath(params: params)
-        self.wordPressComRestApi.GET(path, parameters: nil) { result, _ in
+        let path = self.path(forEndpoint: "all-domains", withVersion: ._1_1)
+        var parameters: [String: AnyObject]?
+
+        do {
+            parameters = try queryParameters(from: params)
+        } catch let error {
+            completion(.failure(error))
+            return
+        }
+
+        self.wordPressComRestApi.GET(path, parameters: parameters) { result, _ in
             do {
                 switch result {
                 case .success(let result):
@@ -24,22 +33,14 @@ extension DomainsServiceRemote {
         }
     }
 
-    private func allDomainsEndpointPath(params: AllDomainsEndpointParams?) -> String {
-        let endpoint = "all-domains"
-        let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
-        var components = URLComponents(string: path)
-        var queryItems = [URLQueryItem]()
-        if let noWPCOM = params?.noWPCOM {
-            queryItems.append(.init(name: "no_wpcom", value: "\(noWPCOM)"))
+    private func queryParameters(from params: AllDomainsEndpointParams?) throws -> [String: AnyObject]? {
+        guard let params else {
+            return nil
         }
-        if let resolveStatus = params?.resolveStatus {
-            queryItems.append(.init(name: "resolve_status", value: "\(resolveStatus)"))
-        }
-        if let locale = params?.locale {
-            queryItems.append(.init(name: "locale", value: locale))
-        }
-        components?.queryItems = queryItems
-        return components?.url?.absoluteString ?? path
+        let encoder = JSONEncoder()
+        let data = try encoder.encode(params)
+        let dict = try JSONSerialization.jsonObject(with: data) as? [String: AnyObject]
+        return dict
     }
 
     // MARK: - Public Types
@@ -80,7 +81,29 @@ extension DomainsServiceRemote {
     }
 }
 
-// MARK: - Extension
+// MARK: - Encoding / Decoding
+
+extension DomainsServiceRemote.AllDomainsEndpointParams: Encodable {
+
+    enum CodingKeys: String, CodingKey {
+        case resolveStatus = "resolve_status"
+        case locale
+        case noWPCOM = "no_wpcom"
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        if let resolveStatus {
+            try container.encodeIfPresent("\(resolveStatus)", forKey: .resolveStatus)
+        }
+        if let locale {
+            try container.encodeIfPresent(locale, forKey: .locale)
+        }
+        if let noWPCOM {
+            try container.encodeIfPresent("\(noWPCOM)", forKey: .noWPCOM)
+        }
+    }
+}
 
 extension DomainsServiceRemote.AllDomainsListItem.Status: Decodable {
     enum CodingKeys: String, CodingKey {
