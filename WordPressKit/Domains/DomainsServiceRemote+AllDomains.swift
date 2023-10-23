@@ -61,9 +61,17 @@ extension DomainsServiceRemote {
     }
 
     public struct AllDomainsListItem {
+        public enum StatusType: String {
+            case success
+            case premium
+            case neutral
+            case warning
+            case alert
+            case error
+        }
         public struct Status {
             public let value: String
-            public let type: String
+            public let type: StatusType
         }
         public let domain: String
         public let blogId: Int
@@ -109,6 +117,9 @@ extension DomainsServiceRemote.AllDomainsEndpointParams: Encodable {
             try container.encodeIfPresent("\(noWPCOM)", forKey: .noWPCOM)
         }
     }
+}
+
+extension DomainsServiceRemote.AllDomainsListItem.StatusType: Decodable {
 }
 
 extension DomainsServiceRemote.AllDomainsListItem.Status: Decodable {

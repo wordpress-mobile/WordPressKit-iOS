@@ -137,7 +137,7 @@ final class AllDomainsResultDomainTests: XCTestCase {
             "wpcom_domain": wpcomDomain,
             "current_user_is_owner": currentUserIsOwner as Any,
             "site_slug": siteSlug,
-            "domain_status": ["status": status.value, "status_type": status.type]
+            "domain_status": ["status": status.value, "status_type": status.type.rawValue]
         ]
         return try JSONSerialization.data(withJSONObject: json, options: .prettyPrinted)
     }
@@ -154,7 +154,7 @@ final class AllDomainsResultDomainTests: XCTestCase {
         static let wpcomDomain: Bool = false
         static let currentUserIsOwner: Bool? = false
         static let siteSlug: String = "exampleblog1.wordpress.com"
-        static let status: DomainStatus = .init(value: "Active", type: "success")
+        static let status: DomainStatus = .init(value: "Active", type: .success)
     }
 
     typealias Domain = DomainsServiceRemote.AllDomainsListItem
