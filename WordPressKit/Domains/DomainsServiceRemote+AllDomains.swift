@@ -61,23 +61,23 @@ extension DomainsServiceRemote {
     }
 
     public struct AllDomainsListItem {
-        struct Status {
-            let value: String
-            let type: String
+        public struct Status {
+            public let value: String
+            public let type: String
         }
-        let domain: String
-        let blogId: Int
-        let blogName: String
-        let type: DomainType
-        let isDomainOnlySite: Bool
-        let isWpcomStagingDomain: Bool
-        let hasRegistration: Bool
-        let registrationDate: Date?
-        let expiryDate: Date?
-        let wpcomDomain: Bool
-        let currentUserIsOwner: Bool?
-        let siteSlug: String
-        let status: Status?
+        public let domain: String
+        public let blogId: Int
+        public let blogName: String
+        public let type: DomainType
+        public let isDomainOnlySite: Bool
+        public let isWpcomStagingDomain: Bool
+        public let hasRegistration: Bool
+        public let registrationDate: Date?
+        public let expiryDate: Date?
+        public let wpcomDomain: Bool
+        public let currentUserIsOwner: Bool?
+        public let siteSlug: String
+        public let status: Status?
     }
 
     // MARK: - Private Types
