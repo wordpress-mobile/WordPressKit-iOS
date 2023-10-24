@@ -55,9 +55,9 @@ extension DomainsServiceRemote {
 
     public struct AllDomainsEndpointParams {
 
-        public var resolveStatus: Bool?
+        public var resolveStatus: Bool = false
+        public var noWPCOM: Bool = false
         public var locale: String?
-        public var noWPCOM: Bool?
 
         public init() {}
     }
@@ -118,15 +118,9 @@ extension DomainsServiceRemote.AllDomainsEndpointParams: Encodable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        if let resolveStatus {
-            try container.encodeIfPresent("\(resolveStatus)", forKey: .resolveStatus)
-        }
-        if let locale {
-            try container.encodeIfPresent(locale, forKey: .locale)
-        }
-        if let noWPCOM {
-            try container.encodeIfPresent("\(noWPCOM)", forKey: .noWPCOM)
-        }
+        try container.encode("\(resolveStatus)", forKey: .resolveStatus)
+        try container.encode("\(noWPCOM)", forKey: .noWPCOM)
+        try container.encodeIfPresent(locale, forKey: .locale)
     }
 }
 
