@@ -18,6 +18,26 @@ import Foundation
             return NSLocalizedString("Included with Site", comment: "Describes a standard *.wordpress.com site domain")
         }
     }
+
+    init(domainJson: [String: Any]) {
+        self.init(
+            type: domainJson["domain"] as? String,
+            wpComDomain: domainJson["wpcom_domain"] as? Bool,
+            hasRegistration: domainJson["has_registration"] as? Bool
+        )
+    }
+
+    init(type: String?, wpComDomain: Bool?, hasRegistration: Bool?) {
+        if type == "redirect" {
+            self = .siteRedirect
+        } else if wpComDomain == true {
+            self = .wpCom
+        } else if hasRegistration == true {
+            self = .registered
+        } else {
+            self = .mapped
+        }
+    }
 }
 
 public struct RemoteDomain {

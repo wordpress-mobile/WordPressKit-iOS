@@ -38,7 +38,7 @@ _None._
 
 ### New Features
 
-_None._
+- Add an API in `DomainServiceRemote` to fetch All Domains. [#626]
 
 ### Bug Fixes
 
