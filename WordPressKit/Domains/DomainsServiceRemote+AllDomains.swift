@@ -54,13 +54,16 @@ extension DomainsServiceRemote {
     public typealias AllDomainsEndpointResult = Result<[AllDomainsListItem], Error>
 
     public struct AllDomainsEndpointParams {
+
         public var resolveStatus: Bool?
         public var locale: String?
         public var noWPCOM: Bool?
+
         public init() {}
     }
 
     public struct AllDomainsListItem {
+
         public enum StatusType: String {
             case success
             case premium
@@ -69,10 +72,18 @@ extension DomainsServiceRemote {
             case alert
             case error
         }
+
         public struct Status {
+
             public let value: String
             public let type: StatusType
+
+            public init(value: String, type: StatusType) {
+                self.value = value
+                self.type = type
+            }
         }
+
         public let domain: String
         public let blogId: Int
         public let blogName: String
