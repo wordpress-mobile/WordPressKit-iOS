@@ -27,6 +27,33 @@ public extension PostServiceRemoteREST {
             failure(error)
         })
     }
+
+    func getPostLatestRevisionID(for postId: NSNumber, success: @escaping (NSNumber?) -> Void, failure: @escaping (Error?) -> Void) {
+        let endpoint = "sites/\(siteID)/posts/\(postId)"
+        let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
+        wordPressComRestApi.GET(
+            path,
+            parameters: [
+                "context": "edit",
+                "fields": "revisions"
+            ] as [String: AnyObject],
+            success: { (response, _) in
+                let latestRevision: NSNumber?
+                if let json = response as? [String: Any],
+                   let revisions = json["revisions"] as? NSArray,
+                   let latest = revisions.firstObject as? NSNumber {
+                    latestRevision = latest
+                } else {
+                    latestRevision = nil
+                }
+                success(latestRevision)
+            },
+            failure: { error, _ in
+                WPKitLogError("\(error)")
+                failure(error)
+            }
+        )
+    }
 }
 
 private extension PostServiceRemoteREST {
