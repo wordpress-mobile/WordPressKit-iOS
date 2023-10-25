@@ -1,5 +1,7 @@
 import Foundation
 import XCTest
+import OHHTTPStubs
+
 @testable import WordPressKit
 
 class DomainsServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
@@ -18,10 +20,13 @@ class DomainsServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
     let validateDomainContactInformationSuccess = "validate-domain-contact-information-response-success.json"
     let getDomainContactInformationSuccess      = "domain-contact-information-response-success.json"
     let domainServiceInvalidQuery               = "domain-service-invalid-query.json"
+    let allDomainsMockFilename                  = "get-all-domains-response.json"
 
     // MARK: - Properties
 
     var domainsEndpoint: String { return "sites/\(siteID)/domains" }
+
+    var allDomainsEndpoint: String { return "/rest/v1.1/all-domains" }
 
     var remote: DomainsServiceRemote!
 
@@ -152,8 +157,8 @@ class DomainsServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
 
         remote.getStates(for: countryCode,
                          success: { (stateList) in
-                            XCTAssert(stateList.count == 0)
-                            expect.fulfill()
+            XCTAssert(stateList.count == 0)
+            expect.fulfill()
         }) { (_) in
             XCTFail("This callback shouldn't get called")
             expect.fulfill()
@@ -176,10 +181,10 @@ class DomainsServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
                 XCTAssert(reponse.messages!.postalCode![0] == "This field is required.")
                 XCTAssert(reponse.messages!.email![0] == "The 'Email' field does not appear to be valid.")
                 expect.fulfill()
-        }) { (_) in
-            XCTFail("This callback shouldn't get called")
-            expect.fulfill()
-        }
+            }) { (_) in
+                XCTFail("This callback shouldn't get called")
+                expect.fulfill()
+            }
         waitForExpectations(timeout: timeout, handler: nil)
     }
 
@@ -195,10 +200,10 @@ class DomainsServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
             domainNames: ["someblog.blog"], success: { (reponse) in
                 XCTAssert(reponse.success)
                 expect.fulfill()
-        }) { (_) in
-            XCTFail("This callback shouldn't get called")
-            expect.fulfill()
-        }
+            }) { (_) in
+                XCTFail("This callback shouldn't get called")
+                expect.fulfill()
+            }
         waitForExpectations(timeout: timeout, handler: nil)
     }
 
@@ -215,10 +220,10 @@ class DomainsServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
                 XCTAssert(reponse.lastName == nil)
                 XCTAssert(reponse.postalCode == "12345")
                 expect.fulfill()
-        }) { (_) in
-            XCTFail("This callback shouldn't get called")
-            expect.fulfill()
-        }
+            }) { (_) in
+                XCTFail("This callback shouldn't get called")
+                expect.fulfill()
+            }
         waitForExpectations(timeout: timeout, handler: nil)
     }
 
@@ -237,5 +242,86 @@ class DomainsServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
         })
 
         waitForExpectations(timeout: timeout, handler: nil)
+    }
+
+    // MARK: - Get All Domains Tests
+
+    func testAllDomainsEndpointParamsEncodingSucceds() throws {
+        // Given
+        let encoder = JSONEncoder()
+        var params = DomainsServiceRemote.AllDomainsEndpointParams()
+        params.locale = "en"
+        params.noWPCOM = true
+        params.resolveStatus = false
+
+        // When
+        let data = try encoder.encode(params)
+        let json = try JSONSerialization.jsonObject(with: data) as? [String: String]
+
+        // Then
+        let expectedValue = [
+            "resolve_status": "false",
+            "no_wpcom": "true",
+            "locale": "en"
+        ]
+        XCTAssertEqual(json, expectedValue)
+    }
+
+    func testAllDomainsEndpointParamsEncodingFails() throws {
+        // Given
+        let encoder = JSONEncoder()
+        var params = DomainsServiceRemote.AllDomainsEndpointParams()
+        params.locale = "en"
+        params.resolveStatus = true
+
+        // When
+        let data = try encoder.encode(params)
+        let json = try JSONSerialization.jsonObject(with: data) as? [String: String]
+
+        // Then
+        let expectedValue = [
+            "resolve_status": "false",
+            "no_wpcom": "true",
+            "locale": "en"
+        ]
+        XCTAssertNotEqual(json, expectedValue)
+    }
+
+    func testAllDomainsEndpointSucceeds() {
+        let expect = expectation(description: "Get All Domains Succeeds")
+        let expectedPath = allDomainsEndpoint
+        let expectedQueryParams = [
+            "resolve_status": "true",
+            "no_wpcom": "true",
+            "locale": "en"
+        ]
+
+        stub { req -> Bool in
+            let containsQueryParams = containsQueryParams(expectedQueryParams)(req)
+            let matchesPath = isPath(expectedPath)(req)
+            let matchesURL = containsQueryParams && matchesPath
+            XCTAssertTrue(matchesURL)
+            return matchesURL
+        } response: { request in
+            let path = OHPathForFile(self.allDomainsMockFilename, type(of: self))!
+            return fixture(filePath: path, status: 200, headers: nil)
+        }
+
+        var params = DomainsServiceRemote.AllDomainsEndpointParams()
+        params.noWPCOM = true
+        params.resolveStatus = true
+        params.locale = "en"
+        remote.fetchAllDomains(params: params) { result in
+            switch result {
+            case .success(let domains):
+                let expectedCount = 10
+                XCTAssertEqual(domains.count, expectedCount, "There should be \(expectedCount) domains returned.")
+            case .failure:
+                XCTFail("Get All Domains request failed")
+            }
+            expect.fulfill()
+        }
+
+        waitForExpectations(timeout: timeout)
     }
 }

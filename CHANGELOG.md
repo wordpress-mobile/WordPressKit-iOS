@@ -36,18 +36,26 @@ _None._
 
 _None._
 
-### New Features
-
-- `RemotePostCategory.parent` is set to zero when API returns `"parent": null` [#630]
-- Add `tag` parameter to `PostServiceRemoteOptions` [#634]
-
 ### Bug Fixes
 
-- Fixed a breaking changes introduced in 8.7.0 [#632]
+_None._
 
 ### Internal Changes
 
 _None._
+
+## 8.8.0
+
+### New Features
+
+Add `tag` parameter to `PostServiceRemoteOptions` [#634]
+
+## 8.7.1
+
+### Bug Fixes
+
+- `RemotePostCategory.parent` is set to zero when API returns `"parent": null` [#630]
+- Fixed a breaking changes introduced in 8.7.0 [#632, #633]
 
 ## 8.7.0
 
