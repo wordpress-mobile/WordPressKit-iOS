@@ -36,10 +36,6 @@ _None._
 
 _None._
 
-### New Features
-
-- Add an API in `DomainServiceRemote` to fetch All Domains. [#626]
-
 ### Bug Fixes
 
 _None._
@@ -47,6 +43,12 @@ _None._
 ### Internal Changes
 
 _None._
+
+## 8.8.0
+
+### New Features
+
+Add `tag` parameter to `PostServiceRemoteOptions` [#634]
 
 ## 8.7.1
 

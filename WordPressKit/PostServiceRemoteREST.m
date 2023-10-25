@@ -17,6 +17,7 @@ static NSString * const RemoteOptionKeyStatus = @"status";
 static NSString * const RemoteOptionKeySearch = @"search";
 static NSString * const RemoteOptionKeyAuthor = @"author";
 static NSString * const RemoteOptionKeyMeta = @"meta";
+static NSString * const RemoteOptionKeyTag = @"tag";
 
 static NSString * const RemoteOptionValueOrderAscending = @"ASC";
 static NSString * const RemoteOptionValueOrderDescending = @"DESC";
@@ -418,7 +419,10 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
     if (options.meta.length > 0) {
         [remoteParams setObject:options.meta forKey:RemoteOptionKeyMeta];
     }
-    
+    if (options.tag.length > 0) {
+        [remoteParams setObject:options.tag forKey:RemoteOptionKeyTag];
+    }
+
     return remoteParams.count ? [NSDictionary dictionaryWithDictionary:remoteParams] : nil;
 }
 
