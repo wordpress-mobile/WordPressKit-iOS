@@ -44,11 +44,17 @@ _None._
 
 _None._
 
+## 8.9.0
+
+### New Features
+
+- Add API to get a post's latest revision id [#637]
+
 ## 8.8.0
 
 ### New Features
 
-Add `tag` parameter to `PostServiceRemoteOptions` [#634]
+- Add `tag` parameter to `PostServiceRemoteOptions` [#634]
 
 ## 8.7.1
 
