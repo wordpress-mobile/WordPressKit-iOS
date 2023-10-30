@@ -24,10 +24,19 @@ steps:
   #################
   # Validate Podspec
   #################
-  - label: "🔬 Validate Podspec"
+  - label: "🔬 Validate Podspec – ⚠️ Bypassed ⚠️"
     key: "validate"
     command: |
-      validate_podspec
+      # validate_podspec
+      echo '+++ ⚠️ validate_podspec was bypassed ⚠️'
+      echo 'As of Xcode 14.3, libraries with deployment target below iOS 11 (iOS 12 in Xcode 15) fail to build out of the box'
+      echo 'The reason is a missing file, /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/arc/libarclite_iphonesimulator.a'
+      echo 'Client apps can work around this with a post install hook that updates the dependency deployment target, but libraries do not have this option.'
+      echo ''
+      echo 'Our old Alamofire dependency targets iOS 8.0, making the validation build fail.'
+      echo ''
+      echo 'In the interest of using up to date CI (i.e. not waste time downloading old images) we bypass validation until either we are able to drop or upgraed Alamofire, or find a workaround.'
+    key: "validate"
     env: *common_env
     plugins: *common_plugins
 
