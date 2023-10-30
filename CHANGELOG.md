@@ -36,9 +36,13 @@ _None._
 
 _None._
 
-### Bug Fixes
+### New Features
 
 _None._
+
+### Bug Fixes
+
+- Reverted adding `tag` parameter to `PostServiceRemoteOptions`. Breaking change in 8.8.0.
 
 ### Internal Changes
 
