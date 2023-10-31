@@ -22,11 +22,13 @@ open class BloggingPromptsServiceRemote: ServiceRemoteWordPressComREST {
     ///   - number: The number of prompts to query. When not specified, this will default to remote implementation.
     ///   - fromDate: When specified, this will fetch prompts from the given date. When not specified, this will default to remote implementation.
     ///   - ignoresYear: When set to true, this will convert the date to a custom format that ignores the year part. Defaults to false.
+    ///   - forceYear: Forces the year value on the prompt's date to the specified value. Defaults to the current year.
     ///   - completion: A closure that will be called when the fetch request completes.
     open func fetchPrompts(for siteID: NSNumber,
                            number: Int? = nil,
                            fromDate: Date? = nil,
                            ignoresYear: Bool = false,
+                           forceYear: Int? = Calendar(identifier: .gregorian).component(.year, from: Date()),
                            completion: @escaping (Result<[RemoteBloggingPrompt], Error>) -> Void) {
         let path = path(forEndpoint: "sites/\(siteID)/blogging-prompts", withVersion: ._3_0)
         let requestParameter: [String: AnyHashable] = {
@@ -47,6 +49,10 @@ open class BloggingPromptsServiceRemote: ServiceRemoteWordPressComREST {
                 }
 
                 params["after"] = dateString
+            }
+
+            if let forceYear {
+                params["force_year"] = forceYear
             }
 
             return params

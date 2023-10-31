@@ -90,10 +90,11 @@ class BloggingPromptsServiceRemoteTests: RemoteTestCase, RESTTestable {
         let expectedDateString = "2022-01-02"
         let expectedDate = dateFormatter.date(from: expectedDateString)
         let customMockApi = MockWordPressComRestApi()
+        let expectedYear = 2000
         service = BloggingPromptsServiceRemote(wordPressComRestApi: customMockApi)
 
         // no-op; we just need to check the passed params.
-        service.fetchPrompts(for: siteID, number: expectedNumber, fromDate: expectedDate, completion: { _ in })
+        service.fetchPrompts(for: siteID, number: expectedNumber, fromDate: expectedDate, forceYear: expectedYear, completion: { _ in })
 
         XCTAssertNotNil(customMockApi.parametersPassedIn as? [String: AnyObject])
         let params = customMockApi.parametersPassedIn! as! [String: AnyObject]
@@ -103,6 +104,8 @@ class BloggingPromptsServiceRemoteTests: RemoteTestCase, RESTTestable {
 
         XCTAssertNotNil(params[.dateKey])
         XCTAssertEqual(params[.dateKey] as! String, expectedDateString)
+
+        XCTAssertEqual(params[.forceYearKey] as! Int, expectedYear)
     }
 
     func test_fetchPrompts_givenIgnoresYearIsTrue_convertsDateToCustomFormat() {
@@ -216,4 +219,5 @@ private extension String {
     static let mockUpdateSettingsReturningEmptyFilename = "blogging-prompts-settings-update-empty-response.json"
     static let numberKey = "per_page"
     static let dateKey = "after"
+    static let forceYearKey = "force_year"
 }
