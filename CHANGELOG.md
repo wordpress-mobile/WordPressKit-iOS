@@ -48,6 +48,12 @@ _None._
 
 - Add `tag` parameter to `PostServiceRemoteOptions` [#634]
 
+## 8.10.0
+
+### New Features
+
+- Add optional `tag` parameter to `PostServiceRemoteOptions` [#640]
+
 ## 8.9.1
 
 ### Bug Fixes
