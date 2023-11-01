@@ -36,10 +36,6 @@ _None._
 
 _None._
 
-### New Features
-
-_None._
-
 ### Bug Fixes
 
 _None._
