@@ -419,7 +419,7 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
     if (options.meta.length > 0) {
         [remoteParams setObject:options.meta forKey:RemoteOptionKeyMeta];
     }
-    if (options.tag.length > 0) {
+    if ([options respondsToSelector:@selector(tag)] && options.tag.length > 0) {
         [remoteParams setObject:options.tag forKey:RemoteOptionKeyTag];
     }
 
