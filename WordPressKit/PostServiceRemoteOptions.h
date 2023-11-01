@@ -77,4 +77,10 @@ typedef NS_ENUM(NSUInteger, PostServiceResultsOrdering) {
  */
 - (NSString *)meta;
 
+/**
+ The tag to filter by.
+ */
+@optional
+- (NSString *)tag;
+
 @end
