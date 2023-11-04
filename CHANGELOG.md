@@ -38,7 +38,7 @@ _None._
 
 ### Bug Fixes
 
-_None._
+- No longer pass `force=wpcom` parameter when fetching a blogs comments. [#643]
 
 ### Internal Changes
 
