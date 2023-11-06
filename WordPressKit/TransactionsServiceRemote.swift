@@ -41,13 +41,13 @@ import WordPressShared
     ///   - siteID: id of the current site
     ///   - products: an array of products to be added to the newly created cart
     ///   - temporary: true if the card is temporary, false otherwise
-    public func createShoppingCart(siteID: Int,
+    public func createShoppingCart(siteID: Int?,
                                    products: [TransactionsServiceProduct],
                                    temporary: Bool,
                                    success: @escaping (CartResponse) -> Void,
                                    failure: @escaping (Error) -> Void) {
-
-        let endPoint = "me/shopping-cart/\(siteID)"
+        let siteIDString = siteID != nil ? "\(siteID ?? 0)" : "no-site"
+        let endPoint = "me/shopping-cart/\(siteIDString)"
         let urlPath = path(forEndpoint: endPoint, withVersion: ._1_1)
 
         var productsDictionary: [[String: AnyObject]] = []
@@ -151,12 +151,12 @@ public enum TransactionsServiceProduct {
 
 public struct CartResponse {
     let blogID: Int
-    let cartKey: Int
+    let cartKey: Any
     let products: [Product]
 
     init?(jsonDictionary: [String: AnyObject]) {
         guard
-            let cartKey = jsonDictionary["cart_key"] as? Int,
+            let cartKey = jsonDictionary["cart_key"] as? Any,
             let blogID = jsonDictionary["blog_id"] as? Int,
             let products = jsonDictionary["products"] as? [[String: AnyObject]]
             else {
