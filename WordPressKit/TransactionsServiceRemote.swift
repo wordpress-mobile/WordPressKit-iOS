@@ -151,12 +151,12 @@ public enum TransactionsServiceProduct {
 
 public struct CartResponse {
     let blogID: Int
-    let cartKey: Any
+    let cartKey: Any // cart key can be either Int or String
     let products: [Product]
 
     init?(jsonDictionary: [String: AnyObject]) {
         guard
-            let cartKey = jsonDictionary["cart_key"] as? Any,
+            let cartKey = jsonDictionary["cart_key"],
             let blogID = jsonDictionary["blog_id"] as? Int,
             let products = jsonDictionary["products"] as? [[String: AnyObject]]
             else {
