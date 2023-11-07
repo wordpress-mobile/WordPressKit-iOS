@@ -54,6 +54,7 @@ _None._
 ### New Features
 
 - Add optional `tag` parameter to `PostServiceRemoteOptions` [#640]
+- Add support for creating a shopping cart that's not tied to a specific site. [#644]
 
 ## 8.9.1
 
