@@ -1,6 +1,10 @@
 import Foundation
 import WordPressShared
 
+#if SWIFT_PACKAGE
+import WordPressKitObjC
+#endif
+
 public class TimeZoneServiceRemote: ServiceRemoteWordPressComREST {
     public enum ResponseError: Error {
         case decodingFailed

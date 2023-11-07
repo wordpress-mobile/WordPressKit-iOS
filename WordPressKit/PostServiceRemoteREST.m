@@ -2,9 +2,14 @@
 #import "RemotePost.h"
 #import "RemotePostCategory.h"
 #import "RemoteUser.h"
+#import "NSDate+WordPressJSON.h"
 #import "WPKit-Swift.h"
 @import WordPressShared;
 @import NSObject_SafeExpectations;
+
+#if SWIFT_PACKAGE
+@import WordPressKitCore;
+#endif
 
 NSString * const PostRemoteStatusPublish = @"publish";
 NSString * const PostRemoteStatusScheduled = @"future";

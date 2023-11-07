@@ -1,3 +1,5 @@
+#if !defined(SWIFT_PACKAGE)
+
 #import <UIKit/UIKit.h>
 
 //! Project version number for WordPressKit.
@@ -51,3 +53,5 @@ FOUNDATION_EXPORT const unsigned char WordPressKitVersionString[];
 #import <WordPressKit/NSString+MD5.h>
 
 #import <WordPressKit/WPKitLogging.h>
+
+#endif

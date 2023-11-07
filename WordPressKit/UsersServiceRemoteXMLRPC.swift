@@ -1,5 +1,9 @@
 import Foundation
 
+#if SWIFT_PACKAGE
+import WordPressKitObjC
+#endif
+
 public enum UsersServiceRemoteError: Int, Error {
     case UnexpectedResponseData
 }

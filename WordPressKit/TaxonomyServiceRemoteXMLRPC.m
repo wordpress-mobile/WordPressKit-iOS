@@ -1,6 +1,8 @@
 #import "TaxonomyServiceRemoteXMLRPC.h"
 #import "RemotePostTag.h"
 #import "RemoteTaxonomyPaging.h"
+#import "RemotePostCategory.h"
+#import "WPKitLogging.h"
 #import "WPKit-Swift.h"
 @import WordPressShared;
 @import NSObject_SafeExpectations;

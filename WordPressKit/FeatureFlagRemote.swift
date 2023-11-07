@@ -1,4 +1,9 @@
+import Foundation
 import UIKit
+
+#if SWIFT_PACKAGE
+import WordPressKitObjC
+#endif
 
 open class FeatureFlagRemote: ServiceRemoteWordPressComREST {
 

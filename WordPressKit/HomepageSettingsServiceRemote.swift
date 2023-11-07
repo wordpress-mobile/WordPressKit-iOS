@@ -1,5 +1,9 @@
 import Foundation
 
+#if SWIFT_PACKAGE
+import WordPressKitObjC
+#endif
+
 public class HomepageSettingsServiceRemote: ServiceRemoteWordPressComREST {
 
     /**
@@ -26,7 +30,7 @@ public class HomepageSettingsServiceRemote: ServiceRemoteWordPressComREST {
             parameters[Keys.pageForPostsID] = postsPageID as AnyObject
         }
 
-        wordPressComRestApi.POST(path, parameters: parameters,
+        wordPressComRestApi.post(path, parameters: parameters,
                                 success: { _, _ in
             success()
         }, failure: { error, _ in

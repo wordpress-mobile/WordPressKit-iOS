@@ -1,5 +1,5 @@
 #import <Foundation/Foundation.h>
-#import <WordPressKit/ServiceRemoteWordPressComREST.h>
+#import "ServiceRemoteWordPressComREST.h"
 
 @class Blog;
 @class RemoteTheme;

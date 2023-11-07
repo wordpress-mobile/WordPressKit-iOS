@@ -1,5 +1,9 @@
 import Foundation
 
+#if SWIFT_PACKAGE
+import WordPressKitObjC
+#endif
+
 extension ReaderTopicServiceRemote {
     /// Returns a collection of RemoteReaderInterest
     /// - Parameters:
@@ -9,7 +13,7 @@ extension ReaderTopicServiceRemote {
                                failure: @escaping (Error) -> Void) {
         let path = self.path(forEndpoint: "read/interests", withVersion: ._2_0)
 
-        wordPressComRestApi.GET(path,
+        wordPressComRestApi.get(path,
                                 parameters: nil,
                                 success: { response, _ in
                                     do {
@@ -36,7 +40,7 @@ extension ReaderTopicServiceRemote {
         let path = self.path(forEndpoint: "read/tags/mine/new", withVersion: ._1_2)
         let parameters = ["tags": withSlugs] as [String: AnyObject]
 
-        wordPressComRestApi.POST(path, parameters: parameters, success: { _, _ in
+        wordPressComRestApi.post(path, parameters: parameters, success: { _, _ in
             success()
         }) { error, _ in
             WPKitLogError("Error fetching reader interests: \(error)")

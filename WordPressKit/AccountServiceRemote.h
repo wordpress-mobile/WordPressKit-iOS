@@ -1,7 +1,7 @@
 #import <Foundation/Foundation.h>
-#import <WordPressKit/RemoteUser.h>
+#import "RemoteUser.h"
 
-@class WPAccount;
+@class WPAccount, RemoteUser;
 
 static NSString * const AccountServiceRemoteErrorDomain = @"AccountServiceErrorDomain";
 

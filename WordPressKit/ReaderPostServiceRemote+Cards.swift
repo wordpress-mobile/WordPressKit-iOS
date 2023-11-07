@@ -1,3 +1,7 @@
+#if SWIFT_PACKAGE
+import WordPressKitObjC
+#endif
+
 public enum ReaderSortingOption: String, CaseIterable {
     case popularity
     case date
@@ -33,7 +37,7 @@ extension ReaderPostServiceRemote {
             return
         }
 
-        wordPressComRestApi.GET(requestUrl,
+        wordPressComRestApi.get(requestUrl,
                                 parameters: nil,
                                 success: { response, _ in
 

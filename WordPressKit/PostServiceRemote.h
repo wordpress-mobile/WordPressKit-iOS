@@ -1,5 +1,5 @@
 #import <Foundation/Foundation.h>
-#import <WordPressKit/PostServiceRemoteOptions.h>
+#import "PostServiceRemoteOptions.h"
 
 @class RemotePost;
 

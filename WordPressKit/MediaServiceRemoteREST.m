@@ -1,10 +1,21 @@
 #import "MediaServiceRemoteREST.h"
 #import "RemoteMedia.h"
+#import "WPKitLogging.h"
+#import "NSDate+WordPressJSON.h"
 #import "WPKit-Swift.h"
 @import WordPressShared;
 @import NSObject_SafeExpectations;
 
+#if SWIFT_PACKAGE
+@import WordPressKitCore;
+#endif
+
 const NSInteger WPRestErrorCodeMediaNew = 10;
+
+// FIXME: This error domain value is not a constant
+#define WordPressComRestApiErrorDomain          (@"WordPressKit.WordPressComRestApiError")
+#define WordPressComRestApiErrorUploadFailed    3
+#define WordPressComRestApiErrorUnknown         7
 
 @implementation MediaServiceRemoteREST
 

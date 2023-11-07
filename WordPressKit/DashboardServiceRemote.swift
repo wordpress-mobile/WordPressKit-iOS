@@ -1,12 +1,16 @@
 import Foundation
 
+#if SWIFT_PACKAGE
+import WordPressKitObjC
+#endif
+
 open class DashboardServiceRemote: ServiceRemoteWordPressComREST {
     open func fetch(cards: [String], forBlogID blogID: Int, success: @escaping (NSDictionary) -> Void, failure: @escaping (Error) -> Void) {
         guard let requestUrl = endpoint(for: cards, blogID: blogID) else {
             return
         }
 
-        wordPressComRestApi.GET(requestUrl,
+        wordPressComRestApi.get(requestUrl,
                                 parameters: nil,
                                 success: { response, _ in
             guard let cards = response as? NSDictionary else {

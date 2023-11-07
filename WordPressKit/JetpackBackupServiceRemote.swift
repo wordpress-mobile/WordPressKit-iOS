@@ -1,6 +1,10 @@
 import Foundation
 import WordPressShared
 
+#if SWIFT_PACKAGE
+import WordPressKitObjC
+#endif
+
 open class JetpackBackupServiceRemote: ServiceRemoteWordPressComREST {
 
     /// Prepare a downloadable backup snapshot for a site.
@@ -29,7 +33,7 @@ open class JetpackBackupServiceRemote: ServiceRemoteWordPressComREST {
             parameters["types"] = types.toDictionary() as AnyObject
         }
 
-        wordPressComRestApi.POST(path, parameters: parameters, success: { response, _ in
+        wordPressComRestApi.post(path, parameters: parameters, success: { response, _ in
             do {
                 let decoder = JSONDecoder.apiDecoder
                 let data = try JSONSerialization.data(withJSONObject: response, options: [])
@@ -88,7 +92,7 @@ open class JetpackBackupServiceRemote: ServiceRemoteWordPressComREST {
 
         let parameters = ["dismissed": true] as [String: AnyObject]
 
-        wordPressComRestApi.POST(path, parameters: parameters, success: { _, _ in
+        wordPressComRestApi.post(path, parameters: parameters, success: { _, _ in
             success()
         }, failure: { error, _ in
             failure(error)
@@ -109,7 +113,7 @@ open class JetpackBackupServiceRemote: ServiceRemoteWordPressComREST {
             path = backupPath(for: siteID)
         }
 
-        wordPressComRestApi.GET(path, parameters: nil, success: { response, _ in
+        wordPressComRestApi.get(path, parameters: nil, success: { response, _ in
             do {
                 let decoder = JSONDecoder.apiDecoder
                 let data = try JSONSerialization.data(withJSONObject: response, options: [])

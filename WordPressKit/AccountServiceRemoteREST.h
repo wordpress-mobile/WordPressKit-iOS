@@ -1,6 +1,6 @@
 #import <Foundation/Foundation.h>
-#import <WordPressKit/AccountServiceRemote.h>
-#import <WordPressKit/ServiceRemoteWordPressComREST.h>
+#import "AccountServiceRemote.h"
+#import "ServiceRemoteWordPressComREST.h"
 
 typedef NSString* const MagicLinkParameter NS_TYPED_ENUM;
 extern MagicLinkParameter const MagicLinkParameterFlow;

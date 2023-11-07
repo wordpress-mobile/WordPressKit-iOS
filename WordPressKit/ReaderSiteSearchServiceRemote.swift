@@ -1,6 +1,10 @@
 import Foundation
 import WordPressShared
 
+#if SWIFT_PACKAGE
+import WordPressKitObjC
+#endif
+
 public class ReaderSiteSearchServiceRemote: ServiceRemoteWordPressComREST {
 
     public enum ResponseError: Error {

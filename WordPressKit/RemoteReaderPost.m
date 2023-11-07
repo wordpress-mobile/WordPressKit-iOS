@@ -5,6 +5,10 @@
 @import NSObject_SafeExpectations;
 @import WordPressShared;
 
+#if SWIFT_PACKAGE
+@import WordPressKitCore;
+#endif
+
 // REST Post dictionary keys
 NSString * const PostRESTKeyAttachments = @"attachments";
 NSString * const PostRESTKeyAuthor = @"author";

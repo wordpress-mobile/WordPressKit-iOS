@@ -1,3 +1,5 @@
+import Foundation
+
 public struct StatsPostingStreakInsight {
     public let currentStreakStart: Date
     public let currentStreakEnd: Date

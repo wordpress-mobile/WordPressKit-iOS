@@ -1,5 +1,9 @@
 import Foundation
 
+#if SWIFT_PACKAGE
+import WordPressKitObjC
+#endif
+
 extension ReaderPostServiceRemote {
 
     /// Returns a collection of RemoteReaderSimplePost
@@ -24,7 +28,7 @@ extension ReaderPostServiceRemote {
             "size_global": count
         ] as [String: AnyObject]
 
-        wordPressComRestApi.GET(
+        wordPressComRestApi.get(
             path,
             parameters: parameters,
             success: { (response, _) in

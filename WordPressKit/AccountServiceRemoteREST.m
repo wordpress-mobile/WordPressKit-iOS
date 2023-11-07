@@ -3,6 +3,10 @@
 @import NSObject_SafeExpectations;
 @import WordPressShared;
 
+#if SWIFT_PACKAGE
+@import WordPressKitCore;
+#endif
+
 static NSString * const UserDictionaryIDKey = @"ID";
 static NSString * const UserDictionaryUsernameKey = @"username";
 static NSString * const UserDictionaryEmailKey = @"email";

@@ -3,6 +3,12 @@
 @import NSObject_SafeExpectations;
 @import WordPressShared;
 
+#define WordPressComRestApiErrorKeyErrorCode    (@"WordPressComRestApiErrorCodeKey")
+#define WordPressComRestApiErrorKeyErrorMessage (@"WordPressComRestApiErrorMessageKey")
+// FIXME: This error domain value is not a constant
+#define WordPressComRestApiErrorDomain          (@"WordPressKit.WordPressComRestApiError")
+#define WordPressComRestApiErrorUnknown 7
+
 @implementation WordPressComServiceRemote
 
 - (void)createWPComAccountWithEmail:(NSString *)email
@@ -177,7 +183,7 @@
             // There was an error creating the blog as a successful call yields a dictionary back.
             NSString *localizedErrorMessage = NSLocalizedString(@"Unknown error", nil);
             NSMutableDictionary *userInfo = [[NSMutableDictionary alloc] init];
-            userInfo[WordPressComRestApi.ErrorKeyErrorMessage] = localizedErrorMessage;
+            userInfo[WordPressComRestApiErrorKeyErrorMessage] = localizedErrorMessage;
             userInfo[NSLocalizedDescriptionKey] = localizedErrorMessage;
             NSError *errorWithLocalizedMessage = [[NSError alloc] initWithDomain:WordPressComRestApiErrorDomain
                                                                             code:WordPressComRestApiErrorUnknown
@@ -230,13 +236,13 @@
 - (NSError *)errorWithLocalizedMessage:(NSError *)error {
     NSError *errorWithLocalizedMessage = error;
     if ([error.domain isEqualToString:WordPressComRestApiErrorDomain] &&
-        [error.userInfo objectForKey:WordPressComRestApi.ErrorKeyErrorCode] != nil) {
+        [error.userInfo objectForKey:WordPressComRestApiErrorKeyErrorCode] != nil) {
 
         NSString *localizedErrorMessage = [self errorMessageForError:error];
-        NSString *errorCode = [error.userInfo objectForKey:WordPressComRestApi.ErrorKeyErrorCode];
+        NSString *errorCode = [error.userInfo objectForKey:WordPressComRestApiErrorKeyErrorCode];
         NSMutableDictionary *userInfo = [[NSMutableDictionary alloc] initWithDictionary:error.userInfo];
-        userInfo[WordPressComRestApi.ErrorKeyErrorCode] = errorCode;
-        userInfo[WordPressComRestApi.ErrorKeyErrorMessage] = localizedErrorMessage;
+        userInfo[WordPressComRestApiErrorKeyErrorCode] = errorCode;
+        userInfo[WordPressComRestApiErrorKeyErrorMessage] = localizedErrorMessage;
         userInfo[NSLocalizedDescriptionKey] = localizedErrorMessage;
         errorWithLocalizedMessage = [[NSError alloc] initWithDomain:error.domain code:error.code userInfo:userInfo];
     }
@@ -245,7 +251,7 @@
 
 - (NSString *)errorMessageForError:(NSError *)error
 {
-    NSString *errorCode = [error.userInfo stringForKey:WordPressComRestApi.ErrorKeyErrorCode];
+    NSString *errorCode = [error.userInfo stringForKey:WordPressComRestApiErrorKeyErrorCode];
     NSString *errorMessage = [[error.userInfo stringForKey:NSLocalizedDescriptionKey] stringByStrippingHTML];
     
     if ([errorCode isEqualToString:@"username_only_lowercase_letters_and_numbers"]) {

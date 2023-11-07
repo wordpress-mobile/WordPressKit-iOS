@@ -3,6 +3,10 @@
 @import NSObject_SafeExpectations;
 @import WordPressShared;
 
+#if SWIFT_PACKAGE
+@import WordPressKitCore;
+#endif
+
 static NSString * const TopicMenuSectionDefaultKey = @"default";
 static NSString * const TopicMenuSectionSubscribedKey = @"subscribed";
 static NSString * const TopicMenuSectionRecommendedKey = @"recommended";

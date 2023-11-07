@@ -840,6 +840,7 @@
 		4A68E3DC294070A7004AC3DC /* RemoteReaderSite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteReaderSite.swift; sourceTree = "<group>"; };
 		4A68E3DE29407100004AC3DC /* RemoteReaderTopic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteReaderTopic.swift; sourceTree = "<group>"; };
 		4A68E3E0294076C1004AC3DC /* RemoteReaderSiteInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteReaderSiteInfo.swift; sourceTree = "<group>"; };
+		4A8CCDFE2AF9AC7400FD50FC /* WordPressOrgXMLRPCApi.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WordPressOrgXMLRPCApi.h; sourceTree = "<group>"; };
 		4AA5A1A22AA68F6B00969464 /* MediaLibraryTestSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaLibraryTestSupport.swift; sourceTree = "<group>"; };
 		4AA5A1A42AA695D700969464 /* LoadMediaLibraryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadMediaLibraryTests.swift; sourceTree = "<group>"; };
 		57BCD3D326209D9500292CB3 /* AppTransportSecuritySettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTransportSecuritySettings.swift; sourceTree = "<group>"; };
@@ -2415,6 +2416,7 @@
 				93BD27761EE73944002BB00B /* NSDate+WordPressJSON.m */,
 				93BD27771EE73944002BB00B /* WordPressComOAuthClient.swift */,
 				93BD27781EE73944002BB00B /* WordPressComRestApi.swift */,
+				4A8CCDFE2AF9AC7400FD50FC /* WordPressOrgXMLRPCApi.h */,
 				93BD27791EE73944002BB00B /* WordPressOrgXMLRPCApi.swift */,
 				93BD277A1EE73944002BB00B /* WordPressOrgXMLRPCValidator.swift */,
 				93BD277B1EE73944002BB00B /* WordPressRSDParser.swift */,

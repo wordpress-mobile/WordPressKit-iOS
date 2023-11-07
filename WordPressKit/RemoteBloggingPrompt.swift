@@ -1,3 +1,5 @@
+import Foundation
+
 public struct RemoteBloggingPrompt {
     public var promptID: Int
     public var text: String

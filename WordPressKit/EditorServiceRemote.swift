@@ -1,6 +1,10 @@
 import Foundation
 import WordPressShared
 
+#if SWIFT_PACKAGE
+import WordPressKitObjC
+#endif
+
 public class EditorServiceRemote: ServiceRemoteWordPressComREST {
     public func postDesignateMobileEditor(_ siteID: Int, editor: EditorSettings.Mobile, success: @escaping (EditorSettings) -> Void, failure: @escaping (Error) -> Void) {
         let endpoint = "sites/\(siteID)/gutenberg?platform=mobile&editor=\(editor.rawValue)"

@@ -2,9 +2,14 @@
 #import "WPKit-Swift.h"
 #import "RemoteComment.h"
 #import "RemoteUser.h"
+#import "NSDate+WordPressJSON.h"
 
 @import NSObject_SafeExpectations;
 @import WordPressShared;
+
+#if SWIFT_PACKAGE
+@import WordPressKitCore;
+#endif
 
 @implementation CommentServiceRemoteREST
 

@@ -1,3 +1,5 @@
+import Foundation
+
 public struct StatsDotComFollowersInsight {
     public let dotComFollowersCount: Int
     public let topDotComFollowers: [StatsFollower]

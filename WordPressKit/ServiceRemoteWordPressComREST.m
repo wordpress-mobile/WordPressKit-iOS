@@ -19,9 +19,9 @@ static NSString* const ServiceRemoteWordPressComRESTApiVersionString_2_0 = @"wpc
 
 @implementation ServiceRemoteWordPressComREST
 
-- (instancetype)initWithWordPressComRestApi:(WordPressComRestApi *)wordPressComRestApi {
+- (instancetype)initWithWordPressComRestApi:(id<WordPressComRestApi>)wordPressComRestApi {
 
-    NSParameterAssert([wordPressComRestApi isKindOfClass:[WordPressComRestApi class]]);
+    NSParameterAssert([wordPressComRestApi conformsToProtocol:@protocol(WordPressComRestApi)]);
 
     self = [super init];
     if (self) {
@@ -79,11 +79,12 @@ static NSString* const ServiceRemoteWordPressComRESTApiVersionString_2_0 = @"wpc
     return [NSString stringWithFormat:@"%@/%@", apiVersionString, resourceUrl];
 }
 
-+ (WordPressComRestApi *)anonymousWordPressComRestApiWithUserAgent:(NSString *)userAgent {
++ (id<WordPressComRestApi>)anonymousWordPressComRestApiWithUserAgent:(NSString *)userAgent {
 
-    return [[WordPressComRestApi alloc] initWithOAuthToken:nil
-                                                 userAgent:userAgent
-            ];
+//    return [[WordPressComRestApi alloc] initWithOAuthToken:nil
+//                                                 userAgent:userAgent
+//            ];
+    return nil;
 }
 
 @end

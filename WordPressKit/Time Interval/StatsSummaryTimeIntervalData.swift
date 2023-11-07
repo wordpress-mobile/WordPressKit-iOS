@@ -1,3 +1,5 @@
+import Foundation
+
 public enum StatsPeriodUnit: Int {
     case day
     case week

@@ -1,3 +1,5 @@
+import Foundation
+
 public struct StatsAnnualAndMostPopularTimeInsight {
 
     /// - A `DateComponents` object with one field populated: `weekday`.

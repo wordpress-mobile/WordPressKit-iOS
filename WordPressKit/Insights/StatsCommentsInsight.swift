@@ -1,3 +1,5 @@
+import Foundation
+
 public struct StatsCommentsInsight {
     public let topPosts: [StatsTopCommentsPost]
     public let topAuthors: [StatsTopCommentsAuthor]

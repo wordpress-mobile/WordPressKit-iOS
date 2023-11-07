@@ -1,3 +1,5 @@
+import Foundation
+
 public struct StatsPostDetails {
     public let fetchedDate: Date
     public let totalViewsCount: Int

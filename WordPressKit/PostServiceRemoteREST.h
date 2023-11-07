@@ -1,7 +1,7 @@
 #import <Foundation/Foundation.h>
-#import <WordPressKit/PostServiceRemote.h>
-#import <WordPressKit/SiteServiceRemoteWordPressComREST.h>
-#import <WordPressKit/RemoteMedia.h>
+#import "PostServiceRemote.h"
+#import "SiteServiceRemoteWordPressComREST.h"
+#import "RemoteMedia.h"
 
 @class RemoteUser;
 @class RemoteLikeUser;

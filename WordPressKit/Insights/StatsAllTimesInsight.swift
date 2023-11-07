@@ -1,3 +1,5 @@
+import Foundation
+
 public struct StatsAllTimesInsight {
     public let postsCount: Int
     public let viewsCount: Int

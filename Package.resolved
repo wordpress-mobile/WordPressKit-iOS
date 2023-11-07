@@ -1,0 +1,52 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "Alamofire",
+        "repositoryURL": "https://github.com/Alamofire/Alamofire",
+        "state": {
+          "branch": null,
+          "revision": "747c8db8d57b68d5e35275f10c92d55f982adbd4",
+          "version": "4.9.1"
+        }
+      },
+      {
+        "package": "NSObject-SafeExpectations",
+        "repositoryURL": "https://github.com/wordpress-mobile/NSObject-SafeExpectations",
+        "state": {
+          "branch": null,
+          "revision": "eb84d994ab13a153888a19e5b99f536aafa77434",
+          "version": "0.0.6"
+        }
+      },
+      {
+        "package": "UIDeviceIdentifier",
+        "repositoryURL": "https://github.com/squarefrog/UIDeviceIdentifier",
+        "state": {
+          "branch": null,
+          "revision": "9f514f9f99232be8fd4b2f33e0131a2520c6846f",
+          "version": "2.2.0"
+        }
+      },
+      {
+        "package": "WordPressShared",
+        "repositoryURL": "https://github.com/wordpress-mobile/WordPress-iOS-Shared",
+        "state": {
+          "branch": null,
+          "revision": "a089a97d7fe81c6ea0434d45370397edf04a26a7",
+          "version": "2.0.0"
+        }
+      },
+      {
+        "package": "wpxmlrpc",
+        "repositoryURL": "https://github.com/wordpress-mobile/wpxmlrpc",
+        "state": {
+          "branch": null,
+          "revision": "bfc413d336bdeaab89e62dc483380baa99b2257e",
+          "version": "0.10.0"
+        }
+      }
+    ]
+  },
+  "version": 1
+}

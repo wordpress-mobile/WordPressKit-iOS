@@ -1,3 +1,5 @@
+import Foundation
+
 public struct StatsLastPostInsight {
     public let title: String
     public let url: URL

@@ -1,3 +1,9 @@
+import Foundation
+
+#if SWIFT_PACKAGE
+import WordPressKitObjC
+#endif
+
 public extension CommentServiceRemoteREST {
     /// Lists the available keys for the request parameter.
     enum RequestKeys: String {
@@ -36,7 +42,7 @@ public extension CommentServiceRemoteREST {
             }
         }()
 
-        wordPressComRestApi.GET(path, parameters: requestParameters as [String: AnyObject]) { result, _ in
+        (wordPressComRestApi as! WordPressComRestApiImpl).GET(path, parameters: requestParameters as [String: AnyObject]) { result, _ in
             switch result {
             case .success(let responseObject):
                 do {

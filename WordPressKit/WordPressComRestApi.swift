@@ -2,6 +2,10 @@ import Foundation
 import WordPressShared
 import Alamofire
 
+#if SWIFT_PACKAGE
+import WordPressKitObjC
+#endif
+
 // MARK: - WordPressComRestApiError
 
 /**
@@ -35,7 +39,7 @@ public enum ResponseType {
 
 // MARK: - WordPressComRestApi
 
-open class WordPressComRestApi: NSObject {
+open class WordPressComRestApiImpl: NSObject, WordPressComRestApi {
 
     // MARK: Properties
 
@@ -47,7 +51,7 @@ open class WordPressComRestApi: NSObject {
     @objc public static let LocaleKeyDefault        = "locale"  // locale is specified with this for v1 endpoints
     @objc public static let LocaleKeyV2             = "_locale" // locale is prefixed with an underscore for v2
 
-    @objc public static let SessionTaskKey          = "WordPressComRestAPI.sessionTask"
+    @objc public static let sessionTaskKey          = "WordPressComRestAPI.sessionTask"
 
     public typealias RequestEnqueuedBlock = (_ taskID: NSNumber) -> Void
     public typealias SuccessResponseBlock = (_ responseObject: AnyObject, _ httpResponse: HTTPURLResponse?) -> Void
@@ -112,12 +116,12 @@ open class WordPressComRestApi: NSObject {
 
     // MARK: WordPressComRestApi
 
-    @objc convenience public init(oAuthToken: String? = nil, userAgent: String? = nil) {
-        self.init(oAuthToken: oAuthToken, userAgent: userAgent, backgroundUploads: false, backgroundSessionIdentifier: WordPressComRestApi.defaultBackgroundSessionIdentifier)
+    @objc required convenience public init(oAuthToken: String? = nil, userAgent: String? = nil) {
+        self.init(oAuthToken: oAuthToken, userAgent: userAgent, backgroundUploads: false, backgroundSessionIdentifier: WordPressComRestApiImpl.defaultBackgroundSessionIdentifier)
     }
 
-    @objc convenience public init(oAuthToken: String? = nil, userAgent: String? = nil, baseUrlString: String = WordPressComRestApi.apiBaseURLString) {
-        self.init(oAuthToken: oAuthToken, userAgent: userAgent, backgroundUploads: false, backgroundSessionIdentifier: WordPressComRestApi.defaultBackgroundSessionIdentifier, baseUrlString: baseUrlString)
+    @objc required convenience public init(oAuthToken: String? = nil, userAgent: String? = nil, baseUrlString: String = WordPressComRestApiImpl.apiBaseURLString) {
+        self.init(oAuthToken: oAuthToken, userAgent: userAgent, backgroundUploads: false, backgroundSessionIdentifier: WordPressComRestApiImpl.defaultBackgroundSessionIdentifier, baseUrlString: baseUrlString)
     }
 
     /// Creates a new API object to connect to the WordPress Rest API.
@@ -136,12 +140,12 @@ open class WordPressComRestApi: NSObject {
     ///   after the app is killed by the system and the system will retried them until they are done. If the background session is initiated from an app extension, you *must* provide a value
     ///   for the sharedContainerIdentifier.
     ///
-    @objc public init(oAuthToken: String? = nil, userAgent: String? = nil,
+    @objc required public init(oAuthToken: String? = nil, userAgent: String? = nil,
                 backgroundUploads: Bool = false,
-                backgroundSessionIdentifier: String = WordPressComRestApi.defaultBackgroundSessionIdentifier,
+                backgroundSessionIdentifier: String = WordPressComRestApiImpl.defaultBackgroundSessionIdentifier,
                 sharedContainerIdentifier: String? = nil,
-                localeKey: String = WordPressComRestApi.LocaleKeyDefault,
-                baseUrlString: String = WordPressComRestApi.apiBaseURLString) {
+                localeKey: String = WordPressComRestApiImpl.LocaleKeyDefault,
+                baseUrlString: String = WordPressComRestApiImpl.apiBaseURLString) {
         self.oAuthToken = oAuthToken
         self.userAgent = userAgent
         self.backgroundUploads = backgroundUploads
@@ -252,12 +256,17 @@ open class WordPressComRestApi: NSObject {
      returns nil it's because something happened on the request serialization and the network request was not started, but the failure callback
      will be invoked with the error specificing the serialization issues.
      */
-    @objc @discardableResult open func GET(_ URLString: String,
+    @nonobjc @discardableResult open func GET(_ URLString: String,
                      parameters: [String: AnyObject]?,
                      success: @escaping SuccessResponseBlock,
                      failure: @escaping FailureReponseBlock) -> Progress? {
 
         return request(method: .get, urlString: URLString, parameters: parameters, encoding: URLEncoding.default, success: success, failure: failure)
+    }
+
+    @objc
+    public func get(_ URLString: String, parameters: [String : Any]?, success: @escaping (Any, HTTPURLResponse?) -> Void, failure: @escaping (Error, HTTPURLResponse?) -> Void) -> Progress? {
+        self.GET(URLString, parameters: parameters as? [String: AnyObject], success: success, failure: failure)
     }
 
     open func GETData(_ URLString: String,
@@ -283,13 +292,18 @@ open class WordPressComRestApi: NSObject {
      returns nil it's because something happened on the request serialization and the network request was not started, but the failure callback
      will be invoked with the error specificing the serialization issues.
      */
-    @objc @discardableResult open func POST(_ URLString: String,
+    @nonobjc @discardableResult open func POST(_ URLString: String,
                      parameters: [String: AnyObject]?,
                      success: @escaping SuccessResponseBlock,
                      failure: @escaping FailureReponseBlock) -> Progress? {
 
         return request(method: .post, urlString: URLString, parameters: parameters, encoding: JSONEncoding.default, success: success, failure: failure)
     }
+
+   @objc
+   public func post(_ URLString: String, parameters: [String : Any]?, success: @escaping (Any, HTTPURLResponse?) -> Void, failure: @escaping (Error, HTTPURLResponse?) -> Void) -> Progress? {
+       self.POST(URLString, parameters: parameters as? [String: AnyObject], success: success, failure: failure)
+   }
 
     /**
      Executes a multipart POST using the current serializer, the parameters defined and the fileParts defined in the request
@@ -306,12 +320,15 @@ open class WordPressComRestApi: NSObject {
      returns nil it's because something happened on the request serialization and the network request was not started, but the failure callback
      will be invoked with the error specificing the serialization issues.
      */
-    @objc @discardableResult open func multipartPOST(_ URLString: String,
-                              parameters: [String: AnyObject]?,
-                              fileParts: [FilePart],
-                              requestEnqueued: RequestEnqueuedBlock? = nil,
-                              success: @escaping SuccessResponseBlock,
-                              failure: @escaping FailureReponseBlock) -> Progress? {
+    @objc @discardableResult open func multipartPOST(
+        _ URLString: String,
+        parameters parameters_: [String : Any]?,
+        fileParts: [FilePart],
+        requestEnqueued: ((NSNumber) -> Void)?,
+        success: @escaping (Any, HTTPURLResponse?) -> Void,
+        failure: @escaping (Error, HTTPURLResponse?) -> Void
+    )-> Progress? {
+        let parameters = parameters_ as? [String: AnyObject]
 
         guard let URLString = buildRequestURLFor(path: URLString, parameters: parameters) else {
             failure(Constants.buildRequestError, nil)
@@ -364,7 +381,7 @@ open class WordPressComRestApi: NSObject {
         return !(authToken.isEmpty)
     }
 
-    override open var hash: Int {
+    override public var hash: Int {
         return "\(String(describing: oAuthToken)),\(String(describing: userAgent))".hashValue
     }
 
@@ -522,11 +539,11 @@ open class WordPressComRestApi: NSObject {
 // MARK: - FilePart
 
 /// FilePart represents the infomartion needed to encode a file on a multipart form request
-public final class FilePart: NSObject {
-    @objc let parameterName: String
-    @objc let url: URL
-    @objc let filename: String
-    @objc let mimeType: String
+public final class FilePartImpl: NSObject, FilePart {
+    @objc public let parameterName: String
+    @objc public let url: URL
+    @objc public let filename: String
+    @objc public let mimeType: String
 
     @objc public init(parameterName: String, url: URL, filename: String, mimeType: String) {
         self.parameterName = parameterName
@@ -538,7 +555,7 @@ public final class FilePart: NSObject {
 
 // MARK: - Error processing
 
-extension WordPressComRestApi {
+extension WordPressComRestApiImpl {
 
     /// A custom error processor to handle error responses when status codes are betwen 400 and 500
     func processError(response: DataResponse<Any>, originalError: Error) -> NSError {
@@ -592,12 +609,12 @@ extension WordPressComRestApi {
         if mappedError == .invalidToken {
             invalidTokenHandler?()
         }
-        userInfo[WordPressComRestApi.ErrorKeyErrorCode] = errorCode
-        userInfo[WordPressComRestApi.ErrorKeyErrorMessage] = errorDescription
+        userInfo[WordPressComRestApiImpl.ErrorKeyErrorCode] = errorCode
+        userInfo[WordPressComRestApiImpl.ErrorKeyErrorMessage] = errorDescription
         userInfo[NSLocalizedDescriptionKey] =  errorDescription
 
         if let errorData = errorEntry["data"] {
-            userInfo[WordPressComRestApi.ErrorKeyErrorData] = errorData
+            userInfo[WordPressComRestApiImpl.ErrorKeyErrorData] = errorData
         }
 
         let nserror = mappedError as NSError
@@ -616,9 +633,9 @@ extension WordPressComRestApi {
                 return nil
         }
         var userInfo = [String: Any]()
-        userInfo[WordPressComRestApi.ErrorKeyErrorCode] = "too_many_requests"
-        userInfo[WordPressComRestApi.ErrorKeyErrorMessage] = NSLocalizedString("Limit reached. You can try again in 1 minute. Trying again before that will only increase the time you have to wait before the ban is lifted. If you think this is in error, contact support.", comment: "Message to show when a request for a WP.com API endpoint is throttled")
-        userInfo[NSLocalizedDescriptionKey] = userInfo[WordPressComRestApi.ErrorKeyErrorMessage]
+        userInfo[WordPressComRestApiImpl.ErrorKeyErrorCode] = "too_many_requests"
+        userInfo[WordPressComRestApiImpl.ErrorKeyErrorMessage] = NSLocalizedString("Limit reached. You can try again in 1 minute. Trying again before that will only increase the time you have to wait before the ban is lifted. If you think this is in error, contact support.", comment: "Message to show when a request for a WP.com API endpoint is throttled")
+        userInfo[NSLocalizedDescriptionKey] = userInfo[WordPressComRestApiImpl.ErrorKeyErrorMessage]
         let nsError = WordPressComRestApiError.tooManyRequests as NSError
         let errorWithLocalizedMessage = NSError(domain: nsError.domain, code: nsError.code, userInfo: userInfo)
         return errorWithLocalizedMessage
@@ -626,25 +643,25 @@ extension WordPressComRestApi {
 }
 // MARK: - Anonymous API support
 
-extension WordPressComRestApi {
+extension WordPressComRestApiImpl {
 
     /// Returns an API object without an OAuth token defined & with the userAgent set for the WordPress App user agent
     ///
     @objc class public func anonymousApi(userAgent: String) -> WordPressComRestApi {
-        return WordPressComRestApi(oAuthToken: nil, userAgent: userAgent)
+        return WordPressComRestApiImpl(oAuthToken: nil, userAgent: userAgent)
     }
 
     /// Returns an API object without an OAuth token defined & with both the userAgent & localeKey set for the WordPress App user agent
     ///
     @objc class public func anonymousApi(userAgent: String, localeKey: String) -> WordPressComRestApi {
-        return WordPressComRestApi(oAuthToken: nil, userAgent: userAgent, localeKey: localeKey)
+        return WordPressComRestApiImpl(oAuthToken: nil, userAgent: userAgent, localeKey: localeKey)
     }
 }
 
-extension WordPressComRestApi: WordPressRestApi {
+extension WordPressComRestApiImpl: WordPressRestApi {
     @discardableResult
     public func GET(_ path: String, parameters: [String: AnyObject]?, completion: @escaping Completion) -> Progress? {
-        return GET(path, parameters: parameters, success: { (responseObject, httpResponse) in
+        return get(path, parameters: parameters, success: { (responseObject, httpResponse) in
             completion(.success(responseObject), httpResponse)
         }, failure: { (error, httpResponse) in
             completion(.failure(error), httpResponse)
@@ -661,7 +678,7 @@ extension WordPressComRestApi: WordPressRestApi {
 
 // MARK: - Constants
 
-private extension WordPressComRestApi {
+private extension WordPressComRestApiImpl {
 
     enum Constants {
         static let buildRequestError = NSError(domain: String(describing: WordPressComRestApiError.self),
@@ -687,7 +704,7 @@ private extension WordPressComRestApi {
 }
 
 extension ProgressUserInfoKey {
-    public static let sessionTaskKey = ProgressUserInfoKey(rawValue: WordPressComRestApi.SessionTaskKey)
+    public static let sessionTaskKey = ProgressUserInfoKey(rawValue: WordPressComRestApiImpl.sessionTaskKey)
 }
 
 // MARK: - POST encoding

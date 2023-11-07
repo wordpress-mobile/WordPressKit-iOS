@@ -1,7 +1,12 @@
 #import "ReaderSiteServiceRemote.h"
+#import "WPKitLogging.h"
 #import "WPKit-Swift.h"
 @import NSObject_SafeExpectations;
 @import WordPressShared;
+
+#if SWIFT_PACKAGE
+@import WordPressKitCore;
+#endif
 
 static NSString* const ReaderSiteServiceRemoteURLKey = @"url";
 static NSString* const ReaderSiteServiceRemoteSourceKey = @"source";

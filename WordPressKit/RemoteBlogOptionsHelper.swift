@@ -66,14 +66,14 @@ import Foundation
         return options
     }
 
-    public class func remoteBlogSettings(fromXMLRPCDictionaryOptions options: NSDictionary) -> RemoteBlogSettings {
-        let remoteSettings = RemoteBlogSettings()
-        remoteSettings.name = options.string(forKeyPath: "blog_title.value")?.stringByDecodingXMLCharacters()
-        remoteSettings.tagline = options.string(forKeyPath: "blog_tagline.value")?.stringByDecodingXMLCharacters()
-        if options["blog_public"] != nil {
-            remoteSettings.privacy = options.number(forKeyPath: "blog_public.value")
-        }
-        return remoteSettings
-    }
+//    public class func remoteBlogSettings(fromXMLRPCDictionaryOptions options: NSDictionary) -> RemoteBlogSettings {
+//        let remoteSettings = RemoteBlogSettings()
+//        remoteSettings.name = options.string(forKeyPath: "blog_title.value")?.stringByDecodingXMLCharacters()
+//        remoteSettings.tagline = options.string(forKeyPath: "blog_tagline.value")?.stringByDecodingXMLCharacters()
+//        if options["blog_public"] != nil {
+//            remoteSettings.privacy = options.number(forKeyPath: "blog_public.value")
+//        }
+//        return remoteSettings
+//    }
 
 }

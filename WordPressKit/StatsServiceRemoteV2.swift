@@ -1,5 +1,9 @@
 import Foundation
 
+#if SWIFT_PACKAGE
+import WordPressKitObjC
+#endif
+
 // This name isn't great! After finishing the work on StatsRefresh we'll get rid of the "old"
 // one and rename this to not have "V2" in it, but we want to keep the old one around
 // for a while still.
@@ -33,7 +37,7 @@ open class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
     public init(wordPressComRestApi api: WordPressComRestApi, siteID: Int, siteTimezone: TimeZone) {
         self.siteID = siteID
         self.siteTimezone = siteTimezone
-        super.init(wordPressComRestApi: api)
+        super.init(wordPressComRestApi: api as! WordPressComRestApi)
     }
 
     /// Responsible for fetching Stats data for Insights — latest data about a site,
@@ -48,7 +52,7 @@ open class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
 
         let path = self.path(forEndpoint: "sites/\(siteID)/\(pathComponent)/", withVersion: ._1_1)
 
-        wordPressComRestApi.GET(path, parameters: properties, success: { (response, _) in
+        wordPressComRestApi.get(path, parameters: properties, success: { (response, _) in
             guard
                 let jsonResponse = response as? [String: AnyObject],
                 let insight = InsightType(jsonDictionary: jsonResponse)
@@ -72,7 +76,7 @@ open class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
                                 success: @escaping () -> Void,
                                 failure: @escaping (Error) -> Void) {
         let path = pathForToggleSpamStateEndpoint(referrerDomain: referrerDomain, markAsSpam: !currentValue)
-        wordPressComRestApi.POST(path, parameters: nil, success: { object, _ in
+        wordPressComRestApi.post(path, parameters: nil, success: { object, _ in
             guard
                 let dictionary = object as? [String: AnyObject],
                 let response = MarkAsSpamResponse(dictionary: dictionary) else {
@@ -114,7 +118,7 @@ open class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
             return val1
         }
 
-        wordPressComRestApi.GET(path, parameters: properties, success: { (response, _) in
+        wordPressComRestApi.get(path, parameters: properties, success: { (response, _) in
             guard
                 let jsonResponse = response as? [String: AnyObject],
                 let dateString = jsonResponse["date"] as? String,
@@ -146,7 +150,7 @@ open class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
     public func getDetails(forPostID postID: Int, completion: @escaping ((StatsPostDetails?, Error?) -> Void)) {
         let path = self.path(forEndpoint: "sites/\(siteID)/stats/post/\(postID)/", withVersion: ._1_1)
 
-        wordPressComRestApi.GET(path, parameters: [:], success: { (response, _) in
+        wordPressComRestApi.get(path, parameters: [:], success: { (response, _) in
             guard
                 let jsonResponse = response as? [String: AnyObject],
                 let postDetails = StatsPostDetails(jsonDictionary: jsonResponse)
@@ -176,7 +180,7 @@ extension StatsServiceRemoteV2 {
         let pathComponent = StatsLastPostInsight.pathComponent
         let path = self.path(forEndpoint: "sites/\(siteID)/\(pathComponent)", withVersion: ._1_1)
 
-        wordPressComRestApi.GET(path, parameters: properties, success: { (response, _) in
+        wordPressComRestApi.get(path, parameters: properties, success: { (response, _) in
             guard let jsonResponse = response as? [String: AnyObject],
                   let postCount = jsonResponse["found"] as? Int else {
                 completion(nil, ResponseError.decodingFailure)
@@ -217,7 +221,7 @@ extension StatsServiceRemoteV2 {
 
         let path = self.path(forEndpoint: "sites/\(siteID)/stats/post/\(postID)", withVersion: ._1_1)
 
-        wordPressComRestApi.GET(path,
+        wordPressComRestApi.get(path,
                                 parameters: parameters,
                                 success: { (response, _) in
                                     guard
@@ -252,7 +256,7 @@ extension StatsServiceRemoteV2 {
                           "after": ISO8601DateFormatter().string(from: startDate(for: period, endDate: endingOn)),
                           "before": ISO8601DateFormatter().string(from: endingOn)] as [String: AnyObject]
 
-        wordPressComRestApi.GET(path,
+        wordPressComRestApi.get(path,
                                 parameters: properties,
                                 success: { (response, _) in
                                     guard

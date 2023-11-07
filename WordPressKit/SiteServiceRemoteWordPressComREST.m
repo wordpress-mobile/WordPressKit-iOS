@@ -6,7 +6,7 @@
 
 @implementation SiteServiceRemoteWordPressComREST
 
-- (instancetype)initWithWordPressComRestApi:(WordPressComRestApi *)api siteID:(NSNumber *)siteID {
+- (instancetype)initWithWordPressComRestApi:(id<WordPressComRestApi>)api siteID:(NSNumber *)siteID {
     self = [super initWithWordPressComRestApi:api];
     if (self) {
         _siteID = siteID;

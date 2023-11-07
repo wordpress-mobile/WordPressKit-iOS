@@ -2,9 +2,14 @@
 #import "BlogServiceRemoteREST.h"
 #import "NSMutableDictionary+Helpers.h"
 #import "RemotePostType.h"
+#import "WPKitLogging.h"
 #import "WPKit-Swift.h"
 @import NSObject_SafeExpectations;
 @import WordPressShared;
+
+#if SWIFT_PACKAGE
+@import WordPressKitCore;
+#endif
 
 #pragma mark - Parsing Keys
 static NSString * const RemoteBlogNameKey                                   = @"name";

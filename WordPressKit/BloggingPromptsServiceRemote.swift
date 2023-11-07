@@ -1,3 +1,9 @@
+import Foundation
+
+#if SWIFT_PACKAGE
+import WordPressKitObjC
+#endif
+
 /// Encapsulates logic to fetch blogging prompts from the remote endpoint.
 ///
 open class BloggingPromptsServiceRemote: ServiceRemoteWordPressComREST {
@@ -13,6 +19,8 @@ open class BloggingPromptsServiceRemote: ServiceRemoteWordPressComREST {
     public enum RequestError: Error {
         case encodingFailure
     }
+
+    private var api: WordPressComRestApiImpl { wordPressComRestApi as! WordPressComRestApiImpl }
 
     /// Fetches a number of blogging prompts for the specified site.
     /// Note that this method hits wpcom/v2, which means the `WordPressComRestAPI` needs to be initialized with `LocaleKeyV2`.
@@ -43,7 +51,7 @@ open class BloggingPromptsServiceRemote: ServiceRemoteWordPressComREST {
             return params
         }()
 
-        wordPressComRestApi.GET(path, parameters: requestParameter as [String: AnyObject]) { result, _ in
+        api.GET(path, parameters: requestParameter as [String: AnyObject]) { result, _ in
             switch result {
             case .success(let responseObject):
                 do {
@@ -71,7 +79,7 @@ open class BloggingPromptsServiceRemote: ServiceRemoteWordPressComREST {
     ///   - completion: Closure that will be called when the request completes.
     open func fetchSettings(for siteID: NSNumber, completion: @escaping (Result<RemoteBloggingPromptsSettings, Error>) -> Void) {
         let path = path(forEndpoint: "sites/\(siteID)/blogging-prompts/settings", withVersion: ._2_0)
-        wordPressComRestApi.GET(path, parameters: nil) { result, _ in
+        api.GET(path, parameters: nil) { result, _ in
             switch result {
             case .success(let responseObject):
                 do {
@@ -117,7 +125,7 @@ open class BloggingPromptsServiceRemote: ServiceRemoteWordPressComREST {
             return
         }
 
-        wordPressComRestApi.POST(path, parameters: parameters) { responseObject, _ in
+        api.post(path, parameters: parameters) { responseObject, _ in
             do {
                 let data = try JSONSerialization.data(withJSONObject: responseObject)
                 let response = try JSONDecoder().decode(UpdateBloggingPromptsSettingsResponse.self, from: data)

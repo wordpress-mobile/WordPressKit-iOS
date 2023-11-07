@@ -1,5 +1,6 @@
 #import <Foundation/Foundation.h>
-#import <WordPressKit/ServiceRemoteWordPressComREST.h>
+//#import "ServiceRemoteWordPressComREST.h"
+#import "ServiceRemoteWordPressComREST.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -7,8 +8,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, readonly) NSNumber *siteID;
 
-- (instancetype)initWithWordPressComRestApi:(WordPressComRestApi *)api __unavailable;
-- (instancetype)initWithWordPressComRestApi:(WordPressComRestApi *)api siteID:(NSNumber *)siteID;
+- (instancetype)initWithWordPressComRestApi:(id<WordPressComRestApi>)api __unavailable;
+- (instancetype)initWithWordPressComRestApi:(id<WordPressComRestApi>)api siteID:(NSNumber *)siteID;
 
 @end
 

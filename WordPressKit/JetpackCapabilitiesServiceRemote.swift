@@ -1,5 +1,9 @@
 import Foundation
 
+#if SWIFT_PACKAGE
+import WordPressKitObjC
+#endif
+
 /// A service that returns the Jetpack Capabilities for a set of blogs
 open class JetpackCapabilitiesServiceRemote: ServiceRemoteWordPressComREST {
 
@@ -19,7 +23,7 @@ open class JetpackCapabilitiesServiceRemote: ServiceRemoteWordPressComREST {
                 let endpoint = "sites/\(siteID)/rewind/capabilities"
                 let path = self.path(forEndpoint: endpoint, withVersion: ._2_0)
 
-                self.wordPressComRestApi.GET(path,
+                self.wordPressComRestApi.get(path,
                                          parameters: nil,
                                          success: { response, _  in
                                             if let capabilities = (response as? [String: AnyObject])?["capabilities"] as? [String] {

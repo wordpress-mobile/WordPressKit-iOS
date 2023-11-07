@@ -1,3 +1,9 @@
+import Foundation
+
+#if SWIFT_PACKAGE
+import WordPressKitObjC
+#endif
+
 /// Encapsulates remote service logic related to Jetpack Social.
 public class JetpackSocialServiceRemote: ServiceRemoteWordPressComREST {
 

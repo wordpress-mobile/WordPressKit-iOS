@@ -1,3 +1,5 @@
+import Foundation
+
 public struct StatsSearchTermTimeIntervalData {
     public let period: StatsPeriodUnit
     public let periodEndDate: Date

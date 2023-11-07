@@ -1,6 +1,6 @@
 #import <Foundation/Foundation.h>
 
-@class WordPressComRestApi;
+#import "WordPressComRestApi.h"
 
 typedef NSInteger NS_TYPED_ENUM ServiceRemoteWordPressComRESTApiVersion;
 extern ServiceRemoteWordPressComRESTApiVersion const ServiceRemoteWordPressComRESTApiVersion_1_0;
@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  @brief      The API object to use for communications.
  */
-@property (nonatomic, strong, readonly) WordPressComRestApi *wordPressComRestApi;
+@property (nonatomic, strong, readonly) id<WordPressComRestApi> wordPressComRestApi;
 
 /**
  *  @brief      Designated initializer.
@@ -30,7 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @returns    The initialized object.
  */
-- (instancetype)initWithWordPressComRestApi:(WordPressComRestApi *)api;
+- (instancetype)initWithWordPressComRestApi:(id<WordPressComRestApi>)api;
 
 #pragma mark - Request URL construction
 
@@ -50,7 +50,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param      userAgent       The user agent string to use on all requests
  */
-+ (WordPressComRestApi *)anonymousWordPressComRestApiWithUserAgent:(NSString *)userAgent;
++ (id<WordPressComRestApi>)anonymousWordPressComRestApiWithUserAgent:(NSString *)userAgent;
 
 @end
 

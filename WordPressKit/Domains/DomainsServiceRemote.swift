@@ -1,5 +1,9 @@
 import Foundation
 
+#if SWIFT_PACKAGE
+import WordPressKitObjC
+#endif
+
 /// Allows the construction of a request for domain suggestions.
 ///
 public struct DomainSuggestionRequest {

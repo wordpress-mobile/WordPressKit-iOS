@@ -1,3 +1,9 @@
+import Foundation
+
+#if SWIFT_PACKAGE
+import WordPressKitObjC
+#endif
+
 extension ReaderPostServiceRemote {
     /// Returns a collection of RemoteReaderPost
     /// This method returns the best available content for the given topics.

@@ -1,5 +1,9 @@
 import Foundation
 
+#if SWIFT_PACKAGE
+import WordPressKitObjC
+#endif
+
 public struct JetpackInstallError: LocalizedError, Equatable {
     public enum ErrorType: String {
         case invalidCredentials = "INVALID_CREDENTIALS"

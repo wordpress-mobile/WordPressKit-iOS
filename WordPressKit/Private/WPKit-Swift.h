@@ -3,6 +3,6 @@
 // See https://github.com/CocoaPods/CocoaPods/issues/7594
 #if __has_include("WordPressKit-Swift.h")
     #import "WordPressKit-Swift.h"
-#else
+#elif defined(COCOAPODS)
     #import <WordPressKit/WordPressKit-Swift.h>
 #endif

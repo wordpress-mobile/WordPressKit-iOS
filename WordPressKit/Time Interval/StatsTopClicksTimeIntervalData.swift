@@ -1,3 +1,5 @@
+import Foundation
+
 public struct StatsTopClicksTimeIntervalData {
     public let period: StatsPeriodUnit
     public let periodEndDate: Date

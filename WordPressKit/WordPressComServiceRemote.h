@@ -1,5 +1,5 @@
 @import Foundation;
-#import <WordPressKit/ServiceRemoteWordPressComREST.h>
+#import "ServiceRemoteWordPressComREST.h"
 
 typedef NS_ENUM(NSUInteger, WordPressComServiceBlogVisibility) {
     WordPressComServiceBlogVisibilityPublic = 0,
