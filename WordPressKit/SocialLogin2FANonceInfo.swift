@@ -8,7 +8,7 @@ public class SocialLogin2FANonceInfo: NSObject {
     @objc public var nonceWebauthn = ""
     @objc var nonceBackup = ""
     @objc var nonceAuthenticator = ""
-    @objc var supportedAuthTypes = [String]() // backup|authenticator|sms|webauthn
+    @objc public var supportedAuthTypes = [String]() // backup|authenticator|sms|webauthn
     @objc var notificationSent = "" // none|sms
     @objc var phoneNumber = "" // The last two digits of the phone number to which an SMS was sent.
 
