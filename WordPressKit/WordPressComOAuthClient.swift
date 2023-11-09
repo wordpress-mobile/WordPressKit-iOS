@@ -193,10 +193,11 @@ public final class WordPressComOAuthClient: NSObject {
                         return success(authToken)
                     }
 
-                    // If there is no access token, check for a security key nonce
+                    // If there is no access token, check for two-step auth types
                     guard let responseData = responseDictionary["data"] as? [String: AnyObject],
                           let userID = responseData["user_id"] as? Int,
-                          let _ = responseData["two_step_nonce_webauthn"] else {
+                          let twoStepAuthTypes = responseData["two_step_supported_auth_types"] as? [String],
+                          !twoStepAuthTypes.isEmpty else {
                         failure(defaultError)
                         return
                     }
