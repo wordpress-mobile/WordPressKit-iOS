@@ -23,6 +23,7 @@
 @property (nonatomic, strong, nullable) NSDictionary *exif;
 @property (nonatomic, strong, nullable) NSString *videopressGUID;
 @property (nonatomic, strong, nullable) NSNumber *length;
+@property (nonatomic, strong, nullable) NSString *size;
 @property (nonatomic, strong, nullable) NSString *remoteThumbnailURL;
 
 @end

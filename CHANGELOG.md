@@ -46,8 +46,8 @@ _None._
 
 ### New Features
 
-- Add `tag` parameter to `PostServiceRemoteOptions` [#634]
 - Add `transfer` case to `DomainType` case [#642]
+- Add `size` property to `RemoteMedia` [#647]
 
 ## 8.10.0
 
