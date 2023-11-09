@@ -28,6 +28,7 @@ public final class WordPressComOAuthClient: NSObject {
 
     enum WordPressComURL: String {
         case oAuthBase = "/oauth2/token"
+        case loginBase = "wp-login.php?action=login-endpoint"
         case webauthnChallenge = "wp-login.php?action=webauthn-challenge-endpoint"
         case webauthnAuthentication = "wp-login.php?action=webauthn-authentication-endpoint"
         case socialLogin = "/wp-login.php?action=social-login-endpoint&version=1.0"
@@ -163,14 +164,16 @@ public final class WordPressComOAuthClient: NSObject {
             "client_id": clientID as AnyObject,
             "client_secret": secret as AnyObject,
             "wpcom_supports_2fa": true as AnyObject,
-            "with_auth_types": true as AnyObject
+            "get_bearer_token": true as AnyObject
         ]
 
         if let multifactorCode = multifactorCode, !multifactorCode.isEmpty {
             parameters["wpcom_otp"] = multifactorCode as AnyObject?
         }
 
-        oauth2SessionManager.request(WordPressComURL.oAuthBase.url(base: wordPressComApiBaseUrl), method: .post, parameters: parameters)
+        let url = WordPressComURL.loginBase.url(base: WordPressComOAuthClient.WordPressComOAuthDefaultBaseUrl)
+
+        oauth2SessionManager.request(url, method: .post, parameters: parameters)
             .validate()
             .responseJSON(completionHandler: { response in
                 switch response.result {
@@ -181,19 +184,20 @@ public final class WordPressComOAuthClient: NSObject {
                                                code: WordPressComOAuthError.unknown.rawValue,
                                                userInfo: nil)
 
-                    guard let responseDictionary = responseObject as? [String: AnyObject] else {
+                    guard let responseDictionary = responseObject as? [String: AnyObject],
+                          let responseData = responseDictionary["data"] as? [String: AnyObject] else {
                         return failure(defaultError)
                     }
 
-                    // If we found an access_token, we are authed.
-                    if let authToken = responseDictionary["access_token"] as? String {
+                    // If we found a bearer token, we are authed.
+                    if let authToken = responseData["bearer_token"] as? String {
                         return success(authToken)
                     }
 
-                    // If there is no access token, check for a security key nonce
-                    guard let responseData = responseDictionary["data"] as? [String: AnyObject],
-                          let userID = responseData["user_id"] as? Int,
-                          let _ = responseData["two_step_nonce_webauthn"] else {
+                    // If there is no bearer token, check for two-step auth types
+                    guard let userID = responseData["user_id"] as? Int,
+                          let twoStepAuthTypes = responseData["two_step_supported_auth_types"] as? [String],
+                          !twoStepAuthTypes.isEmpty else {
                         failure(defaultError)
                         return
                     }
