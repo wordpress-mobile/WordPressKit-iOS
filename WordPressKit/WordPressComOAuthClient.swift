@@ -184,18 +184,18 @@ public final class WordPressComOAuthClient: NSObject {
                                                code: WordPressComOAuthError.unknown.rawValue,
                                                userInfo: nil)
 
-                    guard let responseDictionary = responseObject as? [String: AnyObject] else {
+                    guard let responseDictionary = responseObject as? [String: AnyObject],
+                          let responseData = responseDictionary["data"] as? [String: AnyObject] else {
                         return failure(defaultError)
                     }
 
-                    // If we found an access_token, we are authed.
-                    if let authToken = responseDictionary["access_token"] as? String {
+                    // If we found a bearer token, we are authed.
+                    if let authToken = responseData["bearer_token"] as? String {
                         return success(authToken)
                     }
 
-                    // If there is no access token, check for two-step auth types
-                    guard let responseData = responseDictionary["data"] as? [String: AnyObject],
-                          let userID = responseData["user_id"] as? Int,
+                    // If there is no bearer token, check for two-step auth types
+                    guard let userID = responseData["user_id"] as? Int,
                           let twoStepAuthTypes = responseData["two_step_supported_auth_types"] as? [String],
                           !twoStepAuthTypes.isEmpty else {
                         failure(defaultError)
