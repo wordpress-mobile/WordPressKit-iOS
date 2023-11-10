@@ -4,6 +4,7 @@ import Foundation
     case registered
     case mapped
     case siteRedirect
+    case transfer
     case wpCom
 
     public var description: String {
@@ -16,6 +17,8 @@ import Foundation
             return NSLocalizedString("Site Redirect", comment: "Describes a site redirect domain")
         case .wpCom:
             return NSLocalizedString("Included with Site", comment: "Describes a standard *.wordpress.com site domain")
+        case .transfer:
+            return NSLocalizedString("Transferred Domain", comment: "Describes a domain that was transferred from elsewhere to wordpress.com")
         }
     }
 
@@ -30,6 +33,8 @@ import Foundation
     init(type: String?, wpComDomain: Bool?, hasRegistration: Bool?) {
         if type == "redirect" {
             self = .siteRedirect
+        } else if type == "transfer" {
+            self = .transfer
         } else if wpComDomain == true {
             self = .wpCom
         } else if hasRegistration == true {

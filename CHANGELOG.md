@@ -47,12 +47,14 @@ _None._
 ### New Features
 
 - Add `tag` parameter to `PostServiceRemoteOptions` [#634]
+- Add `transfer` case to `DomainType` case [#642]
 
 ## 8.10.0
 
 ### New Features
 
 - Add optional `tag` parameter to `PostServiceRemoteOptions` [#640]
+- Add support for creating a shopping cart that's not tied to a specific site. [#644]
 
 ## 8.9.1
 
