@@ -34,7 +34,7 @@ _None._
 
 ### Breaking Changes
 
-_None._
+- `WordPressComOAuthError` now conforms to `Swift.Error` [#650]
 
 ### New Features
 
