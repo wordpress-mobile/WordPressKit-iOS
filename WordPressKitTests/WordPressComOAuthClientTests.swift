@@ -98,8 +98,7 @@ class WordPressComOAuthClientTests: XCTestCase {
             },
             failure: { (error) in
                 expect.fulfill()
-                XCTAssert(error.domain == WordPressComOAuthClient.WordPressComOAuthErrorDomain, "The error should an WordPressComOAuthError")
-                XCTAssert(error.code == Int(WordPressComOAuthError.invalidRequest.rawValue), "The code should be invalid request")
+                XCTAssertEqual(error.authenticationFailureKind, .invalidRequest, "The code should be invalid request")
             }
         )
         waitForExpectations(timeout: 2, handler: nil)
@@ -127,8 +126,7 @@ class WordPressComOAuthClientTests: XCTestCase {
             },
             failure: { (error) in
                 expect.fulfill()
-                XCTAssert(error.domain == WordPressComOAuthClient.WordPressComOAuthErrorDomain, "The error should an WordPressComOAuthError")
-                XCTAssert(error.code == Int(WordPressComOAuthError.invalidRequest.rawValue), "The code should be invalid request")
+                XCTAssertEqual(error.authenticationFailureKind, .invalidRequest, "The code should be invalid request")
             }
         )
         waitForExpectations(timeout: 2, handler: nil)
@@ -152,8 +150,7 @@ class WordPressComOAuthClientTests: XCTestCase {
             },
             failure: { (error) in
                 expect.fulfill()
-                XCTAssert(error.domain == WordPressComOAuthClient.WordPressComOAuthErrorDomain, "The error should an WordPressComOAuthError")
-                XCTAssert(error.code == Int(WordPressComOAuthError.needsMultifactorCode.rawValue), "The code should 'be needs multifactor'")
+                XCTAssertEqual(error.authenticationFailureKind, .needsMultifactorCode, "The code should 'be needs multifactor'")
             }
         )
         waitForExpectations(timeout: 2, handler: nil)
@@ -173,8 +170,7 @@ class WordPressComOAuthClientTests: XCTestCase {
             },
             failure: { (error) in
                 expectation2.fulfill()
-                XCTAssert(error.domain == WordPressComOAuthClient.WordPressComOAuthErrorDomain, "The error should an WordPressComOAuthError")
-                XCTAssert(error.code == Int(WordPressComOAuthError.needsMultifactorCode.rawValue), "The code should be needs multifactor")
+                XCTAssertEqual(error.authenticationFailureKind, .needsMultifactorCode, "The code should be needs multifactor")
             }
         )
         waitForExpectations(timeout: 2, handler: nil)
@@ -202,8 +198,7 @@ class WordPressComOAuthClientTests: XCTestCase {
             },
             failure: { (error) in
                 expect.fulfill()
-                XCTAssert(error.domain == WordPressComOAuthClient.WordPressComOAuthErrorDomain, "The error should an WordPressComOAuthError")
-                XCTAssert(error.code == Int(WordPressComOAuthError.needsMultifactorCode.rawValue), "The code should be needs multifactor")
+                XCTAssertEqual(error.authenticationFailureKind, .needsMultifactorCode, "The code should be needs multifactor")
             }
         )
         waitForExpectations(timeout: 2, handler: nil)
@@ -223,8 +218,7 @@ class WordPressComOAuthClientTests: XCTestCase {
             },
             failure: { (error) in
                 expectation2.fulfill()
-                XCTAssert(error.domain == WordPressComOAuthClient.WordPressComOAuthErrorDomain, "The error should an WordPressComOAuthError")
-                XCTAssert(error.code == Int(WordPressComOAuthError.needsMultifactorCode.rawValue), "The code should be needs multifactor")
+                XCTAssertEqual(error.authenticationFailureKind, .needsMultifactorCode, "The code should be needs multifactor")
             }
         )
         waitForExpectations(timeout: 2, handler: nil)
@@ -277,10 +271,11 @@ class WordPressComOAuthClientTests: XCTestCase {
                 XCTFail("Expected to fail, but run the success block")
             },
             failure: { error in
-                expect.fulfill()
-                XCTAssertEqual(error.domain, WordPressComOAuthClient.WordPressComOAuthErrorDomain)
-                XCTAssertEqual(error.code, WordPressComOAuthError.unknown.rawValue)
-                XCTAssertEqual(error.localizedDescription, "Response requires handling the MFA Webauthn flow but handler given ('needsMultifactor' parameter).")
+                if case .missingMultiFactorHandler = error {
+                    expect.fulfill()
+                } else {
+                    XCTFail("Unexpected error: \(error)")
+                }
             }
         )
         waitForExpectations(timeout: 2, handler: nil)
