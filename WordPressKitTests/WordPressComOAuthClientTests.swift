@@ -34,8 +34,8 @@ class WordPressComOAuthClientTests: XCTestCase {
 
         let expect = expectation(description: "One callback should be invoked")
         let client = WordPressComOAuthClient(clientID: "Fake", secret: "Fake")
-        client.authenticateWithUsername(
-            "fakeUser",
+        client.authenticate(
+            username: "fakeUser",
             password: "fakePass",
             multifactorCode: nil,
             success: { (token) in
@@ -59,8 +59,8 @@ class WordPressComOAuthClientTests: XCTestCase {
 
         let expect = expectation(description: "One callback should be invoked")
         let client = WordPressComOAuthClient(clientID: "Fake", secret: "Fake")
-        client.authenticateWithUsername(
-            "fakeUser",
+        client.authenticate(
+            username: "fakeUser",
             password: "fakePass",
             multifactorCode: nil,
             needsMultifactor: { _, _ in
@@ -88,8 +88,8 @@ class WordPressComOAuthClientTests: XCTestCase {
 
         let expect = expectation(description: "One callback should be invoked")
         let client = WordPressComOAuthClient(clientID: "Fake", secret: "Fake")
-        client.authenticateWithUsername(
-            "fakeUser",
+        client.authenticate(
+            username: "fakeUser",
             password: "wrongPassword",
             multifactorCode: nil,
             success: { (_) in
@@ -113,8 +113,8 @@ class WordPressComOAuthClientTests: XCTestCase {
 
         let expect = expectation(description: "One callback should be invoked")
         let client = WordPressComOAuthClient(clientID: "Fake", secret: "Fake")
-        client.authenticateWithUsername(
-            "fakeUser",
+        client.authenticate(
+            username: "fakeUser",
             password: "wrongPassword",
             multifactorCode: nil,
             needsMultifactor: { _, _ in
@@ -142,8 +142,8 @@ class WordPressComOAuthClientTests: XCTestCase {
 
         let expect = expectation(description: "Call should complete")
         let client = WordPressComOAuthClient(clientID: "Fake", secret: "Fake")
-        client.authenticateWithUsername(
-            "fakeUser",
+        client.authenticate(
+            username: "fakeUser",
             password: "wrongPassword",
             multifactorCode: nil,
             success: { (_) in
@@ -159,8 +159,8 @@ class WordPressComOAuthClientTests: XCTestCase {
         waitForExpectations(timeout: 2, handler: nil)
 
         let expectation2 = expectation(description: "Call should complete")
-        client.authenticateWithUsername(
-            "fakeUser",
+        client.authenticate(
+            username: "fakeUser",
             password: "fakePassword",
             multifactorCode: "fakeMultifactor",
             needsMultifactor: { _, _ in
@@ -188,8 +188,8 @@ class WordPressComOAuthClientTests: XCTestCase {
 
         let expect = expectation(description: "Call should complete")
         let client = WordPressComOAuthClient(clientID: "Fake", secret: "Fake")
-        client.authenticateWithUsername(
-            "fakeUser",
+        client.authenticate(
+            username: "fakeUser",
             password: "wrongPassword",
             multifactorCode: nil,
             needsMultifactor: { _, _ in
@@ -209,8 +209,8 @@ class WordPressComOAuthClientTests: XCTestCase {
         waitForExpectations(timeout: 2, handler: nil)
 
         let expectation2 = expectation(description: "Call should complete")
-        client.authenticateWithUsername(
-            "fakeUser",
+        client.authenticate(
+            username: "fakeUser",
             password: "fakePassword",
             multifactorCode: "fakeMultifactor",
             needsMultifactor: { _, _ in
@@ -238,8 +238,8 @@ class WordPressComOAuthClientTests: XCTestCase {
 
         let expect = expectation(description: "Call should complete")
         let client = WordPressComOAuthClient(clientID: "Fake", secret: "Fake")
-        client.authenticateWithUsername(
-            "fakeUser",
+        client.authenticate(
+            username: "fakeUser",
             password: "wrongPassword",
             multifactorCode: nil,
             needsMultifactor: { userID, nonceInfo in
@@ -267,8 +267,8 @@ class WordPressComOAuthClientTests: XCTestCase {
 
         let expect = expectation(description: "Call should complete")
         let client = WordPressComOAuthClient(clientID: "Fake", secret: "Fake")
-        client.authenticateWithUsername(
-            "fakeUser",
+        client.authenticate(
+            username: "fakeUser",
             password: "wrongPassword",
             multifactorCode: nil,
             needsMultifactor: nil,
@@ -294,7 +294,7 @@ class WordPressComOAuthClientTests: XCTestCase {
 
         let expect = expectation(description: "One callback should be invoked")
         let client = WordPressComOAuthClient(clientID: "Fake", secret: "Fake")
-        client.requestOneTimeCodeWithUsername("fakeUser", password: "fakePassword",
+        client.requestOneTimeCode(username: "fakeUser", password: "fakePassword",
                                               success: { () in
                                                 expect.fulfill()
         }, failure: { (_) in
@@ -313,7 +313,7 @@ class WordPressComOAuthClientTests: XCTestCase {
 
         let expect = expectation(description: "One callback should be invoked")
         let client = WordPressComOAuthClient(clientID: "Fake", secret: "Fake")
-        client.requestSocial2FACodeWithUserID(0, nonce: "nonce",
+        client.requestSocial2FACode(userID: 0, nonce: "nonce",
         success: { (newNonce) in
             expect.fulfill()
             XCTAssert(!newNonce.isEmpty, "There should be a newNonce available")
@@ -334,8 +334,8 @@ class WordPressComOAuthClientTests: XCTestCase {
 
         let expect = expectation(description: "One callback should be invoked")
         let client = WordPressComOAuthClient(clientID: "Fake", secret: "Fake")
-        client.authenticateWithIDToken(
-            "token",
+        client.authenticate(
+            socialIDToken: "token",
             service: "google",
             success: { (token) in
                 expect.fulfill()
@@ -367,8 +367,8 @@ class WordPressComOAuthClientTests: XCTestCase {
 
         let expect = expectation(description: "One callback should be invoked")
         let client = WordPressComOAuthClient(clientID: "Fake", secret: "Fake")
-        client.authenticateWithIDToken(
-            "token",
+        client.authenticate(
+            socialIDToken: "token",
             service: "google",
             success: { (_) in
                 expect.fulfill()
@@ -401,8 +401,8 @@ class WordPressComOAuthClientTests: XCTestCase {
 
         let expect = expectation(description: "One callback should be invoked")
         let client = WordPressComOAuthClient(clientID: "Fake", secret: "Fake")
-        client.authenticateWithIDToken(
-            "token",
+        client.authenticate(
+            socialIDToken: "token",
             service: "google",
             success: { (_) in
                 expect.fulfill()
@@ -433,7 +433,7 @@ class WordPressComOAuthClientTests: XCTestCase {
 
         let expect = expectation(description: "One callback should be invoked")
         let client = WordPressComOAuthClient(clientID: "Fake", secret: "Fake")
-        client.authenticateSocialLoginUser(1, authType: "authenticator", twoStepCode: "two_step_code", twoStepNonce: "two_step_nonce",
+        client.authenticate(socialLoginUserID: 1, authType: "authenticator", twoStepCode: "two_step_code", twoStepNonce: "two_step_nonce",
                                        success: { (token) in
                                         expect.fulfill()
                                         XCTAssert(!token!.isEmpty, "There should be a token available")
