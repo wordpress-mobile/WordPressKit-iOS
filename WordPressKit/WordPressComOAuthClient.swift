@@ -8,9 +8,9 @@ public enum WordPressComOAuthError: Error {
     case connection(URLError)
     /// The caller didn't pass a closure to handle MFA authentication request. This is a programming error.
     case missingMultiFactorHandler
-    /// WordPress.com rejects the authentication request and returns an error. See `AuthenticationFailure` for error details.
+    /// WordPress.com rejected the authentication request and returned an error. See `AuthenticationFailure` for error details.
     case authenticationFailure(AuthenticationFailure)
-    /// WordPress.com returns an HTTP response that WordPressKit can't parse.
+    /// WordPress.com returned an HTTP response that WordPressKit can't parse.
     case unparsableResponse(response: HTTPURLResponse?, body: Data?)
     /// Other error occured.
     case unknown(underlyingError: Error)
@@ -43,11 +43,11 @@ public enum WordPressComOAuthError: Error {
             case invalidRequest
             /// Multifactor Authentication code is required
             case needsMultifactorCode
-            /// Supplied MFA code is incorrect
+            /// Supplied one time password is incorrect
             case invalidOneTimePassword
             /// Returned by the social login endpoint if a wpcom user is found, but not connected to a social service.
             case socialLoginExistingUserUnconnected
-            /// /// Supplied MFA code is incorrect
+            /// Supplied MFA code is incorrect
             case invalidTwoStepCode
             case unknownUser
             case unknown
@@ -62,7 +62,7 @@ public enum WordPressComOAuthError: Error {
             originalErrorJSON = responseDict
 
             // there's either a data object, or an error.
-            if  let errorStr = responseDict["error"] as? String {
+            if let errorStr = responseDict["error"] as? String {
                 kind = Self.errorsMap[errorStr] ?? .unknown
                 localizedErrorMessage = responseDict["error_description"] as? String
             } else if let data = responseDict["data"] as? [String: AnyObject],
