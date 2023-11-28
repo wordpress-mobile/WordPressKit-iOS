@@ -1,10 +1,11 @@
 # Nodes with values to reuse in the pipeline.
 common_params:
   plugins: &common_plugins
-    - automattic/a8c-ci-toolkit#2.18.2
+    - automattic/a8c-ci-toolkit#hack-to-patch-cocoapods
   # Common environment values to use with the `env` key.
   env: &common_env
     IMAGE_ID: xcode-15.0.1
+    BUILDKITE_PLUGINS_ALWAYS_CLONE_FRESH: "true"
 
 # This is the default pipeline – it will build and test the app
 steps:
@@ -25,16 +26,10 @@ steps:
   #################
   # Validate Podspec
   #################
-  - label: "🔬 Validate Podspec – ⚠️ Bypassed ⚠️"
+  - label: "🔬 Validate Podspec"
     key: "validate"
     command: |
-      # validate_podspec
-      echo '+++ ⚠️ validate_podspec was bypassed ⚠️'
-      # post a message in the logs
-      cat .buildkite/validate_podspec_annotation.md
-      # and also as an annotation
-      cat .buildkite/validate_podspec_annotation.md | buildkite-agent annotate --style 'warning'
-    key: "validate"
+      validate_podspec --patch-cocoapods
     env: *common_env
     plugins: *common_plugins
 
