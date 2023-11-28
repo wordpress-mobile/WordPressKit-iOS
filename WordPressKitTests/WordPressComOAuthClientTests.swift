@@ -38,6 +38,7 @@ class WordPressComOAuthClientTests: XCTestCase {
             username: "fakeUser",
             password: "fakePass",
             multifactorCode: nil,
+            needsMultifactor: { _, _ in XCTFail("This closure should not be called") },
             success: { (token) in
                 expect.fulfill()
                 XCTAssert(!token!.isEmpty, "There should be a token available")
@@ -92,6 +93,7 @@ class WordPressComOAuthClientTests: XCTestCase {
             username: "fakeUser",
             password: "wrongPassword",
             multifactorCode: nil,
+            needsMultifactor: { _, _ in XCTFail("This closure should not be called") },
             success: { (_) in
                 expect.fulfill()
                 XCTFail("This call should fail")
@@ -144,6 +146,7 @@ class WordPressComOAuthClientTests: XCTestCase {
             username: "fakeUser",
             password: "wrongPassword",
             multifactorCode: nil,
+            needsMultifactor: { _, _ in XCTFail("This closure should not be called") },
             success: { (_) in
                 expect.fulfill()
                 XCTFail("This call should fail")
@@ -248,34 +251,6 @@ class WordPressComOAuthClientTests: XCTestCase {
             failure: { (error) in
                 expect.fulfill()
                 XCTFail("This call should need multifactor")
-            }
-        )
-        waitForExpectations(timeout: 2, handler: nil)
-    }
-
-    func testAuthenticateUsernameRequiresWebauthnMultifactorAuthentication_withoutMFAClosure() {
-        stub(condition: isOauthTokenRequest(url: .oAuthTokenUrl)) { _ in
-            let stubPath = OHPathForFile("WordPressComOAuthNeedsWebauthnMFA.json", type(of: self))
-            return fixture(filePath: stubPath!, headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
-        }
-
-        let expect = expectation(description: "Call should complete")
-        let client = WordPressComOAuthClient(clientID: "Fake", secret: "Fake")
-        client.authenticate(
-            username: "fakeUser",
-            password: "wrongPassword",
-            multifactorCode: nil,
-            needsMultifactor: nil,
-            success: { _ in
-                expect.fulfill()
-                XCTFail("Expected to fail, but run the success block")
-            },
-            failure: { error in
-                if case .missingMultiFactorHandler = error {
-                    expect.fulfill()
-                } else {
-                    XCTFail("Unexpected error: \(error)")
-                }
             }
         )
         waitForExpectations(timeout: 2, handler: nil)

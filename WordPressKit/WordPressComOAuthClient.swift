@@ -6,8 +6,6 @@ public enum WordPressComOAuthError: Error {
     case requestEncodingFailure
     /// Error occured in the HTTP connection.
     case connection(URLError)
-    /// The caller didn't pass a closure to handle MFA authentication request. This is a programming error.
-    case missingMultiFactorHandler
     /// WordPress.com rejected the authentication request and returned an error. See `AuthenticationFailure` for error details.
     case authenticationFailure(AuthenticationFailure)
     /// WordPress.com returned an HTTP response that WordPressKit can't parse.
@@ -84,15 +82,13 @@ extension WordPressComOAuthError: LocalizedError {
     public var errorDescription: String? {
         let unknownErrorMessage = NSLocalizedString("oauth.error.unknown", value: "Something went wrong, please try again later.", comment: "Error message that describes that an unknown error had occured")
         switch self {
-        case .requestEncodingFailure, .missingMultiFactorHandler:
-            // These are programming errors
+        case .requestEncodingFailure, .unparsableResponse:
+            // This is a programming errors
             return unknownErrorMessage
         case let .authenticationFailure(failure):
             return failure.localizedErrorMessage
         case let .connection(error):
             return error.localizedDescription
-        case .unparsableResponse:
-            return unknownErrorMessage
         case let .unknown(underlyingError):
             if let msg = (underlyingError as? LocalizedError)?.errorDescription {
                 return msg
@@ -202,35 +198,6 @@ public final class WordPressComOAuthClient: NSObject {
 
     /// Authenticates on WordPress.com using the OAuth endpoints.
     ///
-    /// Delegates to `authenticateWithUsername(_:, password:, multifactorCode:, needsMultifactor:, success:, failure:)`.
-    /// Here to provide source-compatibility with the Objective-C layer, where using a default parameter (`needsMultifactor: ... = nil`) doesn't result in a method signature without the parameter.
-    ///
-    /// - Parameters:
-    ///     - username: the account's username.
-    ///     - password: the account's password.
-    ///     - multifactorCode: Multifactor Authentication One-Time-Password. If not needed, can be nil
-    ///     - success: block to be called if authentication was successful. The OAuth2 token is passed as a parameter.
-    ///     - failure: block to be called if authentication failed. The error object is passed as a parameter.
-    @available(*, deprecated, message: "Here for legacy compatiblity. Use the verions with explicit `needsMultifactor` parameter.")
-    public func authenticate(
-        username: String,
-        password: String,
-        multifactorCode: String?,
-        success: @escaping (_ authToken: String?) -> Void,
-        failure: @escaping (_ error: WordPressComOAuthError) -> Void
-    ) {
-        authenticate(
-            username: username,
-            password: password,
-            multifactorCode: multifactorCode,
-            needsMultifactor: nil,
-            success: success,
-            failure: failure
-        )
-    }
-
-    /// Authenticates on WordPress.com using the OAuth endpoints.
-    ///
     /// - Parameters:
     ///     - username: the account's username.
     ///     - password: the account's password.
@@ -243,7 +210,7 @@ public final class WordPressComOAuthClient: NSObject {
         username: String,
         password: String,
         multifactorCode: String?,
-        needsMultifactor: ((_ userID: Int, _ nonceInfo: SocialLogin2FANonceInfo) -> Void)?,
+        needsMultifactor: @escaping ((_ userID: Int, _ nonceInfo: SocialLogin2FANonceInfo) -> Void),
         success: @escaping (_ authToken: String?) -> Void,
         failure: @escaping (_ error: WordPressComOAuthError) -> Void
     ) {
@@ -282,11 +249,6 @@ public final class WordPressComOAuthClient: NSObject {
                           let userID = responseData["user_id"] as? Int,
                           let _ = responseData["two_step_nonce_webauthn"] else {
                         return failure(.unparsableResponse(response: response.response, body: response.data))
-                    }
-
-                    guard let needsMultifactor else {
-                        failure(WordPressComOAuthError.missingMultiFactorHandler)
-                        return
                     }
 
                     let nonceInfo = self.extractNonceInfo(data: responseData)
