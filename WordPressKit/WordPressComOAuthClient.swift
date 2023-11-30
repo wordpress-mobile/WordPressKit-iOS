@@ -202,10 +202,7 @@ public final class WordPressComOAuthClient: NSObject {
             form["wpcom_otp"] = multifactorCode
         }
 
-        let builder = HTTPRequestBuilder(url: wordPressComApiBaseUrl)
-            .set(method: "POST")
-            .set(path: "/oauth2/token")
-            .body(form: form)
+        let builder = tokenRequestBuilder().body(form: form)
         return await urlSession
             .apiResult(with: builder)
             .assessStatusCode(
@@ -278,9 +275,7 @@ public final class WordPressComOAuthClient: NSObject {
     ///     - success: block to be called if authentication was successful.
     ///     - failure: block to be called if authentication failed. The error object is passed as a parameter.
     public func requestOneTimeCode(username: String, password: String) async -> WordPressAPIResult<Void, AuthenticationFailure> {
-        let builder = HTTPRequestBuilder(url: wordPressComApiBaseUrl)
-            .set(method: "POST")
-            .set(path: "/oauth2/token")
+        let builder = tokenRequestBuilder()
             .body(form: [
                 "username": username,
                 "password": password,
@@ -328,10 +323,7 @@ public final class WordPressComOAuthClient: NSObject {
         userID: Int,
         nonce: String
     ) async -> WordPressAPIResult<String, AuthenticationFailure> {
-        let builder = HTTPRequestBuilder(url: wordPressComBaseUrl)
-            .set(method: "POST")
-            .set(path: "/wp-login.php")
-            .query(name: "action", value: "send-sms-code-endpoint")
+        let builder = socialSignInRequestBuilder(action: .sendOTPViaSMS)
             .body(
                 form: [
                     "user_id": "\(userID)",
@@ -405,11 +397,7 @@ public final class WordPressComOAuthClient: NSObject {
         socialIDToken token: String,
         service: String
     ) async -> WordPressAPIResult<SocialAuthenticationResult, AuthenticationFailure> {
-        let builder = HTTPRequestBuilder(url: wordPressComBaseUrl)
-            .set(method: "POST")
-            .set(path: "/wp-login.php")
-            .query(name: "action", value: "social-login-endpoint")
-            .query(name: "version", value: "1.0")
+        let builder = socialSignInRequestBuilder(action: .authenticate)
             .body(
                 form: [
                     "client_id": clientID,
@@ -504,10 +492,7 @@ public final class WordPressComOAuthClient: NSObject {
         userID: Int64,
         twoStepNonce: String
     ) async -> WordPressAPIResult<WebauthnChallengeInfo, AuthenticationFailure> {
-        let builder = HTTPRequestBuilder(url: wordPressComBaseUrl)
-            .set(path: "/wp-login.php")
-            .query(name: "action", value: "webauthn-challenge-endpoint")
-            .set(method: "POST")
+        let builder = webAuthnRequestBuilder(action: .requestChallenge)
             .body(form: [
                 "user_id": "\(userID)",
                 "client_id": clientID,
@@ -604,10 +589,7 @@ public final class WordPressComOAuthClient: NSObject {
             return .failure(.requestEncodingFailure)
         }
 
-        let builder = HTTPRequestBuilder(url: wordPressComBaseUrl)
-            .set(method: "POST")
-            .set(path: "/wp-login.php")
-            .query(name: "action", value: "webauthn-authentication-endpoint")
+        let builder = webAuthnRequestBuilder(action: .authenticate)
             .body(form: [
                 "user_id": "\(userID)",
                 "client_id": clientID,
@@ -744,11 +726,7 @@ public final class WordPressComOAuthClient: NSObject {
         twoStepCode: String,
         twoStepNonce: String
     ) async -> WordPressAPIResult<String, AuthenticationFailure> {
-        let builder = HTTPRequestBuilder(url: wordPressComBaseUrl)
-            .set(method: "POST")
-            .set(path: "/wp-login.php")
-            .query(name: "action", value: "two-step-authentication-endpoint")
-            .query(name: "version", value: "1.0")
+        let builder = socialSignInRequestBuilder(action: .authenticateWith2FA)
             .body(form: [
                 "user_id": "\(userID)",
                 "auth_type": authType,
@@ -840,7 +818,47 @@ public final class WordPressComOAuthClient: NSObject {
 
 /// Extra error handling for standard 400 error responses coming from the OAUTH server
 ///
-extension WordPressComOAuthClient {
+private extension WordPressComOAuthClient {
+
+    func tokenRequestBuilder() -> HTTPRequestBuilder {
+        HTTPRequestBuilder(url: wordPressComApiBaseUrl)
+            .set(method: "POST")
+            .set(path: "/oauth2/token")
+    }
+
+    enum SocialSignInAction: String {
+        case sendOTPViaSMS = "send-sms-code-endpoint"
+        case authenticate = "social-login-endpoint"
+        case authenticateWith2FA = "two-step-authentication-endpoint"
+
+        var queryItems: [URLQueryItem] {
+            var items = [URLQueryItem(name: "action", value: rawValue)]
+            if self == .authenticate || self == .authenticateWith2FA {
+                items.append(URLQueryItem(name: "version", value: "1.0"))
+            }
+            return items
+        }
+    }
+
+    func socialSignInRequestBuilder(action: SocialSignInAction) -> HTTPRequestBuilder {
+        HTTPRequestBuilder(url: wordPressComBaseUrl)
+            .set(method: "POST")
+            .set(path: "/wp-login.php")
+            .append(query: action.queryItems, override: true)
+    }
+
+    enum WebAuthnAction: String {
+        case requestChallenge = "webauthn-challenge-endpoint"
+        case authenticate = "webauthn-authentication-endpoint"
+    }
+
+    func webAuthnRequestBuilder(action: WebAuthnAction) -> HTTPRequestBuilder {
+        HTTPRequestBuilder(url: wordPressComBaseUrl)
+            .set(method: "POST")
+            .set(path: "/wp-login.php")
+            .query(name: "action", value: action.rawValue)
+    }
+
     static func processError(_ response: HTTPAPIResponse<Data>) -> AuthenticationFailure? {
         guard [400, 409, 403].contains(response.response.statusCode),
               let responseObject = try? JSONSerialization.jsonObject(with: response.body, options: .allowFragments),
