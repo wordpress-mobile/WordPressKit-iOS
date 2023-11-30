@@ -841,37 +841,6 @@ public final class WordPressComOAuthClient: NSObject {
 /// Extra error handling for standard 400 error responses coming from the OAUTH server
 ///
 extension WordPressComOAuthClient {
-
-    /// A error processor to handle error responses when status codes are betwen 400 and 500.
-    /// Some HTTP requests include a response body even in a failure scenario. This method ensures
-    /// it is available via an error's userInfo dictionary.
-    func processError(response: DataResponse<Any>, originalError: Error) -> WordPressComOAuthError {
-        switch originalError {
-        case let urlError as URLError:
-            return .connection(urlError)
-        case let afError as AFError:
-            switch afError {
-            case .invalidURL, .parameterEncodingFailed, .multipartEncodingFailed:
-                return .requestEncodingFailure
-            case .responseSerializationFailed:
-                return .unparsableResponse(response: response.response, body: response.data)
-            case .responseValidationFailed:
-                guard let statusCode = response.response?.statusCode,
-                      [400, 409, 403].contains(statusCode),
-                      let data = response.data,
-                      let responseObject = try? JSONSerialization.jsonObject(with: data, options: .allowFragments),
-                      let responseDictionary = responseObject as? [String: AnyObject]
-                else {
-                    return .unparsableResponse(response: response.response, body: response.data)
-                }
-
-                return .endpointError(.init(apiJSONResponse: responseDictionary))
-            }
-        default:
-            return .unknown(underlyingError: originalError)
-        }
-    }
-
     static func processError(_ response: HTTPAPIResponse<Data>) -> AuthenticationFailure? {
         guard [400, 409, 403].contains(response.response.statusCode),
               let responseObject = try? JSONSerialization.jsonObject(with: response.body, options: .allowFragments),
