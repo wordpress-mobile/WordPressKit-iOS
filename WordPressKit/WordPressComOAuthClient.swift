@@ -777,7 +777,7 @@ private extension WordPressComOAuthClient {
 
     func tokenRequestBuilder() -> HTTPRequestBuilder {
         HTTPRequestBuilder(url: wordPressComApiBaseUrl)
-            .set(method: "POST")
+            .set(method: .post)
             .set(path: "/oauth2/token")
     }
 
@@ -797,7 +797,7 @@ private extension WordPressComOAuthClient {
 
     func socialSignInRequestBuilder(action: SocialSignInAction) -> HTTPRequestBuilder {
         HTTPRequestBuilder(url: wordPressComBaseUrl)
-            .set(method: "POST")
+            .set(method: .post)
             .set(path: "/wp-login.php")
             .append(query: action.queryItems, override: true)
     }
@@ -809,7 +809,7 @@ private extension WordPressComOAuthClient {
 
     func webAuthnRequestBuilder(action: WebAuthnAction) -> HTTPRequestBuilder {
         HTTPRequestBuilder(url: wordPressComBaseUrl)
-            .set(method: "POST")
+            .set(method: .post)
             .set(path: "/wp-login.php")
             .query(name: "action", value: action.rawValue)
     }

@@ -1,8 +1,19 @@
 import Foundation
 
 final class HTTPRequestBuilder {
+    enum Method: String {
+        case get = "GET"
+        case post = "POST"
+        case put = "PUT"
+        case patch = "PATCH"
+        case delete = "DELETE"
+
+        var allowsHTTPBody: Bool {
+            self == .post || self == .put || self == .patch
+        }
+    }
     private var urlComponents: URLComponents
-    private var method: String = "GET"
+    private var method: Method = .get
     private var path: String? = nil
     private var headers: [String: String] = [:]
     private var bodyBuilder: ((inout URLRequest) throws -> Void)?
@@ -14,8 +25,8 @@ final class HTTPRequestBuilder {
         urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: true)!
     }
 
-    func set(method: String) -> Self {
-        self.method = method.uppercased()
+    func set(method: Method) -> Self {
+        self.method = method
         return self
     }
 
@@ -117,14 +128,14 @@ final class HTTPRequestBuilder {
         }
 
         var request = URLRequest(url: url)
-        request.httpMethod = method
+        request.httpMethod = method.rawValue
 
         for (header, value) in headers {
             request.addValue(value, forHTTPHeaderField: header)
         }
 
         if let bodyBuilder {
-            assert(["POST", "PUT", "PATCH"].contains(method), "Can't include body in HTTP \(method) requests")
+            assert(method.allowsHTTPBody, "Can't include body in HTTP \(method.rawValue) requests")
             try bodyBuilder(&request)
         }
 
