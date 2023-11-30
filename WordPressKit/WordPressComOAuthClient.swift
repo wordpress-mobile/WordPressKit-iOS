@@ -77,23 +77,6 @@ public final class WordPressComOAuthClient: NSObject {
     @objc public static let WordPressComOAuthDefaultBaseUrl = "https://wordpress.com"
     @objc public static let WordPressComOAuthDefaultApiBaseUrl = "https://public-api.wordpress.com"
 
-    enum WordPressComURL: String {
-        case oAuthBase = "/oauth2/token"
-        case webauthnChallenge = "wp-login.php?action=webauthn-challenge-endpoint"
-        case webauthnAuthentication = "wp-login.php?action=webauthn-authentication-endpoint"
-        case socialLogin2FA = "/wp-login.php?action=two-step-authentication-endpoint&version=1.0"
-
-        func url(base: URL) -> URL {
-            return URL(string: self.rawValue, relativeTo: base)!
-        }
-
-        func url(base: String) -> URL {
-            return URL(string: self.rawValue, relativeTo: URL(string: base))!
-        }
-    }
-
-    @objc public static let WordPressComSocialLoginEndpointVersion = 1.0
-
     private let clientID: String
     private let secret: String
 
