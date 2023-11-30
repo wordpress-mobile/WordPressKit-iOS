@@ -1,4 +1,4 @@
-import Alamofire
+import Foundation
 
 public typealias WordPressComOAuthError = WordPressAPIError<AuthenticationFailure>
 
@@ -105,34 +105,6 @@ public final class WordPressComOAuthClient: NSObject {
         configuration.httpAdditionalHeaders = ["Accept": "application/json"]
         return URLSession(configuration: configuration)
     }()
-
-    private let oauth2SessionManager: SessionManager = {
-        return WordPressComOAuthClient.sessionManager()
-    }()
-
-    private let webauthnSessionManager: SessionManager = {
-        return WordPressComOAuthClient.sessionManager()
-    }()
-
-    private let socialSessionManager: SessionManager = {
-        return WordPressComOAuthClient.sessionManager()
-    }()
-
-    private let social2FASessionManager: SessionManager = {
-        return WordPressComOAuthClient.sessionManager()
-    }()
-
-    private let socialNewSMS2FASessionManager: SessionManager = {
-        return WordPressComOAuthClient.sessionManager()
-    }()
-
-    private class func sessionManager() -> SessionManager {
-        let configuration = URLSessionConfiguration.ephemeral
-        configuration.httpAdditionalHeaders = ["Accept": "application/json"]
-        let sessionManager = SessionManager(configuration: .ephemeral)
-
-        return sessionManager
-    }
 
     /// Creates a WordPresComOAuthClient initialized with the clientID and secrets provided
     ///
