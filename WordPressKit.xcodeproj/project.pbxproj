@@ -141,6 +141,7 @@
 		46ABD0EA262EEE0400C7FF24 /* AppTransportSecuritySettingsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46ABD0E9262EEE0400C7FF24 /* AppTransportSecuritySettingsTests.swift */; };
 		4A11239A2B19269A004690CF /* WordPressAPIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A1123992B19269A004690CF /* WordPressAPIError.swift */; };
 		4A11239C2B1926B7004690CF /* HTTPRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A11239B2B1926B7004690CF /* HTTPRequestBuilder.swift */; };
+		4A11239E2B1926D1004690CF /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A11239D2B1926D1004690CF /* HTTPClient.swift */; };
 		4A1DEF44293051BC00322608 /* LoggingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A1DEF43293051BC00322608 /* LoggingTests.swift */; };
 		4A1DEF46293051C600322608 /* LoggingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A1DEF45293051C600322608 /* LoggingTests.m */; };
 		4A68E3CD29404181004AC3DC /* RemoteBlog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A68E3CC29404181004AC3DC /* RemoteBlog.swift */; };
@@ -834,6 +835,7 @@
 		46ABD0E9262EEE0400C7FF24 /* AppTransportSecuritySettingsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppTransportSecuritySettingsTests.swift; sourceTree = "<group>"; };
 		4A1123992B19269A004690CF /* WordPressAPIError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WordPressAPIError.swift; sourceTree = "<group>"; };
 		4A11239B2B1926B7004690CF /* HTTPRequestBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPRequestBuilder.swift; sourceTree = "<group>"; };
+		4A11239D2B1926D1004690CF /* HTTPClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPClient.swift; sourceTree = "<group>"; };
 		4A1DEF43293051BC00322608 /* LoggingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggingTests.swift; sourceTree = "<group>"; };
 		4A1DEF45293051C600322608 /* LoggingTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoggingTests.m; sourceTree = "<group>"; };
 		4A68E3CC29404181004AC3DC /* RemoteBlog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteBlog.swift; sourceTree = "<group>"; };
@@ -2422,6 +2424,7 @@
 				93BD27791EE73944002BB00B /* WordPressOrgXMLRPCApi.swift */,
 				93BD277A1EE73944002BB00B /* WordPressOrgXMLRPCValidator.swift */,
 				93BD277B1EE73944002BB00B /* WordPressRSDParser.swift */,
+				4A11239D2B1926D1004690CF /* HTTPClient.swift */,
 				4A11239B2B1926B7004690CF /* HTTPRequestBuilder.swift */,
 				4A1123992B19269A004690CF /* WordPressAPIError.swift */,
 			);
@@ -3232,6 +3235,7 @@
 				C76F456825B9F30E00BFEC87 /* JetpackScanHistory.swift in Sources */,
 				E1D6B556200E46F300325669 /* WPTimeZone.swift in Sources */,
 				93F50A3F1F227C8900B5BEBA /* UsersServiceRemoteXMLRPC.swift in Sources */,
+				4A11239E2B1926D1004690CF /* HTTPClient.swift in Sources */,
 				8C5734F925681A6A005E61EE /* Enum+UnknownCaseRepresentable.swift in Sources */,
 				9F3E0BA32087345F009CB5BA /* ReaderTopicServiceRemote+Subscription.swift in Sources */,
 				9F3E0B9E208733C3009CB5BA /* ReaderServiceDeliveryFrequency.swift in Sources */,
