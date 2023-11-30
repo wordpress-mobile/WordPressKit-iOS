@@ -738,9 +738,56 @@ public final class WordPressComOAuthClient: NSObject {
     ///     - authType: The type of 2fa authentication being used. (sms|backup|authenticator)
     ///     - twoStepCode: The user's 2fa code.
     ///     - twoStepNonce: The nonce returned from a social login attempt.
+    public func authenticate(
+        socialLoginUserID userID: Int,
+        authType: String,
+        twoStepCode: String,
+        twoStepNonce: String
+    ) async -> WordPressAPIResult<String, AuthenticationFailure> {
+        let builder = HTTPRequestBuilder(url: wordPressComBaseUrl)
+            .set(method: "POST")
+            .set(path: "/wp-login.php")
+            .query(name: "action", value: "two-step-authentication-endpoint")
+            .query(name: "version", value: "1.0")
+            .body(form: [
+                "user_id": "\(userID)",
+                "auth_type": authType,
+                "two_step_code": twoStepCode,
+                "two_step_nonce": twoStepNonce,
+                "get_bearer_token": "true",
+                "client_id": clientID,
+                "client_secret": secret
+            ])
+        return await urlSession
+            .apiResult(with: builder)
+            .assessStatusCode(
+                success: { response in
+                    guard let responseObject = try? JSONSerialization.jsonObject(with: response.body) else {
+                        return nil
+                    }
+
+                    WPKitLogVerbose("Received Social Login Oauth response: \(self.cleanedUpResponseForLogging(responseObject as AnyObject? ?? "nil" as AnyObject))")
+                    guard let responseDictionary = responseObject as? [String: AnyObject],
+                        let responseData = responseDictionary["data"] as? [String: AnyObject],
+                        let authToken = responseData["bearer_token"] as? String else {
+                        return nil
+                    }
+
+                    return authToken
+                },
+                failure: Self.processError(_:)
+            )
+    }
+
+    /// Completes a social login that has 2fa enabled.
+    ///
+    /// - Parameters:
+    ///     - userID: The wpcom user id.
+    ///     - authType: The type of 2fa authentication being used. (sms|backup|authenticator)
+    ///     - twoStepCode: The user's 2fa code.
+    ///     - twoStepNonce: The nonce returned from a social login attempt.
     ///     - success: block to be called if authentication was successful. The OAuth2 token is passed as a parameter.
     ///     - failure: block to be called if authentication failed. The error object is passed as a parameter.
-    ///
     public func authenticate(
         socialLoginUserID userID: Int,
         authType: String,
@@ -749,36 +796,15 @@ public final class WordPressComOAuthClient: NSObject {
         success: @escaping (_ authToken: String?) -> Void,
         failure: @escaping (_ error: WordPressComOAuthError) -> Void
     ) {
-        let parameters = [
-            "user_id": userID,
-            "auth_type": authType,
-            "two_step_code": twoStepCode,
-            "two_step_nonce": twoStepNonce,
-            "get_bearer_token": true,
-            "client_id": clientID,
-            "client_secret": secret
-        ] as [String: Any]
-
-        // Passes an empty string for the path. The session manager was composed with the full endpoint path.
-        social2FASessionManager.request(WordPressComURL.socialLogin2FA.url(base: wordPressComBaseUrl), method: .post, parameters: parameters)
-            .validate()
-            .responseJSON(completionHandler: { response in
-                switch response.result {
-                case .success(let responseObject):
-                    WPKitLogVerbose("Received Social Login Oauth response: \(self.cleanedUpResponseForLogging(responseObject as AnyObject? ?? "nil" as AnyObject))")
-                    guard let responseDictionary = responseObject as? [String: AnyObject],
-                        let responseData = responseDictionary["data"] as? [String: AnyObject],
-                        let authToken = responseData["bearer_token"] as? String else {
-                        return failure(.unparsableResponse(response: response.response, body: response.data))
-                    }
-
-                    success(authToken)
-
-                case .failure(let error):
-                    let nserror = self.processError(response: response, originalError: error)
-                    failure(nserror)
-                }
-            })
+        Task { @MainActor in
+            let result = await authenticate(socialLoginUserID: userID, authType: authType, twoStepCode: twoStepCode, twoStepNonce: twoStepNonce)
+            switch result {
+            case let .success(token):
+                success(token)
+            case let .failure(error):
+                failure(error)
+            }
+        }
     }
 
     private func cleanedUpResponseForLogging(_ response: AnyObject) -> AnyObject {
