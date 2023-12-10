@@ -13,9 +13,9 @@ public enum WordPressAPIError<EndpointError>: Error where EndpointError: Localiz
     case requestEncodingFailure
     /// Error occured in the HTTP connection.
     case connection(URLError)
-    /// The API call returned an error result. For example, an OAuth endpoint may returns an 'incorrect username or password' error, an upload media endpoint may return an 'unsupported media type' error.
+    /// The API call returned an error result. For example, an OAuth endpoint may return an 'incorrect username or password' error, an upload media endpoint may return an 'unsupported media type' error.
     case endpointError(EndpointError)
-    /// The API call returned an HTTP response that WordPressKit can't parse.
+    /// The API call returned an HTTP response that WordPressKit can't parse. Receiving this error could be an indicator that there is an error response that's not handled properly by WordPressKit.
     case unparsableResponse(response: HTTPURLResponse?, body: Data?)
     /// Other error occured.
     case unknown(underlyingError: Error)
@@ -26,7 +26,7 @@ extension WordPressComOAuthError: LocalizedError {
     public var errorDescription: String? {
         switch self {
         case .requestEncodingFailure, .unparsableResponse:
-            // This is a programming error
+            // These are usually programming errors.
             return Self.unknownErrorMessage
         case let .endpointError(error):
             return error.errorDescription
