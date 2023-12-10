@@ -38,7 +38,7 @@ _None._
 
 ### New Features
 
-_None._
+- `WordPressOrgXMLRPCValidatorError` now conforms to `LocalizedError` [#649]
 
 ### Bug Fixes
 

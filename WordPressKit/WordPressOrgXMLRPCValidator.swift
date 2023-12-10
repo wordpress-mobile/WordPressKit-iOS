@@ -35,6 +35,12 @@ import Foundation
     }
 }
 
+extension WordPressOrgXMLRPCValidatorError: LocalizedError {
+    public var errorDescription: String? {
+        localizedDescription
+    }
+}
+
 /// An WordPressOrgXMLRPCValidator is able to validate and check if user provided site urls are
 /// WordPress XMLRPC sites.
 open class WordPressOrgXMLRPCValidator: NSObject {
