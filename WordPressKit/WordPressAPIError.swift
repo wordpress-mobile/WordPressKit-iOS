@@ -15,7 +15,7 @@ public enum WordPressAPIError<EndpointError>: Error where EndpointError: Localiz
     case connection(URLError)
     /// The API call returned an error result. For example, an OAuth endpoint may returns an 'incorrect username or password' error, an upload media endpoint may return an 'unsupported media type' error.
     case endpointError(EndpointError)
-    /// WordPress.com returned an HTTP response that WordPressKit can't parse.
+    /// The API call returned an HTTP response that WordPressKit can't parse.
     case unparsableResponse(response: HTTPURLResponse?, body: Data?)
     /// Other error occured.
     case unknown(underlyingError: Error)
