@@ -1,102 +1,70 @@
 import Alamofire
 
-/// Errors returned by `WordPressComOAuthClient`.
-public enum WordPressComOAuthError: Error {
-    /// Can't encode the request arguments into a valid HTTP request. This is a programming error.
-    case requestEncodingFailure
-    /// Error occured in the HTTP connection.
-    case connection(URLError)
-    /// WordPress.com rejected the authentication request and returned an error. See `AuthenticationFailure` for error details.
-    case authenticationFailure(AuthenticationFailure)
-    /// WordPress.com returned an HTTP response that WordPressKit can't parse.
-    case unparsableResponse(response: HTTPURLResponse?, body: Data?)
-    /// Other error occured.
-    case unknown(underlyingError: Error)
+public typealias WordPressComOAuthError = WordPressAPIError<AuthenticationFailure>
 
-    public var authenticationFailureKind: AuthenticationFailure.Kind? {
-        if case let .authenticationFailure(authenticationFailure) = self {
-            return authenticationFailure.kind
+public extension WordPressComOAuthError {
+    var authenticationFailureKind: AuthenticationFailure.Kind? {
+        if case let .endpointError(failure) = self {
+            return failure.kind
         }
         return nil
     }
-
-    public struct AuthenticationFailure {
-        private static let errorsMap: [String: WordPressComOAuthError.AuthenticationFailure.Kind] = [
-            "invalid_client": .invalidClient,
-            "unsupported_grant_type": .unsupportedGrantType,
-            "invalid_request": .invalidRequest,
-            "needs_2fa": .needsMultifactorCode,
-            "invalid_otp": .invalidOneTimePassword,
-            "user_exists": .socialLoginExistingUserUnconnected,
-            "invalid_two_step_code": .invalidTwoStepCode,
-            "unknown_user": .unknownUser
-        ]
-
-        public enum Kind {
-            /// client_id is missing or wrong, it shouldn't happen
-            case invalidClient
-            /// client_id doesn't support password grants
-            case unsupportedGrantType
-            /// A required field is missing/malformed
-            case invalidRequest
-            /// Multifactor Authentication code is required
-            case needsMultifactorCode
-            /// Supplied one time password is incorrect
-            case invalidOneTimePassword
-            /// Returned by the social login endpoint if a wpcom user is found, but not connected to a social service.
-            case socialLoginExistingUserUnconnected
-            /// Supplied MFA code is incorrect
-            case invalidTwoStepCode
-            case unknownUser
-            case unknown
-        }
-
-        public var kind: Kind
-        public var localizedErrorMessage: String?
-        public var newNonce: String?
-        public var originalErrorJSON: [String: AnyObject]
-
-        init(apiJSONResponse responseDict: [String: AnyObject]) {
-            originalErrorJSON = responseDict
-
-            // there's either a data object, or an error.
-            if let errorStr = responseDict["error"] as? String {
-                kind = Self.errorsMap[errorStr] ?? .unknown
-                localizedErrorMessage = responseDict["error_description"] as? String
-            } else if let data = responseDict["data"] as? [String: AnyObject],
-                let errors = data["errors"] as? NSArray,
-                let err = errors.firstObject as? [String: AnyObject] {
-                let errorCode = err["code"] as? String ?? ""
-                kind = Self.errorsMap[errorCode] ?? .unknown
-                localizedErrorMessage = err["message"] as? String
-                newNonce = data["two_step_nonce"] as? String
-            } else {
-                kind = .unknown
-            }
-        }
-    }
 }
 
-extension WordPressComOAuthError: LocalizedError {
+public struct AuthenticationFailure: LocalizedError {
+    private static let errorsMap: [String: AuthenticationFailure.Kind] = [
+        "invalid_client": .invalidClient,
+        "unsupported_grant_type": .unsupportedGrantType,
+        "invalid_request": .invalidRequest,
+        "needs_2fa": .needsMultifactorCode,
+        "invalid_otp": .invalidOneTimePassword,
+        "user_exists": .socialLoginExistingUserUnconnected,
+        "invalid_two_step_code": .invalidTwoStepCode,
+        "unknown_user": .unknownUser
+    ]
 
-    public var errorDescription: String? {
-        let unknownErrorMessage = NSLocalizedString("oauth.error.unknown", value: "Something went wrong, please try again later.", comment: "Error message that describes that an unknown error had occured")
-        switch self {
-        case .requestEncodingFailure, .unparsableResponse:
-            // This is a programming errors
-            return unknownErrorMessage
-        case let .authenticationFailure(failure):
-            return failure.localizedErrorMessage
-        case let .connection(error):
-            return error.localizedDescription
-        case let .unknown(underlyingError):
-            if let msg = (underlyingError as? LocalizedError)?.errorDescription {
-                return msg
-            }
-            return unknownErrorMessage
-        }
+    public enum Kind {
+        /// client_id is missing or wrong, it shouldn't happen
+        case invalidClient
+        /// client_id doesn't support password grants
+        case unsupportedGrantType
+        /// A required field is missing/malformed
+        case invalidRequest
+        /// Multifactor Authentication code is required
+        case needsMultifactorCode
+        /// Supplied one time password is incorrect
+        case invalidOneTimePassword
+        /// Returned by the social login endpoint if a wpcom user is found, but not connected to a social service.
+        case socialLoginExistingUserUnconnected
+        /// Supplied MFA code is incorrect
+        case invalidTwoStepCode
+        case unknownUser
+        case unknown
     }
 
+    public var kind: Kind
+    public var localizedErrorMessage: String?
+    public var newNonce: String?
+    public var originalErrorJSON: [String: AnyObject]
+
+    init(apiJSONResponse responseDict: [String: AnyObject]) {
+        originalErrorJSON = responseDict
+
+        // there's either a data object, or an error.
+        if let errorStr = responseDict["error"] as? String {
+            kind = Self.errorsMap[errorStr] ?? .unknown
+            localizedErrorMessage = responseDict["error_description"] as? String
+        } else if let data = responseDict["data"] as? [String: AnyObject],
+            let errors = data["errors"] as? NSArray,
+            let err = errors.firstObject as? [String: AnyObject] {
+            let errorCode = err["code"] as? String ?? ""
+            kind = Self.errorsMap[errorCode] ?? .unknown
+            localizedErrorMessage = err["message"] as? String
+            newNonce = data["two_step_nonce"] as? String
+        } else {
+            kind = .unknown
+        }
+    }
 }
 
 /// `WordPressComOAuthClient` encapsulates the pattern of authenticating against WordPress.com OAuth2 service.
@@ -338,7 +306,7 @@ public final class WordPressComOAuthClient: NSObject {
                     success(nonceInfo.nonceSMS)
                 case .failure(let error):
                     let error = self.processError(response: response, originalError: error)
-                    if case let .authenticationFailure(authenticationFailure) = error, let newNonce = authenticationFailure.newNonce {
+                    if case let .endpointError(authenticationFailure) = error, let newNonce = authenticationFailure.newNonce {
                         failure(error, newNonce)
                     } else {
                         failure(error, nil)
@@ -404,7 +372,7 @@ public final class WordPressComOAuthClient: NSObject {
                     let err = self.processError(response: response, originalError: error)
 
                     // Inspect the error and handle the case of an existing user.
-                    if case let .authenticationFailure(authenticationFailure) = err, authenticationFailure.kind == .socialLoginExistingUserUnconnected {
+                    if case let .endpointError(authenticationFailure) = err, authenticationFailure.kind == .socialLoginExistingUserUnconnected {
                         // Get the responseObject from the userInfo dict.
                         // Extract the email address for the callback.
                         let responseDict = authenticationFailure.originalErrorJSON
@@ -714,7 +682,7 @@ extension WordPressComOAuthClient {
                     return .unparsableResponse(response: response.response, body: response.data)
                 }
 
-                return .authenticationFailure(.init(apiJSONResponse: responseDictionary))
+                return .endpointError(.init(apiJSONResponse: responseDictionary))
             }
         default:
             return .unknown(underlyingError: originalError)
