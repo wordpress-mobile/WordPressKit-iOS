@@ -38,24 +38,24 @@ class HTTPRequestBuilderTests: XCTestCase {
 
     func testPath() throws {
         var request = try HTTPRequestBuilder(url: URL(string: "https://wordpress.org")!)
-            .path("hello/world")
+            .append(path: "hello/world")
             .build()
         XCTAssertEqual(request.url?.absoluteString, "https://wordpress.org/hello/world")
 
         request = try HTTPRequestBuilder(url: URL(string: "https://wordpress.org")!)
-            .path("/hello/world")
+            .append(path: "/hello/world")
             .build()
         XCTAssertEqual(request.url?.absoluteString, "https://wordpress.org/hello/world")
 
         request = try HTTPRequestBuilder(url: URL(string: "https://wordpress.org/hello")!)
-            .path("world")
+            .append(path: "world")
             .build()
         XCTAssertEqual(request.url?.absoluteString, "https://wordpress.org/hello/world")
 
         request = try HTTPRequestBuilder(url: URL(string: "https://wordpress.org/hello")!)
-            .path("/world")
+            .append(path: "/world")
             .build()
-        XCTAssertEqual(request.url?.absoluteString, "https://wordpress.org/world")
+        XCTAssertEqual(request.url?.absoluteString, "https://wordpress.org/hello/world")
     }
 
     func testJSONBody() throws {

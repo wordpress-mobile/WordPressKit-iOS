@@ -15,7 +15,6 @@ final class HTTPRequestBuilder {
 
     private var urlComponents: URLComponents
     private var method: Method = .get
-    private var path: String
     private var headers: [String: String] = [:]
     private var bodyBuilder: ((inout URLRequest) throws -> Void)?
 
@@ -24,7 +23,6 @@ final class HTTPRequestBuilder {
         assert(url.host != nil)
 
         urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: true)!
-        path = urlComponents.path
     }
 
     func method(_ method: Method) -> Self {
@@ -32,10 +30,20 @@ final class HTTPRequestBuilder {
         return self
     }
 
-    func path(_ path: String) -> Self {
+    func append(path: String) -> Self {
         assert(!path.contains("?") && !path.contains("#"), "Path should not have query or fragment: \(path)")
 
-        self.path = path
+        var relPath = path
+        if relPath.hasPrefix("/") {
+            _ = relPath.removeFirst()
+        }
+
+        if urlComponents.path.hasSuffix("/") {
+            urlComponents.path = urlComponents.path.appending(relPath)
+        } else {
+            urlComponents.path = urlComponents.path.appending("/").appending(relPath)
+        }
+
         return self
     }
 
@@ -92,22 +100,6 @@ final class HTTPRequestBuilder {
     }
 
     func build() throws -> URLRequest {
-        if path.isEmpty || path.hasPrefix("/") {
-            urlComponents.path = path
-        } else {
-            var newPath = urlComponents.path
-            if !newPath.hasPrefix("/") {
-                newPath = "/" + newPath
-            }
-
-            if newPath.hasSuffix("/") {
-                newPath = newPath + path
-            } else {
-                newPath = newPath + "/" + path
-            }
-            urlComponents.path = newPath
-        }
-
         guard let url = urlComponents.url else {
             throw URLError(.badURL)
         }
