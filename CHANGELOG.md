@@ -34,11 +34,11 @@ _None._
 
 ### Breaking Changes
 
-- `WordPressComOAuthError` now conforms to `Swift.Error` [#650]
+_None._
 
 ### New Features
 
-- `WordPressOrgXMLRPCValidatorError` now conforms to `LocalizedError` [#649]
+_None._
 
 ### Bug Fixes
 
@@ -47,6 +47,16 @@ _None._
 ### Internal Changes
 
 _None._
+
+## 9.0.0
+
+### Breaking Changes
+
+- `WordPressComOAuthError` now conforms to `Swift.Error` [#650]
+
+### New Features
+
+- `WordPressOrgXMLRPCValidatorError` now conforms to `LocalizedError` [#649]
 
 ## 8.11.0
 
