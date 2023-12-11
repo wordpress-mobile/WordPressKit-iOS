@@ -48,11 +48,7 @@ steps:
   - label: "⬆️ Publish Podspec"
     key: "publish"
     command: .buildkite/publish-pod.sh
-    # Notice Xcode 14.2, so that we can validate the pod using the pre-Xcode
-    # 14.3 toolchain and workaround the outdated Alamofire dependency
-    # deployment target being incompatible with Xcode 14.3+
-    env:
-      IMAGE_ID: xcode-14.2
+    env: *common_env
     plugins: *common_plugins
     depends_on:
       - "test"
