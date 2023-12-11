@@ -151,6 +151,7 @@
 		4A68E3DD294070A7004AC3DC /* RemoteReaderSite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A68E3DC294070A7004AC3DC /* RemoteReaderSite.swift */; };
 		4A68E3DF29407100004AC3DC /* RemoteReaderTopic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A68E3DE29407100004AC3DC /* RemoteReaderTopic.swift */; };
 		4A68E3E1294076C1004AC3DC /* RemoteReaderSiteInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A68E3E0294076C1004AC3DC /* RemoteReaderSiteInfo.swift */; };
+		4A6B4A842B26974F00802316 /* HTTPRequestBuilderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6B4A832B26974F00802316 /* HTTPRequestBuilderTests.swift */; };
 		4AA5A1A32AA68F6B00969464 /* MediaLibraryTestSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA5A1A22AA68F6B00969464 /* MediaLibraryTestSupport.swift */; };
 		4AA5A1A52AA695D700969464 /* LoadMediaLibraryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA5A1A42AA695D700969464 /* LoadMediaLibraryTests.swift */; };
 		57BCD3D426209D9500292CB3 /* AppTransportSecuritySettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57BCD3D326209D9500292CB3 /* AppTransportSecuritySettings.swift */; };
@@ -844,6 +845,7 @@
 		4A68E3DC294070A7004AC3DC /* RemoteReaderSite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteReaderSite.swift; sourceTree = "<group>"; };
 		4A68E3DE29407100004AC3DC /* RemoteReaderTopic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteReaderTopic.swift; sourceTree = "<group>"; };
 		4A68E3E0294076C1004AC3DC /* RemoteReaderSiteInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteReaderSiteInfo.swift; sourceTree = "<group>"; };
+		4A6B4A832B26974F00802316 /* HTTPRequestBuilderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPRequestBuilderTests.swift; sourceTree = "<group>"; };
 		4AA5A1A22AA68F6B00969464 /* MediaLibraryTestSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaLibraryTestSupport.swift; sourceTree = "<group>"; };
 		4AA5A1A42AA695D700969464 /* LoadMediaLibraryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadMediaLibraryTests.swift; sourceTree = "<group>"; };
 		57BCD3D326209D9500292CB3 /* AppTransportSecuritySettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTransportSecuritySettings.swift; sourceTree = "<group>"; };
@@ -2629,6 +2631,7 @@
 				803DE81028FFA9C4007D4E9C /* RemoteConfigRemoteTests.swift */,
 				4A1DEF43293051BC00322608 /* LoggingTests.swift */,
 				4A1DEF45293051C600322608 /* LoggingTests.m */,
+				4A6B4A832B26974F00802316 /* HTTPRequestBuilderTests.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -3452,6 +3455,7 @@
 				8B2F4BE924ABC9DC0056C08A /* ReaderPostServiceRemote+CardsTests.swift in Sources */,
 				40F9880C221ACEEE00B7B369 /* StatsRemoteV2Tests.swift in Sources */,
 				4625BAEB253E118400C04AAD /* PageLayoutServiceRemoteTests.swift in Sources */,
+				4A6B4A842B26974F00802316 /* HTTPRequestBuilderTests.swift in Sources */,
 				465F88BF263B54EE00F4C950 /* ChecksumUtilTests.swift in Sources */,
 				826017001F9FD60A00533B6C /* ActivityServiceRemoteTests.swift in Sources */,
 				93F50A3A1F226BB600B5BEBA /* WordPressComServiceRemoteRestTests.swift in Sources */,
