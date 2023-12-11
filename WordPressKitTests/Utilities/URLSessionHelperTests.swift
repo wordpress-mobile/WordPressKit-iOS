@@ -16,7 +16,7 @@ class URLSessionHelperTests: XCTestCase {
             HTTPStubsResponse(error: URLError(.serverCertificateUntrusted))
         }
 
-        let result = await URLSession.shared.apiResult(with: .init(url: URL(string: "https://wordpress.org/hello")!), errorType: TestError.self)
+        let result = await URLSession.shared.perform(request: .init(url: URL(string: "https://wordpress.org/hello")!), errorType: TestError.self)
         do {
             _ = try result.get()
             XCTFail("The above call should throw")
@@ -32,7 +32,7 @@ class URLSessionHelperTests: XCTestCase {
             HTTPStubsResponse(data: "success".data(using: .utf8)!, statusCode: 200, headers: nil)
         }
 
-        let result = await URLSession.shared.apiResult(with: .init(url: URL(string: "https://wordpress.org/hello")!), errorType: TestError.self)
+        let result = await URLSession.shared.perform(request: .init(url: URL(string: "https://wordpress.org/hello")!), errorType: TestError.self)
 
         // The result is a successful result. This line should not throw
         _ = try result.get()
@@ -55,7 +55,7 @@ class URLSessionHelperTests: XCTestCase {
             HTTPStubsResponse(data: "Internal server error".data(using: .utf8)!, statusCode: 500, headers: nil)
         }
 
-        let result = await URLSession.shared.apiResult(with: .init(url: URL(string: "https://wordpress.org/hello")!), errorType: TestError.self)
+        let result = await URLSession.shared.perform(request: .init(url: URL(string: "https://wordpress.org/hello")!), errorType: TestError.self)
 
         // The result is a successful result. This line should not throw
         _ = try result.get()
@@ -77,7 +77,7 @@ class URLSessionHelperTests: XCTestCase {
             HTTPStubsResponse(data: "Not found".data(using: .utf8)!, statusCode: 404, headers: nil)
         }
 
-        let result = await URLSession.shared.apiResult(with: .init(url: URL(string: "https://wordpress.org/hello")!), errorType: TestError.self)
+        let result = await URLSession.shared.perform(request: .init(url: URL(string: "https://wordpress.org/hello")!), errorType: TestError.self)
 
         // The result is a successful result. This line should not throw
         _ = try result.get()
@@ -99,7 +99,7 @@ class URLSessionHelperTests: XCTestCase {
             HTTPStubsResponse(data: "Not found".data(using: .utf8)!, statusCode: 404, headers: nil)
         }
 
-        let result = await URLSession.shared.apiResult(with: .init(url: URL(string: "https://wordpress.org/hello")!), errorType: TestError.self)
+        let result = await URLSession.shared.perform(request: .init(url: URL(string: "https://wordpress.org/hello")!), errorType: TestError.self)
 
         // The result is a successful result. This line should not throw
         _ = try result.get()

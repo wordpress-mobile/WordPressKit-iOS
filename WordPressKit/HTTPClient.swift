@@ -1,18 +1,16 @@
 import Foundation
 
-public typealias WordPressAPIResult<R, E: LocalizedError> = Result<R, WordPressAPIError<E>>
+public typealias WordPressAPIResult<Response, Error: LocalizedError> = Result<Response, WordPressAPIError<Error>>
 
 struct HTTPAPIResponse<Body> {
-    typealias Body = Body
-
     var response: HTTPURLResponse
     var body: Body
 }
 
 extension URLSession {
 
-    func apiResult<E: LocalizedError>(
-        with builder: HTTPRequestBuilder,
+    func perform<E: LocalizedError>(
+        request builder: HTTPRequestBuilder,
         errorType: E.Type = E.self
     ) async -> WordPressAPIResult<HTTPAPIResponse<Data>, E> {
         guard let request = try? builder.build() else {
