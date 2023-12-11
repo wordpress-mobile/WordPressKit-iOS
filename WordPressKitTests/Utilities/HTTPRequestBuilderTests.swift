@@ -5,10 +5,26 @@ import XCTest
 
 class HTTPRequestBuilderTests: XCTestCase {
 
-    func testDefaultMethod() throws {
-        let request = try HTTPRequestBuilder(url: URL(string: "https://wordpress.org")!).build()
-        XCTAssertEqual(request.url?.absoluteString, "https://wordpress.org")
-        XCTAssertEqual(request.httpMethod, "GET")
+    func testURL() throws {
+        try XCTAssertEqual(HTTPRequestBuilder(url: URL(string: "https://wordpress.org")!).build().url?.absoluteString, "https://wordpress.org")
+        try XCTAssertEqual(HTTPRequestBuilder(url: URL(string: "https://wordpress.com")!).build().url?.absoluteString, "https://wordpress.com")
+    }
+
+    func testHTTPMethods() throws {
+        try XCTAssertEqual(HTTPRequestBuilder(url: URL(string: "https://wordpress.org")!).build().httpMethod, "GET")
+        XCTAssertFalse(HTTPRequestBuilder.Method.get.allowsHTTPBody)
+
+        try XCTAssertEqual(HTTPRequestBuilder(url: URL(string: "https://wordpress.org")!).method(.delete).build().httpMethod, "DELETE")
+        XCTAssertFalse(HTTPRequestBuilder.Method.delete.allowsHTTPBody)
+
+        try XCTAssertEqual(HTTPRequestBuilder(url: URL(string: "https://wordpress.org")!).method(.post).build().httpMethod, "POST")
+        XCTAssertTrue(HTTPRequestBuilder.Method.post.allowsHTTPBody)
+
+        try XCTAssertEqual(HTTPRequestBuilder(url: URL(string: "https://wordpress.org")!).method(.patch).build().httpMethod, "PATCH")
+        XCTAssertTrue(HTTPRequestBuilder.Method.patch.allowsHTTPBody)
+
+        try XCTAssertEqual(HTTPRequestBuilder(url: URL(string: "https://wordpress.org")!).method(.put).build().httpMethod, "PUT")
+        XCTAssertTrue(HTTPRequestBuilder.Method.put.allowsHTTPBody)
     }
 
     func testHeader() throws {
