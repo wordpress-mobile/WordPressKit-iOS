@@ -153,6 +153,7 @@
 		4A68E3DF29407100004AC3DC /* RemoteReaderTopic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A68E3DE29407100004AC3DC /* RemoteReaderTopic.swift */; };
 		4A68E3E1294076C1004AC3DC /* RemoteReaderSiteInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A68E3E0294076C1004AC3DC /* RemoteReaderSiteInfo.swift */; };
 		4A6B4A842B26974F00802316 /* HTTPRequestBuilderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6B4A832B26974F00802316 /* HTTPRequestBuilderTests.swift */; };
+		4A6B4A862B269D0C00802316 /* URLSessionHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6B4A852B269D0C00802316 /* URLSessionHelperTests.swift */; };
 		4AA5A1A32AA68F6B00969464 /* MediaLibraryTestSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA5A1A22AA68F6B00969464 /* MediaLibraryTestSupport.swift */; };
 		4AA5A1A52AA695D700969464 /* LoadMediaLibraryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA5A1A42AA695D700969464 /* LoadMediaLibraryTests.swift */; };
 		57BCD3D426209D9500292CB3 /* AppTransportSecuritySettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57BCD3D326209D9500292CB3 /* AppTransportSecuritySettings.swift */; };
@@ -848,6 +849,7 @@
 		4A68E3DE29407100004AC3DC /* RemoteReaderTopic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteReaderTopic.swift; sourceTree = "<group>"; };
 		4A68E3E0294076C1004AC3DC /* RemoteReaderSiteInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteReaderSiteInfo.swift; sourceTree = "<group>"; };
 		4A6B4A832B26974F00802316 /* HTTPRequestBuilderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPRequestBuilderTests.swift; sourceTree = "<group>"; };
+		4A6B4A852B269D0C00802316 /* URLSessionHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionHelperTests.swift; sourceTree = "<group>"; };
 		4AA5A1A22AA68F6B00969464 /* MediaLibraryTestSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaLibraryTestSupport.swift; sourceTree = "<group>"; };
 		4AA5A1A42AA695D700969464 /* LoadMediaLibraryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadMediaLibraryTests.swift; sourceTree = "<group>"; };
 		57BCD3D326209D9500292CB3 /* AppTransportSecuritySettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTransportSecuritySettings.swift; sourceTree = "<group>"; };
@@ -2635,6 +2637,7 @@
 				4A1DEF43293051BC00322608 /* LoggingTests.swift */,
 				4A1DEF45293051C600322608 /* LoggingTests.m */,
 				4A6B4A832B26974F00802316 /* HTTPRequestBuilderTests.swift */,
+				4A6B4A852B269D0C00802316 /* URLSessionHelperTests.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -3433,6 +3436,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E1E89C6A1FD6BDB1006E7A33 /* PluginDirectoryTests.swift in Sources */,
+				4A6B4A862B269D0C00802316 /* URLSessionHelperTests.swift in Sources */,
 				9F3E0BAA20873773009CB5BA /* MockServiceRequest.swift in Sources */,
 				8B2F4BE524ABB3C70056C08A /* RemoteReaderPostTests.m in Sources */,
 				4AA5A1A32AA68F6B00969464 /* MediaLibraryTestSupport.swift in Sources */,
