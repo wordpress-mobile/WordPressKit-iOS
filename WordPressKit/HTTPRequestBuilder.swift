@@ -83,18 +83,6 @@ final class HTTPRequestBuilder {
         return self
     }
 
-    // FIXME: Not implemented yet
-    func body(xmlrpc: Any /* XMLRPCRequest */) -> Self {
-        body(xml: {
-            fatalError("To be implemented")
-        })
-    }
-
-    // FIXME: Not implemented yet
-    func appendXMLRPCArgument(value: Any) -> Self {
-        fatalError("To be implemented")
-    }
-
     func body(xml: @escaping () throws -> Data) -> Self {
         headers["Content-Type"] = "application/xml; charset=utf-8"
         bodyBuilder = { req in
@@ -137,5 +125,19 @@ final class HTTPRequestBuilder {
         }
 
         return request
+    }
+}
+
+extension HTTPRequestBuilder {
+    // FIXME: Not implemented yet
+    func body(xmlrpc: Any /* XMLRPCRequest */) -> Self {
+        body(xml: {
+            fatalError("To be implemented")
+        })
+    }
+
+    // FIXME: Not implemented yet
+    func appendXMLRPCArgument(value: Any) -> Self {
+        fatalError("To be implemented")
     }
 }
