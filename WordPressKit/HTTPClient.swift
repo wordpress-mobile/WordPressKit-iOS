@@ -2,7 +2,7 @@ import Foundation
 
 public typealias WordPressAPIResult<R, E: LocalizedError> = Result<R, WordPressAPIError<E>>
 
-struct HTTPAPIResponse<Body>{
+struct HTTPAPIResponse<Body> {
     typealias Body = Body
 
     var response: HTTPURLResponse

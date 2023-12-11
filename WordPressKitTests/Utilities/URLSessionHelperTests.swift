@@ -7,6 +7,7 @@ import OHHTTPStubs
 class URLSessionHelperTests: XCTestCase {
 
     override func tearDown() {
+        super.tearDown()
         HTTPStubs.removeAllStubs()
     }
 
