@@ -104,7 +104,7 @@ final class HTTPRequestBuilder {
     }
 
     func build() throws -> URLRequest {
-        if path == "" || path.hasPrefix("/") {
+        if path.isEmpty || path.hasPrefix("/") {
             urlComponents.path = path
         } else {
             var newPath = urlComponents.path
