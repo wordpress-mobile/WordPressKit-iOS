@@ -12,6 +12,7 @@ final class HTTPRequestBuilder {
             self == .post || self == .put || self == .patch
         }
     }
+
     private var urlComponents: URLComponents
     private var method: Method = .get
     private var path: String
@@ -26,20 +27,20 @@ final class HTTPRequestBuilder {
         path = urlComponents.path
     }
 
-    func set(method: Method) -> Self {
+    func method(_ method: Method) -> Self {
         self.method = method
         return self
     }
 
-    func set(path: String) -> Self {
+    func path(_ path: String) -> Self {
         assert(!path.contains("?") && !path.contains("#"), "Path should not have query or fragment: \(path)")
 
         self.path = path
         return self
     }
 
-    func set(value: String?, forHeader header: String) -> Self {
-        headers[header] = value
+    func header(name: String, value: String?) -> Self {
+        headers[name] = value
         return self
     }
 

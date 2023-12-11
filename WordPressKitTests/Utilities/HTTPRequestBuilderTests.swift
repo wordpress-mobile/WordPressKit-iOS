@@ -13,8 +13,8 @@ class HTTPRequestBuilderTests: XCTestCase {
 
     func testHeader() throws {
         let request = try HTTPRequestBuilder(url: URL(string: "https://wordpress.org")!)
-            .set(value: "Foo", forHeader: "X-Header-1")
-            .set(value: "Bar", forHeader: "X-Header-2")
+            .header(name: "X-Header-1", value: "Foo")
+            .header(name: "X-Header-2", value: "Bar")
             .build()
         XCTAssertEqual(request.value(forHTTPHeaderField: "X-Header-1"), "Foo")
         XCTAssertEqual(request.value(forHTTPHeaderField: "X-Header-2"), "Bar")
@@ -22,36 +22,36 @@ class HTTPRequestBuilderTests: XCTestCase {
 
     func testPath() throws {
         var request = try HTTPRequestBuilder(url: URL(string: "https://wordpress.org")!)
-            .set(path: "hello/world")
+            .path("hello/world")
             .build()
         XCTAssertEqual(request.url?.absoluteString, "https://wordpress.org/hello/world")
 
         request = try HTTPRequestBuilder(url: URL(string: "https://wordpress.org")!)
-            .set(path: "/hello/world")
+            .path("/hello/world")
             .build()
         XCTAssertEqual(request.url?.absoluteString, "https://wordpress.org/hello/world")
 
         request = try HTTPRequestBuilder(url: URL(string: "https://wordpress.org/hello")!)
-            .set(path: "world")
+            .path("world")
             .build()
         XCTAssertEqual(request.url?.absoluteString, "https://wordpress.org/hello/world")
 
         request = try HTTPRequestBuilder(url: URL(string: "https://wordpress.org/hello")!)
-            .set(path: "/world")
+            .path("/world")
             .build()
         XCTAssertEqual(request.url?.absoluteString, "https://wordpress.org/world")
     }
 
     func testJSONBody() throws {
         var request = try HTTPRequestBuilder(url: URL(string: "https://wordpress.org")!)
-            .set(method: .post)
+            .method(.post)
             .body(json: 42)
             .build()
         XCTAssertTrue(request.value(forHTTPHeaderField: "Content-Type")?.contains("application/json") == true)
         try XCTAssertEqual(XCTUnwrap(request.httpBodyText), "42")
 
         request = try HTTPRequestBuilder(url: URL(string: "https://wordpress.org")!)
-            .set(method: .post)
+            .method(.post)
             .body(json: ["foo": "bar"])
             .build()
         try XCTAssertEqual(XCTUnwrap(request.httpBodyText), #"{"foo":"bar"}"#)
@@ -64,7 +64,7 @@ class HTTPRequestBuilderTests: XCTestCase {
         let body = Body(foo: "bar")
 
         let request = try HTTPRequestBuilder(url: URL(string: "https://wordpress.org")!)
-            .set(method: .post)
+            .method(.post)
             .body(json: body)
             .build()
         XCTAssertTrue(request.value(forHTTPHeaderField: "Content-Type")?.contains("application/json") == true)
@@ -73,7 +73,7 @@ class HTTPRequestBuilderTests: XCTestCase {
 
     func testFormBody() throws {
         let request = try HTTPRequestBuilder(url: URL(string: "https://wordpress.org")!)
-            .set(method: .post)
+            .method(.post)
             .body(form: ["name": "Foo Bar"])
             .build()
         XCTAssertTrue(request.value(forHTTPHeaderField: "Content-Type")?.contains("application/x-www-form-urlencoded") == true)
