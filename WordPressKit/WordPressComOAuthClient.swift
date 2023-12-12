@@ -78,7 +78,6 @@ public final class WordPressComOAuthClient: NSObject {
     @objc public static let WordPressComOAuthDefaultApiBaseUrl = "https://public-api.wordpress.com"
 
     enum WordPressComURL: String {
-        case oAuthBase = "/oauth2/token"
         case webauthnChallenge = "wp-login.php?action=webauthn-challenge-endpoint"
         case webauthnAuthentication = "wp-login.php?action=webauthn-authentication-endpoint"
         case socialLogin = "/wp-login.php?action=social-login-endpoint&version=1.0"
@@ -277,35 +276,44 @@ public final class WordPressComOAuthClient: NSObject {
     ///     - password: the account's password.
     ///     - success: block to be called if authentication was successful.
     ///     - failure: block to be called if authentication failed. The error object is passed as a parameter.
+    public func requestOneTimeCode(username: String, password: String) async -> WordPressAPIResult<Void, AuthenticationFailure> {
+        let builder = tokenRequestBuilder()
+            .body(form: [
+                "username": username,
+                "password": password,
+                "grant_type": "password",
+                "client_id": clientID,
+                "client_secret": secret,
+                "wpcom_supports_2fa": "true",
+                "wpcom_resend_otp": "true"
+            ])
+        return await oauth2Session
+            .perform(request:  builder)
+            .assessStatusCode(success: { _ in () }, failure: Self.processError(_:))
+    }
+
+    /// Requests a One Time Code, to be sent via SMS.
     ///
+    /// - Parameters:
+    ///     - username: the account's username.
+    ///     - password: the account's password.
+    ///     - success: block to be called if authentication was successful.
+    ///     - failure: block to be called if authentication failed. The error object is passed as a parameter.
     public func requestOneTimeCode(
         username: String,
         password: String,
         success: @escaping () -> Void,
         failure: @escaping (_ error: WordPressComOAuthError) -> Void
     ) {
-        let parameters = [
-            "username": username,
-            "password": password,
-            "grant_type": "password",
-            "client_id": clientID,
-            "client_secret": secret,
-            "wpcom_supports_2fa": true,
-            "wpcom_resend_otp": true
-        ] as [String: Any]
-
-        oauth2SessionManager.request(WordPressComURL.oAuthBase.url(base: wordPressComApiBaseUrl), method: .post, parameters: parameters)
-            .validate()
-            .responseJSON(completionHandler: { response in
-                switch response.result {
-                case .success:
-                    success()
-                case .failure(let error):
-                    let nserror = self.processError(response: response, originalError: error)
-                    failure(nserror)
-                }
+        Task { @MainActor in
+            let result = await requestOneTimeCode(username: username, password: password)
+            switch result {
+            case .success:
+                success()
+            case let .failure(error):
+                failure(error)
             }
-        )
+        }
     }
 
     /// Request a new SMS code to be sent during social login
