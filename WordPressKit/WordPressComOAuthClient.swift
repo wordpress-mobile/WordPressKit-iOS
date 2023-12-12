@@ -689,3 +689,16 @@ extension WordPressComOAuthClient {
         }
     }
 }
+
+private extension WordPressComOAuthClient {
+    static func processError(_ response: HTTPAPIResponse<Data>) -> AuthenticationFailure? {
+        guard [400, 409, 403].contains(response.response.statusCode),
+              let responseObject = try? JSONSerialization.jsonObject(with: response.body, options: .allowFragments),
+              let responseDictionary = responseObject as? [String: AnyObject]
+        else {
+            return nil
+        }
+
+        return .init(apiJSONResponse: responseDictionary)
+    }
+}
