@@ -85,8 +85,8 @@ public final class WordPressComOAuthClient: NSObject {
         case socialLogin2FA = "/wp-login.php?action=two-step-authentication-endpoint&version=1.0"
         case socialLoginNewSMS2FA = "/wp-login.php?action=send-sms-code-endpoint"
 
-        func url(base: String) -> URL {
-            return URL(string: self.rawValue, relativeTo: URL(string: base))!
+        func url(base: URL) -> URL {
+            return URL(string: self.rawValue, relativeTo: base)!
         }
     }
 
@@ -95,8 +95,8 @@ public final class WordPressComOAuthClient: NSObject {
     private let clientID: String
     private let secret: String
 
-    private let wordPressComBaseUrl: String
-    private let wordPressComApiBaseUrl: String
+    private let wordPressComBaseUrl: URL
+    private let wordPressComApiBaseUrl: URL
 
     private let oauth2SessionManager: SessionManager = {
         return WordPressComOAuthClient.sessionManager()
@@ -160,8 +160,8 @@ public final class WordPressComOAuthClient: NSObject {
                       wordPressComApiBaseUrl: String = WordPressComOAuthClient.WordPressComOAuthDefaultApiBaseUrl) {
         self.clientID = clientID
         self.secret = secret
-        self.wordPressComBaseUrl = wordPressComBaseUrl
-        self.wordPressComApiBaseUrl = wordPressComApiBaseUrl
+        self.wordPressComBaseUrl = URL(string: wordPressComBaseUrl)!
+        self.wordPressComApiBaseUrl = URL(string: wordPressComApiBaseUrl)!
     }
 
     /// Authenticates on WordPress.com using the OAuth endpoints.
