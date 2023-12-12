@@ -98,6 +98,11 @@ public final class WordPressComOAuthClient: NSObject {
     private let wordPressComBaseUrl: URL
     private let wordPressComApiBaseUrl: URL
 
+    // Question: Is it necessary to use these many URLSession instances?
+    private let oauth2Session: URLSession = {
+        WordPressComOAuthClient.urlSession()
+    }()
+
     private let oauth2SessionManager: SessionManager = {
         return WordPressComOAuthClient.sessionManager()
     }()
@@ -124,6 +129,12 @@ public final class WordPressComOAuthClient: NSObject {
         let sessionManager = SessionManager(configuration: .ephemeral)
 
         return sessionManager
+    }
+
+    private class func urlSession() -> URLSession {
+        let configuration = URLSessionConfiguration.ephemeral
+        configuration.httpAdditionalHeaders = ["Accept": "application/json"]
+        return URLSession(configuration: configuration)
     }
 
     /// Creates a WordPresComOAuthClient initialized with the clientID and secrets provided
@@ -164,6 +175,71 @@ public final class WordPressComOAuthClient: NSObject {
         self.wordPressComApiBaseUrl = URL(string: wordPressComApiBaseUrl)!
     }
 
+    public enum AuthenticationResult {
+        case authenticated(token: String)
+        case needsMultiFactor(userID: Int, nonceInfo: SocialLogin2FANonceInfo)
+    }
+
+    /// Authenticates on WordPress.com using the OAuth endpoints.
+    ///
+    /// - Parameters:
+    ///     - username: the account's username.
+    ///     - password: the account's password.
+    ///     - multifactorCode: Multifactor Authentication One-Time-Password. If not needed, can be nil
+    public func authenticate(
+        username: String,
+        password: String,
+        multifactorCode: String?
+    ) async -> WordPressAPIResult<AuthenticationResult, AuthenticationFailure> {
+        var form = [
+            "username": username,
+            "password": password,
+            "grant_type": "password",
+            "client_id": clientID,
+            "client_secret": secret,
+            "wpcom_supports_2fa": "true",
+            "with_auth_types": "true"
+        ]
+
+        if let multifactorCode, !multifactorCode.isEmpty {
+            form["wpcom_otp"] = multifactorCode
+        }
+
+        let builder = tokenRequestBuilder().body(form: form)
+        return await oauth2Session
+            .perform(request:  builder)
+            .assessStatusCode(
+                success: { response in
+                    guard let responseObject = try? JSONSerialization.jsonObject(with: response.body) else {
+                        return nil
+                    }
+
+                    WPKitLogVerbose("Received OAuth2 response: \(self.cleanedUpResponseForLogging(responseObject as AnyObject? ?? "nil" as AnyObject))")
+
+                    guard let responseDictionary = responseObject as? [String: AnyObject] else {
+                        return nil
+                    }
+
+                    // If we found an access_token, we are authed.
+                    if let authToken = responseDictionary["access_token"] as? String {
+                        return .authenticated(token: authToken)
+                    }
+
+                    // If there is no access token, check for a security key nonce
+                    guard let responseData = responseDictionary["data"] as? [String: AnyObject],
+                          let userID = responseData["user_id"] as? Int,
+                          let _ = responseData["two_step_nonce_webauthn"] else {
+                        return nil
+                    }
+
+                    let nonceInfo = self.extractNonceInfo(data: responseData)
+
+                    return .needsMultiFactor(userID: userID, nonceInfo: nonceInfo)
+                },
+                failure: Self.processError(_:)
+            )
+    }
+
     /// Authenticates on WordPress.com using the OAuth endpoints.
     ///
     /// - Parameters:
@@ -173,7 +249,6 @@ public final class WordPressComOAuthClient: NSObject {
     ///     - needsMultifactor: @escaping (_ userID: Int, _ nonceInfo: SocialLogin2FANonceInfo) -> Void,
     ///     - success: block to be called if authentication was successful. The OAuth2 token is passed as a parameter.
     ///     - failure: block to be called if authentication failed. The error object is passed as a parameter.
-    ///
     public func authenticate(
         username: String,
         password: String,
@@ -182,52 +257,17 @@ public final class WordPressComOAuthClient: NSObject {
         success: @escaping (_ authToken: String?) -> Void,
         failure: @escaping (_ error: WordPressComOAuthError) -> Void
     ) {
-        var parameters: [String: AnyObject] = [
-            "username": username as AnyObject,
-            "password": password as AnyObject,
-            "grant_type": "password" as AnyObject,
-            "client_id": clientID as AnyObject,
-            "client_secret": secret as AnyObject,
-            "wpcom_supports_2fa": true as AnyObject,
-            "with_auth_types": true as AnyObject
-        ]
-
-        if let multifactorCode = multifactorCode, !multifactorCode.isEmpty {
-            parameters["wpcom_otp"] = multifactorCode as AnyObject?
+        Task { @MainActor in
+            let result = await authenticate(username: username, password: password, multifactorCode: multifactorCode)
+            switch result {
+            case let .success(.authenticated(token)):
+                success(token)
+            case let .success(.needsMultiFactor(userID, nonceInfo)):
+                needsMultifactor(userID, nonceInfo)
+            case let .failure(error):
+                failure(error)
+            }
         }
-
-        oauth2SessionManager.request(WordPressComURL.oAuthBase.url(base: wordPressComApiBaseUrl), method: .post, parameters: parameters)
-            .validate()
-            .responseJSON(completionHandler: { response in
-                switch response.result {
-                case .success(let responseObject):
-                    WPKitLogVerbose("Received OAuth2 response: \(self.cleanedUpResponseForLogging(responseObject as AnyObject? ?? "nil" as AnyObject))")
-
-                    guard let responseDictionary = responseObject as? [String: AnyObject] else {
-                        return failure(.unparsableResponse(response: response.response, body: response.data))
-                    }
-
-                    // If we found an access_token, we are authed.
-                    if let authToken = responseDictionary["access_token"] as? String {
-                        return success(authToken)
-                    }
-
-                    // If there is no access token, check for a security key nonce
-                    guard let responseData = responseDictionary["data"] as? [String: AnyObject],
-                          let userID = responseData["user_id"] as? Int,
-                          let _ = responseData["two_step_nonce_webauthn"] else {
-                        return failure(.unparsableResponse(response: response.response, body: response.data))
-                    }
-
-                    let nonceInfo = self.extractNonceInfo(data: responseData)
-                    needsMultifactor(userID, nonceInfo)
-
-                case .failure(let error):
-                    let nserror = self.processError(response: response, originalError: error)
-                    WPKitLogError("Error receiving OAuth2 token: \(nserror)")
-                    failure(nserror)
-                }
-            })
     }
 
     /// Requests a One Time Code, to be sent via SMS.
@@ -691,6 +731,12 @@ extension WordPressComOAuthClient {
 }
 
 private extension WordPressComOAuthClient {
+    func tokenRequestBuilder() -> HTTPRequestBuilder {
+        HTTPRequestBuilder(url: wordPressComApiBaseUrl)
+            .method(.post)
+            .append(path: "/oauth2/token")
+    }
+
     static func processError(_ response: HTTPAPIResponse<Data>) -> AuthenticationFailure? {
         guard [400, 409, 403].contains(response.response.statusCode),
               let responseObject = try? JSONSerialization.jsonObject(with: response.body, options: .allowFragments),
