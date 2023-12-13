@@ -96,6 +96,14 @@ class HTTPRequestBuilderTests: XCTestCase {
         try XCTAssertEqual(XCTUnwrap(request.httpBodyText), #"name=Foo%20Bar"#)
     }
 
+    func testFormWithSpecialCharacters() throws {
+        let request = try HTTPRequestBuilder(url: URL(string: "https://wordpress.org")!)
+            .method(.post)
+            .body(form: ["text": ":#[]@!$&'()*+,;="])
+            .build()
+        try XCTAssertEqual(XCTUnwrap(request.httpBodyText), "text=%3A%23%5B%5D%40%21%24%26%27%28%29%2A%2B%2C%3B%3D")
+    }
+
 }
 
 private extension URLRequest {

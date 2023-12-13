@@ -64,9 +64,11 @@ final class HTTPRequestBuilder {
     func body(form: [String: String]) -> Self {
         headers["Content-Type"] = "application/x-www-form-urlencoded; charset=utf-8"
         bodyBuilder = { req in
-            var url = URLComponents(string: "https://wordpress.com")!
-            url.queryItems = form.map { URLQueryItem(name: $0, value: $1) }
-            req.httpBody = url.percentEncodedQuery?.data(using: .utf8)
+            let content = form.map {
+                    "\(HTTPRequestBuilder.urlEncode($0))=\(HTTPRequestBuilder.urlEncode($1))"
+                }
+                .joined(separator: "&")
+            req.httpBody = content.data(using: .utf8)
         }
         return self
     }
@@ -131,5 +133,13 @@ extension HTTPRequestBuilder {
     // FIXME: Not implemented yet
     func appendXMLRPCArgument(value: Any) -> Self {
         fatalError("To be implemented")
+    }
+}
+
+private extension HTTPRequestBuilder {
+    static func urlEncode(_ text: String) -> String {
+        let specialCharacters = ":#[]@!$&'()*+,;="
+        let allowed = CharacterSet.urlQueryAllowed.subtracting(.init(charactersIn: specialCharacters))
+        return text.addingPercentEncoding(withAllowedCharacters: allowed) ?? text
     }
 }
