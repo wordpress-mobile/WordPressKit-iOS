@@ -21,7 +21,7 @@ public enum WordPressAPIError<EndpointError>: Error where EndpointError: Localiz
     case unknown(underlyingError: Error)
 }
 
-extension WordPressComOAuthError: LocalizedError {
+extension WordPressAPIError: LocalizedError {
 
     public var errorDescription: String? {
         switch self {
@@ -29,7 +29,7 @@ extension WordPressComOAuthError: LocalizedError {
             // These are usually programming errors.
             return Self.unknownErrorMessage
         case let .endpointError(error):
-            return error.errorDescription
+            return error.errorDescription ?? Self.unknownErrorMessage
         case let .connection(error):
             return error.localizedDescription
         case let .unknown(underlyingError):
