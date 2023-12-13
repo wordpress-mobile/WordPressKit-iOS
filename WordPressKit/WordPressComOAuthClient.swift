@@ -102,10 +102,6 @@ public final class WordPressComOAuthClient: NSObject {
         WordPressComOAuthClient.urlSession()
     }()
 
-    private let oauth2SessionManager: SessionManager = {
-        return WordPressComOAuthClient.sessionManager()
-    }()
-
     private let webauthnSessionManager: SessionManager = {
         return WordPressComOAuthClient.sessionManager()
     }()
