@@ -1,7 +1,7 @@
 PODS:
   - Alamofire (4.8.2)
   - NSObject-SafeExpectations (0.0.6)
-  - OCMock (3.9.1)
+  - OCMock (3.9.3)
   - OHHTTPStubs (9.1.0):
     - OHHTTPStubs/Default (= 9.1.0)
   - OHHTTPStubs/Core (9.1.0)
@@ -17,8 +17,8 @@ PODS:
   - OHHTTPStubs/OHPathHelpers (9.1.0)
   - OHHTTPStubs/Swift (9.1.0):
     - OHHTTPStubs/Default
-  - UIDeviceIdentifier (2.2.0)
-  - WordPressShared (2.0.0-beta.2)
+  - UIDeviceIdentifier (2.3.0)
+  - WordPressShared (2.0.1)
   - wpxmlrpc (0.10.0)
 
 DEPENDENCIES:
@@ -44,12 +44,12 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
   NSObject-SafeExpectations: c01c8881cbd97efad6f668286b913cd0b7d62ab5
-  OCMock: 9491e4bec59e0b267d52a9184ff5605995e74be8
+  OCMock: 300b1b1b9155cb6378660b981c2557448830bdc6
   OHHTTPStubs: 90eac6d8f2c18317baeca36698523dc67c513831
-  UIDeviceIdentifier: f33af270ba9045ea18b31d9aab88e42a0082ea67
-  WordPressShared: 04403b43f821c4ed2b84a2112ef9f64f1e7cdceb
+  UIDeviceIdentifier: 442b65b4ff1832d4ca9c2a157815cb29ad981b17
+  WordPressShared: f93f99269258b46dad04f4e4dbf540ce2e5c1e66
   wpxmlrpc: 68db063041e85d186db21f674adf08d9c70627fd
 
 PODFILE CHECKSUM: 7998039b722f0fe77c684f509f0478349cf5fb9b
 
-COCOAPODS: 1.14.2
+COCOAPODS: 1.14.3
