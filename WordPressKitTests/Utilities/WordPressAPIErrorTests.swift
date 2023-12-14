@@ -10,6 +10,7 @@ class WordPressAPIErrorTests: XCTestCase {
         }
 
         let error = WordPressAPIError.endpointError(TestError())
+        XCTAssertEqual(error.errorDescription, "this is a test error")
         XCTAssertEqual((error as NSError).localizedDescription, "this is a test error")
     }
 
