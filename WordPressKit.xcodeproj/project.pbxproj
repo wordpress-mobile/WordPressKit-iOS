@@ -144,6 +144,7 @@
 		4A11239E2B1926D1004690CF /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A11239D2B1926D1004690CF /* HTTPClient.swift */; };
 		4A1DEF44293051BC00322608 /* LoggingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A1DEF43293051BC00322608 /* LoggingTests.swift */; };
 		4A1DEF46293051C600322608 /* LoggingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A1DEF45293051C600322608 /* LoggingTests.m */; };
+		4A40F6552B2A5A1A0015DA77 /* WordPressAPIErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A40F6542B2A5A1A0015DA77 /* WordPressAPIErrorTests.swift */; };
 		4A68E3CD29404181004AC3DC /* RemoteBlog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A68E3CC29404181004AC3DC /* RemoteBlog.swift */; };
 		4A68E3CF29404289004AC3DC /* RemoteBlogOptionsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A68E3CE29404289004AC3DC /* RemoteBlogOptionsHelper.swift */; };
 		4A68E3D329406AA0004AC3DC /* RemoteMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A68E3D029406AA0004AC3DC /* RemoteMenu.swift */; };
@@ -840,6 +841,7 @@
 		4A11239D2B1926D1004690CF /* HTTPClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPClient.swift; sourceTree = "<group>"; };
 		4A1DEF43293051BC00322608 /* LoggingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggingTests.swift; sourceTree = "<group>"; };
 		4A1DEF45293051C600322608 /* LoggingTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoggingTests.m; sourceTree = "<group>"; };
+		4A40F6542B2A5A1A0015DA77 /* WordPressAPIErrorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordPressAPIErrorTests.swift; sourceTree = "<group>"; };
 		4A68E3CC29404181004AC3DC /* RemoteBlog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteBlog.swift; sourceTree = "<group>"; };
 		4A68E3CE29404289004AC3DC /* RemoteBlogOptionsHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteBlogOptionsHelper.swift; sourceTree = "<group>"; };
 		4A68E3D029406AA0004AC3DC /* RemoteMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteMenu.swift; sourceTree = "<group>"; };
@@ -2638,6 +2640,7 @@
 				4A1DEF45293051C600322608 /* LoggingTests.m */,
 				4A6B4A832B26974F00802316 /* HTTPRequestBuilderTests.swift */,
 				4A6B4A852B269D0C00802316 /* URLSessionHelperTests.swift */,
+				4A40F6542B2A5A1A0015DA77 /* WordPressAPIErrorTests.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -3502,6 +3505,7 @@
 				740B23D61F17F7C100067A2A /* XMLRPCTestable.swift in Sources */,
 				FFE247A720C891D1002DF3A2 /* WordPressComOAuthClientTests.swift in Sources */,
 				93AB06041EE8838400EF8764 /* RemoteTestCase.swift in Sources */,
+				4A40F6552B2A5A1A0015DA77 /* WordPressAPIErrorTests.swift in Sources */,
 				BA2A78FA24A486D300BB6F53 /* SitePluginTests.swift in Sources */,
 				465F88A7263B371D00F4C950 /* BlockEditorSettingsServiceRemoteTests.swift in Sources */,
 				93BD27411EE73311002BB00B /* AccountServiceRemoteRESTTests.swift in Sources */,

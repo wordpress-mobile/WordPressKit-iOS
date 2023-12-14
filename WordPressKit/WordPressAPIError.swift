@@ -21,23 +21,30 @@ public enum WordPressAPIError<EndpointError>: Error where EndpointError: Localiz
     case unknown(underlyingError: Error)
 }
 
-extension WordPressComOAuthError: LocalizedError {
+extension WordPressAPIError: LocalizedError {
 
     public var errorDescription: String? {
+        // Considering `WordPressAPIError` is the error that's surfaced from this library to the apps, its instanes
+        // may be displayed on UI directly. To prevent Swift's default error message (i.e. "This operation can't be
+        // completed. <SwiftTypeName> (code=...)") from being displayed, we need to make sure this implementation
+        // always returns a non-nil value.
+        let localizedErrorMessage: String
         switch self {
         case .requestEncodingFailure, .unparsableResponse:
             // These are usually programming errors.
-            return Self.unknownErrorMessage
+            localizedErrorMessage = Self.unknownErrorMessage
         case let .endpointError(error):
-            return error.errorDescription
+            localizedErrorMessage = error.errorDescription ?? Self.unknownErrorMessage
         case let .connection(error):
-            return error.localizedDescription
+            localizedErrorMessage = error.localizedDescription
         case let .unknown(underlyingError):
             if let msg = (underlyingError as? LocalizedError)?.errorDescription {
-                return msg
+                localizedErrorMessage = msg
+            } else {
+                localizedErrorMessage = Self.unknownErrorMessage
             }
-            return Self.unknownErrorMessage
         }
+        return localizedErrorMessage
     }
 
 }
