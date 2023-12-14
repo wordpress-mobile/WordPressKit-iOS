@@ -89,7 +89,6 @@ public final class WordPressComOAuthClient: NSObject {
     @objc public static let WordPressComOAuthDefaultApiBaseUrl = "https://public-api.wordpress.com"
 
     enum WordPressComURL: String {
-        case socialLogin = "/wp-login.php?action=social-login-endpoint&version=1.0"
         case socialLogin2FA = "/wp-login.php?action=two-step-authentication-endpoint&version=1.0"
         case socialLoginNewSMS2FA = "/wp-login.php?action=send-sms-code-endpoint"
 
@@ -115,8 +114,8 @@ public final class WordPressComOAuthClient: NSObject {
         WordPressComOAuthClient.urlSession()
     }()
 
-    private let socialSessionManager: SessionManager = {
-        return WordPressComOAuthClient.sessionManager()
+    private let socialSession: URLSession = {
+        WordPressComOAuthClient.urlSession()
     }()
 
     private let social2FASessionManager: SessionManager = {
@@ -367,6 +366,74 @@ public final class WordPressComOAuthClient: NSObject {
             })
     }
 
+    public enum SocialAuthenticationResult {
+        case authenticated(token: String)
+        case needsMultiFactor(userID: Int, nonceInfo: SocialLogin2FANonceInfo)
+        case existingUserNeedsConnection(email: String)
+    }
+
+    /// Authenticate on WordPress.com with a social service's ID token.
+    ///
+    /// - Parameters:
+    ///     - token: A social ID token obtained from a supported social service.
+    ///     - service: The social service type (ex: "google" or "apple").
+    public func authenticate(
+        socialIDToken token: String,
+        service: String
+    ) async -> WordPressAPIResult<SocialAuthenticationResult, AuthenticationFailure> {
+        let builder = socialSignInRequestBuilder(action: .authenticate)
+            .body(
+                form: [
+                    "client_id": clientID,
+                    "client_secret": secret,
+                    "service": service,
+                    "get_bearer_token": "true",
+                    "id_token": token
+                ]
+            )
+
+        return await socialSession
+            .perform(request:  builder, errorType: AuthenticationFailure.self)
+            .mapUnacceptableStatusCodeError(AuthenticationFailure.init(response:body:))
+            .mapSuccess { response in
+                WPKitLogVerbose("Received Social Login Oauth response.")
+
+                // Make sure we received expected data.
+                guard let responseObject = try? JSONSerialization.jsonObject(with: response.body),
+                    let responseDictionary = responseObject as? [String: AnyObject],
+                    let responseData = responseDictionary["data"] as? [String: AnyObject] else {
+                    return nil
+                }
+
+                // Check for a bearer token. If one is found then we're authed.
+                if let authToken = responseData["bearer_token"] as? String {
+                    return .authenticated(token: authToken)
+                }
+
+                // If there is no bearer token, check for 2fa enabled.
+                guard let userID = responseData["user_id"] as? Int,
+                    let _ = responseData["two_step_nonce_backup"] else {
+                    return nil
+                }
+
+                let nonceInfo = self.extractNonceInfo(data: responseData)
+                return .needsMultiFactor(userID: userID, nonceInfo: nonceInfo)
+            }
+            .flatMapError { error in
+                // Inspect the error and handle the case of an existing user.
+                if case let .endpointError(authenticationFailure) = error, authenticationFailure.kind == .socialLoginExistingUserUnconnected {
+                    // Get the responseObject from the userInfo dict.
+                    // Extract the email address for the callback.
+                    let responseDict = authenticationFailure.originalErrorJSON
+                    if let data = responseDict["data"] as? [String: AnyObject],
+                        let email = data["email"] as? String {
+                        return .success(.existingUserNeedsConnection(email: email))
+                    }
+                }
+                return .failure(error)
+            }
+    }
+
     /// Authenticate on WordPress.com with a social service's ID token.
     ///
     /// - Parameters:
@@ -375,7 +442,6 @@ public final class WordPressComOAuthClient: NSObject {
     ///     - success: block to be called if authentication was successful. The OAuth2 token is passed as a parameter.
     ///     - needsMultifactor: block to be called if a 2fa token is needed to complete the auth process.
     ///     - failure: block to be called if authentication failed. The error object is passed as a parameter.
-    ///
     public func authenticate(
         socialIDToken token: String,
         service: String,
@@ -384,62 +450,19 @@ public final class WordPressComOAuthClient: NSObject {
         existingUserNeedsConnection: @escaping (_ email: String) -> Void,
         failure: @escaping (_ error: WordPressComOAuthError) -> Void
     ) {
-        let parameters = [
-            "client_id": clientID,
-            "client_secret": secret,
-            "service": service,
-            "get_bearer_token": true,
-            "id_token": token
-            ] as [String: Any]
-
-        // Passes an empty string for the path. The session manager was composed with the full endpoint path.
-        socialSessionManager.request(WordPressComURL.socialLogin.url(base: wordPressComBaseUrl), method: .post, parameters: parameters)
-            .validate()
-            .responseJSON(completionHandler: { response in
-                switch response.result {
-                case .success(let responseObject):
-                    WPKitLogVerbose("Received Social Login Oauth response.")
-
-                    // Make sure we received expected data.
-                    guard let responseDictionary = responseObject as? [String: AnyObject],
-                        let responseData = responseDictionary["data"] as? [String: AnyObject] else {
-                        return failure(.unparsableResponse(response: response.response, body: response.data))
-                    }
-
-                    // Check for a bearer token. If one is found then we're authed.
-                    if let authToken = responseData["bearer_token"] as? String {
-                        success(authToken)
-                        return
-                    }
-
-                    // If there is no bearer token, check for 2fa enabled.
-                    guard let userID = responseData["user_id"] as? Int,
-                        let _ = responseData["two_step_nonce_backup"] else {
-                        return failure(.unparsableResponse(response: response.response, body: response.data))
-                    }
-
-                    let nonceInfo = self.extractNonceInfo(data: responseData)
-                    needsMultifactor(userID, nonceInfo)
-                case .failure(let error):
-                    let err = self.processError(response: response, originalError: error)
-
-                    // Inspect the error and handle the case of an existing user.
-                    if case let .endpointError(authenticationFailure) = err, authenticationFailure.kind == .socialLoginExistingUserUnconnected {
-                        // Get the responseObject from the userInfo dict.
-                        // Extract the email address for the callback.
-                        let responseDict = authenticationFailure.originalErrorJSON
-                        if let data = responseDict["data"] as? [String: AnyObject],
-                            let email = data["email"] as? String {
-
-                            existingUserNeedsConnection(email)
-                            return
-                        }
-                    }
-
-                    failure(err)
-                }
+        Task { @MainActor in
+            let result = await self.authenticate(socialIDToken: token, service: service)
+            switch result {
+            case let .success(.authenticated(token)):
+                success(token)
+            case let .success(.needsMultiFactor(userID, nonceInfo)):
+                needsMultifactor(userID, nonceInfo)
+            case let .success(.existingUserNeedsConnection(email)):
+                existingUserNeedsConnection(email)
+            case let .failure(error):
+                failure(error)
             }
-        )
+        }
     }
 
     /// Request a security key challenge from WordPress.com to be signed by the client.
@@ -801,5 +824,26 @@ private extension WordPressComOAuthClient {
             .method(.post)
             .append(path: "/wp-login.php")
             .query(name: "action", value: action.rawValue)
+    }
+
+    enum SocialSignInAction: String {
+        case sendOTPViaSMS = "send-sms-code-endpoint"
+        case authenticate = "social-login-endpoint"
+        case authenticateWith2FA = "two-step-authentication-endpoint"
+
+        var queryItems: [URLQueryItem] {
+            var items = [URLQueryItem(name: "action", value: rawValue)]
+            if self == .authenticate || self == .authenticateWith2FA {
+                items.append(URLQueryItem(name: "version", value: "1.0"))
+            }
+            return items
+        }
+    }
+
+    func socialSignInRequestBuilder(action: SocialSignInAction) -> HTTPRequestBuilder {
+        HTTPRequestBuilder(url: wordPressComBaseUrl)
+            .method(.post)
+            .append(path: "/wp-login.php")
+            .append(query: action.queryItems, override: true)
     }
 }
