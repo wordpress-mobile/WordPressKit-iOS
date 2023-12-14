@@ -1,4 +1,4 @@
-import Alamofire
+import Foundation
 
 public typealias WordPressComOAuthError = WordPressAPIError<AuthenticationFailure>
 
@@ -117,14 +117,6 @@ public final class WordPressComOAuthClient: NSObject {
         return WordPressComOAuthClient.urlSession()
     }()
 
-    private class func sessionManager() -> SessionManager {
-        let configuration = URLSessionConfiguration.ephemeral
-        configuration.httpAdditionalHeaders = ["Accept": "application/json"]
-        let sessionManager = SessionManager(configuration: .ephemeral)
-
-        return sessionManager
-    }
-
     private class func urlSession() -> URLSession {
         let configuration = URLSessionConfiguration.ephemeral
         configuration.httpAdditionalHeaders = ["Accept": "application/json"]
@@ -134,8 +126,7 @@ public final class WordPressComOAuthClient: NSObject {
     /// Creates a WordPresComOAuthClient initialized with the clientID and secrets provided
     ///
     @objc public class func client(clientID: String, secret: String) -> WordPressComOAuthClient {
-        let client = WordPressComOAuthClient(clientID: clientID, secret: secret)
-        return client
+        WordPressComOAuthClient(clientID: clientID, secret: secret)
     }
 
     /// Creates a WordPresComOAuthClient initialized with the clientID, secret and base urls provided
@@ -144,11 +135,12 @@ public final class WordPressComOAuthClient: NSObject {
                                    secret: String,
                                    wordPressComBaseUrl: String,
                                    wordPressComApiBaseUrl: String) -> WordPressComOAuthClient {
-        let client = WordPressComOAuthClient(clientID: clientID,
-                                             secret: secret,
-                                             wordPressComBaseUrl: wordPressComBaseUrl,
-                                             wordPressComApiBaseUrl: wordPressComApiBaseUrl)
-        return client
+        WordPressComOAuthClient(
+            clientID: clientID,
+            secret: secret,
+            wordPressComBaseUrl: wordPressComBaseUrl,
+            wordPressComApiBaseUrl: wordPressComApiBaseUrl
+        )
     }
 
     /// Creates a WordPressComOAuthClient using the defined clientID and secret
@@ -785,41 +777,6 @@ public final class WordPressComOAuthClient: NSObject {
         return responseDictionary as AnyObject
     }
 
-}
-
-/// Extra error handling for standard 400 error responses coming from the OAUTH server
-///
-extension WordPressComOAuthClient {
-
-    /// A error processor to handle error responses when status codes are betwen 400 and 500.
-    /// Some HTTP requests include a response body even in a failure scenario. This method ensures
-    /// it is available via an error's userInfo dictionary.
-    func processError(response: DataResponse<Any>, originalError: Error) -> WordPressComOAuthError {
-        switch originalError {
-        case let urlError as URLError:
-            return .connection(urlError)
-        case let afError as AFError:
-            switch afError {
-            case .invalidURL, .parameterEncodingFailed, .multipartEncodingFailed:
-                return .requestEncodingFailure
-            case .responseSerializationFailed:
-                return .unparsableResponse(response: response.response, body: response.data)
-            case .responseValidationFailed:
-                guard let statusCode = response.response?.statusCode,
-                      [400, 409, 403].contains(statusCode),
-                      let data = response.data,
-                      let responseObject = try? JSONSerialization.jsonObject(with: data, options: .allowFragments),
-                      let responseDictionary = responseObject as? [String: AnyObject]
-                else {
-                    return .unparsableResponse(response: response.response, body: response.data)
-                }
-
-                return .endpointError(.init(apiJSONResponse: responseDictionary))
-            }
-        default:
-            return .unknown(underlyingError: originalError)
-        }
-    }
 }
 
 private extension WordPressComOAuthClient {
