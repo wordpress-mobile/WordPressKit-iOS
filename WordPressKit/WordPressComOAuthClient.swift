@@ -88,14 +88,6 @@ public final class WordPressComOAuthClient: NSObject {
     @objc public static let WordPressComOAuthDefaultBaseUrl = "https://wordpress.com"
     @objc public static let WordPressComOAuthDefaultApiBaseUrl = "https://public-api.wordpress.com"
 
-    enum WordPressComURL: String {
-        case socialLoginNewSMS2FA = "/wp-login.php?action=send-sms-code-endpoint"
-
-        func url(base: URL) -> URL {
-            return URL(string: self.rawValue, relativeTo: base)!
-        }
-    }
-
     @objc public static let WordPressComSocialLoginEndpointVersion = 1.0
 
     private let clientID: String
@@ -121,8 +113,8 @@ public final class WordPressComOAuthClient: NSObject {
         return WordPressComOAuthClient.urlSession()
     }()
 
-    private let socialNewSMS2FASessionManager: SessionManager = {
-        return WordPressComOAuthClient.sessionManager()
+    private let socialNewSMS2FASession: URLSession = {
+        return WordPressComOAuthClient.urlSession()
     }()
 
     private class func sessionManager() -> SessionManager {
@@ -318,46 +310,65 @@ public final class WordPressComOAuthClient: NSObject {
     /// - Parameters:
     ///     - userID: The wpcom user id.
     ///     - nonce: The nonce from a social login attempt.
+    public func requestSocial2FACode(
+        userID: Int,
+        nonce: String
+    ) async -> WordPressAPIResult<String, AuthenticationFailure> {
+        let builder = socialSignInRequestBuilder(action: .sendOTPViaSMS)
+            .body(
+                form: [
+                    "user_id": "\(userID)",
+                    "two_step_nonce": nonce,
+                    "client_id": clientID,
+                    "client_secret": secret,
+                    "wpcom_supports_2fa": "true",
+                    "wpcom_resend_otp": "true"
+                ]
+            )
+
+        return await socialNewSMS2FASession
+            .perform(request: builder, errorType: AuthenticationFailure.self)
+            .mapUnacceptableStatusCodeError(AuthenticationFailure.init(response:body:))
+            .mapSuccess { response -> String? in
+                guard let responseObject = try? JSONSerialization.jsonObject(with: response.body),
+                      let responseDictionary = responseObject as? [String: AnyObject],
+                    let responseData = responseDictionary["data"] as? [String: AnyObject] else {
+                    return nil
+                }
+
+                return self.extractNonceInfo(data: responseData).nonceSMS
+            }
+            .flatMapError { error in
+                if case let .endpointError(authenticationFailure) = error, let newNonce = authenticationFailure.newNonce {
+                    return .success(newNonce)
+                }
+                return .failure(error)
+            }
+    }
+
+    /// Request a new SMS code to be sent during social login
+    ///
+    /// - Parameters:
+    ///     - userID: The wpcom user id.
+    ///     - nonce: The nonce from a social login attempt.
     ///     - success: block to be called if authentication was successful.
     ///     - failure: block to be called if authentication failed. The error object is passed as a parameter.
-    ///
     public func requestSocial2FACode(
         userID: Int,
         nonce: String,
         success: @escaping (_ newNonce: String) -> Void,
         failure: @escaping (_ error: WordPressComOAuthError, _ newNonce: String?) -> Void
     ) {
-        let parameters = [
-            "user_id": userID,
-            "two_step_nonce": nonce,
-            "client_id": clientID,
-            "client_secret": secret,
-            "wpcom_supports_2fa": true,
-            "wpcom_resend_otp": true
-            ] as [String: Any]
-
-        socialNewSMS2FASessionManager.request(WordPressComURL.socialLoginNewSMS2FA.url(base: wordPressComBaseUrl), method: .post, parameters: parameters)
-            .validate()
-            .responseJSON(completionHandler: { response in
-                switch response.result {
-                case .success(let responseObject):
-                    guard let responseDictionary = responseObject as? [String: AnyObject],
-                        let responseData = responseDictionary["data"] as? [String: AnyObject] else {
-                        return failure(.unparsableResponse(response: response.response, body: response.data), nil)
-                    }
-
-                    let nonceInfo = self.extractNonceInfo(data: responseData)
-
-                    success(nonceInfo.nonceSMS)
-                case .failure(let error):
-                    let error = self.processError(response: response, originalError: error)
-                    if case let .endpointError(authenticationFailure) = error, let newNonce = authenticationFailure.newNonce {
-                        failure(error, newNonce)
-                    } else {
-                        failure(error, nil)
-                    }
-                }
-            })
+        Task { @MainActor in
+            let result = await requestSocial2FACode(userID: userID, nonce: nonce)
+            switch result {
+            case let .success(newNonce):
+                success(newNonce)
+            case let .failure(error):
+                // TODO: Remove the `newNonce` argument?
+                failure(error, nil)
+            }
+        }
     }
 
     public enum SocialAuthenticationResult {
