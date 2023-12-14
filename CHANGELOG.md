@@ -46,6 +46,12 @@ _None._
 
 ### Internal Changes
 
+_None._
+
+## 9.0.1
+
+### Internal Changes
+
 - Fix `WordPressAPIError`'s localized error message. [#662]
 
 ## 9.0.0
