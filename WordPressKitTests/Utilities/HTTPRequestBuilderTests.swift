@@ -96,6 +96,53 @@ class HTTPRequestBuilderTests: XCTestCase {
         try XCTAssertEqual(XCTUnwrap(request.httpBodyText), #"name=Foo%20Bar"#)
     }
 
+    func testFormWithSpecialCharacters() throws {
+        let request = try HTTPRequestBuilder(url: URL(string: "https://wordpress.org")!)
+            .method(.post)
+            .body(form: ["text": ":#[]@!$&'()*+,;="])
+            .build()
+        try XCTAssertEqual(XCTUnwrap(request.httpBodyText), "text=%3A%23%5B%5D%40%21%24%26%27%28%29%2A%2B%2C%3B%3D")
+    }
+
+    func testFormWithRandomSpecialCharacters() throws {
+        let asciis = "!\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~"
+        let unicodes = "表情符号😇🤔✅😎"
+        let randomText: () -> String = {
+            let chars = (1...10).map { _ in (asciis + unicodes).randomElement()! }
+            return String(chars)
+        }
+        // Generate a form (key-value pairs) with random characters.
+        let form = [
+            randomText(): randomText(),
+            randomText(): randomText(),
+            randomText(): randomText(),
+        ]
+
+        let request = try HTTPRequestBuilder(url: URL(string: "https://wordpress.org")!)
+            .method(.post)
+            .body(form: form)
+            .build()
+        let encoded = try XCTUnwrap(request.httpBodyText)
+
+        // Decoding the url-encoded form, whose format should be "<key>=<value>&<key>=<value>&...".
+        let keyValuePairs = try encoded.split(separator: "&").map { pair in
+            XCTAssertEqual(pair.firstIndex(of: "="), pair.lastIndex(of: "="), "There should be only one '=' in a key-value pair")
+
+            let firstIndex = try XCTUnwrap(pair.firstIndex(of: "="))
+            let key = pair[pair.startIndex..<firstIndex]
+            let value = pair[pair.index(firstIndex, offsetBy: 1)..<pair.endIndex]
+
+            return try (
+                XCTUnwrap(String(key).removingPercentEncoding),
+                XCTUnwrap(String(value).removingPercentEncoding)
+            )
+        }
+
+        // The decoded form should be the same the original form.
+        let decodedForm: [String: String] = Dictionary(uniqueKeysWithValues: keyValuePairs)
+        XCTAssertEqual(form, decodedForm)
+    }
+
 }
 
 private extension URLRequest {
