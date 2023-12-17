@@ -141,6 +141,7 @@
 		46ABD0EA262EEE0400C7FF24 /* AppTransportSecuritySettingsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46ABD0E9262EEE0400C7FF24 /* AppTransportSecuritySettingsTests.swift */; };
 		4A05E7942B2FCB1D00C25E3B /* CookieNonceAuthenticatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A05E7932B2FCB1D00C25E3B /* CookieNonceAuthenticatorTests.swift */; };
 		4A05E7962B2FCB6400C25E3B /* NonceRetrieval.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A05E7952B2FCB6400C25E3B /* NonceRetrieval.swift */; };
+		4A05E7982B2FCB9A00C25E3B /* NonceRetrievalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A05E7972B2FCB9A00C25E3B /* NonceRetrievalTests.swift */; };
 		4A05E7A62B34142200C25E3B /* xmlrpc-response-invalid.html in Resources */ = {isa = PBXBuildFile; fileRef = 4A05E7A52B34142200C25E3B /* xmlrpc-response-invalid.html */; };
 		4A05E7A82B34EAF400C25E3B /* xmlrpc-response-mobile-plugin-redirect.html in Resources */ = {isa = PBXBuildFile; fileRef = 4A05E7A72B34EAF400C25E3B /* xmlrpc-response-mobile-plugin-redirect.html */; };
 		4A05E7AA2B34FC4300C25E3B /* xmlrpc-response-list-methods.xml in Resources */ = {isa = PBXBuildFile; fileRef = 4A05E7A92B34FC4300C25E3B /* xmlrpc-response-list-methods.xml */; };
@@ -848,6 +849,7 @@
 		46ABD0E9262EEE0400C7FF24 /* AppTransportSecuritySettingsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppTransportSecuritySettingsTests.swift; sourceTree = "<group>"; };
 		4A05E7932B2FCB1D00C25E3B /* CookieNonceAuthenticatorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CookieNonceAuthenticatorTests.swift; sourceTree = "<group>"; };
 		4A05E7952B2FCB6400C25E3B /* NonceRetrieval.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NonceRetrieval.swift; sourceTree = "<group>"; };
+		4A05E7972B2FCB9A00C25E3B /* NonceRetrievalTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NonceRetrievalTests.swift; sourceTree = "<group>"; };
 		4A05E7A52B34142200C25E3B /* xmlrpc-response-invalid.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = "xmlrpc-response-invalid.html"; sourceTree = "<group>"; };
 		4A05E7A72B34EAF400C25E3B /* xmlrpc-response-mobile-plugin-redirect.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = "xmlrpc-response-mobile-plugin-redirect.html"; sourceTree = "<group>"; };
 		4A05E7A92B34FC4300C25E3B /* xmlrpc-response-list-methods.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "xmlrpc-response-list-methods.xml"; sourceTree = "<group>"; };
@@ -1593,6 +1595,7 @@
 			children = (
 				46ABD0DF262EED3D00C7FF24 /* WordPressOrgXMLRPCValidatorTests.swift */,
 				4A05E7932B2FCB1D00C25E3B /* CookieNonceAuthenticatorTests.swift */,
+				4A05E7972B2FCB9A00C25E3B /* NonceRetrievalTests.swift */,
 			);
 			path = WordPressAPI;
 			sourceTree = "<group>";
@@ -3540,6 +3543,7 @@
 				AB49D09325D1A85D0084905B /* PostServiceRemoteRESTLikesTests.swift in Sources */,
 				7433BC051EFC4556002D9E92 /* PlanServiceRemoteTests.swift in Sources */,
 				46ABD0E6262EEDAB00C7FF24 /* FakeInfoDictionaryObjectProvider.swift in Sources */,
+				4A05E7982B2FCB9A00C25E3B /* NonceRetrievalTests.swift in Sources */,
 				740B23D61F17F7C100067A2A /* XMLRPCTestable.swift in Sources */,
 				FFE247A720C891D1002DF3A2 /* WordPressComOAuthClientTests.swift in Sources */,
 				93AB06041EE8838400EF8764 /* RemoteTestCase.swift in Sources */,
