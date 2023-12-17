@@ -108,28 +108,20 @@ private extension CookieNonceAuthenticator {
 
     func startLoginSequence(manager: SessionManager) {
         WPKitLogInfo("Starting Cookie+Nonce login sequence for \(loginURL)")
-        guard let nonceRetrievalURL = nonceRetrievalMethod.buildURL(base: adminURL) else {
-            return invalidateLoginSequence(error: .invalidNewPostURL)
-        }
-        let request = authenticatedRequest(redirectURL: nonceRetrievalURL)
-        manager.request(request)
-            .validate()
-            .responseString { [weak self] (response) in
-                guard let self = self else {
-                    return
-                }
-                switch response.result {
-                case .failure(let error):
-                    self.invalidateLoginSequence(error: .postLoginFailed(error))
-                case .success(let page):
-                    let redirectedTo = response.response?.url?.absoluteString ?? "nil"
-                    WPKitLogInfo("Posted Login to \(self.loginURL), redirected to \(redirectedTo)")
-                    guard let nonce = self.nonceRetrievalMethod.retrieveNonce(from: page) else {
-                        return self.invalidateLoginSequence(error: .missingNonce)
-                    }
-                    self.nonce = Secret(nonce)
-                    self.successfulLoginSequence()
-                }
+        Task { @MainActor in
+            guard let nonce = await self.nonceRetrievalMethod.retrieveNonce(
+                username: username,
+                password: password,
+                loginURL: loginURL,
+                adminURL: adminURL,
+                using: manager.session
+            ) else {
+                self.invalidateLoginSequence(error: .missingNonce)
+                return
+            }
+
+            self.nonce = Secret(nonce)
+            self.successfulLoginSequence()
         }
     }
 
@@ -156,23 +148,6 @@ private extension CookieNonceAuthenticator {
             completion(shouldRetry, 0.0)
         }
         requestsToRetry.removeAll()
-    }
-
-    func authenticatedRequest(redirectURL: URL) -> URLRequest {
-        var request = URLRequest(url: loginURL)
-
-        request.httpMethod = "POST"
-        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-
-        var parameters = [URLQueryItem]()
-        parameters.append(URLQueryItem(name: "log", value: username))
-        parameters.append(URLQueryItem(name: "pwd", value: password.secretValue))
-        parameters.append(URLQueryItem(name: "rememberme", value: "true"))
-        parameters.append(URLQueryItem(name: "redirect_to", value: redirectURL.absoluteString))
-        var components = URLComponents()
-        components.queryItems = parameters
-        request.httpBody = components.percentEncodedQuery?.data(using: .utf8)
-        return request
     }
 
 }
