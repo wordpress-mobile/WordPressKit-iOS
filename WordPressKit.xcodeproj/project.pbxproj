@@ -139,6 +139,7 @@
 		46ABD0E0262EED3D00C7FF24 /* WordPressOrgXMLRPCValidatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46ABD0DF262EED3D00C7FF24 /* WordPressOrgXMLRPCValidatorTests.swift */; };
 		46ABD0E6262EEDAB00C7FF24 /* FakeInfoDictionaryObjectProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46ABD0E5262EEDAB00C7FF24 /* FakeInfoDictionaryObjectProvider.swift */; };
 		46ABD0EA262EEE0400C7FF24 /* AppTransportSecuritySettingsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46ABD0E9262EEE0400C7FF24 /* AppTransportSecuritySettingsTests.swift */; };
+		4A05E7942B2FCB1D00C25E3B /* CookieNonceAuthenticatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A05E7932B2FCB1D00C25E3B /* CookieNonceAuthenticatorTests.swift */; };
 		4A05E7A62B34142200C25E3B /* xmlrpc-response-invalid.html in Resources */ = {isa = PBXBuildFile; fileRef = 4A05E7A52B34142200C25E3B /* xmlrpc-response-invalid.html */; };
 		4A05E7A82B34EAF400C25E3B /* xmlrpc-response-mobile-plugin-redirect.html in Resources */ = {isa = PBXBuildFile; fileRef = 4A05E7A72B34EAF400C25E3B /* xmlrpc-response-mobile-plugin-redirect.html */; };
 		4A05E7AA2B34FC4300C25E3B /* xmlrpc-response-list-methods.xml in Resources */ = {isa = PBXBuildFile; fileRef = 4A05E7A92B34FC4300C25E3B /* xmlrpc-response-list-methods.xml */; };
@@ -844,6 +845,7 @@
 		46ABD0DF262EED3D00C7FF24 /* WordPressOrgXMLRPCValidatorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WordPressOrgXMLRPCValidatorTests.swift; sourceTree = "<group>"; };
 		46ABD0E5262EEDAB00C7FF24 /* FakeInfoDictionaryObjectProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeInfoDictionaryObjectProvider.swift; sourceTree = "<group>"; };
 		46ABD0E9262EEE0400C7FF24 /* AppTransportSecuritySettingsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppTransportSecuritySettingsTests.swift; sourceTree = "<group>"; };
+		4A05E7932B2FCB1D00C25E3B /* CookieNonceAuthenticatorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CookieNonceAuthenticatorTests.swift; sourceTree = "<group>"; };
 		4A05E7A52B34142200C25E3B /* xmlrpc-response-invalid.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = "xmlrpc-response-invalid.html"; sourceTree = "<group>"; };
 		4A05E7A72B34EAF400C25E3B /* xmlrpc-response-mobile-plugin-redirect.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = "xmlrpc-response-mobile-plugin-redirect.html"; sourceTree = "<group>"; };
 		4A05E7A92B34FC4300C25E3B /* xmlrpc-response-list-methods.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "xmlrpc-response-list-methods.xml"; sourceTree = "<group>"; };
@@ -1588,6 +1590,7 @@
 			isa = PBXGroup;
 			children = (
 				46ABD0DF262EED3D00C7FF24 /* WordPressOrgXMLRPCValidatorTests.swift */,
+				4A05E7932B2FCB1D00C25E3B /* CookieNonceAuthenticatorTests.swift */,
 			);
 			path = WordPressAPI;
 			sourceTree = "<group>";
@@ -3499,6 +3502,7 @@
 				4A6B4A842B26974F00802316 /* HTTPRequestBuilderTests.swift in Sources */,
 				465F88BF263B54EE00F4C950 /* ChecksumUtilTests.swift in Sources */,
 				826017001F9FD60A00533B6C /* ActivityServiceRemoteTests.swift in Sources */,
+				4A05E7942B2FCB1D00C25E3B /* CookieNonceAuthenticatorTests.swift in Sources */,
 				93F50A3A1F226BB600B5BEBA /* WordPressComServiceRemoteRestTests.swift in Sources */,
 				E13EE14C1F332C4400C15787 /* PluginServiceRemoteTests.swift in Sources */,
 				736C971021E80D48007A4200 /* SiteVerticalsPromptResponseDecodingTests.swift in Sources */,
