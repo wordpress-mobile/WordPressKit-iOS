@@ -157,6 +157,9 @@
 		4A6B4A862B269D0C00802316 /* URLSessionHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6B4A852B269D0C00802316 /* URLSessionHelperTests.swift */; };
 		4AA5A1A32AA68F6B00969464 /* MediaLibraryTestSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA5A1A22AA68F6B00969464 /* MediaLibraryTestSupport.swift */; };
 		4AA5A1A52AA695D700969464 /* LoadMediaLibraryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA5A1A42AA695D700969464 /* LoadMediaLibraryTests.swift */; };
+		4AE278442B2FAF6200E4D9B1 /* HTTPProtocolHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE278432B2FAF6200E4D9B1 /* HTTPProtocolHelpers.swift */; };
+		4AE278482B2FBF1100E4D9B1 /* HTTPBodyEncodingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE278472B2FBF1100E4D9B1 /* HTTPBodyEncodingTests.swift */; };
+		4AE2784A2B2FC6C600E4D9B1 /* HTTPHeaderValueParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE278492B2FC6C600E4D9B1 /* HTTPHeaderValueParserTests.swift */; };
 		57BCD3D426209D9500292CB3 /* AppTransportSecuritySettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57BCD3D326209D9500292CB3 /* AppTransportSecuritySettings.swift */; };
 		730E869F21E44EFD00753E1A /* WordPressComServiceRemote+SiteVerticals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 730E869E21E44EFD00753E1A /* WordPressComServiceRemote+SiteVerticals.swift */; };
 		731BA83621DECD61000FDFCD /* SiteCreationRequestEncodingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 731BA83521DECD61000FDFCD /* SiteCreationRequestEncodingTests.swift */; };
@@ -854,6 +857,9 @@
 		4A6B4A852B269D0C00802316 /* URLSessionHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionHelperTests.swift; sourceTree = "<group>"; };
 		4AA5A1A22AA68F6B00969464 /* MediaLibraryTestSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaLibraryTestSupport.swift; sourceTree = "<group>"; };
 		4AA5A1A42AA695D700969464 /* LoadMediaLibraryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadMediaLibraryTests.swift; sourceTree = "<group>"; };
+		4AE278432B2FAF6200E4D9B1 /* HTTPProtocolHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPProtocolHelpers.swift; sourceTree = "<group>"; };
+		4AE278472B2FBF1100E4D9B1 /* HTTPBodyEncodingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPBodyEncodingTests.swift; sourceTree = "<group>"; };
+		4AE278492B2FC6C600E4D9B1 /* HTTPHeaderValueParserTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPHeaderValueParserTests.swift; sourceTree = "<group>"; };
 		57BCD3D326209D9500292CB3 /* AppTransportSecuritySettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTransportSecuritySettings.swift; sourceTree = "<group>"; };
 		6C2A33D76FD1052D6F30466D /* Pods-WordPressKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WordPressKit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WordPressKit/Pods-WordPressKit.debug.xcconfig"; sourceTree = "<group>"; };
 		6F2E0CC4FA01B5475A378DA2 /* Pods-WordPressKitTests.release-alpha.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WordPressKitTests.release-alpha.xcconfig"; path = "Pods/Target Support Files/Pods-WordPressKitTests/Pods-WordPressKitTests.release-alpha.xcconfig"; sourceTree = "<group>"; };
@@ -2449,6 +2455,7 @@
 				57BCD3D326209D9500292CB3 /* AppTransportSecuritySettings.swift */,
 				465F88A1263B325C00F4C950 /* ChecksumUtil.swift */,
 				3F3195AC266FF94B00397EE7 /* ZendeskMetadata.swift */,
+				4AE278432B2FAF6200E4D9B1 /* HTTPProtocolHelpers.swift */,
 			);
 			name = Utility;
 			sourceTree = "<group>";
@@ -2641,6 +2648,8 @@
 				4A6B4A832B26974F00802316 /* HTTPRequestBuilderTests.swift */,
 				4A6B4A852B269D0C00802316 /* URLSessionHelperTests.swift */,
 				4A40F6542B2A5A1A0015DA77 /* WordPressAPIErrorTests.swift */,
+				4AE278472B2FBF1100E4D9B1 /* HTTPBodyEncodingTests.swift */,
+				4AE278492B2FC6C600E4D9B1 /* HTTPHeaderValueParserTests.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -3281,6 +3290,7 @@
 				E1BD95151FD5A2B800CD5CE3 /* PluginDirectoryServiceRemote.swift in Sources */,
 				7430C9D71F1933210051B8E6 /* RemoteReaderCrossPostMeta.swift in Sources */,
 				1DAC3D2629AF4F250068FE13 /* RemoteVideoPressVideo.swift in Sources */,
+				4AE278442B2FAF6200E4D9B1 /* HTTPProtocolHelpers.swift in Sources */,
 				FA68CD152993C6CD00FA4C29 /* BlazeServiceRemote.swift in Sources */,
 				4081976F221DDE9B00A298E4 /* StatsTopPostsTimeIntervalData.swift in Sources */,
 				9311A68B1F22625A00704AC9 /* TaxonomyServiceRemoteXMLRPC.m in Sources */,
@@ -3438,6 +3448,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4AE2784A2B2FC6C600E4D9B1 /* HTTPHeaderValueParserTests.swift in Sources */,
 				E1E89C6A1FD6BDB1006E7A33 /* PluginDirectoryTests.swift in Sources */,
 				4A6B4A862B269D0C00802316 /* URLSessionHelperTests.swift in Sources */,
 				9F3E0BAA20873773009CB5BA /* MockServiceRequest.swift in Sources */,
@@ -3535,6 +3546,7 @@
 				FE5096522A13938500DDD071 /* SharingServiceRemoteTests.swift in Sources */,
 				FFA4D4AA2423B10A00BF5180 /* WordPressOrgRestApiTests.swift in Sources */,
 				74A44DD51F13C6D8006CD8F4 /* PushAuthenticationServiceRemoteTests.swift in Sources */,
+				4AE278482B2FBF1100E4D9B1 /* HTTPBodyEncodingTests.swift in Sources */,
 				731BA83621DECD61000FDFCD /* SiteCreationRequestEncodingTests.swift in Sources */,
 				7EC60EBE22DC4F9000FB0336 /* EditorServiceRemoteTests.swift in Sources */,
 				931924241F1662FA0069CBCC /* JSONLoader.swift in Sources */,
