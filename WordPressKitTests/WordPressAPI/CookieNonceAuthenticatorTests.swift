@@ -16,6 +16,7 @@ final class CookieNonceAuthenticatorTests: XCTestCase {
     static let endpointThatRequiresAuthentication = URL(string: "https://test.com/wp-json/wp/v2/post/delete")!
 
     override func setUp() {
+        super.setUp()
         stub(condition: isAbsoluteURLString(Self.endpointThatRequiresAuthentication.absoluteString)) { request in
             if request.value(forHTTPHeaderField: "X-WP-Nonce") == Self.nonce {
                 return HTTPStubsResponse(data: Data(), statusCode: 201, headers: nil)
@@ -26,6 +27,7 @@ final class CookieNonceAuthenticatorTests: XCTestCase {
     }
 
     override func tearDown() {
+        super.tearDown()
         HTTPStubs.removeAllStubs()
     }
 
