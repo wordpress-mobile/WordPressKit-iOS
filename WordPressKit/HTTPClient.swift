@@ -11,6 +11,7 @@ extension URLSession {
 
     func perform<E: LocalizedError>(
         request builder: HTTPRequestBuilder,
+        acceptableStatusCodes: [ClosedRange<Int>] = [200...299],
         errorType: E.Type = E.self
     ) async -> WordPressAPIResult<HTTPAPIResponse<Data>, E> {
         guard let request = try? builder.build() else {
@@ -34,32 +35,57 @@ extension URLSession {
             return .failure(.unparsableResponse(response: nil, body: body))
         }
 
+        guard acceptableStatusCodes.contains(where: { $0 ~= response.statusCode }) else {
+            return .failure(.unacceptableStatusCode(response: response, body: body))
+        }
+
         return .success(.init(response: response, body: body))
     }
 
 }
 
-extension Result where Success == HTTPAPIResponse<Data> {
+extension WordPressAPIResult {
 
-    func assessStatusCode<S, E: LocalizedError>(
-        acceptable: [ClosedRange<Int>] = [200...299],
-        success: (Success) -> S?,
-        failure: (Success) -> E?
-    ) -> WordPressAPIResult<S, E> where Failure == WordPressAPIError<E> {
-        flatMap { response in
-            if acceptable.contains(where: { $0 ~= response.response.statusCode }) {
-                if let result = success(response) {
-                    return .success(result)
+    func mapSuccess<NewSuccess, E: LocalizedError>(
+        _ transform: (Success) -> NewSuccess?
+    ) -> WordPressAPIResult<NewSuccess, E> where Success == HTTPAPIResponse<Data>, Failure == WordPressAPIError<E> {
+        flatMap { success in
+            guard let newSuccess = transform(success) else {
+                return .failure(.unparsableResponse(response: success.response, body: success.body))
+            }
+
+            return .success(newSuccess)
+        }
+    }
+
+    func mapSuccess<NewSuccess: Decodable, E: LocalizedError>(
+        _ decoder: JSONDecoder = JSONDecoder()
+    ) -> WordPressAPIResult<NewSuccess, E> where Success == HTTPAPIResponse<Data>, Failure == WordPressAPIError<E> {
+        mapSuccess {
+            try? decoder.decode(NewSuccess.self, from: $0.body)
+        }
+    }
+
+    func mapUnaccpetableStatusCodeError<E: LocalizedError>(
+        _ transform: (HTTPURLResponse, Data) -> E?
+    ) -> WordPressAPIResult<Success, E> where Failure == WordPressAPIError<E> {
+        mapError { error in
+            if case let .unacceptableStatusCode(response, body) = error {
+                if let endpointError = transform(response, body) {
+                    return WordPressAPIError<E>.endpointError(endpointError)
                 } else {
-                    return .failure(.unparsableResponse(response: response.response, body: response.body))
-                }
-            } else {
-                if let endpointError = failure(response) {
-                    return .failure(.endpointError(endpointError))
-                } else {
-                    return .failure(.unparsableResponse(response: response.response, body: response.body))
+                    return WordPressAPIError<E>.unparsableResponse(response: response, body: body)
                 }
             }
+            return error
+        }
+    }
+
+    func mapUnaccpetableStatusCodeError<E>(
+        _ decoder: JSONDecoder = JSONDecoder()
+    ) -> WordPressAPIResult<Success, E> where E: LocalizedError, E: Decodable, Failure == WordPressAPIError<E> {
+        mapUnaccpetableStatusCodeError { _, body in
+            try? decoder.decode(E.self, from: body)
         }
     }
 
