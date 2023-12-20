@@ -35,8 +35,9 @@ extension URLSession {
         fulfillingProgress parentProgress: Progress? = nil,
         errorType: E.Type = E.self
     ) async -> WordPressAPIResult<HTTPAPIResponse<Data>, E> {
-        if let parentProgress  {
+        if let parentProgress {
             assert(parentProgress.completedUnitCount == 0 && parentProgress.totalUnitCount > 0, "Invalid parent progress")
+            assert(parentProgress.cancellationHandler == nil, "The progress instance's cancellationHandler property must be nil")
         }
 
         guard let request = try? builder.build() else {
