@@ -11,13 +11,14 @@ extension URLSession {
 
     /// Send a HTTP request and return its response as a `WordPressAPIResult` instance.
     ///
-    /// ## Progress Tracking
+    /// ## Progress Tracking and Cancellation
     ///
     /// You can track the HTTP request's overall progress by passing a `Progress` instance to the `fulfillingProgress`
     /// parameter, which must satisify following requirements:
     /// - `totalUnitCount` must not be zero.
     /// - `completedUnitCount` must be zero.
     /// - It's used exclusivity for tracking the HTTP request overal progress: No children in its progress tree.
+    /// - `cancellationHandler` must be nil. You can call `fulfillingProgress.cancel()` to cancel the ongoing HTTP request.
     ///
     ///  Upon completion, the HTTP request's progress fulfills the `fulfillingProgress`.
     ///
@@ -58,6 +59,10 @@ extension URLSession {
             if let parentProgress, parentProgress.totalUnitCount > parentProgress.completedUnitCount {
                 let pending = parentProgress.totalUnitCount - parentProgress.completedUnitCount
                 parentProgress.addChild(task.progress, withPendingUnitCount: pending)
+
+                parentProgress.cancellationHandler = { [weak task] in
+                    task?.cancel()
+                }
             }
         }
     }
