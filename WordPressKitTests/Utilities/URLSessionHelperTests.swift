@@ -106,6 +106,20 @@ class URLSessionHelperTests: XCTestCase {
 
         try XCTAssertEqual(result.get().title, "Hello Post")
     }
+
+    func testProgressTracking() async throws {
+        stub(condition: isPath("/hello")) { _ in
+            HTTPStubsResponse(data: "success".data(using: .utf8)!, statusCode: 200, headers: nil)
+        }
+
+        let progress = Progress.discreteProgress(totalUnitCount: 20)
+        XCTAssertEqual(progress.completedUnitCount, 0)
+        XCTAssertEqual(progress.fractionCompleted, 0)
+
+        let _ = await URLSession.shared.perform(request: .init(url: URL(string: "https://wordpress.org/hello")!), fulfillingProgress: progress, errorType: TestError.self)
+        XCTAssertEqual(progress.completedUnitCount, 20)
+        XCTAssertEqual(progress.fractionCompleted, 1)
+    }
 }
 
 private enum TestError: LocalizedError, Equatable {
