@@ -19,6 +19,10 @@ open class WordPressRSDParser: NSObject, XMLParserDelegate {
         if parser.parse() {
             return endpoint
         }
+        // Return the 'WordPress' API link, if found.
+        if let endpoint {
+            return endpoint
+        }
         guard let error = parser.parserError else {
             return nil
         }
