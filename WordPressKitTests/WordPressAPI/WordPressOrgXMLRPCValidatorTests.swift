@@ -225,7 +225,7 @@ final class WordPressOrgXMLRPCValidatorTests: XCTestCase {
             return HTTPStubsResponse(
                 data: xml.data(using: .utf8)!,
                 statusCode: 200,
-                headers:[
+                headers: [
                     "Content-Type": "application/xml"
                 ]
             )
