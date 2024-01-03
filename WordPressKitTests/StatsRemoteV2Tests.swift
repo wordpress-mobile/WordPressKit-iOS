@@ -16,6 +16,7 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
     let getClicksMockFilename = "stats-clicks-data.json"
     let getReferrersMockFilename = "stats-referrer-data.json"
     let getVisitsDayMockFilename = "stats-visits-day.json"
+    let getVisitsDayMockFilenameWithMixedNumberFormat = "stats-visits-day-2.json"
     let getVisitsWeekMockFilename = "stats-visits-week.json"
     let getVisitsMonthMockFilename = "stats-visits-month.json"
     let getPostsMockFilename = "stats-posts-data.json"
@@ -426,6 +427,36 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
             XCTAssertEqual(summary?.summaryData[9].likesCount, 25)
             XCTAssertEqual(summary?.summaryData[9].commentsCount, 0)
             XCTAssertEqual(summary?.summaryData[9].periodStartDate, date)
+
+            expect.fulfill()
+        }
+
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+
+    func testVisitsForDay_mixedNumberFormat() {
+        let expect = expectation(description: "It should parse visits data for a day even when JSON has a mixed number format")
+
+        stubRemoteResponse(siteVisitsDataEndpoint, filename: getVisitsDayMockFilenameWithMixedNumberFormat, contentType: .ApplicationJSON)
+
+        let dateComponents = DateComponents(year: 2024, month: 01, day: 02)
+        let date = Calendar.autoupdatingCurrent.date(from: dateComponents)!
+
+        remote.getData(for: .day, endingOn: date) { (summary: StatsSummaryTimeIntervalData?, error: Error?) in
+            XCTAssertNil(error)
+            XCTAssertNotNil(summary)
+
+            XCTAssertEqual(summary?.summaryData.count, 14)
+
+            XCTAssertEqual(summary?.summaryData[0].viewsCount, 5)
+            XCTAssertEqual(summary?.summaryData[0].visitorsCount, 2)
+            XCTAssertEqual(summary?.summaryData[0].likesCount, 0)
+            XCTAssertEqual(summary?.summaryData[0].commentsCount, 0)
+
+            XCTAssertEqual(summary?.summaryData[2].viewsCount, 1)
+            XCTAssertEqual(summary?.summaryData[2].visitorsCount, 1)
+            XCTAssertEqual(summary?.summaryData[2].likesCount, 0)
+            XCTAssertEqual(summary?.summaryData[2].commentsCount, 0)
 
             expect.fulfill()
         }

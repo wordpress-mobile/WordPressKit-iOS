@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0152100C28EDA9E400DD6783 /* StatsAnnualAndMostPopularTimeInsightDecodingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0152100B28EDA9E400DD6783 /* StatsAnnualAndMostPopularTimeInsightDecodingTests.swift */; };
+		01CD01132B453E9800B2BF21 /* stats-visits-day-2.json in Resources */ = {isa = PBXBuildFile; fileRef = 01CD01122B453E9800B2BF21 /* stats-visits-day-2.json */; };
 		0847B92C2A4442730044D32F /* IPLocationRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0847B92B2A4442730044D32F /* IPLocationRemote.swift */; };
 		08C7493E2A45EA11000DA0E2 /* IPLocationRemoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08C7493D2A45EA11000DA0E2 /* IPLocationRemoteTests.swift */; };
 		0CB1905E2A2A5E83004D3E80 /* BlazeCampaign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB1905D2A2A5E83004D3E80 /* BlazeCampaign.swift */; };
@@ -704,6 +705,7 @@
 
 /* Begin PBXFileReference section */
 		0152100B28EDA9E400DD6783 /* StatsAnnualAndMostPopularTimeInsightDecodingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsAnnualAndMostPopularTimeInsightDecodingTests.swift; sourceTree = "<group>"; };
+		01CD01122B453E9800B2BF21 /* stats-visits-day-2.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "stats-visits-day-2.json"; sourceTree = "<group>"; };
 		0847B92B2A4442730044D32F /* IPLocationRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPLocationRemote.swift; sourceTree = "<group>"; };
 		08C7493D2A45EA11000DA0E2 /* IPLocationRemoteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPLocationRemoteTests.swift; sourceTree = "<group>"; };
 		0C3A2A412A2E7BA500FD91D6 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
@@ -2356,6 +2358,7 @@
 				404057CA221B80BC0060250C /* stats-top-authors.json */,
 				404057CF221C46780060250C /* stats-videos-data.json */,
 				4081977A221F153A00A298E4 /* stats-visits-day.json */,
+				01CD01122B453E9800B2BF21 /* stats-visits-day-2.json */,
 				4081977D221F269A00A298E4 /* stats-visits-month.json */,
 				40819779221F153A00A298E4 /* stats-visits-week.json */,
 				436D56392118DE3B00CEAA33 /* supported-countries-success.json */,
@@ -3000,6 +3003,7 @@
 				E1787DB0200E564B004CB3AF /* timezones.json in Resources */,
 				93BD275E1EE73442002BB00B /* me-bad-json-failure.json in Resources */,
 				FFE247AF20C891E6002DF3A2 /* WordPressComOAuthWrongPasswordFail.json in Resources */,
+				01CD01132B453E9800B2BF21 /* stats-visits-day-2.json in Resources */,
 				F194E1252417EE7E00874408 /* atomic-get-auth-cookie-success.json in Resources */,
 				731BA83A21DED358000FDFCD /* site-creation-success.json in Resources */,
 				FEFFD99726C158F400F34231 /* share-app-content-success.json in Resources */,
