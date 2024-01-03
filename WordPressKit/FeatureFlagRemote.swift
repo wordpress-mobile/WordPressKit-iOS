@@ -82,8 +82,8 @@ extension FeatureFlagRemote.RemoteFeatureFlagsEndpointParams: Encodable {
     init(deviceId: String, bundle: Bundle = .main) {
         self.deviceId = deviceId
         self.platform = "ios"
-        self.buildNumber = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "Unknown"
-        self.marketingVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "Unknown"
-        self.identifier = Bundle.main.bundleIdentifier ?? "Unknown"
+        self.buildNumber = bundle.infoDictionary?["CFBundleVersion"] as? String ?? "Unknown"
+        self.marketingVersion = bundle.infoDictionary?["CFBundleShortVersionString"] as? String ?? "Unknown"
+        self.identifier = bundle.bundleIdentifier ?? "Unknown"
     }
 }
