@@ -9,17 +9,22 @@ open class FeatureFlagRemote: ServiceRemoteWordPressComREST {
     }
 
     open func getRemoteFeatureFlags(forDeviceId deviceId: String, callback: @escaping FeatureFlagResponseCallback) {
+        self.getRemoteFeatureFlags(params: .init(deviceId: deviceId), callback: callback)
+    }
 
+    open func getRemoteFeatureFlags(params: RemoteFeatureFlagsEndpointParams, callback: @escaping FeatureFlagResponseCallback) {
         let endpoint = "mobile/feature-flags"
         let path = self.path(forEndpoint: endpoint, withVersion: ._2_0)
+        var parameters: [String: AnyObject]?
 
-        let parameters: [String: AnyObject] = [
-            "device_id": deviceId as NSString,
-            "platform": "ios" as NSString,
-            "build_number": NSString(string: Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "Unknown"),
-            "marketing_version": NSString(string: Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "Unknown"),
-            "identifier": NSString(string: Bundle.main.bundleIdentifier ?? "Unknown")
-        ]
+        do {
+            let encoder = JSONEncoder()
+            let data = try encoder.encode(params)
+            parameters = try JSONSerialization.jsonObject(with: data) as? [String: AnyObject]
+        } catch let error {
+            callback(.failure(error))
+            return
+        }
 
         wordPressComRestApi.GET(path,
                                 parameters: parameters,
@@ -55,7 +60,7 @@ open class FeatureFlagRemote: ServiceRemoteWordPressComREST {
                                 })
     }
 
-    struct GetRemoteFeatureFlagsEndpointParams {
+    public struct RemoteFeatureFlagsEndpointParams {
         let deviceId: String
         let platform: String
         let buildNumber: String
@@ -64,7 +69,7 @@ open class FeatureFlagRemote: ServiceRemoteWordPressComREST {
     }
 }
 
-extension FeatureFlagRemote.GetRemoteFeatureFlagsEndpointParams: Decodable {
+extension FeatureFlagRemote.RemoteFeatureFlagsEndpointParams: Encodable {
 
     enum CodingKeys: String, CodingKey {
         case deviceId = "device_id"
@@ -72,5 +77,13 @@ extension FeatureFlagRemote.GetRemoteFeatureFlagsEndpointParams: Decodable {
         case buildNumber = "build_number"
         case marketingVersion = "marketing_version"
         case identifier = "identifier"
+    }
+
+    init(deviceId: String, bundle: Bundle = .main) {
+        self.deviceId = deviceId
+        self.platform = "ios"
+        self.buildNumber = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "Unknown"
+        self.marketingVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "Unknown"
+        self.identifier = Bundle.main.bundleIdentifier ?? "Unknown"
     }
 }
