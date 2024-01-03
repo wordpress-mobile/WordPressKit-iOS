@@ -17,6 +17,11 @@ class DashboardServiceRemoteTests: RemoteTestCase, RESTTestable {
         let expect = expectation(description: "Get cards successfully")
 
         let expectedQueryParams = [
+//            "identifier": "com.apple.dt.xctest.tool",
+//            "platform": "ios",
+//            "build_number": "22516",
+//            "marketing_version": "15.1",
+//            "device_id": "Test",
             "cards": "posts,todays_stats",
             "locale": "en"
         ]

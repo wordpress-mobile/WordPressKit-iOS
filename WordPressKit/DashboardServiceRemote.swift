@@ -2,12 +2,14 @@ import Foundation
 
 open class DashboardServiceRemote: ServiceRemoteWordPressComREST {
     open func fetch(cards: [String], forBlogID blogID: Int, success: @escaping (NSDictionary) -> Void, failure: @escaping (Error) -> Void) {
-        guard let requestUrl = endpoint(for: cards, blogID: blogID) else {
-            return
-        }
+        let requestUrl =  self.path(forEndpoint: "sites/\(blogID)/dashboard/cards-data/", withVersion: ._2_0)
+
+        let params: [String: AnyObject] = [
+            "cards": cards.joined(separator: ",") as NSString
+        ]
 
         wordPressComRestApi.GET(requestUrl,
-                                parameters: nil,
+                                parameters: params,
                                 success: { response, _ in
             guard let cards = response as? NSDictionary else {
                 failure(ResponseError.decodingFailure)
@@ -19,19 +21,6 @@ open class DashboardServiceRemote: ServiceRemoteWordPressComREST {
             failure(error)
             WPKitLogError("Error fetching dashboard cards: \(error)")
         })
-    }
-
-    private func endpoint(for cards: [String], blogID: Int) -> String? {
-        var path = URLComponents(string: "sites/\(blogID)/dashboard/cards-data/")
-
-        let cardsEncoded = cards.joined(separator: ",")
-        path?.queryItems = [URLQueryItem(name: "cards", value: cardsEncoded)]
-
-        guard let endpoint = path?.string else {
-            return nil
-        }
-
-        return self.path(forEndpoint: endpoint, withVersion: ._2_0)
     }
 
     enum ResponseError: Error {
