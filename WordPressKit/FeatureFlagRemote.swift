@@ -54,4 +54,23 @@ open class FeatureFlagRemote: ServiceRemoteWordPressComREST {
                                     callback(.failure(error))
                                 })
     }
+
+    struct GetRemoteFeatureFlagsEndpointParams {
+        let deviceId: String
+        let platform: String
+        let buildNumber: String
+        let marketingVersion: String
+        let identifier: String
+    }
+}
+
+extension FeatureFlagRemote.GetRemoteFeatureFlagsEndpointParams: Decodable {
+
+    enum CodingKeys: String, CodingKey {
+        case deviceId = "device_id"
+        case platform = "platform"
+        case buildNumber = "build_number"
+        case marketingVersion = "marketing_version"
+        case identifier = "identifier"
+    }
 }

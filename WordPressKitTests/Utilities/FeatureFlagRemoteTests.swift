@@ -1,9 +1,39 @@
 import XCTest
+import OHHTTPStubs
 @testable import WordPressKit
 
 class FeatureFlagRemoteTests: RemoteTestCase, RESTTestable {
 
     private let endpoint = "/wpcom/v2/mobile/feature-flags"
+
+    func testThatRequestContainsQueryParams() throws {
+        let expectation = expectation(description: "Get Remote Feature Flags Endpoint should contain query params")
+
+        let response = try makeResponse()
+        let expectedQueryParams = [
+            "identifier": "com.apple.dt.xctest.tool",
+            "platform": "ios",
+            "build_number": "22516",
+            "marketing_version": "15.1",
+            "device_id": "Test"
+        ]
+
+        stub { req -> Bool in
+            let containsQueryParams = containsQueryParams(expectedQueryParams)(req)
+            let matchesPath = isPath(self.endpoint)(req)
+            let matchesURL = containsQueryParams && matchesPath
+            XCTAssertTrue(matchesURL)
+            return matchesURL
+        } response: { request in
+            return response
+        }
+
+        FeatureFlagRemote(wordPressComRestApi: getRestApi()).getRemoteFeatureFlags(forDeviceId: "Test") { _ in
+            expectation.fulfill()
+        }
+
+        wait(for: [expectation], timeout: 1)
+    }
 
     func testThatResponsesAreHandledCorrectly() throws {
         let flags = [
@@ -77,5 +107,18 @@ class FeatureFlagRemoteTests: RemoteTestCase, RESTTestable {
         let encoder = JSONEncoder()
         encoder.outputFormatting = [.sortedKeys, .prettyPrinted]
         return try encoder.encode(object)
+    }
+
+    private func makeResponse() throws -> HTTPStubsResponse {
+        return try XCTUnwrap({
+            let flags = [
+                FeatureFlag(title: UUID().uuidString, value: true),
+                FeatureFlag(title: UUID().uuidString, value: false)
+            ]
+            guard let data = try? JSONEncoder().encode(flags.dictionaryValue) else {
+                return nil
+            }
+            return HTTPStubsResponse(data: data, statusCode: 200, headers: [:])
+        }())
     }
 }
