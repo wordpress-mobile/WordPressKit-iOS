@@ -43,6 +43,31 @@ extension RemoteTestCase {
     /// Helper function that creates a stub which uses a file for the response body.
     ///
     /// - Parameters:
+    ///     - condition: The endpoint matcher block that determines if the request will be stubbed
+    ///     - filename: The name of the file to use for the response
+    ///     - contentType: The Content-Type returned in the response header
+    ///     - status: The status code to use for the response. Defaults to 200.
+    ///
+    func stubRemoteResponse(
+        _ condition: @escaping (URLRequest) -> Bool,
+        filename: String,
+        contentType: ResponseContentType,
+        status: Int32 = 200
+    ) {
+        stub(condition: condition) { _ in
+            let stubPath = OHPathForFile(filename, type(of: self))
+            var headers: [NSObject: AnyObject]?
+
+            if contentType != .NoContentType {
+                headers = ["Content-Type" as NSObject: contentType.rawValue as AnyObject]
+            }
+            return OHHTTPStubs.fixture(filePath: stubPath!, status: status, headers: headers)
+        }
+    }
+
+    /// Helper function that creates a stub which uses a file for the response body.
+    ///
+    /// - Parameters:
     ///     - endpoint: The endpoint matcher block that determines if the request will be stubbed
     ///     - filename: The name of the file to use for the response
     ///     - contentType: The Content-Type returned in the response header

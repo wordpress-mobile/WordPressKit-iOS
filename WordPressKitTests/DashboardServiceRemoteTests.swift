@@ -1,4 +1,5 @@
 import XCTest
+import OHHTTPStubs
 
 @testable import WordPressKit
 
@@ -14,7 +15,19 @@ class DashboardServiceRemoteTests: RemoteTestCase, RESTTestable {
     //
     func testRequestCardsParam() {
         let expect = expectation(description: "Get cards successfully")
-        stubRemoteResponse("wpcom/v2/sites/165243437/dashboard/cards-data/?cards=posts,todays_stats", filename: "dashboard-200-with-drafts-and-scheduled-posts.json", contentType: .ApplicationJSON)
+
+        let expectedQueryParams = [
+            "cards": "posts,todays_stats",
+            "locale": "en"
+        ]
+
+        stubRemoteResponse({ req in
+            let containsQueryParams = containsQueryParams(expectedQueryParams)(req)
+            let matchesPath = isPath("/wpcom/v2/sites/165243437/dashboard/cards-data")(req)
+            let matchesURL = containsQueryParams && matchesPath
+            XCTAssertTrue(matchesURL)
+            return matchesURL
+        }, filename: "dashboard-200-with-drafts-and-scheduled-posts.json", contentType: .ApplicationJSON)
 
         dashboardServiceRemote.fetch(cards: ["posts", "todays_stats"], forBlogID: 165243437) { _ in
             expect.fulfill()
