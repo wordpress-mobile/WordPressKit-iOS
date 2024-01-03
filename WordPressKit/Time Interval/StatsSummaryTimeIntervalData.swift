@@ -123,7 +123,7 @@ private extension StatsSummaryData {
         let commentsCount: Int
 
         if let viewsIndex = viewsIndex {
-            guard let count = dataArray[viewsIndex] as? Int else {
+            guard let count = Self.parseNumber(from: dataArray[viewsIndex]) else {
                 return nil
             }
             viewsCount = count
@@ -132,7 +132,7 @@ private extension StatsSummaryData {
         }
 
         if let visitorsIndex = visitorsIndex {
-            guard let count = dataArray[visitorsIndex] as? Int else {
+            guard let count = Self.parseNumber(from: dataArray[visitorsIndex]) else {
                 return nil
             }
             visitorsCount = count
@@ -141,7 +141,7 @@ private extension StatsSummaryData {
         }
 
         if let likesIndex = likesIndex {
-            guard let count = dataArray[likesIndex] as? Int else {
+            guard let count = Self.parseNumber(from: dataArray[likesIndex]) else {
                 return nil
             }
             likesCount = count
@@ -150,7 +150,7 @@ private extension StatsSummaryData {
         }
 
         if let commentsIndex = commentsIndex {
-            guard let count = dataArray[commentsIndex] as? Int else {
+            guard let count = Self.parseNumber(from: dataArray[commentsIndex]) else {
                 return nil
             }
             commentsCount = count
@@ -173,6 +173,16 @@ private extension StatsSummaryData {
             return self.weeksDateFormatter.date(from: dateString)
         case .day, .month, .year:
             return self.regularDateFormatter.date(from: dateString)
+        }
+    }
+
+    static func parseNumber(from dayValue: Any) -> Int? {
+        if let count = dayValue as? Int {
+            return count
+        } else if let countString = dayValue as? String, let count = Int(countString) {
+            return count
+        } else {
+            return nil
         }
     }
 
