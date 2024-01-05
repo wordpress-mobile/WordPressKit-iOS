@@ -37,7 +37,7 @@ open class DashboardServiceRemote: ServiceRemoteWordPressComREST {
             "cards": cards.joined(separator: ",") as NSString
         ]
         let featureFlagParams = try {
-            let params = FeatureFlagRemote.RemoteFeatureFlagsEndpointParams(deviceId: deviceId)
+            let params = FeatureFlagRemote.FetchAllEndpointParams(deviceId: deviceId)
             let encoder = JSONEncoder()
             let data = try encoder.encode(params)
             return try JSONSerialization.jsonObject(with: data) as? [String: AnyObject]

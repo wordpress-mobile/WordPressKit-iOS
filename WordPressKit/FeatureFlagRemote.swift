@@ -9,7 +9,7 @@ open class FeatureFlagRemote: ServiceRemoteWordPressComREST {
     }
 
     open func getRemoteFeatureFlags(forDeviceId deviceId: String, callback: @escaping FeatureFlagResponseCallback) {
-        let params = RemoteFeatureFlagsEndpointParams(deviceId: deviceId)
+        let params = FetchAllEndpointParams(deviceId: deviceId)
         let endpoint = "mobile/feature-flags"
         let path = self.path(forEndpoint: endpoint, withVersion: ._2_0)
         var dictionary: [String: AnyObject]?
@@ -55,7 +55,7 @@ open class FeatureFlagRemote: ServiceRemoteWordPressComREST {
                                 })
     }
 
-    public struct RemoteFeatureFlagsEndpointParams {
+    public struct FetchAllEndpointParams {
         let deviceId: String
         let platform: String
         let buildNumber: String
@@ -64,7 +64,7 @@ open class FeatureFlagRemote: ServiceRemoteWordPressComREST {
     }
 }
 
-extension FeatureFlagRemote.RemoteFeatureFlagsEndpointParams: Encodable {
+extension FeatureFlagRemote.FetchAllEndpointParams: Encodable {
 
     enum CodingKeys: String, CodingKey {
         case deviceId = "device_id"
