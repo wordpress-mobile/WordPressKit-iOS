@@ -43,6 +43,31 @@ extension RemoteTestCase {
     /// Helper function that creates a stub which uses a file for the response body.
     ///
     /// - Parameters:
+    ///     - condition: The endpoint matcher block that determines if the request will be stubbed
+    ///     - filename: The name of the file to use for the response
+    ///     - contentType: The Content-Type returned in the response header
+    ///     - status: The status code to use for the response. Defaults to 200.
+    ///
+    func stubRemoteResponse(
+        _ condition: @escaping (URLRequest) -> Bool,
+        filename: String,
+        contentType: ResponseContentType,
+        status: Int32 = 200
+    ) {
+        stub(condition: condition) { _ in
+            let stubPath = OHPathForFile(filename, type(of: self))
+            var headers: [NSObject: AnyObject]?
+
+            if contentType != .NoContentType {
+                headers = ["Content-Type" as NSObject: contentType.rawValue as AnyObject]
+            }
+            return OHHTTPStubs.fixture(filePath: stubPath!, status: status, headers: headers)
+        }
+    }
+
+    /// Helper function that creates a stub which uses a file for the response body.
+    ///
+    /// - Parameters:
     ///     - endpoint: The endpoint matcher block that determines if the request will be stubbed
     ///     - filename: The name of the file to use for the response
     ///     - contentType: The Content-Type returned in the response header
@@ -159,5 +184,35 @@ extension RemoteTestCase {
         } catch {
             print("Unable to clear cache: \(error)")
         }
+    }
+
+    /// Checks if the specified set of query parameter names are all present in a given `URLRequest`.
+    /// This method verifies the presence of query parameter names in the request's URL without evaluating their values.
+    ///
+    /// - Parameters:
+    ///   - queryParams: A set of query parameter names to check for in the request.
+    ///   - request: The `URLRequest` to inspect for the presence of query parameter names.
+    /// - Returns: A Boolean value indicating whether all specified query parameter names are present in the request's URL.
+    func queryParams(_ queryParams: Set<String>, containedInRequest request: URLRequest) -> Bool {
+        guard let url = request.url else {
+            return false
+        }
+        return queryParamsContained(queryParams, containedInURL: url)
+    }
+
+    /// Checks if the specified set of query parameter names are all present in a given `URL`.
+    /// This method verifies the presence of query parameter names in the URL's query string without evaluating their values.
+    ///
+    /// - Parameters:
+    ///   - queryParams: A set of query parameter names to check for in the URL.
+    ///   - url: The `URL` to inspect for the presence of query parameter names.
+    /// - Returns: A Boolean value indicating whether all specified query parameter names are present in the URL's query string.
+    func queryParamsContained(_ queryParams: Set<String>, containedInURL url: URL) -> Bool {
+        guard let components = URLComponents(url: url, resolvingAgainstBaseURL: true),
+              let queryItems = components.queryItems?.map({ $0.name })
+        else {
+            return false
+        }
+        return queryParams.intersection(queryItems) == queryParams
     }
 }
