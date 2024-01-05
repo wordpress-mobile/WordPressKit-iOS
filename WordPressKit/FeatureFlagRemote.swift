@@ -86,4 +86,10 @@ extension FeatureFlagRemote.RemoteFeatureFlagsEndpointParams: Encodable {
         self.marketingVersion = bundle.infoDictionary?["CFBundleShortVersionString"] as? String ?? "Unknown"
         self.identifier = bundle.bundleIdentifier ?? "Unknown"
     }
+
+    func dictionaryRepresentation() throws -> [String: AnyObject]? {
+        let encoder = JSONEncoder()
+        let data = try encoder.encode(self)
+        return try JSONSerialization.jsonObject(with: data) as? [String: AnyObject]
+    }
 }
