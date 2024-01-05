@@ -36,7 +36,7 @@ open class DashboardServiceRemote: ServiceRemoteWordPressComREST {
         let cardsParams: [String: AnyObject] = [
             "cards": cards.joined(separator: ",") as NSString
         ]
-        let featureFlagParams = try FeatureFlagRemote.FetchAllEndpointParams(deviceId: deviceId).dictionaryRepresentation()
+        let featureFlagParams = try SessionDetails(deviceId: deviceId).dictionaryRepresentation()
         return cardsParams.merging(featureFlagParams ?? [:]) { first, second in
             return first
         }
