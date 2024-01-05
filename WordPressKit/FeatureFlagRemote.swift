@@ -9,25 +9,20 @@ open class FeatureFlagRemote: ServiceRemoteWordPressComREST {
     }
 
     open func getRemoteFeatureFlags(forDeviceId deviceId: String, callback: @escaping FeatureFlagResponseCallback) {
-        self.getRemoteFeatureFlags(params: .init(deviceId: deviceId), callback: callback)
-    }
-
-    open func getRemoteFeatureFlags(params: RemoteFeatureFlagsEndpointParams, callback: @escaping FeatureFlagResponseCallback) {
+        let params = RemoteFeatureFlagsEndpointParams(deviceId: deviceId)
         let endpoint = "mobile/feature-flags"
         let path = self.path(forEndpoint: endpoint, withVersion: ._2_0)
-        var parameters: [String: AnyObject]?
+        var dictionary: [String: AnyObject]?
 
         do {
-            let encoder = JSONEncoder()
-            let data = try encoder.encode(params)
-            parameters = try JSONSerialization.jsonObject(with: data) as? [String: AnyObject]
+            dictionary = try params.dictionaryRepresentation()
         } catch let error {
             callback(.failure(error))
             return
         }
 
         wordPressComRestApi.GET(path,
-                                parameters: parameters,
+                                parameters: dictionary,
                                 success: { response, _ in
 
                                     if let featureFlagList = response as? NSDictionary {
