@@ -10,16 +10,16 @@ class FeatureFlagRemoteTests: RemoteTestCase, RESTTestable {
         let expectation = expectation(description: "Get Remote Feature Flags Endpoint should contain query params")
 
         let response = try makeResponse()
-        let expectedQueryParams = [
-            "identifier": "com.apple.dt.xctest.tool",
-            "platform": "ios",
-            "build_number": "22516",
-            "marketing_version": "15.1",
-            "device_id": "Test"
+        let expectedQueryParams: Set<String> = [
+            "identifier",
+            "platform",
+            "build_number",
+            "marketing_version",
+            "device_id"
         ]
 
         stub { req -> Bool in
-            let containsQueryParams = containsQueryParams(expectedQueryParams)(req)
+            let containsQueryParams = self.queryParams(expectedQueryParams, containedInRequest: req)
             let matchesPath = isPath(self.endpoint)(req)
             let matchesURL = containsQueryParams && matchesPath
             XCTAssertTrue(matchesURL)

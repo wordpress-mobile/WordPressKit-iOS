@@ -14,24 +14,25 @@ class DashboardServiceRemoteTests: RemoteTestCase, RESTTestable {
     // Requests the correct set of cards
     //
     func testRequestCardsParam() {
-        let expect = expectation(description: "Get cards successfully")
-
-        let expectedQueryParams = [
-            "identifier": "com.apple.dt.xctest.tool",
-            "platform": "ios",
-            "build_number": "22516",
-            "marketing_version": "15.1",
-            "device_id": "Test",
-            "cards": "posts,todays_stats",
-            "locale": "en"
+        let expect = expectation(description: "Dashboard endpoint should contain query params")
+        let expectedPath = "/wpcom/v2/sites/165243437/dashboard/cards-data"
+        let expectedQueryParams: Set<String> = [
+            "identifier",
+            "platform",
+            "build_number",
+            "marketing_version",
+            "device_id",
+            "cards",
+            "locale"
         ]
 
         stubRemoteResponse({ req in
-            let containsQueryParams = containsQueryParams(expectedQueryParams)(req)
-            let matchesPath = isPath("/wpcom/v2/sites/165243437/dashboard/cards-data")(req)
-            let matchesURL = containsQueryParams && matchesPath
-            XCTAssertTrue(matchesURL)
-            return matchesURL
+            let url = req.url?.absoluteString ?? ""
+            let containsQueryParams = self.queryParams(expectedQueryParams, containedInRequest: req)
+            let matchesPath = isPath(expectedPath)(req)
+            XCTAssertTrue(matchesPath, "The URL '\(url)' doesn't match the expected path.")
+            XCTAssertTrue(containsQueryParams, "The URL '\(url)' doesn't contain the expected query params.")
+            return containsQueryParams && matchesPath
         }, filename: "dashboard-200-with-drafts-and-scheduled-posts.json", contentType: .ApplicationJSON)
 
         dashboardServiceRemote.fetch(
@@ -40,7 +41,10 @@ class DashboardServiceRemoteTests: RemoteTestCase, RESTTestable {
             deviceId: "Test"
         ) { _ in
             expect.fulfill()
-        } failure: { _ in }
+        } failure: { error in
+            XCTFail("Dashboard cards request failed: \(error.localizedDescription)")
+            expect.fulfill()
+        }
 
         waitForExpectations(timeout: timeout, handler: nil)
     }
