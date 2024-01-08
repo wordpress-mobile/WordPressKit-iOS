@@ -48,6 +48,12 @@ _None._
 
 _None._
 
+## 9.0.2
+
+### Bug Fixes
+
+- Improve XML-RPC error messages to suggest contacting the host. [#655]
+
 ## 9.0.1
 
 ### Internal Changes
