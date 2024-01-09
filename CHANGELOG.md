@@ -34,11 +34,11 @@ _None._
 
 ### Breaking Changes
 
-- Add `deviceId` param to `DashboardServiceRemote.fetch` method. [#674]
+_None._
 
 ### New Features
 
-_None._
+- Add `deviceId` param to `DashboardServiceRemote.fetch` method. [#674]
 
 ### Bug Fixes
 

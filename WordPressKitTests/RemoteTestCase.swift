@@ -197,7 +197,7 @@ extension RemoteTestCase {
         guard let url = request.url else {
             return false
         }
-        return queryParamsContained(queryParams, containedInURL: url)
+        return self.queryParams(queryParams, containedInURL: url)
     }
 
     /// Checks if the specified set of query parameter names are all present in a given `URL`.
@@ -207,7 +207,7 @@ extension RemoteTestCase {
     ///   - queryParams: A set of query parameter names to check for in the URL.
     ///   - url: The `URL` to inspect for the presence of query parameter names.
     /// - Returns: A Boolean value indicating whether all specified query parameter names are present in the URL's query string.
-    func queryParamsContained(_ queryParams: Set<String>, containedInURL url: URL) -> Bool {
+    func queryParams(_ queryParams: Set<String>, containedInURL url: URL) -> Bool {
         guard let components = URLComponents(url: url, resolvingAgainstBaseURL: true),
               let queryItems = components.queryItems?.map({ $0.name })
         else {

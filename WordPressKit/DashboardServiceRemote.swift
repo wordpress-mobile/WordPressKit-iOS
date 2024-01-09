@@ -4,7 +4,7 @@ open class DashboardServiceRemote: ServiceRemoteWordPressComREST {
     open func fetch(
         cards: [String],
         forBlogID blogID: Int,
-        deviceId: String,
+        deviceId: String? = nil,
         success: @escaping (NSDictionary) -> Void,
         failure: @escaping (Error) -> Void
     ) {
@@ -32,11 +32,16 @@ open class DashboardServiceRemote: ServiceRemoteWordPressComREST {
         })
     }
 
-    private func makeQueryParams(cards: [String], deviceId: String) throws -> [String: AnyObject] {
+    private func makeQueryParams(cards: [String], deviceId: String?) throws -> [String: AnyObject] {
         let cardsParams: [String: AnyObject] = [
             "cards": cards.joined(separator: ",") as NSString
         ]
-        let featureFlagParams = try SessionDetails(deviceId: deviceId).dictionaryRepresentation()
+        let featureFlagParams: [String: AnyObject]? = try {
+            guard let deviceId else {
+                return nil
+            }
+            return try SessionDetails(deviceId: deviceId).dictionaryRepresentation()
+        }()
         return cardsParams.merging(featureFlagParams ?? [:]) { first, second in
             return first
         }
