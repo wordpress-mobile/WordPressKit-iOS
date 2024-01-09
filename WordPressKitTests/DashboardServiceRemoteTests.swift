@@ -49,6 +49,36 @@ class DashboardServiceRemoteTests: RemoteTestCase, RESTTestable {
         waitForExpectations(timeout: timeout, handler: nil)
     }
 
+    // Validates the request's path and query items when the `deviceId` param is `nil`.
+    //
+    func testRequestCardsParamWithoutDeviceId() {
+        let expect = expectation(description: "Dashboard endpoint should contain query params")
+        let expectedPath = "/wpcom/v2/sites/165243437/dashboard/cards-data"
+        let expectedQueryParams: Set<String> = ["cards", "locale"]
+
+        stubRemoteResponse({ req in
+            let url = req.url?.absoluteString ?? ""
+            let containsQueryParams = self.queryParams(expectedQueryParams, containedInRequest: req)
+            let matchesPath = isPath(expectedPath)(req)
+            XCTAssertTrue(matchesPath, "The URL '\(url)' doesn't match the expected path.")
+            XCTAssertTrue(containsQueryParams, "The URL '\(url)' doesn't contain the expected query params.")
+            return containsQueryParams && matchesPath
+        }, filename: "dashboard-200-with-drafts-and-scheduled-posts.json", contentType: .ApplicationJSON)
+
+        dashboardServiceRemote.fetch(
+            cards: ["posts", "todays_stats"],
+            forBlogID: 165243437,
+            deviceId: nil
+        ) { _ in
+            expect.fulfill()
+        } failure: { error in
+            XCTFail("Dashboard cards request failed: \(error.localizedDescription)")
+            expect.fulfill()
+        }
+
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+
     // Return the cards when the request succeeds
     //
     func testRequestCards() {
