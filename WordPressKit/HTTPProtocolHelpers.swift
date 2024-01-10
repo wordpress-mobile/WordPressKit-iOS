@@ -1,6 +1,7 @@
 import Foundation
 
 extension String.Encoding {
+    /// See: https://www.iana.org/assignments/character-sets/character-sets.xhtml
     init?(ianaCharsetName: String) {
         let encoding: CFStringEncoding = CFStringConvertIANACharSetNameToEncoding(ianaCharsetName as CFString)
         guard encoding != kCFStringEncodingInvalidId,
