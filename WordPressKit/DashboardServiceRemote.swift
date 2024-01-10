@@ -1,13 +1,24 @@
 import Foundation
 
 open class DashboardServiceRemote: ServiceRemoteWordPressComREST {
-    open func fetch(cards: [String], forBlogID blogID: Int, success: @escaping (NSDictionary) -> Void, failure: @escaping (Error) -> Void) {
-        guard let requestUrl = endpoint(for: cards, blogID: blogID) else {
-            return
+    open func fetch(
+        cards: [String],
+        forBlogID blogID: Int,
+        deviceId: String? = nil,
+        success: @escaping (NSDictionary) -> Void,
+        failure: @escaping (Error) -> Void
+    ) {
+        let requestUrl =  self.path(forEndpoint: "sites/\(blogID)/dashboard/cards-data/", withVersion: ._2_0)
+        var params: [String: AnyObject]?
+
+        do {
+            params = try self.makeQueryParams(cards: cards, deviceId: deviceId)
+        } catch {
+            failure(error)
         }
 
         wordPressComRestApi.GET(requestUrl,
-                                parameters: nil,
+                                parameters: params,
                                 success: { response, _ in
             guard let cards = response as? NSDictionary else {
                 failure(ResponseError.decodingFailure)
@@ -21,17 +32,19 @@ open class DashboardServiceRemote: ServiceRemoteWordPressComREST {
         })
     }
 
-    private func endpoint(for cards: [String], blogID: Int) -> String? {
-        var path = URLComponents(string: "sites/\(blogID)/dashboard/cards-data/")
-
-        let cardsEncoded = cards.joined(separator: ",")
-        path?.queryItems = [URLQueryItem(name: "cards", value: cardsEncoded)]
-
-        guard let endpoint = path?.string else {
-            return nil
+    private func makeQueryParams(cards: [String], deviceId: String?) throws -> [String: AnyObject] {
+        let cardsParams: [String: AnyObject] = [
+            "cards": cards.joined(separator: ",") as NSString
+        ]
+        let featureFlagParams: [String: AnyObject]? = try {
+            guard let deviceId else {
+                return nil
+            }
+            return try SessionDetails(deviceId: deviceId).dictionaryRepresentation()
+        }()
+        return cardsParams.merging(featureFlagParams ?? [:]) { first, second in
+            return first
         }
-
-        return self.path(forEndpoint: endpoint, withVersion: ._2_0)
     }
 
     enum ResponseError: Error {

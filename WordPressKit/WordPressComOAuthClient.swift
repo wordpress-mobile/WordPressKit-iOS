@@ -1,15 +1,70 @@
 import Alamofire
 
-@objc public enum WordPressComOAuthError: Int {
-    case unknown
-    case invalidClient
-    case unsupportedGrantType
-    case invalidRequest
-    case needsMultifactorCode
-    case invalidOneTimePassword
-    case socialLoginExistingUserUnconnected
-    case invalidTwoStepCode
-    case unknownUser
+public typealias WordPressComOAuthError = WordPressAPIError<AuthenticationFailure>
+
+public extension WordPressComOAuthError {
+    var authenticationFailureKind: AuthenticationFailure.Kind? {
+        if case let .endpointError(failure) = self {
+            return failure.kind
+        }
+        return nil
+    }
+}
+
+public struct AuthenticationFailure: LocalizedError {
+    private static let errorsMap: [String: AuthenticationFailure.Kind] = [
+        "invalid_client": .invalidClient,
+        "unsupported_grant_type": .unsupportedGrantType,
+        "invalid_request": .invalidRequest,
+        "needs_2fa": .needsMultifactorCode,
+        "invalid_otp": .invalidOneTimePassword,
+        "user_exists": .socialLoginExistingUserUnconnected,
+        "invalid_two_step_code": .invalidTwoStepCode,
+        "unknown_user": .unknownUser
+    ]
+
+    public enum Kind {
+        /// client_id is missing or wrong, it shouldn't happen
+        case invalidClient
+        /// client_id doesn't support password grants
+        case unsupportedGrantType
+        /// A required field is missing/malformed
+        case invalidRequest
+        /// Multifactor Authentication code is required
+        case needsMultifactorCode
+        /// Supplied one time password is incorrect
+        case invalidOneTimePassword
+        /// Returned by the social login endpoint if a wpcom user is found, but not connected to a social service.
+        case socialLoginExistingUserUnconnected
+        /// Supplied MFA code is incorrect
+        case invalidTwoStepCode
+        case unknownUser
+        case unknown
+    }
+
+    public var kind: Kind
+    public var localizedErrorMessage: String?
+    public var newNonce: String?
+    public var originalErrorJSON: [String: AnyObject]
+
+    init(apiJSONResponse responseDict: [String: AnyObject]) {
+        originalErrorJSON = responseDict
+
+        // there's either a data object, or an error.
+        if let errorStr = responseDict["error"] as? String {
+            kind = Self.errorsMap[errorStr] ?? .unknown
+            localizedErrorMessage = responseDict["error_description"] as? String
+        } else if let data = responseDict["data"] as? [String: AnyObject],
+            let errors = data["errors"] as? NSArray,
+            let err = errors.firstObject as? [String: AnyObject] {
+            let errorCode = err["code"] as? String ?? ""
+            kind = Self.errorsMap[errorCode] ?? .unknown
+            localizedErrorMessage = err["message"] as? String
+            newNonce = data["two_step_nonce"] as? String
+        } else {
+            kind = .unknown
+        }
+    }
 }
 
 /// `WordPressComOAuthClient` encapsulates the pattern of authenticating against WordPress.com OAuth2 service.
@@ -18,10 +73,6 @@ import Alamofire
 /// @see https://developer.wordpress.com/docs/oauth2/
 ///
 public final class WordPressComOAuthClient: NSObject {
-
-    @objc public static let WordPressComOAuthErrorResponseObjectKey = "WordPressComOAuthErrorResponseObjectKey"
-    @objc public static let WordPressComOAuthErrorNewNonceKey = "WordPressComOAuthErrorNewNonceKey"
-    @objc public static let WordPressComOAuthErrorDomain = "WordPressComOAuthError"
 
     @objc public static let WordPressComOAuthDefaultBaseUrl = "https://wordpress.com"
     @objc public static let WordPressComOAuthDefaultApiBaseUrl = "https://public-api.wordpress.com"
@@ -115,33 +166,6 @@ public final class WordPressComOAuthClient: NSObject {
 
     /// Authenticates on WordPress.com using the OAuth endpoints.
     ///
-    /// Delegates to `authenticateWithUsername(_:, password:, multifactorCode:, needsMultifactor:, success:, failure:)`.
-    /// Here to provide source-compatibility with the Objective-C layer, where using a default parameter (`needsMultifactor: ... = nil`) doesn't result in a method signature without the parameter.
-    ///
-    /// - Parameters:
-    ///     - username: the account's username.
-    ///     - password: the account's password.
-    ///     - multifactorCode: Multifactor Authentication One-Time-Password. If not needed, can be nil
-    ///     - success: block to be called if authentication was successful. The OAuth2 token is passed as a parameter.
-    ///     - failure: block to be called if authentication failed. The error object is passed as a parameter.
-    @available(*, deprecated, message: "Here for legacy compatiblity. Use the verions with explicit `needsMultifactor` parameter.")
-    @objc public func authenticateWithUsername(_ username: String,
-                                               password: String,
-                                               multifactorCode: String?,
-                                               success: @escaping (_ authToken: String?) -> Void,
-                                               failure: @escaping (_ error: NSError) -> Void ) {
-        authenticateWithUsername(
-            username,
-            password: password,
-            multifactorCode: multifactorCode,
-            needsMultifactor: nil,
-            success: success,
-            failure: failure
-        )
-    }
-
-    /// Authenticates on WordPress.com using the OAuth endpoints.
-    ///
     /// - Parameters:
     ///     - username: the account's username.
     ///     - password: the account's password.
@@ -150,12 +174,14 @@ public final class WordPressComOAuthClient: NSObject {
     ///     - success: block to be called if authentication was successful. The OAuth2 token is passed as a parameter.
     ///     - failure: block to be called if authentication failed. The error object is passed as a parameter.
     ///
-    @objc public func authenticateWithUsername(_ username: String,
-                                               password: String,
-                                               multifactorCode: String?,
-                                               needsMultifactor: ((_ userID: Int, _ nonceInfo: SocialLogin2FANonceInfo) -> Void)?,
-                                               success: @escaping (_ authToken: String?) -> Void,
-                                               failure: @escaping (_ error: NSError) -> Void ) {
+    public func authenticate(
+        username: String,
+        password: String,
+        multifactorCode: String?,
+        needsMultifactor: @escaping ((_ userID: Int, _ nonceInfo: SocialLogin2FANonceInfo) -> Void),
+        success: @escaping (_ authToken: String?) -> Void,
+        failure: @escaping (_ error: WordPressComOAuthError) -> Void
+    ) {
         var parameters: [String: AnyObject] = [
             "username": username as AnyObject,
             "password": password as AnyObject,
@@ -177,12 +203,8 @@ public final class WordPressComOAuthClient: NSObject {
                 case .success(let responseObject):
                     WPKitLogVerbose("Received OAuth2 response: \(self.cleanedUpResponseForLogging(responseObject as AnyObject? ?? "nil" as AnyObject))")
 
-                    let defaultError = NSError(domain: WordPressComOAuthClient.WordPressComOAuthErrorDomain,
-                                               code: WordPressComOAuthError.unknown.rawValue,
-                                               userInfo: nil)
-
                     guard let responseDictionary = responseObject as? [String: AnyObject] else {
-                        return failure(defaultError)
+                        return failure(.unparsableResponse(response: response.response, body: response.data))
                     }
 
                     // If we found an access_token, we are authed.
@@ -194,21 +216,7 @@ public final class WordPressComOAuthClient: NSObject {
                     guard let responseData = responseDictionary["data"] as? [String: AnyObject],
                           let userID = responseData["user_id"] as? Int,
                           let _ = responseData["two_step_nonce_webauthn"] else {
-                        failure(defaultError)
-                        return
-                    }
-
-                    guard let needsMultifactor else {
-                        failure(
-                            NSError(
-                                domain: WordPressComOAuthClient.WordPressComOAuthErrorDomain,
-                                code: WordPressComOAuthError.unknown.rawValue,
-                                userInfo: [
-                                    NSLocalizedDescriptionKey: "Response requires handling the MFA Webauthn flow but handler given ('needsMultifactor' parameter)."
-                                ]
-                            )
-                        )
-                        return
+                        return failure(.unparsableResponse(response: response.response, body: response.data))
                     }
 
                     let nonceInfo = self.extractNonceInfo(data: responseData)
@@ -230,8 +238,12 @@ public final class WordPressComOAuthClient: NSObject {
     ///     - success: block to be called if authentication was successful.
     ///     - failure: block to be called if authentication failed. The error object is passed as a parameter.
     ///
-    @objc public func requestOneTimeCodeWithUsername(_ username: String, password: String,
-                                        success: @escaping () -> Void, failure: @escaping (_ error: NSError) -> Void) {
+    public func requestOneTimeCode(
+        username: String,
+        password: String,
+        success: @escaping () -> Void,
+        failure: @escaping (_ error: WordPressComOAuthError) -> Void
+    ) {
         let parameters = [
             "username": username,
             "password": password,
@@ -264,10 +276,12 @@ public final class WordPressComOAuthClient: NSObject {
     ///     - success: block to be called if authentication was successful.
     ///     - failure: block to be called if authentication failed. The error object is passed as a parameter.
     ///
-    @objc public func requestSocial2FACodeWithUserID(_ userID: Int,
-                                                     nonce: String,
-                                                     success: @escaping (_ newNonce: String) -> Void,
-                                                     failure: @escaping (_ error: NSError, _ newNonce: String?) -> Void) {
+    public func requestSocial2FACode(
+        userID: Int,
+        nonce: String,
+        success: @escaping (_ newNonce: String) -> Void,
+        failure: @escaping (_ error: WordPressComOAuthError, _ newNonce: String?) -> Void
+    ) {
         let parameters = [
             "user_id": userID,
             "two_step_nonce": nonce,
@@ -282,25 +296,20 @@ public final class WordPressComOAuthClient: NSObject {
             .responseJSON(completionHandler: { response in
                 switch response.result {
                 case .success(let responseObject):
-                    let defaultError = NSError(domain: WordPressComOAuthClient.WordPressComOAuthErrorDomain,
-                                               code: WordPressComOAuthError.unknown.rawValue,
-                                               userInfo: nil)
-
                     guard let responseDictionary = responseObject as? [String: AnyObject],
                         let responseData = responseDictionary["data"] as? [String: AnyObject] else {
-                            failure(defaultError, nil)
-                            return
+                        return failure(.unparsableResponse(response: response.response, body: response.data), nil)
                     }
 
                     let nonceInfo = self.extractNonceInfo(data: responseData)
 
                     success(nonceInfo.nonceSMS)
                 case .failure(let error):
-                    let nserror = self.processError(response: response, originalError: error)
-                    if let newNonce = nserror.userInfo[WordPressComOAuthClient.WordPressComOAuthErrorNewNonceKey] as? String {
-                        failure(nserror, newNonce)
+                    let error = self.processError(response: response, originalError: error)
+                    if case let .endpointError(authenticationFailure) = error, let newNonce = authenticationFailure.newNonce {
+                        failure(error, newNonce)
                     } else {
-                        failure(nserror, nil)
+                        failure(error, nil)
                     }
                 }
             })
@@ -315,12 +324,14 @@ public final class WordPressComOAuthClient: NSObject {
     ///     - needsMultifactor: block to be called if a 2fa token is needed to complete the auth process.
     ///     - failure: block to be called if authentication failed. The error object is passed as a parameter.
     ///
-    @objc public func authenticateWithIDToken(_ token: String,
-                                              service: String,
-                                              success: @escaping (_ authToken: String?) -> Void,
-                                              needsMultifactor: @escaping (_ userID: Int, _ nonceInfo: SocialLogin2FANonceInfo) -> Void,
-                                              existingUserNeedsConnection: @escaping (_ email: String) -> Void,
-                                              failure: @escaping (_ error: NSError) -> Void ) {
+    public func authenticate(
+        socialIDToken token: String,
+        service: String,
+        success: @escaping (_ authToken: String?) -> Void,
+        needsMultifactor: @escaping (_ userID: Int, _ nonceInfo: SocialLogin2FANonceInfo) -> Void,
+        existingUserNeedsConnection: @escaping (_ email: String) -> Void,
+        failure: @escaping (_ error: WordPressComOAuthError) -> Void
+    ) {
         let parameters = [
             "client_id": clientID,
             "client_secret": secret,
@@ -337,15 +348,10 @@ public final class WordPressComOAuthClient: NSObject {
                 case .success(let responseObject):
                     WPKitLogVerbose("Received Social Login Oauth response.")
 
-                    let defaultError = NSError(domain: WordPressComOAuthClient.WordPressComOAuthErrorDomain,
-                                               code: WordPressComOAuthError.unknown.rawValue,
-                                               userInfo: nil)
-
                     // Make sure we received expected data.
                     guard let responseDictionary = responseObject as? [String: AnyObject],
                         let responseData = responseDictionary["data"] as? [String: AnyObject] else {
-                            failure(defaultError)
-                            return
+                        return failure(.unparsableResponse(response: response.response, body: response.data))
                     }
 
                     // Check for a bearer token. If one is found then we're authed.
@@ -357,8 +363,7 @@ public final class WordPressComOAuthClient: NSObject {
                     // If there is no bearer token, check for 2fa enabled.
                     guard let userID = responseData["user_id"] as? Int,
                         let _ = responseData["two_step_nonce_backup"] else {
-                            failure(defaultError)
-                            return
+                        return failure(.unparsableResponse(response: response.response, body: response.data))
                     }
 
                     let nonceInfo = self.extractNonceInfo(data: responseData)
@@ -367,18 +372,18 @@ public final class WordPressComOAuthClient: NSObject {
                     let err = self.processError(response: response, originalError: error)
 
                     // Inspect the error and handle the case of an existing user.
-                    if err.code == WordPressComOAuthError.socialLoginExistingUserUnconnected.rawValue &&
-                        err.domain == WordPressComOAuthClient.WordPressComOAuthErrorDomain {
+                    if case let .endpointError(authenticationFailure) = err, authenticationFailure.kind == .socialLoginExistingUserUnconnected {
                         // Get the responseObject from the userInfo dict.
                         // Extract the email address for the callback.
-                        if let responseDict = err.userInfo[WordPressComOAuthClient.WordPressComOAuthErrorResponseObjectKey] as? [String: AnyObject],
-                            let data = responseDict["data"] as? [String: AnyObject],
+                        let responseDict = authenticationFailure.originalErrorJSON
+                        if let data = responseDict["data"] as? [String: AnyObject],
                             let email = data["email"] as? String {
 
                             existingUserNeedsConnection(email)
                             return
                         }
                     }
+
                     failure(err)
                 }
             }
@@ -393,11 +398,12 @@ public final class WordPressComOAuthClient: NSObject {
     ///     - success: block to be called if authentication was successful. The challenge info is passed as a parameter.
     ///     - failure: block to be called if authentication failed. The error object is passed as a parameter.
     ///
-    @objc public func requestWebauthnChallenge(userID: Int64,
-                                               twoStepNonce: String,
-                                               success: @escaping (_ challengeData: WebauthnChallengeInfo) -> Void,
-                                               failure: @escaping (_ error: NSError) -> Void ) {
-
+    public func requestWebauthnChallenge(
+        userID: Int64,
+        twoStepNonce: String,
+        success: @escaping (_ challengeData: WebauthnChallengeInfo) -> Void,
+        failure: @escaping (_ error: WordPressComOAuthError) -> Void
+    ) {
         let parameters: [String: Any] = [
             "user_id": userID,
             "client_id": clientID,
@@ -411,15 +417,10 @@ public final class WordPressComOAuthClient: NSObject {
             .responseJSON { response in
                 switch response.result {
                 case .success(let responseObject):
-
-                    let defaultError = NSError(domain: WordPressComOAuthClient.WordPressComOAuthErrorDomain,
-                                               code: WordPressComOAuthError.unknown.rawValue,
-                                               userInfo: nil)
-
                     // Expect the parent data response object
                     guard let responseDictionary = responseObject as? [String: Any],
                           let responseData = responseDictionary["data"] as? [String: Any] else {
-                        return failure(defaultError)
+                        return failure(.unparsableResponse(response: response.response, body: response.data))
                     }
 
                     // Expect the challenge info.
@@ -429,7 +430,7 @@ public final class WordPressComOAuthClient: NSObject {
                         let rpID = responseData["rpId"] as? String,
                         let allowCredentials = responseData["allowCredentials"] as? [[String: Any]]
                     else {
-                        return failure(defaultError)
+                        return failure(.unparsableResponse(response: response.response, body: response.data))
                     }
 
                     let allowedCredentialIDs = allowCredentials.compactMap { $0["id"] as? String }
@@ -457,15 +458,17 @@ public final class WordPressComOAuthClient: NSObject {
     ///     - success: block to be called if authentication was successful. The auth token is passed as a parameter.
     ///     - failure: block to be called if authentication failed. The error object is passed as a parameter.
     ///
-    @objc public func authenticateWebauthnSignature(userID: Int64,
-                                                    twoStepNonce: String,
-                                                    credentialID: Data,
-                                                    clientDataJson: Data,
-                                                    authenticatorData: Data,
-                                                    signature: Data,
-                                                    userHandle: Data,
-                                                    success: @escaping (_ authToken: String) -> Void,
-                                                    failure: @escaping (_ error: NSError) -> Void ) {
+    public func authenticateWebauthnSignature(
+        userID: Int64,
+        twoStepNonce: String,
+        credentialID: Data,
+        clientDataJson: Data,
+        authenticatorData: Data,
+        signature: Data,
+        userHandle: Data,
+        success: @escaping (_ authToken: String) -> Void,
+        failure: @escaping (_ error: WordPressComOAuthError) -> Void
+    ) {
 
         let clientData: [String: AnyHashable] = [
             "id": credentialID.base64EncodedString(),
@@ -480,15 +483,10 @@ public final class WordPressComOAuthClient: NSObject {
             ]
         ]
 
-
-        let defaultError = NSError(domain: WordPressComOAuthClient.WordPressComOAuthErrorDomain,
-                                   code: WordPressComOAuthError.unknown.rawValue,
-                                   userInfo: nil)
-
         guard let serializedClientData = try? JSONSerialization.data(withJSONObject: clientData, options: .withoutEscapingSlashes),
               let clientDataString = String(data: serializedClientData, encoding: .utf8) else {
-                  return failure(defaultError)
-              }
+            return failure(.requestEncodingFailure)
+        }
 
         let parameters: [String: Any] = [
             "user_id": userID,
@@ -510,12 +508,12 @@ public final class WordPressComOAuthClient: NSObject {
                     guard let responseDictionary = responseObject as? [String: Any],
                           let successResponse = responseDictionary["success"] as? Bool, successResponse,
                           let responseData = responseDictionary["data"] as? [String: Any] else {
-                        return failure(defaultError)
+                        return failure(.unparsableResponse(response: response.response, body: response.data))
                     }
 
                     // Check for a bearer token. If one is found then we're authed.
                     guard let authToken = responseData["bearer_token"] as? String else {
-                        return failure(defaultError)
+                        return failure(.unparsableResponse(response: response.response, body: response.data))
                     }
 
                     return success(authToken)
@@ -586,12 +584,14 @@ public final class WordPressComOAuthClient: NSObject {
     ///     - success: block to be called if authentication was successful. The OAuth2 token is passed as a parameter.
     ///     - failure: block to be called if authentication failed. The error object is passed as a parameter.
     ///
-    @objc public func authenticateSocialLoginUser(_ userID: Int,
-                                            authType: String,
-                                            twoStepCode: String,
-                                            twoStepNonce: String,
-                                            success: @escaping (_ authToken: String?) -> Void,
-                                            failure: @escaping (_ error: NSError) -> Void ) {
+    public func authenticate(
+        socialLoginUserID userID: Int,
+        authType: String,
+        twoStepCode: String,
+        twoStepNonce: String,
+        success: @escaping (_ authToken: String?) -> Void,
+        failure: @escaping (_ error: WordPressComOAuthError) -> Void
+    ) {
         let parameters = [
             "user_id": userID,
             "auth_type": authType,
@@ -600,7 +600,7 @@ public final class WordPressComOAuthClient: NSObject {
             "get_bearer_token": true,
             "client_id": clientID,
             "client_secret": secret
-            ] as [String: Any]
+        ] as [String: Any]
 
         // Passes an empty string for the path. The session manager was composed with the full endpoint path.
         social2FASessionManager.request(WordPressComURL.socialLogin2FA.url(base: wordPressComBaseUrl), method: .post, parameters: parameters)
@@ -612,10 +612,7 @@ public final class WordPressComOAuthClient: NSObject {
                     guard let responseDictionary = responseObject as? [String: AnyObject],
                         let responseData = responseDictionary["data"] as? [String: AnyObject],
                         let authToken = responseData["bearer_token"] as? String else {
-                            failure(NSError(domain: WordPressComOAuthClient.WordPressComOAuthErrorDomain,
-                                            code: WordPressComOAuthError.unknown.rawValue,
-                                            userInfo: nil))
-                            return
+                        return failure(.unparsableResponse(response: response.response, body: response.data))
                     }
 
                     success(authToken)
@@ -662,88 +659,33 @@ public final class WordPressComOAuthClient: NSObject {
 ///
 extension WordPressComOAuthClient {
 
-    /// Possible 400 errors:
-    ///     - invalid_client: client_id is missing or wrong, it shouldn't happen
-    ///     - unsupported_grant_type: client_id doesn't support password grants
-    ///     - invalid_request: A required field is missing/malformed
-    ///     - invalid_request: Authentication failed
-    ///     - needs_2fa: Multifactor Authentication code is required
-    ///     - user_exists: Returned by the social login endpoint if a wpcom user is found, but not connected to a social service.
-    ///
-    static let errorsMap = [
-        "invalid_client": WordPressComOAuthError.invalidClient,
-        "unsupported_grant_type": WordPressComOAuthError.unsupportedGrantType,
-        "invalid_request": WordPressComOAuthError.invalidRequest,
-        "needs_2fa": WordPressComOAuthError.needsMultifactorCode,
-        "invalid_otp": WordPressComOAuthError.invalidOneTimePassword,
-        "user_exists": WordPressComOAuthError.socialLoginExistingUserUnconnected,
-        "invalid_two_step_code": WordPressComOAuthError.invalidTwoStepCode,
-        "unknown_user": WordPressComOAuthError.unknownUser
-    ]
-
     /// A error processor to handle error responses when status codes are betwen 400 and 500.
     /// Some HTTP requests include a response body even in a failure scenario. This method ensures
     /// it is available via an error's userInfo dictionary.
-    func processError(response: DataResponse<Any>, originalError: Error) -> NSError {
-        let originalNSError = originalError as NSError
-        guard let afError = originalError as?  AFError,
-            case AFError.responseValidationFailed(_) = afError,
-            let httpResponse = response.response, (400...500).contains(httpResponse.statusCode),
-            let data = response.data,
-            let responseObject = try? JSONSerialization.jsonObject(with: data, options: .allowFragments),
-            let responseDictionary = responseObject as? [String: AnyObject]
-        else {
-            return originalNSError
+    func processError(response: DataResponse<Any>, originalError: Error) -> WordPressComOAuthError {
+        switch originalError {
+        case let urlError as URLError:
+            return .connection(urlError)
+        case let afError as AFError:
+            switch afError {
+            case .invalidURL, .parameterEncodingFailed, .multipartEncodingFailed:
+                return .requestEncodingFailure
+            case .responseSerializationFailed:
+                return .unparsableResponse(response: response.response, body: response.data)
+            case .responseValidationFailed:
+                guard let statusCode = response.response?.statusCode,
+                      [400, 409, 403].contains(statusCode),
+                      let data = response.data,
+                      let responseObject = try? JSONSerialization.jsonObject(with: data, options: .allowFragments),
+                      let responseDictionary = responseObject as? [String: AnyObject]
+                else {
+                    return .unparsableResponse(response: response.response, body: response.data)
+                }
+
+                return .endpointError(.init(apiJSONResponse: responseDictionary))
+            }
+        default:
+            return .unknown(underlyingError: originalError)
         }
-
-        if [400, 409, 403].contains(httpResponse.statusCode) {
-            return parseError(from: responseDictionary)
-        }
-
-        return originalNSError
-    }
-
-    /// Create the NSError from the response dictionary
-    private func parseError(from responseDict: [String: AnyObject]) -> NSError {
-        var errorCode = ""
-        var errorDescription = ""
-        var newNonce: String?
-
-        // there's either a data object, or an error.
-        if  let errorStr = responseDict["error"] as? String {
-            errorCode = errorStr
-            errorDescription = responseDict["error_description"] as? String ?? ""
-        } else if let data = responseDict["data"] as? [String: AnyObject],
-            let errors = data["errors"] as? NSArray,
-            let err = errors.firstObject as? [String: AnyObject] {
-            errorCode = err["code"] as? String ?? ""
-            errorDescription = err["message"] as? String ?? ""
-            newNonce = data["two_step_nonce"] as? String
-        }
-
-        return errorFor(errorCode: errorCode, errorDescription: errorDescription, responseObject: responseDict, newNonce: newNonce)
-    }
-
-    /// Creates an NSError from the supplied arguements. The response object is
-    /// added to the error's userInfo dictionary.
-    ///
-    /// - Parameters:
-    ///   - errorCode: A string representing the error code. This is not the same as an HTTP status code.
-    ///   - errorDescription: A description of the error.
-    ///   - responseObject: The responseObject (if any) that was passed with the error.
-    ///   - newNonce: *optional* The new nonce provided when a 2FA fails
-    /// - Returns: An NSError.
-    @objc func errorFor(errorCode: String, errorDescription: String, responseObject: Any?, newNonce: String? = nil) -> NSError {
-        var userInfo: [String: AnyObject] = [NSLocalizedDescriptionKey: errorDescription as AnyObject]
-        if let responseObject = responseObject {
-            userInfo[WordPressComOAuthClient.WordPressComOAuthErrorResponseObjectKey] = responseObject as AnyObject
-        }
-        if let newNonce = newNonce {
-            userInfo[WordPressComOAuthClient.WordPressComOAuthErrorNewNonceKey] = newNonce as AnyObject
-        }
-        let mappedCode = WordPressComOAuthClient.errorsMap[errorCode]?.rawValue ?? WordPressComOAuthError.unknown.rawValue
-        return NSError(domain: WordPressComOAuthClient.WordPressComOAuthErrorDomain,
-                       code: mappedCode,
-                       userInfo: userInfo)
     }
 }
