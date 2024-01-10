@@ -42,11 +42,27 @@ _None._
 
 ### Bug Fixes
 
-_None._
+- Fix a bug in parsing XMLRPC link from a RSD Link. [#671]
 
 ### Internal Changes
 
 _None._
+
+## 9.0.3
+
+_Note: This version should have been 9.1.0, because it introduces a new feature._
+_However, WordPressAuthenticator currently depends on WordPressKit via `~> 9.0.0` which would result in this version being incompatible._
+_In the interest of minimizing changes in the WordPress [24.0](https://github.com/wordpress-mobile/WordPress-iOS/milestone/265) release, we shipped this as 9.0.3 and decided to follow up in WordPressAuthenticator separately._
+
+### New Features
+
+- Add `deviceId` param to `DashboardServiceRemote.fetch` method. [#674]
+
+## 9.0.2
+
+### Bug Fixes
+
+- Improve XML-RPC error messages to suggest contacting the host. [#655]
 
 ## 9.0.1
 

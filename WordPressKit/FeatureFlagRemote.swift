@@ -9,20 +9,20 @@ open class FeatureFlagRemote: ServiceRemoteWordPressComREST {
     }
 
     open func getRemoteFeatureFlags(forDeviceId deviceId: String, callback: @escaping FeatureFlagResponseCallback) {
-
+        let params = SessionDetails(deviceId: deviceId)
         let endpoint = "mobile/feature-flags"
         let path = self.path(forEndpoint: endpoint, withVersion: ._2_0)
+        var dictionary: [String: AnyObject]?
 
-        let parameters: [String: AnyObject] = [
-            "device_id": deviceId as NSString,
-            "platform": "ios" as NSString,
-            "build_number": NSString(string: Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "Unknown"),
-            "marketing_version": NSString(string: Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "Unknown"),
-            "identifier": NSString(string: Bundle.main.bundleIdentifier ?? "Unknown")
-        ]
+        do {
+            dictionary = try params.dictionaryRepresentation()
+        } catch let error {
+            callback(.failure(error))
+            return
+        }
 
         wordPressComRestApi.GET(path,
-                                parameters: parameters,
+                                parameters: dictionary,
                                 success: { response, _ in
 
                                     if let featureFlagList = response as? NSDictionary {

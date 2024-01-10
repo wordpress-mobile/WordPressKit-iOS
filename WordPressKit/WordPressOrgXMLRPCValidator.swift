@@ -26,11 +26,11 @@ import Foundation
         case .invalid:
             return NSLocalizedString("Couldn't connect to the WordPress site. There is no valid WordPress site at this address. Check the site address (URL) you entered.", comment: "Error message shown a URL points to a valid site but not a WordPress site.")
         case .blocked:
-            return NSLocalizedString("Couldn't connect. Your host is blocking POST requests, and the app needs that in order to communicate with your site. Contact your host to solve this problem.", comment: "Message to show to user when he tries to add a self-hosted site but the host returned a 405 error, meaning that the host is blocking POST requests on /xmlrpc.php file.")
+            return NSLocalizedString("Couldn't connect. Your host is blocking POST requests, and the app needs that in order to communicate with your site. Please contact your hosting provider to solve this problem.", comment: "Message to show to user when he tries to add a self-hosted site but the host returned a 405 error, meaning that the host is blocking POST requests on /xmlrpc.php file.")
         case .forbidden:
-            return NSLocalizedString("Couldn't connect. We received a 403 error when trying to access your site's XMLRPC endpoint. The app needs that in order to communicate with your site. Contact your host to solve this problem.", comment: "Message to show to user when he tries to add a self-hosted site but the host returned a 403 error, meaning that the access to the /xmlrpc.php file is forbidden.")
+            return NSLocalizedString("Couldn't connect. We received a 403 error when trying to access your site's XMLRPC endpoint. The app needs that in order to communicate with your site. Please contact your hosting provider to solve this problem.", comment: "Message to show to user when he tries to add a self-hosted site but the host returned a 403 error, meaning that the access to the /xmlrpc.php file is forbidden.")
         case .xmlrpc_missing:
-            return NSLocalizedString("Couldn't connect. Required XML-RPC methods are missing on the server.", comment: "Message to show to user when he tries to add a self-hosted site with RSD link present, but xmlrpc is missing.")
+            return NSLocalizedString("Couldn't connect. Required XML-RPC methods are missing on the server. Please contact your hosting provider to solve this problem.", comment: "Message to show to user when he tries to add a self-hosted site with RSD link present, but xmlrpc is missing.")
         }
     }
 }
