@@ -63,16 +63,12 @@ class MutliparFormDataTests: XCTestCase {
         XCTAssertEqual(afEncoded, encoded)
     }
 
-
     func testPlainText() throws {
         let af = MultipartFormData()
         af.append("hello".data(using: .utf8)!, withName: "world")
         af.append("foo".data(using: .utf8)!, withName: "bar")
         af.append("the".data(using: .utf8)!, withName: "end")
         let afEncoded = try af.encode()
-
-        print("# Alamofire")
-        try print(XCTUnwrap(String(data: afEncoded, encoding: .utf8)))
 
         let fields = [
             MultipartFormField(text: "hello", name: "world"),
