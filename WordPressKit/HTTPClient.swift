@@ -7,6 +7,18 @@ struct HTTPAPIResponse<Body> {
     var body: Body
 }
 
+extension HTTPAPIResponse where Body == Data {
+    var bodyText: String? {
+        var encoding: String.Encoding?
+        if let charset = response.textEncodingName {
+            encoding = String.Encoding(ianaCharsetName: charset)
+        }
+
+        let defaultEncoding = String.Encoding.isoLatin1
+        return String(data: body, encoding: encoding ?? defaultEncoding)
+    }
+}
+
 extension URLSession {
 
     func perform<E: LocalizedError>(
