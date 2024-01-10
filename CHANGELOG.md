@@ -42,7 +42,7 @@ _None._
 
 ### Bug Fixes
 
-_None._
+- Fix a bug in parsing XMLRPC link from a RSD Link. [#671]
 
 ### Internal Changes
 
