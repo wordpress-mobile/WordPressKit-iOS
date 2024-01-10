@@ -35,7 +35,7 @@ class HTTPHeaderValueParserTests: XCTestCase {
 
     func testLastParameter() {
         XCTAssertEqual(
-            HTTPURLResponse.value(ofParameter: "CharSet", inHeaderValue: "application/json; charset=utf-8;"),
+            HTTPURLResponse.value(ofParameter: "CharSet", inHeaderValue: "application/json; foo=bar; charset=utf-8;"),
             "utf-8"
         )
     }
