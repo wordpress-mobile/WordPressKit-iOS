@@ -47,7 +47,7 @@ extension HTTPURLResponse {
     /// Return parameter value in a header field.
     ///
     /// For example, you can use this method to get "charset" value from a 'Content-Type' header like
-    /// `Content-Type: applicaions/json; charset=utf-8`.
+    /// `Content-Type: applications/json; charset=utf-8`.
     func value(ofParameter parameterName: String, inHeaderField headerName: String, stripQuotes: Bool = true) -> String? {
         guard let headerValue = value(forHTTPHeaderField: headerName) else {
             return nil
