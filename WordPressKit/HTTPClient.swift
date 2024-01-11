@@ -58,7 +58,7 @@ extension WordPressAPIResult {
         }
     }
 
-    func mapSuccess<NewSuccess: Decodable, E: LocalizedError>(
+    func decodeSuccess<NewSuccess: Decodable, E: LocalizedError>(
         _ decoder: JSONDecoder = JSONDecoder()
     ) -> WordPressAPIResult<NewSuccess, E> where Success == HTTPAPIResponse<Data>, Failure == WordPressAPIError<E> {
         mapSuccess {

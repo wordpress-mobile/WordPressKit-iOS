@@ -102,7 +102,7 @@ class URLSessionHelperTests: XCTestCase {
 
         let result: WordPressAPIResult<Post, TestError> = await URLSession.shared
             .perform(request: .init(url: URL(string: "https://wordpress.org/hello")!))
-            .mapSuccess()
+            .decodeSuccess()
 
         try XCTAssertEqual(result.get().title, "Hello Post")
     }
