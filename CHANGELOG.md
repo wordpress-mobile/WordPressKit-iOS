@@ -34,8 +34,7 @@ _None._
 
 ### Breaking Changes
 
-- Add a new `unacceptableStatusCode` error case to `WordPressAPIError`. [#668]
-- The `deviceId` parameter in `DashboardServiceRemote` is now non-optional. [#678]
+_None._
 
 ### New Features
 
@@ -43,11 +42,22 @@ _None._
 
 ### Bug Fixes
 
-- Fix a bug in parsing XMLRPC link from a RSD Link. [#671]
+_None._
 
 ### Internal Changes
 
 _None._
+
+## 10.0.0
+
+### Breaking Changes
+
+- Add a new `unacceptableStatusCode` error case to `WordPressAPIError`. [#668]
+- The `deviceId` parameter in `DashboardServiceRemote` is now non-optional. [#678]
+
+### Bug Fixes
+
+- Fix a bug in parsing XMLRPC link from a RSD Link. [#671]
 
 ## 9.0.3
 
