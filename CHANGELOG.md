@@ -34,7 +34,7 @@ _None._
 
 ### Breaking Changes
 
-_None._
+- Add a new `unacceptableStatusCode` error case to `WordPressAPIError`. [#668]
 
 ### New Features
 
