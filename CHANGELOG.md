@@ -35,6 +35,7 @@ _None._
 ### Breaking Changes
 
 - Add a new `unacceptableStatusCode` error case to `WordPressAPIError`. [#668]
+- The `deviceId` parameter in `DashboardServiceRemote` is now non-optional. [#678]
 
 ### New Features
 
