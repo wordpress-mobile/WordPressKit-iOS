@@ -203,36 +203,34 @@ public final class WordPressComOAuthClient: NSObject {
         let builder = tokenRequestBuilder().body(form: form)
         return await oauth2Session
             .perform(request:  builder)
-            .assessStatusCode(
-                success: { response in
-                    guard let responseObject = try? JSONSerialization.jsonObject(with: response.body) else {
-                        return nil
-                    }
+            .mapUnacceptableStatusCodeError(Self.processError(response:body:))
+            .mapSuccess { response in
+                guard let responseObject = try? JSONSerialization.jsonObject(with: response.body) else {
+                    return nil
+                }
 
-                    WPKitLogVerbose("Received OAuth2 response: \(self.cleanedUpResponseForLogging(responseObject as AnyObject? ?? "nil" as AnyObject))")
+                WPKitLogVerbose("Received OAuth2 response: \(self.cleanedUpResponseForLogging(responseObject as AnyObject? ?? "nil" as AnyObject))")
 
-                    guard let responseDictionary = responseObject as? [String: AnyObject] else {
-                        return nil
-                    }
+                guard let responseDictionary = responseObject as? [String: AnyObject] else {
+                    return nil
+                }
 
-                    // If we found an access_token, we are authed.
-                    if let authToken = responseDictionary["access_token"] as? String {
-                        return .authenticated(token: authToken)
-                    }
+                // If we found an access_token, we are authed.
+                if let authToken = responseDictionary["access_token"] as? String {
+                    return .authenticated(token: authToken)
+                }
 
-                    // If there is no access token, check for a security key nonce
-                    guard let responseData = responseDictionary["data"] as? [String: AnyObject],
-                          let userID = responseData["user_id"] as? Int,
-                          let _ = responseData["two_step_nonce_webauthn"] else {
-                        return nil
-                    }
+                // If there is no access token, check for a security key nonce
+                guard let responseData = responseDictionary["data"] as? [String: AnyObject],
+                      let userID = responseData["user_id"] as? Int,
+                      let _ = responseData["two_step_nonce_webauthn"] else {
+                    return nil
+                }
 
-                    let nonceInfo = self.extractNonceInfo(data: responseData)
+                let nonceInfo = self.extractNonceInfo(data: responseData)
 
-                    return .needsMultiFactor(userID: userID, nonceInfo: nonceInfo)
-                },
-                failure: Self.processError(_:)
-            )
+                return .needsMultiFactor(userID: userID, nonceInfo: nonceInfo)
+            }
     }
 
     /// Authenticates on WordPress.com using the OAuth endpoints.
@@ -285,7 +283,8 @@ public final class WordPressComOAuthClient: NSObject {
             ])
         return await oauth2Session
             .perform(request:  builder)
-            .assessStatusCode(success: { _ in () }, failure: Self.processError(_:))
+            .mapUnacceptableStatusCodeError(Self.processError(response:body:))
+            .mapSuccess { _ in () }
     }
 
     /// Requests a One Time Code, to be sent via SMS.
@@ -741,9 +740,9 @@ private extension WordPressComOAuthClient {
             .append(path: "/oauth2/token")
     }
 
-    static func processError(_ response: HTTPAPIResponse<Data>) -> AuthenticationFailure? {
-        guard [400, 409, 403].contains(response.response.statusCode),
-              let responseObject = try? JSONSerialization.jsonObject(with: response.body, options: .allowFragments),
+    static func processError(response: HTTPURLResponse, body: Data) -> AuthenticationFailure? {
+        guard [400, 409, 403].contains(response.statusCode),
+              let responseObject = try? JSONSerialization.jsonObject(with: body, options: .allowFragments),
               let responseDictionary = responseObject as? [String: AnyObject]
         else {
             return nil
