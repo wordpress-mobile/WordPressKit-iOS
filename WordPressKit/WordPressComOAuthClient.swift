@@ -47,6 +47,17 @@ public struct AuthenticationFailure: LocalizedError {
     public var newNonce: String?
     public var originalErrorJSON: [String: AnyObject]
 
+    init?(response: HTTPURLResponse, body: Data) {
+        guard [400, 409, 403].contains(response.statusCode),
+              let responseObject = try? JSONSerialization.jsonObject(with: body, options: .allowFragments),
+              let responseDictionary = responseObject as? [String: AnyObject]
+        else {
+            return nil
+        }
+
+        self.init(apiJSONResponse: responseDictionary)
+    }
+
     init(apiJSONResponse responseDict: [String: AnyObject]) {
         originalErrorJSON = responseDict
 
@@ -203,7 +214,7 @@ public final class WordPressComOAuthClient: NSObject {
         let builder = tokenRequestBuilder().body(form: form)
         return await oauth2Session
             .perform(request:  builder)
-            .mapUnacceptableStatusCodeError(Self.processError(response:body:))
+            .mapUnacceptableStatusCodeError(AuthenticationFailure.init(response:body:))
             .mapSuccess { response in
                 guard let responseObject = try? JSONSerialization.jsonObject(with: response.body) else {
                     return nil
@@ -283,7 +294,7 @@ public final class WordPressComOAuthClient: NSObject {
             ])
         return await oauth2Session
             .perform(request:  builder)
-            .mapUnacceptableStatusCodeError(Self.processError(response:body:))
+            .mapUnacceptableStatusCodeError(AuthenticationFailure.init(response:body:))
             .mapSuccess { _ in () }
     }
 
@@ -738,16 +749,5 @@ private extension WordPressComOAuthClient {
         HTTPRequestBuilder(url: wordPressComApiBaseUrl)
             .method(.post)
             .append(path: "/oauth2/token")
-    }
-
-    static func processError(response: HTTPURLResponse, body: Data) -> AuthenticationFailure? {
-        guard [400, 409, 403].contains(response.statusCode),
-              let responseObject = try? JSONSerialization.jsonObject(with: body, options: .allowFragments),
-              let responseDictionary = responseObject as? [String: AnyObject]
-        else {
-            return nil
-        }
-
-        return .init(apiJSONResponse: responseDictionary)
     }
 }
