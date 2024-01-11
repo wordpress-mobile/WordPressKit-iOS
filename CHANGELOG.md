@@ -46,7 +46,7 @@ _None._
 
 ### Internal Changes
 
-_None._
+- Enable async/await backporting to iOS 13 for `WordPressComRestApi` (resolves a TODO) [#610]
 
 ## 10.0.0
 
