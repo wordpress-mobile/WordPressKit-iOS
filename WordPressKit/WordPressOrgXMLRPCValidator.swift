@@ -97,6 +97,7 @@ open class WordPressOrgXMLRPCValidator: NSObject {
             }
         } else {
             failure(WordPressOrgXMLRPCValidatorError.invalidScheme as NSError)
+            return
         }
 
         tryGuessXMLRPCURLForSites(sitesToTry, userAgent: userAgent, success: success, failure: failure)
