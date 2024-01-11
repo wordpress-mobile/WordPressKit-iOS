@@ -106,6 +106,43 @@ class URLSessionHelperTests: XCTestCase {
 
         try XCTAssertEqual(result.get().title, "Hello Post")
     }
+
+    func testProgressTracking() async throws {
+        stub(condition: isPath("/hello")) { _ in
+            HTTPStubsResponse(data: "success".data(using: .utf8)!, statusCode: 200, headers: nil)
+        }
+
+        let progress = Progress.discreteProgress(totalUnitCount: 20)
+        XCTAssertEqual(progress.completedUnitCount, 0)
+        XCTAssertEqual(progress.fractionCompleted, 0)
+
+        let _ = await URLSession.shared.perform(request: .init(url: URL(string: "https://wordpress.org/hello")!), fulfillingProgress: progress, errorType: TestError.self)
+        XCTAssertEqual(progress.completedUnitCount, 20)
+        XCTAssertEqual(progress.fractionCompleted, 1)
+    }
+
+    func testCancellation() async throws {
+        // Give a slow HTTP request that takes 0.5 second to complete
+        stub(condition: isPath("/hello")) { _ in
+            let response = HTTPStubsResponse(data: "success".data(using: .utf8)!, statusCode: 200, headers: nil)
+            response.responseTime = 0.5
+            return response
+        }
+
+        // and cancelling it (in 0.1 second) before it completes
+        let progress = Progress.discreteProgress(totalUnitCount: 20)
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100)) {
+            progress.cancel()
+        }
+
+        // The result should be an cancellation result
+        let result = await URLSession.shared.perform(request: .init(url: URL(string: "https://wordpress.org/hello")!), fulfillingProgress: progress, errorType: TestError.self)
+        if case let .failure(.connection(urlError)) = result, urlError.code == .cancelled {
+            // Do nothing
+        } else {
+            XCTFail("Unexpected result: \(result)")
+        }
+    }
 }
 
 private enum TestError: LocalizedError, Equatable {
