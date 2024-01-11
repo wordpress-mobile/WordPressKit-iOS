@@ -66,7 +66,7 @@ extension WordPressAPIResult {
         }
     }
 
-    func mapUnaccpetableStatusCodeError<E: LocalizedError>(
+    func mapUnacceptableStatusCodeError<E: LocalizedError>(
         _ transform: (HTTPURLResponse, Data) -> E?
     ) -> WordPressAPIResult<Success, E> where Failure == WordPressAPIError<E> {
         mapError { error in
@@ -81,10 +81,10 @@ extension WordPressAPIResult {
         }
     }
 
-    func mapUnaccpetableStatusCodeError<E>(
+    func mapUnacceptableStatusCodeError<E>(
         _ decoder: JSONDecoder = JSONDecoder()
     ) -> WordPressAPIResult<Success, E> where E: LocalizedError, E: Decodable, Failure == WordPressAPIError<E> {
-        mapUnaccpetableStatusCodeError { _, body in
+        mapUnacceptableStatusCodeError { _, body in
             try? decoder.decode(E.self, from: body)
         }
     }

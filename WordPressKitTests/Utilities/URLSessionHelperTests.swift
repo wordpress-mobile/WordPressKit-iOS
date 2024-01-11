@@ -79,7 +79,7 @@ class URLSessionHelperTests: XCTestCase {
 
         let result = await URLSession.shared
             .perform(request: .init(url: URL(string: "https://wordpress.org/hello")!), errorType: TestError.self)
-            .mapUnaccpetableStatusCodeError { response, _ in
+            .mapUnacceptableStatusCodeError { response, _ in
                 XCTAssertEqual(response.statusCode, 404)
                 return .postNotFound
             }
