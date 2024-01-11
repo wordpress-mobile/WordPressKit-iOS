@@ -283,6 +283,26 @@ extension BlockEditorSettingsServiceRemoteTests {
         wait(for: [waitExpectation], timeout: 0.1)
     }
 
+    // The only difference between this test and the one above (testFetchBlockEditorSettingsOrgEndpoint) is this
+    // test's `WordPressOrgRestApi` is instantiated using a url ends with '/wp-json', instead of '/wp-json/'.
+    // This small difference ends up with an incorrect API request being sent out. Hence this test is marked as an
+    // "expected failure".
+    func testFetchBlockEditorSettingsOrgEndpointFailure() {
+        XCTExpectFailure("The 'apiBase' value should end with '/wp-json/': The last '/' is required")
+
+        stub(condition: isHost("example.com") && isPath("/wp-json/wp-block-editor/v1/settings") && containsQueryParams(["context": "mobile"])) { _ in
+            fixture(filePath: OHPathForFile(self.blockSettingsThemeJSONResponseFilename, Self.self)!, headers: ["Content-Type": "application/json"])
+        }
+
+        let waitExpectation = expectation(description: "Block Settings should be successfully fetched")
+        service = BlockEditorSettingsServiceRemote(remoteAPI: WordPressOrgRestApi(apiBase: URL(string: "https://example.com/wp-json")!))
+        service.fetchBlockEditorSettings(forSiteID: siteID) { (_) in
+            waitExpectation.fulfill()
+        }
+
+        wait(for: [waitExpectation], timeout: 0.1)
+    }
+
     private func validateFetchBlockEditorSettingsResults(_ result: RemoteBlockEditorSettings?) {
         XCTAssertNotNil(result)
         XCTAssertFalse(result!.checksum.isEmpty)
