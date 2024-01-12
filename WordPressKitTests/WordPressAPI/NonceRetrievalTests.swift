@@ -14,6 +14,7 @@ class NonceRetrievalTests: XCTestCase {
     static let ajaxURL = URL(string: "https://test.com/wp-admin/admin-ajax.php?action=rest-nonce")!
 
     override func tearDown() {
+        super.tearDown()
         HTTPStubs.removeAllStubs()
     }
 
