@@ -308,13 +308,8 @@ public final class WordPressComOAuthClient: NSObject {
         failure: @escaping (_ error: WordPressComOAuthError) -> Void
     ) {
         Task { @MainActor in
-            let result = await requestOneTimeCode(username: username, password: password)
-            switch result {
-            case .success:
-                success()
-            case let .failure(error):
-                failure(error)
-            }
+            await requestOneTimeCode(username: username, password: password)
+                .execute(onSuccess: success, onFailure: failure)
         }
     }
 
@@ -521,13 +516,8 @@ public final class WordPressComOAuthClient: NSObject {
         failure: @escaping (_ error: WordPressComOAuthError) -> Void
     ) {
         Task { @MainActor in
-            let result = await requestWebauthnChallenge(userID: userID, twoStepNonce: twoStepNonce)
-            switch result {
-            case let .success(data):
-                success(data)
-            case let .failure(error):
-                failure(error)
-            }
+            await requestWebauthnChallenge(userID: userID, twoStepNonce: twoStepNonce)
+                .execute(onSuccess: success, onFailure: failure)
         }
     }
 
@@ -624,7 +614,7 @@ public final class WordPressComOAuthClient: NSObject {
         failure: @escaping (_ error: WordPressComOAuthError) -> Void
     ) {
         Task { @MainActor in
-            let result = await authenticateWebauthnSignature(
+            await authenticateWebauthnSignature(
                 userID: userID,
                 twoStepNonce: twoStepNonce,
                 credentialID: credentialID,
@@ -633,12 +623,7 @@ public final class WordPressComOAuthClient: NSObject {
                 signature: signature,
                 userHandle: userHandle
             )
-            switch result {
-            case let .success(token):
-                success(token)
-            case let .failure(error):
-                failure(error)
-            }
+            .execute(onSuccess: success, onFailure: failure)
         }
     }
 
@@ -750,13 +735,13 @@ public final class WordPressComOAuthClient: NSObject {
         failure: @escaping (_ error: WordPressComOAuthError) -> Void
     ) {
         Task { @MainActor in
-            let result = await authenticate(socialLoginUserID: userID, authType: authType, twoStepCode: twoStepCode, twoStepNonce: twoStepNonce)
-            switch result {
-            case let .success(token):
-                success(token)
-            case let .failure(error):
-                failure(error)
-            }
+            await authenticate(
+                socialLoginUserID: userID,
+                authType: authType,
+                twoStepCode: twoStepCode,
+                twoStepNonce: twoStepNonce
+            )
+            .execute(onSuccess: success, onFailure: failure)
         }
     }
 
