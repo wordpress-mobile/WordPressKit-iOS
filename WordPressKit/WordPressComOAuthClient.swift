@@ -97,25 +97,11 @@ public final class WordPressComOAuthClient: NSObject {
     private let wordPressComApiBaseUrl: URL
 
     // Question: Is it necessary to use these many URLSession instances?
-    private let oauth2Session: URLSession = {
-        WordPressComOAuthClient.urlSession()
-    }()
-
-    private let webAuthnSession: URLSession = {
-        WordPressComOAuthClient.urlSession()
-    }()
-
-    private let socialSession: URLSession = {
-        WordPressComOAuthClient.urlSession()
-    }()
-
-    private let social2FASession: URLSession = {
-        return WordPressComOAuthClient.urlSession()
-    }()
-
-    private let socialNewSMS2FASession: URLSession = {
-        return WordPressComOAuthClient.urlSession()
-    }()
+    private let oauth2Session = WordPressComOAuthClient.urlSession()
+    private let webAuthnSession = WordPressComOAuthClient.urlSession()
+    private let socialSession = WordPressComOAuthClient.urlSession()
+    private let social2FASession = WordPressComOAuthClient.urlSession()
+    private let socialNewSMS2FASession = WordPressComOAuthClient.urlSession()
 
     private class func urlSession() -> URLSession {
         let configuration = URLSessionConfiguration.ephemeral
