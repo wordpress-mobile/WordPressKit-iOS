@@ -46,7 +46,7 @@ _None._
 
 ### Internal Changes
 
-- Refactor WP.com authentication API requests. [#660, #661, #681]
+- Refactor WP.com authentication API requests. [#660, #661, #681, #683]
 
 ## 10.0.0
 
