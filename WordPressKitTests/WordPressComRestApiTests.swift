@@ -326,4 +326,51 @@ class WordPressComRestApiTests: XCTestCase {
         }
         self.waitForExpectations(timeout: 2, handler: nil)
     }
+
+    func testStatusCode500() {
+        stub(condition: isAbsoluteURLString("https://public-api.wordpress.com/rest/v1/foo?locale=en")) { _ in
+            HTTPStubsResponse(data: "Internal server error".data(using: .utf8)!, statusCode: 500, headers: nil)
+        }
+
+        let api = WordPressComRestApi()
+        let complete = expectation(description: "API call completed")
+        api.GET(
+            "/rest/v1/foo",
+            parameters: nil,
+            success: { _, _ in
+                complete.fulfill()
+                XCTFail("The API call should complete with a failure")
+            },
+            failure: { error, _ in
+                complete.fulfill()
+                XCTAssertEqual(error.domain, "WordPressKit.WordPressComRestApiError")
+                XCTAssertEqual(error.code, WordPressComRestApiError.unknown.rawValue)
+            }
+        )
+
+        wait(for: [complete], timeout: 0.1)
+    }
+
+    func testStatusCode502() {
+        stub(condition: isAbsoluteURLString("https://public-api.wordpress.com/rest/v1/foo?locale=en")) { _ in
+            HTTPStubsResponse(data: "Bad Gateway".data(using: .utf8)!, statusCode: 502, headers: nil)
+        }
+
+        let api = WordPressComRestApi()
+        let complete = expectation(description: "API call completed")
+        api.GET(
+            "/rest/v1/foo",
+            parameters: nil,
+            success: { _, _ in
+                complete.fulfill()
+                XCTFail("The API call should complete with a failure")
+            },
+            failure: { error, _ in
+                complete.fulfill()
+                XCTAssertEqual(error.domain, "Alamofire.AFError")
+            }
+        )
+
+        wait(for: [complete], timeout: 0.1)
+    }
 }
