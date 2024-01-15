@@ -495,7 +495,7 @@ extension WordPressComRestApi {
             let responseDictionary = responseObject as? [String: AnyObject] else {
 
             if let error = checkForThrottleErrorIn(data: data) {
-                return error
+                return error as NSError
             }
             return WordPressComRestApiError.unknown as NSError
         }
@@ -546,20 +546,20 @@ extension WordPressComRestApi {
         return resultError
     }
 
-    func checkForThrottleErrorIn(data: Data) -> NSError? {
+    func checkForThrottleErrorIn(data: Data) -> WordPressComRestApiEndpointError? {
         // This endpoint is throttled, so check if we've sent too many requests and fill that error in as
         // when too many requests occur the API just spits out an html page.
         guard let responseString = String(data: data, encoding: .utf8),
             responseString.contains("Limit reached") else {
                 return nil
         }
-        var userInfo = [String: Any]()
-        userInfo[WordPressComRestApi.ErrorKeyErrorCode] = "too_many_requests"
-        userInfo[WordPressComRestApi.ErrorKeyErrorMessage] = NSLocalizedString("Limit reached. You can try again in 1 minute. Trying again before that will only increase the time you have to wait before the ban is lifted. If you think this is in error, contact support.", comment: "Message to show when a request for a WP.com API endpoint is throttled")
-        userInfo[NSLocalizedDescriptionKey] = userInfo[WordPressComRestApi.ErrorKeyErrorMessage]
-        let nsError = WordPressComRestApiError.tooManyRequests as NSError
-        let errorWithLocalizedMessage = NSError(domain: nsError.domain, code: nsError.code, userInfo: userInfo)
-        return errorWithLocalizedMessage
+
+        let message = NSLocalizedString("Limit reached. You can try again in 1 minute. Trying again before that will only increase the time you have to wait before the ban is lifted. If you think this is in error, contact support.", comment: "Message to show when a request for a WP.com API endpoint is throttled")
+        return .init(
+            code: .tooManyRequests,
+            apiErrorCode: "too_many_requests",
+            apiErrorMessage: message
+        )
     }
 }
 // MARK: - Anonymous API support
