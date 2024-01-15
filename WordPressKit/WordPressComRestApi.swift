@@ -14,7 +14,7 @@ import Alamofire
  - RequestSerializationFailed:     The serialization of the request failed
  - Unknown:                        Unknow error happen
  */
-@objc public enum WordPressComRestApiError: Int, Error {
+@objc public enum WordPressComRestApiError: Int, Error, CaseIterable {
     case invalidInput
     case invalidToken
     case authorizationRequired
@@ -26,6 +26,22 @@ import Alamofire
     case preconditionFailure
     case malformedURL
     case invalidQuery
+}
+
+public struct WordPressComRestApiEndpointError: Error {
+    public var code: WordPressComRestApiError
+
+    public var apiErrorCode: String?
+    public var apiErrorMessage: String?
+    public var apiErrorData: AnyObject?
+
+    var additionalUserInfo: [String: Any]?
+}
+
+extension WordPressComRestApiEndpointError: LocalizedError {
+    public var errorDescription: String? {
+        apiErrorMessage
+    }
 }
 
 public enum ResponseType {
