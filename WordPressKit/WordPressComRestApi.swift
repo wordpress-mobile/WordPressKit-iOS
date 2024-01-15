@@ -221,8 +221,8 @@ open class WordPressComRestApi: NSObject {
                 progress?.completedUnitCount = progress?.totalUnitCount ?? 0
                 success(responseObject as AnyObject, response.response)
             case .failure(let error):
-                let nserror = self.processError(response: response, originalError: error)
-                failure(nserror, response.response)
+                let nserror = self.processError(response: response, originalError: error).flatMap { $0 as NSError }
+                failure(nserror ?? (error as NSError), response.response)
             }
         }).downloadProgress(closure: progressUpdater)
         progress.sessionTask = dataRequest.task
@@ -357,8 +357,8 @@ open class WordPressComRestApi: NSObject {
                         progress.completedUnitCount = progress.totalUnitCount
                         success(responseObject as AnyObject, response.response)
                     case .failure(let error):
-                        let nserror = self.processError(response: response, originalError: error)
-                        failure(nserror, response.response)
+                        let nserror = self.processError(response: response, originalError: error).flatMap { $0 as NSError }
+                        failure(nserror ?? (error as NSError), response.response)
                     }
                 }).uploadProgress(closure: progressUpdater)
 
@@ -479,31 +479,29 @@ public final class FilePart: NSObject {
 extension WordPressComRestApi {
 
     /// A custom error processor to handle error responses when status codes are betwen 400 and 500
-    func processError(response: DataResponse<Any>, originalError: Error) -> NSError {
+    func processError(response: DataResponse<Any>, originalError: Error) -> WordPressComRestApiEndpointError? {
 
         let originalNSError = originalError as NSError
         guard let afError = originalError as?  AFError, case AFError.responseValidationFailed(_) = afError, let httpResponse = response.response, (400...500).contains(httpResponse.statusCode), let data = response.data else {
             if let afError = originalError as? AFError, case AFError.responseSerializationFailed(_) = afError {
-                return WordPressComRestApiError.responseSerializationFailed as NSError
+                return .init(code: .responseSerializationFailed)
             }
-            return originalNSError
+            return nil
         }
-
-        var userInfo: [String: Any] = originalNSError.userInfo
 
         guard let responseObject = try? JSONSerialization.jsonObject(with: data, options: .allowFragments),
             let responseDictionary = responseObject as? [String: AnyObject] else {
 
             if let error = checkForThrottleErrorIn(data: data) {
-                return error as NSError
+                return error
             }
-            return WordPressComRestApiError.unknown as NSError
+            return .init(code: .unknown)
         }
 
         // FIXME: A hack to support free WPCom sites and Rewind. Should be obsolote as soon as the backend
         // stops returning 412's for those sites.
         if httpResponse.statusCode == 412, let code = responseDictionary["code"] as? String, code == "no_connected_jetpack" {
-            return WordPressComRestApiError.preconditionFailure as NSError
+            return .init(code: .preconditionFailure)
         }
 
         var errorDictionary: AnyObject? = responseDictionary as AnyObject?
@@ -514,7 +512,7 @@ extension WordPressComRestApi {
             let errorCode = errorEntry["error"] as? String,
             let errorDescription = errorEntry["message"] as? String
             else {
-                return WordPressComRestApiError.unknown as NSError
+                return .init(code: .unknown)
         }
 
         let errorsMap = [
@@ -530,20 +528,17 @@ extension WordPressComRestApi {
         if mappedError == .invalidToken {
             invalidTokenHandler?()
         }
-        userInfo[WordPressComRestApi.ErrorKeyErrorCode] = errorCode
-        userInfo[WordPressComRestApi.ErrorKeyErrorMessage] = errorDescription
-        userInfo[NSLocalizedDescriptionKey] =  errorDescription
 
-        if let errorData = errorEntry["data"] {
-            userInfo[WordPressComRestApi.ErrorKeyErrorData] = errorData
-        }
+        var originalErrorUserInfo = (originalError as NSError).userInfo
+        originalErrorUserInfo.removeValue(forKey: NSLocalizedDescriptionKey)
 
-        let nserror = mappedError as NSError
-        let resultError = NSError(domain: nserror.domain,
-                               code: nserror.code,
-                               userInfo: userInfo
-            )
-        return resultError
+        return .init(
+            code: mappedError,
+            apiErrorCode: errorCode,
+            apiErrorMessage: errorDescription,
+            apiErrorData: errorEntry["data"],
+            additionalUserInfo: originalErrorUserInfo
+        )
     }
 
     func checkForThrottleErrorIn(data: Data) -> WordPressComRestApiEndpointError? {
@@ -602,7 +597,7 @@ extension WordPressComRestApi: WordPressRestApi {
 private extension WordPressComRestApi {
 
     enum Constants {
-        static let buildRequestError = NSError(domain: String(describing: WordPressComRestApiError.self),
+        static let buildRequestError = NSError(domain: WordPressComRestApiEndpointError.errorDomain,
                                                code: WordPressComRestApiError.requestSerializationFailed.rawValue,
                                                userInfo: [NSLocalizedDescriptionKey: NSLocalizedString("Failed to serialize request to the REST API.",
                                                                                                        comment: "Error message to show when wrong URL format is used to access the REST API")])
