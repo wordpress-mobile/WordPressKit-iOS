@@ -166,7 +166,7 @@ class ActivityServiceRemoteTests: RemoteTestCase, RESTTestable {
                                       expect.fulfill()
                                   }, failure: { error in
                                       let error = error as NSError
-                                      XCTAssertEqual(error.domain, String(reflecting: WordPressComRestApiError.self), "The error domain should be WordPressComRestApiError")
+                                      XCTAssertEqual(error.domain, "WordPressKit.WordPressComRestApiError", "The error domain should be WordPressComRestApiError")
                                       XCTAssertEqual(error.code, WordPressComRestApiError.authorizationRequired.rawValue, "The error code should be 2 - authorization_required")
                                       expect.fulfill()
                                   })
