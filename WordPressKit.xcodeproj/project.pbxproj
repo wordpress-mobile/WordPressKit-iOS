@@ -155,6 +155,8 @@
 		4A40F6552B2A5A1A0015DA77 /* WordPressAPIErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A40F6542B2A5A1A0015DA77 /* WordPressAPIErrorTests.swift */; };
 		4A57A6812B549144008D0660 /* WordPressComRestApiTests+Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A57A6802B549144008D0660 /* WordPressComRestApiTests+Error.swift */; };
 		4A57A6832B54A326008D0660 /* WordPressAPIError+NSErrorBrdige.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A57A6822B54A326008D0660 /* WordPressAPIError+NSErrorBrdige.swift */; };
+		4A57A6872B54C68C008D0660 /* Constants.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A57A6852B54C68C008D0660 /* Constants.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4A57A6882B54C68C008D0660 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A57A6862B54C68C008D0660 /* Constants.m */; };
 		4A68E3CD29404181004AC3DC /* RemoteBlog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A68E3CC29404181004AC3DC /* RemoteBlog.swift */; };
 		4A68E3CF29404289004AC3DC /* RemoteBlogOptionsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A68E3CE29404289004AC3DC /* RemoteBlogOptionsHelper.swift */; };
 		4A68E3D329406AA0004AC3DC /* RemoteMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A68E3D029406AA0004AC3DC /* RemoteMenu.swift */; };
@@ -865,6 +867,8 @@
 		4A40F6542B2A5A1A0015DA77 /* WordPressAPIErrorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordPressAPIErrorTests.swift; sourceTree = "<group>"; };
 		4A57A6802B549144008D0660 /* WordPressComRestApiTests+Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WordPressComRestApiTests+Error.swift"; sourceTree = "<group>"; };
 		4A57A6822B54A326008D0660 /* WordPressAPIError+NSErrorBrdige.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WordPressAPIError+NSErrorBrdige.swift"; sourceTree = "<group>"; };
+		4A57A6852B54C68C008D0660 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
+		4A57A6862B54C68C008D0660 /* Constants.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
 		4A68E3CC29404181004AC3DC /* RemoteBlog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteBlog.swift; sourceTree = "<group>"; };
 		4A68E3CE29404289004AC3DC /* RemoteBlogOptionsHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteBlogOptionsHelper.swift; sourceTree = "<group>"; };
 		4A68E3D029406AA0004AC3DC /* RemoteMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteMenu.swift; sourceTree = "<group>"; };
@@ -2485,6 +2489,8 @@
 				3F3195AC266FF94B00397EE7 /* ZendeskMetadata.swift */,
 				4AE278432B2FAF6200E4D9B1 /* HTTPProtocolHelpers.swift */,
 				3F391E192B50F3EB007975C4 /* Result+Callback.swift */,
+				4A57A6852B54C68C008D0660 /* Constants.h */,
+				4A57A6862B54C68C008D0660 /* Constants.m */,
 			);
 			name = Utility;
 			sourceTree = "<group>";
@@ -2767,6 +2773,7 @@
 				740B23C41F17EE8000067A2A /* RemotePost.h in Headers */,
 				740B23C21F17EE8000067A2A /* RemotePostCategory.h in Headers */,
 				B5A4822F20AC6C1A009D95F6 /* WPKitLogging.h in Headers */,
+				4A57A6872B54C68C008D0660 /* Constants.h in Headers */,
 				9309995B1F16616A00F006A1 /* RemoteTheme.h in Headers */,
 				1A4F98672279A87D00D86E8E /* WPKit-Swift.h in Headers */,
 				93F50A371F226B9300B5BEBA /* WordPressComServiceRemote.h in Headers */,
@@ -3334,6 +3341,7 @@
 				93BD277E1EE73944002BB00B /* NSDate+WordPressJSON.m in Sources */,
 				8B2F4BED24ABCAEF0056C08A /* Decodable+Dictionary.swift in Sources */,
 				E194CB731FBDEF6500B0A8B8 /* PluginState.swift in Sources */,
+				4A57A6882B54C68C008D0660 /* Constants.m in Sources */,
 				404057D6221C92660060250C /* StatsTopClicksTimeIntervalData.swift in Sources */,
 				9AF4F2FC218331DC00570E4B /* PostServiceRemoteREST+Revisions.swift in Sources */,
 				F4B0F4732ACAF498003ABC61 /* DomainsServiceRemote+AllDomains.swift in Sources */,

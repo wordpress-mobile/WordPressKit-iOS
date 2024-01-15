@@ -6,7 +6,7 @@ import XCTest
 class WordPressComRestApiErrorTests: XCTestCase {
 
     func testNSErrorBridging() {
-        for error in WordPressComRestApiError.allCases {
+        for error in WordPressComRestApiErrorCode.allCases {
             let oldNSError = error as NSError
 
             let apiError = WordPressAPIError.endpointError(WordPressComRestApiEndpointError(code: error))
@@ -18,6 +18,10 @@ class WordPressComRestApiErrorTests: XCTestCase {
             XCTAssertEqual(oldNSError.code, error.rawValue)
             XCTAssertEqual(oldNSError.code, newNSError.code)
         }
+    }
+
+    func testErrorDomain() {
+        XCTAssertEqual(WordPressComRestApiErrorDomain, WordPressComRestApiEndpointError.errorDomain)
     }
 
 }

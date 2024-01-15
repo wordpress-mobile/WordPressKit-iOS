@@ -14,7 +14,7 @@ import Alamofire
  - RequestSerializationFailed:     The serialization of the request failed
  - Unknown:                        Unknow error happen
  */
-@objc public enum WordPressComRestApiError: Int, Error, CaseIterable {
+@objc public enum WordPressComRestApiErrorCode: Int, CaseIterable {
     case invalidInput
     case invalidToken
     case authorizationRequired
@@ -29,7 +29,7 @@ import Alamofire
 }
 
 public struct WordPressComRestApiEndpointError: Error {
-    public var code: WordPressComRestApiError
+    public var code: WordPressComRestApiErrorCode
 
     public var apiErrorCode: String?
     public var apiErrorMessage: String?
@@ -515,16 +515,16 @@ extension WordPressComRestApi {
                 return .init(code: .unknown)
         }
 
-        let errorsMap = [
-            "invalid_input": WordPressComRestApiError.invalidInput,
-            "invalid_token": WordPressComRestApiError.invalidToken,
-            "authorization_required": WordPressComRestApiError.authorizationRequired,
-            "upload_error": WordPressComRestApiError.uploadFailed,
-            "unauthorized": WordPressComRestApiError.authorizationRequired,
-            "invalid_query": WordPressComRestApiError.invalidQuery
+        let errorsMap: [String: WordPressComRestApiErrorCode] = [
+            "invalid_input": .invalidInput,
+            "invalid_token": .invalidToken,
+            "authorization_required": .authorizationRequired,
+            "upload_error": .uploadFailed,
+            "unauthorized": .authorizationRequired,
+            "invalid_query": .invalidQuery
         ]
 
-        let mappedError = errorsMap[errorCode] ?? WordPressComRestApiError.unknown
+        let mappedError = errorsMap[errorCode] ?? .unknown
         if mappedError == .invalidToken {
             invalidTokenHandler?()
         }
@@ -598,7 +598,7 @@ private extension WordPressComRestApi {
 
     enum Constants {
         static let buildRequestError = NSError(domain: WordPressComRestApiEndpointError.errorDomain,
-                                               code: WordPressComRestApiError.requestSerializationFailed.rawValue,
+                                               code: WordPressComRestApiErrorCode.requestSerializationFailed.rawValue,
                                                userInfo: [NSLocalizedDescriptionKey: NSLocalizedString("Failed to serialize request to the REST API.",
                                                                                                        comment: "Error message to show when wrong URL format is used to access the REST API")])
     }

@@ -77,7 +77,7 @@ class NotificationSyncServiceRemoteTests: RemoteTestCase, RESTTestable {
             }
             XCTAssertNil(notes)
             XCTAssertEqual(error.domain, "WordPressKit.WordPressComRestApiError", "The error domain should be WordPressComRestApiError")
-            XCTAssertEqual(error.code, WordPressComRestApiError.unknown.rawValue, "The error code should be 7 - unknown")
+            XCTAssertEqual(error.code, WordPressComRestApiErrorCode.unknown.rawValue, "The error code should be 7 - unknown")
             expect.fulfill()
         }
         waitForExpectations(timeout: timeout, handler: nil)
