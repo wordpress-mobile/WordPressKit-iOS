@@ -77,6 +77,16 @@ class HTTPRequestBuilderTests: XCTestCase {
                 .absoluteString,
             "https://wordpress.org?foo=hello"
         )
+
+        try XCTAssertEqual(
+            HTTPRequestBuilder(url: URL(string: "https://wordpress.org")!)
+                .query(name: "foo", value: "bar", override: true)
+                .query(name: "foo", value: "hello", override: false)
+                .build()
+                .url?
+                .absoluteString,
+            "https://wordpress.org?foo=bar&foo=hello"
+        )
     }
 
     func testQueryOverrideMany() {
@@ -97,6 +107,16 @@ class HTTPRequestBuilderTests: XCTestCase {
                 .url?
                 .absoluteString,
             "https://wordpress.org?foo=hello"
+        )
+
+        try XCTAssertEqual(
+            HTTPRequestBuilder(url: URL(string: "https://wordpress.org")!)
+                .query(name: "foo", value: "bar", override: true)
+                .append(query: [URLQueryItem(name: "foo", value: "hello")], override: false)
+                .build()
+                .url?
+                .absoluteString,
+            "https://wordpress.org?foo=bar&foo=hello"
         )
     }
 
