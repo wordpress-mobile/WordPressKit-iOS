@@ -53,7 +53,7 @@ open class WordPressComRestApi: NSObject {
     public typealias SuccessResponseBlock = (_ responseObject: AnyObject, _ httpResponse: HTTPURLResponse?) -> Void
     public typealias FailureReponseBlock = (_ error: NSError, _ httpResponse: HTTPURLResponse?) -> Void
 
-    @objc public static let apiBaseURLString: String = "https://public-api.wordpress.com/"
+    @objc public static let apiBaseURL: URL = URL(string: "https://public-api.wordpress.com/")!
 
     @objc public static let defaultBackgroundSessionIdentifier = "org.wordpress.wpcomrestapi"
 
@@ -69,7 +69,7 @@ open class WordPressComRestApi: NSObject {
 
     private let localeKey: String
 
-    @objc public let baseURLString: String
+    @objc public let baseURL: URL
 
     private var invalidTokenHandler: (() -> Void)?
 
@@ -116,8 +116,8 @@ open class WordPressComRestApi: NSObject {
         self.init(oAuthToken: oAuthToken, userAgent: userAgent, backgroundUploads: false, backgroundSessionIdentifier: WordPressComRestApi.defaultBackgroundSessionIdentifier)
     }
 
-    @objc convenience public init(oAuthToken: String? = nil, userAgent: String? = nil, baseUrlString: String = WordPressComRestApi.apiBaseURLString) {
-        self.init(oAuthToken: oAuthToken, userAgent: userAgent, backgroundUploads: false, backgroundSessionIdentifier: WordPressComRestApi.defaultBackgroundSessionIdentifier, baseUrlString: baseUrlString)
+    @objc convenience public init(oAuthToken: String? = nil, userAgent: String? = nil, baseURL: URL = WordPressComRestApi.apiBaseURL) {
+        self.init(oAuthToken: oAuthToken, userAgent: userAgent, backgroundUploads: false, backgroundSessionIdentifier: WordPressComRestApi.defaultBackgroundSessionIdentifier, baseURL: baseURL)
     }
 
     /// Creates a new API object to connect to the WordPress Rest API.
@@ -141,14 +141,14 @@ open class WordPressComRestApi: NSObject {
                 backgroundSessionIdentifier: String = WordPressComRestApi.defaultBackgroundSessionIdentifier,
                 sharedContainerIdentifier: String? = nil,
                 localeKey: String = WordPressComRestApi.LocaleKeyDefault,
-                baseUrlString: String = WordPressComRestApi.apiBaseURLString) {
+                baseURL: URL = WordPressComRestApi.apiBaseURL) {
         self.oAuthToken = oAuthToken
         self.userAgent = userAgent
         self.backgroundUploads = backgroundUploads
         self.backgroundSessionIdentifier = backgroundSessionIdentifier
         self.sharedContainerIdentifier = sharedContainerIdentifier
         self.localeKey = localeKey
-        self.baseURLString = baseUrlString
+        self.baseURL = baseURL
 
         super.init()
     }
@@ -381,9 +381,6 @@ open class WordPressComRestApi: NSObject {
     /// - Returns: a request URL if successful, `nil` otherwise.
     ///
     func buildRequestURLFor(path: String, parameters: [String: AnyObject]? = [:]) -> String? {
-
-        let baseURL = URL(string: self.baseURLString)
-
         guard let requestURLString = URL(string: path, relativeTo: baseURL)?.absoluteString,
             let urlComponents = URLComponents(string: requestURLString) else {
 
