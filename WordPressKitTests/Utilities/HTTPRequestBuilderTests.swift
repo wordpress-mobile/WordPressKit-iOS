@@ -194,6 +194,15 @@ class HTTPRequestBuilderTests: XCTestCase {
         }
     }
 
+    func testDefaultQuery() throws {
+        let builder = HTTPRequestBuilder(url: URL(string: "https://wordpress.org")!)
+            .query(defaults: [URLQueryItem(name: "locale", value: "en")])
+
+        try XCTAssertEqual(builder.build().url?.query, "locale=en")
+        try XCTAssertEqual(builder.query(name: "locale", value: "zh").build().url?.query, "locale=zh")
+        try XCTAssertEqual(builder.query(name: "foo", value: "bar").build().url?.query, "locale=zh&foo=bar")
+    }
+
     func testJSONBody() throws {
         var request = try HTTPRequestBuilder(url: URL(string: "https://wordpress.org")!)
             .method(.post)

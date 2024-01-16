@@ -16,6 +16,7 @@ final class HTTPRequestBuilder {
     private var urlComponents: URLComponents
     private var method: Method = .get
     private var headers: [String: String] = [:]
+    private var defaultQuery: [URLQueryItem] = []
     private var bodyBuilder: ((inout URLRequest) throws -> Void)?
 
     init(url: URL) {
@@ -49,6 +50,11 @@ final class HTTPRequestBuilder {
 
     func header(name: String, value: String?) -> Self {
         headers[name] = value
+        return self
+    }
+
+    func query(defaults: [URLQueryItem]) -> Self {
+        defaultQuery = defaults
         return self
     }
 
@@ -97,7 +103,8 @@ final class HTTPRequestBuilder {
     func body(form: [String: String]) -> Self {
         headers["Content-Type"] = "application/x-www-form-urlencoded; charset=utf-8"
         bodyBuilder = { req in
-            let content = form.map {
+            let content = form
+                .map {
                     "\(HTTPRequestBuilder.urlEncode($0))=\(HTTPRequestBuilder.urlEncode($1))"
                 }
                 .joined(separator: "&")
@@ -135,7 +142,17 @@ final class HTTPRequestBuilder {
     }
 
     func build() throws -> URLRequest {
-        guard let url = urlComponents.url else {
+        var allQuery = urlComponents.queryItems ?? []
+        if !defaultQuery.isEmpty {
+            let allQueryKeys = allQuery.reduce(into: Set()) { $0.insert($1.name) }
+            let toBeAdded = defaultQuery.filter { !allQueryKeys.contains($0.name) }
+            allQuery.append(contentsOf: toBeAdded)
+        }
+
+        var components = urlComponents
+        components.queryItems = allQuery.isEmpty ? nil : allQuery
+
+        guard let url = components.url else {
             throw URLError(.badURL)
         }
 
