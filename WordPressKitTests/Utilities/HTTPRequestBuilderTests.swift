@@ -140,6 +140,60 @@ class HTTPRequestBuilderTests: XCTestCase {
         )
     }
 
+    @available(iOS 16.0, *)
+    func testSetQueryWithDictionary() throws {
+        // The test data and assertions hre should be kept the same as the ones in `WordPressComRestApiTests.testQuery()`.
+
+        let query = try HTTPRequestBuilder(url: URL(string: "https://wordpress.org")!)
+            .query(
+                [
+                    "number": 1,
+                    "nsnumbe-true": NSNumber(value: true),
+                    "true": true,
+                    "false": false,
+                    "string": "true",
+                    "dict": ["foo": true, "bar": "string"],
+                    "nested-dict": [
+                        "outter1": [
+                            "inner1": "value1",
+                            "inner2": "value2"
+                        ],
+                        "outter2": [
+                            "inner1": "value1",
+                            "inner2": "value2"
+                        ]
+                    ],
+                    "array": ["true", 1, false]
+                ]
+            )
+            .build()
+            .url?
+            .query(percentEncoded: false)?
+            .split(separator: "&")
+            .reduce(into: Set()) { $0.insert(String($1)) }
+
+        let expected = [
+            "number=1",
+            "nsnumbe-true=1",
+            "true=1",
+            "false=0",
+            "string=true",
+            "dict[foo]=1",
+            "dict[bar]=string",
+            "nested-dict[outter1][inner1]=value1",
+            "nested-dict[outter1][inner2]=value2",
+            "nested-dict[outter2][inner1]=value1",
+            "nested-dict[outter2][inner2]=value2",
+            "array[]=true",
+            "array[]=1",
+            "array[]=0",
+        ]
+
+        for item in expected {
+            XCTAssertTrue(query?.contains(item) == true, "Missing query item: \(item)")
+        }
+    }
+
     func testJSONBody() throws {
         var request = try HTTPRequestBuilder(url: URL(string: "https://wordpress.org")!)
             .method(.post)

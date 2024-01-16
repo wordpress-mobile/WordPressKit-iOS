@@ -56,6 +56,29 @@ final class HTTPRequestBuilder {
         append(query: [URLQueryItem(name: name, value: value)], override: override)
     }
 
+    func query(_ dict: [String: Any]) -> Self {
+        dict.reduce(self) {
+            $0.query(name: $1.key, value: $1.value)
+        }
+    }
+
+    func query(name: String, value: Any) -> Self {
+        switch value {
+        case let array as [Any]:
+            return array.reduce(self) {
+                $0.query(name: "\(name)[]", value: $1)
+            }
+        case let object as [String: Any]:
+            return object.reduce(self) {
+                $0.query(name: "\(name)[\($1.key)]", value: $1.value)
+            }
+        case let value as Bool:
+            return query(name: name, value: value ? "1" : "0", override: false)
+        default:
+            return query(name: name, value: "\(value)", override: false)
+        }
+    }
+
     func append(query: [URLQueryItem], override: Bool = false) -> Self {
         var allQuery = urlComponents.queryItems ?? []
 
