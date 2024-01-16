@@ -68,4 +68,15 @@ class ReaderTopicServiceRemoteInterestsTests: RemoteTestCase, RESTTestable {
         waitForExpectations(timeout: timeout, handler: nil)
     }
 
+    func testPathForTopic() {
+        XCTAssertEqual(
+            ReaderTopicServiceRemote(wordPressComRestApi: .init(baseUrlString: "https://public-api.wordpress.com")).pathForTopic(slug: "foo"),
+            "https://public-api.wordpress.com/rest/v1.2/read/tags/foo/posts"
+        )
+        XCTAssertEqual(
+            ReaderTopicServiceRemote(wordPressComRestApi: .init(baseUrlString: "https://public-api.wordpress.com/")).pathForTopic(slug: "foo"),
+            "https://public-api.wordpress.com/rest/v1.2/read/tags/foo/posts"
+        )
+    }
+
 }
