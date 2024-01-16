@@ -129,7 +129,7 @@ open class WordPressComRestApi: NSObject {
     ///   - backgroundSessionIdentifier: The session identifier to use for the background session. This must be unique in the system.
     ///   - sharedContainerIdentifier: An optional string used when setting up background sessions for use in an app extension. Default is nil.
     ///   - localeKey: The key with which to specify locale in the parameters of a request.
-    ///   - baseUrlString: The base url to use for API requests. Default is https://public-api.wordpress.com/
+    ///   - baseURL: The base url to use for API requests. Default is https://public-api.wordpress.com/
     ///
     /// - Discussion: When backgroundUploads are activated any request done by the multipartPOST method will use background session. This background session is shared for all multipart
     ///   requests and the identifier used must be unique in the system, Apple recomends to use invert DNS base on your bundle ID. Keep in mind these requests will continue even
