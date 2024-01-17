@@ -1,7 +1,6 @@
 import XCTest
 @testable import WordPressKit
 
-
 final class IPLocationRemoteTests: XCTestCase {
     var remote: IPLocationRemote!
     let apiURL = URL(string: "https://public-api.wordpress.com/geo/")!
@@ -59,7 +58,6 @@ final class MockURLProtocol: URLProtocol {
         return request
     }
 
-
     override func startLoading() {
         guard let handler = MockURLProtocol.requestHandler else {
             fatalError("Handler is unavailable.")
@@ -77,7 +75,6 @@ final class MockURLProtocol: URLProtocol {
             client?.urlProtocol(self, didFailWithError: error)
         }
     }
-
 
     override func stopLoading() { }
 }

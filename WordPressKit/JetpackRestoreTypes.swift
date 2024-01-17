@@ -9,7 +9,7 @@ public struct JetpackRestoreTypes {
     public var contents: Bool
 
     public init(themes: Bool = true,
-                plugins: Bool = true ,
+                plugins: Bool = true,
                 uploads: Bool = true,
                 sqls: Bool = true,
                 roots: Bool = true,

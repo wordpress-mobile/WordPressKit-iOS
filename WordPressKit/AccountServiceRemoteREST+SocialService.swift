@@ -22,8 +22,8 @@ extension AccountServiceRemoteREST {
                                        connectParameters: [String: AnyObject]? = nil,
                                        oAuthClientID: String,
                                        oAuthClientSecret: String,
-                                       success:@escaping (() -> Void),
-                                       failure:@escaping ((NSError) -> Void)) {
+                                       success: @escaping (() -> Void),
+                                       failure: @escaping ((NSError) -> Void)) {
         let path = self.path(forEndpoint: "me/social-login/connect", withVersion: ._1_1)
 
         var params = [
@@ -65,7 +65,7 @@ extension AccountServiceRemoteREST {
     ///     - oAuthClientSecret The WPCOM REST API client secret.
     ///     - success The block that will be executed on success.
     ///     - failure The block that will be executed on failure.
-    public func disconnectFromSocialService(_ service: SocialServiceName, oAuthClientID: String, oAuthClientSecret: String, success:@escaping(() -> Void), failure:@escaping((NSError) -> Void)) {
+    public func disconnectFromSocialService(_ service: SocialServiceName, oAuthClientID: String, oAuthClientSecret: String, success: @escaping(() -> Void), failure: @escaping((NSError) -> Void)) {
         let path = self.path(forEndpoint: "me/social-login/disconnect", withVersion: ._1_1)
         let params = [
             "client_id": oAuthClientID,

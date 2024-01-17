@@ -2,7 +2,7 @@ import Foundation
 
 public class ChecksumUtil {
 
-    /// Generates a checksum based on the encoded keys. 
+    /// Generates a checksum based on the encoded keys.
     static func checksum<T>(from codable: T) -> String where T: Encodable {
         let encoder = JSONEncoder()
         encoder.outputFormatting = .sortedKeys
