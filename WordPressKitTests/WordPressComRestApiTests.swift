@@ -102,7 +102,7 @@ class WordPressComRestApiTests: XCTestCase {
             XCTFail("This call should fail")
             }, failure: { (error, _) in
                 expect.fulfill()
-                XCTAssert(error.domain == String(reflecting: WordPressComRestApiError.self), "The error should a WordPressComRestApiError")
+                XCTAssert(error.domain == "WordPressKit.WordPressComRestApiError", "The error should a WordPressComRestApiError")
                 XCTAssert(error.code == Int(WordPressComRestApiError.invalidToken.rawValue), "The error code should be invalid token")
         })
         self.waitForExpectations(timeout: 2, handler: nil)
@@ -138,7 +138,7 @@ class WordPressComRestApiTests: XCTestCase {
             XCTFail("This call should fail")
             }, failure: { (error, _) in
                 expect.fulfill()
-                XCTAssert(error.domain == String(reflecting: WordPressComRestApiError.self), "The error domain should be WordPressComRestApiError")
+                XCTAssert(error.domain == "WordPressKit.WordPressComRestApiError", "The error domain should be WordPressComRestApiError")
                 XCTAssert(error.code == Int(WordPressComRestApiError.invalidInput.rawValue), "The error code should be invalid input")
         })
         self.waitForExpectations(timeout: 2, handler: nil)
@@ -156,7 +156,7 @@ class WordPressComRestApiTests: XCTestCase {
             XCTFail("This call should fail")
             }, failure: { (error, _) in
                 expect.fulfill()
-                XCTAssert(error.domain == String(reflecting: WordPressComRestApiError.self), "The error domain should be WordPressComRestApiError")
+                XCTAssert(error.domain == "WordPressKit.WordPressComRestApiError", "The error domain should be WordPressComRestApiError")
                 XCTAssert(error.code == Int(WordPressComRestApiError.authorizationRequired.rawValue), "The error code should be AuthorizationRequired")
         })
         self.waitForExpectations(timeout: 2, handler: nil)
@@ -174,7 +174,7 @@ class WordPressComRestApiTests: XCTestCase {
             XCTFail("This call should fail")
             }, failure: { (error, _) in
                 expect.fulfill()
-                XCTAssert(error.domain == String(reflecting: WordPressComRestApiError.self), "The error domain should be WordPressComRestApiError")
+                XCTAssert(error.domain == "WordPressKit.WordPressComRestApiError", "The error domain should be WordPressComRestApiError")
                 XCTAssert(error.code == Int(WordPressComRestApiError.uploadFailed.rawValue), "The error code should be AuthorizationRequired")
         })
         self.waitForExpectations(timeout: 2, handler: nil)
@@ -192,7 +192,7 @@ class WordPressComRestApiTests: XCTestCase {
             XCTFail("This call should fail")
         }, failure: { (error, _) in
             expect.fulfill()
-            XCTAssert(error.domain == String(reflecting: WordPressComRestApiError.self), "The error domain should be WordPressComRestApiError")
+            XCTAssert(error.domain == "WordPressKit.WordPressComRestApiError", "The error domain should be WordPressComRestApiError")
             XCTAssert(error.code == Int(WordPressComRestApiError.uploadFailed.rawValue), "The error code should be AuthorizationRequired")
         })
         self.waitForExpectations(timeout: 2, handler: nil)
