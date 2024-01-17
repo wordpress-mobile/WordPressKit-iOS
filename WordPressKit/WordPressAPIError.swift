@@ -10,7 +10,7 @@ public enum WordPressAPIError<EndpointError>: Error where EndpointError: Localiz
     }
 
     /// Can't encode the request arguments into a valid HTTP request. This is a programming error.
-    case requestEncodingFailure
+    case requestEncodingFailure(underlyingError: Error)
     /// Error occured in the HTTP connection.
     case connection(URLError)
     /// The API call returned an error result. For example, an OAuth endpoint may return an 'incorrect username or password' error, an upload media endpoint may return an 'unsupported media type' error.

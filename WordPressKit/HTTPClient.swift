@@ -52,8 +52,11 @@ extension URLSession {
             assert(parentProgress.cancellationHandler == nil, "The progress instance's cancellationHandler property must be nil")
         }
 
-        guard let request = try? builder.build() else {
-            return .failure(.requestEncodingFailure)
+        let request: URLRequest
+        do {
+            request = try builder.build()
+        } catch {
+            return .failure(.requestEncodingFailure(underlyingError: error))
         }
 
         return await withCheckedContinuation { continuation in

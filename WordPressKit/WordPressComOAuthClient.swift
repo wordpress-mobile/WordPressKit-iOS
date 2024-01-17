@@ -554,9 +554,15 @@ public final class WordPressComOAuthClient: NSObject {
             ]
         ]
 
-        guard let serializedClientData = try? JSONSerialization.data(withJSONObject: clientData, options: .withoutEscapingSlashes),
-              let clientDataString = String(data: serializedClientData, encoding: .utf8) else {
-            return .failure(.requestEncodingFailure)
+        let clientDataString: String
+        do {
+            let serializedClientData = try JSONSerialization.data(withJSONObject: clientData, options: .withoutEscapingSlashes)
+            guard let string = String(data: serializedClientData, encoding: .utf8) else {
+                throw URLError(.badURL)
+            }
+            clientDataString = string
+        } catch {
+            return .failure(.requestEncodingFailure(underlyingError: error))
         }
 
         let builder = webAuthnRequestBuilder(action: .authenticate)
@@ -789,7 +795,7 @@ extension WordPressComOAuthClient {
         case let afError as AFError:
             switch afError {
             case .invalidURL, .parameterEncodingFailed, .multipartEncodingFailed:
-                return .requestEncodingFailure
+                return .requestEncodingFailure(underlyingError: afError)
             case .responseSerializationFailed:
                 return .unparsableResponse(response: response.response, body: response.data)
             case .responseValidationFailed:
