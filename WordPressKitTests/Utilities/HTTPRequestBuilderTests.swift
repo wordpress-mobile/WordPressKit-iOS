@@ -14,11 +14,11 @@ class HTTPRequestBuilderTests: XCTestCase {
             "string": "true",
             "dict": ["foo": true, "bar": "string"],
             "nested-dict": [
-                "outter1": [
+                "outer1": [
                     "inner1": "value1",
                     "inner2": "value2"
                 ],
-                "outter2": [
+                "outer2": [
                     "inner1": "value1",
                     "inner2": "value2"
                 ]
@@ -33,10 +33,10 @@ class HTTPRequestBuilderTests: XCTestCase {
         "string=true",
         "dict[foo]=1",
         "dict[bar]=string",
-        "nested-dict[outter1][inner1]=value1",
-        "nested-dict[outter1][inner2]=value2",
-        "nested-dict[outter2][inner1]=value1",
-        "nested-dict[outter2][inner2]=value2",
+        "nested-dict[outer1][inner1]=value1",
+        "nested-dict[outer1][inner2]=value2",
+        "nested-dict[outer2][inner1]=value1",
+        "nested-dict[outer2][inner2]=value2",
         "array[]=true",
         "array[]=1",
         "array[]=0",
@@ -179,8 +179,6 @@ class HTTPRequestBuilderTests: XCTestCase {
 
     @available(iOS 16.0, *)
     func testSetQueryWithDictionary() throws {
-        // The test data and assertions hre should be kept the same as the ones in `WordPressComRestApiTests.testQuery()`.
-
         let query = try HTTPRequestBuilder(url: URL(string: "https://wordpress.org")!)
             .query(HTTPRequestBuilderTests.nestedParameters)
             .build()
