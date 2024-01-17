@@ -34,6 +34,10 @@ target 'WordPressKitTests' do
   pod 'OCMock', '~> 3.4'
 end
 
+abstract_target 'Tools' do
+  pod 'SwiftLint', '~> 0.54'
+end
+
 # Let Pods targets inherit deployment target from the app
 post_install do |installer|
   installer.pods_project.targets.each do |target|
@@ -43,4 +47,9 @@ post_install do |installer|
       configuration.build_settings.delete(ios_deployment_key) if pod_ios_deployment_target <= APP_IOS_DEPLOYMENT_TARGET
     end
   end
+
+  yellow_marker = "\033[33m"
+  reset_marker = "\033[0m"
+  puts "#{yellow_marker}The abstract target warning below is expected. Feel free to ignore
+ it.#{reset_marker}"
 end
