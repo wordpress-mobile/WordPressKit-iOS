@@ -50,6 +50,6 @@ extension ReaderTopicServiceRemote {
     public func pathForTopic(slug: String) -> String {
         let endpoint = path(forEndpoint: "read/tags/\(slug)/posts", withVersion: ._1_2)
 
-        return wordPressComRestApi.baseURLString.appending(endpoint)
+        return wordPressComRestApi.baseURL.appendingPathComponent(endpoint).absoluteString
     }
 }

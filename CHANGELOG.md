@@ -34,6 +34,7 @@ _None._
 
 ### Breaking Changes
 
+- `WordPressComRestApi` initialisers now accept a `baseURL: URL` parameter instead of `baseUrlString: String`. [#691]
 - Removed the async functions in `WordPressComRestApi`. [#692]
 
 ### New Features
