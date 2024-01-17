@@ -288,6 +288,22 @@ class HTTPRequestBuilderTests: XCTestCase {
         XCTAssertEqual(form, decodedForm)
     }
 
+    func testJoin() throws {
+        XCTAssertEqual(HTTPRequestBuilder.join("foo", "bar"), "foo/bar")
+        XCTAssertEqual(HTTPRequestBuilder.join("foo/", "bar"), "foo/bar")
+        XCTAssertEqual(HTTPRequestBuilder.join("foo", "/bar"), "foo/bar")
+        XCTAssertEqual(HTTPRequestBuilder.join("foo/", "/bar"), "foo/bar")
+        XCTAssertEqual(HTTPRequestBuilder.join("foo=1", "bar=2", separator: "&"), "foo=1&bar=2")
+        XCTAssertEqual(HTTPRequestBuilder.join("foo=1/", "bar=2", separator: "&"), "foo=1/&bar=2")
+        XCTAssertEqual(HTTPRequestBuilder.join("foo=1/", "&bar=2", separator: "&"), "foo=1/&bar=2")
+
+        XCTAssertEqual(HTTPRequestBuilder.join("", "foo"), "foo")
+        XCTAssertEqual(HTTPRequestBuilder.join("foo", ""), "foo")
+        XCTAssertEqual(HTTPRequestBuilder.join("foo", "/"), "foo/")
+        XCTAssertEqual(HTTPRequestBuilder.join("/", "/foo"), "/foo")
+        XCTAssertEqual(HTTPRequestBuilder.join("", "/foo"), "/foo")
+    }
+
 }
 
 private extension URLRequest {

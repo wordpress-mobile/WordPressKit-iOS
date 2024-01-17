@@ -19,6 +19,7 @@ final class HTTPRequestBuilder {
 
     private var urlComponents: URLComponents
     private var method: Method = .get
+    private var appendedPath: String = ""
     private var headers: [String: String] = [:]
     private var defaultQuery: [URLQueryItem] = []
     private var appendedQuery: [URLQueryItem] = []
@@ -39,16 +40,7 @@ final class HTTPRequestBuilder {
     func append(path: String) -> Self {
         assert(!path.contains("?") && !path.contains("#"), "Path should not have query or fragment: \(path)")
 
-        var relPath = path
-        if relPath.hasPrefix("/") {
-            _ = relPath.removeFirst()
-        }
-
-        if urlComponents.path.hasSuffix("/") {
-            urlComponents.path = urlComponents.path.appending(relPath)
-        } else {
-            urlComponents.path = urlComponents.path.appending("/").appending(relPath)
-        }
+        appendedPath = Self.join(appendedPath, path)
 
         return self
     }
@@ -122,6 +114,12 @@ final class HTTPRequestBuilder {
     func build() throws -> URLRequest {
         var components = urlComponents
 
+        var newPath = Self.join(components.path, appendedPath)
+        if !newPath.isEmpty, !newPath.hasPrefix("/") {
+            newPath = "/\(newPath)"
+        }
+        components.path = newPath
+
         // Add default query items if they don't exist in `appendedQuery`.
         var newQuery = appendedQuery
         if !defaultQuery.isEmpty {
@@ -176,11 +174,38 @@ extension HTTPRequestBuilder {
     }
 }
 
-private extension HTTPRequestBuilder {
+extension HTTPRequestBuilder {
     static func urlEncode(_ text: String) -> String {
         let specialCharacters = ":#[]@!$&'()*+,;="
         let allowed = CharacterSet.urlQueryAllowed.subtracting(.init(charactersIn: specialCharacters))
         return text.addingPercentEncoding(withAllowedCharacters: allowed) ?? text
+    }
+
+    /// Join a list of strings using a separator only if neighbour items aren't already separated with the given separator.
+    static func join(_ aList: String..., separator: String = "/") -> String {
+        guard !aList.isEmpty else { return "" }
+
+        var list = aList
+        let start = list.removeFirst()
+        return list.reduce(into: start) { result, path in
+            guard !path.isEmpty else { return }
+
+            guard !result.isEmpty else {
+                result = path
+                return
+            }
+
+            switch (result.hasSuffix(separator), path.hasPrefix(separator)) {
+            case (true, true):
+                var prefixRemoved = path
+                prefixRemoved.removePrefix(separator)
+                result.append(prefixRemoved)
+            case (true, false), (false, true):
+                result.append(path)
+            case (false, false):
+                result.append("\(separator)\(path)")
+            }
+        }
     }
 }
 
