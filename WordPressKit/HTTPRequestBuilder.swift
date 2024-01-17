@@ -17,7 +17,7 @@ final class HTTPRequestBuilder {
         }
     }
 
-    private var urlComponents: URLComponents
+    private let original: URLComponents
     private var method: Method = .get
     private var appendedPath: String = ""
     private var headers: [String: String] = [:]
@@ -29,7 +29,7 @@ final class HTTPRequestBuilder {
         assert(url.scheme == "http" || url.scheme == "https")
         assert(url.host != nil)
 
-        urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: true)!
+        original = URLComponents(url: url, resolvingAgainstBaseURL: true)!
     }
 
     func method(_ method: Method) -> Self {
@@ -112,7 +112,7 @@ final class HTTPRequestBuilder {
     }
 
     func build() throws -> URLRequest {
-        var components = urlComponents
+        var components = original
 
         var newPath = Self.join(components.path, appendedPath)
         if !newPath.isEmpty, !newPath.hasPrefix("/") {
