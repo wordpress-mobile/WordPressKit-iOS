@@ -34,7 +34,7 @@ _None._
 
 ### Breaking Changes
 
-_None._
+- Removed the async functions in `WordPressComRestApi`. [#692]
 
 ### New Features
 
