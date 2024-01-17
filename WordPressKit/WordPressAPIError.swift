@@ -18,9 +18,13 @@ public enum WordPressAPIError<EndpointError>: Error where EndpointError: Localiz
     /// The API call returned an status code that's unacceptable to the endpoint.
     case unacceptableStatusCode(response: HTTPURLResponse, body: Data)
     /// The API call returned an HTTP response that WordPressKit can't parse. Receiving this error could be an indicator that there is an error response that's not handled properly by WordPressKit.
-    case unparsableResponse(response: HTTPURLResponse?, body: Data?)
+    case unparsableResponse(response: HTTPURLResponse?, body: Data?, underlyingError: Error)
     /// Other error occured.
     case unknown(underlyingError: Error)
+
+    static func unparsableResponse(response: HTTPURLResponse?, body: Data?) -> Self {
+        return WordPressAPIError<EndpointError>.unparsableResponse(response: response, body: body, underlyingError: URLError(.cannotParseResponse))
+    }
 }
 
 extension WordPressAPIError: LocalizedError {

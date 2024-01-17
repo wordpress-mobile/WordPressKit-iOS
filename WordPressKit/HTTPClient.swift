@@ -114,14 +114,14 @@ extension URLSession {
 extension WordPressAPIResult {
 
     func mapSuccess<NewSuccess, E: LocalizedError>(
-        _ transform: (Success) -> NewSuccess?
+        _ transform: (Success) throws -> NewSuccess
     ) -> WordPressAPIResult<NewSuccess, E> where Success == HTTPAPIResponse<Data>, Failure == WordPressAPIError<E> {
         flatMap { success in
-            guard let newSuccess = transform(success) else {
-                return .failure(.unparsableResponse(response: success.response, body: success.body))
+            do {
+                return try .success(transform(success))
+            } catch {
+                return .failure(.unparsableResponse(response: success.response, body: success.body, underlyingError: error))
             }
-
-            return .success(newSuccess)
         }
     }
 
@@ -129,19 +129,19 @@ extension WordPressAPIResult {
         _ decoder: JSONDecoder = JSONDecoder()
     ) -> WordPressAPIResult<NewSuccess, E> where Success == HTTPAPIResponse<Data>, Failure == WordPressAPIError<E> {
         mapSuccess {
-            try? decoder.decode(NewSuccess.self, from: $0.body)
+            try decoder.decode(NewSuccess.self, from: $0.body)
         }
     }
 
     func mapUnacceptableStatusCodeError<E: LocalizedError>(
-        _ transform: (HTTPURLResponse, Data) -> E?
+        _ transform: (HTTPURLResponse, Data) throws -> E
     ) -> WordPressAPIResult<Success, E> where Failure == WordPressAPIError<E> {
         mapError { error in
             if case let .unacceptableStatusCode(response, body) = error {
-                if let endpointError = transform(response, body) {
-                    return WordPressAPIError<E>.endpointError(endpointError)
-                } else {
-                    return WordPressAPIError<E>.unparsableResponse(response: response, body: body)
+                do {
+                    return try WordPressAPIError<E>.endpointError(transform(response, body))
+                } catch {
+                    return WordPressAPIError<E>.unparsableResponse(response: response, body: body, underlyingError: error)
                 }
             }
             return error
@@ -152,7 +152,7 @@ extension WordPressAPIResult {
         _ decoder: JSONDecoder = JSONDecoder()
     ) -> WordPressAPIResult<Success, E> where E: LocalizedError, E: Decodable, Failure == WordPressAPIError<E> {
         mapUnacceptableStatusCodeError { _, body in
-            try? decoder.decode(E.self, from: body)
+            try decoder.decode(E.self, from: body)
         }
     }
 
