@@ -326,4 +326,55 @@ class WordPressComRestApiTests: XCTestCase {
         }
         self.waitForExpectations(timeout: 2, handler: nil)
     }
+
+    func testTooManyRequestError() {
+        stub(condition: isAbsoluteURLString("https://public-api.wordpress.com/rest/v1/foo?locale=en")) { _ in
+            let stubPath = OHPathForFile("WordPressComRestApiFailThrottled.json", type(of: self))
+            return fixture(filePath: stubPath!, status: 500, headers: ["Content-Type" as NSObject: "application/html" as AnyObject])
+        }
+
+        let api = WordPressComRestApi()
+        let complete = expectation(description: "API call completed")
+        api.GET(
+            "/rest/v1/foo",
+            parameters: nil,
+            success: { _, _ in
+                complete.fulfill()
+                XCTFail("The API call should complete with a failure")
+            },
+            failure: { error, _ in
+                complete.fulfill()
+                XCTAssertEqual(error.domain, "WordPressKit.WordPressComRestApiError")
+                XCTAssertEqual(error.code, WordPressComRestApiError.tooManyRequests.rawValue)
+                XCTAssertEqual(error.userInfo[WordPressComRestApi.ErrorKeyErrorCode] as? String, "too_many_requests")
+                XCTAssertTrue(error.localizedDescription.contains("You can try again in 1 minute"))
+            }
+        )
+
+        wait(for: [complete], timeout: 0.1)
+    }
+
+    func testPreconditionFailureError() {
+        stub(condition: isAbsoluteURLString("https://public-api.wordpress.com/rest/v1/foo?locale=en")) { _ in
+            HTTPStubsResponse(jsonObject: ["code": "no_connected_jetpack"], statusCode: 412, headers: nil)
+        }
+
+        let api = WordPressComRestApi()
+        let complete = expectation(description: "API call completed")
+        api.GET(
+            "/rest/v1/foo",
+            parameters: nil,
+            success: { _, _ in
+                complete.fulfill()
+                XCTFail("The API call should complete with a failure")
+            },
+            failure: { error, _ in
+                complete.fulfill()
+                XCTAssertEqual(error.domain, "WordPressKit.WordPressComRestApiError")
+                XCTAssertEqual(error.code, WordPressComRestApiError.preconditionFailure.rawValue)
+            }
+        )
+
+        wait(for: [complete], timeout: 0.1)
+    }
 }
