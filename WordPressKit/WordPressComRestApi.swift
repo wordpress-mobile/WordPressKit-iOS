@@ -33,6 +33,7 @@ public typealias WordPressComRestApiError = WordPressComRestApiErrorCode
 
 public struct WordPressComRestApiEndpointError: Error {
     public var code: WordPressComRestApiErrorCode
+    var response: HTTPURLResponse?
 
     public var apiErrorCode: String?
     public var apiErrorMessage: String?
@@ -44,6 +45,12 @@ public struct WordPressComRestApiEndpointError: Error {
 extension WordPressComRestApiEndpointError: LocalizedError {
     public var errorDescription: String? {
         apiErrorMessage
+    }
+}
+
+extension WordPressComRestApiEndpointError: HTTPURLResponseProviding {
+    var httpResponse: HTTPURLResponse? {
+        response
     }
 }
 
@@ -500,7 +507,7 @@ extension WordPressComRestApi {
     /// A custom error processor to handle error responses when status codes are betwen 400 and 500
     func processError(response: DataResponse<Any>, originalError: Error) -> WordPressComRestApiEndpointError? {
         if let afError = originalError as? AFError, case AFError.responseSerializationFailed(_) = afError {
-            return .init(code: .responseSerializationFailed)
+            return .init(code: .responseSerializationFailed, response: response.response)
         }
 
         guard let httpResponse = response.response, let data = response.data else {
@@ -520,16 +527,16 @@ extension WordPressComRestApi {
         guard let responseObject = try? JSONSerialization.jsonObject(with: data, options: .allowFragments),
             let responseDictionary = responseObject as? [String: AnyObject] else {
 
-            if let error = checkForThrottleErrorIn(data: data) {
+            if let error = checkForThrottleErrorIn(response: httpResponse, data: data) {
                 return error
             }
-            return .init(code: .unknown)
+            return .init(code: .unknown, response: httpResponse)
         }
 
         // FIXME: A hack to support free WPCom sites and Rewind. Should be obsolote as soon as the backend
         // stops returning 412's for those sites.
         if httpResponse.statusCode == 412, let code = responseDictionary["code"] as? String, code == "no_connected_jetpack" {
-            return .init(code: .preconditionFailure)
+            return .init(code: .preconditionFailure, response: httpResponse)
         }
 
         var errorDictionary: AnyObject? = responseDictionary as AnyObject?
@@ -540,7 +547,7 @@ extension WordPressComRestApi {
             let errorCode = errorEntry["error"] as? String,
             let errorDescription = errorEntry["message"] as? String
             else {
-                return .init(code: .unknown)
+                return .init(code: .unknown, response: httpResponse)
         }
 
         let errorsMap: [String: WordPressComRestApiErrorCode] = [
@@ -572,7 +579,7 @@ extension WordPressComRestApi {
         )
     }
 
-    func checkForThrottleErrorIn(data: Data) -> WordPressComRestApiEndpointError? {
+    func checkForThrottleErrorIn(response: HTTPURLResponse, data: Data) -> WordPressComRestApiEndpointError? {
         // This endpoint is throttled, so check if we've sent too many requests and fill that error in as
         // when too many requests occur the API just spits out an html page.
         guard let responseString = String(data: data, encoding: .utf8),
