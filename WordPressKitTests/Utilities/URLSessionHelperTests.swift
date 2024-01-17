@@ -143,6 +143,40 @@ class URLSessionHelperTests: XCTestCase {
             XCTFail("Unexpected result: \(result)")
         }
     }
+
+    func testEncodingError() async {
+        let underlyingError = NSError(domain: "test", code: 123)
+        let builder = HTTPRequestBuilder(url: URL(string: "https://wordpress.org")!)
+            .method(.post)
+            .body(json: { throw underlyingError })
+        let result = await URLSession.shared.perform(request: builder, errorType: TestError.self)
+
+        if case let .failure(.requestEncodingFailure(underlyingError: error)) = result {
+            XCTAssertEqual(error as NSError, underlyingError)
+        } else {
+            XCTFail("Unexpected result: \(result)")
+        }
+    }
+
+    func testParsingError() async {
+        struct Model: Decodable {
+            var success: Bool
+        }
+
+        stub(condition: isPath("/hello")) { _ in
+            HTTPStubsResponse(data: "success".data(using: .utf8)!, statusCode: 200, headers: nil)
+        }
+
+        let result: WordPressAPIResult<Model, TestError> = await URLSession.shared
+            .perform(request: .init(url: URL(string: "https://wordpress.org/hello")!))
+            .decodeSuccess()
+
+        if case let .failure(.unparsableResponse(_, _, error)) = result {
+            XCTAssertTrue(error is DecodingError)
+        } else {
+            XCTFail("Unexpected result: \(result)")
+        }
+    }
 }
 
 private enum TestError: LocalizedError, Equatable {
