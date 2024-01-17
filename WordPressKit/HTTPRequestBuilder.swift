@@ -1,5 +1,9 @@
 import Foundation
 
+/// A builder type that adding HTTP request data onto an URL.
+///
+/// Calling this class's url related functions (the ones that changes path, query, etc) does not modify the
+/// original URL string. The URL will be perserved in the final result that's returned by the `build` function.
 final class HTTPRequestBuilder {
     enum Method: String {
         case get = "GET"
@@ -17,6 +21,7 @@ final class HTTPRequestBuilder {
     private var method: Method = .get
     private var headers: [String: String] = [:]
     private var defaultQuery: [URLQueryItem] = []
+    private var appendedQuery: [URLQueryItem] = []
     private var bodyBuilder: ((inout URLRequest) throws -> Void)?
 
     init(url: URL) {
@@ -62,52 +67,25 @@ final class HTTPRequestBuilder {
         append(query: [URLQueryItem(name: name, value: value)], override: override)
     }
 
-    func query(_ dict: [String: Any]) -> Self {
-        dict.reduce(self) {
-            $0.query(name: $1.key, value: $1.value)
-        }
-    }
-
-    func query(name: String, value: Any) -> Self {
-        switch value {
-        case let array as [Any]:
-            return array.reduce(self) {
-                $0.query(name: "\(name)[]", value: $1)
-            }
-        case let object as [String: Any]:
-            return object.reduce(self) {
-                $0.query(name: "\(name)[\($1.key)]", value: $1.value)
-            }
-        case let value as Bool:
-            return query(name: name, value: value ? "1" : "0", override: false)
-        default:
-            return query(name: name, value: "\(value)", override: false)
-        }
+    func query(_ parameters: [String: Any]) -> Self {
+        append(query: parameters.flatten(), override: false)
     }
 
     func append(query: [URLQueryItem], override: Bool = false) -> Self {
-        var allQuery = urlComponents.queryItems ?? []
-
         if override {
             let newKeys = Set(query.map { $0.name })
-            allQuery.removeAll(where: { newKeys.contains($0.name) })
+            appendedQuery.removeAll(where: { newKeys.contains($0.name) })
         }
 
-        allQuery.append(contentsOf: query)
-
-        urlComponents.queryItems = allQuery
+        appendedQuery.append(contentsOf: query)
 
         return self
     }
 
-    func body(form: [String: String]) -> Self {
+    func body(form: [String: Any]) -> Self {
         headers["Content-Type"] = "application/x-www-form-urlencoded; charset=utf-8"
         bodyBuilder = { req in
-            let content = form
-                .map {
-                    "\(HTTPRequestBuilder.urlEncode($0))=\(HTTPRequestBuilder.urlEncode($1))"
-                }
-                .joined(separator: "&")
+            let content = form.flatten().percentEncoded
             req.httpBody = content.data(using: .utf8)
         }
         return self
@@ -142,15 +120,27 @@ final class HTTPRequestBuilder {
     }
 
     func build() throws -> URLRequest {
-        var allQuery = urlComponents.queryItems ?? []
+        var components = urlComponents
+
+        // Add default query items if they don't exist in `appendedQuery`.
+        var newQuery = appendedQuery
         if !defaultQuery.isEmpty {
-            let allQueryKeys = allQuery.reduce(into: Set()) { $0.insert($1.name) }
-            let toBeAdded = defaultQuery.filter { !allQueryKeys.contains($0.name) }
-            allQuery.append(contentsOf: toBeAdded)
+            let toBeAdded = defaultQuery.filter { item in
+                !newQuery.contains(where: { $0.name == item.name})
+            }
+            newQuery.append(contentsOf: toBeAdded)
         }
 
-        var components = urlComponents
-        components.queryItems = allQuery.isEmpty ? nil : allQuery
+        // Bypass `URLComponents`'s URL query encoding, use our own implementation instead.
+        if !newQuery.isEmpty {
+            var percentEncodedQuery = components.percentEncodedQuery ?? ""
+            if !percentEncodedQuery.isEmpty && !percentEncodedQuery.hasSuffix("&") {
+                percentEncodedQuery += "&"
+            }
+            percentEncodedQuery += newQuery.percentEncoded
+
+            components.percentEncodedQuery = percentEncodedQuery
+        }
 
         guard let url = components.url else {
             throw URLError(.badURL)
@@ -192,4 +182,47 @@ private extension HTTPRequestBuilder {
         let allowed = CharacterSet.urlQueryAllowed.subtracting(.init(charactersIn: specialCharacters))
         return text.addingPercentEncoding(withAllowedCharacters: allowed) ?? text
     }
+}
+
+private extension Dictionary where Key == String, Value == Any {
+
+    static func urlEncode(into result: inout [URLQueryItem], name: String, value: Any) {
+        switch value {
+        case let array as [Any]:
+            for value in array {
+                urlEncode(into: &result, name: "\(name)[]", value: value)
+            }
+        case let object as [String: Any]:
+            for (key, value) in object {
+                urlEncode(into: &result, name: "\(name)[\(key)]", value: value)
+            }
+        case let value as Bool:
+            urlEncode(into: &result, name: name, value: value ? "1" : "0")
+        default:
+            result.append(URLQueryItem(name: name, value: "\(value)"))
+        }
+    }
+
+    func flatten() -> [URLQueryItem] {
+        reduce(into: []) { result, entry in
+            Self.urlEncode(into: &result, name: entry.key, value: entry.value)
+        }
+    }
+
+}
+
+extension Array where Element == URLQueryItem {
+
+    var percentEncoded: String {
+        map {
+            let name = HTTPRequestBuilder.urlEncode($0.name)
+            guard let value = $0.value else {
+                return name
+            }
+
+            return "\(name)=\(HTTPRequestBuilder.urlEncode(value))"
+        }
+        .joined(separator: "&")
+    }
+
 }
