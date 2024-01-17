@@ -131,13 +131,7 @@ final class HTTPRequestBuilder {
 
         // Bypass `URLComponents`'s URL query encoding, use our own implementation instead.
         if !newQuery.isEmpty {
-            var percentEncodedQuery = components.percentEncodedQuery ?? ""
-            if !percentEncodedQuery.isEmpty && !percentEncodedQuery.hasSuffix("&") {
-                percentEncodedQuery += "&"
-            }
-            percentEncodedQuery += newQuery.percentEncoded
-
-            components.percentEncodedQuery = percentEncodedQuery
+            components.percentEncodedQuery = Self.join(components.percentEncodedQuery ?? "", newQuery.percentEncoded, separator: "&")
         }
 
         guard let url = components.url else {
