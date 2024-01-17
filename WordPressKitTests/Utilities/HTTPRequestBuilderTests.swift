@@ -191,7 +191,7 @@ class HTTPRequestBuilderTests: XCTestCase {
             ?? []
 
         XCTAssertEqual(query.count, HTTPRequestBuilderTests.nestedParametersEncoded.count)
-        
+
         for item in HTTPRequestBuilderTests.nestedParametersEncoded {
             XCTAssertTrue(query.contains(item), "Missing query item: \(item)")
         }
