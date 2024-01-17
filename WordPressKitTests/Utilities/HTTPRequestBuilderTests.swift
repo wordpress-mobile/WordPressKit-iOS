@@ -307,6 +307,25 @@ class HTTPRequestBuilderTests: XCTestCase {
         XCTAssertEqual(HTTPRequestBuilder.join("", "/foo"), "/foo")
     }
 
+    func testPreserveOriginalURL() throws {
+        try XCTAssertEqual(
+            HTTPRequestBuilder(url: URL(string: "https://wordpress.org/api?locale=en")!)
+                .query(name: "locale", value: "zh")
+                .build()
+                .url?
+                .query,
+            "locale=en&locale=zh"
+        )
+        try XCTAssertEqual(
+            HTTPRequestBuilder(url: URL(string: "https://wordpress.org/api?locale=en")!)
+                .query(name: "foo", value: "bar")
+                .build()
+                .url?
+                .query,
+            "locale=en&foo=bar"
+        )
+    }
+
 }
 
 private extension URLRequest {
