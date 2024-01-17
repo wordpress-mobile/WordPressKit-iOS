@@ -72,24 +72,7 @@ class WordPressComRestApiTests: XCTestCase {
         let api = WordPressComRestApi(oAuthToken: "fakeToken")
         api.GET(
             wordPressMediaRoutePath,
-            parameters: [
-                "number": 1,
-                "true": true,
-                "false": false,
-                "string": "true",
-                "dict": ["foo": true, "bar": "string"],
-                "nested-dict": [
-                    "outter1": [
-                        "inner1": "value1",
-                        "inner2": "value2"
-                    ],
-                    "outter2": [
-                        "inner1": "value1",
-                        "inner2": "value2"
-                    ]
-                ],
-                "array": ["true", 1, false]
-            ] as [String: AnyObject],
+            parameters: HTTPRequestBuilderTests.nestedParameters as [String: AnyObject],
             success: { _, _ in expect.fulfill() },
             failure: { (_, _) in expect.fulfill() }
         )
@@ -99,24 +82,13 @@ class WordPressComRestApiTests: XCTestCase {
             .query(percentEncoded: false)?
             .split(separator: "&")
             .reduce(into: Set()) { $0.insert(String($1)) }
-        let expected = [
-            "number=1",
-            "true=1",
-            "false=0",
-            "string=true",
-            "dict[foo]=1",
-            "dict[bar]=string",
-            "nested-dict[outter1][inner1]=value1",
-            "nested-dict[outter1][inner2]=value2",
-            "nested-dict[outter2][inner1]=value1",
-            "nested-dict[outter2][inner2]=value2",
-            "array[]=true",
-            "array[]=1",
-            "array[]=0",
-        ]
+            ?? []
+        let expected = HTTPRequestBuilderTests.nestedParametersEncoded + ["locale=en"]
+
+        XCTAssertEqual(query.count, expected.count)
 
         for item in expected {
-            XCTAssertTrue(query?.contains(item) == true, "Missing query item: \(item)")
+            XCTAssertTrue(query.contains(item), "Missing query item: \(item)")
         }
     }
 
