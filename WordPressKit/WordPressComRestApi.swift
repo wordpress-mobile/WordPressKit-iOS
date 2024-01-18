@@ -480,8 +480,6 @@ extension WordPressComRestApi {
 
     /// A custom error processor to handle error responses when status codes are betwen 400 and 500
     func processError(response: DataResponse<Any>, originalError: Error) -> WordPressComRestApiEndpointError? {
-
-        let originalNSError = originalError as NSError
         guard let afError = originalError as?  AFError, case AFError.responseValidationFailed(_) = afError, let httpResponse = response.response, (400...500).contains(httpResponse.statusCode), let data = response.data else {
             if let afError = originalError as? AFError, case AFError.responseSerializationFailed(_) = afError {
                 return .init(code: .responseSerializationFailed)
