@@ -150,7 +150,7 @@ extension Either<Data, URL> {
     }
 }
 
-private extension InputStream {
+extension InputStream {
     func readToEnd() -> Data {
         open()
         defer { close() }

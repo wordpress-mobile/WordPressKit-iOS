@@ -177,6 +177,38 @@ class URLSessionHelperTests: XCTestCase {
             XCTFail("Unexpected result: \(result)")
         }
     }
+
+    func testMultipartForm() async throws {
+        var req: URLRequest?
+        stub(condition: isPath("/hello")) {
+            req = $0
+            return HTTPStubsResponse(data: "success".data(using: .utf8)!, statusCode: 200, headers: nil)
+        }
+
+        let builder = HTTPRequestBuilder(url: URL(string: "https://wordpress.org/hello")!)
+            .method(.post)
+            .body(form: [MultipartFormField(text: "value", name: "name", filename: nil)])
+
+        let _ = await URLSession.shared.perform(request: builder, errorType: TestError.self)
+
+        let request = try XCTUnwrap(req)
+        let boundary = try XCTUnwrap(
+            request
+                .value(forHTTPHeaderField: "Content-Type")?.split(separator: ";")
+                .map { $0.trimmingCharacters(in: .whitespaces) }
+                .reduce(into: [String: String]()) {
+                    let pair = $1.split(separator: "=")
+                    if pair.count == 2 {
+                        $0[String(pair[0])] = String(pair[1])
+                    }
+                }["boundary"]
+            )
+
+        let requestBody = try XCTUnwrap(request.httpBody ?? request.httpBodyStream?.readToEnd())
+
+        let expectedBody = "--\(boundary)\r\nContent-Disposition: form-data; name=\"name\"\r\n\r\nvalue\r\n--\(boundary)--\r\n"
+        XCTAssertEqual(String(data: requestBody, encoding: .utf8), expectedBody)
+    }
 }
 
 private enum TestError: LocalizedError, Equatable {
