@@ -36,6 +36,7 @@ _None._
 
 - `WordPressComRestApi` initialisers now accept a `baseURL: URL` parameter instead of `baseUrlString: String`. [#691]
 - Removed the async functions in `WordPressComRestApi`. [#692]
+- URL parameters in `WordPressComOAuthClient` initialisers are now declared as `URL` type, instead of `String`. [#698]
 
 ### New Features
 
