@@ -164,8 +164,8 @@ public final class WordPressComOAuthClient: NSObject {
     /// - Parameters:
     ///     - clientID: the app oauth clientID
     ///     - secret: the app secret
-    ///     - wordPressComBaseUrl: The base url to use for WordPress.com requests. Defaults to https://wordpress.com
-    ///     - wordPressComApiBaseUrl: The base url to use for WordPress.com API requests. Defaults to https://public-api-wordpress.com
+    ///     - wordPressComBaseURL: The base url to use for WordPress.com requests. Defaults to https://wordpress.com
+    ///     - wordPressComApiBaseURL: The base url to use for WordPress.com API requests. Defaults to https://public-api-wordpress.com
     ///
     @objc public init(clientID: String,
                       secret: String,
