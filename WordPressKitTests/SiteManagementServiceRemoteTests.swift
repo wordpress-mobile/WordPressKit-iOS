@@ -81,7 +81,7 @@ class SiteManagementServiceRemoteTests: RemoteTestCase, RESTTestable {
                 expect.fulfill()
                 return
             }
-            XCTAssertEqual(error.domain, String(reflecting: WordPressComRestApiError.self), "The error domain should be WordPressComRestApiError")
+            XCTAssertEqual(error.domain, "WordPressKit.WordPressComRestApiError", "The error domain should be WordPressComRestApiError")
             XCTAssertEqual(error.code, WordPressComRestApiError.unknown.rawValue, "The error code should be 7 - unknown")
             expect.fulfill()
         })
@@ -102,7 +102,7 @@ class SiteManagementServiceRemoteTests: RemoteTestCase, RESTTestable {
                 expect.fulfill()
                 return
             }
-            XCTAssertEqual(error.domain, String(reflecting: WordPressComRestApiError.self), "The error domain should be WordPressComRestApiError")
+            XCTAssertEqual(error.domain, "WordPressKit.WordPressComRestApiError", "The error domain should be WordPressComRestApiError")
             XCTAssertEqual(error.code, WordPressComRestApiError.authorizationRequired.rawValue, "The error code should be 2 - authorization_required")
             expect.fulfill()
         })
@@ -216,7 +216,7 @@ class SiteManagementServiceRemoteTests: RemoteTestCase, RESTTestable {
                 expect.fulfill()
                 return
             }
-            XCTAssertEqual(error.domain, String(reflecting: WordPressComRestApiError.self), "The error domain should be WordPressComRestApiError")
+            XCTAssertEqual(error.domain, "WordPressKit.WordPressComRestApiError", "The error domain should be WordPressComRestApiError")
             XCTAssertEqual(error.code, WordPressComRestApiError.unknown.rawValue, "The error code should be 7 - unknown")
             expect.fulfill()
         })
@@ -237,7 +237,7 @@ class SiteManagementServiceRemoteTests: RemoteTestCase, RESTTestable {
                 expect.fulfill()
                 return
             }
-            XCTAssertEqual(error.domain, String(reflecting: WordPressComRestApiError.self), "The error domain should be WordPressComRestApiError")
+            XCTAssertEqual(error.domain, "WordPressKit.WordPressComRestApiError", "The error domain should be WordPressComRestApiError")
             XCTAssertEqual(error.code, WordPressComRestApiError.authorizationRequired.rawValue, "The error code should be 2 - authorization_required")
             expect.fulfill()
         })
@@ -361,7 +361,7 @@ class SiteManagementServiceRemoteTests: RemoteTestCase, RESTTestable {
                 expect.fulfill()
                 return
             }
-            XCTAssertEqual(error.domain, String(reflecting: WordPressComRestApiError.self), "The error domain should be WordPressComRestApiError")
+            XCTAssertEqual(error.domain, "WordPressKit.WordPressComRestApiError", "The error domain should be WordPressComRestApiError")
             XCTAssertEqual(error.code, WordPressComRestApiError.unknown.rawValue, "The error code should be 7 - unknown")
             expect.fulfill()
         })
@@ -382,7 +382,7 @@ class SiteManagementServiceRemoteTests: RemoteTestCase, RESTTestable {
                 expect.fulfill()
                 return
             }
-            XCTAssertEqual(error.domain, String(reflecting: WordPressComRestApiError.self), "The error domain should be WordPressComRestApiError")
+            XCTAssertEqual(error.domain, "WordPressKit.WordPressComRestApiError", "The error domain should be WordPressComRestApiError")
             XCTAssertEqual(error.code, WordPressComRestApiError.authorizationRequired.rawValue, "The error code should be 2 - authorization_required")
             expect.fulfill()
         })

@@ -17,7 +17,7 @@ extension WordPressComRestApiTests {
 
         // Then
         XCTAssertNotNil(localeAppendedPath)
-        let actualURL = URL(string: localeAppendedPath!, relativeTo: URL(string: api.baseURLString))
+        let actualURL = URL(string: localeAppendedPath!, relativeTo: api.baseURL)
         XCTAssertNotNil(actualURL)
 
         let actualURLComponents = URLComponents(url: actualURL!, resolvingAgainstBaseURL: false)
@@ -61,7 +61,7 @@ extension WordPressComRestApiTests {
 
         // Then
         XCTAssertNotNil(localeAppendedPath)
-        let actualURL = URL(string: localeAppendedPath!, relativeTo: URL(string: api.baseURLString))
+        let actualURL = URL(string: localeAppendedPath!, relativeTo: api.baseURL)
         XCTAssertNotNil(actualURL)
 
         let actualURLComponents = URLComponents(url: actualURL!, resolvingAgainstBaseURL: false)
@@ -96,7 +96,7 @@ extension WordPressComRestApiTests {
 
         // Then
         XCTAssertNotNil(localeAppendedPath)
-        let actualURL = URL(string: localeAppendedPath!, relativeTo: URL(string: api.baseURLString))
+        let actualURL = URL(string: localeAppendedPath!, relativeTo: api.baseURL)
         XCTAssertNotNil(actualURL)
 
         let actualURLComponents = URLComponents(url: actualURL!, resolvingAgainstBaseURL: false)
@@ -154,7 +154,7 @@ extension WordPressComRestApiTests {
 
         // Then
         XCTAssertNotNil(localeAppendedPath)
-        let actualURL = URL(string: localeAppendedPath!, relativeTo: URL(string: api.baseURLString))
+        let actualURL = URL(string: localeAppendedPath!, relativeTo: api.baseURL)
         XCTAssertNotNil(actualURL)
 
         let actualURLComponents = URLComponents(url: actualURL!, resolvingAgainstBaseURL: false)
@@ -179,7 +179,7 @@ extension WordPressComRestApiTests {
 
         // Then
         XCTAssertNotNil(localeAppendedPath)
-        let actualURL = URL(string: localeAppendedPath!, relativeTo: URL(string: api.baseURLString))
+        let actualURL = URL(string: localeAppendedPath!, relativeTo: api.baseURL)
         XCTAssertNotNil(actualURL)
 
         let actualURLComponents = URLComponents(url: actualURL!, resolvingAgainstBaseURL: false)
@@ -214,7 +214,7 @@ extension WordPressComRestApiTests {
 
         // Then
         XCTAssertNotNil(localeAppendedPath)
-        let actualURL = URL(string: localeAppendedPath!, relativeTo: URL(string: api.baseURLString))
+        let actualURL = URL(string: localeAppendedPath!, relativeTo: api.baseURL)
         XCTAssertNotNil(actualURL)
 
         let actualURLComponents = URLComponents(url: actualURL!, resolvingAgainstBaseURL: false)
@@ -256,7 +256,7 @@ extension WordPressComRestApiTests {
 
         // Then
         XCTAssertNotNil(localeAppendedPath)
-        let actualURL = URL(string: localeAppendedPath!, relativeTo: URL(string: api.baseURLString))
+        let actualURL = URL(string: localeAppendedPath!, relativeTo: api.baseURL)
         XCTAssertNotNil(actualURL)
 
         let actualURLComponents = URLComponents(url: actualURL!, resolvingAgainstBaseURL: false)
