@@ -33,7 +33,7 @@ extension WordPressAPIError: CustomNSError {
         }
     }
 
-    public var errorUserInfo: [String : Any] {
+    public var errorUserInfo: [String: Any] {
         switch self {
         case let .endpointError(endpointError):
             return (endpointError as NSError).userInfo
@@ -93,7 +93,7 @@ extension WordPressComRestApiEndpointError: CustomNSError {
         code.rawValue
     }
 
-    public var errorUserInfo: [String : Any] {
+    public var errorUserInfo: [String: Any] {
         var userInfo = additionalUserInfo ?? [:]
 
         if let code = apiErrorCode {
