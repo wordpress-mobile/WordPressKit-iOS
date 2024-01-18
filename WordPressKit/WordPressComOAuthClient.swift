@@ -85,8 +85,8 @@ public struct AuthenticationFailure: LocalizedError {
 ///
 public final class WordPressComOAuthClient: NSObject {
 
-    @objc public static let WordPressComOAuthDefaultBaseUrl = "https://wordpress.com"
-    @objc public static let WordPressComOAuthDefaultApiBaseUrl = "https://public-api.wordpress.com"
+    @objc public static let WordPressComOAuthDefaultBaseURL = URL(string: "https://wordpress.com")!
+    @objc public static let WordPressComOAuthDefaultApiBaseURL = URL(string: "https://public-api.wordpress.com")!
 
     enum WordPressComURL: String {
         case socialLoginNewSMS2FA = "/wp-login.php?action=send-sms-code-endpoint"
@@ -101,8 +101,8 @@ public final class WordPressComOAuthClient: NSObject {
     private let clientID: String
     private let secret: String
 
-    private let wordPressComBaseUrl: URL
-    private let wordPressComApiBaseUrl: URL
+    private let wordPressComBaseURL: URL
+    private let wordPressComApiBaseURL: URL
 
     // Question: Is it necessary to use these many URLSession instances?
     private let oauth2Session: URLSession = {
@@ -150,12 +150,12 @@ public final class WordPressComOAuthClient: NSObject {
     ///
     @objc public class func client(clientID: String,
                                    secret: String,
-                                   wordPressComBaseUrl: String,
-                                   wordPressComApiBaseUrl: String) -> WordPressComOAuthClient {
+                                   wordPressComBaseURL: URL,
+                                   wordPressComApiBaseURL: URL) -> WordPressComOAuthClient {
         let client = WordPressComOAuthClient(clientID: clientID,
                                              secret: secret,
-                                             wordPressComBaseUrl: wordPressComBaseUrl,
-                                             wordPressComApiBaseUrl: wordPressComApiBaseUrl)
+                                             wordPressComBaseURL: wordPressComBaseURL,
+                                             wordPressComApiBaseURL: wordPressComApiBaseURL)
         return client
     }
 
@@ -169,12 +169,12 @@ public final class WordPressComOAuthClient: NSObject {
     ///
     @objc public init(clientID: String,
                       secret: String,
-                      wordPressComBaseUrl: String = WordPressComOAuthClient.WordPressComOAuthDefaultBaseUrl,
-                      wordPressComApiBaseUrl: String = WordPressComOAuthClient.WordPressComOAuthDefaultApiBaseUrl) {
+                      wordPressComBaseURL: URL = WordPressComOAuthClient.WordPressComOAuthDefaultBaseURL,
+                      wordPressComApiBaseURL: URL = WordPressComOAuthClient.WordPressComOAuthDefaultApiBaseURL) {
         self.clientID = clientID
         self.secret = secret
-        self.wordPressComBaseUrl = URL(string: wordPressComBaseUrl)!
-        self.wordPressComApiBaseUrl = URL(string: wordPressComApiBaseUrl)!
+        self.wordPressComBaseURL = wordPressComBaseURL
+        self.wordPressComApiBaseURL = wordPressComApiBaseURL
     }
 
     public enum AuthenticationResult {
@@ -336,7 +336,7 @@ public final class WordPressComOAuthClient: NSObject {
             "wpcom_resend_otp": true
             ] as [String: Any]
 
-        socialNewSMS2FASessionManager.request(WordPressComURL.socialLoginNewSMS2FA.url(base: wordPressComBaseUrl), method: .post, parameters: parameters)
+        socialNewSMS2FASessionManager.request(WordPressComURL.socialLoginNewSMS2FA.url(base: wordPressComBaseURL), method: .post, parameters: parameters)
             .validate()
             .responseJSON(completionHandler: { response in
                 switch response.result {
@@ -813,7 +813,7 @@ extension WordPressComOAuthClient {
 
 private extension WordPressComOAuthClient {
     func tokenRequestBuilder() -> HTTPRequestBuilder {
-        HTTPRequestBuilder(url: wordPressComApiBaseUrl)
+        HTTPRequestBuilder(url: wordPressComApiBaseURL)
             .method(.post)
             .append(path: "/oauth2/token")
     }
@@ -824,7 +824,7 @@ private extension WordPressComOAuthClient {
     }
 
     func webAuthnRequestBuilder(action: WebAuthnAction) -> HTTPRequestBuilder {
-        HTTPRequestBuilder(url: wordPressComBaseUrl)
+        HTTPRequestBuilder(url: wordPressComBaseURL)
             .method(.post)
             .append(path: "/wp-login.php")
             .query(name: "action", value: action.rawValue)
@@ -845,7 +845,7 @@ private extension WordPressComOAuthClient {
     }
 
     func socialSignInRequestBuilder(action: SocialSignInAction) -> HTTPRequestBuilder {
-        HTTPRequestBuilder(url: wordPressComBaseUrl)
+        HTTPRequestBuilder(url: wordPressComBaseURL)
             .method(.post)
             .append(path: "/wp-login.php")
             .append(query: action.queryItems, override: true)
