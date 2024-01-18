@@ -21,57 +21,141 @@ extension HTTPAPIResponse where Body == Data {
 
 extension URLSession {
 
+    /// Send a HTTP request and return its response as a `WordPressAPIResult` instance.
+    ///
+    /// ## Progress Tracking and Cancellation
+    ///
+    /// You can track the HTTP request's overall progress by passing a `Progress` instance to the `fulfillingProgress`
+    /// parameter, which must satisify following requirements:
+    /// - `totalUnitCount` must not be zero.
+    /// - `completedUnitCount` must be zero.
+    /// - It's used exclusivity for tracking the HTTP request overal progress: No children in its progress tree.
+    /// - `cancellationHandler` must be nil. You can call `fulfillingProgress.cancel()` to cancel the ongoing HTTP request.
+    ///
+    ///  Upon completion, the HTTP request's progress fulfills the `fulfillingProgress`.
+    ///
+    /// - Parameters:
+    ///   - builder: A `HTTPRequestBuilder` instance that represents an HTTP request to be sent.
+    ///   - acceptableStatusCodes: HTTP status code ranges that are considered a successful response. Responses with
+    ///         a status code outside of these ranges are returned as a `WordPressAPIResult.unacceptableStatusCode` instance.
+    ///   - parentProgress: A `Progress` instance that will be used as the parent progress of the HTTP request's overall
+    ///         progress. See the function documentation regarding requirements on this argument.
+    ///   - errorType: The concret endpoint error type.
     func perform<E: LocalizedError>(
         request builder: HTTPRequestBuilder,
+        acceptableStatusCodes: [ClosedRange<Int>] = [200...299],
+        fulfillingProgress parentProgress: Progress? = nil,
         errorType: E.Type = E.self
     ) async -> WordPressAPIResult<HTTPAPIResponse<Data>, E> {
-        guard let request = try? builder.build() else {
-            return .failure(.requestEncodingFailure)
+        if let parentProgress {
+            assert(parentProgress.completedUnitCount == 0 && parentProgress.totalUnitCount > 0, "Invalid parent progress")
+            assert(parentProgress.cancellationHandler == nil, "The progress instance's cancellationHandler property must be nil")
         }
 
-        let result: (Data, URLResponse)
+        let request: URLRequest
         do {
-            result = try await data(for: request)
+            request = try builder.build()
         } catch {
+            return .failure(.requestEncodingFailure(underlyingError: error))
+        }
+
+        return await withCheckedContinuation { continuation in
+            let task = dataTask(with: request) { data, response, error in
+                let result: WordPressAPIResult<HTTPAPIResponse<Data>, E> = Self.parseResponse(
+                    data: data,
+                    response: response,
+                    error: error,
+                    acceptableStatusCodes: acceptableStatusCodes
+                )
+
+                continuation.resume(returning: result)
+            }
+            task.resume()
+
+            if let parentProgress, parentProgress.totalUnitCount > parentProgress.completedUnitCount {
+                let pending = parentProgress.totalUnitCount - parentProgress.completedUnitCount
+                parentProgress.addChild(task.progress, withPendingUnitCount: pending)
+
+                parentProgress.cancellationHandler = { [weak task] in
+                    task?.cancel()
+                }
+            }
+        }
+    }
+
+    private static func parseResponse<E: LocalizedError>(
+        data: Data?,
+        response: URLResponse?,
+        error: Error?,
+        acceptableStatusCodes: [ClosedRange<Int>]
+    ) -> WordPressAPIResult<HTTPAPIResponse<Data>, E> {
+        let result: WordPressAPIResult<HTTPAPIResponse<Data>, E>
+
+        if let error {
             if let urlError = error as? URLError {
-                return .failure(.connection(urlError))
+                result = .failure(.connection(urlError))
             } else {
-                return .failure(.unknown(underlyingError: error))
+                result = .failure(.unknown(underlyingError: error))
+            }
+        } else {
+            if let httpResponse = response as? HTTPURLResponse {
+                if acceptableStatusCodes.contains(where: { $0 ~= httpResponse.statusCode }) {
+                    result = .success(HTTPAPIResponse(response: httpResponse, body: data ?? Data()))
+                } else {
+                    result = .failure(.unacceptableStatusCode(response: httpResponse, body: data ?? Data()))
+                }
+            } else {
+                result = .failure(.unparsableResponse(response: nil, body: data))
             }
         }
 
-        let (body, response) = result
-
-        guard let response = response as? HTTPURLResponse else {
-            return .failure(.unparsableResponse(response: nil, body: body))
-        }
-
-        return .success(.init(response: response, body: body))
+        return result
     }
 
 }
 
-extension Result where Success == HTTPAPIResponse<Data> {
+extension WordPressAPIResult {
 
-    func assessStatusCode<S, E: LocalizedError>(
-        acceptable: [ClosedRange<Int>] = [200...299],
-        success: (Success) -> S?,
-        failure: (Success) -> E?
-    ) -> WordPressAPIResult<S, E> where Failure == WordPressAPIError<E> {
-        flatMap { response in
-            if acceptable.contains(where: { $0 ~= response.response.statusCode }) {
-                if let result = success(response) {
-                    return .success(result)
-                } else {
-                    return .failure(.unparsableResponse(response: response.response, body: response.body))
-                }
-            } else {
-                if let endpointError = failure(response) {
-                    return .failure(.endpointError(endpointError))
-                } else {
-                    return .failure(.unparsableResponse(response: response.response, body: response.body))
+    func mapSuccess<NewSuccess, E: LocalizedError>(
+        _ transform: (Success) throws -> NewSuccess
+    ) -> WordPressAPIResult<NewSuccess, E> where Success == HTTPAPIResponse<Data>, Failure == WordPressAPIError<E> {
+        flatMap { success in
+            do {
+                return try .success(transform(success))
+            } catch {
+                return .failure(.unparsableResponse(response: success.response, body: success.body, underlyingError: error))
+            }
+        }
+    }
+
+    func decodeSuccess<NewSuccess: Decodable, E: LocalizedError>(
+        _ decoder: JSONDecoder = JSONDecoder()
+    ) -> WordPressAPIResult<NewSuccess, E> where Success == HTTPAPIResponse<Data>, Failure == WordPressAPIError<E> {
+        mapSuccess {
+            try decoder.decode(NewSuccess.self, from: $0.body)
+        }
+    }
+
+    func mapUnacceptableStatusCodeError<E: LocalizedError>(
+        _ transform: (HTTPURLResponse, Data) throws -> E
+    ) -> WordPressAPIResult<Success, E> where Failure == WordPressAPIError<E> {
+        mapError { error in
+            if case let .unacceptableStatusCode(response, body) = error {
+                do {
+                    return try WordPressAPIError<E>.endpointError(transform(response, body))
+                } catch {
+                    return WordPressAPIError<E>.unparsableResponse(response: response, body: body, underlyingError: error)
                 }
             }
+            return error
+        }
+    }
+
+    func mapUnacceptableStatusCodeError<E>(
+        _ decoder: JSONDecoder = JSONDecoder()
+    ) -> WordPressAPIResult<Success, E> where E: LocalizedError, E: Decodable, Failure == WordPressAPIError<E> {
+        mapUnacceptableStatusCodeError { _, body in
+            try decoder.decode(E.self, from: body)
         }
     }
 

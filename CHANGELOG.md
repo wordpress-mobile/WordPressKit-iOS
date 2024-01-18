@@ -42,11 +42,34 @@ _None._
 
 ### Bug Fixes
 
-- Fix a bug in parsing XMLRPC link from a RSD Link. [#671]
+_None._
 
 ### Internal Changes
 
 _None._
+
+## 11.0.0
+
+### Breaking Changes
+
+- `WordPressComRestApi` initialisers now accept a `baseURL: URL` parameter instead of `baseUrlString: String`. [#691]
+- Removed the async functions in `WordPressComRestApi`. [#692]
+- URL parameters in `WordPressComOAuthClient` initialisers are now declared as `URL` type, instead of `String`. [#698]
+
+### Internal Changes
+
+- Refactor WP.com authentication API requests. [#660, #661, #681]
+
+## 10.0.0
+
+### Breaking Changes
+
+- Add a new `unacceptableStatusCode` error case to `WordPressAPIError`. [#668]
+- The `deviceId` parameter in `DashboardServiceRemote` is now non-optional. [#678]
+
+### Bug Fixes
+
+- Fix a bug in parsing XMLRPC link from a RSD Link. [#671]
 
 ## 9.0.3
 

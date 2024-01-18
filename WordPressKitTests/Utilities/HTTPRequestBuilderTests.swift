@@ -58,6 +58,88 @@ class HTTPRequestBuilderTests: XCTestCase {
         XCTAssertEqual(request.url?.absoluteString, "https://wordpress.org/hello/world")
     }
 
+    func testQueryOverride() {
+        try XCTAssertEqual(
+            HTTPRequestBuilder(url: URL(string: "https://wordpress.org")!)
+                .query(name: "foo", value: "bar", override: true)
+                .build()
+                .url?
+                .absoluteString,
+            "https://wordpress.org?foo=bar"
+        )
+
+        try XCTAssertEqual(
+            HTTPRequestBuilder(url: URL(string: "https://wordpress.org")!)
+                .query(name: "foo", value: "bar", override: true)
+                .query(name: "foo", value: "hello", override: true)
+                .build()
+                .url?
+                .absoluteString,
+            "https://wordpress.org?foo=hello"
+        )
+
+        try XCTAssertEqual(
+            HTTPRequestBuilder(url: URL(string: "https://wordpress.org")!)
+                .query(name: "foo", value: "bar", override: true)
+                .query(name: "foo", value: "hello", override: false)
+                .build()
+                .url?
+                .absoluteString,
+            "https://wordpress.org?foo=bar&foo=hello"
+        )
+
+        try XCTAssertEqual(
+            HTTPRequestBuilder(url: URL(string: "https://wordpress.org")!)
+                .query(name: "foo", value: "bar")
+                .query(name: "foo", value: "hello")
+                .build()
+                .url?
+                .absoluteString,
+            "https://wordpress.org?foo=bar&foo=hello"
+        )
+    }
+
+    func testQueryOverrideMany() {
+        try XCTAssertEqual(
+            HTTPRequestBuilder(url: URL(string: "https://wordpress.org")!)
+                .query(name: "foo", value: "bar", override: true)
+                .build()
+                .url?
+                .absoluteString,
+            "https://wordpress.org?foo=bar"
+        )
+
+        try XCTAssertEqual(
+            HTTPRequestBuilder(url: URL(string: "https://wordpress.org")!)
+                .query(name: "foo", value: "bar", override: true)
+                .append(query: [URLQueryItem(name: "foo", value: "hello")], override: true)
+                .build()
+                .url?
+                .absoluteString,
+            "https://wordpress.org?foo=hello"
+        )
+
+        try XCTAssertEqual(
+            HTTPRequestBuilder(url: URL(string: "https://wordpress.org")!)
+                .query(name: "foo", value: "bar", override: true)
+                .append(query: [URLQueryItem(name: "foo", value: "hello")], override: false)
+                .build()
+                .url?
+                .absoluteString,
+            "https://wordpress.org?foo=bar&foo=hello"
+        )
+
+        try XCTAssertEqual(
+            HTTPRequestBuilder(url: URL(string: "https://wordpress.org")!)
+                .query(name: "foo", value: "bar")
+                .append(query: [URLQueryItem(name: "foo", value: "hello")])
+                .build()
+                .url?
+                .absoluteString,
+            "https://wordpress.org?foo=bar&foo=hello"
+        )
+    }
+
     func testJSONBody() throws {
         var request = try HTTPRequestBuilder(url: URL(string: "https://wordpress.org")!)
             .method(.post)
