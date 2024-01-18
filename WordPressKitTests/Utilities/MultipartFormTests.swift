@@ -81,7 +81,7 @@ class MutliparFormDataTests: XCTestCase {
     }
 
     func testEmptyForm() throws {
-        let formData = try [].multipartFormDataStream().readToEnd()
+        let formData = try [].multipartFormDataStream(boundary: "test").readToEnd()
         XCTAssertTrue(formData.isEmpty)
     }
 
@@ -139,6 +139,15 @@ class MutliparFormDataTests: XCTestCase {
         XCTAssertTrue(SHA256.hash(data: formData).description.contains("2cedb35673a6982453a6e8e5ca901feabf92250630cdfabb961a03467f28bc8e"))
     }
 
+}
+
+extension Either<Data, URL> {
+    func readToEnd() -> Data {
+        map(
+            left: { $0 },
+            right: { InputStream(url: $0)?.readToEnd() ?? Data() }
+        )
+    }
 }
 
 private extension InputStream {

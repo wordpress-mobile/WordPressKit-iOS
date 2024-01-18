@@ -40,7 +40,7 @@ struct MultipartFormField {
 }
 
 extension Array where Element == MultipartFormField {
-    private func multipartFormDestination(forceWriteToFile: Bool = false) throws -> (outputStream: OutputStream, tempFilePath: String?) {
+    private func multipartFormDestination(forceWriteToFile: Bool) throws -> (outputStream: OutputStream, tempFilePath: String?) {
         let dest: OutputStream
         let tempFilePath: String?
 
@@ -62,12 +62,12 @@ extension Array where Element == MultipartFormField {
         return (dest, tempFilePath)
     }
 
-    func multipartFormDataStream(boundary: String = String(format: "wordpresskit.%08x", Int.random(in: Int.min..<Int.max))) throws -> InputStream {
+    func multipartFormDataStream(boundary: String, forceWriteToFile: Bool = false) throws -> Either<Data, URL> {
         guard !isEmpty else {
-            return InputStream(data: Data())
+            return .left(Data())
         }
 
-        let (dest, tempFilePath) = try multipartFormDestination()
+        let (dest, tempFilePath) = try multipartFormDestination(forceWriteToFile: forceWriteToFile)
 
         // Build the form content
         do {
@@ -79,14 +79,11 @@ extension Array where Element == MultipartFormField {
 
         // Return the result as `InputStream`
         if let tempFilePath {
-            guard let stream = InputStream(fileAtPath: tempFilePath) else {
-                throw MultipartFormError.inaccessbileFile(path: tempFilePath)
-            }
-            return stream
+            return .right(URL(fileURLWithPath: tempFilePath))
         }
 
         if let data = dest.property(forKey: .dataWrittenToMemoryStreamKey) as? Data {
-            return InputStream(data: data)
+            return .left(data)
         }
 
         throw MultipartFormError.impossible
