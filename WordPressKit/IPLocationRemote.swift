@@ -38,7 +38,6 @@ public final class IPLocationRemote {
 
 public extension IPLocationRemote {
     enum IPLocationError: Error {
-        case malformedURL
         case requestFailure(Error?)
     }
 }
