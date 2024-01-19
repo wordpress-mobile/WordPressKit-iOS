@@ -180,7 +180,7 @@
             userInfo[WordPressComRestApi.ErrorKeyErrorMessage] = localizedErrorMessage;
             userInfo[NSLocalizedDescriptionKey] = localizedErrorMessage;
             NSError *errorWithLocalizedMessage = [[NSError alloc] initWithDomain:WordPressComRestApiErrorDomain
-                                                                            code:WordPressComRestApiErrorUnknown
+                                                                            code:WordPressComRestApiErrorCodeUnknown
                                                                         userInfo:userInfo];
             
             failure(errorWithLocalizedMessage);
