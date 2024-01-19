@@ -547,7 +547,11 @@ extension WordPressComRestApi {
                 return nil
         }
 
-        let message = NSLocalizedString("Limit reached. You can try again in 1 minute. Trying again before that will only increase the time you have to wait before the ban is lifted. If you think this is in error, contact support.", comment: "Message to show when a request for a WP.com API endpoint is throttled")
+        let message = NSLocalizedString(
+            "wordpresskit.api.message.endpoint_throttled",
+            value: "Limit reached. You can try again in 1 minute. Trying again before that will only increase the time you have to wait before the ban is lifted. If you think this is in error, contact support.",
+            comment: "Message to show when a request for a WP.com API endpoint is throttled"
+        )
         return .init(
             code: .tooManyRequests,
             apiErrorCode: "too_many_requests",
