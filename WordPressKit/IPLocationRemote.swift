@@ -16,10 +16,7 @@ public final class IPLocationRemote {
     /// Fetches the country code from the device ip.
     ///
     public func fetchIPCountryCode(completion: @escaping (Result<String, Error>) -> Void) {
-        let path = WordPressComOAuthClient.WordPressComOAuthDefaultApiBaseUrl + "/geo/"
-        guard let url = URL(string: path) else {
-            return completion(.failure(IPLocationError.malformedURL))
-        }
+        let url = WordPressComOAuthClient.WordPressComOAuthDefaultApiBaseURL.appendingPathComponent("geo/")
 
         let request = URLRequest(url: url)
         let task = urlSession.dataTask(with: request) { data, _, error in
@@ -41,7 +38,6 @@ public final class IPLocationRemote {
 
 public extension IPLocationRemote {
     enum IPLocationError: Error {
-        case malformedURL
         case requestFailure(Error?)
     }
 }

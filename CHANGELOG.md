@@ -34,8 +34,6 @@ _None._
 
 ### Breaking Changes
 
-- `WordPressComRestApi` initialisers now accept a `baseURL: URL` parameter instead of `baseUrlString: String`. [#691]
-- Removed the async functions in `WordPressComRestApi`. [#692]
 - `WordPressComRestApiError` is renamed to `WordPressRestApiErrorCode`, and no longer conforms to `Swift.Error`. [#696]
 
 ### New Features
@@ -45,6 +43,18 @@ _None._
 ### Bug Fixes
 
 _None._
+
+### Internal Changes
+
+_None._
+
+## 11.0.0
+
+### Breaking Changes
+
+- `WordPressComRestApi` initialisers now accept a `baseURL: URL` parameter instead of `baseUrlString: String`. [#691]
+- Removed the async functions in `WordPressComRestApi`. [#692]
+- URL parameters in `WordPressComOAuthClient` initialisers are now declared as `URL` type, instead of `String`. [#698]
 
 ### Internal Changes
 
