@@ -221,8 +221,8 @@ open class WordPressComRestApi: NSObject {
                 progress?.completedUnitCount = progress?.totalUnitCount ?? 0
                 success(responseObject as AnyObject, response.response)
             case .failure(let error):
-                let nserror = self.processError(response: response, originalError: error).flatMap { $0 as NSError }
-                failure(nserror ?? (error as NSError), response.response)
+                let processedError = self.processError(response: response, originalError: error).flatMap { $0 as NSError }
+                failure(processedError ?? (error as NSError), response.response)
             }
         }).downloadProgress(closure: progressUpdater)
         progress.sessionTask = dataRequest.task
@@ -357,8 +357,8 @@ open class WordPressComRestApi: NSObject {
                         progress.completedUnitCount = progress.totalUnitCount
                         success(responseObject as AnyObject, response.response)
                     case .failure(let error):
-                        let nserror = self.processError(response: response, originalError: error).flatMap { $0 as NSError }
-                        failure(nserror ?? (error as NSError), response.response)
+                        let processedError = self.processError(response: response, originalError: error).flatMap { $0 as NSError }
+                        failure(processedError ?? (error as NSError), response.response)
                     }
                 }).uploadProgress(closure: progressUpdater)
 
