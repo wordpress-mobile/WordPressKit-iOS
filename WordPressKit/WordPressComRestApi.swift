@@ -14,7 +14,7 @@ import Alamofire
  - RequestSerializationFailed:     The serialization of the request failed
  - Unknown:                        Unknow error happen
  */
-@objc public enum WordPressComRestApiError: Int, Error {
+@objc public enum WordPressComRestApiErrorCode: Int, CaseIterable {
     case invalidInput
     case invalidToken
     case authorizationRequired
@@ -26,6 +26,22 @@ import Alamofire
     case preconditionFailure
     case malformedURL
     case invalidQuery
+}
+
+public struct WordPressComRestApiEndpointError: Error {
+    public var code: WordPressComRestApiErrorCode
+
+    public var apiErrorCode: String?
+    public var apiErrorMessage: String?
+    public var apiErrorData: AnyObject?
+
+    var additionalUserInfo: [String: Any]?
+}
+
+extension WordPressComRestApiEndpointError: LocalizedError {
+    public var errorDescription: String? {
+        apiErrorMessage
+    }
 }
 
 public enum ResponseType {
@@ -205,8 +221,8 @@ open class WordPressComRestApi: NSObject {
                 progress?.completedUnitCount = progress?.totalUnitCount ?? 0
                 success(responseObject as AnyObject, response.response)
             case .failure(let error):
-                let nserror = self.processError(response: response, originalError: error)
-                failure(nserror, response.response)
+                let processedError = self.processError(response: response, originalError: error).flatMap { $0 as NSError }
+                failure(processedError ?? (error as NSError), response.response)
             }
         }).downloadProgress(closure: progressUpdater)
         progress.sessionTask = dataRequest.task
@@ -341,8 +357,8 @@ open class WordPressComRestApi: NSObject {
                         progress.completedUnitCount = progress.totalUnitCount
                         success(responseObject as AnyObject, response.response)
                     case .failure(let error):
-                        let nserror = self.processError(response: response, originalError: error)
-                        failure(nserror, response.response)
+                        let processedError = self.processError(response: response, originalError: error).flatMap { $0 as NSError }
+                        failure(processedError ?? (error as NSError), response.response)
                     }
                 }).uploadProgress(closure: progressUpdater)
 
@@ -463,17 +479,13 @@ public final class FilePart: NSObject {
 extension WordPressComRestApi {
 
     /// A custom error processor to handle error responses when status codes are betwen 400 and 500
-    func processError(response: DataResponse<Any>, originalError: Error) -> NSError {
-
-        let originalNSError = originalError as NSError
+    func processError(response: DataResponse<Any>, originalError: Error) -> WordPressComRestApiEndpointError? {
         guard let afError = originalError as?  AFError, case AFError.responseValidationFailed(_) = afError, let httpResponse = response.response, (400...500).contains(httpResponse.statusCode), let data = response.data else {
             if let afError = originalError as? AFError, case AFError.responseSerializationFailed(_) = afError {
-                return WordPressComRestApiError.responseSerializationFailed as NSError
+                return .init(code: .responseSerializationFailed)
             }
-            return originalNSError
+            return nil
         }
-
-        var userInfo: [String: Any] = originalNSError.userInfo
 
         guard let responseObject = try? JSONSerialization.jsonObject(with: data, options: .allowFragments),
             let responseDictionary = responseObject as? [String: AnyObject] else {
@@ -481,13 +493,13 @@ extension WordPressComRestApi {
             if let error = checkForThrottleErrorIn(data: data) {
                 return error
             }
-            return WordPressComRestApiError.unknown as NSError
+            return .init(code: .unknown)
         }
 
         // FIXME: A hack to support free WPCom sites and Rewind. Should be obsolote as soon as the backend
         // stops returning 412's for those sites.
         if httpResponse.statusCode == 412, let code = responseDictionary["code"] as? String, code == "no_connected_jetpack" {
-            return WordPressComRestApiError.preconditionFailure as NSError
+            return .init(code: .preconditionFailure)
         }
 
         var errorDictionary: AnyObject? = responseDictionary as AnyObject?
@@ -498,52 +510,53 @@ extension WordPressComRestApi {
             let errorCode = errorEntry["error"] as? String,
             let errorDescription = errorEntry["message"] as? String
             else {
-                return WordPressComRestApiError.unknown as NSError
+                return .init(code: .unknown)
         }
 
-        let errorsMap = [
-            "invalid_input": WordPressComRestApiError.invalidInput,
-            "invalid_token": WordPressComRestApiError.invalidToken,
-            "authorization_required": WordPressComRestApiError.authorizationRequired,
-            "upload_error": WordPressComRestApiError.uploadFailed,
-            "unauthorized": WordPressComRestApiError.authorizationRequired,
-            "invalid_query": WordPressComRestApiError.invalidQuery
+        let errorsMap: [String: WordPressComRestApiErrorCode] = [
+            "invalid_input": .invalidInput,
+            "invalid_token": .invalidToken,
+            "authorization_required": .authorizationRequired,
+            "upload_error": .uploadFailed,
+            "unauthorized": .authorizationRequired,
+            "invalid_query": .invalidQuery
         ]
 
-        let mappedError = errorsMap[errorCode] ?? WordPressComRestApiError.unknown
+        let mappedError = errorsMap[errorCode] ?? .unknown
         if mappedError == .invalidToken {
             invalidTokenHandler?()
         }
-        userInfo[WordPressComRestApi.ErrorKeyErrorCode] = errorCode
-        userInfo[WordPressComRestApi.ErrorKeyErrorMessage] = errorDescription
-        userInfo[NSLocalizedDescriptionKey] =  errorDescription
 
-        if let errorData = errorEntry["data"] {
-            userInfo[WordPressComRestApi.ErrorKeyErrorData] = errorData
-        }
+        var originalErrorUserInfo = (originalError as NSError).userInfo
+        originalErrorUserInfo.removeValue(forKey: NSLocalizedDescriptionKey)
 
-        let nserror = mappedError as NSError
-        let resultError = NSError(domain: nserror.domain,
-                               code: nserror.code,
-                               userInfo: userInfo
-            )
-        return resultError
+        return .init(
+            code: mappedError,
+            apiErrorCode: errorCode,
+            apiErrorMessage: errorDescription,
+            apiErrorData: errorEntry["data"],
+            additionalUserInfo: originalErrorUserInfo
+        )
     }
 
-    func checkForThrottleErrorIn(data: Data) -> NSError? {
+    func checkForThrottleErrorIn(data: Data) -> WordPressComRestApiEndpointError? {
         // This endpoint is throttled, so check if we've sent too many requests and fill that error in as
         // when too many requests occur the API just spits out an html page.
         guard let responseString = String(data: data, encoding: .utf8),
             responseString.contains("Limit reached") else {
                 return nil
         }
-        var userInfo = [String: Any]()
-        userInfo[WordPressComRestApi.ErrorKeyErrorCode] = "too_many_requests"
-        userInfo[WordPressComRestApi.ErrorKeyErrorMessage] = NSLocalizedString("Limit reached. You can try again in 1 minute. Trying again before that will only increase the time you have to wait before the ban is lifted. If you think this is in error, contact support.", comment: "Message to show when a request for a WP.com API endpoint is throttled")
-        userInfo[NSLocalizedDescriptionKey] = userInfo[WordPressComRestApi.ErrorKeyErrorMessage]
-        let nsError = WordPressComRestApiError.tooManyRequests as NSError
-        let errorWithLocalizedMessage = NSError(domain: nsError.domain, code: nsError.code, userInfo: userInfo)
-        return errorWithLocalizedMessage
+
+        let message = NSLocalizedString(
+            "wordpresskit.api.message.endpoint_throttled",
+            value: "Limit reached. You can try again in 1 minute. Trying again before that will only increase the time you have to wait before the ban is lifted. If you think this is in error, contact support.",
+            comment: "Message to show when a request for a WP.com API endpoint is throttled"
+        )
+        return .init(
+            code: .tooManyRequests,
+            apiErrorCode: "too_many_requests",
+            apiErrorMessage: message
+        )
     }
 }
 // MARK: - Anonymous API support
@@ -586,8 +599,8 @@ extension WordPressComRestApi: WordPressRestApi {
 private extension WordPressComRestApi {
 
     enum Constants {
-        static let buildRequestError = NSError(domain: String(describing: WordPressComRestApiError.self),
-                                               code: WordPressComRestApiError.requestSerializationFailed.rawValue,
+        static let buildRequestError = NSError(domain: WordPressComRestApiEndpointError.errorDomain,
+                                               code: WordPressComRestApiErrorCode.requestSerializationFailed.rawValue,
                                                userInfo: [NSLocalizedDescriptionKey: NSLocalizedString("Failed to serialize request to the REST API.",
                                                                                                        comment: "Error message to show when wrong URL format is used to access the REST API")])
     }

@@ -244,7 +244,7 @@ const NSInteger WPRestErrorCodeMediaNew = 10;
             errorMessage = errorInfo[@"message"];
         }
         NSDictionary *errorDictionary = @{NSLocalizedDescriptionKey: errorMessage};
-        error = [NSError errorWithDomain:WordPressComRestApiErrorDomain code:WordPressComRestApiErrorUploadFailed userInfo:errorDictionary];
+        error = [NSError errorWithDomain:WordPressComRestApiErrorDomain code:WordPressComRestApiErrorCodeUploadFailed userInfo:errorDictionary];
     }
     return error;
 }
@@ -297,7 +297,7 @@ const NSInteger WPRestErrorCodeMediaNew = 10;
                                } else {
                                    if (failure) {
                                        NSError *error = [NSError errorWithDomain:WordPressComRestApiErrorDomain
-                                                                            code:WordPressComRestApiErrorUnknown
+                                                                            code:WordPressComRestApiErrorCodeUnknown
                                                                         userInfo:nil];
                                        failure(error);
                                    }
@@ -370,7 +370,7 @@ const NSInteger WPRestErrorCodeMediaNew = 10;
                                } else {
                                    if (failure) {
                                        NSError *error = [NSError errorWithDomain:WordPressComRestApiErrorDomain
-                                                                            code:WordPressComRestApiErrorUnknown
+                                                                            code:WordPressComRestApiErrorCodeUnknown
                                                                         userInfo:nil];
                                        failure(error);
                                    }

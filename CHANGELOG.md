@@ -34,7 +34,7 @@ _None._
 
 ### Breaking Changes
 
-_None._
+- `WordPressComRestApiError` is renamed to `WordPressRestApiErrorCode`, and no longer conforms to `Swift.Error`. [#696]
 
 ### New Features
 
