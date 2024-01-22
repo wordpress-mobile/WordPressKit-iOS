@@ -119,9 +119,6 @@ final class HTTPRequestBuilder {
     }
 
     func build(encodeMultipartForm: Bool = false) throws -> URLRequest {
-        if encodeMultipartForm, let multipartForm, !multipartForm.isEmpty {
-        }
-
         guard let url = urlComponents.url else {
             throw URLError(.badURL)
         }
