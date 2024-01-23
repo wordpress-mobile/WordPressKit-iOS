@@ -81,7 +81,7 @@ class MutliparFormDataTests: XCTestCase {
     }
 
     func testEmptyForm() throws {
-        let formData = try [].multipartFormDataStream().readToEnd()
+        let formData = try [].multipartFormDataStream(boundary: "test").readToEnd()
         XCTAssertTrue(formData.isEmpty)
     }
 
@@ -141,7 +141,16 @@ class MutliparFormDataTests: XCTestCase {
 
 }
 
-private extension InputStream {
+extension Either<Data, URL> {
+    func readToEnd() -> Data {
+        map(
+            left: { $0 },
+            right: { InputStream(url: $0)?.readToEnd() ?? Data() }
+        )
+    }
+}
+
+extension InputStream {
     func readToEnd() -> Data {
         open()
         defer { close() }

@@ -52,15 +52,8 @@ extension URLSession {
             assert(parentProgress.cancellationHandler == nil, "The progress instance's cancellationHandler property must be nil")
         }
 
-        let request: URLRequest
-        do {
-            request = try builder.build()
-        } catch {
-            return .failure(.requestEncodingFailure(underlyingError: error))
-        }
-
         return await withCheckedContinuation { continuation in
-            let task = dataTask(with: request) { data, response, error in
+            let completion: @Sendable (Data?, URLResponse?, Error?) -> Void = { data, response, error in
                 let result: WordPressAPIResult<HTTPAPIResponse<Data>, E> = Self.parseResponse(
                     data: data,
                     response: response,
@@ -70,6 +63,16 @@ extension URLSession {
 
                 continuation.resume(returning: result)
             }
+
+            let task: URLSessionTask
+
+            do {
+                task = try self.task(for: builder, completion: completion)
+            } catch {
+                continuation.resume(returning: .failure(.requestEncodingFailure(underlyingError: error)))
+                return
+            }
+
             task.resume()
 
             if let parentProgress, parentProgress.totalUnitCount > parentProgress.completedUnitCount {
@@ -80,6 +83,32 @@ extension URLSession {
                     task?.cancel()
                 }
             }
+        }
+    }
+
+    private func task(
+        for builder: HTTPRequestBuilder,
+        completion: @escaping @Sendable (Data?, URLResponse?, Error?) -> Void
+    ) throws -> URLSessionTask {
+        var request = try builder.build(encodeMultipartForm: false)
+
+        // Use special `URLSession.uploadTask` API for multipart POST requests.
+        if let multipart = builder.multipartForm, !multipart.isEmpty {
+            let isBackgroundSession = configuration.identifier != nil
+
+            return try builder
+                .encodeMultipartForm(request: &request, forceWriteToFile: isBackgroundSession)
+                .map(
+                    left: {
+                        uploadTask(with: request, from: $0, completionHandler: completion)
+                    },
+                    right: {
+                        uploadTask(with: request, fromFile: $0, completionHandler: completion)
+                    }
+                )
+        } else {
+            // Use `URLSession.dataTask` for all other request
+            return dataTask(with: request, completionHandler: completion)
         }
     }
 

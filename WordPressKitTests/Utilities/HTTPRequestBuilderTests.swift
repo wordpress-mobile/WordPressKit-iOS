@@ -225,6 +225,32 @@ class HTTPRequestBuilderTests: XCTestCase {
         XCTAssertEqual(form, decodedForm)
     }
 
+    func testMultipartForm() throws {
+        XCTAssertNotNil(
+            try HTTPRequestBuilder(url: URL(string: "https://wordpress.org")!)
+                .method(.post)
+                .body(form: [MultipartFormField(text: "123456", name: "site")])
+                .build(encodeMultipartForm: true)
+                .httpBody
+        )
+
+        XCTAssertNil(
+            try HTTPRequestBuilder(url: URL(string: "https://wordpress.org")!)
+                .method(.post)
+                .body(form: [MultipartFormField(text: "123456", name: "site")])
+                .build(encodeMultipartForm: false)
+                .httpBody
+        )
+
+        XCTAssertNil(
+            try HTTPRequestBuilder(url: URL(string: "https://wordpress.org")!)
+                .method(.post)
+                .body(form: [MultipartFormField(text: "123456", name: "site")])
+                .build(encodeMultipartForm: false)
+                .httpBodyStream
+        )
+    }
+
 }
 
 private extension URLRequest {

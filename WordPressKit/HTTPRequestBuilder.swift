@@ -17,6 +17,7 @@ final class HTTPRequestBuilder {
     private var method: Method = .get
     private var headers: [String: String] = [:]
     private var bodyBuilder: ((inout URLRequest) throws -> Void)?
+    private(set) var multipartForm: [MultipartFormField]?
 
     init(url: URL) {
         assert(url.scheme == "http" || url.scheme == "https")
@@ -83,6 +84,12 @@ final class HTTPRequestBuilder {
         return self
     }
 
+    func body(form: [MultipartFormField]) -> Self {
+        // Unlike other similar functions, multipart form encoding is handled by the `build` function.
+        multipartForm = form
+        return self
+    }
+
     func body(json: Encodable, jsonEncoder: JSONEncoder = JSONEncoder()) -> Self {
         body(json: {
             try jsonEncoder.encode(json)
@@ -111,7 +118,7 @@ final class HTTPRequestBuilder {
         return self
     }
 
-    func build() throws -> URLRequest {
+    func build(encodeMultipartForm: Bool = false) throws -> URLRequest {
         guard let url = urlComponents.url else {
             throw URLError(.badURL)
         }
@@ -123,12 +130,34 @@ final class HTTPRequestBuilder {
             request.addValue(value, forHTTPHeaderField: header)
         }
 
+        if encodeMultipartForm {
+            let encoded = try self.encodeMultipartForm(request: &request, forceWriteToFile: false)
+            switch encoded {
+            case let .left(data):
+                request.httpBody = data
+            case let .right(url):
+                request.httpBodyStream = InputStream(url: url)
+            }
+        }
+
         if let bodyBuilder {
             assert(method.allowsHTTPBody, "Can't include body in HTTP \(method.rawValue) requests")
             try bodyBuilder(&request)
         }
 
         return request
+    }
+
+    func encodeMultipartForm(request: inout URLRequest, forceWriteToFile: Bool) throws -> Either<Data, URL> {
+        guard let multipartForm, !multipartForm.isEmpty else {
+            return .left(Data())
+        }
+
+        let boundery = String(format: "wordpresskit.%08x", Int.random(in: Int.min..<Int.max))
+        request.setValue("multipart/form-data; boundary=\(boundery)", forHTTPHeaderField: "Content-Type")
+        return try multipartForm
+            .multipartFormDataStream(boundary: boundery, forceWriteToFile: forceWriteToFile)
+
     }
 }
 
