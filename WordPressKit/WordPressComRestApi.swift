@@ -14,7 +14,7 @@ import Alamofire
  - RequestSerializationFailed:     The serialization of the request failed
  - Unknown:                        Unknow error happen
  */
-@objc public enum WordPressComRestApiError: Int, Error {
+@objc public enum WordPressComRestApiErrorCode: Int, CaseIterable {
     case invalidInput
     case invalidToken
     case authorizationRequired
@@ -26,6 +26,22 @@ import Alamofire
     case preconditionFailure
     case malformedURL
     case invalidQuery
+}
+
+public struct WordPressComRestApiEndpointError: Error {
+    public var code: WordPressComRestApiErrorCode
+
+    public var apiErrorCode: String?
+    public var apiErrorMessage: String?
+    public var apiErrorData: AnyObject?
+
+    var additionalUserInfo: [String: Any]?
+}
+
+extension WordPressComRestApiEndpointError: LocalizedError {
+    public var errorDescription: String? {
+        apiErrorMessage
+    }
 }
 
 public enum ResponseType {
@@ -47,13 +63,11 @@ open class WordPressComRestApi: NSObject {
     @objc public static let LocaleKeyDefault        = "locale"  // locale is specified with this for v1 endpoints
     @objc public static let LocaleKeyV2             = "_locale" // locale is prefixed with an underscore for v2
 
-    @objc public static let SessionTaskKey          = "WordPressComRestAPI.sessionTask"
-
     public typealias RequestEnqueuedBlock = (_ taskID: NSNumber) -> Void
     public typealias SuccessResponseBlock = (_ responseObject: AnyObject, _ httpResponse: HTTPURLResponse?) -> Void
     public typealias FailureReponseBlock = (_ error: NSError, _ httpResponse: HTTPURLResponse?) -> Void
 
-    @objc public static let apiBaseURLString: String = "https://public-api.wordpress.com/"
+    @objc public static let apiBaseURL: URL = URL(string: "https://public-api.wordpress.com/")!
 
     @objc public static let defaultBackgroundSessionIdentifier = "org.wordpress.wpcomrestapi"
 
@@ -69,7 +83,7 @@ open class WordPressComRestApi: NSObject {
 
     private let localeKey: String
 
-    @objc public let baseURLString: String
+    @objc public let baseURL: URL
 
     private var invalidTokenHandler: (() -> Void)?
 
@@ -116,8 +130,8 @@ open class WordPressComRestApi: NSObject {
         self.init(oAuthToken: oAuthToken, userAgent: userAgent, backgroundUploads: false, backgroundSessionIdentifier: WordPressComRestApi.defaultBackgroundSessionIdentifier)
     }
 
-    @objc convenience public init(oAuthToken: String? = nil, userAgent: String? = nil, baseUrlString: String = WordPressComRestApi.apiBaseURLString) {
-        self.init(oAuthToken: oAuthToken, userAgent: userAgent, backgroundUploads: false, backgroundSessionIdentifier: WordPressComRestApi.defaultBackgroundSessionIdentifier, baseUrlString: baseUrlString)
+    @objc convenience public init(oAuthToken: String? = nil, userAgent: String? = nil, baseURL: URL = WordPressComRestApi.apiBaseURL) {
+        self.init(oAuthToken: oAuthToken, userAgent: userAgent, backgroundUploads: false, backgroundSessionIdentifier: WordPressComRestApi.defaultBackgroundSessionIdentifier, baseURL: baseURL)
     }
 
     /// Creates a new API object to connect to the WordPress Rest API.
@@ -129,7 +143,7 @@ open class WordPressComRestApi: NSObject {
     ///   - backgroundSessionIdentifier: The session identifier to use for the background session. This must be unique in the system.
     ///   - sharedContainerIdentifier: An optional string used when setting up background sessions for use in an app extension. Default is nil.
     ///   - localeKey: The key with which to specify locale in the parameters of a request.
-    ///   - baseUrlString: The base url to use for API requests. Default is https://public-api.wordpress.com/
+    ///   - baseURL: The base url to use for API requests. Default is https://public-api.wordpress.com/
     ///
     /// - Discussion: When backgroundUploads are activated any request done by the multipartPOST method will use background session. This background session is shared for all multipart
     ///   requests and the identifier used must be unique in the system, Apple recomends to use invert DNS base on your bundle ID. Keep in mind these requests will continue even
@@ -141,14 +155,14 @@ open class WordPressComRestApi: NSObject {
                 backgroundSessionIdentifier: String = WordPressComRestApi.defaultBackgroundSessionIdentifier,
                 sharedContainerIdentifier: String? = nil,
                 localeKey: String = WordPressComRestApi.LocaleKeyDefault,
-                baseUrlString: String = WordPressComRestApi.apiBaseURLString) {
+                baseURL: URL = WordPressComRestApi.apiBaseURL) {
         self.oAuthToken = oAuthToken
         self.userAgent = userAgent
         self.backgroundUploads = backgroundUploads
         self.backgroundSessionIdentifier = backgroundSessionIdentifier
         self.sharedContainerIdentifier = sharedContainerIdentifier
         self.localeKey = localeKey
-        self.baseURLString = baseUrlString
+        self.baseURL = baseURL
 
         super.init()
     }
@@ -205,11 +219,10 @@ open class WordPressComRestApi: NSObject {
                 progress?.completedUnitCount = progress?.totalUnitCount ?? 0
                 success(responseObject as AnyObject, response.response)
             case .failure(let error):
-                let nserror = self.processError(response: response, originalError: error)
-                failure(nserror, response.response)
+                let processedError = self.processError(response: response, originalError: error).flatMap { $0 as NSError }
+                failure(processedError ?? (error as NSError), response.response)
             }
         }).downloadProgress(closure: progressUpdater)
-        progress.sessionTask = dataRequest.task
         progress.cancellationHandler = { [weak dataRequest] in
             dataRequest?.cancel()
         }
@@ -341,8 +354,8 @@ open class WordPressComRestApi: NSObject {
                         progress.completedUnitCount = progress.totalUnitCount
                         success(responseObject as AnyObject, response.response)
                     case .failure(let error):
-                        let nserror = self.processError(response: response, originalError: error)
-                        failure(nserror, response.response)
+                        let processedError = self.processError(response: response, originalError: error).flatMap { $0 as NSError }
+                        failure(processedError ?? (error as NSError), response.response)
                     }
                 }).uploadProgress(closure: progressUpdater)
 
@@ -381,9 +394,6 @@ open class WordPressComRestApi: NSObject {
     /// - Returns: a request URL if successful, `nil` otherwise.
     ///
     func buildRequestURLFor(path: String, parameters: [String: AnyObject]? = [:]) -> String? {
-
-        let baseURL = URL(string: self.baseURLString)
-
         guard let requestURLString = URL(string: path, relativeTo: baseURL)?.absoluteString,
             let urlComponents = URLComponents(string: requestURLString) else {
 
@@ -442,81 +452,6 @@ open class WordPressComRestApi: NSObject {
         return URLSession(configuration: configuration)
     }()
 
-    // TODO: when migrating to Xcode 13.2 make this available to iOS 13
-    /**
-     Executes a GET request to the specified endpoint
-
-     - parameter url: the url `String` to be requested
-
-     - returns: a tuple containing the `Data` of the response and the `URLResponse` object
-     */
-    @available(iOS 15.0.0, *)
-    public func get(_ urlString: String) async throws -> (Data, URLResponse) {
-        guard let url = URL(string: urlString) else {
-            throw WordPressComRestApiError.malformedURL
-        }
-
-        return try await urlSession.data(from: url)
-    }
-
-    // TODO: when migrating to Xcode 13.2 make this available to iOS 13
-    /**
-     Executes a GET request to the specified endpoint
-
-     - parameter url: the url `String` to be requested
-     - parameter Type: an entity that conforms with `Codable`
-
-     - returns: a `Decodable` object of the `Type` given
-     */
-    @available(iOS 15.0.0, *)
-    public func get<T: Decodable>(_ urlString: String) async throws -> T {
-        let (data, _) = try await get(urlString)
-        let object = try JSONDecoder().decode(T.self, from: data)
-        return object
-    }
-
-    // TODO: when migrating to Xcode 13.2 make this available to iOS 13
-    /**
-     Executes a POST request to the specified endpoint
-
-     - parameter url: the url `String` to be requested
-     - parameter parameters: a `[String: Any]` of parameters
-
-     - returns: a tuple containing the `Data` of the response and the `URLResponse` object
-     */
-    @available(iOS 15.0.0, *)
-    public func post(_ urlString: String, parameters: [String: Any]? = nil) async throws -> (Data, URLResponse) {
-        guard let url = URL(string: urlString) else {
-            throw WordPressComRestApiError.malformedURL
-        }
-
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-
-        if let parameters = parameters {
-            request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-            request.httpBody = parameters.percentEncoded()
-        }
-
-        return try await urlSession.data(for: request, delegate: nil)
-    }
-
-    // TODO: when migrating to Xcode 13.2 make this available to iOS 13
-    /**
-     Executes a POST request to the specified endpoint
-
-     - parameter url: the url `String` to be requested
-     - parameter parameters: a `[String: Any]` of parameters
-     - parameter Type: an entity that conforms with `Codable`     
-
-     - returns: a `Decodable` object of the `Type` given
-     */
-    @available(iOS 15.0.0, *)
-    public func post<T: Decodable>(_ urlString: String, parameters: [String: Any]? = nil) async throws -> T {
-        let (data, _) = try await post(urlString, parameters: parameters)
-        let object = try JSONDecoder().decode(T.self, from: data)
-        return object
-    }
 }
 
 // MARK: - FilePart
@@ -541,17 +476,13 @@ public final class FilePart: NSObject {
 extension WordPressComRestApi {
 
     /// A custom error processor to handle error responses when status codes are betwen 400 and 500
-    func processError(response: DataResponse<Any>, originalError: Error) -> NSError {
-
-        let originalNSError = originalError as NSError
+    func processError(response: DataResponse<Any>, originalError: Error) -> WordPressComRestApiEndpointError? {
         guard let afError = originalError as?  AFError, case AFError.responseValidationFailed(_) = afError, let httpResponse = response.response, (400...500).contains(httpResponse.statusCode), let data = response.data else {
             if let afError = originalError as? AFError, case AFError.responseSerializationFailed(_) = afError {
-                return WordPressComRestApiError.responseSerializationFailed as NSError
+                return .init(code: .responseSerializationFailed)
             }
-            return originalNSError
+            return nil
         }
-
-        var userInfo: [String: Any] = originalNSError.userInfo
 
         guard let responseObject = try? JSONSerialization.jsonObject(with: data, options: .allowFragments),
             let responseDictionary = responseObject as? [String: AnyObject] else {
@@ -559,13 +490,13 @@ extension WordPressComRestApi {
             if let error = checkForThrottleErrorIn(data: data) {
                 return error
             }
-            return WordPressComRestApiError.unknown as NSError
+            return .init(code: .unknown)
         }
 
         // FIXME: A hack to support free WPCom sites and Rewind. Should be obsolote as soon as the backend
         // stops returning 412's for those sites.
         if httpResponse.statusCode == 412, let code = responseDictionary["code"] as? String, code == "no_connected_jetpack" {
-            return WordPressComRestApiError.preconditionFailure as NSError
+            return .init(code: .preconditionFailure)
         }
 
         var errorDictionary: AnyObject? = responseDictionary as AnyObject?
@@ -576,52 +507,53 @@ extension WordPressComRestApi {
             let errorCode = errorEntry["error"] as? String,
             let errorDescription = errorEntry["message"] as? String
             else {
-                return WordPressComRestApiError.unknown as NSError
+                return .init(code: .unknown)
         }
 
-        let errorsMap = [
-            "invalid_input": WordPressComRestApiError.invalidInput,
-            "invalid_token": WordPressComRestApiError.invalidToken,
-            "authorization_required": WordPressComRestApiError.authorizationRequired,
-            "upload_error": WordPressComRestApiError.uploadFailed,
-            "unauthorized": WordPressComRestApiError.authorizationRequired,
-            "invalid_query": WordPressComRestApiError.invalidQuery
+        let errorsMap: [String: WordPressComRestApiErrorCode] = [
+            "invalid_input": .invalidInput,
+            "invalid_token": .invalidToken,
+            "authorization_required": .authorizationRequired,
+            "upload_error": .uploadFailed,
+            "unauthorized": .authorizationRequired,
+            "invalid_query": .invalidQuery
         ]
 
-        let mappedError = errorsMap[errorCode] ?? WordPressComRestApiError.unknown
+        let mappedError = errorsMap[errorCode] ?? .unknown
         if mappedError == .invalidToken {
             invalidTokenHandler?()
         }
-        userInfo[WordPressComRestApi.ErrorKeyErrorCode] = errorCode
-        userInfo[WordPressComRestApi.ErrorKeyErrorMessage] = errorDescription
-        userInfo[NSLocalizedDescriptionKey] =  errorDescription
 
-        if let errorData = errorEntry["data"] {
-            userInfo[WordPressComRestApi.ErrorKeyErrorData] = errorData
-        }
+        var originalErrorUserInfo = (originalError as NSError).userInfo
+        originalErrorUserInfo.removeValue(forKey: NSLocalizedDescriptionKey)
 
-        let nserror = mappedError as NSError
-        let resultError = NSError(domain: nserror.domain,
-                               code: nserror.code,
-                               userInfo: userInfo
-            )
-        return resultError
+        return .init(
+            code: mappedError,
+            apiErrorCode: errorCode,
+            apiErrorMessage: errorDescription,
+            apiErrorData: errorEntry["data"],
+            additionalUserInfo: originalErrorUserInfo
+        )
     }
 
-    func checkForThrottleErrorIn(data: Data) -> NSError? {
+    func checkForThrottleErrorIn(data: Data) -> WordPressComRestApiEndpointError? {
         // This endpoint is throttled, so check if we've sent too many requests and fill that error in as
         // when too many requests occur the API just spits out an html page.
         guard let responseString = String(data: data, encoding: .utf8),
             responseString.contains("Limit reached") else {
                 return nil
         }
-        var userInfo = [String: Any]()
-        userInfo[WordPressComRestApi.ErrorKeyErrorCode] = "too_many_requests"
-        userInfo[WordPressComRestApi.ErrorKeyErrorMessage] = NSLocalizedString("Limit reached. You can try again in 1 minute. Trying again before that will only increase the time you have to wait before the ban is lifted. If you think this is in error, contact support.", comment: "Message to show when a request for a WP.com API endpoint is throttled")
-        userInfo[NSLocalizedDescriptionKey] = userInfo[WordPressComRestApi.ErrorKeyErrorMessage]
-        let nsError = WordPressComRestApiError.tooManyRequests as NSError
-        let errorWithLocalizedMessage = NSError(domain: nsError.domain, code: nsError.code, userInfo: userInfo)
-        return errorWithLocalizedMessage
+
+        let message = NSLocalizedString(
+            "wordpresskit.api.message.endpoint_throttled",
+            value: "Limit reached. You can try again in 1 minute. Trying again before that will only increase the time you have to wait before the ban is lifted. If you think this is in error, contact support.",
+            comment: "Message to show when a request for a WP.com API endpoint is throttled"
+        )
+        return .init(
+            code: .tooManyRequests,
+            apiErrorCode: "too_many_requests",
+            apiErrorMessage: message
+        )
     }
 }
 // MARK: - Anonymous API support
@@ -664,30 +596,11 @@ extension WordPressComRestApi: WordPressRestApi {
 private extension WordPressComRestApi {
 
     enum Constants {
-        static let buildRequestError = NSError(domain: String(describing: WordPressComRestApiError.self),
-                                               code: WordPressComRestApiError.requestSerializationFailed.rawValue,
+        static let buildRequestError = NSError(domain: WordPressComRestApiEndpointError.errorDomain,
+                                               code: WordPressComRestApiErrorCode.requestSerializationFailed.rawValue,
                                                userInfo: [NSLocalizedDescriptionKey: NSLocalizedString("Failed to serialize request to the REST API.",
                                                                                                        comment: "Error message to show when wrong URL format is used to access the REST API")])
     }
-}
-
-// MARK: - Progress
-
-@objc extension Progress {
-
-    var sessionTask: URLSessionTask? {
-        get {
-            return userInfo[.sessionTaskKey] as? URLSessionTask
-        }
-
-        set {
-            self.setUserInfoObject(newValue, forKey: .sessionTaskKey)
-        }
-    }
-}
-
-extension ProgressUserInfoKey {
-    public static let sessionTaskKey = ProgressUserInfoKey(rawValue: WordPressComRestApi.SessionTaskKey)
 }
 
 // MARK: - POST encoding

@@ -116,7 +116,7 @@ class URLSessionHelperTests: XCTestCase {
         XCTAssertEqual(progress.completedUnitCount, 0)
         XCTAssertEqual(progress.fractionCompleted, 0)
 
-        let _ = await URLSession.shared.perform(request: .init(url: URL(string: "https://wordpress.org/hello")!), fulfillingProgress: progress, errorType: TestError.self)
+        let _ = await URLSession.shared.perform(request: .init(url: URL(string: "https://wordpress.org/hello")!), fulfilling: progress, errorType: TestError.self)
         XCTAssertEqual(progress.completedUnitCount, 20)
         XCTAssertEqual(progress.fractionCompleted, 1)
     }
@@ -136,12 +136,78 @@ class URLSessionHelperTests: XCTestCase {
         }
 
         // The result should be an cancellation result
-        let result = await URLSession.shared.perform(request: .init(url: URL(string: "https://wordpress.org/hello")!), fulfillingProgress: progress, errorType: TestError.self)
+        let result = await URLSession.shared.perform(request: .init(url: URL(string: "https://wordpress.org/hello")!), fulfilling: progress, errorType: TestError.self)
         if case let .failure(.connection(urlError)) = result, urlError.code == .cancelled {
             // Do nothing
         } else {
             XCTFail("Unexpected result: \(result)")
         }
+    }
+
+    func testEncodingError() async {
+        let underlyingError = NSError(domain: "test", code: 123)
+        let builder = HTTPRequestBuilder(url: URL(string: "https://wordpress.org")!)
+            .method(.post)
+            .body(json: { throw underlyingError })
+        let result = await URLSession.shared.perform(request: builder, errorType: TestError.self)
+
+        if case let .failure(.requestEncodingFailure(underlyingError: error)) = result {
+            XCTAssertEqual(error as NSError, underlyingError)
+        } else {
+            XCTFail("Unexpected result: \(result)")
+        }
+    }
+
+    func testParsingError() async {
+        struct Model: Decodable {
+            var success: Bool
+        }
+
+        stub(condition: isPath("/hello")) { _ in
+            HTTPStubsResponse(data: "success".data(using: .utf8)!, statusCode: 200, headers: nil)
+        }
+
+        let result: WordPressAPIResult<Model, TestError> = await URLSession.shared
+            .perform(request: .init(url: URL(string: "https://wordpress.org/hello")!))
+            .decodeSuccess()
+
+        if case let .failure(.unparsableResponse(_, _, error)) = result {
+            XCTAssertTrue(error is DecodingError)
+        } else {
+            XCTFail("Unexpected result: \(result)")
+        }
+    }
+
+    func testMultipartForm() async throws {
+        var req: URLRequest?
+        stub(condition: isPath("/hello")) {
+            req = $0
+            return HTTPStubsResponse(data: "success".data(using: .utf8)!, statusCode: 200, headers: nil)
+        }
+
+        let builder = HTTPRequestBuilder(url: URL(string: "https://wordpress.org/hello")!)
+            .method(.post)
+            .body(form: [MultipartFormField(text: "value", name: "name", filename: nil)])
+
+        let _ = await URLSession.shared.perform(request: builder, errorType: TestError.self)
+
+        let request = try XCTUnwrap(req)
+        let boundary = try XCTUnwrap(
+            request
+                .value(forHTTPHeaderField: "Content-Type")?.split(separator: ";")
+                .map { $0.trimmingCharacters(in: .whitespaces) }
+                .reduce(into: [String: String]()) {
+                    let pair = $1.split(separator: "=")
+                    if pair.count == 2 {
+                        $0[String(pair[0])] = String(pair[1])
+                    }
+                }["boundary"]
+            )
+
+        let requestBody = try XCTUnwrap(request.httpBody ?? request.httpBodyStream?.readToEnd())
+
+        let expectedBody = "--\(boundary)\r\nContent-Disposition: form-data; name=\"name\"\r\n\r\nvalue\r\n--\(boundary)--\r\n"
+        XCTAssertEqual(String(data: requestBody, encoding: .utf8), expectedBody)
     }
 }
 

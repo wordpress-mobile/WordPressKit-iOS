@@ -181,7 +181,7 @@ NSString * const ParamKeyMetaValue = @"site,feed";
 
     NSString *endpoint = [NSString stringWithFormat:@"read/search?q=%@", [phrase stringByUrlEncoding]];
     NSString *absolutePath = [self pathForEndpoint:endpoint withVersion:ServiceRemoteWordPressComRESTApiVersion_1_2];
-    NSURL *url = [NSURL URLWithString:absolutePath relativeToURL:[NSURL URLWithString:self.wordPressComRestApi.baseURLString]];
+    NSURL *url = [NSURL URLWithString:absolutePath relativeToURL:self.wordPressComRestApi.baseURL];
     return [url absoluteString];
 }
 

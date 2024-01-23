@@ -47,12 +47,15 @@ public struct AuthenticationFailure: LocalizedError {
     public var newNonce: String?
     public var originalErrorJSON: [String: AnyObject]
 
-    init?(response: HTTPURLResponse, body: Data) {
-        guard [400, 409, 403].contains(response.statusCode),
-              let responseObject = try? JSONSerialization.jsonObject(with: body, options: .allowFragments),
-              let responseDictionary = responseObject as? [String: AnyObject]
-        else {
-            return nil
+    init(response: HTTPURLResponse, body: Data) throws {
+        guard [400, 409, 403].contains(response.statusCode) else {
+            throw URLError(.cannotParseResponse)
+        }
+
+        let responseObject = try JSONSerialization.jsonObject(with: body, options: .allowFragments)
+
+        guard let responseDictionary = responseObject as? [String: AnyObject] else {
+            throw URLError(.cannotParseResponse)
         }
 
         self.init(apiJSONResponse: responseDictionary)
@@ -85,8 +88,8 @@ public struct AuthenticationFailure: LocalizedError {
 ///
 public final class WordPressComOAuthClient: NSObject {
 
-    @objc public static let WordPressComOAuthDefaultBaseUrl = "https://wordpress.com"
-    @objc public static let WordPressComOAuthDefaultApiBaseUrl = "https://public-api.wordpress.com"
+    @objc public static let WordPressComOAuthDefaultBaseURL = URL(string: "https://wordpress.com")!
+    @objc public static let WordPressComOAuthDefaultApiBaseURL = URL(string: "https://public-api.wordpress.com")!
 
     enum WordPressComURL: String {
         case socialLoginNewSMS2FA = "/wp-login.php?action=send-sms-code-endpoint"
@@ -101,8 +104,8 @@ public final class WordPressComOAuthClient: NSObject {
     private let clientID: String
     private let secret: String
 
-    private let wordPressComBaseUrl: URL
-    private let wordPressComApiBaseUrl: URL
+    private let wordPressComBaseURL: URL
+    private let wordPressComApiBaseURL: URL
 
     // Question: Is it necessary to use these many URLSession instances?
     private let oauth2Session: URLSession = {
@@ -150,12 +153,12 @@ public final class WordPressComOAuthClient: NSObject {
     ///
     @objc public class func client(clientID: String,
                                    secret: String,
-                                   wordPressComBaseUrl: String,
-                                   wordPressComApiBaseUrl: String) -> WordPressComOAuthClient {
+                                   wordPressComBaseURL: URL,
+                                   wordPressComApiBaseURL: URL) -> WordPressComOAuthClient {
         let client = WordPressComOAuthClient(clientID: clientID,
                                              secret: secret,
-                                             wordPressComBaseUrl: wordPressComBaseUrl,
-                                             wordPressComApiBaseUrl: wordPressComApiBaseUrl)
+                                             wordPressComBaseURL: wordPressComBaseURL,
+                                             wordPressComApiBaseURL: wordPressComApiBaseURL)
         return client
     }
 
@@ -164,17 +167,17 @@ public final class WordPressComOAuthClient: NSObject {
     /// - Parameters:
     ///     - clientID: the app oauth clientID
     ///     - secret: the app secret
-    ///     - wordPressComBaseUrl: The base url to use for WordPress.com requests. Defaults to https://wordpress.com
-    ///     - wordPressComApiBaseUrl: The base url to use for WordPress.com API requests. Defaults to https://public-api-wordpress.com
+    ///     - wordPressComBaseURL: The base url to use for WordPress.com requests. Defaults to https://wordpress.com
+    ///     - wordPressComApiBaseURL: The base url to use for WordPress.com API requests. Defaults to https://public-api-wordpress.com
     ///
     @objc public init(clientID: String,
                       secret: String,
-                      wordPressComBaseUrl: String = WordPressComOAuthClient.WordPressComOAuthDefaultBaseUrl,
-                      wordPressComApiBaseUrl: String = WordPressComOAuthClient.WordPressComOAuthDefaultApiBaseUrl) {
+                      wordPressComBaseURL: URL = WordPressComOAuthClient.WordPressComOAuthDefaultBaseURL,
+                      wordPressComApiBaseURL: URL = WordPressComOAuthClient.WordPressComOAuthDefaultApiBaseURL) {
         self.clientID = clientID
         self.secret = secret
-        self.wordPressComBaseUrl = URL(string: wordPressComBaseUrl)!
-        self.wordPressComApiBaseUrl = URL(string: wordPressComApiBaseUrl)!
+        self.wordPressComBaseURL = wordPressComBaseURL
+        self.wordPressComApiBaseURL = wordPressComApiBaseURL
     }
 
     public enum AuthenticationResult {
@@ -212,14 +215,12 @@ public final class WordPressComOAuthClient: NSObject {
             .perform(request:  builder)
             .mapUnacceptableStatusCodeError(AuthenticationFailure.init(response:body:))
             .mapSuccess { response in
-                guard let responseObject = try? JSONSerialization.jsonObject(with: response.body) else {
-                    return nil
-                }
+                let responseObject = try JSONSerialization.jsonObject(with: response.body)
 
                 WPKitLogVerbose("Received OAuth2 response: \(self.cleanedUpResponseForLogging(responseObject as AnyObject? ?? "nil" as AnyObject))")
 
                 guard let responseDictionary = responseObject as? [String: AnyObject] else {
-                    return nil
+                    throw URLError(.cannotParseResponse)
                 }
 
                 // If we found an access_token, we are authed.
@@ -231,7 +232,7 @@ public final class WordPressComOAuthClient: NSObject {
                 guard let responseData = responseDictionary["data"] as? [String: AnyObject],
                       let userID = responseData["user_id"] as? Int,
                       let _ = responseData["two_step_nonce_webauthn"] else {
-                    return nil
+                    throw URLError(.cannotParseResponse)
                 }
 
                 let nonceInfo = self.extractNonceInfo(data: responseData)
@@ -336,14 +337,14 @@ public final class WordPressComOAuthClient: NSObject {
             "wpcom_resend_otp": true
             ] as [String: Any]
 
-        socialNewSMS2FASessionManager.request(WordPressComURL.socialLoginNewSMS2FA.url(base: wordPressComBaseUrl), method: .post, parameters: parameters)
+        socialNewSMS2FASessionManager.request(WordPressComURL.socialLoginNewSMS2FA.url(base: wordPressComBaseURL), method: .post, parameters: parameters)
             .validate()
             .responseJSON(completionHandler: { response in
                 switch response.result {
                 case .success(let responseObject):
                     guard let responseDictionary = responseObject as? [String: AnyObject],
                         let responseData = responseDictionary["data"] as? [String: AnyObject] else {
-                        return failure(.unparsableResponse(response: response.response, body: response.data), nil)
+                        return failure(.unparsableResponse(response: response.response, body: response.data, underlyingError: URLError(.cannotParseResponse)), nil)
                     }
 
                     let nonceInfo = self.extractNonceInfo(data: responseData)
@@ -393,10 +394,10 @@ public final class WordPressComOAuthClient: NSObject {
                 WPKitLogVerbose("Received Social Login Oauth response.")
 
                 // Make sure we received expected data.
-                guard let responseObject = try? JSONSerialization.jsonObject(with: response.body),
-                    let responseDictionary = responseObject as? [String: AnyObject],
+                let responseObject = try? JSONSerialization.jsonObject(with: response.body)
+                guard let responseDictionary = responseObject as? [String: AnyObject],
                     let responseData = responseDictionary["data"] as? [String: AnyObject] else {
-                    return nil
+                    throw URLError(.cannotParseResponse)
                 }
 
                 // Check for a bearer token. If one is found then we're authed.
@@ -407,7 +408,7 @@ public final class WordPressComOAuthClient: NSObject {
                 // If there is no bearer token, check for 2fa enabled.
                 guard let userID = responseData["user_id"] as? Int,
                     let _ = responseData["two_step_nonce_backup"] else {
-                    return nil
+                    throw URLError(.cannotParseResponse)
                 }
 
                 let nonceInfo = self.extractNonceInfo(data: responseData)
@@ -481,10 +482,10 @@ public final class WordPressComOAuthClient: NSObject {
             .mapUnacceptableStatusCodeError(AuthenticationFailure.init(response:body:))
             .mapSuccess { response in
                 // Expect the parent data response object
-                guard let responseObject = try? JSONSerialization.jsonObject(with: response.body),
-                      let responseDictionary = responseObject as? [String: Any],
+                let responseObject = try? JSONSerialization.jsonObject(with: response.body)
+                guard let responseDictionary = responseObject as? [String: Any],
                       let responseData = responseDictionary["data"] as? [String: Any] else {
-                    return nil
+                    throw URLError(.cannotParseResponse)
                 }
 
                 // Expect the challenge info.
@@ -494,7 +495,7 @@ public final class WordPressComOAuthClient: NSObject {
                     let rpID = responseData["rpId"] as? String,
                     let allowCredentials = responseData["allowCredentials"] as? [[String: Any]]
                 else {
-                    return nil
+                    throw URLError(.cannotParseResponse)
                 }
 
                 let allowedCredentialIDs = allowCredentials.compactMap { $0["id"] as? String }
@@ -553,9 +554,15 @@ public final class WordPressComOAuthClient: NSObject {
             ]
         ]
 
-        guard let serializedClientData = try? JSONSerialization.data(withJSONObject: clientData, options: .withoutEscapingSlashes),
-              let clientDataString = String(data: serializedClientData, encoding: .utf8) else {
-            return .failure(.requestEncodingFailure)
+        let clientDataString: String
+        do {
+            let serializedClientData = try JSONSerialization.data(withJSONObject: clientData, options: .withoutEscapingSlashes)
+            guard let string = String(data: serializedClientData, encoding: .utf8) else {
+                throw URLError(.badURL)
+            }
+            clientDataString = string
+        } catch {
+            return .failure(.requestEncodingFailure(underlyingError: error))
         }
 
         let builder = webAuthnRequestBuilder(action: .authenticate)
@@ -574,16 +581,16 @@ public final class WordPressComOAuthClient: NSObject {
             .perform(request:  builder)
             .mapUnacceptableStatusCodeError(AuthenticationFailure.init(response:body:))
             .mapSuccess { response in
-                guard let responseObject = try? JSONSerialization.jsonObject(with: response.body),
-                      let responseDictionary = responseObject as? [String: Any],
+                let responseObject = try? JSONSerialization.jsonObject(with: response.body)
+                guard let responseDictionary = responseObject as? [String: Any],
                       let successResponse = responseDictionary["success"] as? Bool, successResponse,
                       let responseData = responseDictionary["data"] as? [String: Any] else {
-                    return nil
+                    throw URLError(.cannotParseResponse)
                 }
 
                 // Check for a bearer token. If one is found then we're authed.
                 guard let authToken = responseData["bearer_token"] as? String else {
-                    return nil
+                    throw URLError(.cannotParseResponse)
                 }
 
                 return authToken
@@ -702,15 +709,13 @@ public final class WordPressComOAuthClient: NSObject {
             .perform(request: builder)
             .mapUnacceptableStatusCodeError(AuthenticationFailure.init(response:body:))
             .mapSuccess { response in
-                guard let responseObject = try? JSONSerialization.jsonObject(with: response.body) else {
-                    return nil
-                }
+                let responseObject = try JSONSerialization.jsonObject(with: response.body)
 
                 WPKitLogVerbose("Received Social Login Oauth response: \(self.cleanedUpResponseForLogging(responseObject as AnyObject? ?? "nil" as AnyObject))")
                 guard let responseDictionary = responseObject as? [String: AnyObject],
                     let responseData = responseDictionary["data"] as? [String: AnyObject],
                     let authToken = responseData["bearer_token"] as? String else {
-                    return nil
+                    throw URLError(.cannotParseResponse)
                 }
 
                 return authToken
@@ -790,7 +795,7 @@ extension WordPressComOAuthClient {
         case let afError as AFError:
             switch afError {
             case .invalidURL, .parameterEncodingFailed, .multipartEncodingFailed:
-                return .requestEncodingFailure
+                return .requestEncodingFailure(underlyingError: afError)
             case .responseSerializationFailed:
                 return .unparsableResponse(response: response.response, body: response.data)
             case .responseValidationFailed:
@@ -813,7 +818,7 @@ extension WordPressComOAuthClient {
 
 private extension WordPressComOAuthClient {
     func tokenRequestBuilder() -> HTTPRequestBuilder {
-        HTTPRequestBuilder(url: wordPressComApiBaseUrl)
+        HTTPRequestBuilder(url: wordPressComApiBaseURL)
             .method(.post)
             .append(path: "/oauth2/token")
     }
@@ -824,7 +829,7 @@ private extension WordPressComOAuthClient {
     }
 
     func webAuthnRequestBuilder(action: WebAuthnAction) -> HTTPRequestBuilder {
-        HTTPRequestBuilder(url: wordPressComBaseUrl)
+        HTTPRequestBuilder(url: wordPressComBaseURL)
             .method(.post)
             .append(path: "/wp-login.php")
             .query(name: "action", value: action.rawValue)
@@ -845,7 +850,7 @@ private extension WordPressComOAuthClient {
     }
 
     func socialSignInRequestBuilder(action: SocialSignInAction) -> HTTPRequestBuilder {
-        HTTPRequestBuilder(url: wordPressComBaseUrl)
+        HTTPRequestBuilder(url: wordPressComBaseURL)
             .method(.post)
             .append(path: "/wp-login.php")
             .append(query: action.queryItems, override: true)
