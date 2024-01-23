@@ -1,6 +1,6 @@
 import Foundation
 
-/// A builder type that adding HTTP request data onto an URL.
+/// A builder type that appends HTTP request data to a URL.
 ///
 /// Calling this class's url related functions (the ones that changes path, query, etc) does not modify the
 /// original URL string. The URL will be perserved in the final result that's returned by the `build` function.

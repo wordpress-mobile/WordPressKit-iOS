@@ -8,7 +8,7 @@ class HTTPRequestBuilderTests: XCTestCase {
     static let nestedParameters: [String: Any] =
         [
             "number": 1,
-            "nsnumbe-true": NSNumber(value: true),
+            "nsnumber-true": NSNumber(value: true),
             "true": true,
             "false": false,
             "string": "true",
@@ -27,7 +27,7 @@ class HTTPRequestBuilderTests: XCTestCase {
         ]
     static let nestedParametersEncoded = [
         "number=1",
-        "nsnumbe-true=1",
+        "nsnumber-true=1",
         "true=1",
         "false=0",
         "string=true",
