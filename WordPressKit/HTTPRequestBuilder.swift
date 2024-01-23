@@ -56,8 +56,18 @@ final class HTTPRequestBuilder {
         append(query: [URLQueryItem(name: name, value: value)], override: override)
     }
 
-    func append(query: [URLQueryItem], override: Bool) -> Self {
-        urlComponents.queryItems = (urlComponents.queryItems ?? []) + query
+    func append(query: [URLQueryItem], override: Bool = false) -> Self {
+        var allQuery = urlComponents.queryItems ?? []
+
+        if override {
+            let newKeys = Set(query.map { $0.name })
+            allQuery.removeAll(where: { newKeys.contains($0.name) })
+        }
+
+        allQuery.append(contentsOf: query)
+
+        urlComponents.queryItems = allQuery
+
         return self
     }
 

@@ -87,8 +87,8 @@ class DomainsServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
             expect.fulfill()
         }, failure: { error in
             let error = error as NSError
-            XCTAssertEqual(error.domain, String(reflecting: WordPressComRestApiError.self), "The error domain should be WordPressComRestApiError")
-            XCTAssertEqual(error.code, WordPressComRestApiError.unknown.rawValue, "The error code should be 7 - unknown")
+            XCTAssertEqual(error.domain, "WordPressKit.WordPressComRestApiError", "The error domain should be WordPressComRestApiError")
+            XCTAssertEqual(error.code, WordPressComRestApiErrorCode.unknown.rawValue, "The error code should be 7 - unknown")
             expect.fulfill()
         })
 
@@ -104,8 +104,8 @@ class DomainsServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
             expect.fulfill()
         }, failure: { error in
             let error = error as NSError
-            XCTAssertEqual(error.domain, String(reflecting: WordPressComRestApiError.self), "The error domain should be WordPressComRestApiError")
-            XCTAssertEqual(error.code, WordPressComRestApiError.authorizationRequired.rawValue, "The error code should be 2 - authorization_required")
+            XCTAssertEqual(error.domain, "WordPressKit.WordPressComRestApiError", "The error domain should be WordPressComRestApiError")
+            XCTAssertEqual(error.code, WordPressComRestApiErrorCode.authorizationRequired.rawValue, "The error code should be 2 - authorization_required")
             expect.fulfill()
         })
 
@@ -236,8 +236,8 @@ class DomainsServiceRemoteRESTTests: RemoteTestCase, RESTTestable {
             expect.fulfill()
         }, failure: { error in
             let error = error as NSError
-            XCTAssertEqual(error.domain, String(reflecting: WordPressComRestApiError.self), "The error domain should be WordPressComRestApiError")
-            XCTAssertEqual(error.code, WordPressComRestApiError.invalidQuery.rawValue, "The error code should be 10 - invalid_query")
+            XCTAssertEqual(error.domain, "WordPressKit.WordPressComRestApiError", "The error domain should be WordPressComRestApiError")
+            XCTAssertEqual(error.code, WordPressComRestApiErrorCode.invalidQuery.rawValue, "The error code should be 10 - invalid_query")
             expect.fulfill()
         })
 

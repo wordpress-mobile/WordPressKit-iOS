@@ -154,7 +154,7 @@ open class ActivityServiceRemote: ServiceRemoteWordPressComREST {
                                 }, failure: { error, _ in
                                     // FIXME: A hack to support free WPCom sites and Rewind. Should be obsolote as soon as the backend
                                     // stops returning 412's for those sites.
-                                    if let error = error as? WordPressComRestApiError, error == WordPressComRestApiError.preconditionFailure {
+                                    if error.domain == WordPressComRestApiEndpointError.errorDomain, error.code == WordPressComRestApiErrorCode.preconditionFailure.rawValue {
                                         let status = RewindStatus(state: .unavailable)
                                         success(status)
                                         return
