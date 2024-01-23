@@ -5,6 +5,43 @@ import XCTest
 
 class HTTPRequestBuilderTests: XCTestCase {
 
+    static let nestedParameters: [String: Any] =
+        [
+            "number": 1,
+            "nsnumber-true": NSNumber(value: true),
+            "true": true,
+            "false": false,
+            "string": "true",
+            "dict": ["foo": true, "bar": "string"],
+            "nested-dict": [
+                "outer1": [
+                    "inner1": "value1",
+                    "inner2": "value2"
+                ],
+                "outer2": [
+                    "inner1": "value1",
+                    "inner2": "value2"
+                ]
+            ],
+            "array": ["true", 1, false]
+        ]
+    static let nestedParametersEncoded = [
+        "number=1",
+        "nsnumber-true=1",
+        "true=1",
+        "false=0",
+        "string=true",
+        "dict[foo]=1",
+        "dict[bar]=string",
+        "nested-dict[outer1][inner1]=value1",
+        "nested-dict[outer1][inner2]=value2",
+        "nested-dict[outer2][inner1]=value1",
+        "nested-dict[outer2][inner2]=value2",
+        "array[]=true",
+        "array[]=1",
+        "array[]=0",
+    ]
+
     func testURL() throws {
         try XCTAssertEqual(HTTPRequestBuilder(url: URL(string: "https://wordpress.org")!).build().url?.absoluteString, "https://wordpress.org")
         try XCTAssertEqual(HTTPRequestBuilder(url: URL(string: "https://wordpress.com")!).build().url?.absoluteString, "https://wordpress.com")
@@ -140,6 +177,33 @@ class HTTPRequestBuilderTests: XCTestCase {
         )
     }
 
+    @available(iOS 16.0, *)
+    func testSetQueryWithDictionary() throws {
+        let query = try HTTPRequestBuilder(url: URL(string: "https://wordpress.org")!)
+            .query(HTTPRequestBuilderTests.nestedParameters)
+            .build()
+            .url?
+            .query(percentEncoded: false)?
+            .split(separator: "&")
+            .reduce(into: Set()) { $0.insert(String($1)) }
+            ?? []
+
+        XCTAssertEqual(query.count, HTTPRequestBuilderTests.nestedParametersEncoded.count)
+
+        for item in HTTPRequestBuilderTests.nestedParametersEncoded {
+            XCTAssertTrue(query.contains(item), "Missing query item: \(item)")
+        }
+    }
+
+    func testDefaultQuery() throws {
+        let builder = HTTPRequestBuilder(url: URL(string: "https://wordpress.org")!)
+            .query(defaults: [URLQueryItem(name: "locale", value: "en")])
+
+        try XCTAssertEqual(builder.build().url?.query, "locale=en")
+        try XCTAssertEqual(builder.query(name: "locale", value: "zh").build().url?.query, "locale=zh")
+        try XCTAssertEqual(builder.query(name: "foo", value: "bar").build().url?.query, "locale=zh&foo=bar")
+    }
+
     func testJSONBody() throws {
         var request = try HTTPRequestBuilder(url: URL(string: "https://wordpress.org")!)
             .method(.post)
@@ -223,6 +287,41 @@ class HTTPRequestBuilderTests: XCTestCase {
         // The decoded form should be the same the original form.
         let decodedForm: [String: String] = Dictionary(uniqueKeysWithValues: keyValuePairs)
         XCTAssertEqual(form, decodedForm)
+    }
+
+    func testJoin() throws {
+        XCTAssertEqual(HTTPRequestBuilder.join("foo", "bar"), "foo/bar")
+        XCTAssertEqual(HTTPRequestBuilder.join("foo/", "bar"), "foo/bar")
+        XCTAssertEqual(HTTPRequestBuilder.join("foo", "/bar"), "foo/bar")
+        XCTAssertEqual(HTTPRequestBuilder.join("foo/", "/bar"), "foo/bar")
+        XCTAssertEqual(HTTPRequestBuilder.join("foo=1", "bar=2", separator: "&"), "foo=1&bar=2")
+        XCTAssertEqual(HTTPRequestBuilder.join("foo=1/", "bar=2", separator: "&"), "foo=1/&bar=2")
+        XCTAssertEqual(HTTPRequestBuilder.join("foo=1/", "&bar=2", separator: "&"), "foo=1/&bar=2")
+
+        XCTAssertEqual(HTTPRequestBuilder.join("", "foo"), "foo")
+        XCTAssertEqual(HTTPRequestBuilder.join("foo", ""), "foo")
+        XCTAssertEqual(HTTPRequestBuilder.join("foo", "/"), "foo/")
+        XCTAssertEqual(HTTPRequestBuilder.join("/", "/foo"), "/foo")
+        XCTAssertEqual(HTTPRequestBuilder.join("", "/foo"), "/foo")
+    }
+
+    func testPreserveOriginalURL() throws {
+        try XCTAssertEqual(
+            HTTPRequestBuilder(url: URL(string: "https://wordpress.org/api?locale=en")!)
+                .query(name: "locale", value: "zh")
+                .build()
+                .url?
+                .query,
+            "locale=en&locale=zh"
+        )
+        try XCTAssertEqual(
+            HTTPRequestBuilder(url: URL(string: "https://wordpress.org/api?locale=en")!)
+                .query(name: "foo", value: "bar")
+                .build()
+                .url?
+                .query,
+            "locale=en&foo=bar"
+        )
     }
 
     func testMultipartForm() throws {

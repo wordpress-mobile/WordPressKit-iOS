@@ -60,6 +60,38 @@ class WordPressComRestApiTests: XCTestCase {
         }
     }
 
+    @available(iOS 16.0, *)
+    func testQuery() {
+        var requestURL: URL?
+        stub(condition: isRestAPIRequest()) {
+            requestURL = $0.url
+            return HTTPStubsResponse(error: URLError(URLError.Code.networkConnectionLost))
+        }
+
+        let expect = self.expectation(description: "One callback should be invoked")
+        let api = WordPressComRestApi(oAuthToken: "fakeToken")
+        api.GET(
+            wordPressMediaRoutePath,
+            parameters: HTTPRequestBuilderTests.nestedParameters as [String: AnyObject],
+            success: { _, _ in expect.fulfill() },
+            failure: { (_, _) in expect.fulfill() }
+        )
+        wait(for: [expect], timeout: 0.1)
+
+        let query = requestURL?
+            .query(percentEncoded: false)?
+            .split(separator: "&")
+            .reduce(into: Set()) { $0.insert(String($1)) }
+            ?? []
+        let expected = HTTPRequestBuilderTests.nestedParametersEncoded + ["locale=en"]
+
+        XCTAssertEqual(query.count, expected.count)
+
+        for item in expected {
+            XCTAssertTrue(query.contains(item), "Missing query item: \(item)")
+        }
+    }
+
     func testSuccessfullCall() {
         stub(condition: isRestAPIRequest()) { _ in
             let stubPath = OHPathForFile("WordPressComRestApiMedia.json", type(of: self))
