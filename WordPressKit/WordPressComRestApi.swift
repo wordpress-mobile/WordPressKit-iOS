@@ -63,8 +63,6 @@ open class WordPressComRestApi: NSObject {
     @objc public static let LocaleKeyDefault        = "locale"  // locale is specified with this for v1 endpoints
     @objc public static let LocaleKeyV2             = "_locale" // locale is prefixed with an underscore for v2
 
-    @objc public static let SessionTaskKey          = "WordPressComRestAPI.sessionTask"
-
     public typealias RequestEnqueuedBlock = (_ taskID: NSNumber) -> Void
     public typealias SuccessResponseBlock = (_ responseObject: AnyObject, _ httpResponse: HTTPURLResponse?) -> Void
     public typealias FailureReponseBlock = (_ error: NSError, _ httpResponse: HTTPURLResponse?) -> Void
@@ -225,7 +223,6 @@ open class WordPressComRestApi: NSObject {
                 failure(processedError ?? (error as NSError), response.response)
             }
         }).downloadProgress(closure: progressUpdater)
-        progress.sessionTask = dataRequest.task
         progress.cancellationHandler = { [weak dataRequest] in
             dataRequest?.cancel()
         }
@@ -604,25 +601,6 @@ private extension WordPressComRestApi {
                                                userInfo: [NSLocalizedDescriptionKey: NSLocalizedString("Failed to serialize request to the REST API.",
                                                                                                        comment: "Error message to show when wrong URL format is used to access the REST API")])
     }
-}
-
-// MARK: - Progress
-
-@objc extension Progress {
-
-    var sessionTask: URLSessionTask? {
-        get {
-            return userInfo[.sessionTaskKey] as? URLSessionTask
-        }
-
-        set {
-            self.setUserInfoObject(newValue, forKey: .sessionTaskKey)
-        }
-    }
-}
-
-extension ProgressUserInfoKey {
-    public static let sessionTaskKey = ProgressUserInfoKey(rawValue: WordPressComRestApi.SessionTaskKey)
 }
 
 // MARK: - POST encoding

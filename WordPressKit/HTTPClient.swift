@@ -44,7 +44,7 @@ extension URLSession {
     func perform<E: LocalizedError>(
         request builder: HTTPRequestBuilder,
         acceptableStatusCodes: [ClosedRange<Int>] = [200...299],
-        fulfillingProgress parentProgress: Progress? = nil,
+        fulfilling parentProgress: Progress? = nil,
         errorType: E.Type = E.self
     ) async -> WordPressAPIResult<HTTPAPIResponse<Data>, E> {
         if let parentProgress {

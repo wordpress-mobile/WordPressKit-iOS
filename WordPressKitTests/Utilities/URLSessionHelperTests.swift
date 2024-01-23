@@ -116,7 +116,7 @@ class URLSessionHelperTests: XCTestCase {
         XCTAssertEqual(progress.completedUnitCount, 0)
         XCTAssertEqual(progress.fractionCompleted, 0)
 
-        let _ = await URLSession.shared.perform(request: .init(url: URL(string: "https://wordpress.org/hello")!), fulfillingProgress: progress, errorType: TestError.self)
+        let _ = await URLSession.shared.perform(request: .init(url: URL(string: "https://wordpress.org/hello")!), fulfilling: progress, errorType: TestError.self)
         XCTAssertEqual(progress.completedUnitCount, 20)
         XCTAssertEqual(progress.fractionCompleted, 1)
     }
@@ -136,7 +136,7 @@ class URLSessionHelperTests: XCTestCase {
         }
 
         // The result should be an cancellation result
-        let result = await URLSession.shared.perform(request: .init(url: URL(string: "https://wordpress.org/hello")!), fulfillingProgress: progress, errorType: TestError.self)
+        let result = await URLSession.shared.perform(request: .init(url: URL(string: "https://wordpress.org/hello")!), fulfilling: progress, errorType: TestError.self)
         if case let .failure(.connection(urlError)) = result, urlError.code == .cancelled {
             // Do nothing
         } else {
