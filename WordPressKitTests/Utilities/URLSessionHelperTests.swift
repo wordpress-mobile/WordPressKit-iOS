@@ -121,6 +121,24 @@ class URLSessionHelperTests: XCTestCase {
         XCTAssertEqual(progress.fractionCompleted, 1)
     }
 
+    func testProgressUpdateOnMainThread() async throws {
+        stub(condition: isPath("/hello")) { _ in
+            HTTPStubsResponse(data: "success".data(using: .utf8)!, statusCode: 200, headers: nil)
+        }
+
+        let progressReported = expectation(description: "Progress has been updated")
+        progressReported.assertForOverFulfill = false
+        let progress = Progress.discreteProgress(totalUnitCount: 20)
+        let observer = progress.observe(\.fractionCompleted, options: .new) { _, _ in
+            XCTAssertTrue(Thread.isMainThread)
+            progressReported.fulfill()
+        }
+
+        let _ = await URLSession.shared.perform(request: .init(url: URL(string: "https://wordpress.org/hello")!), fulfilling: progress, errorType: TestError.self)
+        await fulfillment(of: [progressReported], timeout: 0.1)
+        observer.invalidate()
+    }
+
     func testCancellation() async throws {
         // Give a slow HTTP request that takes 0.5 second to complete
         stub(condition: isPath("/hello")) { _ in

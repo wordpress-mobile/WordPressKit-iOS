@@ -1,4 +1,5 @@
 import Foundation
+import Combine
 
 public typealias WordPressAPIResult<Response, Error: LocalizedError> = Result<Response, WordPressAPIError<Error>>
 
@@ -77,10 +78,12 @@ extension URLSession {
 
             if let parentProgress, parentProgress.totalUnitCount > parentProgress.completedUnitCount {
                 let pending = parentProgress.totalUnitCount - parentProgress.completedUnitCount
-                parentProgress.addChild(task.progress, withPendingUnitCount: pending)
+                // The Jetpack/WordPress app requires task progress updates to be delievered on the main queue.
+                let progressUpdator = parentProgress.update(totoalUnit: pending, with: task.progress, queue: .main)
 
                 parentProgress.cancellationHandler = { [weak task] in
                     task?.cancel()
+                    progressUpdator.cancel()
                 }
             }
         }
@@ -188,4 +191,15 @@ extension WordPressAPIResult {
         }
     }
 
+}
+
+extension Progress {
+    func update(totoalUnit: Int64, with progress: Progress, queue: DispatchQueue) -> AnyCancellable {
+        let start = self.completedUnitCount
+        return progress.publisher(for: \.fractionCompleted, options: .new)
+            .receive(on: queue)
+            .sink { fraction in
+                self.completedUnitCount = start + Int64(fraction * Double(totoalUnit))
+            }
+    }
 }
