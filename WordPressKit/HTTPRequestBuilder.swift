@@ -38,7 +38,10 @@ final class HTTPRequestBuilder {
         return self
     }
 
-    func append(path: String) -> Self {
+    /// Append path to the original URL.
+    ///
+    /// The argument will be appended to the original URL as it is.
+    func append(percentEncodedPath path: String) -> Self {
         assert(!path.contains("?") && !path.contains("#"), "Path should not have query or fragment: \(path)")
 
         appendedPath = Self.join(appendedPath, path)

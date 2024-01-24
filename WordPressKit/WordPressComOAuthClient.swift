@@ -820,7 +820,7 @@ private extension WordPressComOAuthClient {
     func tokenRequestBuilder() -> HTTPRequestBuilder {
         HTTPRequestBuilder(url: wordPressComApiBaseURL)
             .method(.post)
-            .append(path: "/oauth2/token")
+            .append(percentEncodedPath: "/oauth2/token")
     }
 
     enum WebAuthnAction: String {
@@ -831,7 +831,7 @@ private extension WordPressComOAuthClient {
     func webAuthnRequestBuilder(action: WebAuthnAction) -> HTTPRequestBuilder {
         HTTPRequestBuilder(url: wordPressComBaseURL)
             .method(.post)
-            .append(path: "/wp-login.php")
+            .append(percentEncodedPath: "/wp-login.php")
             .query(name: "action", value: action.rawValue)
     }
 
@@ -852,7 +852,7 @@ private extension WordPressComOAuthClient {
     func socialSignInRequestBuilder(action: SocialSignInAction) -> HTTPRequestBuilder {
         HTTPRequestBuilder(url: wordPressComBaseURL)
             .method(.post)
-            .append(path: "/wp-login.php")
+            .append(percentEncodedPath: "/wp-login.php")
             .append(query: action.queryItems, override: true)
     }
 }

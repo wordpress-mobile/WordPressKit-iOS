@@ -75,22 +75,22 @@ class HTTPRequestBuilderTests: XCTestCase {
 
     func testPath() throws {
         var request = try HTTPRequestBuilder(url: URL(string: "https://wordpress.org")!)
-            .append(path: "hello/world")
+            .append(percentEncodedPath: "hello/world")
             .build()
         XCTAssertEqual(request.url?.absoluteString, "https://wordpress.org/hello/world")
 
         request = try HTTPRequestBuilder(url: URL(string: "https://wordpress.org")!)
-            .append(path: "/hello/world")
+            .append(percentEncodedPath: "/hello/world")
             .build()
         XCTAssertEqual(request.url?.absoluteString, "https://wordpress.org/hello/world")
 
         request = try HTTPRequestBuilder(url: URL(string: "https://wordpress.org/hello")!)
-            .append(path: "world")
+            .append(percentEncodedPath: "world")
             .build()
         XCTAssertEqual(request.url?.absoluteString, "https://wordpress.org/hello/world")
 
         request = try HTTPRequestBuilder(url: URL(string: "https://wordpress.org/hello")!)
-            .append(path: "/world")
+            .append(percentEncodedPath: "/world")
             .build()
         XCTAssertEqual(request.url?.absoluteString, "https://wordpress.org/hello/world")
     }
@@ -353,7 +353,7 @@ class HTTPRequestBuilderTests: XCTestCase {
     func testURLEncodedPathInOriginalURL() {
         XCTAssertEqual(
             try HTTPRequestBuilder(url: URL(string: "https://wordpress.org/foo%2Fbar/test")!)
-                .append(path: "new-path")
+                .append(percentEncodedPath: "new-path")
                 .query(name: "arg", value: "value")
                 .build()
                 .url?
