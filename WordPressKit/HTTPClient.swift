@@ -3,9 +3,9 @@ import Combine
 
 public typealias WordPressAPIResult<Response, Error: LocalizedError> = Result<Response, WordPressAPIError<Error>>
 
-struct HTTPAPIResponse<Body> {
-    var response: HTTPURLResponse
-    var body: Body
+public struct HTTPAPIResponse<Body> {
+    public var response: HTTPURLResponse
+    public var body: Body
 }
 
 extension HTTPAPIResponse where Body == Data {
