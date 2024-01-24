@@ -76,6 +76,7 @@ open class WordPressComRestApi: NSObject {
     public typealias RequestEnqueuedBlock = (_ taskID: NSNumber) -> Void
     public typealias SuccessResponseBlock = (_ responseObject: AnyObject, _ httpResponse: HTTPURLResponse?) -> Void
     public typealias FailureReponseBlock = (_ error: NSError, _ httpResponse: HTTPURLResponse?) -> Void
+    public typealias APIResult<T> = WordPressAPIResult<HTTPAPIResponse<T>, WordPressComRestApiEndpointError>
 
     @objc public static let apiBaseURL: URL = URL(string: "https://public-api.wordpress.com/")!
 
@@ -480,6 +481,87 @@ open class WordPressComRestApi: NSObject {
 
         return URLSession(configuration: configuration)
     }()
+
+    func perform(
+        _ method: HTTPRequestBuilder.Method,
+        URLString: String,
+        parameters: [String: AnyObject]? = nil,
+        fulfilling progress: Progress? = nil
+    ) async -> APIResult<AnyObject> {
+        await perform(method, URLString: URLString, parameters: parameters, fulfilling: progress) {
+            try (JSONSerialization.jsonObject(with: $0) as AnyObject)
+        }
+    }
+
+    func perform<T: Decodable>(
+        _ method: HTTPRequestBuilder.Method,
+        URLString: String,
+        parameters: [String: AnyObject]? = nil,
+        fulfilling progress: Progress? = nil,
+        jsonDecoder: JSONDecoder? = nil,
+        type: T.Type = T.self
+    ) async -> APIResult<T> {
+        await perform(method, URLString: URLString, parameters: parameters, fulfilling: progress) {
+            let decoder = jsonDecoder ?? JSONDecoder()
+            return try decoder.decode(type, from: $0)
+        }
+    }
+
+    private func perform<T>(
+        _ method: HTTPRequestBuilder.Method,
+        URLString: String,
+        parameters: [String: AnyObject]?,
+        fulfilling progress: Progress?,
+        decoder: @escaping (Data) throws -> T
+    ) async -> APIResult<T> {
+        var builder: HTTPRequestBuilder
+        do {
+            builder = try requestBuilder(URLString: URLString)
+        } catch {
+            return .failure(.requestEncodingFailure(underlyingError: error))
+        }
+
+        if let parameters {
+            if builder.method.allowsHTTPBody {
+                builder = builder.body(json: parameters as Any)
+            } else {
+                builder = builder.query(parameters)
+            }
+        }
+
+        return await perform(request: builder, fulfilling: progress, decoder: decoder)
+    }
+
+    private func perform<T>(
+        request: HTTPRequestBuilder,
+        fulfilling progress: Progress?,
+        decoder: @escaping (Data) throws -> T
+    ) async -> APIResult<T> {
+        await self.urlSession
+            .perform(request: request, fulfilling: progress, errorType: WordPressComRestApiEndpointError.self)
+            .mapSuccess { response -> HTTPAPIResponse<T> in
+                let object = try decoder(response.body)
+
+                return HTTPAPIResponse(response: response.response, body: object)
+            }
+            .mapUnacceptableStatusCodeError { response, body in
+                if let error = self.processError(response: response, body: body, additionalUserInfo: nil) {
+                    return error
+                }
+
+                throw URLError(.cannotParseResponse)
+            }
+            .mapError { error -> WordPressAPIError<WordPressComRestApiEndpointError> in
+                switch error {
+                case .requestEncodingFailure:
+                    return .endpointError(.init(code: .requestSerializationFailed))
+                case let .unparsableResponse(response, _, _):
+                    return .endpointError(.init(code: .responseSerializationFailed, response: response))
+                default:
+                    return error
+                }
+            }
+    }
 
 }
 
