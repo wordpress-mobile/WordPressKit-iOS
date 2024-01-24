@@ -18,7 +18,7 @@ final class HTTPRequestBuilder {
     }
 
     private let original: URLComponents
-    private var method: Method = .get
+    private(set) var method: Method = .get
     private var appendedPath: String = ""
     private var headers: [String: String] = [:]
     private var defaultQuery: [URLQueryItem] = []
