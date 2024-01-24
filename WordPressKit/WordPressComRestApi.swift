@@ -412,6 +412,21 @@ open class WordPressComRestApi: NSObject {
         return urlComponentsWithLocale?.url?.absoluteString
     }
 
+    private func requestBuilder(URLString: String) throws -> HTTPRequestBuilder {
+        guard let url = URL(string: URLString, relativeTo: baseURL) else {
+            throw URLError(.badURL)
+        }
+
+        var builder = HTTPRequestBuilder(url: url)
+
+        if appendsPreferredLanguageLocale {
+            let preferredLanguageIdentifier = WordPressComLanguageDatabase().deviceLanguage.slug
+            builder = builder.query(defaults: [URLQueryItem(name: localeKey, value: preferredLanguageIdentifier)])
+        }
+
+        return builder
+    }
+
     private func applyLocaleIfNeeded(urlComponents: URLComponents, parameters: [String: AnyObject]? = [:], localeKey: String) -> URLComponents? {
         guard appendsPreferredLanguageLocale else {
             return urlComponents
