@@ -1,6 +1,6 @@
 import Foundation
 
-public final class AtomicLogMessage: Decodable {
+public final class AtomicErrorLogEntry: Decodable {
     public let message: String?
     public let severity: String?
     public let kind: String?
@@ -19,6 +19,30 @@ public final class AtomicLogMessage: Decodable {
 
 public final class AtomicErrorLogsResponse: Decodable {
     public let totalResults: Int
-    public let logs: [AtomicLogMessage]
+    public let logs: [AtomicErrorLogEntry]
+    public let scrollId: String?
+}
+
+public class AtomicWebServerLogEntry: Decodable {
+    public let bodyBytesSent: Int?
+    /// The possible values are `"true"` or `"false"`.
+    public let cached: String?
+    public let date: Date?
+    public let httpHost: String?
+    public let httpReferer: String?
+    public let httpUserAgent: String?
+    public let requestTime: Double?
+    public let requestType: String?
+    public let requestURL: String?
+    public let scheme: String?
+    public let status: Int?
+    public let timestamp: Int?
+    public let type: String?
+    public let userIP: String?
+}
+
+public final class AtomicWebServerLogsResponse: Decodable {
+    public let totalResults: Int
+    public let logs: [AtomicWebServerLogEntry]
     public let scrollId: String?
 }
