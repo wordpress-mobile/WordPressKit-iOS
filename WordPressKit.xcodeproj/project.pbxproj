@@ -13,6 +13,8 @@
 		0CB1905E2A2A5E83004D3E80 /* BlazeCampaign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB1905D2A2A5E83004D3E80 /* BlazeCampaign.swift */; };
 		0CB190612A2A6A13004D3E80 /* blaze-campaigns-search.json in Resources */ = {isa = PBXBuildFile; fileRef = 0CB1905F2A2A6943004D3E80 /* blaze-campaigns-search.json */; };
 		0CB190652A2A7569004D3E80 /* BlazeCampaignsSearchResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB190642A2A7569004D3E80 /* BlazeCampaignsSearchResponse.swift */; };
+		0CED1FE82B617CF300E6DD52 /* AtomicSiteService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CED1FE72B617CF300E6DD52 /* AtomicSiteService.swift */; };
+		0CED1FEB2B617D7D00E6DD52 /* AtomicLogs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CED1FEA2B617D7D00E6DD52 /* AtomicLogs.swift */; };
 		1769DEAA24729AFF00F42EFC /* HomepageSettingsServiceRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1769DEA924729AFF00F42EFC /* HomepageSettingsServiceRemote.swift */; };
 		17BF9A6C20C7DC3300BF57D2 /* reader-site-search-success.json in Resources */ = {isa = PBXBuildFile; fileRef = 17BF9A6B20C7DC3300BF57D2 /* reader-site-search-success.json */; };
 		17BF9A7220C7E18200BF57D2 /* reader-site-search-success-hasmore.json in Resources */ = {isa = PBXBuildFile; fileRef = 17BF9A6D20C7E18100BF57D2 /* reader-site-search-success-hasmore.json */; };
@@ -728,6 +730,8 @@
 		0CB1905D2A2A5E83004D3E80 /* BlazeCampaign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlazeCampaign.swift; sourceTree = "<group>"; };
 		0CB1905F2A2A6943004D3E80 /* blaze-campaigns-search.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "blaze-campaigns-search.json"; sourceTree = "<group>"; };
 		0CB190642A2A7569004D3E80 /* BlazeCampaignsSearchResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlazeCampaignsSearchResponse.swift; sourceTree = "<group>"; };
+		0CED1FE72B617CF300E6DD52 /* AtomicSiteService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtomicSiteService.swift; sourceTree = "<group>"; };
+		0CED1FEA2B617D7D00E6DD52 /* AtomicLogs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtomicLogs.swift; sourceTree = "<group>"; };
 		1769DEA924729AFF00F42EFC /* HomepageSettingsServiceRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomepageSettingsServiceRemote.swift; sourceTree = "<group>"; };
 		17BF9A6B20C7DC3300BF57D2 /* reader-site-search-success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "reader-site-search-success.json"; sourceTree = "<group>"; };
 		17BF9A6D20C7E18100BF57D2 /* reader-site-search-success-hasmore.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "reader-site-search-success-hasmore.json"; sourceTree = "<group>"; };
@@ -1476,6 +1480,14 @@
 			name = Blaze;
 			sourceTree = "<group>";
 		};
+		0CED1FE92B617D6700E6DD52 /* Atomic */ = {
+			isa = PBXGroup;
+			children = (
+				0CED1FEA2B617D7D00E6DD52 /* AtomicLogs.swift */,
+			);
+			name = Atomic;
+			sourceTree = "<group>";
+		};
 		3297E1DC2564649D00287D21 /* Scan */ = {
 			isa = PBXGroup;
 			children = (
@@ -2036,6 +2048,7 @@
 				9309994C1F1657C600F006A1 /* ThemeServiceRemote.m */,
 				E1D6B557200E473A00325669 /* TimeZoneServiceRemote.swift */,
 				436D56322118D7AA00CEAA33 /* TransactionsServiceRemote.swift */,
+				0CED1FE72B617CF300E6DD52 /* AtomicSiteService.swift */,
 				93F50A3E1F227C8900B5BEBA /* UsersServiceRemoteXMLRPC.swift */,
 				93F50A351F226B9300B5BEBA /* WordPressComServiceRemote.h */,
 				93F50A361F226B9300B5BEBA /* WordPressComServiceRemote.m */,
@@ -2051,6 +2064,7 @@
 		9368C79C1EC62EBD0092CE8E /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				0CED1FE92B617D6700E6DD52 /* Atomic */,
 				0CB1905C2A2A5E7B004D3E80 /* Blaze */,
 				7E3E7A4620E443100075D159 /* Extensions */,
 				E1EF5D5E1F9F3CA700B6D53E /* Plugins */,
@@ -3310,6 +3324,7 @@
 				4A05E7962B2FCB6400C25E3B /* NonceRetrieval.swift in Sources */,
 				93BD27701EE737A8002BB00B /* ServiceRemoteWordPressComREST.m in Sources */,
 				E61A51A621B172A900A5F902 /* RemoteWpcomPlan.swift in Sources */,
+				0CED1FE82B617CF300E6DD52 /* AtomicSiteService.swift in Sources */,
 				93BD277F1EE73944002BB00B /* WordPressComOAuthClient.swift in Sources */,
 				740B23B91F17EC7300067A2A /* PostServiceRemoteREST.m in Sources */,
 				93BD27801EE73944002BB00B /* WordPressComRestApi.swift in Sources */,
@@ -3364,6 +3379,7 @@
 				C785325625B5F46C006CEAFB /* JetpackThreatFixStatus.swift in Sources */,
 				0CB190652A2A7569004D3E80 /* BlazeCampaignsSearchResponse.swift in Sources */,
 				93F50A381F226B9300B5BEBA /* WordPressComServiceRemote.m in Sources */,
+				0CED1FEB2B617D7D00E6DD52 /* AtomicLogs.swift in Sources */,
 				9F4E52002088E38200424676 /* ObjectValidation.swift in Sources */,
 				7EC60EC022DC5D7C00FB0336 /* EditorSettings.swift in Sources */,
 				7403A3021EF0726E00DED7DC /* AccountSettings.swift in Sources */,
