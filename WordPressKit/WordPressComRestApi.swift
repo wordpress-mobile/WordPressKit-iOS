@@ -63,6 +63,9 @@ public enum ResponseType {
 
 open class WordPressComRestApi: NSObject {
 
+    /// Use `URLSession` directly (instead of Alamofire) to send API requests.
+    public static var useURLSession = false
+
     // MARK: Properties
 
     @objc public static let ErrorKeyErrorCode       = "WordPressComRestApiErrorCodeKey"
@@ -285,18 +288,47 @@ open class WordPressComRestApi: NSObject {
                      success: @escaping SuccessResponseBlock,
                      failure: @escaping FailureReponseBlock) -> Progress? {
 
-        return request(method: .get, urlString: URLString, parameters: parameters, encoding: URLEncoding.default, success: success, failure: failure)
+        guard WordPressComRestApi.useURLSession else {
+            return request(method: .get, urlString: URLString, parameters: parameters, encoding: URLEncoding.default, success: success, failure: failure)
+        }
+
+        let progress = Progress.discreteProgress(totalUnitCount: 100)
+
+        Task { @MainActor in
+            let result = await self.perform(.get, URLString: URLString, parameters: parameters, fulfilling: progress)
+
+            switch result {
+            case let .success(response):
+                success(response.body, response.response)
+            case let .failure(error):
+                failure(error as NSError, error.response)
+            }
+        }
+
+        return progress
     }
 
     open func GETData(_ URLString: String,
                                          parameters: [String: AnyObject]?,
                                          completion: @escaping (Swift.Result<(Data, HTTPURLResponse?), Error>) -> Void) {
+        guard WordPressComRestApi.useURLSession else {
+            dataRequest(method: .get,
+                        urlString: URLString,
+                        parameters: parameters,
+                        encoding: URLEncoding.default,
+                        completion: completion)
+            return
+        }
 
-        dataRequest(method: .get,
-                    urlString: URLString,
-                    parameters: parameters,
-                    encoding: URLEncoding.default,
-                    completion: completion)
+        Task { @MainActor in
+            let result: APIResult<Data> = await perform(.get, URLString: URLString, parameters: parameters)
+
+            completion(
+                result
+                    .map { ($0.body, $0.response) }
+                    .mapError { error -> Error in error }
+            )
+        }
     }
 
     /**
@@ -315,8 +347,24 @@ open class WordPressComRestApi: NSObject {
                      parameters: [String: AnyObject]?,
                      success: @escaping SuccessResponseBlock,
                      failure: @escaping FailureReponseBlock) -> Progress? {
+        guard WordPressComRestApi.useURLSession else {
+            return request(method: .post, urlString: URLString, parameters: parameters, encoding: JSONEncoding.default, success: success, failure: failure)
+        }
 
-        return request(method: .post, urlString: URLString, parameters: parameters, encoding: JSONEncoding.default, success: success, failure: failure)
+        let progress = Progress.discreteProgress(totalUnitCount: 100)
+
+        Task { @MainActor in
+            let result = await self.perform(.post, URLString: URLString, parameters: parameters, fulfilling: progress)
+
+            switch result {
+            case let .success(response):
+               success(response.body, response.response)
+            case let .failure(error):
+               failure(error as NSError, error.response)
+            }
+        }
+
+        return progress
     }
 
     /**
