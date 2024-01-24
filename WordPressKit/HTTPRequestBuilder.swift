@@ -256,9 +256,10 @@ private extension Dictionary where Key == String, Value == Any {
     }
 
     func flatten() -> [URLQueryItem] {
-        reduce(into: []) { result, entry in
-            Self.urlEncode(into: &result, name: entry.key, value: entry.value)
-        }
+        sorted { $0.key < $1.key }
+            .reduce(into: []) { result, entry in
+                Self.urlEncode(into: &result, name: entry.key, value: entry.value)
+            }
     }
 
 }
