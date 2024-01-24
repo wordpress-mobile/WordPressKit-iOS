@@ -350,6 +350,19 @@ class HTTPRequestBuilderTests: XCTestCase {
         )
     }
 
+    func testURLEncodedPathInOriginalURL() {
+        XCTAssertEqual(
+            try HTTPRequestBuilder(url: URL(string: "https://wordpress.org/foo%2Fbar/test")!)
+                .append(path: "new-path")
+                .query(name: "arg", value: "value")
+                .build()
+                .url?
+                .absoluteString,
+            "https://wordpress.org/foo%2Fbar/test/new-path?arg=value"
+        )
+
+    }
+
 }
 
 private extension URLRequest {

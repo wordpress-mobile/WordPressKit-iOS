@@ -121,11 +121,11 @@ final class HTTPRequestBuilder {
     func build(encodeMultipartForm: Bool = false) throws -> URLRequest {
         var components = original
 
-        var newPath = Self.join(components.path, appendedPath)
+        var newPath = Self.join(components.percentEncodedPath, appendedPath)
         if !newPath.isEmpty, !newPath.hasPrefix("/") {
             newPath = "/\(newPath)"
         }
-        components.path = newPath
+        components.percentEncodedPath = newPath
 
         // Add default query items if they don't exist in `appendedQuery`.
         var newQuery = appendedQuery
