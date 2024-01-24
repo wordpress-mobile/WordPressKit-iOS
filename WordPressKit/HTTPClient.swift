@@ -198,8 +198,8 @@ extension Progress {
         let start = self.completedUnitCount
         return progress.publisher(for: \.fractionCompleted, options: .new)
             .receive(on: queue)
-            .sink { fraction in
-                self.completedUnitCount = start + Int64(fraction * Double(totoalUnit))
+            .sink { [weak self] fraction in
+                self?.completedUnitCount = start + Int64(fraction * Double(totoalUnit))
             }
     }
 }
