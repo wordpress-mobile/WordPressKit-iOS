@@ -61,7 +61,7 @@ class WordPressOrgXMLRPCApiTests: XCTestCase {
 
                 XCTAssertEqual(error.domain, WordPressOrgXMLRPCApiErrorDomain)
                 XCTAssertEqual(error.code, WordPressOrgXMLRPCApiError.httpErrorStatusCode.rawValue)
-                XCTAssertEqual(error.localizedFailureReason, WordPressOrgXMLRPCApiError.httpErrorStatusCode.failureReason)
+                XCTAssertEqual(error.localizedFailureReason, "An HTTP error code 404 was returned.")
             }
         )
         wait(for: [expect], timeout: 0.1)
@@ -87,7 +87,7 @@ class WordPressOrgXMLRPCApiTests: XCTestCase {
                 XCTAssertFalse(error is WordPressOrgXMLRPCApiError)
                 XCTAssertEqual(error.domain, WordPressOrgXMLRPCApiErrorDomain)
                 XCTAssertEqual(error.code, 403)
-                XCTAssertEqual(error.localizedFailureReason, WordPressOrgXMLRPCApiError.httpErrorStatusCode.failureReason)
+                XCTAssertEqual(error.localizedFailureReason, "An HTTP error code 403 was returned.")
             }
         )
         wait(for: [expect], timeout: 0.1)
