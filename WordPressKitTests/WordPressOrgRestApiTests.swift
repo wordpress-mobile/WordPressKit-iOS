@@ -93,4 +93,27 @@ class WordPressOrgRestApiTests: XCTestCase {
         }
         waitForExpectations(timeout: 2, handler: nil)
     }
+
+    /// Verify that parameters in POST requests are sent as JSON.
+    func testPostParametersContent() throws {
+        var req: URLRequest?
+        stub(condition: isHost("wordpress.org")) {
+            req = $0
+            return HTTPStubsResponse(error: URLError(.notConnectedToInternet))
+        }
+
+        let api = WordPressOrgRestApi(apiBase: apiBase)
+        let complete = expectation(description: "API call completed")
+        api.POST("/rest/v1/foo", parameters: ["arg1": "value1"] as [String: AnyObject]) { _, _ in
+            complete.fulfill()
+        }
+
+        wait(for: [complete], timeout: 0.1)
+
+        let request = try XCTUnwrap(req)
+        XCTAssertEqual(request.httpMethod?.uppercased(), "POST")
+        XCTAssertEqual(request.url?.absoluteString, "https://wordpress.org/wp-json/rest/v1/foo")
+        XCTAssertEqual(request.value(forHTTPHeaderField: "Content-Type"), "application/x-www-form-urlencoded; charset=utf-8")
+        XCTAssertEqual(request.httpBodyText, "arg1=value1")
+    }
 }

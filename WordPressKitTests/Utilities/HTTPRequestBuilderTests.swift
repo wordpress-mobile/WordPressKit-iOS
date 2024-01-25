@@ -352,9 +352,9 @@ class HTTPRequestBuilderTests: XCTestCase {
 
 }
 
-private extension URLRequest {
+extension URLRequest {
     var httpBodyText: String? {
-        guard let data = httpBody else {
+        guard let data = (httpBody ?? httpBodyStream?.readToEnd()) else {
             return nil
         }
 
