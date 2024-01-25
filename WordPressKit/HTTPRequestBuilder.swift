@@ -38,7 +38,10 @@ final class HTTPRequestBuilder {
         return self
     }
 
-    func append(path: String) -> Self {
+    /// Append path to the original URL.
+    ///
+    /// The argument will be appended to the original URL as it is.
+    func append(percentEncodedPath path: String) -> Self {
         assert(!path.contains("?") && !path.contains("#"), "Path should not have query or fragment: \(path)")
 
         appendedPath = Self.join(appendedPath, path)
@@ -122,11 +125,11 @@ final class HTTPRequestBuilder {
     func build(encodeMultipartForm: Bool = false) throws -> URLRequest {
         var components = original
 
-        var newPath = Self.join(components.path, appendedPath)
+        var newPath = Self.join(components.percentEncodedPath, appendedPath)
         if !newPath.isEmpty, !newPath.hasPrefix("/") {
             newPath = "/\(newPath)"
         }
-        components.path = newPath
+        components.percentEncodedPath = newPath
 
         // Add default query items if they don't exist in `appendedQuery`.
         var newQuery = appendedQuery
