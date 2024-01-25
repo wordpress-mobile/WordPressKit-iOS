@@ -528,7 +528,10 @@ extension WordPressComRestApi {
 
         let mappedError = errorsMap[errorCode] ?? .unknown
         if mappedError == .invalidToken {
-            invalidTokenHandler?()
+            // Call `invalidTokenHandler in the main thread since it's typically used by the apps to present an authentication UI.
+            DispatchQueue.main.async {
+                self.invalidTokenHandler?()
+            }
         }
 
         var originalErrorUserInfo = (originalError as NSError).userInfo
