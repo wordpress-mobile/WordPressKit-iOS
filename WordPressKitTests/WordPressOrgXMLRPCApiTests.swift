@@ -62,6 +62,8 @@ class WordPressOrgXMLRPCApiTests: XCTestCase {
                 XCTAssertEqual(error.domain, WordPressOrgXMLRPCApiErrorDomain)
                 XCTAssertEqual(error.code, WordPressOrgXMLRPCApiError.httpErrorStatusCode.rawValue)
                 XCTAssertEqual(error.localizedFailureReason, "An HTTP error code 404 was returned.")
+                XCTAssertNotNil(error.userInfo[WordPressOrgXMLRPCApi.WordPressOrgXMLRPCApiErrorKeyData as String])
+                XCTAssertNotNil(error.userInfo[WordPressOrgXMLRPCApi.WordPressOrgXMLRPCApiErrorKeyStatusCode as String])
             }
         )
         wait(for: [expect], timeout: 0.1)
@@ -88,6 +90,8 @@ class WordPressOrgXMLRPCApiTests: XCTestCase {
                 XCTAssertEqual(error.domain, WordPressOrgXMLRPCApiErrorDomain)
                 XCTAssertEqual(error.code, 403)
                 XCTAssertEqual(error.localizedFailureReason, "An HTTP error code 403 was returned.")
+                XCTAssertNotNil(error.userInfo[WordPressOrgXMLRPCApi.WordPressOrgXMLRPCApiErrorKeyData as String])
+                XCTAssertNotNil(error.userInfo[WordPressOrgXMLRPCApi.WordPressOrgXMLRPCApiErrorKeyStatusCode as String])
             }
         )
         wait(for: [expect], timeout: 0.1)
@@ -114,6 +118,8 @@ class WordPressOrgXMLRPCApiTests: XCTestCase {
                 XCTAssertEqual(error.domain, WordPressOrgXMLRPCApiErrorDomain)
                 XCTAssertEqual(error.code, WordPressOrgXMLRPCApiError.unknown.rawValue)
                 XCTAssertEqual(error.localizedFailureReason, WordPressOrgXMLRPCApiError.unknown.failureReason)
+                XCTAssertNotNil(error.userInfo[WordPressOrgXMLRPCApi.WordPressOrgXMLRPCApiErrorKeyData as String])
+                XCTAssertNil(error.userInfo[WordPressOrgXMLRPCApi.WordPressOrgXMLRPCApiErrorKeyStatusCode as String])
             }
         )
         wait(for: [expect], timeout: 0.1)
@@ -165,6 +171,8 @@ class WordPressOrgXMLRPCApiTests: XCTestCase {
                 XCTAssertEqual(error.domain, WPXMLRPCFaultErrorDomain)
                 // 403 is the 'faultCode' in the HTTP response xml.
                 XCTAssertEqual(error.code, 403)
+                XCTAssertNotNil(error.userInfo[WordPressOrgXMLRPCApi.WordPressOrgXMLRPCApiErrorKeyData as String])
+                XCTAssertNil(error.userInfo[WordPressOrgXMLRPCApi.WordPressOrgXMLRPCApiErrorKeyStatusCode as String])
             }
         )
         wait(for: [expect], timeout: 0.1)
@@ -191,6 +199,8 @@ class WordPressOrgXMLRPCApiTests: XCTestCase {
                 XCTAssertEqual(error.domain, WPXMLRPCFaultErrorDomain)
                 // 403 is the 'faultCode' in the HTTP response xml.
                 XCTAssertEqual(error.code, 403)
+                XCTAssertNil(error.userInfo[WordPressOrgXMLRPCApi.WordPressOrgXMLRPCApiErrorKeyData as String])
+                XCTAssertNil(error.userInfo[WordPressOrgXMLRPCApi.WordPressOrgXMLRPCApiErrorKeyStatusCode as String])
             }
         )
         wait(for: [expect], timeout: 0.1)
@@ -218,6 +228,8 @@ class WordPressOrgXMLRPCApiTests: XCTestCase {
                 expect.fulfill()
 
                 XCTAssertEqual(error.domain, XMLParser.errorDomain)
+                XCTAssertNotNil(error.userInfo[WordPressOrgXMLRPCApi.WordPressOrgXMLRPCApiErrorKeyData as String])
+                XCTAssertNil(error.userInfo[WordPressOrgXMLRPCApi.WordPressOrgXMLRPCApiErrorKeyStatusCode as String])
             }
         )
         wait(for: [expect], timeout: 0.1)
@@ -243,6 +255,8 @@ class WordPressOrgXMLRPCApiTests: XCTestCase {
 
                 XCTAssertEqual(error.domain, WPXMLRPCErrorDomain)
                 XCTAssertEqual(error.code, WPXMLRPCError.invalidInputError.rawValue)
+                XCTAssertNotNil(error.userInfo[WordPressOrgXMLRPCApi.WordPressOrgXMLRPCApiErrorKeyData as String])
+                XCTAssertNil(error.userInfo[WordPressOrgXMLRPCApi.WordPressOrgXMLRPCApiErrorKeyStatusCode as String])
             }
         )
         wait(for: [expect], timeout: 0.1)
