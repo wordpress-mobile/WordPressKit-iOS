@@ -94,11 +94,13 @@ open class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
     /// Used to fetch data about site over a specific timeframe.
     /// - parameters:
     ///   - period: An enum representing whether either a day, a week, a month or a year worth's of data.
+    ///   - unit: An enum representing whether the data is retuned in a day, a week, a month or a year granularity. Default is `period`.
     ///   - endingOn: Date on which the `period` for which data you're interested in **is ending**.
     ///    e.g. if you want data spanning 11-17 Feb 2019, you should pass in a period of `.week` and an
     ///    ending date of `Feb 17 2019`.
     ///   - limit: Limit of how many objects you want returned for your query. Default is `10`. `0` means no limit.
     public func getData<TimeStatsType: StatsTimeIntervalData>(for period: StatsPeriodUnit,
+                                                              unit: StatsPeriodUnit? = nil,
                                                               endingOn: Date,
                                                               limit: Int = 10,
                                                               completion: @escaping ((TimeStatsType?, Error?) -> Void)) {
@@ -106,9 +108,10 @@ open class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
         let path = self.path(forEndpoint: "sites/\(siteID)/\(pathComponent)/", withVersion: ._1_1)
 
         let staticProperties = ["period": period.stringValue,
+                                "unit": unit?.stringValue ?? period.stringValue,
                                 "date": periodDataQueryDateFormatter.string(from: endingOn)] as [String: AnyObject]
 
-        let classProperties = TimeStatsType.queryProperties(with: endingOn, period: period, maxCount: limit) as [String: AnyObject]
+        let classProperties = TimeStatsType.queryProperties(with: endingOn, period: unit ?? period, maxCount: limit) as [String: AnyObject]
 
         let properties = staticProperties.merging(classProperties) { val1, _ in
             return val1
@@ -125,12 +128,15 @@ open class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
             }
 
             let periodString = jsonResponse["period"] as? String
+            let unitString = jsonResponse["unit"] as? String
             let parsedPeriod = periodString.flatMap { StatsPeriodUnit(string: $0) } ?? period
+            let parsedUnit = unitString.flatMap { StatsPeriodUnit(string: $0) } ?? unit ?? period
             // some responses omit this field!  not a reason to fail a whole request parsing though.
 
             guard
                 let timestats = TimeStatsType(date: date,
                                               period: parsedPeriod,
+                                              unit: parsedUnit,
                                               jsonDictionary: jsonResponse)
                 else {
                     completion(nil, ResponseError.decodingFailure)
@@ -257,7 +263,7 @@ extension StatsServiceRemoteV2 {
                                 success: { (response, _) in
                                     guard
                                         let jsonResponse = response as? [String: AnyObject],
-                                        let response = StatsPublishedPostsTimeIntervalData(date: endingOn, period: period, jsonDictionary: jsonResponse) else {
+                                        let response = StatsPublishedPostsTimeIntervalData(date: endingOn, period: period, unit: nil, jsonDictionary: jsonResponse) else {
                                             completion(nil, ResponseError.decodingFailure)
                                             return
                                     }
@@ -322,17 +328,27 @@ public protocol StatsTimeIntervalData {
     static var pathComponent: String { get }
 
     var period: StatsPeriodUnit { get }
+    var unit: StatsPeriodUnit? { get }
     var periodEndDate: Date { get }
 
     init?(date: Date, period: StatsPeriodUnit, jsonDictionary: [String: AnyObject])
+    init?(date: Date, period: StatsPeriodUnit, unit: StatsPeriodUnit?, jsonDictionary: [String: AnyObject])
 
     static func queryProperties(with date: Date, period: StatsPeriodUnit, maxCount: Int) -> [String: String]
 }
 
 extension StatsTimeIntervalData {
 
+    public var unit: StatsPeriodUnit? {
+        return nil
+    }
+
     public static func queryProperties(with date: Date, period: StatsPeriodUnit, maxCount: Int) -> [String: String] {
         return ["max": String(maxCount)]
+    }
+
+    public init?(date: Date, period: StatsPeriodUnit, unit: StatsPeriodUnit?, jsonDictionary: [String: AnyObject]) {
+        self.init(date: date, period: period, jsonDictionary: jsonDictionary)
     }
 
     // Most of the responses for time data come in a unwieldy format, that requires awkwkard unwrapping

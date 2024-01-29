@@ -28,7 +28,7 @@ extension StatsTotalsSummaryData: StatsTimeIntervalData {
         return "stats/summary"
     }
 
-    public init?(date: Date, period: StatsPeriodUnit, unit: StatsPeriodUnit?, jsonDictionary: [String: AnyObject]) {
+    public init?(date: Date, period: StatsPeriodUnit, jsonDictionary: [String: AnyObject]) {
         self.period = period
         self.periodEndDate = date
         self.visitorsCount = jsonDictionary["visitors"] as? Int ?? 0
