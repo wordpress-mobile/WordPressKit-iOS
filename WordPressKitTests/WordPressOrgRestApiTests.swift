@@ -94,7 +94,7 @@ class WordPressOrgRestApiTests: XCTestCase {
         waitForExpectations(timeout: 2, handler: nil)
     }
 
-    /// Verify that parameters in POST requests are sent as JSON.
+    /// Verify that parameters in POST requests are sent as urlencoded form.
     func testPostParametersContent() throws {
         var req: URLRequest?
         stub(condition: isHost("wordpress.org")) {

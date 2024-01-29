@@ -106,7 +106,7 @@ final class HTTPRequestBuilder {
     }
 
     func body(json: @escaping () throws -> Data) -> Self {
-        // 'charset' parmaeter is not required for json body. See https://www.rfc-editor.org/rfc/rfc8259.html#section-11
+        // 'charset' parameter is not required for json body. See https://www.rfc-editor.org/rfc/rfc8259.html#section-11
         headers["Content-Type"] = "application/json"
         bodyBuilder = { req in
             req.httpBody = try json()
