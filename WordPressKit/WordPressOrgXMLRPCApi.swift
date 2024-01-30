@@ -59,17 +59,19 @@ open class WordPressOrgXMLRPCApi: NSObject {
         sessionConfiguration.httpAdditionalHeaders = additionalHeaders
         let sessionManager = Alamofire.SessionManager(configuration: sessionConfiguration)
 
-        let sessionDidReceiveChallengeWithCompletion: ((URLSession, URLAuthenticationChallenge, @escaping(URLSession.AuthChallengeDisposition, URLCredential?) -> Void) -> Void) = { [weak self] session, authenticationChallenge, completionHandler in
-            self?.urlSession(session, didReceive: authenticationChallenge, completionHandler: completionHandler)
+        let sessionDidReceiveChallengeWithCompletion: ((URLSession, URLAuthenticationChallenge, @escaping(URLSession.AuthChallengeDisposition, URLCredential?) -> Void) -> Void) = { [sessionDelegate] session, authenticationChallenge, completionHandler in
+            sessionDelegate.urlSession(session, didReceive: authenticationChallenge, completionHandler: completionHandler)
         }
         sessionManager.delegate.sessionDidReceiveChallengeWithCompletion = sessionDidReceiveChallengeWithCompletion
 
-        let  taskDidReceiveChallengeWithCompletion: ((URLSession, URLSessionTask, URLAuthenticationChallenge, @escaping(URLSession.AuthChallengeDisposition, URLCredential?) -> Void) -> Void) = { [weak self] session, task, authenticationChallenge, completionHandler in
-            self?.urlSession(session, task: task, didReceive: authenticationChallenge, completionHandler: completionHandler)
+        let  taskDidReceiveChallengeWithCompletion: ((URLSession, URLSessionTask, URLAuthenticationChallenge, @escaping(URLSession.AuthChallengeDisposition, URLCredential?) -> Void) -> Void) = { [sessionDelegate] session, task, authenticationChallenge, completionHandler in
+            sessionDelegate.urlSession(session, task: task, didReceive: authenticationChallenge, completionHandler: completionHandler)
         }
         sessionManager.delegate.taskDidReceiveChallengeWithCompletion = taskDidReceiveChallengeWithCompletion
         return sessionManager
     }
+
+    private let sessionDelegate = SessionDelegate()
 
     /// Creates a new API object to connect to the WordPress XMLRPC API for the specified endpoint.
     ///
@@ -329,7 +331,7 @@ open class WordPressOrgXMLRPCApi: NSObject {
     }
 }
 
-extension WordPressOrgXMLRPCApi {
+private class SessionDelegate: NSObject, URLSessionDelegate {
 
     @objc public func urlSession(_ session: URLSession,
                            didReceive challenge: URLAuthenticationChallenge,
