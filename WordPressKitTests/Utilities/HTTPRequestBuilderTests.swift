@@ -1,5 +1,6 @@
 import Foundation
 import XCTest
+import wpxmlrpc
 
 @testable import WordPressKit
 
@@ -348,6 +349,18 @@ class HTTPRequestBuilderTests: XCTestCase {
                 .build(encodeBody: false)
                 .httpBodyStream
         )
+    }
+
+    func testXMLRPCRequest() throws {
+        let request = try HTTPRequestBuilder(url: URL(string: "https://wordpress.org")!)
+            .method(.post)
+            .body(xmlrpc: "wp.getPost", parameters: ["username", "password", 100])
+            .build(encodeBody: true)
+            .httpBody
+
+        let decoder = WPXMLRPCEncoder(method: "wp.getPost", andParameters: ["username", "password", 100])
+        let expected = try decoder.dataEncoded()
+        XCTAssertEqual(request, expected)
     }
 
     func testURLEncodedPathInOriginalURL() {
