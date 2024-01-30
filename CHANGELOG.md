@@ -14,7 +14,7 @@ When releasing a new version:
 
 ### Breaking Changes
 
-_None._
+- Update `AtomicWebServerLogEntry` keys [#711]
 
 ### New Features
 
@@ -30,7 +30,7 @@ _None._
 
 -->
 
-## Unreleased
+## 12.0.0
 
 ### Breaking Changes
 
