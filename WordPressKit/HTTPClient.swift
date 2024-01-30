@@ -93,22 +93,21 @@ extension URLSession {
         for builder: HTTPRequestBuilder,
         completion: @escaping @Sendable (Data?, URLResponse?, Error?) -> Void
     ) throws -> URLSessionTask {
-        var request = try builder.build(encodeMultipartForm: false)
+        var request = try builder.build(encodeBody: false)
 
-        // Use special `URLSession.uploadTask` API for multipart POST requests.
-        if let multipart = builder.multipartForm, !multipart.isEmpty {
-            let isBackgroundSession = configuration.identifier != nil
-
-            return try builder
-                .encodeMultipartForm(request: &request, forceWriteToFile: isBackgroundSession)
-                .map(
-                    left: {
-                        uploadTask(with: request, from: $0, completionHandler: completion)
-                    },
-                    right: {
-                        uploadTask(with: request, fromFile: $0, completionHandler: completion)
-                    }
-                )
+        let isBackgroundSession = configuration.identifier != nil
+        let body = try builder.encodeMultipartForm(request: &request, forceWriteToFile: isBackgroundSession)
+            ?? builder.encodeXMLRPC(request: &request, forceWriteToFile: isBackgroundSession)
+        if let body {
+            // Use special `URLSession.uploadTask` API for multipart POST requests.
+            return body.map(
+                left: {
+                    uploadTask(with: request, from: $0, completionHandler: completion)
+                },
+                right: {
+                    uploadTask(with: request, fromFile: $0, completionHandler: completion)
+                }
+            )
         } else {
             // Use `URLSession.dataTask` for all other request
             return dataTask(with: request, completionHandler: completion)

@@ -329,7 +329,7 @@ class HTTPRequestBuilderTests: XCTestCase {
             try HTTPRequestBuilder(url: URL(string: "https://wordpress.org")!)
                 .method(.post)
                 .body(form: [MultipartFormField(text: "123456", name: "site")])
-                .build(encodeMultipartForm: true)
+                .build(encodeBody: true)
                 .httpBody
         )
 
@@ -337,7 +337,7 @@ class HTTPRequestBuilderTests: XCTestCase {
             try HTTPRequestBuilder(url: URL(string: "https://wordpress.org")!)
                 .method(.post)
                 .body(form: [MultipartFormField(text: "123456", name: "site")])
-                .build(encodeMultipartForm: false)
+                .build(encodeBody: false)
                 .httpBody
         )
 
@@ -345,7 +345,7 @@ class HTTPRequestBuilderTests: XCTestCase {
             try HTTPRequestBuilder(url: URL(string: "https://wordpress.org")!)
                 .method(.post)
                 .body(form: [MultipartFormField(text: "123456", name: "site")])
-                .build(encodeMultipartForm: false)
+                .build(encodeBody: false)
                 .httpBodyStream
         )
     }
