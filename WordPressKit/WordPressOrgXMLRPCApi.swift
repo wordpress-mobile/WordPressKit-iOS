@@ -294,9 +294,9 @@ open class WordPressOrgXMLRPCApi: NSObject {
             let httpResponse = urlResponse as? HTTPURLResponse,
             let contentType = httpResponse.allHeaderFields["Content-Type"] as? String, error == nil else {
                 if let unwrappedError = error {
-                    throw convertError(unwrappedError, data: originalData)
+                    throw Self.convertError(unwrappedError, data: originalData)
                 } else {
-                    throw convertError(WordPressOrgXMLRPCApiError.unknown as NSError, data: originalData)
+                    throw Self.convertError(WordPressOrgXMLRPCApiError.unknown as NSError, data: originalData)
                 }
         }
 
@@ -306,12 +306,12 @@ open class WordPressOrgXMLRPCApi: NSObject {
                 // it will return a valid fault payload with a non-200
                 throw decoderError
             } else {
-                throw convertError(WordPressOrgXMLRPCApiError.httpErrorStatusCode as NSError, data: originalData, statusCode: httpResponse.statusCode)
+                throw Self.convertError(WordPressOrgXMLRPCApiError.httpErrorStatusCode as NSError, data: originalData, statusCode: httpResponse.statusCode)
             }
         }
 
         if ["application/xml", "text/xml"].filter({ (type) -> Bool in return contentType.hasPrefix(type)}).count == 0 {
-            throw convertError(WordPressOrgXMLRPCApiError.responseSerializationFailed as NSError, data: originalData)
+            throw Self.convertError(WordPressOrgXMLRPCApiError.responseSerializationFailed as NSError, data: originalData)
         }
 
         guard let decoder = WPXMLRPCDecoder(data: data) else {
@@ -319,7 +319,7 @@ open class WordPressOrgXMLRPCApi: NSObject {
         }
         guard !(decoder.isFault()), let responseXML = decoder.object() else {
             if let decoderError = decoder.error() {
-                throw convertError(decoderError as NSError, data: data)
+                throw Self.convertError(decoderError as NSError, data: data)
             } else {
                 throw WordPressOrgXMLRPCApiError.responseSerializationFailed
             }
@@ -332,13 +332,13 @@ open class WordPressOrgXMLRPCApi: NSObject {
     @objc public static let WordPressOrgXMLRPCApiErrorKeyDataString: NSError.UserInfoKey = "WordPressOrgXMLRPCApiErrorKeyDataString"
     @objc public static let WordPressOrgXMLRPCApiErrorKeyStatusCode: NSError.UserInfoKey = "WordPressOrgXMLRPCApiErrorKeyStatusCode"
 
-    private func convertError(_ error: NSError, data: Data?, statusCode: Int? = nil) -> NSError {
+    fileprivate static func convertError(_ error: NSError, data: Data?, statusCode: Int? = nil) -> NSError {
         let responseCode = statusCode == 403 ? 403 : error.code
         if let data = data {
-            var userInfo: [AnyHashable: Any] = error.userInfo
-            userInfo[type(of: self).WordPressOrgXMLRPCApiErrorKeyData] = data
-            userInfo[type(of: self).WordPressOrgXMLRPCApiErrorKeyDataString] = NSString(data: data, encoding: String.Encoding.utf8.rawValue)
-            userInfo[type(of: self).WordPressOrgXMLRPCApiErrorKeyStatusCode] = statusCode
+            var userInfo: [String: Any] = error.userInfo
+            userInfo[Self.WordPressOrgXMLRPCApiErrorKeyData as String] = data
+            userInfo[Self.WordPressOrgXMLRPCApiErrorKeyDataString as String] = NSString(data: data, encoding: String.Encoding.utf8.rawValue)
+            userInfo[Self.WordPressOrgXMLRPCApiErrorKeyStatusCode as String] = statusCode
             userInfo[NSLocalizedFailureErrorKey] = error.localizedDescription
 
             if let statusCode = statusCode, (400..<600).contains(statusCode) {
@@ -348,7 +348,7 @@ open class WordPressOrgXMLRPCApi: NSObject {
                 userInfo[NSLocalizedFailureReasonErrorKey] = error.localizedFailureReason
             }
 
-            return NSError(domain: error.domain, code: responseCode, userInfo: userInfo as? [String: Any])
+            return NSError(domain: error.domain, code: responseCode, userInfo: userInfo)
         }
         return error
     }
