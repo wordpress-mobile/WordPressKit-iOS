@@ -30,10 +30,9 @@ open class WordPressOrgXMLRPCApi: NSObject {
 
     private lazy var urlSession: URLSession = makeSession(configuration: .default)
     private lazy var uploadURLSession: URLSession = {
-        if self.backgroundUploads {
-            return makeSession(configuration: .background(withIdentifier: self.backgroundSessionIdentifier))
-        }
-        return urlSession
+        backgroundUploads
+            ? makeSession(configuration: .background(withIdentifier: self.backgroundSessionIdentifier))
+            : urlSession
     }()
 
     private var _sessionManager: Alamofire.SessionManager?
