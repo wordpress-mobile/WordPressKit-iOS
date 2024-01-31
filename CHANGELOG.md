@@ -39,6 +39,7 @@ _None._
 ### New Features
 
 - Add `AtomicSiteServiceRemote`
+- `StatsTimeIntervalData` now accepts an optional `unit: StatsPeriodUnit` parameter that allows to describe the granularity of data fetched for a given period. [#712]
 
 ### Bug Fixes
 
