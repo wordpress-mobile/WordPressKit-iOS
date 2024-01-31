@@ -74,7 +74,7 @@ open class WordPressOrgXMLRPCApi: NSObject {
         }
         sessionManager.delegate.sessionDidReceiveChallengeWithCompletion = sessionDidReceiveChallengeWithCompletion
 
-        let  taskDidReceiveChallengeWithCompletion: ((URLSession, URLSessionTask, URLAuthenticationChallenge, @escaping(URLSession.AuthChallengeDisposition, URLCredential?) -> Void) -> Void) = { [sessionDelegate] session, task, authenticationChallenge, completionHandler in
+        let taskDidReceiveChallengeWithCompletion: ((URLSession, URLSessionTask, URLAuthenticationChallenge, @escaping(URLSession.AuthChallengeDisposition, URLCredential?) -> Void) -> Void) = { [sessionDelegate] session, task, authenticationChallenge, completionHandler in
             sessionDelegate.urlSession(session, task: task, didReceive: authenticationChallenge, completionHandler: completionHandler)
         }
         sessionManager.delegate.taskDidReceiveChallengeWithCompletion = taskDidReceiveChallengeWithCompletion
