@@ -42,7 +42,7 @@ _None._
 
 ### Bug Fixes
 
-_None._
+- XMLRPC API progress is now always updated on the main thread. [#714]
 
 ### Internal Changes
 

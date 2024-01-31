@@ -155,14 +155,15 @@ open class WordPressOrgXMLRPCApi: NSObject {
                 progress.totalUnitCount = requestProgress.totalUnitCount + 1
                 progress.completedUnitCount = requestProgress.completedUnitCount
             }.response(queue: DispatchQueue.global()) { (response) in
-                progress.completedUnitCount = progress.totalUnitCount
                 do {
                     let responseObject = try self.handleResponseWithData(response.data, urlResponse: response.response, error: response.error as NSError?)
                     DispatchQueue.main.async {
+                        progress.completedUnitCount = progress.totalUnitCount
                         success(responseObject, response.response)
                     }
                 } catch let error as NSError {
                     DispatchQueue.main.async {
+                        progress.completedUnitCount = progress.totalUnitCount
                         failure(error, response.response)
                     }
                     return
@@ -208,12 +209,13 @@ open class WordPressOrgXMLRPCApi: NSObject {
                 }.response(queue: DispatchQueue.global()) { (response) in
                     do {
                         let responseObject = try self.handleResponseWithData(response.data, urlResponse: response.response, error: response.error as NSError?)
-                        progress.completedUnitCount = progress.totalUnitCount
                         DispatchQueue.main.async {
+                            progress.completedUnitCount = progress.totalUnitCount
                             success(responseObject, response.response)
                         }
                     } catch let error as NSError {
                         DispatchQueue.main.async {
+                            progress.completedUnitCount = progress.totalUnitCount
                             failure(error, response.response)
                         }
                         return
