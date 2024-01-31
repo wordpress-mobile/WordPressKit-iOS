@@ -90,7 +90,10 @@ open class WordPressOrgXMLRPCApi: NSObject {
         return URLSession(configuration: sessionConfiguration, delegate: sessionDelegate, delegateQueue: nil)
     }
 
+    // swiftlint:disable weak_delegate
+    /// `URLSessionDelegate` for the URLSession instances in this class.
     private let sessionDelegate = SessionDelegate()
+    // swiftlint:enable weak_delegate
 
     /// Creates a new API object to connect to the WordPress XMLRPC API for the specified endpoint.
     ///
