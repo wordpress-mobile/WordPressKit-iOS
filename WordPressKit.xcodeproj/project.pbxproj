@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		01438D352B6A2B2C0097D60A /* stats-visits-month-unit-week.json in Sources */ = {isa = PBXBuildFile; fileRef = 01438D342B6A2B2C0097D60A /* stats-visits-month-unit-week.json */; };
+		01438D362B6A31540097D60A /* stats-visits-month-unit-week.json in Resources */ = {isa = PBXBuildFile; fileRef = 01438D342B6A2B2C0097D60A /* stats-visits-month-unit-week.json */; };
 		0152100C28EDA9E400DD6783 /* StatsAnnualAndMostPopularTimeInsightDecodingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0152100B28EDA9E400DD6783 /* StatsAnnualAndMostPopularTimeInsightDecodingTests.swift */; };
 		0847B92C2A4442730044D32F /* IPLocationRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0847B92B2A4442730044D32F /* IPLocationRemote.swift */; };
 		08C7493E2A45EA11000DA0E2 /* IPLocationRemoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08C7493D2A45EA11000DA0E2 /* IPLocationRemoteTests.swift */; };
@@ -723,6 +725,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		01438D342B6A2B2C0097D60A /* stats-visits-month-unit-week.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "stats-visits-month-unit-week.json"; sourceTree = "<group>"; };
 		0152100B28EDA9E400DD6783 /* StatsAnnualAndMostPopularTimeInsightDecodingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsAnnualAndMostPopularTimeInsightDecodingTests.swift; sourceTree = "<group>"; };
 		0847B92B2A4442730044D32F /* IPLocationRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPLocationRemote.swift; sourceTree = "<group>"; };
 		08C7493D2A45EA11000DA0E2 /* IPLocationRemoteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPLocationRemoteTests.swift; sourceTree = "<group>"; };
@@ -2410,6 +2413,7 @@
 				404057CF221C46780060250C /* stats-videos-data.json */,
 				4081977A221F153A00A298E4 /* stats-visits-day.json */,
 				4081977D221F269A00A298E4 /* stats-visits-month.json */,
+				01438D342B6A2B2C0097D60A /* stats-visits-month-unit-week.json */,
 				40819779221F153A00A298E4 /* stats-visits-week.json */,
 				436D56392118DE3B00CEAA33 /* supported-countries-success.json */,
 				436D56522121F60400CEAA33 /* supported-states-empty.json */,
@@ -2905,6 +2909,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				01438D362B6A31540097D60A /* stats-visits-month-unit-week.json in Resources */,
 				32A29A1F236BE4CC009488C2 /* post-autosave-mapping-success.json in Resources */,
 				CEAD827B25E421DE00758DF2 /* reader-post-comments-subscribe-failure.json in Resources */,
 				7403A2FC1EF06FEB00DED7DC /* me-settings-change-lastname-success.json in Resources */,
@@ -3572,6 +3577,7 @@
 				73B3DAD621FBB20D00B2CF18 /* WordPressComRestApiTests+Locale.swift in Sources */,
 				C738CAEF28622325001BE107 /* QRLoginServiceRemoteTests.swift in Sources */,
 				3297E1DE2564653A00287D21 /* JetpackScanServiceRemoteTests.swift in Sources */,
+				01438D352B6A2B2C0097D60A /* stats-visits-month-unit-week.json in Sources */,
 				9F3E0BAC20873785009CB5BA /* ServiceRequestTest.swift in Sources */,
 				4624223E2548C26D002B8A12 /* SiteDesignServiceRemoteTests.swift in Sources */,
 				4A1DEF44293051BC00322608 /* LoggingTests.swift in Sources */,
