@@ -517,6 +517,7 @@ open class WordPressComRestApi: NSObject {
         var builder: HTTPRequestBuilder
         do {
             builder = try requestBuilder(URLString: URLString)
+                .method(method)
         } catch {
             return .failure(.requestEncodingFailure(underlyingError: error))
         }
