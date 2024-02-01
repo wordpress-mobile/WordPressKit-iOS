@@ -60,6 +60,25 @@ class WordPressComRestApiTests: XCTestCase {
         }
     }
 
+    func testHTTPMethod() async {
+        for method in HTTPRequestBuilder.Method.allCases {
+            let requestReceived = expectation(description: "HTTP request is received")
+
+            var request: URLRequest?
+            stub(condition: { _ in true }) {
+                request = $0
+                requestReceived.fulfill()
+                return HTTPStubsResponse(error: URLError(URLError.Code.networkConnectionLost))
+            }
+
+            let api = WordPressComRestApi(oAuthToken: "fakeToken")
+            _ = await api.perform(method, URLString: "test")
+            await fulfillment(of: [requestReceived], timeout: 0.1)
+
+            XCTAssertEqual(request?.httpMethod?.uppercased(), method.rawValue.uppercased())
+        }
+    }
+
     @available(iOS 16.0, *)
     func testQuery() {
         var requestURL: URL?

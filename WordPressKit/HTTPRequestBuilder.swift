@@ -5,7 +5,7 @@ import Foundation
 /// Calling this class's url related functions (the ones that changes path, query, etc) does not modify the
 /// original URL string. The URL will be perserved in the final result that's returned by the `build` function.
 final class HTTPRequestBuilder {
-    enum Method: String {
+    enum Method: String, CaseIterable {
         case get = "GET"
         case post = "POST"
         case put = "PUT"
