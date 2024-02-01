@@ -140,6 +140,24 @@ class WordPressComRestApiTests: XCTestCase {
         XCTAssertTrue(localhostApi.buildRequestURLFor(path: "/path")!.hasPrefix("http://localhost:8080/path"))
     }
 
+    func testURLStringWithQuery() async {
+        let requestReceived = expectation(description: "HTTP request is received")
+
+        var request: URLRequest?
+        stub(condition: { _ in true }) {
+            request = $0
+            requestReceived.fulfill()
+            return HTTPStubsResponse(error: URLError(URLError.Code.networkConnectionLost))
+        }
+
+        let api = WordPressComRestApi(oAuthToken: "fakeToken")
+        _ = await api.perform(.get, URLString: "test?arg=value")
+        await fulfillment(of: [requestReceived], timeout: 0.1)
+
+        XCTAssertEqual(request?.url?.path, "/test")
+        XCTAssertTrue(request?.url?.query?.contains("arg=value") == true)
+    }
+
     func testInvalidTokenFailedCall() {
         stub(condition: isRestAPIRequest()) { _ in
             let stubPath = OHPathForFile("WordPressComRestApiFailRequestInvalidToken.json", type(of: self))
