@@ -1,11 +1,13 @@
 import Foundation
 import XCTest
 import OHHTTPStubs
+import wpxmlrpc
 @testable import WordPressKit
 
 class WordPressOrgXMLRPCApiTests: XCTestCase {
 
     let xmlrpcEndpoint = "http://wordpress.org/xmlrpc.php"
+    let xmlContentTypeHeaders: [String: Any] = ["Content-Type": "application/xml"]
 
     override func setUp() {
         super.setUp()
@@ -25,7 +27,7 @@ class WordPressOrgXMLRPCApiTests: XCTestCase {
     func testSuccessfullCall() {
         stub(condition: isXmlRpcAPIRequest()) { _ in
             let stubPath = OHPathForFile("xmlrpc-response-getpost.xml", type(of: self))
-            return fixture(filePath: stubPath!, headers: ["Content-Type" as NSObject: "application/xml" as AnyObject])
+            return fixture(filePath: stubPath!, headers: self.xmlContentTypeHeaders)
         }
 
         let expect = self.expectation(description: "One callback should be invoked")
@@ -41,10 +43,230 @@ class WordPressOrgXMLRPCApiTests: XCTestCase {
         self.waitForExpectations(timeout: 2, handler: nil)
     }
 
+    func test404() {
+        stub(condition: isXmlRpcAPIRequest()) { _ in
+            HTTPStubsResponse(data: Data(), statusCode: 404, headers: self.xmlContentTypeHeaders)
+        }
+
+        let expect = self.expectation(description: "One callback should be invoked")
+        let api = WordPressOrgXMLRPCApi(endpoint: URL(string: xmlrpcEndpoint)! as URL)
+        api.callMethod(
+            "wp.getPost",
+            parameters: nil,
+            success: { (responseObject: AnyObject, _: HTTPURLResponse?) in
+                expect.fulfill()
+                XCTFail("This call should fail")
+            },
+            failure: { (error, _) in
+                expect.fulfill()
+
+                XCTAssertEqual(error.domain, WordPressOrgXMLRPCApiErrorDomain)
+                XCTAssertEqual(error.code, WordPressOrgXMLRPCApiError.httpErrorStatusCode.rawValue)
+                XCTAssertEqual(error.localizedFailureReason, "An HTTP error code 404 was returned.")
+                XCTAssertNotNil(error.userInfo[WordPressOrgXMLRPCApi.WordPressOrgXMLRPCApiErrorKeyData as String])
+                XCTAssertNotNil(error.userInfo[WordPressOrgXMLRPCApi.WordPressOrgXMLRPCApiErrorKeyStatusCode as String])
+            }
+        )
+        wait(for: [expect], timeout: 0.1)
+    }
+
+    func test403() {
+        stub(condition: isXmlRpcAPIRequest()) { _ in
+            HTTPStubsResponse(data: Data(), statusCode: 403, headers: self.xmlContentTypeHeaders)
+        }
+
+        let expect = self.expectation(description: "One callback should be invoked")
+        let api = WordPressOrgXMLRPCApi(endpoint: URL(string: xmlrpcEndpoint)! as URL)
+        api.callMethod(
+            "wp.getPost",
+            parameters: nil,
+            success: { (responseObject: AnyObject, _: HTTPURLResponse?) in
+                expect.fulfill()
+                XCTFail("This call should fail")
+            },
+            failure: { (error, _) in
+                expect.fulfill()
+
+                XCTAssertFalse(error is WordPressOrgXMLRPCApiError)
+                XCTAssertEqual(error.domain, WordPressOrgXMLRPCApiErrorDomain)
+                XCTAssertEqual(error.code, 403)
+                XCTAssertEqual(error.localizedFailureReason, "An HTTP error code 403 was returned.")
+                XCTAssertNotNil(error.userInfo[WordPressOrgXMLRPCApi.WordPressOrgXMLRPCApiErrorKeyData as String])
+                XCTAssertNotNil(error.userInfo[WordPressOrgXMLRPCApi.WordPressOrgXMLRPCApiErrorKeyStatusCode as String])
+            }
+        )
+        wait(for: [expect], timeout: 0.1)
+    }
+
+    func test403WithoutContentTypeHeader() {
+        stub(condition: isXmlRpcAPIRequest()) { _ in
+            HTTPStubsResponse(data: Data(), statusCode: 403, headers: nil)
+        }
+
+        let expect = self.expectation(description: "One callback should be invoked")
+        let api = WordPressOrgXMLRPCApi(endpoint: URL(string: xmlrpcEndpoint)! as URL)
+        api.callMethod(
+            "wp.getPost",
+            parameters: nil,
+            success: { (responseObject: AnyObject, _: HTTPURLResponse?) in
+                expect.fulfill()
+                XCTFail("This call should fail")
+            },
+            failure: { (error, _) in
+                expect.fulfill()
+
+                XCTAssertTrue(error is WordPressOrgXMLRPCApiError)
+                XCTAssertEqual(error.domain, WordPressOrgXMLRPCApiErrorDomain)
+                XCTAssertEqual(error.code, WordPressOrgXMLRPCApiError.unknown.rawValue)
+                XCTAssertEqual(error.localizedFailureReason, WordPressOrgXMLRPCApiError.unknown.failureReason)
+                XCTAssertNotNil(error.userInfo[WordPressOrgXMLRPCApi.WordPressOrgXMLRPCApiErrorKeyData as String])
+                XCTAssertNil(error.userInfo[WordPressOrgXMLRPCApi.WordPressOrgXMLRPCApiErrorKeyStatusCode as String])
+            }
+        )
+        wait(for: [expect], timeout: 0.1)
+    }
+
+    func testConnectionError() {
+        stub(condition: isXmlRpcAPIRequest()) { _ in
+            HTTPStubsResponse(error: URLError(.timedOut))
+        }
+
+        let expect = self.expectation(description: "One callback should be invoked")
+        let api = WordPressOrgXMLRPCApi(endpoint: URL(string: xmlrpcEndpoint)! as URL)
+        api.callMethod(
+            "wp.getPost",
+            parameters: nil,
+            success: { (responseObject: AnyObject, _: HTTPURLResponse?) in
+                expect.fulfill()
+                XCTFail("This call should fail")
+            },
+            failure: { (error, _) in
+                expect.fulfill()
+
+                XCTAssertTrue(error is URLError)
+                XCTAssertEqual(error.domain, URLError.errorDomain)
+                XCTAssertEqual(error.code, URLError.Code.timedOut.rawValue)
+            }
+        )
+        wait(for: [expect], timeout: 0.1)
+    }
+
+    func testFault() throws {
+        let responseFile = try XCTUnwrap(OHPathForFile("xmlrpc-bad-username-password-error.xml", WordPressOrgXMLRPCApiTests.self))
+        stub(condition: isXmlRpcAPIRequest()) { _ in
+            fixture(filePath: responseFile, headers: self.xmlContentTypeHeaders)
+        }
+
+        let expect = self.expectation(description: "One callback should be invoked")
+        let api = WordPressOrgXMLRPCApi(endpoint: URL(string: xmlrpcEndpoint)! as URL)
+        api.callMethod(
+            "wp.getPost",
+            parameters: nil,
+            success: { (responseObject: AnyObject, _: HTTPURLResponse?) in
+                expect.fulfill()
+                XCTFail("This call should fail")
+            },
+            failure: { (error, _) in
+                expect.fulfill()
+
+                XCTAssertEqual(error.domain, WPXMLRPCFaultErrorDomain)
+                // 403 is the 'faultCode' in the HTTP response xml.
+                XCTAssertEqual(error.code, 403)
+                XCTAssertNotNil(error.userInfo[WordPressOrgXMLRPCApi.WordPressOrgXMLRPCApiErrorKeyData as String])
+                XCTAssertNil(error.userInfo[WordPressOrgXMLRPCApi.WordPressOrgXMLRPCApiErrorKeyStatusCode as String])
+            }
+        )
+        wait(for: [expect], timeout: 0.1)
+    }
+
+    func testFault401() throws {
+        let responseFile = try XCTUnwrap(OHPathForFile("xmlrpc-bad-username-password-error.xml", WordPressOrgXMLRPCApiTests.self))
+        stub(condition: isXmlRpcAPIRequest()) { _ in
+            fixture(filePath: responseFile, status: 401, headers: self.xmlContentTypeHeaders)
+        }
+
+        let expect = self.expectation(description: "One callback should be invoked")
+        let api = WordPressOrgXMLRPCApi(endpoint: URL(string: xmlrpcEndpoint)! as URL)
+        api.callMethod(
+            "wp.getPost",
+            parameters: nil,
+            success: { (responseObject: AnyObject, _: HTTPURLResponse?) in
+                expect.fulfill()
+                XCTFail("This call should fail")
+            },
+            failure: { (error, _) in
+                expect.fulfill()
+
+                XCTAssertEqual(error.domain, WPXMLRPCFaultErrorDomain)
+                // 403 is the 'faultCode' in the HTTP response xml.
+                XCTAssertEqual(error.code, 403)
+                XCTAssertNil(error.userInfo[WordPressOrgXMLRPCApi.WordPressOrgXMLRPCApiErrorKeyData as String])
+                XCTAssertNil(error.userInfo[WordPressOrgXMLRPCApi.WordPressOrgXMLRPCApiErrorKeyStatusCode as String])
+            }
+        )
+        wait(for: [expect], timeout: 0.1)
+    }
+
+    func testMalformedXML() throws {
+        stub(condition: isXmlRpcAPIRequest()) { _ in
+            HTTPStubsResponse(
+                data: #"<?xml version="1.0" encoding="UTF-8"?><methodRespons"#.data(using: .utf8)!,
+                statusCode: 200,
+                headers: self.xmlContentTypeHeaders
+            )
+        }
+
+        let expect = self.expectation(description: "One callback should be invoked")
+        let api = WordPressOrgXMLRPCApi(endpoint: URL(string: xmlrpcEndpoint)! as URL)
+        api.callMethod(
+            "wp.getPost",
+            parameters: nil,
+            success: { (responseObject: AnyObject, _: HTTPURLResponse?) in
+                expect.fulfill()
+                XCTFail("This call should fail")
+            },
+            failure: { (error, _) in
+                expect.fulfill()
+
+                XCTAssertEqual(error.domain, XMLParser.errorDomain)
+                XCTAssertNotNil(error.userInfo[WordPressOrgXMLRPCApi.WordPressOrgXMLRPCApiErrorKeyData as String])
+                XCTAssertNil(error.userInfo[WordPressOrgXMLRPCApi.WordPressOrgXMLRPCApiErrorKeyStatusCode as String])
+            }
+        )
+        wait(for: [expect], timeout: 0.1)
+    }
+
+    func testInvalidXML() throws {
+        let responseFile = try XCTUnwrap(OHPathForFile("xmlrpc-response-invalid.html", WordPressOrgXMLRPCApiTests.self))
+        stub(condition: isXmlRpcAPIRequest()) { _ in
+            fixture(filePath: responseFile, headers: self.xmlContentTypeHeaders)
+        }
+
+        let expect = self.expectation(description: "One callback should be invoked")
+        let api = WordPressOrgXMLRPCApi(endpoint: URL(string: xmlrpcEndpoint)! as URL)
+        api.callMethod(
+            "wp.getPost",
+            parameters: nil,
+            success: { (responseObject: AnyObject, _: HTTPURLResponse?) in
+                expect.fulfill()
+                XCTFail("This call should fail")
+            },
+            failure: { (error, _) in
+                expect.fulfill()
+
+                XCTAssertEqual(error.domain, WPXMLRPCErrorDomain)
+                XCTAssertEqual(error.code, WPXMLRPCError.invalidInputError.rawValue)
+                XCTAssertNotNil(error.userInfo[WordPressOrgXMLRPCApi.WordPressOrgXMLRPCApiErrorKeyData as String])
+                XCTAssertNil(error.userInfo[WordPressOrgXMLRPCApi.WordPressOrgXMLRPCApiErrorKeyStatusCode as String])
+            }
+        )
+        wait(for: [expect], timeout: 0.1)
+    }
+
     func testProgressUpdate() {
         stub(condition: isXmlRpcAPIRequest()) { _ in
             let stubPath = OHPathForFile("xmlrpc-response-getpost.xml", type(of: self))
-            return fixture(filePath: stubPath!, headers: ["Content-Type" as NSObject: "application/xml" as AnyObject])
+            return fixture(filePath: stubPath!, headers: self.xmlContentTypeHeaders)
         }
 
         let success = self.expectation(description: "The success callback should be invoked")
@@ -72,7 +294,7 @@ class WordPressOrgXMLRPCApiTests: XCTestCase {
     func testProgressUpdateFailure() {
         stub(condition: isXmlRpcAPIRequest()) { _ in
             let stubPath = OHPathForFile("xmlrpc-bad-username-password-error.xml", type(of: self))
-            return fixture(filePath: stubPath!, headers: ["Content-Type" as NSObject: "application/xml" as AnyObject])
+            return fixture(filePath: stubPath!, headers: self.xmlContentTypeHeaders)
         }
 
         let failure = self.expectation(description: "The failure callback should be invoked")
@@ -100,7 +322,7 @@ class WordPressOrgXMLRPCApiTests: XCTestCase {
     func testProgressUpdateStreamAPI() {
         stub(condition: isXmlRpcAPIRequest()) { _ in
             let stubPath = OHPathForFile("xmlrpc-response-getpost.xml", type(of: self))
-            return fixture(filePath: stubPath!, headers: ["Content-Type" as NSObject: "application/xml" as AnyObject])
+            return fixture(filePath: stubPath!, headers: self.xmlContentTypeHeaders)
         }
 
         let success = self.expectation(description: "The success callback should be invoked")
@@ -128,7 +350,7 @@ class WordPressOrgXMLRPCApiTests: XCTestCase {
     func testProgressUpdateStreamAPIFailure() {
         stub(condition: isXmlRpcAPIRequest()) { _ in
             let stubPath = OHPathForFile("xmlrpc-bad-username-password-error.xml", type(of: self))
-            return fixture(filePath: stubPath!, headers: ["Content-Type" as NSObject: "application/xml" as AnyObject])
+            return fixture(filePath: stubPath!, headers: self.xmlContentTypeHeaders)
         }
 
         let failure = self.expectation(description: "The failure callback should be invoked")
