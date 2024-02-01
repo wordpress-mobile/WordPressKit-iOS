@@ -38,11 +38,11 @@ _None._
 
 ### New Features
 
-_None._
+- Add `AtomicSiteServiceRemote`
 
 ### Bug Fixes
 
-_None._
+- XMLRPC API progress is now always updated on the main thread. [#714]
 
 ### Internal Changes
 

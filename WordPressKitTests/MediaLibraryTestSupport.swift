@@ -95,13 +95,15 @@ extension MediaLibraryTestSupport {
         } else if let body = request.httpBody {
             parser = XMLParser(data: body)
         } else {
+            XCTFail("The request doesn't have a request body: \(request)")
             return .init(error: URLError(.cannotDecodeContentData))
         }
 
         let delegate = RequestParser()
         parser.delegate = delegate
         guard parser.parse() else {
-            return .init(data: Data(), statusCode: 200, headers: nil)
+            XCTFail("Unexpected error: \(String(describing: parser.parserError))")
+            return .init(error: URLError(.cannotDecodeContentData))
         }
 
         XCTAssertEqual(delegate.methodName, "wp.getMediaLibrary")

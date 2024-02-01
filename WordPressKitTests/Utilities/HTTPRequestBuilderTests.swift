@@ -1,5 +1,6 @@
 import Foundation
 import XCTest
+import wpxmlrpc
 
 @testable import WordPressKit
 
@@ -75,22 +76,22 @@ class HTTPRequestBuilderTests: XCTestCase {
 
     func testPath() throws {
         var request = try HTTPRequestBuilder(url: URL(string: "https://wordpress.org")!)
-            .append(path: "hello/world")
+            .append(percentEncodedPath: "hello/world")
             .build()
         XCTAssertEqual(request.url?.absoluteString, "https://wordpress.org/hello/world")
 
         request = try HTTPRequestBuilder(url: URL(string: "https://wordpress.org")!)
-            .append(path: "/hello/world")
+            .append(percentEncodedPath: "/hello/world")
             .build()
         XCTAssertEqual(request.url?.absoluteString, "https://wordpress.org/hello/world")
 
         request = try HTTPRequestBuilder(url: URL(string: "https://wordpress.org/hello")!)
-            .append(path: "world")
+            .append(percentEncodedPath: "world")
             .build()
         XCTAssertEqual(request.url?.absoluteString, "https://wordpress.org/hello/world")
 
         request = try HTTPRequestBuilder(url: URL(string: "https://wordpress.org/hello")!)
-            .append(path: "/world")
+            .append(percentEncodedPath: "/world")
             .build()
         XCTAssertEqual(request.url?.absoluteString, "https://wordpress.org/hello/world")
     }
@@ -329,7 +330,7 @@ class HTTPRequestBuilderTests: XCTestCase {
             try HTTPRequestBuilder(url: URL(string: "https://wordpress.org")!)
                 .method(.post)
                 .body(form: [MultipartFormField(text: "123456", name: "site")])
-                .build(encodeMultipartForm: true)
+                .build(encodeBody: true)
                 .httpBody
         )
 
@@ -337,7 +338,7 @@ class HTTPRequestBuilderTests: XCTestCase {
             try HTTPRequestBuilder(url: URL(string: "https://wordpress.org")!)
                 .method(.post)
                 .body(form: [MultipartFormField(text: "123456", name: "site")])
-                .build(encodeMultipartForm: false)
+                .build(encodeBody: false)
                 .httpBody
         )
 
@@ -345,16 +346,41 @@ class HTTPRequestBuilderTests: XCTestCase {
             try HTTPRequestBuilder(url: URL(string: "https://wordpress.org")!)
                 .method(.post)
                 .body(form: [MultipartFormField(text: "123456", name: "site")])
-                .build(encodeMultipartForm: false)
+                .build(encodeBody: false)
                 .httpBodyStream
         )
     }
 
+    func testXMLRPCRequest() throws {
+        let request = try HTTPRequestBuilder(url: URL(string: "https://wordpress.org")!)
+            .method(.post)
+            .body(xmlrpc: "wp.getPost", parameters: ["username", "password", 100])
+            .build(encodeBody: true)
+            .httpBody
+
+        let decoder = WPXMLRPCEncoder(method: "wp.getPost", andParameters: ["username", "password", 100])
+        let expected = try decoder.dataEncoded()
+        XCTAssertEqual(request, expected)
+    }
+
+    func testURLEncodedPathInOriginalURL() {
+        XCTAssertEqual(
+            try HTTPRequestBuilder(url: URL(string: "https://wordpress.org/foo%2Fbar/test")!)
+                .append(percentEncodedPath: "new-path")
+                .query(name: "arg", value: "value")
+                .build()
+                .url?
+                .absoluteString,
+            "https://wordpress.org/foo%2Fbar/test/new-path?arg=value"
+        )
+
+    }
+
 }
 
-private extension URLRequest {
+extension URLRequest {
     var httpBodyText: String? {
-        guard let data = httpBody else {
+        guard let data = (httpBody ?? httpBodyStream?.readToEnd()) else {
             return nil
         }
 

@@ -1,4 +1,5 @@
 import Foundation
+import wpxmlrpc
 
 /// A builder type that appends HTTP request data to a URL.
 ///
@@ -25,6 +26,7 @@ final class HTTPRequestBuilder {
     private var appendedQuery: [URLQueryItem] = []
     private var bodyBuilder: ((inout URLRequest) throws -> Void)?
     private(set) var multipartForm: [MultipartFormField]?
+    private(set) var xmlrpcRequest: XMLRPCRequest?
 
     init(url: URL) {
         assert(url.scheme == "http" || url.scheme == "https")
@@ -38,7 +40,10 @@ final class HTTPRequestBuilder {
         return self
     }
 
-    func append(path: String) -> Self {
+    /// Append path to the original URL.
+    ///
+    /// The argument will be appended to the original URL as it is.
+    func append(percentEncodedPath path: String) -> Self {
         assert(!path.contains("?") && !path.contains("#"), "Path should not have query or fragment: \(path)")
 
         appendedPath = Self.join(appendedPath, path)
@@ -103,7 +108,8 @@ final class HTTPRequestBuilder {
     }
 
     func body(json: @escaping () throws -> Data) -> Self {
-        headers["Content-Type"] = "application/json; charset=utf-8"
+        // 'charset' parameter is not required for json body. See https://www.rfc-editor.org/rfc/rfc8259.html#section-11
+        headers["Content-Type"] = "application/json"
         bodyBuilder = { req in
             req.httpBody = try json()
         }
@@ -111,21 +117,21 @@ final class HTTPRequestBuilder {
     }
 
     func body(xml: @escaping () throws -> Data) -> Self {
-        headers["Content-Type"] = "application/xml; charset=utf-8"
+        headers["Content-Type"] = "text/xml; charset=utf-8"
         bodyBuilder = { req in
             req.httpBody = try xml()
         }
         return self
     }
 
-    func build(encodeMultipartForm: Bool = false) throws -> URLRequest {
+    func build(encodeBody: Bool = false) throws -> URLRequest {
         var components = original
 
-        var newPath = Self.join(components.path, appendedPath)
+        var newPath = Self.join(components.percentEncodedPath, appendedPath)
         if !newPath.isEmpty, !newPath.hasPrefix("/") {
             newPath = "/\(newPath)"
         }
-        components.path = newPath
+        components.percentEncodedPath = newPath
 
         // Add default query items if they don't exist in `appendedQuery`.
         var newQuery = appendedQuery
@@ -152,13 +158,15 @@ final class HTTPRequestBuilder {
             request.addValue(value, forHTTPHeaderField: header)
         }
 
-        if encodeMultipartForm {
-            let encoded = try self.encodeMultipartForm(request: &request, forceWriteToFile: false)
-            switch encoded {
-            case let .left(data):
-                request.httpBody = data
-            case let .right(url):
-                request.httpBodyStream = InputStream(url: url)
+        if encodeBody {
+            let body = try encodeMultipartForm(request: &request, forceWriteToFile: false) ?? encodeXMLRPC(request: &request, forceWriteToFile: false)
+            if let body {
+                switch body {
+                case let .left(data):
+                    request.httpBody = data
+                case let .right(url):
+                    request.httpBodyStream = InputStream(url: url)
+                }
             }
         }
 
@@ -170,30 +178,48 @@ final class HTTPRequestBuilder {
         return request
     }
 
-    func encodeMultipartForm(request: inout URLRequest, forceWriteToFile: Bool) throws -> Either<Data, URL> {
+    func encodeMultipartForm(request: inout URLRequest, forceWriteToFile: Bool) throws -> Either<Data, URL>? {
         guard let multipartForm, !multipartForm.isEmpty else {
-            return .left(Data())
+            return nil
         }
 
         let boundery = String(format: "wordpresskit.%08x", Int.random(in: Int.min..<Int.max))
         request.setValue("multipart/form-data; boundary=\(boundery)", forHTTPHeaderField: "Content-Type")
         return try multipartForm
             .multipartFormDataStream(boundary: boundery, forceWriteToFile: forceWriteToFile)
+    }
 
+    func encodeXMLRPC(request: inout URLRequest, forceWriteToFile: Bool) throws -> Either<Data, URL>? {
+        guard let xmlrpcRequest else {
+            return nil
+        }
+
+        request.setValue("text/xml", forHTTPHeaderField: "Content-Type")
+        let encoder = WPXMLRPCEncoder(method: xmlrpcRequest.method, andParameters: xmlrpcRequest.parameters)
+        if forceWriteToFile {
+            let fileName = "\(ProcessInfo.processInfo.globallyUniqueString)_file.xmlrpc"
+            let fileURL = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(fileName)
+            try encoder.encode(toFile: fileURL.path)
+
+            var fileSize: AnyObject?
+            try (fileURL as NSURL).getResourceValue(&fileSize, forKey: .fileSizeKey)
+            if let fileSize = fileSize as? NSNumber {
+                request.setValue(fileSize.stringValue, forHTTPHeaderField: "Content-Length")
+            }
+
+            return .right(fileURL)
+        } else {
+            let data = try encoder.dataEncoded()
+            request.setValue("\(data.count)", forHTTPHeaderField: "Content-Length")
+            return try .left(encoder.dataEncoded())
+        }
     }
 }
 
 extension HTTPRequestBuilder {
-    // FIXME: Not implemented yet
-    func body(xmlrpc: Any /* XMLRPCRequest */) -> Self {
-        body(xml: {
-            fatalError("To be implemented")
-        })
-    }
-
-    // FIXME: Not implemented yet
-    func appendXMLRPCArgument(value: Any) -> Self {
-        fatalError("To be implemented")
+    func body(xmlrpc method: String, parameters: [Any]? = nil) -> Self {
+        self.xmlrpcRequest = XMLRPCRequest(method: method, parameters: parameters)
+        return self
     }
 }
 
@@ -273,4 +299,9 @@ extension Array where Element == URLQueryItem {
         .joined(separator: "&")
     }
 
+}
+
+struct XMLRPCRequest {
+    var method: String
+    var parameters: [Any]?
 }

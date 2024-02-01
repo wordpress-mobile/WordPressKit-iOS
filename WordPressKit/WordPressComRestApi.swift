@@ -4,6 +4,9 @@ import Alamofire
 
 // MARK: - WordPressComRestApiError
 
+@available(*, deprecated, renamed: "WordPressComRestApiErrorCode", message: "`WordPressComRestApiError` is renamed to `WordPressRestApiErrorCode`, and no longer conforms to `Swift.Error`")
+public typealias WordPressComRestApiError = WordPressComRestApiErrorCode
+
 /**
  Error constants for the WordPress.com REST API
 
