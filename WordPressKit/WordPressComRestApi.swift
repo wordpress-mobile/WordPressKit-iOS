@@ -484,10 +484,21 @@ extension WordPressComRestApi {
 
     /// A custom error processor to handle error responses when status codes are betwen 400 and 500
     func processError(response: DataResponse<Any>, originalError: Error) -> WordPressComRestApiEndpointError? {
-        guard let afError = originalError as?  AFError, case AFError.responseValidationFailed(_) = afError, let httpResponse = response.response, (400...500).contains(httpResponse.statusCode), let data = response.data else {
-            if let afError = originalError as? AFError, case AFError.responseSerializationFailed(_) = afError {
-                return .init(code: .responseSerializationFailed)
-            }
+        if let afError = originalError as? AFError, case AFError.responseSerializationFailed(_) = afError {
+            return .init(code: .responseSerializationFailed)
+        }
+
+        guard let httpResponse = response.response, let data = response.data else {
+            return nil
+        }
+
+        return processError(response: httpResponse, body: data, additionalUserInfo: (originalError as NSError).userInfo)
+    }
+
+    func processError(response httpResponse: HTTPURLResponse, body data: Data, additionalUserInfo: [String: Any]?) -> WordPressComRestApiEndpointError? {
+        // Not sure if it's intentional to include 500 status code, but the code seems to be there from the very beginning.
+        // https://github.com/wordpress-mobile/WordPressKit-iOS/blob/1.0.1/WordPressKit/WordPressComRestApi.swift#L374
+        guard (400...500).contains(httpResponse.statusCode) else {
             return nil
         }
 
@@ -528,10 +539,13 @@ extension WordPressComRestApi {
 
         let mappedError = errorsMap[errorCode] ?? .unknown
         if mappedError == .invalidToken {
-            invalidTokenHandler?()
+            // Call `invalidTokenHandler in the main thread since it's typically used by the apps to present an authentication UI.
+            DispatchQueue.main.async {
+                self.invalidTokenHandler?()
+            }
         }
 
-        var originalErrorUserInfo = (originalError as NSError).userInfo
+        var originalErrorUserInfo = additionalUserInfo ?? [:]
         originalErrorUserInfo.removeValue(forKey: NSLocalizedDescriptionKey)
 
         return .init(
