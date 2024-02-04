@@ -7,6 +7,8 @@ open class WordPressOrgXMLRPCApi: NSObject {
     public typealias SuccessResponseBlock = (AnyObject, HTTPURLResponse?) -> Void
     public typealias FailureReponseBlock = (_ error: NSError, _ httpResponse: HTTPURLResponse?) -> Void
 
+    public static var useURLSession = false
+
     private let endpoint: URL
     private let userAgent: String?
     private var backgroundUploads: Bool
@@ -25,6 +27,13 @@ open class WordPressOrgXMLRPCApi: NSObject {
     /// Minimum WordPress.org Supported Version.
     ///
     @objc public static let minimumSupportedVersion = "4.0"
+
+    private lazy var urlSession: URLSession = makeSession(configuration: .default)
+    private lazy var uploadURLSession: URLSession = {
+        backgroundUploads
+            ? makeSession(configuration: .background(withIdentifier: self.backgroundSessionIdentifier))
+            : urlSession
+    }()
 
     private var _sessionManager: Alamofire.SessionManager?
     private var sessionManager: Alamofire.SessionManager {
@@ -59,17 +68,31 @@ open class WordPressOrgXMLRPCApi: NSObject {
         sessionConfiguration.httpAdditionalHeaders = additionalHeaders
         let sessionManager = Alamofire.SessionManager(configuration: sessionConfiguration)
 
-        let sessionDidReceiveChallengeWithCompletion: ((URLSession, URLAuthenticationChallenge, @escaping(URLSession.AuthChallengeDisposition, URLCredential?) -> Void) -> Void) = { [weak self] session, authenticationChallenge, completionHandler in
-            self?.urlSession(session, didReceive: authenticationChallenge, completionHandler: completionHandler)
+        let sessionDidReceiveChallengeWithCompletion: ((URLSession, URLAuthenticationChallenge, @escaping(URLSession.AuthChallengeDisposition, URLCredential?) -> Void) -> Void) = { [sessionDelegate] session, authenticationChallenge, completionHandler in
+            sessionDelegate.urlSession(session, didReceive: authenticationChallenge, completionHandler: completionHandler)
         }
         sessionManager.delegate.sessionDidReceiveChallengeWithCompletion = sessionDidReceiveChallengeWithCompletion
 
-        let  taskDidReceiveChallengeWithCompletion: ((URLSession, URLSessionTask, URLAuthenticationChallenge, @escaping(URLSession.AuthChallengeDisposition, URLCredential?) -> Void) -> Void) = { [weak self] session, task, authenticationChallenge, completionHandler in
-            self?.urlSession(session, task: task, didReceive: authenticationChallenge, completionHandler: completionHandler)
+        let taskDidReceiveChallengeWithCompletion: ((URLSession, URLSessionTask, URLAuthenticationChallenge, @escaping(URLSession.AuthChallengeDisposition, URLCredential?) -> Void) -> Void) = { [sessionDelegate] session, task, authenticationChallenge, completionHandler in
+            sessionDelegate.urlSession(session, task: task, didReceive: authenticationChallenge, completionHandler: completionHandler)
         }
         sessionManager.delegate.taskDidReceiveChallengeWithCompletion = taskDidReceiveChallengeWithCompletion
         return sessionManager
     }
+
+    private func makeSession(configuration sessionConfiguration: URLSessionConfiguration) -> URLSession {
+        var additionalHeaders: [String: AnyObject] = ["Accept-Encoding": "gzip, deflate" as AnyObject]
+        if let userAgent = self.userAgent {
+            additionalHeaders["User-Agent"] = userAgent as AnyObject?
+        }
+        sessionConfiguration.httpAdditionalHeaders = additionalHeaders
+        return URLSession(configuration: sessionConfiguration, delegate: sessionDelegate, delegateQueue: nil)
+    }
+
+    // swiftlint:disable weak_delegate
+    /// `URLSessionDelegate` for the URLSession instances in this class.
+    private let sessionDelegate = SessionDelegate()
+    // swiftlint:enable weak_delegate
 
     /// Creates a new API object to connect to the WordPress XMLRPC API for the specified endpoint.
     ///
@@ -96,16 +119,18 @@ open class WordPressOrgXMLRPCApi: NSObject {
     }
 
     deinit {
-        _sessionManager?.session.finishTasksAndInvalidate()
-        _uploadSessionManager?.session.finishTasksAndInvalidate()
+        for session in [urlSession, uploadURLSession, sessionManager.session, uploadSessionManager.session] {
+            session.finishTasksAndInvalidate()
+        }
     }
 
     /**
      Cancels all ongoing and makes the session so the object will not fullfil any more request
      */
     @objc open func invalidateAndCancelTasks() {
-        sessionManager.session.invalidateAndCancel()
-        uploadSessionManager.session.invalidateAndCancel()
+        for session in [urlSession, uploadURLSession, sessionManager.session, uploadSessionManager.session] {
+            session.invalidateAndCancel()
+        }
     }
 
     // MARK: - Network requests
@@ -155,14 +180,15 @@ open class WordPressOrgXMLRPCApi: NSObject {
                 progress.totalUnitCount = requestProgress.totalUnitCount + 1
                 progress.completedUnitCount = requestProgress.completedUnitCount
             }.response(queue: DispatchQueue.global()) { (response) in
-                progress.completedUnitCount = progress.totalUnitCount
                 do {
                     let responseObject = try self.handleResponseWithData(response.data, urlResponse: response.response, error: response.error as NSError?)
                     DispatchQueue.main.async {
+                        progress.completedUnitCount = progress.totalUnitCount
                         success(responseObject, response.response)
                     }
                 } catch let error as NSError {
                     DispatchQueue.main.async {
+                        progress.completedUnitCount = progress.totalUnitCount
                         failure(error, response.response)
                     }
                     return
@@ -208,12 +234,13 @@ open class WordPressOrgXMLRPCApi: NSObject {
                 }.response(queue: DispatchQueue.global()) { (response) in
                     do {
                         let responseObject = try self.handleResponseWithData(response.data, urlResponse: response.response, error: response.error as NSError?)
-                        progress.completedUnitCount = progress.totalUnitCount
                         DispatchQueue.main.async {
+                            progress.completedUnitCount = progress.totalUnitCount
                             success(responseObject, response.response)
                         }
                     } catch let error as NSError {
                         DispatchQueue.main.async {
+                            progress.completedUnitCount = progress.totalUnitCount
                             failure(error, response.response)
                         }
                         return
@@ -327,11 +354,13 @@ open class WordPressOrgXMLRPCApi: NSObject {
     }
 }
 
-extension WordPressOrgXMLRPCApi {
+private class SessionDelegate: NSObject, URLSessionDelegate {
 
-    @objc public func urlSession(_ session: URLSession,
-                           didReceive challenge: URLAuthenticationChallenge,
-                           completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
+    @objc func urlSession(
+        _ session: URLSession,
+        didReceive challenge: URLAuthenticationChallenge,
+        completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void
+    ) {
 
         switch challenge.protectionSpace.authenticationMethod {
         case NSURLAuthenticationMethodServerTrust:
@@ -363,10 +392,12 @@ extension WordPressOrgXMLRPCApi {
         }
     }
 
-    @objc public func urlSession(_ session: URLSession,
-                           task: URLSessionTask,
-                           didReceive challenge: URLAuthenticationChallenge,
-                           completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
+    @objc func urlSession(
+        _ session: URLSession,
+        task: URLSessionTask,
+        didReceive challenge: URLAuthenticationChallenge,
+        completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void
+    ) {
 
         switch challenge.protectionSpace.authenticationMethod {
         case NSURLAuthenticationMethodHTTPBasic:
