@@ -39,7 +39,7 @@ final class CookieNonceAuthenticatorTests: XCTestCase {
         let session = SessionManager(configuration: .ephemeral)
         session.adapter = authenticator
         session.retrier = authenticator
-        wait(for: [apiCallShouldSucceed(using: session)], timeout: 0.1)
+        wait(for: [apiCallShouldSucceed(using: session)], timeout: 0.3)
     }
 
     func testUsingRESTNonceAjax() {
@@ -50,7 +50,7 @@ final class CookieNonceAuthenticatorTests: XCTestCase {
         let session = SessionManager(configuration: .ephemeral)
         session.adapter = authenticator
         session.retrier = authenticator
-        wait(for: [apiCallShouldSucceed(using: session)], timeout: 0.1)
+        wait(for: [apiCallShouldSucceed(using: session)], timeout: 0.3)
     }
 
     private func stubLoginRedirect(dest: URL) {

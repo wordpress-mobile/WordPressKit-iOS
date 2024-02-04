@@ -33,6 +33,7 @@ public typealias WordPressComRestApiError = WordPressComRestApiErrorCode
 
 public struct WordPressComRestApiEndpointError: Error {
     public var code: WordPressComRestApiErrorCode
+    var response: HTTPURLResponse?
 
     public var apiErrorCode: String?
     public var apiErrorMessage: String?
@@ -44,6 +45,12 @@ public struct WordPressComRestApiEndpointError: Error {
 extension WordPressComRestApiEndpointError: LocalizedError {
     public var errorDescription: String? {
         apiErrorMessage
+    }
+}
+
+extension WordPressComRestApiEndpointError: HTTPURLResponseProviding {
+    var httpResponse: HTTPURLResponse? {
+        response
     }
 }
 
@@ -69,6 +76,7 @@ open class WordPressComRestApi: NSObject {
     public typealias RequestEnqueuedBlock = (_ taskID: NSNumber) -> Void
     public typealias SuccessResponseBlock = (_ responseObject: AnyObject, _ httpResponse: HTTPURLResponse?) -> Void
     public typealias FailureReponseBlock = (_ error: NSError, _ httpResponse: HTTPURLResponse?) -> Void
+    public typealias APIResult<T> = WordPressAPIResult<HTTPAPIResponse<T>, WordPressComRestApiEndpointError>
 
     @objc public static let apiBaseURL: URL = URL(string: "https://public-api.wordpress.com/")!
 
@@ -412,6 +420,21 @@ open class WordPressComRestApi: NSObject {
         return urlComponentsWithLocale?.url?.absoluteString
     }
 
+    private func requestBuilder(URLString: String) throws -> HTTPRequestBuilder {
+        guard let url = URL(string: URLString, relativeTo: baseURL) else {
+            throw URLError(.badURL)
+        }
+
+        var builder = HTTPRequestBuilder(url: url)
+
+        if appendsPreferredLanguageLocale {
+            let preferredLanguageIdentifier = WordPressComLanguageDatabase().deviceLanguage.slug
+            builder = builder.query(defaults: [URLQueryItem(name: localeKey, value: preferredLanguageIdentifier)])
+        }
+
+        return builder
+    }
+
     private func applyLocaleIfNeeded(urlComponents: URLComponents, parameters: [String: AnyObject]? = [:], localeKey: String) -> URLComponents? {
         guard appendsPreferredLanguageLocale else {
             return urlComponents
@@ -459,6 +482,88 @@ open class WordPressComRestApi: NSObject {
         return URLSession(configuration: configuration)
     }()
 
+    func perform(
+        _ method: HTTPRequestBuilder.Method,
+        URLString: String,
+        parameters: [String: AnyObject]? = nil,
+        fulfilling progress: Progress? = nil
+    ) async -> APIResult<AnyObject> {
+        await perform(method, URLString: URLString, parameters: parameters, fulfilling: progress) {
+            try (JSONSerialization.jsonObject(with: $0) as AnyObject)
+        }
+    }
+
+    func perform<T: Decodable>(
+        _ method: HTTPRequestBuilder.Method,
+        URLString: String,
+        parameters: [String: AnyObject]? = nil,
+        fulfilling progress: Progress? = nil,
+        jsonDecoder: JSONDecoder? = nil,
+        type: T.Type = T.self
+    ) async -> APIResult<T> {
+        await perform(method, URLString: URLString, parameters: parameters, fulfilling: progress) {
+            let decoder = jsonDecoder ?? JSONDecoder()
+            return try decoder.decode(type, from: $0)
+        }
+    }
+
+    private func perform<T>(
+        _ method: HTTPRequestBuilder.Method,
+        URLString: String,
+        parameters: [String: AnyObject]?,
+        fulfilling progress: Progress?,
+        decoder: @escaping (Data) throws -> T
+    ) async -> APIResult<T> {
+        var builder: HTTPRequestBuilder
+        do {
+            builder = try requestBuilder(URLString: URLString)
+                .method(method)
+        } catch {
+            return .failure(.requestEncodingFailure(underlyingError: error))
+        }
+
+        if let parameters {
+            if builder.method.allowsHTTPBody {
+                builder = builder.body(json: parameters as Any)
+            } else {
+                builder = builder.query(parameters)
+            }
+        }
+
+        return await perform(request: builder, fulfilling: progress, decoder: decoder)
+    }
+
+    private func perform<T>(
+        request: HTTPRequestBuilder,
+        fulfilling progress: Progress?,
+        decoder: @escaping (Data) throws -> T
+    ) async -> APIResult<T> {
+        await self.urlSession
+            .perform(request: request, fulfilling: progress, errorType: WordPressComRestApiEndpointError.self)
+            .mapSuccess { response -> HTTPAPIResponse<T> in
+                let object = try decoder(response.body)
+
+                return HTTPAPIResponse(response: response.response, body: object)
+            }
+            .mapUnacceptableStatusCodeError { response, body in
+                if let error = self.processError(response: response, body: body, additionalUserInfo: nil) {
+                    return error
+                }
+
+                throw URLError(.cannotParseResponse)
+            }
+            .mapError { error -> WordPressAPIError<WordPressComRestApiEndpointError> in
+                switch error {
+                case .requestEncodingFailure:
+                    return .endpointError(.init(code: .requestSerializationFailed))
+                case let .unparsableResponse(response, _, _):
+                    return .endpointError(.init(code: .responseSerializationFailed, response: response))
+                default:
+                    return error
+                }
+            }
+    }
+
 }
 
 // MARK: - FilePart
@@ -485,7 +590,7 @@ extension WordPressComRestApi {
     /// A custom error processor to handle error responses when status codes are betwen 400 and 500
     func processError(response: DataResponse<Any>, originalError: Error) -> WordPressComRestApiEndpointError? {
         if let afError = originalError as? AFError, case AFError.responseSerializationFailed(_) = afError {
-            return .init(code: .responseSerializationFailed)
+            return .init(code: .responseSerializationFailed, response: response.response)
         }
 
         guard let httpResponse = response.response, let data = response.data else {
@@ -505,16 +610,16 @@ extension WordPressComRestApi {
         guard let responseObject = try? JSONSerialization.jsonObject(with: data, options: .allowFragments),
             let responseDictionary = responseObject as? [String: AnyObject] else {
 
-            if let error = checkForThrottleErrorIn(data: data) {
+            if let error = checkForThrottleErrorIn(response: httpResponse, data: data) {
                 return error
             }
-            return .init(code: .unknown)
+            return .init(code: .unknown, response: httpResponse)
         }
 
         // FIXME: A hack to support free WPCom sites and Rewind. Should be obsolote as soon as the backend
         // stops returning 412's for those sites.
         if httpResponse.statusCode == 412, let code = responseDictionary["code"] as? String, code == "no_connected_jetpack" {
-            return .init(code: .preconditionFailure)
+            return .init(code: .preconditionFailure, response: httpResponse)
         }
 
         var errorDictionary: AnyObject? = responseDictionary as AnyObject?
@@ -525,7 +630,7 @@ extension WordPressComRestApi {
             let errorCode = errorEntry["error"] as? String,
             let errorDescription = errorEntry["message"] as? String
             else {
-                return .init(code: .unknown)
+                return .init(code: .unknown, response: httpResponse)
         }
 
         let errorsMap: [String: WordPressComRestApiErrorCode] = [
@@ -557,7 +662,7 @@ extension WordPressComRestApi {
         )
     }
 
-    func checkForThrottleErrorIn(data: Data) -> WordPressComRestApiEndpointError? {
+    func checkForThrottleErrorIn(response: HTTPURLResponse, data: Data) -> WordPressComRestApiEndpointError? {
         // This endpoint is throttled, so check if we've sent too many requests and fill that error in as
         // when too many requests occur the API just spits out an html page.
         guard let responseString = String(data: data, encoding: .utf8),

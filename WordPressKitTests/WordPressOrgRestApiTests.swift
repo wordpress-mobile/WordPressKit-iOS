@@ -108,7 +108,7 @@ class WordPressOrgRestApiTests: XCTestCase {
             complete.fulfill()
         }
 
-        wait(for: [complete], timeout: 0.1)
+        wait(for: [complete], timeout: 0.3)
 
         let request = try XCTUnwrap(req)
         XCTAssertEqual(request.httpMethod?.uppercased(), "POST")

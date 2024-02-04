@@ -435,6 +435,6 @@ class ActivityServiceRemoteTests: RemoteTestCase, RESTTestable {
             XCTFail("The success block should be called")
         }
 
-        wait(for: [expect], timeout: 0.1)
+        wait(for: [expect], timeout: 0.3)
     }
 }

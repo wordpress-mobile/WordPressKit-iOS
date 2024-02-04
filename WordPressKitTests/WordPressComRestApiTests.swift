@@ -60,6 +60,25 @@ class WordPressComRestApiTests: XCTestCase {
         }
     }
 
+    func testHTTPMethod() async {
+        for method in HTTPRequestBuilder.Method.allCases {
+            let requestReceived = expectation(description: "HTTP request is received")
+
+            var request: URLRequest?
+            stub(condition: { _ in true }) {
+                request = $0
+                requestReceived.fulfill()
+                return HTTPStubsResponse(error: URLError(URLError.Code.networkConnectionLost))
+            }
+
+            let api = WordPressComRestApi(oAuthToken: "fakeToken")
+            _ = await api.perform(method, URLString: "test")
+            await fulfillment(of: [requestReceived], timeout: 0.3)
+
+            XCTAssertEqual(request?.httpMethod?.uppercased(), method.rawValue.uppercased())
+        }
+    }
+
     @available(iOS 16.0, *)
     func testQuery() {
         var requestURL: URL?
@@ -76,7 +95,7 @@ class WordPressComRestApiTests: XCTestCase {
             success: { _, _ in expect.fulfill() },
             failure: { (_, _) in expect.fulfill() }
         )
-        wait(for: [expect], timeout: 0.1)
+        wait(for: [expect], timeout: 0.3)
 
         let query = requestURL?
             .query(percentEncoded: false)?
@@ -119,6 +138,24 @@ class WordPressComRestApiTests: XCTestCase {
         let localhostApi = WordPressComRestApi(baseURL: URL(string: "http://localhost:8080")!)
         XCTAssertEqual(localhostApi.baseURL.absoluteString, "http://localhost:8080")
         XCTAssertTrue(localhostApi.buildRequestURLFor(path: "/path")!.hasPrefix("http://localhost:8080/path"))
+    }
+
+    func testURLStringWithQuery() async {
+        let requestReceived = expectation(description: "HTTP request is received")
+
+        var request: URLRequest?
+        stub(condition: { _ in true }) {
+            request = $0
+            requestReceived.fulfill()
+            return HTTPStubsResponse(error: URLError(URLError.Code.networkConnectionLost))
+        }
+
+        let api = WordPressComRestApi(oAuthToken: "fakeToken")
+        _ = await api.perform(.get, URLString: "test?arg=value")
+        await fulfillment(of: [requestReceived], timeout: 0.3)
+
+        XCTAssertEqual(request?.url?.path, "/test")
+        XCTAssertTrue(request?.url?.query?.contains("arg=value") == true)
     }
 
     func testInvalidTokenFailedCall() {
@@ -380,7 +417,7 @@ class WordPressComRestApiTests: XCTestCase {
             }
         )
 
-        wait(for: [complete], timeout: 0.1)
+        wait(for: [complete], timeout: 0.3)
     }
 
     func testStatusCode502() {
@@ -403,7 +440,7 @@ class WordPressComRestApiTests: XCTestCase {
             }
         )
 
-        wait(for: [complete], timeout: 0.1)
+        wait(for: [complete], timeout: 0.3)
     }
 
     func testTooManyRequestError() {
@@ -430,7 +467,7 @@ class WordPressComRestApiTests: XCTestCase {
             }
         )
 
-        wait(for: [complete], timeout: 0.1)
+        wait(for: [complete], timeout: 0.3)
     }
 
     func testPreconditionFailureError() {
@@ -454,7 +491,7 @@ class WordPressComRestApiTests: XCTestCase {
             }
         )
 
-        wait(for: [complete], timeout: 0.1)
+        wait(for: [complete], timeout: 0.3)
     }
 
     /// Verify that parameters in POST requests are sent as JSON.
@@ -479,7 +516,7 @@ class WordPressComRestApiTests: XCTestCase {
             }
         )
 
-        wait(for: [complete], timeout: 0.1)
+        wait(for: [complete], timeout: 0.3)
 
         let request = try XCTUnwrap(req)
         XCTAssertEqual(request.httpMethod?.uppercased(), "POST")

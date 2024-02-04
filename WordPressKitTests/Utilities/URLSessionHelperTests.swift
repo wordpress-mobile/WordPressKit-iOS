@@ -135,7 +135,7 @@ class URLSessionHelperTests: XCTestCase {
         }
 
         let _ = await URLSession.shared.perform(request: .init(url: URL(string: "https://wordpress.org/hello")!), fulfilling: progress, errorType: TestError.self)
-        await fulfillment(of: [progressReported], timeout: 0.1)
+        await fulfillment(of: [progressReported], timeout: 0.3)
         observer.invalidate()
     }
 

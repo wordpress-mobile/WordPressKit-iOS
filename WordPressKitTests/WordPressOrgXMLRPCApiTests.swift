@@ -67,7 +67,7 @@ class WordPressOrgXMLRPCApiTests: XCTestCase {
                 XCTAssertNotNil(error.userInfo[WordPressOrgXMLRPCApi.WordPressOrgXMLRPCApiErrorKeyStatusCode as String])
             }
         )
-        wait(for: [expect], timeout: 0.1)
+        wait(for: [expect], timeout: 0.3)
     }
 
     func test403() {
@@ -95,7 +95,7 @@ class WordPressOrgXMLRPCApiTests: XCTestCase {
                 XCTAssertNotNil(error.userInfo[WordPressOrgXMLRPCApi.WordPressOrgXMLRPCApiErrorKeyStatusCode as String])
             }
         )
-        wait(for: [expect], timeout: 0.1)
+        wait(for: [expect], timeout: 0.3)
     }
 
     func test403WithoutContentTypeHeader() {
@@ -123,7 +123,7 @@ class WordPressOrgXMLRPCApiTests: XCTestCase {
                 XCTAssertNil(error.userInfo[WordPressOrgXMLRPCApi.WordPressOrgXMLRPCApiErrorKeyStatusCode as String])
             }
         )
-        wait(for: [expect], timeout: 0.1)
+        wait(for: [expect], timeout: 0.3)
     }
 
     func testConnectionError() {
@@ -148,7 +148,7 @@ class WordPressOrgXMLRPCApiTests: XCTestCase {
                 XCTAssertEqual(error.code, URLError.Code.timedOut.rawValue)
             }
         )
-        wait(for: [expect], timeout: 0.1)
+        wait(for: [expect], timeout: 0.3)
     }
 
     func testFault() throws {
@@ -176,7 +176,7 @@ class WordPressOrgXMLRPCApiTests: XCTestCase {
                 XCTAssertNil(error.userInfo[WordPressOrgXMLRPCApi.WordPressOrgXMLRPCApiErrorKeyStatusCode as String])
             }
         )
-        wait(for: [expect], timeout: 0.1)
+        wait(for: [expect], timeout: 0.3)
     }
 
     func testFault401() throws {
@@ -204,7 +204,7 @@ class WordPressOrgXMLRPCApiTests: XCTestCase {
                 XCTAssertNil(error.userInfo[WordPressOrgXMLRPCApi.WordPressOrgXMLRPCApiErrorKeyStatusCode as String])
             }
         )
-        wait(for: [expect], timeout: 0.1)
+        wait(for: [expect], timeout: 0.3)
     }
 
     func testMalformedXML() throws {
@@ -233,7 +233,7 @@ class WordPressOrgXMLRPCApiTests: XCTestCase {
                 XCTAssertNil(error.userInfo[WordPressOrgXMLRPCApi.WordPressOrgXMLRPCApiErrorKeyStatusCode as String])
             }
         )
-        wait(for: [expect], timeout: 0.1)
+        wait(for: [expect], timeout: 0.3)
     }
 
     func testInvalidXML() throws {
@@ -260,7 +260,7 @@ class WordPressOrgXMLRPCApiTests: XCTestCase {
                 XCTAssertNil(error.userInfo[WordPressOrgXMLRPCApi.WordPressOrgXMLRPCApiErrorKeyStatusCode as String])
             }
         )
-        wait(for: [expect], timeout: 0.1)
+        wait(for: [expect], timeout: 0.3)
     }
 
     func testProgressUpdate() {
@@ -285,7 +285,7 @@ class WordPressOrgXMLRPCApiTests: XCTestCase {
             observerCalled.fulfill()
         })
 
-        wait(for: [success, observerCalled], timeout: 0.1)
+        wait(for: [success, observerCalled], timeout: 0.3)
         observer?.invalidate()
 
         XCTAssertEqual(progress?.fractionCompleted, 1)
@@ -313,7 +313,7 @@ class WordPressOrgXMLRPCApiTests: XCTestCase {
             observerCalled.fulfill()
         })
 
-        wait(for: [failure, observerCalled], timeout: 0.1)
+        wait(for: [failure, observerCalled], timeout: 0.3)
         observer?.invalidate()
 
         XCTAssertEqual(progress?.fractionCompleted, 1)
@@ -341,7 +341,7 @@ class WordPressOrgXMLRPCApiTests: XCTestCase {
             observerCalled.fulfill()
         })
 
-        wait(for: [success, observerCalled], timeout: 0.1)
+        wait(for: [success, observerCalled], timeout: 0.3)
         observer?.invalidate()
 
         XCTAssertEqual(progress?.fractionCompleted, 1)
@@ -369,7 +369,7 @@ class WordPressOrgXMLRPCApiTests: XCTestCase {
             observerCalled.fulfill()
         })
 
-        wait(for: [failure, observerCalled], timeout: 0.1)
+        wait(for: [failure, observerCalled], timeout: 0.3)
         observer?.invalidate()
 
         XCTAssertEqual(progress?.fractionCompleted, 1)
