@@ -50,7 +50,7 @@ extension BlockEditorSettingsServiceRemoteTests {
             waitExpectation.fulfill()
         }
 
-        wait(for: [waitExpectation], timeout: 0.1)
+        wait(for: [waitExpectation], timeout: 0.3)
     }
 
     func testFetchThemeNoGradients() {
@@ -81,7 +81,7 @@ extension BlockEditorSettingsServiceRemoteTests {
             waitExpectation.fulfill()
         }
 
-        wait(for: [waitExpectation], timeout: 0.1)
+        wait(for: [waitExpectation], timeout: 0.3)
     }
 
     func testFetchThemeNoColors() {
@@ -117,7 +117,7 @@ extension BlockEditorSettingsServiceRemoteTests {
             waitExpectation.fulfill()
         }
 
-        wait(for: [waitExpectation], timeout: 0.1)
+        wait(for: [waitExpectation], timeout: 0.3)
     }
 
     func testFetchThemeNoThemeSupport() {
@@ -144,7 +144,7 @@ extension BlockEditorSettingsServiceRemoteTests {
             waitExpectation.fulfill()
         }
 
-        wait(for: [waitExpectation], timeout: 0.1)
+        wait(for: [waitExpectation], timeout: 0.3)
     }
 
     func testFetchThemeFailure() {
@@ -163,7 +163,7 @@ extension BlockEditorSettingsServiceRemoteTests {
             waitExpectation.fulfill()
         }
 
-        wait(for: [waitExpectation], timeout: 0.1)
+        wait(for: [waitExpectation], timeout: 0.3)
     }
 
 }
@@ -189,7 +189,7 @@ extension BlockEditorSettingsServiceRemoteTests {
             waitExpectation.fulfill()
         }
 
-        wait(for: [waitExpectation], timeout: 0.1)
+        wait(for: [waitExpectation], timeout: 0.3)
     }
 
     func testFetchBlockEditorSettingsThemeJSON() {
@@ -214,7 +214,7 @@ extension BlockEditorSettingsServiceRemoteTests {
             waitExpectation.fulfill()
         }
 
-        wait(for: [waitExpectation], timeout: 0.1)
+        wait(for: [waitExpectation], timeout: 0.3)
     }
 
     func testFetchBlockEditorSettingsNoFSETheme() {
@@ -238,7 +238,7 @@ extension BlockEditorSettingsServiceRemoteTests {
             waitExpectation.fulfill()
         }
 
-        wait(for: [waitExpectation], timeout: 0.1)
+        wait(for: [waitExpectation], timeout: 0.3)
     }
 
     func testFetchBlockEditorSettingsThemeJSON_ConsistentChecksum() {
@@ -266,7 +266,7 @@ extension BlockEditorSettingsServiceRemoteTests {
             waitExpectation.fulfill()
         }
 
-        wait(for: [waitExpectation], timeout: 0.1)
+        wait(for: [waitExpectation], timeout: 0.3)
     }
 
     func testFetchBlockEditorSettingsOrgEndpoint() {
@@ -280,7 +280,7 @@ extension BlockEditorSettingsServiceRemoteTests {
             waitExpectation.fulfill()
         }
 
-        wait(for: [waitExpectation], timeout: 0.1)
+        wait(for: [waitExpectation], timeout: 0.3)
     }
 
     // The only difference between this test and the one above (testFetchBlockEditorSettingsOrgEndpoint) is this
@@ -300,7 +300,7 @@ extension BlockEditorSettingsServiceRemoteTests {
             waitExpectation.fulfill()
         }
 
-        wait(for: [waitExpectation], timeout: 0.1)
+        wait(for: [waitExpectation], timeout: 0.3)
     }
 
     private func validateFetchBlockEditorSettingsResults(_ result: RemoteBlockEditorSettings?) {

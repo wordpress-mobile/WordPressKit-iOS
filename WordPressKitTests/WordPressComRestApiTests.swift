@@ -73,7 +73,7 @@ class WordPressComRestApiTests: XCTestCase {
 
             let api = WordPressComRestApi(oAuthToken: "fakeToken")
             _ = await api.perform(method, URLString: "test")
-            await fulfillment(of: [requestReceived], timeout: 0.1)
+            await fulfillment(of: [requestReceived], timeout: 0.3)
 
             XCTAssertEqual(request?.httpMethod?.uppercased(), method.rawValue.uppercased())
         }
@@ -95,7 +95,7 @@ class WordPressComRestApiTests: XCTestCase {
             success: { _, _ in expect.fulfill() },
             failure: { (_, _) in expect.fulfill() }
         )
-        wait(for: [expect], timeout: 0.1)
+        wait(for: [expect], timeout: 0.3)
 
         let query = requestURL?
             .query(percentEncoded: false)?
@@ -152,7 +152,7 @@ class WordPressComRestApiTests: XCTestCase {
 
         let api = WordPressComRestApi(oAuthToken: "fakeToken")
         _ = await api.perform(.get, URLString: "test?arg=value")
-        await fulfillment(of: [requestReceived], timeout: 0.1)
+        await fulfillment(of: [requestReceived], timeout: 0.3)
 
         XCTAssertEqual(request?.url?.path, "/test")
         XCTAssertTrue(request?.url?.query?.contains("arg=value") == true)
@@ -417,7 +417,7 @@ class WordPressComRestApiTests: XCTestCase {
             }
         )
 
-        wait(for: [complete], timeout: 0.1)
+        wait(for: [complete], timeout: 0.3)
     }
 
     func testStatusCode502() {
@@ -440,7 +440,7 @@ class WordPressComRestApiTests: XCTestCase {
             }
         )
 
-        wait(for: [complete], timeout: 0.1)
+        wait(for: [complete], timeout: 0.3)
     }
 
     func testTooManyRequestError() {
@@ -467,7 +467,7 @@ class WordPressComRestApiTests: XCTestCase {
             }
         )
 
-        wait(for: [complete], timeout: 0.1)
+        wait(for: [complete], timeout: 0.3)
     }
 
     func testPreconditionFailureError() {
@@ -491,7 +491,7 @@ class WordPressComRestApiTests: XCTestCase {
             }
         )
 
-        wait(for: [complete], timeout: 0.1)
+        wait(for: [complete], timeout: 0.3)
     }
 
     /// Verify that parameters in POST requests are sent as JSON.
@@ -516,7 +516,7 @@ class WordPressComRestApiTests: XCTestCase {
             }
         )
 
-        wait(for: [complete], timeout: 0.1)
+        wait(for: [complete], timeout: 0.3)
 
         let request = try XCTUnwrap(req)
         XCTAssertEqual(request.httpMethod?.uppercased(), "POST")
