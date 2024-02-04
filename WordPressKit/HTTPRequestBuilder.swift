@@ -19,7 +19,7 @@ final class HTTPRequestBuilder {
     }
 
     private let original: URLComponents
-    private var method: Method = .get
+    private(set) var method: Method = .get
     private var appendedPath: String = ""
     private var headers: [String: String] = [:]
     private var defaultQuery: [URLQueryItem] = []
@@ -278,9 +278,10 @@ private extension Dictionary where Key == String, Value == Any {
     }
 
     func flatten() -> [URLQueryItem] {
-        reduce(into: []) { result, entry in
-            Self.urlEncode(into: &result, name: entry.key, value: entry.value)
-        }
+        sorted { $0.key < $1.key }
+            .reduce(into: []) { result, entry in
+                Self.urlEncode(into: &result, name: entry.key, value: entry.value)
+            }
     }
 
 }

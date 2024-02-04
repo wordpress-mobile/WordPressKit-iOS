@@ -171,14 +171,17 @@ open class WordPressComRestApi: NSObject {
     }
 
     deinit {
-        sessionManager.session.finishTasksAndInvalidate()
-        uploadSessionManager.session.finishTasksAndInvalidate()
+        for session in [urlSession, sessionManager.session, uploadSessionManager.session] {
+            session.finishTasksAndInvalidate()
+        }
     }
 
     /// Cancels all outgoing tasks asynchronously without invalidating the session.
     public func cancelTasks() {
-        sessionManager.session.getAllTasks { tasks in
-            tasks.forEach({ $0.cancel() })
+        for session in [urlSession, sessionManager.session, uploadSessionManager.session] {
+            session.getAllTasks { tasks in
+                tasks.forEach({ $0.cancel() })
+            }
         }
     }
 
@@ -186,8 +189,9 @@ open class WordPressComRestApi: NSObject {
      Cancels all ongoing taks and makes the session invalid so the object will not fullfil any more request
      */
     @objc open func invalidateAndCancelTasks() {
-        sessionManager.session.invalidateAndCancel()
-        uploadSessionManager.session.invalidateAndCancel()
+        for session in [urlSession, sessionManager.session, uploadSessionManager.session] {
+            session.invalidateAndCancel()
+        }
     }
 
     @objc func setInvalidTokenHandler(_ handler: @escaping () -> Void) {
