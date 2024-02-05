@@ -46,7 +46,7 @@ _None._
 
 ### Internal Changes
 
-_None._
+- When enabled, send WP.com REST API requests using URLSession, instead of Alamofire. [#720]
 
 ## 13.0.0
 
