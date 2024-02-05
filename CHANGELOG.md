@@ -34,11 +34,39 @@ _None._
 
 ### Breaking Changes
 
+_None._
+
+### New Features
+
+_None._
+
+### Bug Fixes
+
+_None._
+
+### Internal Changes
+
+_None._
+
+## 13.0.0
+
+### Breaking Changes
+
+- Remove `userIP` from `AtomicWebServerLogEntry`. [#711]
+
+### Internal Changes
+
+- Various internal changes in preparation to remove Alamofire.
+
+## 12.0.0
+
+### Breaking Changes
+
 - `WordPressComRestApiError` is renamed to `WordPressRestApiErrorCode`, and no longer conforms to `Swift.Error`. [#696]
 
 ### New Features
 
-- Add `AtomicSiteServiceRemote`
+- Add `AtomicSiteServiceRemote` [#704]
 
 ### Bug Fixes
 
