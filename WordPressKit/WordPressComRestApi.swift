@@ -301,7 +301,7 @@ open class WordPressComRestApi: NSObject {
             case let .success(response):
                 success(response.body, response.response)
             case let .failure(error):
-                failure(error as NSError, error.response)
+                failure(error.asNSError(), error.response)
             }
         }
 
@@ -360,7 +360,7 @@ open class WordPressComRestApi: NSObject {
             case let .success(response):
                success(response.body, response.response)
             case let .failure(error):
-               failure(error as NSError, error.response)
+               failure(error.asNSError(), error.response)
             }
         }
 
@@ -397,7 +397,7 @@ open class WordPressComRestApi: NSObject {
                 case let .success(response):
                     success(response.body, response.response)
                 case let .failure(error):
-                    failure(error as NSError, error.response)
+                    failure(error.asNSError(), error.response)
                 }
             }
 
@@ -863,4 +863,15 @@ private extension CharacterSet {
         allowed.remove(charactersIn: "\(generalDelimitersToEncode)\(subDelimitersToEncode)")
         return allowed
     }()
+}
+
+private extension WordPressAPIError<WordPressComRestApiEndpointError> {
+    func asNSError() -> NSError {
+        // When encoutering `URLError`, return `URLError` to avoid potentially breaking existing error handling code in the apps.
+        if case let .connection(urlError) = self {
+            return urlError as NSError
+        }
+
+        return self as NSError
+    }
 }
