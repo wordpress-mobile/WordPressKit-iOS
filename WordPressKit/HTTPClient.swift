@@ -45,6 +45,7 @@ extension URLSession {
     func perform<E: LocalizedError>(
         request builder: HTTPRequestBuilder,
         acceptableStatusCodes: [ClosedRange<Int>] = [200...299],
+        taskCreated: ((Int) -> Void)? = nil,
         fulfilling parentProgress: Progress? = nil,
         errorType: E.Type = E.self
     ) async -> WordPressAPIResult<HTTPAPIResponse<Data>, E> {
@@ -75,6 +76,7 @@ extension URLSession {
             }
 
             task.resume()
+            taskCreated?(task.taskIdentifier)
 
             if let parentProgress, parentProgress.totalUnitCount > parentProgress.completedUnitCount {
                 let pending = parentProgress.totalUnitCount - parentProgress.completedUnitCount
