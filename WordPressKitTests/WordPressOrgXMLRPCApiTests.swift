@@ -200,8 +200,16 @@ class WordPressOrgXMLRPCApiTests: XCTestCase {
                 XCTAssertEqual(error.domain, WPXMLRPCFaultErrorDomain)
                 // 403 is the 'faultCode' in the HTTP response xml.
                 XCTAssertEqual(error.code, 403)
-                XCTAssertNil(error.userInfo[WordPressOrgXMLRPCApi.WordPressOrgXMLRPCApiErrorKeyData as String])
                 XCTAssertNil(error.userInfo[WordPressOrgXMLRPCApi.WordPressOrgXMLRPCApiErrorKeyStatusCode as String])
+
+                // The change highlights one difference between the existing Alamofire-backed API and the new
+                // URLSession-backed API: the error returned by the new one may has HTTP response body which may not
+                // be the case exist in the old API. I think this is an acceptable change.
+                if WordPressOrgXMLRPCApi.useURLSession {
+                    XCTAssertNotNil(error.userInfo[WordPressOrgXMLRPCApi.WordPressOrgXMLRPCApiErrorKeyData as String])
+                } else {
+                    XCTAssertNil(error.userInfo[WordPressOrgXMLRPCApi.WordPressOrgXMLRPCApiErrorKeyData as String])
+                }
             }
         )
         wait(for: [expect], timeout: 0.3)
