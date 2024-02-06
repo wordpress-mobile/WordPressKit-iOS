@@ -330,11 +330,11 @@ public final class WordPressComOAuthClient: NSObject {
         return await socialNewSMS2FASession
             .perform(request: builder, errorType: AuthenticationFailure.self)
             .mapUnacceptableStatusCodeError(AuthenticationFailure.init(response:body:))
-            .mapSuccess { response -> String? in
+            .mapSuccess { response -> String in
                 guard let responseObject = try? JSONSerialization.jsonObject(with: response.body),
                       let responseDictionary = responseObject as? [String: AnyObject],
                     let responseData = responseDictionary["data"] as? [String: AnyObject] else {
-                    return nil
+                    throw URLError(.cannotParseResponse)
                 }
 
                 return self.extractNonceInfo(data: responseData).nonceSMS
