@@ -286,12 +286,12 @@ open class WordPressOrgXMLRPCApi: NSObject {
     ///
     /// ## Error handling
     ///
-    /// Unlike the closed-based APIs, this method returns a concrete error type. You should consider handle the errors
-    /// as they are, instead of casing them to `NSError` instance. But in case you do need to cast them to `NSError`,
-    /// considering using the `asNSError` function if you need backward compatiblity with existing code,
+    /// Unlike the closure-based APIs, this method returns a concrete error type. You should consider handling the errors
+    /// as they are, instead of casting them to `NSError` instance. But in case you do need to cast them to `NSError`,
+    /// considering using the `asNSError` function if you need backward compatibility with existing code.
     ///
     /// - Parameters:
-    ///   - streaming: set to true if there are large data (i.e. uploading files) in given `parameters`. `false` by default.
+    ///   - streaming: set to `true` if there are large data (i.e. uploading files) in given `parameters`. `false` by default.
     /// - Returns: A `Result` type that contains the XMLRPC success or failure result.
     func call(method: String, parameters: [AnyObject]?, fulfilling progress: Progress, streaming: Bool = false) async -> WordPressAPIResult<HTTPAPIResponse<AnyObject>, WordPressOrgXMLRPCApiFault> {
         let session = streaming ? uploadURLSession : urlSession
