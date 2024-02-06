@@ -508,16 +508,21 @@ extension WordPressOrgXMLRPCApiError: LocalizedError {
 }
 
 public struct WordPressOrgXMLRPCApiFault: LocalizedError, HTTPURLResponseProviding {
-    var response: HTTPAPIResponse<Data>
+    public var response: HTTPAPIResponse<Data>
+    public let code: Int?
+    public let message: String?
 
-    var code: Int?
-    var message: String?
+    public init(response: HTTPAPIResponse<Data>, code: Int?, message: String?) {
+        self.response = response
+        self.code = code
+        self.message = message
+    }
 
     public var errorDescription: String? {
         message
     }
 
-    var httpResponse: HTTPURLResponse? {
+    public var httpResponse: HTTPURLResponse? {
         response.response
     }
 }
