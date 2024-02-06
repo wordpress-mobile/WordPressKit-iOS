@@ -394,7 +394,7 @@ open class WordPressComRestApi: NSObject {
             let progress = Progress.discreteProgress(totalUnitCount: 100)
 
             Task { @MainActor in
-                let result = await upload(URLString, parameters: parameters, fileParts: fileParts, requestEnqueued: requestEnqueued, fulfilling: progress)
+                let result = await upload(URLString: URLString, parameters: parameters, fileParts: fileParts, requestEnqueued: requestEnqueued, fulfilling: progress)
                 switch result {
                 case let .success(response):
                     success(response.body, response.response)
@@ -642,7 +642,7 @@ open class WordPressComRestApi: NSObject {
     }
 
     public func upload(
-        _ URLString: String,
+        URLString: String,
         parameters: [String: AnyObject]?,
         fileParts: [FilePart],
         requestEnqueued: RequestEnqueuedBlock? = nil,
