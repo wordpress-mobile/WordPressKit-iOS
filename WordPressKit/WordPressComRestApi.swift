@@ -63,6 +63,9 @@ public enum ResponseType {
 
 open class WordPressComRestApi: NSObject {
 
+    /// Use `URLSession` directly (instead of Alamofire) to send API requests.
+    public static var useURLSession = false
+
     // MARK: Properties
 
     @objc public static let ErrorKeyErrorCode       = "WordPressComRestApiErrorCodeKey"
@@ -179,14 +182,14 @@ open class WordPressComRestApi: NSObject {
     }
 
     deinit {
-        for session in [urlSession, sessionManager.session, uploadSessionManager.session] {
+        for session in [urlSession, uploadURLSession, sessionManager.session, uploadSessionManager.session] {
             session.finishTasksAndInvalidate()
         }
     }
 
     /// Cancels all outgoing tasks asynchronously without invalidating the session.
     public func cancelTasks() {
-        for session in [urlSession, sessionManager.session, uploadSessionManager.session] {
+        for session in [urlSession, uploadURLSession, sessionManager.session, uploadSessionManager.session] {
             session.getAllTasks { tasks in
                 tasks.forEach({ $0.cancel() })
             }
@@ -197,7 +200,7 @@ open class WordPressComRestApi: NSObject {
      Cancels all ongoing taks and makes the session invalid so the object will not fullfil any more request
      */
     @objc open func invalidateAndCancelTasks() {
-        for session in [urlSession, sessionManager.session, uploadSessionManager.session] {
+        for session in [urlSession, uploadURLSession, sessionManager.session, uploadSessionManager.session] {
             session.invalidateAndCancel()
         }
     }
@@ -285,18 +288,49 @@ open class WordPressComRestApi: NSObject {
                      success: @escaping SuccessResponseBlock,
                      failure: @escaping FailureReponseBlock) -> Progress? {
 
-        return request(method: .get, urlString: URLString, parameters: parameters, encoding: URLEncoding.default, success: success, failure: failure)
+        guard WordPressComRestApi.useURLSession else {
+            return request(method: .get, urlString: URLString, parameters: parameters, encoding: URLEncoding.default, success: success, failure: failure)
+        }
+
+        let progress = Progress.discreteProgress(totalUnitCount: 100)
+
+        Task { @MainActor in
+            let result = await self.perform(.get, URLString: URLString, parameters: parameters, fulfilling: progress)
+
+            switch result {
+            case let .success(response):
+                success(response.body, response.response)
+            case let .failure(error):
+                failure(error.asNSError(), error.response)
+            }
+        }
+
+        return progress
     }
 
     open func GETData(_ URLString: String,
                                          parameters: [String: AnyObject]?,
                                          completion: @escaping (Swift.Result<(Data, HTTPURLResponse?), Error>) -> Void) {
+        guard WordPressComRestApi.useURLSession else {
+            dataRequest(method: .get,
+                        urlString: URLString,
+                        parameters: parameters,
+                        encoding: URLEncoding.default,
+                        completion: completion)
+            return
+        }
 
-        dataRequest(method: .get,
-                    urlString: URLString,
-                    parameters: parameters,
-                    encoding: URLEncoding.default,
-                    completion: completion)
+        Task { @MainActor in
+            let result: APIResult<Data> = await perform(.get, URLString: URLString, parameters: parameters)
+
+            completion(
+                result
+                    .map { ($0.body, $0.response) }
+                    // The completion expects a result with any Error.
+                    // We need to "downcast" the WordPressComRestApiEndpointError error in the APIResult.
+                    .mapError { error -> Error in error }
+            )
+        }
     }
 
     /**
@@ -315,8 +349,24 @@ open class WordPressComRestApi: NSObject {
                      parameters: [String: AnyObject]?,
                      success: @escaping SuccessResponseBlock,
                      failure: @escaping FailureReponseBlock) -> Progress? {
+        guard WordPressComRestApi.useURLSession else {
+            return request(method: .post, urlString: URLString, parameters: parameters, encoding: JSONEncoding.default, success: success, failure: failure)
+        }
 
-        return request(method: .post, urlString: URLString, parameters: parameters, encoding: JSONEncoding.default, success: success, failure: failure)
+        let progress = Progress.discreteProgress(totalUnitCount: 100)
+
+        Task { @MainActor in
+            let result = await self.perform(.post, URLString: URLString, parameters: parameters, fulfilling: progress)
+
+            switch result {
+            case let .success(response):
+               success(response.body, response.response)
+            case let .failure(error):
+               failure(error.asNSError(), error.response)
+            }
+        }
+
+        return progress
     }
 
     /**
@@ -340,6 +390,21 @@ open class WordPressComRestApi: NSObject {
                               requestEnqueued: RequestEnqueuedBlock? = nil,
                               success: @escaping SuccessResponseBlock,
                               failure: @escaping FailureReponseBlock) -> Progress? {
+        guard !WordPressComRestApi.useURLSession else {
+            let progress = Progress.discreteProgress(totalUnitCount: 100)
+
+            Task { @MainActor in
+                let result = await upload(URLString: URLString, parameters: parameters, fileParts: fileParts, requestEnqueued: requestEnqueued, fulfilling: progress)
+                switch result {
+                case let .success(response):
+                    success(response.body, response.response)
+                case let .failure(error):
+                    failure(error.asNSError(), error.response)
+                }
+            }
+
+            return progress
+        }
 
         guard let URLString = buildRequestURLFor(path: URLString, parameters: parameters) else {
             failure(Constants.buildRequestError, nil)
@@ -467,7 +532,17 @@ open class WordPressComRestApi: NSObject {
     // MARK: - Async
 
     private lazy var urlSession: URLSession = {
-        let configuration = URLSessionConfiguration.default
+        URLSession(configuration: sessionConfiguration(background: false))
+    }()
+
+    private lazy var uploadURLSession: URLSession = {
+        let configuration = sessionConfiguration(background: backgroundUploads)
+        configuration.sharedContainerIdentifier = self.sharedContainerIdentifier
+        return URLSession(configuration: configuration)
+    }()
+
+    private func sessionConfiguration(background: Bool) -> URLSessionConfiguration {
+        let configuration = background ? URLSessionConfiguration.background(withIdentifier: self.backgroundSessionIdentifier) : URLSessionConfiguration.default
 
         var additionalHeaders: [String: AnyObject] = [:]
         if let oAuthToken = self.oAuthToken {
@@ -479,8 +554,8 @@ open class WordPressComRestApi: NSObject {
 
         configuration.httpAdditionalHeaders = additionalHeaders
 
-        return URLSession(configuration: configuration)
-    }()
+        return configuration
+    }
 
     func perform(
         _ method: HTTPRequestBuilder.Method,
@@ -536,10 +611,12 @@ open class WordPressComRestApi: NSObject {
     private func perform<T>(
         request: HTTPRequestBuilder,
         fulfilling progress: Progress?,
-        decoder: @escaping (Data) throws -> T
+        decoder: @escaping (Data) throws -> T,
+        taskCreated: ((Int) -> Void)? = nil,
+        session: URLSession? = nil
     ) async -> APIResult<T> {
-        await self.urlSession
-            .perform(request: request, fulfilling: progress, errorType: WordPressComRestApiEndpointError.self)
+        await (session ?? self.urlSession)
+            .perform(request: request, taskCreated: taskCreated, fulfilling: progress, errorType: WordPressComRestApiEndpointError.self)
             .mapSuccess { response -> HTTPAPIResponse<T> in
                 let object = try decoder(response.body)
 
@@ -562,6 +639,38 @@ open class WordPressComRestApi: NSObject {
                     return error
                 }
             }
+    }
+
+    public func upload(
+        URLString: String,
+        parameters: [String: AnyObject]?,
+        fileParts: [FilePart],
+        requestEnqueued: RequestEnqueuedBlock? = nil,
+        fulfilling progress: Progress? = nil
+    ) async -> APIResult<AnyObject> {
+        let builder: HTTPRequestBuilder
+        do {
+            let form = try fileParts.map {
+                try MultipartFormField(fileAtPath: $0.url.path, name: $0.parameterName, filename: $0.filename, mimeType: $0.mimeType)
+            }
+            builder = try requestBuilder(URLString: URLString)
+                .method(.post)
+                .body(form: form)
+        } catch {
+            return .failure(.requestEncodingFailure(underlyingError: error))
+        }
+
+        return await perform(
+            request: builder.query(parameters ?? [:]),
+            fulfilling: progress,
+            decoder: { try JSONSerialization.jsonObject(with: $0) as AnyObject },
+            taskCreated: { taskID in
+                DispatchQueue.main.async {
+                    requestEnqueued?(NSNumber(value: taskID))
+                }
+            },
+            session: uploadURLSession
+        )
     }
 
 }
@@ -756,4 +865,15 @@ private extension CharacterSet {
         allowed.remove(charactersIn: "\(generalDelimitersToEncode)\(subDelimitersToEncode)")
         return allowed
     }()
+}
+
+private extension WordPressAPIError<WordPressComRestApiEndpointError> {
+    func asNSError() -> NSError {
+        // When encoutering `URLError`, return `URLError` to avoid potentially breaking existing error handling code in the apps.
+        if case let .connection(urlError) = self {
+            return urlError as NSError
+        }
+
+        return self as NSError
+    }
 }
