@@ -46,7 +46,7 @@ _None._
 
 ### Internal Changes
 
-- When enabled, send WP.com REST API requests using URLSession, instead of Alamofire. [#720]
+- When enabled, `WordPressComRestApi` sends HTTP requests using URLSession instead of Alamofire. [#720]
 - When enabled, `WrodPressOrgXMLRPCApi` sends HTTP requests using URLSession instead of Alamofire. [#719]
 
 ## 13.0.0
