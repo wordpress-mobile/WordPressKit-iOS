@@ -46,7 +46,7 @@ _None._
 
 ### Internal Changes
 
-_None._
+- When enabled, `WrodPressOrgXMLRPCApi` sends HTTP requests using URLSession instead of Alamofire. [#719]
 
 ## 13.0.0
 
