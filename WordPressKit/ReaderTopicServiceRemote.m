@@ -221,7 +221,7 @@ static NSString * const TopicNotFoundMarker = @"-notfound-";
 - (NSString *)endpointUrlForPath:(NSString *)endpoint
 {
     NSString *absolutePath = [self pathForEndpoint:endpoint withVersion:ServiceRemoteWordPressComRESTApiVersion_1_2];
-    NSURL *url = [NSURL URLWithString:absolutePath relativeToURL:[NSURL URLWithString:self.wordPressComRestApi.baseURLString]];
+    NSURL *url = [NSURL URLWithString:absolutePath relativeToURL:self.wordPressComRestApi.baseURL];
     return [url absoluteString];
 }
 

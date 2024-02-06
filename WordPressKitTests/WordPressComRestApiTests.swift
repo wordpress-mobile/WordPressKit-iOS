@@ -60,6 +60,57 @@ class WordPressComRestApiTests: XCTestCase {
         }
     }
 
+    func testHTTPMethod() async {
+        for method in HTTPRequestBuilder.Method.allCases {
+            let requestReceived = expectation(description: "HTTP request is received")
+
+            var request: URLRequest?
+            stub(condition: { _ in true }) {
+                request = $0
+                requestReceived.fulfill()
+                return HTTPStubsResponse(error: URLError(URLError.Code.networkConnectionLost))
+            }
+
+            let api = WordPressComRestApi(oAuthToken: "fakeToken")
+            _ = await api.perform(method, URLString: "test")
+            await fulfillment(of: [requestReceived], timeout: 0.3)
+
+            XCTAssertEqual(request?.httpMethod?.uppercased(), method.rawValue.uppercased())
+        }
+    }
+
+    @available(iOS 16.0, *)
+    func testQuery() {
+        var requestURL: URL?
+        stub(condition: isRestAPIRequest()) {
+            requestURL = $0.url
+            return HTTPStubsResponse(error: URLError(URLError.Code.networkConnectionLost))
+        }
+
+        let expect = self.expectation(description: "One callback should be invoked")
+        let api = WordPressComRestApi(oAuthToken: "fakeToken")
+        api.GET(
+            wordPressMediaRoutePath,
+            parameters: HTTPRequestBuilderTests.nestedParameters as [String: AnyObject],
+            success: { _, _ in expect.fulfill() },
+            failure: { (_, _) in expect.fulfill() }
+        )
+        wait(for: [expect], timeout: 0.3)
+
+        let query = requestURL?
+            .query(percentEncoded: false)?
+            .split(separator: "&")
+            .reduce(into: Set()) { $0.insert(String($1)) }
+            ?? []
+        let expected = HTTPRequestBuilderTests.nestedParametersEncoded + ["locale=en"]
+
+        XCTAssertEqual(query.count, expected.count)
+
+        for item in expected {
+            XCTAssertTrue(query.contains(item), "Missing query item: \(item)")
+        }
+    }
+
     func testSuccessfullCall() {
         stub(condition: isRestAPIRequest()) { _ in
             let stubPath = OHPathForFile("WordPressComRestApiMedia.json", type(of: self))
@@ -81,12 +132,30 @@ class WordPressComRestApiTests: XCTestCase {
 
     func testBaseUrl() {
         let defaultApi = WordPressComRestApi()
-        XCTAssertEqual(defaultApi.baseURLString, "https://public-api.wordpress.com/")
+        XCTAssertEqual(defaultApi.baseURL.absoluteString, "https://public-api.wordpress.com/")
         XCTAssertTrue(defaultApi.buildRequestURLFor(path: "/path")!.hasPrefix("https://public-api.wordpress.com/path"))
 
-        let localhostApi = WordPressComRestApi(baseUrlString: "http://localhost:8080")
-        XCTAssertEqual(localhostApi.baseURLString, "http://localhost:8080")
+        let localhostApi = WordPressComRestApi(baseURL: URL(string: "http://localhost:8080")!)
+        XCTAssertEqual(localhostApi.baseURL.absoluteString, "http://localhost:8080")
         XCTAssertTrue(localhostApi.buildRequestURLFor(path: "/path")!.hasPrefix("http://localhost:8080/path"))
+    }
+
+    func testURLStringWithQuery() async {
+        let requestReceived = expectation(description: "HTTP request is received")
+
+        var request: URLRequest?
+        stub(condition: { _ in true }) {
+            request = $0
+            requestReceived.fulfill()
+            return HTTPStubsResponse(error: URLError(URLError.Code.networkConnectionLost))
+        }
+
+        let api = WordPressComRestApi(oAuthToken: "fakeToken")
+        _ = await api.perform(.get, URLString: "test?arg=value")
+        await fulfillment(of: [requestReceived], timeout: 0.3)
+
+        XCTAssertEqual(request?.url?.path, "/test")
+        XCTAssertTrue(request?.url?.query?.contains("arg=value") == true)
     }
 
     func testInvalidTokenFailedCall() {
@@ -102,8 +171,8 @@ class WordPressComRestApiTests: XCTestCase {
             XCTFail("This call should fail")
             }, failure: { (error, _) in
                 expect.fulfill()
-                XCTAssert(error.domain == String(reflecting: WordPressComRestApiError.self), "The error should a WordPressComRestApiError")
-                XCTAssert(error.code == Int(WordPressComRestApiError.invalidToken.rawValue), "The error code should be invalid token")
+                XCTAssert(error.domain == "WordPressKit.WordPressComRestApiError", "The error should a WordPressComRestApiError")
+                XCTAssert(error.code == Int(WordPressComRestApiErrorCode.invalidToken.rawValue), "The error code should be invalid token")
         })
         self.waitForExpectations(timeout: 2, handler: nil)
     }
@@ -121,7 +190,7 @@ class WordPressComRestApiTests: XCTestCase {
             }, failure: { (error, _) in
                 expect.fulfill()
                 XCTAssert(error.domain == WordPressComRestApiErrorDomain, "The error domain should be WordPressComRestApiErrorDomain")
-                XCTAssert(error.code == Int(WordPressComRestApiError.responseSerializationFailed.rawValue), "The code should be invalid response serialization")
+                XCTAssert(error.code == Int(WordPressComRestApiErrorCode.responseSerializationFailed.rawValue), "The code should be invalid response serialization")
         })
         self.waitForExpectations(timeout: 2, handler: nil)
     }
@@ -138,8 +207,8 @@ class WordPressComRestApiTests: XCTestCase {
             XCTFail("This call should fail")
             }, failure: { (error, _) in
                 expect.fulfill()
-                XCTAssert(error.domain == String(reflecting: WordPressComRestApiError.self), "The error domain should be WordPressComRestApiError")
-                XCTAssert(error.code == Int(WordPressComRestApiError.invalidInput.rawValue), "The error code should be invalid input")
+                XCTAssert(error.domain == "WordPressKit.WordPressComRestApiError", "The error domain should be WordPressComRestApiError")
+                XCTAssert(error.code == Int(WordPressComRestApiErrorCode.invalidInput.rawValue), "The error code should be invalid input")
         })
         self.waitForExpectations(timeout: 2, handler: nil)
     }
@@ -156,8 +225,8 @@ class WordPressComRestApiTests: XCTestCase {
             XCTFail("This call should fail")
             }, failure: { (error, _) in
                 expect.fulfill()
-                XCTAssert(error.domain == String(reflecting: WordPressComRestApiError.self), "The error domain should be WordPressComRestApiError")
-                XCTAssert(error.code == Int(WordPressComRestApiError.authorizationRequired.rawValue), "The error code should be AuthorizationRequired")
+                XCTAssert(error.domain == "WordPressKit.WordPressComRestApiError", "The error domain should be WordPressComRestApiError")
+                XCTAssert(error.code == Int(WordPressComRestApiErrorCode.authorizationRequired.rawValue), "The error code should be AuthorizationRequired")
         })
         self.waitForExpectations(timeout: 2, handler: nil)
     }
@@ -174,8 +243,8 @@ class WordPressComRestApiTests: XCTestCase {
             XCTFail("This call should fail")
             }, failure: { (error, _) in
                 expect.fulfill()
-                XCTAssert(error.domain == String(reflecting: WordPressComRestApiError.self), "The error domain should be WordPressComRestApiError")
-                XCTAssert(error.code == Int(WordPressComRestApiError.uploadFailed.rawValue), "The error code should be AuthorizationRequired")
+                XCTAssert(error.domain == "WordPressKit.WordPressComRestApiError", "The error domain should be WordPressComRestApiError")
+                XCTAssert(error.code == Int(WordPressComRestApiErrorCode.uploadFailed.rawValue), "The error code should be AuthorizationRequired")
         })
         self.waitForExpectations(timeout: 2, handler: nil)
     }
@@ -192,8 +261,8 @@ class WordPressComRestApiTests: XCTestCase {
             XCTFail("This call should fail")
         }, failure: { (error, _) in
             expect.fulfill()
-            XCTAssert(error.domain == String(reflecting: WordPressComRestApiError.self), "The error domain should be WordPressComRestApiError")
-            XCTAssert(error.code == Int(WordPressComRestApiError.uploadFailed.rawValue), "The error code should be AuthorizationRequired")
+            XCTAssert(error.domain == "WordPressKit.WordPressComRestApiError", "The error domain should be WordPressComRestApiError")
+            XCTAssert(error.code == Int(WordPressComRestApiErrorCode.uploadFailed.rawValue), "The error code should be AuthorizationRequired")
         })
         self.waitForExpectations(timeout: 2, handler: nil)
     }
@@ -261,8 +330,8 @@ class WordPressComRestApiTests: XCTestCase {
             XCTFail("This call should fail")
         }, failure: { (error, _) in
             expect.fulfill()
-            XCTAssert(error.domain == NSURLErrorDomain, "The error domain should be NSURLErrorDomain")
-            XCTAssert(error.code == NSURLErrorCancelled, "The error code should be NSURLErrorCancelled")
+            XCTAssertEqual(error.domain, NSURLErrorDomain, "The error domain should be NSURLErrorDomain")
+            XCTAssertEqual(error.code, NSURLErrorCancelled, "The error code should be NSURLErrorCancelled")
         })
         self.waitForExpectations(timeout: 2, handler: nil)
     }
@@ -321,9 +390,143 @@ class WordPressComRestApiTests: XCTestCase {
             case .failure(let err):
                 let error = err as NSError
                 XCTAssert(error.domain == WordPressComRestApiErrorDomain, "The error domain should be WordPressComRestApiErrorDomain")
-                XCTAssert(error.code == Int(WordPressComRestApiError.responseSerializationFailed.rawValue), "The code should be invalid response serialization")
+                XCTAssert(error.code == Int(WordPressComRestApiErrorCode.responseSerializationFailed.rawValue), "The code should be invalid response serialization")
             }
         }
         self.waitForExpectations(timeout: 2, handler: nil)
+    }
+
+    func testStatusCode500() {
+        stub(condition: isAbsoluteURLString("https://public-api.wordpress.com/rest/v1/foo?locale=en")) { _ in
+            HTTPStubsResponse(data: "Internal server error".data(using: .utf8)!, statusCode: 500, headers: nil)
+        }
+
+        let api = WordPressComRestApi()
+        let complete = expectation(description: "API call completed")
+        api.GET(
+            "/rest/v1/foo",
+            parameters: nil,
+            success: { _, _ in
+                complete.fulfill()
+                XCTFail("The API call should complete with a failure")
+            },
+            failure: { error, _ in
+                complete.fulfill()
+                XCTAssertEqual(error.domain, "WordPressKit.WordPressComRestApiError")
+                XCTAssertEqual(error.code, WordPressComRestApiErrorCode.unknown.rawValue)
+            }
+        )
+
+        wait(for: [complete], timeout: 0.3)
+    }
+
+    func testStatusCode502() {
+        stub(condition: isAbsoluteURLString("https://public-api.wordpress.com/rest/v1/foo?locale=en")) { _ in
+            HTTPStubsResponse(data: "Bad Gateway".data(using: .utf8)!, statusCode: 502, headers: nil)
+        }
+
+        let api = WordPressComRestApi()
+        let complete = expectation(description: "API call completed")
+        api.GET(
+            "/rest/v1/foo",
+            parameters: nil,
+            success: { _, _ in
+                complete.fulfill()
+                XCTFail("The API call should complete with a failure")
+            },
+            failure: { error, _ in
+                complete.fulfill()
+
+                if WordPressComRestApi.useURLSession {
+                    XCTAssertTrue(error is WordPressAPIError<WordPressComRestApiEndpointError>)
+                } else {
+                    XCTAssertEqual(error.domain, "Alamofire.AFError")
+                }
+            }
+        )
+
+        wait(for: [complete], timeout: 0.3)
+    }
+
+    func testTooManyRequestError() {
+        stub(condition: isAbsoluteURLString("https://public-api.wordpress.com/rest/v1/foo?locale=en")) { _ in
+            let stubPath = OHPathForFile("WordPressComRestApiFailThrottled.json", type(of: self))
+            return fixture(filePath: stubPath!, status: 500, headers: ["Content-Type" as NSObject: "application/html" as AnyObject])
+        }
+
+        let api = WordPressComRestApi()
+        let complete = expectation(description: "API call completed")
+        api.GET(
+            "/rest/v1/foo",
+            parameters: nil,
+            success: { _, _ in
+                complete.fulfill()
+                XCTFail("The API call should complete with a failure")
+            },
+            failure: { error, _ in
+                complete.fulfill()
+                XCTAssertEqual(error.domain, "WordPressKit.WordPressComRestApiError")
+                XCTAssertEqual(error.code, WordPressComRestApiErrorCode.tooManyRequests.rawValue)
+                XCTAssertEqual(error.userInfo[WordPressComRestApi.ErrorKeyErrorCode] as? String, "too_many_requests")
+                XCTAssertTrue(error.localizedDescription.contains("You can try again in 1 minute"))
+            }
+        )
+
+        wait(for: [complete], timeout: 0.3)
+    }
+
+    func testPreconditionFailureError() {
+        stub(condition: isAbsoluteURLString("https://public-api.wordpress.com/rest/v1/foo?locale=en")) { _ in
+            HTTPStubsResponse(jsonObject: ["code": "no_connected_jetpack"], statusCode: 412, headers: nil)
+        }
+
+        let api = WordPressComRestApi()
+        let complete = expectation(description: "API call completed")
+        api.GET(
+            "/rest/v1/foo",
+            parameters: nil,
+            success: { _, _ in
+                complete.fulfill()
+                XCTFail("The API call should complete with a failure")
+            },
+            failure: { error, _ in
+                complete.fulfill()
+                XCTAssertEqual(error.domain, "WordPressKit.WordPressComRestApiError")
+                XCTAssertEqual(error.code, WordPressComRestApiErrorCode.preconditionFailure.rawValue)
+            }
+        )
+
+        wait(for: [complete], timeout: 0.3)
+    }
+
+    /// Verify that parameters in POST requests are sent as JSON.
+    func testPostParametersContent() throws {
+        var req: URLRequest?
+        stub(condition: isHost("public-api.wordpress.com")) {
+            req = $0
+            return HTTPStubsResponse(error: URLError(.notConnectedToInternet))
+        }
+
+        let api = WordPressComRestApi()
+        let complete = expectation(description: "API call completed")
+        api.POST(
+            "/rest/v1/foo",
+            parameters: ["arg1": "value1"] as [String: AnyObject],
+            success: { _, _ in
+                complete.fulfill()
+                XCTFail("The API call should complete with a failure")
+            },
+            failure: { error, _ in
+                complete.fulfill()
+            }
+        )
+
+        wait(for: [complete], timeout: 0.3)
+
+        let request = try XCTUnwrap(req)
+        XCTAssertEqual(request.httpMethod?.uppercased(), "POST")
+        XCTAssertEqual(request.url?.absoluteString, "https://public-api.wordpress.com/rest/v1/foo?locale=en")
+        XCTAssertEqual(request.value(forHTTPHeaderField: "Content-Type"), "application/json")
+        XCTAssertEqual(request.httpBodyText, #"{"arg1":"value1"}"#)
     }
 }

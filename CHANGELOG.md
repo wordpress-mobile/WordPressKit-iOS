@@ -46,7 +46,49 @@ _None._
 
 ### Internal Changes
 
-- Refactor WP.com authentication API requests. [#660, #661, #681, #683]
+- When enabled, `WordPressComRestApi` sends HTTP requests using URLSession instead of Alamofire. [#720]
+- When enabled, `WrodPressOrgXMLRPCApi` sends HTTP requests using URLSession instead of Alamofire. [#719]
+- Refactor API requests that ask for SMS code during WP.com authentication. [#683]
+
+## 13.0.0
+
+### Breaking Changes
+
+- Remove `userIP` from `AtomicWebServerLogEntry`. [#711]
+
+### Internal Changes
+
+- Various internal changes in preparation to remove Alamofire.
+
+## 12.0.0
+
+### Breaking Changes
+
+- `WordPressComRestApiError` is renamed to `WordPressRestApiErrorCode`, and no longer conforms to `Swift.Error`. [#696]
+
+### New Features
+
+- Add `AtomicSiteServiceRemote` [#704]
+
+### Bug Fixes
+
+- XMLRPC API progress is now always updated on the main thread. [#714]
+
+### Internal Changes
+
+_None._
+
+## 11.0.0
+
+### Breaking Changes
+
+- `WordPressComRestApi` initialisers now accept a `baseURL: URL` parameter instead of `baseUrlString: String`. [#691]
+- Removed the async functions in `WordPressComRestApi`. [#692]
+- URL parameters in `WordPressComOAuthClient` initialisers are now declared as `URL` type, instead of `String`. [#698]
+
+### Internal Changes
+
+- Refactor WP.com authentication API requests. [#660, #661, #681]
 
 ## 10.0.0
 

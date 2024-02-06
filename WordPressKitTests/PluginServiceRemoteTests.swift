@@ -93,8 +93,8 @@ class PluginServiceRemoteTests: RemoteTestCase, RESTTestable {
             expect.fulfill()
         }, failure: { (error) in
             let error = error as NSError
-            let expected = WordPressComRestApiError.responseSerializationFailed as NSError
-            XCTAssertEqual(error, expected)
+            XCTAssertEqual(error.domain, "WordPressKit.WordPressComRestApiError")
+            XCTAssertEqual(error.code, WordPressComRestApiErrorCode.responseSerializationFailed.rawValue)
             expect.fulfill()
         })
 
@@ -133,8 +133,8 @@ class PluginServiceRemoteTests: RemoteTestCase, RESTTestable {
             expect.fulfill()
         }) { (error) in
             let error = error as NSError
-            let expected = WordPressComRestApiError.responseSerializationFailed as NSError
-            XCTAssertEqual(error, expected)
+            XCTAssertEqual(error.domain, "WordPressKit.WordPressComRestApiError")
+            XCTAssertEqual(error.code, WordPressComRestApiErrorCode.responseSerializationFailed.rawValue)
 
             expect.fulfill()
         }
@@ -276,8 +276,8 @@ class PluginServiceRemoteTests: RemoteTestCase, RESTTestable {
             expect.fulfill()
         }) { (error) in
             let error = error as NSError
-            let expected = WordPressComRestApiError.responseSerializationFailed as NSError
-            XCTAssertEqual(error, expected)
+            XCTAssertEqual(error.domain, "WordPressKit.WordPressComRestApiError")
+            XCTAssertEqual(error.code, WordPressComRestApiErrorCode.responseSerializationFailed.rawValue)
             expect.fulfill()
         }
 
@@ -358,8 +358,8 @@ class PluginServiceRemoteTests: RemoteTestCase, RESTTestable {
             expect.fulfill()
         }) { (error) in
             let error = error as NSError
-            let expected = WordPressComRestApiError.responseSerializationFailed as NSError
-            XCTAssertEqual(error, expected)
+            XCTAssertEqual(error.domain, "WordPressKit.WordPressComRestApiError")
+            XCTAssertEqual(error.code, WordPressComRestApiErrorCode.responseSerializationFailed.rawValue)
             expect.fulfill()
         }
 
@@ -378,8 +378,8 @@ class PluginServiceRemoteTests: RemoteTestCase, RESTTestable {
             expect.fulfill()
         }) { (error) in
             let error = error as NSError
-            let expected = WordPressComRestApiError.responseSerializationFailed as NSError
-            XCTAssertEqual(error, expected)
+            XCTAssertEqual(error.domain, "WordPressKit.WordPressComRestApiError")
+            XCTAssertEqual(error.code, WordPressComRestApiErrorCode.responseSerializationFailed.rawValue)
             expect.fulfill()
         }
 
@@ -398,8 +398,8 @@ class PluginServiceRemoteTests: RemoteTestCase, RESTTestable {
             expect.fulfill()
         }) { (error) in
             let error = error as NSError
-            let expected = WordPressComRestApiError.responseSerializationFailed as NSError
-            XCTAssertEqual(error, expected)
+            XCTAssertEqual(error.domain, "WordPressKit.WordPressComRestApiError")
+            XCTAssertEqual(error.code, WordPressComRestApiErrorCode.responseSerializationFailed.rawValue)
             expect.fulfill()
         }
 
@@ -418,8 +418,8 @@ class PluginServiceRemoteTests: RemoteTestCase, RESTTestable {
             expect.fulfill()
         }) { (error) in
             let error = error as NSError
-            let expected = WordPressComRestApiError.responseSerializationFailed as NSError
-            XCTAssertEqual(error, expected)
+            XCTAssertEqual(error.domain, "WordPressKit.WordPressComRestApiError")
+            XCTAssertEqual(error.code, WordPressComRestApiErrorCode.responseSerializationFailed.rawValue)
             expect.fulfill()
         }
 
@@ -438,8 +438,8 @@ class PluginServiceRemoteTests: RemoteTestCase, RESTTestable {
             expect.fulfill()
         }) { (error) in
             let error = error as NSError
-            let expected = WordPressComRestApiError.responseSerializationFailed as NSError
-            XCTAssertEqual(error, expected)
+            XCTAssertEqual(error.domain, "WordPressKit.WordPressComRestApiError")
+            XCTAssertEqual(error.code, WordPressComRestApiErrorCode.responseSerializationFailed.rawValue)
             expect.fulfill()
         }
 
@@ -458,8 +458,8 @@ class PluginServiceRemoteTests: RemoteTestCase, RESTTestable {
             expect.fulfill()
         }) { (error) in
             let error = error as NSError
-            let expected = WordPressComRestApiError.responseSerializationFailed as NSError
-            XCTAssertEqual(error, expected)
+            XCTAssertEqual(error.domain, "WordPressKit.WordPressComRestApiError")
+            XCTAssertEqual(error.code, WordPressComRestApiErrorCode.responseSerializationFailed.rawValue)
             expect.fulfill()
         }
 
@@ -478,8 +478,8 @@ class PluginServiceRemoteTests: RemoteTestCase, RESTTestable {
             expect.fulfill()
         }) { (error) in
             let error = error as NSError
-            let expected = WordPressComRestApiError.responseSerializationFailed as NSError
-            XCTAssertEqual(error, expected)
+            XCTAssertEqual(error.domain, "WordPressKit.WordPressComRestApiError")
+            XCTAssertEqual(error.code, WordPressComRestApiErrorCode.responseSerializationFailed.rawValue)
             expect.fulfill()
         }
 

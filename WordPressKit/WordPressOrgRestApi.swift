@@ -70,7 +70,6 @@ open class WordPressOrgRestApi: NSObject, WordPressRestApi {
             }
 
         }).downloadProgress(closure: progressUpdater)
-        progress.sessionTask = dataRequest.task
         progress.cancellationHandler = {
             dataRequest.cancel()
         }
