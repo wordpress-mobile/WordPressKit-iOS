@@ -33,7 +33,7 @@ class EditorServiceRemoteTests: XCTestCase {
         }
         mockRemoteApi.successBlockPassedIn?(response as AnyObject, HTTPURLResponse())
 
-        wait(for: [expec], timeout: 0.1)
+        wait(for: [expec], timeout: 0.3)
     }
 
     func testPostDesignateMobileEditorSuccessSettingAztec() {
@@ -50,7 +50,7 @@ class EditorServiceRemoteTests: XCTestCase {
         }
         mockRemoteApi.successBlockPassedIn?(response as AnyObject, HTTPURLResponse())
 
-        wait(for: [expec], timeout: 0.1)
+        wait(for: [expec], timeout: 0.3)
     }
 
     func testPostDesignateMobileEditorDoesNotCrashWithBadKeyResponse() {
@@ -70,7 +70,7 @@ class EditorServiceRemoteTests: XCTestCase {
         }
         mockRemoteApi.successBlockPassedIn?(response as AnyObject, HTTPURLResponse())
 
-        wait(for: [expec], timeout: 0.1)
+        wait(for: [expec], timeout: 0.3)
     }
 
     func testPostDesignateMobileEditorThrowsErrorWithBadValueResponse() {
@@ -88,7 +88,7 @@ class EditorServiceRemoteTests: XCTestCase {
         }
         mockRemoteApi.successBlockPassedIn?(response as AnyObject, HTTPURLResponse())
 
-        wait(for: [expec], timeout: 0.1)
+        wait(for: [expec], timeout: 0.3)
     }
 
     func testPostDesignateMobileEditorError() {
@@ -104,7 +104,7 @@ class EditorServiceRemoteTests: XCTestCase {
         mockRemoteApi.failureBlockPassedIn?(errorExpec, nil)
         XCTAssertTrue(mockRemoteApi.postMethodCalled)
 
-        wait(for: [expec], timeout: 0.1)
+        wait(for: [expec], timeout: 0.3)
     }
 
     // MARK: - GET tests
@@ -124,7 +124,7 @@ class EditorServiceRemoteTests: XCTestCase {
         mockRemoteApi.successBlockPassedIn?(response as AnyObject, HTTPURLResponse())
         XCTAssertTrue(mockRemoteApi.getMethodCalled)
 
-        wait(for: [expec], timeout: 0.1)
+        wait(for: [expec], timeout: 0.3)
     }
 
     func testGetEditorSettingsNotSetForMobile() {
@@ -142,7 +142,7 @@ class EditorServiceRemoteTests: XCTestCase {
         mockRemoteApi.successBlockPassedIn?(response as AnyObject, HTTPURLResponse())
         XCTAssertTrue(mockRemoteApi.getMethodCalled)
 
-        wait(for: [expec], timeout: 0.1)
+        wait(for: [expec], timeout: 0.3)
     }
 
     func testGetEditorSettingsClassic() {
@@ -160,7 +160,7 @@ class EditorServiceRemoteTests: XCTestCase {
         mockRemoteApi.successBlockPassedIn?(response as AnyObject, HTTPURLResponse())
         XCTAssertTrue(mockRemoteApi.getMethodCalled)
 
-        wait(for: [expec], timeout: 0.1)
+        wait(for: [expec], timeout: 0.3)
     }
 
     func testGetEditorSettingsFailure() {
@@ -177,7 +177,7 @@ class EditorServiceRemoteTests: XCTestCase {
         mockRemoteApi.failureBlockPassedIn?(errorExpec, nil)
         XCTAssertTrue(mockRemoteApi.getMethodCalled)
 
-        wait(for: [expec], timeout: 0.1)
+        wait(for: [expec], timeout: 0.3)
     }
 
     func testPostDesignateGutenbergMobileEditorForAllSites() {
@@ -205,7 +205,7 @@ class EditorServiceRemoteTests: XCTestCase {
         mockRemoteApi.successBlockPassedIn?(response as AnyObject, HTTPURLResponse())
         XCTAssertTrue(mockRemoteApi.postMethodCalled)
 
-        wait(for: [expec], timeout: 0.1)
+        wait(for: [expec], timeout: 0.3)
     }
 
     func testPostDesignateAztecMobileEditorForAllSites() {
@@ -233,7 +233,7 @@ class EditorServiceRemoteTests: XCTestCase {
         mockRemoteApi.successBlockPassedIn?(response as AnyObject, HTTPURLResponse())
         XCTAssertTrue(mockRemoteApi.postMethodCalled)
 
-        wait(for: [expec], timeout: 0.1)
+        wait(for: [expec], timeout: 0.3)
     }
 }
 

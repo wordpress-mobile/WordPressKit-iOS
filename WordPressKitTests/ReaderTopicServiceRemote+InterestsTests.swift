@@ -68,4 +68,18 @@ class ReaderTopicServiceRemoteInterestsTests: RemoteTestCase, RESTTestable {
         waitForExpectations(timeout: timeout, handler: nil)
     }
 
+    func testPathForTopic() {
+        let urlWithoutTrailingSlash = URL(string: "https://public-api.wordpress.com")!
+        let urlWithTrailingSlash = URL(string: "https://public-api.wordpress.com/")!
+
+        XCTAssertEqual(
+            ReaderTopicServiceRemote(wordPressComRestApi: .init(baseURL: urlWithoutTrailingSlash)).pathForTopic(slug: "foo"),
+            "https://public-api.wordpress.com/rest/v1.2/read/tags/foo/posts"
+        )
+        XCTAssertEqual(
+            ReaderTopicServiceRemote(wordPressComRestApi: .init(baseURL: urlWithTrailingSlash)).pathForTopic(slug: "foo"),
+            "https://public-api.wordpress.com/rest/v1.2/read/tags/foo/posts"
+        )
+    }
+
 }

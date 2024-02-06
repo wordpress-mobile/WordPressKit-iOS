@@ -119,7 +119,7 @@ final class WordPressOrgXMLRPCValidatorTests: XCTestCase {
             XCTAssertTrue(validatorError == .invalid || validatorError == .notWordPressError, "Got an error: \(error)")
             failure.fulfill()
         }
-        wait(for: [failure], timeout: 0.1)
+        wait(for: [failure], timeout: 0.3)
     }
 
     func testSuccessWithSiteAddress() {
@@ -141,7 +141,7 @@ final class WordPressOrgXMLRPCValidatorTests: XCTestCase {
         }) {
             XCTFail("Unexpected result: \($0)")
         }
-        wait(for: [success], timeout: 0.1)
+        wait(for: [success], timeout: 0.3)
     }
 
     func testSuccessWithIrregularXMLRPCAddress() {

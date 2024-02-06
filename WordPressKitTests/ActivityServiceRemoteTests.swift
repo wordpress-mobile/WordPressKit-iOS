@@ -1,4 +1,5 @@
 import Foundation
+import OHHTTPStubs
 import XCTest
 @testable import WordPressKit
 
@@ -166,8 +167,8 @@ class ActivityServiceRemoteTests: RemoteTestCase, RESTTestable {
                                       expect.fulfill()
                                   }, failure: { error in
                                       let error = error as NSError
-                                      XCTAssertEqual(error.domain, String(reflecting: WordPressComRestApiError.self), "The error domain should be WordPressComRestApiError")
-                                      XCTAssertEqual(error.code, WordPressComRestApiError.authorizationRequired.rawValue, "The error code should be 2 - authorization_required")
+                                      XCTAssertEqual(error.domain, "WordPressKit.WordPressComRestApiError", "The error domain should be WordPressComRestApiError")
+                                      XCTAssertEqual(error.code, WordPressComRestApiErrorCode.authorizationRequired.rawValue, "The error code should be 2 - authorization_required")
                                       expect.fulfill()
                                   })
 
@@ -417,5 +418,23 @@ class ActivityServiceRemoteTests: RemoteTestCase, RESTTestable {
                                    expect.fulfill()
                                })
         waitForExpectations(timeout: timeout, handler: nil)
+    }
+
+    func testNotConnectedToJetpack() {
+        let expect = expectation(description: "Check rewind status")
+
+        stub(condition: { $0.url?.path.contains(self.rewindStatusEndpoint) ?? false }) { _ in
+            HTTPStubsResponse(jsonObject: ["code": "no_connected_jetpack"], statusCode: 412, headers: nil)
+        }
+
+        remote.getRewindStatus(siteID) {
+            expect.fulfill()
+            XCTAssertEqual($0.state, .unavailable)
+        } failure: { error in
+            expect.fulfill()
+            XCTFail("The success block should be called")
+        }
+
+        wait(for: [expect], timeout: 0.3)
     }
 }

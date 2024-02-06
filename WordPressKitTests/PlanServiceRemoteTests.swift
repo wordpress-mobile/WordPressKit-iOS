@@ -119,8 +119,8 @@ class PlanServiceRemoteTests: RemoteTestCase, RESTTestable {
             expect.fulfill()
         }, failure: { error in
             let error = error as NSError
-            XCTAssertEqual(error.domain, String(reflecting: WordPressComRestApiError.self), "The error domain should be WordPressComRestApiError")
-            XCTAssertEqual(error.code, WordPressComRestApiError.unknown.rawValue, "The error code should be 7 - unknown")
+            XCTAssertEqual(error.domain, "WordPressKit.WordPressComRestApiError", "The error domain should be WordPressComRestApiError")
+            XCTAssertEqual(error.code, WordPressComRestApiErrorCode.unknown.rawValue, "The error code should be 7 - unknown")
             expect.fulfill()
         })
 
@@ -247,8 +247,8 @@ class PlanServiceRemoteTests: RemoteTestCase, RESTTestable {
             expect.fulfill()
         }) { error in
             let error = error as NSError
-            XCTAssertEqual(error.domain, String(reflecting: WordPressComRestApiError.self), "The error domain should be WordPressComRestApiError")
-            XCTAssertEqual(error.code, WordPressComRestApiError.unknown.rawValue, "The error code should be 7 - unknown")
+            XCTAssertEqual(error.domain, "WordPressKit.WordPressComRestApiError", "The error domain should be WordPressComRestApiError")
+            XCTAssertEqual(error.code, WordPressComRestApiErrorCode.unknown.rawValue, "The error code should be 7 - unknown")
             expect.fulfill()
         }
 
