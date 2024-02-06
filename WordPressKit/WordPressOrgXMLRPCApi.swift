@@ -547,7 +547,7 @@ private extension WordPressAPIResult<HTTPAPIResponse<Data>, WordPressOrgXMLRPCAp
                 }
             }
 
-            if ["application/xml", "text/xml"].filter({ (type) -> Bool in return contentType.hasPrefix(type)}).count == 0 {
+            guard contentType.hasPrefix("application/xml") || contentType.hasPrefix("text/xml") else {
                 return .failure(.unparsableResponse(response: response.response, body: response.body, underlyingError: WordPressOrgXMLRPCApiError.unknown))
             }
 
