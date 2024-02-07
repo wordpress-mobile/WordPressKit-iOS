@@ -326,9 +326,7 @@ open class WordPressComRestApi: NSObject {
             completion(
                 result
                     .map { ($0.body, $0.response) }
-                    // The completion expects a result with any Error.
-                    // We need to "downcast" the WordPressComRestApiEndpointError error in the APIResult.
-                    .mapError { error -> Error in error }
+                    .eraseToError()
             )
         }
     }
