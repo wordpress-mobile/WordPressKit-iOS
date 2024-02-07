@@ -288,8 +288,6 @@ extension BlockEditorSettingsServiceRemoteTests {
     // This small difference ends up with an incorrect API request being sent out. Hence this test is marked as an
     // "expected failure".
     func testFetchBlockEditorSettingsOrgEndpointFailure() {
-        XCTExpectFailure("The 'apiBase' value should end with '/wp-json/': The last '/' is required")
-
         stub(condition: isHost("example.com") && isPath("/wp-json/wp-block-editor/v1/settings") && containsQueryParams(["context": "mobile"])) { _ in
             fixture(filePath: OHPathForFile(self.blockSettingsThemeJSONResponseFilename, Self.self)!, headers: ["Content-Type": "application/json"])
         }
