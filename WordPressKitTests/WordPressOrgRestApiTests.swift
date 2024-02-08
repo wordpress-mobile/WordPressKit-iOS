@@ -22,46 +22,29 @@ class WordPressOrgRestApiTests: XCTestCase {
         }
     }
 
-    func testUnauthorizedCall() {
+    func testUnauthorizedCall() async throws {
         stub(condition: isAPIRequest()) { _ in
             let stubPath = OHPathForFile("wp-forbidden.json", type(of: self))
             return fixture(filePath: stubPath!, status: 401, headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
         }
-        let expect = self.expectation(description: "One callback should be invoked")
         let api = WordPressOrgRestApi(apiBase: apiBase)
-        api.GET("wp/v2/settings", parameters: nil) { (result, response) in
-            expect.fulfill()
-            switch result {
-            case .success:
-                XCTFail("This call should not suceed")
-            case .failure:
-                XCTAssertEqual(response?.statusCode, 401, "Response should be unauthorized")
-            }
+        let result = await api.get(path: "wp/v2/settings", type: AnyResponse.self)
+        switch result {
+        case .success:
+            XCTFail("This call should not suceed")
+        case let .failure(error):
+            XCTAssertEqual(error.response?.statusCode, 401, "Response should be unauthorized")
         }
-        waitForExpectations(timeout: 2, handler: nil)
     }
 
-    func testSuccessfulGetCall() {
+    func testSuccessfulGetCall() async throws {
         stub(condition: isAPIRequest()) { _ in
             let stubPath = OHPathForFile("wp-pages.json", type(of: self))
             return fixture(filePath: stubPath!, headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
         }
-        let expect = self.expectation(description: "One callback should be invoked")
         let api = WordPressOrgRestApi(apiBase: apiBase)
-        api.GET("wp/v2/pages", parameters: nil) { (result, _) in
-            expect.fulfill()
-            switch result {
-            case .success(let object):
-                guard let pages = object as? [AnyObject] else {
-                    XCTFail("Unexpected API result")
-                    return
-                }
-                XCTAssertEqual(pages.count, 10, "The API should return 10 pages")
-            case .failure:
-                XCTFail("This call should not fail")
-            }
-        }
-        waitForExpectations(timeout: 2, handler: nil)
+        let pages = try await api.get(path: "wp/v2/pages", type: [AnyResponse].self).get()
+        XCTAssertEqual(pages.count, 10, "The API should return 10 pages")
     }
 
     func testSuccessfulPostCall() async throws {
@@ -114,3 +97,5 @@ extension WordPressOrgRestApi {
         )
     }
 }
+
+private struct AnyResponse: Decodable {}
