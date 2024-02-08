@@ -336,23 +336,6 @@ class WordPressComRestApiTests: XCTestCase {
         self.waitForExpectations(timeout: 2, handler: nil)
     }
 
-    // MARK: - WordPressRestApi Interfaces
-    func testRequestPathModificationsWPV2() {
-        let orgPath = "/wp/v2/themes?status=active"
-        let expectedPath = "/wp/v2/sites/1001/themes?status=active"
-        let api = WordPressComRestApi(oAuthToken: "fakeToken")
-        let result = api.requestPath(fromOrgPath: orgPath, with: 1001)
-        XCTAssertEqual(result, expectedPath)
-    }
-
-    func testRequestPathModificationsWPBlockEditor() {
-        let orgPath = "/wp-block-editor/v1/settings"
-        let expectedPath = "/wp-block-editor/v1/sites/1001/settings"
-        let api = WordPressComRestApi(oAuthToken: "fakeToken")
-        let result = api.requestPath(fromOrgPath: orgPath, with: 1001)
-        XCTAssertEqual(result, expectedPath)
-    }
-
     func testSuccessfullCallCommonGETStructure() {
         stub(condition: isRestAPIRequest()) { _ in
             let stubPath = OHPathForFile("WordPressComRestApiMedia.json", type(of: self))

@@ -87,6 +87,22 @@ class WordPressOrgRestApiTests: XCTestCase {
         XCTAssertEqual(request.value(forHTTPHeaderField: "Content-Type"), "application/x-www-form-urlencoded; charset=utf-8")
         XCTAssertEqual(request.httpBodyText, "arg1=value1")
     }
+
+    func testRequestPathModificationsWPV2() async throws {
+        stub(condition: isPath("/wp/v2/sites/1001/themes") && containsQueryParams(["status": "active"])) { _ in
+            HTTPStubsResponse(jsonObject: [String: String](), statusCode: 200, headers: nil)
+        }
+        let api = WordPressOrgRestApi(site: .dotCom(siteID: 1001, bearerToken: "fakeToken"))
+        let _ = try await api.get(path: "/wp/v2/themes", parameters: ["status": "active"], type: AnyResponse.self).get()
+    }
+
+    func testRequestPathModificationsWPBlockEditor() async throws {
+        stub(condition: isPath("/wp-block-editor/v1/sites/1001/settings")) { _ in
+            HTTPStubsResponse(jsonObject: [String: String](), statusCode: 200, headers: nil)
+        }
+        let api = WordPressOrgRestApi(site: .dotCom(siteID: 1001, bearerToken: "fakeToken"))
+        let _ = try await api.get(path: "/wp-block-editor/v1/settings", type: AnyResponse.self).get()
+    }
 }
 
 extension WordPressOrgRestApi {
