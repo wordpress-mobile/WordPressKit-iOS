@@ -17,7 +17,7 @@ class BlockEditorSettingsServiceRemoteTests: XCTestCase {
             XCTFail("Unexpected request: \($0)")
             return HTTPStubsResponse(error: URLError(URLError.Code.networkConnectionLost))
         }
-        service = BlockEditorSettingsServiceRemote(remoteAPI: WordPressComRestApi())
+        service = BlockEditorSettingsServiceRemote(remoteAPI: .init(site: .dotCom(siteID: UInt64(siteID), bearerToken: "token")))
     }
 
     func mockedData(withFilename filename: String) -> AnyObject {
@@ -36,7 +36,7 @@ extension BlockEditorSettingsServiceRemoteTests {
         }
 
         let waitExpectation = expectation(description: "Theme should be successfully fetched")
-        service.fetchTheme(forSiteID: siteID) { (response) in
+        service.fetchTheme { (response) in
             switch response {
             case .success(let result):
                 XCTAssertNotNil(result)
@@ -68,7 +68,7 @@ extension BlockEditorSettingsServiceRemoteTests {
         }
 
         let waitExpectation = expectation(description: "Theme should be successfully fetched")
-        service.fetchTheme(forSiteID: siteID) { (response) in
+        service.fetchTheme { (response) in
             switch response {
             case .success(let result):
                 XCTAssertNotNil(result)
@@ -103,7 +103,7 @@ extension BlockEditorSettingsServiceRemoteTests {
 
         let waitExpectation = expectation(description: "Theme should be successfully fetched")
 
-        service.fetchTheme(forSiteID: siteID) { (response) in
+        service.fetchTheme { (response) in
             switch response {
             case .success(let result):
                 XCTAssertNotNil(result)
@@ -134,7 +134,7 @@ extension BlockEditorSettingsServiceRemoteTests {
         }
 
         let waitExpectation = expectation(description: "Theme should be successfully fetched")
-        service.fetchTheme(forSiteID: siteID) { (response) in
+        service.fetchTheme { (response) in
             switch response {
             case .success(let result):
                 XCTAssertFalse(result!.themeSupport!.blockTemplates)
@@ -153,7 +153,7 @@ extension BlockEditorSettingsServiceRemoteTests {
         }
 
         let waitExpectation = expectation(description: "Theme should be successfully fetched")
-        service.fetchTheme(forSiteID: siteID) { (response) in
+        service.fetchTheme { (response) in
             switch response {
             case .success:
                 XCTFail("This Request should have failed")
@@ -171,13 +171,32 @@ extension BlockEditorSettingsServiceRemoteTests {
 // MARK: Editor Global Styles support
 extension BlockEditorSettingsServiceRemoteTests {
 
+    func testFetchBlockEditorSettingsInvalidJSON() {
+        stub(condition: isHost("public-api.wordpress.com") && isPath("/wp-block-editor/v1/sites/1/settings") && containsQueryParams(["context": "mobile"])) { _ in
+            HTTPStubsResponse(jsonObject: ["invalid-json"], statusCode: 200, headers: nil)
+        }
+
+        let waitExpectation = expectation(description: "Block Settings should be successfully fetched")
+        service.fetchBlockEditorSettings { (response) in
+            switch response {
+            case .success(let result):
+                XCTAssertNil(result)
+            case .failure:
+                XCTFail("This payload should parse successfully")
+            }
+            waitExpectation.fulfill()
+        }
+
+        wait(for: [waitExpectation], timeout: 0.3)
+    }
+
     func testFetchBlockEditorSettingsNotThemeJSON() {
         stub(condition: isHost("public-api.wordpress.com") && isPath("/wp-block-editor/v1/sites/1/settings") && containsQueryParams(["context": "mobile"])) { _ in
             fixture(filePath: OHPathForFile(self.blockSettingsNOTThemeJSONResponseFilename, Self.self)!, headers: ["Content-Type": "application/json"])
         }
 
         let waitExpectation = expectation(description: "Block Settings should be successfully fetched")
-        service.fetchBlockEditorSettings(forSiteID: siteID) { (response) in
+        service.fetchBlockEditorSettings { (response) in
             switch response {
             case .success(let result):
                 self.validateFetchBlockEditorSettingsResults(result)
@@ -198,7 +217,7 @@ extension BlockEditorSettingsServiceRemoteTests {
         }
 
         let waitExpectation = expectation(description: "Block Settings should be successfully fetched")
-        service.fetchBlockEditorSettings(forSiteID: siteID) { (response) in
+        service.fetchBlockEditorSettings { (response) in
             switch response {
             case .success(let result):
                 self.validateFetchBlockEditorSettingsResults(result)
@@ -227,7 +246,7 @@ extension BlockEditorSettingsServiceRemoteTests {
 
         let waitExpectation = expectation(description: "Block Settings should be successfully fetched")
 
-        service.fetchBlockEditorSettings(forSiteID: siteID) { (response) in
+        service.fetchBlockEditorSettings { (response) in
             switch response {
             case .success(let result):
                 self.validateFetchBlockEditorSettingsResults(result)
@@ -256,7 +275,7 @@ extension BlockEditorSettingsServiceRemoteTests {
         }
 
         let waitExpectation = expectation(description: "Block Settings should be successfully fetched")
-        service.fetchBlockEditorSettings(forSiteID: siteID) { (response) in
+        service.fetchBlockEditorSettings { (response) in
             switch response {
             case .success:
                 XCTFail("This Request should have failed")
@@ -276,7 +295,7 @@ extension BlockEditorSettingsServiceRemoteTests {
 
         let waitExpectation = expectation(description: "Block Settings should be successfully fetched")
         service = BlockEditorSettingsServiceRemote(remoteAPI: WordPressOrgRestApi(apiBase: URL(string: "https://example.com/wp-json/")!))
-        service.fetchBlockEditorSettings(forSiteID: siteID) { (_) in
+        service.fetchBlockEditorSettings { (_) in
             waitExpectation.fulfill()
         }
 
@@ -294,7 +313,7 @@ extension BlockEditorSettingsServiceRemoteTests {
 
         let waitExpectation = expectation(description: "Block Settings should be successfully fetched")
         service = BlockEditorSettingsServiceRemote(remoteAPI: WordPressOrgRestApi(apiBase: URL(string: "https://example.com/wp-json")!))
-        service.fetchBlockEditorSettings(forSiteID: siteID) { (_) in
+        service.fetchBlockEditorSettings { (_) in
             waitExpectation.fulfill()
         }
 
