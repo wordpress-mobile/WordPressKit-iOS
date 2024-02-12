@@ -7,4 +7,9 @@ extension Swift.Result {
         case .failure(let error): onFailure(error)
         }
     }
+
+    func eraseToError() -> Result<Success, Error> {
+        mapError { $0 }
+    }
+
 }
