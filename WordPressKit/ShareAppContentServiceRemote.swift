@@ -11,20 +11,18 @@ open class ShareAppContentServiceRemote: ServiceRemoteWordPressComREST {
         let requestURLString = path(forEndpoint: endpoint, withVersion: ._2_0)
         let params: [String: AnyObject] = [Constants.appNameParameterKey: appName.rawValue as AnyObject]
 
-        wordPressComRestApi.GET(requestURLString, parameters: params) { result, _ in
-            switch result {
-            case .success(let responseObject):
-                do {
-                    let data = try JSONSerialization.data(withJSONObject: responseObject, options: [])
-                    let content = try JSONDecoder.apiDecoder.decode(RemoteShareAppContent.self, from: data)
-                    completion(.success(content))
-                } catch {
-                    completion(.failure(error))
-                }
-
-            case .failure(let error):
-                completion(.failure(error))
-            }
+        Task { @MainActor in
+            await self.wordPressComRestApi
+                .perform(
+                    .get,
+                    URLString: requestURLString,
+                    parameters: params,
+                    jsonDecoder: .apiDecoder,
+                    type: RemoteShareAppContent.self
+                )
+                .map { $0.body }
+                .mapError { error -> Error in error.asNSError() }
+                .execute(completion: completion)
         }
     }
 }
