@@ -803,24 +803,6 @@ extension WordPressComRestApi {
     }
 }
 
-extension WordPressComRestApi: WordPressRestApi {
-    @discardableResult
-    public func GET(_ path: String, parameters: [String: AnyObject]?, completion: @escaping Completion) -> Progress? {
-        return GET(path, parameters: parameters, success: { (responseObject, httpResponse) in
-            completion(.success(responseObject), httpResponse)
-        }, failure: { (error, httpResponse) in
-            completion(.failure(error), httpResponse)
-        })
-    }
-
-    public func requestPath(fromOrgPath path: String, with siteID: Int?) -> String {
-        guard let siteID = siteID else { return path }
-
-        return path.replacingOccurrences(of: "/wp/v2/", with: "/wp/v2/sites/\(siteID)/")
-            .replacingOccurrences(of: "/wp-block-editor/v1/", with: "/wp-block-editor/v1/sites/\(siteID)/")
-    }
-}
-
 // MARK: - Constants
 
 private extension WordPressComRestApi {
