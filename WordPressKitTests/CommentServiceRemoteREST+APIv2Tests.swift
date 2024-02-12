@@ -1,5 +1,6 @@
 import Foundation
 import XCTest
+import OHHTTPStubs
 
 @testable import WordPressKit
 
@@ -67,8 +68,15 @@ final class CommentServiceRemoteREST_APIv2Tests: RemoteTestCase, RESTTestable {
         wait(for: [expect], timeout: timeout)
     }
 
-    func test_getCommentsV2_correctlyPassesCustomParameters() {
-        let mockApi = MockWordPressComRestApi()
+    func test_getCommentsV2_correctlyPassesCustomParameters() throws {
+        let requestReceived = expectation(description: "HTTP request is received")
+        var request: URLRequest?
+        stub(condition: isHost("public-api.wordpress.com")) {
+            request = $0
+            requestReceived.fulfill()
+            return HTTPStubsResponse(error: URLError(.networkConnectionLost))
+        }
+
         let expectedParentId = 4
         let expectedAuthorId = 5
         let expectedContext = "edit"
@@ -77,20 +85,22 @@ final class CommentServiceRemoteREST_APIv2Tests: RemoteTestCase, RESTTestable {
             .author: expectedAuthorId,
             .context: expectedContext
         ]
-        remote = CommentServiceRemoteREST(wordPressComRestApi: mockApi, siteID: NSNumber(value: siteId))
-
+        remote = CommentServiceRemoteREST(wordPressComRestApi: WordPressComRestApi(), siteID: NSNumber(value: siteId))
         remote.getCommentsV2(for: siteId, parameters: parameters, success: { _ in }, failure: { _ in })
+        wait(for: [requestReceived], timeout: 0.3)
 
-        XCTAssertNotNil(mockApi.parametersPassedIn)
-        XCTAssertTrue((mockApi.parametersPassedIn! as? [String: AnyObject]) != nil)
+        let url = try XCTUnwrap(request?.url)
+        let queryItems = try XCTUnwrap(URLComponents(url: url, resolvingAgainstBaseURL: true)?.queryItems)
+        let params = queryItems.reduce(into: [String: String]()) { result, query in
+            result[query.name] = query.value
+        }
 
-        let params = mockApi.parametersPassedIn! as! [String: AnyObject]
         XCTAssertNotNil(params[CommentServiceRemoteREST.RequestKeys.parent.rawValue])
-        XCTAssertEqual(params[CommentServiceRemoteREST.RequestKeys.parent.rawValue] as! Int, expectedParentId)
+        XCTAssertEqual(params[CommentServiceRemoteREST.RequestKeys.parent.rawValue], expectedParentId.description)
         XCTAssertNotNil(params[CommentServiceRemoteREST.RequestKeys.author.rawValue])
-        XCTAssertEqual(params[CommentServiceRemoteREST.RequestKeys.author.rawValue] as! Int, expectedAuthorId)
+        XCTAssertEqual(params[CommentServiceRemoteREST.RequestKeys.author.rawValue], expectedAuthorId.description)
         XCTAssertNotNil(params[CommentServiceRemoteREST.RequestKeys.context.rawValue])
-        XCTAssertEqual(params[CommentServiceRemoteREST.RequestKeys.context.rawValue] as! String, expectedContext)
+        XCTAssertEqual(params[CommentServiceRemoteREST.RequestKeys.context.rawValue], expectedContext)
     }
 
     func test_getCommentsV2_givenEditContext_parsesAdditionalFields() {
