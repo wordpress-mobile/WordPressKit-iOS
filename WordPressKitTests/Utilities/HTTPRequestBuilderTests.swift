@@ -376,6 +376,33 @@ class HTTPRequestBuilderTests: XCTestCase {
 
     }
 
+    func testAppendingURLString() {
+        XCTAssertEqual(
+            try HTTPRequestBuilder(url: URL(string: "https://wordpress.org/test")!)
+                .appendURLString("foo%2Fbar/path?arg=value")
+                .build()
+                .url?
+                .absoluteString,
+            "https://wordpress.org/test/foo%2Fbar/path?arg=value"
+        )
+        XCTAssertEqual(
+            try HTTPRequestBuilder(url: URL(string: "https://wordpress.org/test")!)
+                .appendURLString("/foo%2Fbar/path?arg=value")
+                .build()
+                .url?
+                .absoluteString,
+            "https://wordpress.org/test/foo%2Fbar/path?arg=value"
+        )
+        XCTAssertEqual(
+            try HTTPRequestBuilder(url: URL(string: "https://wordpress.org/test")!)
+                .appendURLString("/foo%2Fbar/path")
+                .build()
+                .url?
+                .absoluteString,
+            "https://wordpress.org/test/foo%2Fbar/path"
+        )
+    }
+
 }
 
 extension URLRequest {
