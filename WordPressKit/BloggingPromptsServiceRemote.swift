@@ -43,7 +43,6 @@ open class BloggingPromptsServiceRemote: ServiceRemoteWordPressComREST {
             return params
         }()
 
-
         let decoder = JSONDecoder.apiDecoder
         // our API decoder assumes that we're converting from snake case.
         // revert it to default so the CodingKeys match the actual response keys.
