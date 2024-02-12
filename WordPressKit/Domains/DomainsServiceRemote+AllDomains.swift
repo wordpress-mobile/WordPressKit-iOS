@@ -12,7 +12,7 @@ extension DomainsServiceRemote {
     /// - `locale` of type `string`. Used for string localization.
     public func fetchAllDomains(params: AllDomainsEndpointParams? = nil, completion: @escaping (AllDomainsEndpointResult) -> Void) {
         let path = self.path(forEndpoint: "all-domains", withVersion: ._1_1)
-        var parameters: [String: AnyObject]?
+        let parameters: [String: AnyObject]?
 
         do {
             parameters = try queryParameters(from: params)
@@ -21,21 +21,20 @@ extension DomainsServiceRemote {
             return
         }
 
-        self.wordPressComRestApi.GET(path, parameters: parameters) { result, _ in
-            do {
-                switch result {
-                case .success(let result):
-                    let data = try JSONSerialization.data(withJSONObject: result, options: [])
-                    let decoder = JSONDecoder()
-                    decoder.dateDecodingStrategy = .iso8601
-                    let result = try decoder.decode(AllDomainsEndpointResponse.self, from: data)
-                    completion(.success(result.domains))
-                case .failure(let error):
-                    throw error
-                }
-            } catch let error {
-                completion(.failure(error))
-            }
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+        Task { @MainActor in
+            await self.wordPressComRestApi
+                .perform(
+                    .get,
+                    URLString: path,
+                    parameters: parameters,
+                    jsonDecoder: decoder,
+                    type: AllDomainsEndpointResponse.self
+                )
+                .map { $0.body.domains }
+                .mapError { error -> Error in error.asNSError() }
+                .execute(completion: completion)
         }
     }
 
