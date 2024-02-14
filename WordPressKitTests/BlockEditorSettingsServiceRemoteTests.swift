@@ -1,23 +1,27 @@
 import XCTest
+import OHHTTPStubs
 @testable import WordPressKit
 
 class BlockEditorSettingsServiceRemoteTests: XCTestCase {
-    private let blockSettingsNOTThemeJSONResponseFilename = "wp-block-editor-v1-settings-success-NotThemeJSON"
-    private let blockSettingsThemeJSONResponseFilename = "wp-block-editor-v1-settings-success-ThemeJSON"
-    private let twentytwentyoneResponseFilename = "get_wp_v2_themes_twentytwentyone"
+    private let blockSettingsNOTThemeJSONResponseFilename = "wp-block-editor-v1-settings-success-NotThemeJSON.json"
+    private let blockSettingsThemeJSONResponseFilename = "wp-block-editor-v1-settings-success-ThemeJSON.json"
+    private let twentytwentyoneResponseFilename = "get_wp_v2_themes_twentytwentyone.json"
     private let testError = NSError(domain: "tests", code: 0, userInfo: nil)
     private let siteID = 1
 
     private var service: BlockEditorSettingsServiceRemote!
-    var mockRemoteApi: MockWordPressComRestApi!
 
     override func setUp() {
-        mockRemoteApi = MockWordPressComRestApi()
-        service = BlockEditorSettingsServiceRemote(remoteAPI: mockRemoteApi)
+        super.setUp()
+        stub(condition: { _ in true }) {
+            XCTFail("Unexpected request: \($0)")
+            return HTTPStubsResponse(error: URLError(URLError.Code.networkConnectionLost))
+        }
+        service = BlockEditorSettingsServiceRemote(remoteAPI: WordPressComRestApi())
     }
 
     func mockedData(withFilename filename: String) -> AnyObject {
-        let json = Bundle(for: BlockEditorSettingsServiceRemoteTests.self).url(forResource: filename, withExtension: "json")!
+        let json = Bundle(for: BlockEditorSettingsServiceRemoteTests.self).url(forResource: filename, withExtension: nil)!
         let data = try! Data(contentsOf: json)
         return try! JSONSerialization.jsonObject(with: data, options: .allowFragments) as AnyObject
     }
@@ -27,8 +31,11 @@ class BlockEditorSettingsServiceRemoteTests: XCTestCase {
 extension BlockEditorSettingsServiceRemoteTests {
 
     func testFetchThemeSuccess() {
+        stub(condition: isHost("public-api.wordpress.com") && isPath("/wp/v2/sites/1/themes") && containsQueryParams(["status": "active"])) { _ in
+            fixture(filePath: OHPathForFile(self.twentytwentyoneResponseFilename, Self.self)!, headers: ["Content-Type": "application/json"])
+        }
+
         let waitExpectation = expectation(description: "Theme should be successfully fetched")
-        let mockedResponse = mockedData(withFilename: twentytwentyoneResponseFilename)
         service.fetchTheme(forSiteID: siteID) { (response) in
             switch response {
             case .success(let result):
@@ -42,23 +49,25 @@ extension BlockEditorSettingsServiceRemoteTests {
             }
             waitExpectation.fulfill()
         }
-        mockRemoteApi.successBlockPassedIn!(mockedResponse, HTTPURLResponse())
 
-        waitForExpectations(timeout: 0.1)
-        validateEditorThemeRequest()
+        wait(for: [waitExpectation], timeout: 0.3)
     }
 
     func testFetchThemeNoGradients() {
+        stub(condition: isHost("public-api.wordpress.com") && isPath("/wp/v2/sites/1/themes") && containsQueryParams(["status": "active"])) { _ in
+            var mockedResponse = self.mockedData(withFilename: self.twentytwentyoneResponseFilename) as! [[String: Any]]
+
+            // Clear out Gradients
+            var theme = mockedResponse[0]
+            var themeSupport = theme[RemoteEditorTheme.CodingKeys.themeSupport.stringValue] as! [String: Any]
+            themeSupport[RemoteEditorThemeSupport.CodingKeys.gradients.stringValue] = "false"
+            theme[RemoteEditorTheme.CodingKeys.themeSupport.stringValue] = themeSupport
+            mockedResponse[0] = theme
+
+            return HTTPStubsResponse(jsonObject: mockedResponse, statusCode: 200, headers: nil)
+        }
+
         let waitExpectation = expectation(description: "Theme should be successfully fetched")
-        var mockedResponse = mockedData(withFilename: twentytwentyoneResponseFilename) as! [[String: Any]]
-
-        // Clear out Gradients
-        var theme = mockedResponse[0]
-        var themeSupport = theme[RemoteEditorTheme.CodingKeys.themeSupport.stringValue] as! [String: Any]
-        themeSupport[RemoteEditorThemeSupport.CodingKeys.gradients.stringValue] = "false"
-        theme[RemoteEditorTheme.CodingKeys.themeSupport.stringValue] = themeSupport
-        mockedResponse[0] = theme
-
         service.fetchTheme(forSiteID: siteID) { (response) in
             switch response {
             case .success(let result):
@@ -71,25 +80,28 @@ extension BlockEditorSettingsServiceRemoteTests {
             }
             waitExpectation.fulfill()
         }
-        mockRemoteApi.successBlockPassedIn!(mockedResponse as AnyObject, HTTPURLResponse())
 
-        waitForExpectations(timeout: 0.1)
-        validateEditorThemeRequest()
+        wait(for: [waitExpectation], timeout: 0.3)
     }
 
     func testFetchThemeNoColors() {
+        stub(condition: isHost("public-api.wordpress.com") && isPath("/wp/v2/sites/1/themes") && containsQueryParams(["status": "active"])) { _ in
+            var mockedResponse = self.mockedData(withFilename: self.twentytwentyoneResponseFilename) as! [[String: Any]]
+
+            // Clear out Colors
+            var theme = mockedResponse[0]
+            var themeSupport = theme[RemoteEditorTheme.CodingKeys.themeSupport.stringValue] as! [String: Any]
+            themeSupport[RemoteEditorThemeSupport.CodingKeys.colors.stringValue] = "false"
+
+            themeSupport[RemoteEditorThemeSupport.CodingKeys.blockTemplates.stringValue] = "false"
+            theme[RemoteEditorTheme.CodingKeys.themeSupport.stringValue] = themeSupport
+
+            mockedResponse[0] = theme
+
+            return HTTPStubsResponse(jsonObject: mockedResponse, statusCode: 200, headers: nil)
+        }
+
         let waitExpectation = expectation(description: "Theme should be successfully fetched")
-        var mockedResponse = mockedData(withFilename: twentytwentyoneResponseFilename) as! [[String: Any]]
-
-        // Clear out Colors
-        var theme = mockedResponse[0]
-        var themeSupport = theme[RemoteEditorTheme.CodingKeys.themeSupport.stringValue] as! [String: Any]
-        themeSupport[RemoteEditorThemeSupport.CodingKeys.colors.stringValue] = "false"
-
-        themeSupport[RemoteEditorThemeSupport.CodingKeys.blockTemplates.stringValue] = "false"
-        theme[RemoteEditorTheme.CodingKeys.themeSupport.stringValue] = themeSupport
-
-        mockedResponse[0] = theme
 
         service.fetchTheme(forSiteID: siteID) { (response) in
             switch response {
@@ -104,22 +116,24 @@ extension BlockEditorSettingsServiceRemoteTests {
             }
             waitExpectation.fulfill()
         }
-        mockRemoteApi.successBlockPassedIn!(mockedResponse as AnyObject, HTTPURLResponse())
 
-        waitForExpectations(timeout: 0.1)
-        validateEditorThemeRequest()
+        wait(for: [waitExpectation], timeout: 0.3)
     }
 
     func testFetchThemeNoThemeSupport() {
+        stub(condition: isHost("public-api.wordpress.com") && isPath("/wp/v2/sites/1/themes") && containsQueryParams(["status": "active"])) { _ in
+            var mockedResponse = self.mockedData(withFilename: self.twentytwentyoneResponseFilename) as! [[String: Any]]
+            var theme = mockedResponse[0]
+            var themeSupport = theme[RemoteEditorTheme.CodingKeys.themeSupport.stringValue] as! [String: Any]
+
+            themeSupport.removeValue(forKey: RemoteEditorThemeSupport.CodingKeys.blockTemplates.stringValue)
+            theme[RemoteEditorTheme.CodingKeys.themeSupport.stringValue] = themeSupport
+            mockedResponse[0] = theme
+
+            return HTTPStubsResponse(jsonObject: mockedResponse, statusCode: 200, headers: nil)
+        }
+
         let waitExpectation = expectation(description: "Theme should be successfully fetched")
-        var mockedResponse = mockedData(withFilename: twentytwentyoneResponseFilename) as! [[String: Any]]
-        var theme = mockedResponse[0]
-        var themeSupport = theme[RemoteEditorTheme.CodingKeys.themeSupport.stringValue] as! [String: Any]
-
-        themeSupport.removeValue(forKey: RemoteEditorThemeSupport.CodingKeys.blockTemplates.stringValue)
-        theme[RemoteEditorTheme.CodingKeys.themeSupport.stringValue] = themeSupport
-        mockedResponse[0] = theme
-
         service.fetchTheme(forSiteID: siteID) { (response) in
             switch response {
             case .success(let result):
@@ -129,13 +143,15 @@ extension BlockEditorSettingsServiceRemoteTests {
             }
             waitExpectation.fulfill()
         }
-        mockRemoteApi.successBlockPassedIn!(mockedResponse as AnyObject, HTTPURLResponse())
 
-        waitForExpectations(timeout: 0.1)
-        validateEditorThemeRequest()
+        wait(for: [waitExpectation], timeout: 0.3)
     }
 
     func testFetchThemeFailure() {
+        stub(condition: isHost("public-api.wordpress.com") && isPath("/wp/v2/sites/1/themes") && containsQueryParams(["status": "active"])) { _ in
+            HTTPStubsResponse(jsonObject: [String: String](), statusCode: 400, headers: nil)
+        }
+
         let waitExpectation = expectation(description: "Theme should be successfully fetched")
         service.fetchTheme(forSiteID: siteID) { (response) in
             switch response {
@@ -146,24 +162,21 @@ extension BlockEditorSettingsServiceRemoteTests {
             }
             waitExpectation.fulfill()
         }
-        mockRemoteApi.failureBlockPassedIn!(testError, nil)
-        waitForExpectations(timeout: 0.1)
-        validateEditorThemeRequest()
+
+        wait(for: [waitExpectation], timeout: 0.3)
     }
 
-    private func validateEditorThemeRequest() {
-        XCTAssertTrue(self.mockRemoteApi.getMethodCalled)
-        XCTAssertEqual(self.mockRemoteApi.URLStringPassedIn!, "/wp/v2/sites/1/themes")
-        XCTAssertEqual((self.mockRemoteApi.parametersPassedIn as! [String: String])["status"], "active")
-    }
 }
 
 // MARK: Editor Global Styles support
 extension BlockEditorSettingsServiceRemoteTests {
 
     func testFetchBlockEditorSettingsNotThemeJSON() {
+        stub(condition: isHost("public-api.wordpress.com") && isPath("/wp-block-editor/v1/sites/1/settings") && containsQueryParams(["context": "mobile"])) { _ in
+            fixture(filePath: OHPathForFile(self.blockSettingsNOTThemeJSONResponseFilename, Self.self)!, headers: ["Content-Type": "application/json"])
+        }
+
         let waitExpectation = expectation(description: "Block Settings should be successfully fetched")
-        let mockedResponse = mockedData(withFilename: blockSettingsNOTThemeJSONResponseFilename)
         service.fetchBlockEditorSettings(forSiteID: siteID) { (response) in
             switch response {
             case .success(let result):
@@ -175,16 +188,16 @@ extension BlockEditorSettingsServiceRemoteTests {
             }
             waitExpectation.fulfill()
         }
-        mockRemoteApi.successBlockPassedIn!(mockedResponse, HTTPURLResponse())
 
-        waitForExpectations(timeout: 0.1)
-        validateFetchBlockEditorSettingsRequest()
+        wait(for: [waitExpectation], timeout: 0.3)
     }
 
     func testFetchBlockEditorSettingsThemeJSON() {
-        let waitExpectation = expectation(description: "Block Settings should be successfully fetched")
-        let mockedResponse = mockedData(withFilename: blockSettingsThemeJSONResponseFilename)
+        stub(condition: isHost("public-api.wordpress.com") && isPath("/wp-block-editor/v1/sites/1/settings") && containsQueryParams(["context": "mobile"])) { _ in
+            fixture(filePath: OHPathForFile(self.blockSettingsThemeJSONResponseFilename, Self.self)!, headers: ["Content-Type": "application/json"])
+        }
 
+        let waitExpectation = expectation(description: "Block Settings should be successfully fetched")
         service.fetchBlockEditorSettings(forSiteID: siteID) { (response) in
             switch response {
             case .success(let result):
@@ -200,16 +213,19 @@ extension BlockEditorSettingsServiceRemoteTests {
             }
             waitExpectation.fulfill()
         }
-        mockRemoteApi.successBlockPassedIn!(mockedResponse as AnyObject, HTTPURLResponse())
 
-        waitForExpectations(timeout: 0.1)
-        validateFetchBlockEditorSettingsRequest()
+        wait(for: [waitExpectation], timeout: 0.3)
     }
 
     func testFetchBlockEditorSettingsNoFSETheme() {
+        stub(condition: isHost("public-api.wordpress.com") && isPath("/wp-block-editor/v1/sites/1/settings") && containsQueryParams(["context": "mobile"])) { _ in
+            var mockedResponse = self.mockedData(withFilename: self.blockSettingsThemeJSONResponseFilename) as! [String: Any]
+            mockedResponse.removeValue(forKey: RemoteBlockEditorSettings.CodingKeys.isFSETheme.stringValue)
+
+            return HTTPStubsResponse(jsonObject: mockedResponse, statusCode: 200, headers: nil)
+        }
+
         let waitExpectation = expectation(description: "Block Settings should be successfully fetched")
-        var mockedResponse = mockedData(withFilename: blockSettingsThemeJSONResponseFilename) as! [String: Any]
-        mockedResponse.removeValue(forKey: RemoteBlockEditorSettings.CodingKeys.isFSETheme.stringValue)
 
         service.fetchBlockEditorSettings(forSiteID: siteID) { (response) in
             switch response {
@@ -221,14 +237,12 @@ extension BlockEditorSettingsServiceRemoteTests {
             }
             waitExpectation.fulfill()
         }
-        mockRemoteApi.successBlockPassedIn!(mockedResponse as AnyObject, HTTPURLResponse())
 
-        waitForExpectations(timeout: 0.1)
-        validateFetchBlockEditorSettingsRequest()
+        wait(for: [waitExpectation], timeout: 0.3)
     }
 
     func testFetchBlockEditorSettingsThemeJSON_ConsistentChecksum() {
-        let json = Bundle(for: BlockEditorSettingsServiceRemoteTests.self).url(forResource: blockSettingsThemeJSONResponseFilename, withExtension: "json")!
+        let json = Bundle(for: BlockEditorSettingsServiceRemoteTests.self).url(forResource: blockSettingsThemeJSONResponseFilename, withExtension: nil)!
         let data = try! Data(contentsOf: json)
 
         let blockEditorSettings1 = try? JSONDecoder().decode(RemoteBlockEditorSettings.self, from: data)
@@ -237,6 +251,10 @@ extension BlockEditorSettingsServiceRemoteTests {
     }
 
     func testFetchBlockEditorSettingsFailure() {
+        stub(condition: isHost("public-api.wordpress.com") && isPath("/wp-block-editor/v1/sites/1/settings") && containsQueryParams(["context": "mobile"])) { _ in
+            HTTPStubsResponse(jsonObject: [String: String](), statusCode: 400, headers: nil)
+        }
+
         let waitExpectation = expectation(description: "Block Settings should be successfully fetched")
         service.fetchBlockEditorSettings(forSiteID: siteID) { (response) in
             switch response {
@@ -247,32 +265,42 @@ extension BlockEditorSettingsServiceRemoteTests {
             }
             waitExpectation.fulfill()
         }
-        mockRemoteApi.failureBlockPassedIn!(testError, nil)
-        waitForExpectations(timeout: 0.1)
-        validateFetchBlockEditorSettingsRequest()
+
+        wait(for: [waitExpectation], timeout: 0.3)
     }
 
     func testFetchBlockEditorSettingsOrgEndpoint() {
-        let waitExpectation = expectation(description: "Block Settings should be successfully fetched")
-        let mockedResponse = mockedData(withFilename: blockSettingsThemeJSONResponseFilename)
-        let mockOrgRemoteApi = MockWordPressOrgRestApi()
-        service = BlockEditorSettingsServiceRemote(remoteAPI: mockOrgRemoteApi)
+        stub(condition: isHost("example.com") && isPath("/wp-json/wp-block-editor/v1/settings") && containsQueryParams(["context": "mobile"])) { _ in
+            fixture(filePath: OHPathForFile(self.blockSettingsThemeJSONResponseFilename, Self.self)!, headers: ["Content-Type": "application/json"])
+        }
 
+        let waitExpectation = expectation(description: "Block Settings should be successfully fetched")
+        service = BlockEditorSettingsServiceRemote(remoteAPI: WordPressOrgRestApi(apiBase: URL(string: "https://example.com/wp-json/")!))
         service.fetchBlockEditorSettings(forSiteID: siteID) { (_) in
             waitExpectation.fulfill()
         }
-        mockOrgRemoteApi.completionPassedIn!(.success(mockedResponse), HTTPURLResponse())
 
-        waitForExpectations(timeout: 0.1)
-        XCTAssertTrue(mockOrgRemoteApi.getMethodCalled)
-        XCTAssertEqual(mockOrgRemoteApi.URLStringPassedIn!, "/wp-block-editor/v1/settings")
-        XCTAssertEqual((mockOrgRemoteApi.parametersPassedIn as! [String: String])["context"], "mobile")
+        wait(for: [waitExpectation], timeout: 0.3)
     }
 
-    private func validateFetchBlockEditorSettingsRequest() {
-        XCTAssertTrue(self.mockRemoteApi.getMethodCalled)
-        XCTAssertEqual(self.mockRemoteApi.URLStringPassedIn!, "/wp-block-editor/v1/sites/1/settings")
-        XCTAssertEqual((self.mockRemoteApi.parametersPassedIn as! [String: String])["context"], "mobile")
+    // The only difference between this test and the one above (testFetchBlockEditorSettingsOrgEndpoint) is this
+    // test's `WordPressOrgRestApi` is instantiated using a url ends with '/wp-json', instead of '/wp-json/'.
+    // This small difference ends up with an incorrect API request being sent out. Hence this test is marked as an
+    // "expected failure".
+    func testFetchBlockEditorSettingsOrgEndpointFailure() {
+        XCTExpectFailure("The 'apiBase' value should end with '/wp-json/': The last '/' is required")
+
+        stub(condition: isHost("example.com") && isPath("/wp-json/wp-block-editor/v1/settings") && containsQueryParams(["context": "mobile"])) { _ in
+            fixture(filePath: OHPathForFile(self.blockSettingsThemeJSONResponseFilename, Self.self)!, headers: ["Content-Type": "application/json"])
+        }
+
+        let waitExpectation = expectation(description: "Block Settings should be successfully fetched")
+        service = BlockEditorSettingsServiceRemote(remoteAPI: WordPressOrgRestApi(apiBase: URL(string: "https://example.com/wp-json")!))
+        service.fetchBlockEditorSettings(forSiteID: siteID) { (_) in
+            waitExpectation.fulfill()
+        }
+
+        wait(for: [waitExpectation], timeout: 0.3)
     }
 
     private func validateFetchBlockEditorSettingsResults(_ result: RemoteBlockEditorSettings?) {

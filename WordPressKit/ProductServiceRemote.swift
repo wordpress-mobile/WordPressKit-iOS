@@ -43,10 +43,8 @@ open class ProductServiceRemote {
 
         serviceRemote.wordPressComRestApi.GET(
             path,
-            parameters: [:]) { result, _ in
-
-            switch result {
-            case .success(let responseProducts):
+            parameters: [:],
+            success: { responseProducts, _ in
                 guard let productsDictionary = responseProducts as? [String: [String: Any]] else {
                     completion(.failure(GetProductError.failedCastingProductsToDictionary(responseProducts)))
                     return
@@ -74,9 +72,10 @@ open class ProductServiceRemote {
                 }
 
                 completion(.success(products))
-            case .failure(let error):
+            },
+            failure: { error, _ in
                 completion(.failure(error))
             }
-        }
+        )
     }
 }

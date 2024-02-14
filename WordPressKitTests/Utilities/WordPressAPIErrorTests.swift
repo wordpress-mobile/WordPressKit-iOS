@@ -5,9 +5,6 @@ import XCTest
 class WordPressAPIErrorTests: XCTestCase {
 
     func testLocalizedMessage() {
-        struct TestError: LocalizedError {
-            var errorDescription: String? = "this is a test error"
-        }
 
         let error = WordPressAPIError.endpointError(TestError())
         XCTAssertEqual(error.errorDescription, "this is a test error")
@@ -24,4 +21,23 @@ class WordPressAPIErrorTests: XCTestCase {
         XCTAssertEqual((error as NSError).localizedDescription, WordPressAPIError<TestError>.unknownErrorMessage)
     }
 
+    func testGettingHTTPResponse() {
+        typealias APIError = WordPressAPIError<TestError>
+
+        let response = HTTPURLResponse(url: URL(string: "https//w.org")!, statusCode: 200, httpVersion: "2", headerFields: nil)!
+
+        XCTAssertNil(APIError.requestEncodingFailure(underlyingError: URLError(.badURL)).response)
+        XCTAssertNil(APIError.connection(URLError(.badURL)).response)
+        XCTAssertIdentical(APIError.endpointError(.init(httpResponse: response)).response, response)
+        XCTAssertIdentical(APIError.unacceptableStatusCode(response: response, body: Data()).response, response)
+        XCTAssertIdentical(APIError.unparsableResponse(response: response, body: Data()).response, response)
+        XCTAssertNil(APIError.unknown(underlyingError: URLError(.badURL)).response)
+    }
+
+}
+
+private struct TestError: LocalizedError, HTTPURLResponseProviding {
+    var errorDescription: String? = "this is a test error"
+
+    var httpResponse: HTTPURLResponse?
 }

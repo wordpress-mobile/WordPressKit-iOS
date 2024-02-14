@@ -3,9 +3,9 @@ import Combine
 
 public typealias WordPressAPIResult<Response, Error: LocalizedError> = Result<Response, WordPressAPIError<Error>>
 
-struct HTTPAPIResponse<Body> {
-    var response: HTTPURLResponse
-    var body: Body
+public struct HTTPAPIResponse<Body> {
+    public var response: HTTPURLResponse
+    public var body: Body
 }
 
 extension HTTPAPIResponse where Body == Data {
@@ -45,6 +45,7 @@ extension URLSession {
     func perform<E: LocalizedError>(
         request builder: HTTPRequestBuilder,
         acceptableStatusCodes: [ClosedRange<Int>] = [200...299],
+        taskCreated: ((Int) -> Void)? = nil,
         fulfilling parentProgress: Progress? = nil,
         errorType: E.Type = E.self
     ) async -> WordPressAPIResult<HTTPAPIResponse<Data>, E> {
@@ -75,11 +76,12 @@ extension URLSession {
             }
 
             task.resume()
+            taskCreated?(task.taskIdentifier)
 
             if let parentProgress, parentProgress.totalUnitCount > parentProgress.completedUnitCount {
                 let pending = parentProgress.totalUnitCount - parentProgress.completedUnitCount
                 // The Jetpack/WordPress app requires task progress updates to be delievered on the main queue.
-                let progressUpdator = parentProgress.update(totoalUnit: pending, with: task.progress, queue: .main)
+                let progressUpdator = parentProgress.update(totalUnit: pending, with: task.progress, queue: .main)
 
                 parentProgress.cancellationHandler = { [weak task] in
                     task?.cancel()
@@ -93,22 +95,21 @@ extension URLSession {
         for builder: HTTPRequestBuilder,
         completion: @escaping @Sendable (Data?, URLResponse?, Error?) -> Void
     ) throws -> URLSessionTask {
-        var request = try builder.build(encodeMultipartForm: false)
+        var request = try builder.build(encodeBody: false)
 
-        // Use special `URLSession.uploadTask` API for multipart POST requests.
-        if let multipart = builder.multipartForm, !multipart.isEmpty {
-            let isBackgroundSession = configuration.identifier != nil
-
-            return try builder
-                .encodeMultipartForm(request: &request, forceWriteToFile: isBackgroundSession)
-                .map(
-                    left: {
-                        uploadTask(with: request, from: $0, completionHandler: completion)
-                    },
-                    right: {
-                        uploadTask(with: request, fromFile: $0, completionHandler: completion)
-                    }
-                )
+        let isBackgroundSession = configuration.identifier != nil
+        let body = try builder.encodeMultipartForm(request: &request, forceWriteToFile: isBackgroundSession)
+            ?? builder.encodeXMLRPC(request: &request, forceWriteToFile: isBackgroundSession)
+        if let body {
+            // Use special `URLSession.uploadTask` API for multipart POST requests.
+            return body.map(
+                left: {
+                    uploadTask(with: request, from: $0, completionHandler: completion)
+                },
+                right: {
+                    uploadTask(with: request, fromFile: $0, completionHandler: completion)
+                }
+            )
         } else {
             // Use `URLSession.dataTask` for all other request
             return dataTask(with: request, completionHandler: completion)
@@ -194,12 +195,12 @@ extension WordPressAPIResult {
 }
 
 extension Progress {
-    func update(totoalUnit: Int64, with progress: Progress, queue: DispatchQueue) -> AnyCancellable {
+    func update(totalUnit: Int64, with progress: Progress, queue: DispatchQueue) -> AnyCancellable {
         let start = self.completedUnitCount
         return progress.publisher(for: \.fractionCompleted, options: .new)
             .receive(on: queue)
             .sink { [weak self] fraction in
-                self?.completedUnitCount = start + Int64(fraction * Double(totoalUnit))
+                self?.completedUnitCount = start + Int64(fraction * Double(totalUnit))
             }
     }
 }

@@ -33,12 +33,11 @@ public class AtomicWebServerLogEntry: Decodable {
     public let httpUserAgent: String?
     public let requestTime: Double?
     public let requestType: String?
-    public let requestURL: String?
+    public let requestUrl: String?
     public let scheme: String?
     public let status: Int?
     public let timestamp: Int?
     public let type: String?
-    public let userIP: String?
 }
 
 public final class AtomicWebServerLogsResponse: Decodable {

@@ -34,16 +34,46 @@ _None._
 
 ### Breaking Changes
 
-- `WordPressComRestApiError` is renamed to `WordPressRestApiErrorCode`, and no longer conforms to `Swift.Error`. [#696]
+_None._
 
 ### New Features
 
-- Add `AtomicSiteServiceRemote`
 - `StatsTimeIntervalData` now accepts an optional `unit: StatsPeriodUnit` parameter that allows to describe the granularity of data fetched for a given period. [#712]
 
 ### Bug Fixes
 
 _None._
+
+### Internal Changes
+
+- When enabled, `WordPressComRestApi` sends HTTP requests using URLSession instead of Alamofire. [#720]
+- When enabled, `WrodPressOrgXMLRPCApi` sends HTTP requests using URLSession instead of Alamofire. [#719]
+- Refactor API requests that ask for SMS code during WP.com authentication. [#683]
+- Refactor BlazeServiceRemote to use URLSession-backed API. [#721]
+
+## 13.0.0
+
+### Breaking Changes
+
+- Remove `userIP` from `AtomicWebServerLogEntry`. [#711]
+
+### Internal Changes
+
+- Various internal changes in preparation to remove Alamofire.
+
+## 12.0.0
+
+### Breaking Changes
+
+- `WordPressComRestApiError` is renamed to `WordPressRestApiErrorCode`, and no longer conforms to `Swift.Error`. [#696]
+
+### New Features
+
+- Add `AtomicSiteServiceRemote` [#704]
+
+### Bug Fixes
+
+- XMLRPC API progress is now always updated on the main thread. [#714]
 
 ### Internal Changes
 

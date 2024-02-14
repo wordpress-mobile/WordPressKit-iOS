@@ -69,20 +69,21 @@ open class SharingServiceRemote: ServiceRemoteWordPressComREST {
         let path = path(forEndpoint: "sites/\(siteID)/external-services", withVersion: ._2_0)
         let params = ["type": "publicize" as AnyObject]
 
-        wordPressComRestApi.GET(path, parameters: params) { result, httpResponse in
-            switch result {
-            case .success(let response):
+        wordPressComRestApi.GET(
+            path,
+            parameters: params,
+            success: { response, httpResponse in
                 guard let responseDict = response as? NSDictionary else {
                     failure?(self.errorForUnexpectedResponse(httpResponse))
                     return
                 }
 
                 success?(self.remotePublicizeServicesFromDictionary(responseDict))
-
-            case .failure(let error):
+            },
+            failure: { error, _ in
                 failure?(error as NSError)
             }
-        }
+        )
     }
 
     /// Fetches the current user's list of keyring connections.

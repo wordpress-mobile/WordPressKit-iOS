@@ -25,6 +25,19 @@ public enum WordPressAPIError<EndpointError>: Error where EndpointError: Localiz
     static func unparsableResponse(response: HTTPURLResponse?, body: Data?) -> Self {
         return WordPressAPIError<EndpointError>.unparsableResponse(response: response, body: body, underlyingError: URLError(.cannotParseResponse))
     }
+
+    var response: HTTPURLResponse? {
+        switch self {
+        case .requestEncodingFailure, .connection, .unknown:
+            return nil
+        case let .endpointError(error):
+            return (error as? HTTPURLResponseProviding)?.httpResponse
+        case .unacceptableStatusCode(let response, _):
+            return response
+        case .unparsableResponse(let response, _, _):
+            return response
+        }
+    }
 }
 
 extension WordPressAPIError: LocalizedError {
@@ -53,4 +66,8 @@ extension WordPressAPIError: LocalizedError {
         return localizedErrorMessage
     }
 
+}
+
+protocol HTTPURLResponseProviding {
+    var httpResponse: HTTPURLResponse? { get }
 }
