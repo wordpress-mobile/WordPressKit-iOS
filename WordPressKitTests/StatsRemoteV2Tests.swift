@@ -18,11 +18,13 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
     let getVisitsDayMockFilename = "stats-visits-day.json"
     let getVisitsWeekMockFilename = "stats-visits-week.json"
     let getVisitsMonthMockFilename = "stats-visits-month.json"
+    let getVisitsMonthWithWeekUnitMockFilename = "stats-visits-month-unit-week.json"
     let getPostsMockFilename = "stats-posts-data.json"
     let getPublishedPostsFilename = "stats-published-posts.json"
     let getDownloadsDataFilename = "stats-file-downloads.json"
     let getPostsDetailsFilename = "stats-post-details.json"
     let toggleSpamStateResponseFilename = "stats-referrer-mark-as-spam.json"
+    let getStatsSummaryFilename = "stats-summary.json"
 
     // MARK: - Properties
 
@@ -38,6 +40,7 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
     var sitePublishedPostsEndpoint: String { return "sites/\(siteID)/posts/" }
     var siteDownloadsDataEndpoint: String { return "sites/\(siteID)/stats/file-downloads/" }
     var sitePostDetailsEndpoint: String { return "sites/\(siteID)/stats/post/9001" }
+    var siteStatsSummaryEndpoint: String { return "sites/\(siteID)/stats/summary/" }
 
     func toggleSpamStateEndpoint(for referrerDomain: String, markAsSpam: Bool) -> String {
         let action = markAsSpam ? "new" : "delete"
@@ -584,6 +587,42 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
         waitForExpectations(timeout: timeout, handler: nil)
     }
 
+    func testVisitsForMonthAndWeekUnit() {
+        let expect = expectation(description: "It should return visits data for a month with week unit")
+
+        stubRemoteResponse(siteVisitsDataEndpoint, filename: getVisitsMonthWithWeekUnitMockFilename, contentType: .ApplicationJSON)
+
+        let jan31 = DateComponents(year: 2024, month: 1, day: 31)
+        let date = Calendar.autoupdatingCurrent.date(from: jan31)!
+
+        remote.getData(for: .month, unit: .week, endingOn: date, limit: 5) { (summary: StatsSummaryTimeIntervalData?, error: Error?) in
+            XCTAssertNil(error)
+            XCTAssertNotNil(summary)
+
+            XCTAssertEqual(summary?.summaryData.count, 5)
+            XCTAssertEqual(summary?.period, .month)
+            XCTAssertEqual(summary?.unit, .week)
+
+            XCTAssertEqual(summary?.summaryData[0].viewsCount, 25724)
+            XCTAssertEqual(summary?.summaryData[0].visitorsCount, 16227)
+            XCTAssertEqual(summary?.summaryData[0].likesCount, 908)
+            XCTAssertEqual(summary?.summaryData[0].commentsCount, 50)
+            XCTAssertEqual(summary?.summaryData[0].period, .week)
+
+            let jan1 = DateComponents(year: 2024, month: 1, day: 1)
+            let jan1Date = Calendar.autoupdatingCurrent.date(from: jan1)!
+            XCTAssertEqual(summary?.summaryData[0].periodStartDate, jan1Date)
+
+            let fourWeeksFromJan1 = Calendar.autoupdatingCurrent.date(byAdding: .weekOfMonth, value: 4, to: jan1Date)!
+
+            XCTAssertEqual(summary?.summaryData[4].periodStartDate, fourWeeksFromJan1)
+
+            expect.fulfill()
+        }
+
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+
     func testLikesForMonth() {
         let expect = expectation(description: "It should return likes data for a month")
 
@@ -650,5 +689,29 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
         })
 
         waitForExpectations(timeout: timeout, handler: nil)
+    }
+
+    func testSummary() {
+        let expect = expectation(description: "It should return stats summary for a week")
+
+        stubRemoteResponse(siteStatsSummaryEndpoint, filename: getStatsSummaryFilename, contentType: .ApplicationJSON)
+
+        let day = DateComponents(year: 2024, month: 1, day: 31)
+        let date = Calendar.autoupdatingCurrent.date(from: day)!
+
+        remote.getData(for: .year, endingOn: date) { (summary: StatsTotalsSummaryData?, error: Error?) in
+            XCTAssertNil(error)
+            XCTAssertNotNil(summary)
+
+            XCTAssertEqual(summary?.viewsCount, 43607)
+            XCTAssertEqual(summary?.visitorsCount, 3497)
+            XCTAssertEqual(summary?.likesCount, 2378)
+            XCTAssertEqual(summary?.commentsCount, 154)
+
+            expect.fulfill()
+        }
+
+        waitForExpectations(timeout: timeout, handler: nil)
+
     }
 }

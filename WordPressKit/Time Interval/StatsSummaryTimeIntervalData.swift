@@ -14,14 +14,17 @@ public enum StatsSummaryType: Int {
 
 public struct StatsSummaryTimeIntervalData {
     public let period: StatsPeriodUnit
+    public let unit: StatsPeriodUnit?
     public let periodEndDate: Date
 
     public let summaryData: [StatsSummaryData]
 
     public init(period: StatsPeriodUnit,
+                unit: StatsPeriodUnit?,
                 periodEndDate: Date,
                 summaryData: [StatsSummaryData]) {
         self.period = period
+        self.unit = unit
         self.periodEndDate = periodEndDate
         self.summaryData = summaryData
     }
@@ -63,6 +66,10 @@ extension StatsSummaryTimeIntervalData: StatsTimeIntervalData {
     }
 
     public init?(date: Date, period: StatsPeriodUnit, jsonDictionary: [String: AnyObject]) {
+        self.init(date: date, period: period, unit: nil, jsonDictionary: jsonDictionary)
+    }
+
+    public init?(date: Date, period: StatsPeriodUnit, unit: StatsPeriodUnit?, jsonDictionary: [String: AnyObject]) {
         guard
             let fieldsArray = jsonDictionary["fields"] as? [String],
             let data = jsonDictionary["data"] as? [[Any]]
@@ -91,9 +98,10 @@ extension StatsSummaryTimeIntervalData: StatsTimeIntervalData {
         }
 
         self.period = period
+        self.unit = unit
         self.periodEndDate = date
         self.summaryData = data.compactMap { StatsSummaryData(dataArray: $0,
-                                                              period: period,
+                                                              period: unit ?? period,
                                                               periodIndex: periodIndex,
                                                               viewsIndex: viewsIndex,
                                                               visitorsIndex: visitorsIndex,
@@ -233,6 +241,10 @@ extension StatsLikesSummaryTimeIntervalData: StatsTimeIntervalData {
     }
 
     public init?(date: Date, period: StatsPeriodUnit, jsonDictionary: [String: AnyObject]) {
+        self.init(date: date, period: period, unit: nil, jsonDictionary: jsonDictionary)
+    }
+
+    public init?(date: Date, period: StatsPeriodUnit, unit: StatsPeriodUnit?, jsonDictionary: [String: AnyObject]) {
         guard
             let fieldsArray = jsonDictionary["fields"] as? [String],
             let data = jsonDictionary["data"] as? [[Any]]
@@ -249,7 +261,7 @@ extension StatsLikesSummaryTimeIntervalData: StatsTimeIntervalData {
         self.period = period
         self.periodEndDate = date
         self.summaryData = data.compactMap { StatsSummaryData(dataArray: $0,
-                                                              period: period,
+                                                              period: unit ?? period,
                                                               periodIndex: periodIndex,
                                                               viewsIndex: nil,
                                                               visitorsIndex: nil,

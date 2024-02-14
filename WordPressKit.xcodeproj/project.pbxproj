@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		01438D352B6A2B2C0097D60A /* stats-visits-month-unit-week.json in Sources */ = {isa = PBXBuildFile; fileRef = 01438D342B6A2B2C0097D60A /* stats-visits-month-unit-week.json */; };
+		01438D362B6A31540097D60A /* stats-visits-month-unit-week.json in Resources */ = {isa = PBXBuildFile; fileRef = 01438D342B6A2B2C0097D60A /* stats-visits-month-unit-week.json */; };
+		01438D382B6A35FB0097D60A /* stats-summary.json in Sources */ = {isa = PBXBuildFile; fileRef = 01438D372B6A35FB0097D60A /* stats-summary.json */; };
+		01438D392B6A361B0097D60A /* stats-summary.json in Resources */ = {isa = PBXBuildFile; fileRef = 01438D372B6A35FB0097D60A /* stats-summary.json */; };
+		01438D3B2B6A36BF0097D60A /* StatsTotalsSummaryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01438D3A2B6A36BF0097D60A /* StatsTotalsSummaryData.swift */; };
 		0152100C28EDA9E400DD6783 /* StatsAnnualAndMostPopularTimeInsightDecodingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0152100B28EDA9E400DD6783 /* StatsAnnualAndMostPopularTimeInsightDecodingTests.swift */; };
 		0847B92C2A4442730044D32F /* IPLocationRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0847B92B2A4442730044D32F /* IPLocationRemote.swift */; };
 		08C7493E2A45EA11000DA0E2 /* IPLocationRemoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08C7493D2A45EA11000DA0E2 /* IPLocationRemoteTests.swift */; };
@@ -723,6 +728,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		01438D342B6A2B2C0097D60A /* stats-visits-month-unit-week.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "stats-visits-month-unit-week.json"; sourceTree = "<group>"; };
+		01438D372B6A35FB0097D60A /* stats-summary.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "stats-summary.json"; sourceTree = "<group>"; };
+		01438D3A2B6A36BF0097D60A /* StatsTotalsSummaryData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatsTotalsSummaryData.swift; sourceTree = "<group>"; };
 		0152100B28EDA9E400DD6783 /* StatsAnnualAndMostPopularTimeInsightDecodingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsAnnualAndMostPopularTimeInsightDecodingTests.swift; sourceTree = "<group>"; };
 		0847B92B2A4442730044D32F /* IPLocationRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPLocationRemote.swift; sourceTree = "<group>"; };
 		08C7493D2A45EA11000DA0E2 /* IPLocationRemoteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPLocationRemoteTests.swift; sourceTree = "<group>"; };
@@ -1531,6 +1539,7 @@
 		404057C3221B30140060250C /* Time Interval */ = {
 			isa = PBXGroup;
 			children = (
+				01438D3A2B6A36BF0097D60A /* StatsTotalsSummaryData.swift */,
 				984E34EA22EF7209005C3F92 /* StatsFileDownloadsTimeIntervalData.swift */,
 				40819772221E10C900A298E4 /* StatsPublishedPostsTimeIntervalData.swift */,
 				404057C4221B30400060250C /* StatsSearchTermTimeIntervalData.swift */,
@@ -2409,7 +2418,9 @@
 				404057CA221B80BC0060250C /* stats-top-authors.json */,
 				404057CF221C46780060250C /* stats-videos-data.json */,
 				4081977A221F153A00A298E4 /* stats-visits-day.json */,
+				01438D372B6A35FB0097D60A /* stats-summary.json */,
 				4081977D221F269A00A298E4 /* stats-visits-month.json */,
+				01438D342B6A2B2C0097D60A /* stats-visits-month-unit-week.json */,
 				40819779221F153A00A298E4 /* stats-visits-week.json */,
 				436D56392118DE3B00CEAA33 /* supported-countries-success.json */,
 				436D56522121F60400CEAA33 /* supported-states-empty.json */,
@@ -2905,6 +2916,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				01438D392B6A361B0097D60A /* stats-summary.json in Resources */,
+				01438D362B6A31540097D60A /* stats-visits-month-unit-week.json in Resources */,
 				32A29A1F236BE4CC009488C2 /* post-autosave-mapping-success.json in Resources */,
 				CEAD827B25E421DE00758DF2 /* reader-post-comments-subscribe-failure.json in Resources */,
 				7403A2FC1EF06FEB00DED7DC /* me-settings-change-lastname-success.json in Resources */,
@@ -3345,6 +3358,7 @@
 				74650F721F0EA1A700188EDB /* GravatarServiceRemote.swift in Sources */,
 				B5969E1D20A49AC4005E9DF1 /* NSString+MD5.m in Sources */,
 				FF807251241FB90E00809AF5 /* WordPressOrgRestApi.swift in Sources */,
+				01438D3B2B6A36BF0097D60A /* StatsTotalsSummaryData.swift in Sources */,
 				4A68E3E1294076C1004AC3DC /* RemoteReaderSiteInfo.swift in Sources */,
 				3F391E1A2B50F3EB007975C4 /* Result+Callback.swift in Sources */,
 				8236EB4D2024B9F8007C7CF9 /* RemoteBlogJetpackModulesSettings.swift in Sources */,
@@ -3544,6 +3558,7 @@
 				BAFA775624ADAB3C000F0D3A /* MockPluginDirectoryEntryProvider.swift in Sources */,
 				3F8308A729EE683500354497 /* ActivityTests.swift in Sources */,
 				9AB6D64A218727D60008F274 /* PostServiceRemoteRESTRevisionsTest.swift in Sources */,
+				01438D382B6A35FB0097D60A /* stats-summary.json in Sources */,
 				7430C9BD1F192C0F0051B8E6 /* ReaderPostServiceRemoteTests.m in Sources */,
 				1DC837C229B9F04F009DCD4B /* RemoteVideoPressVideoTests.swift in Sources */,
 				FAD1345125909DEA00A8FEB1 /* JetpackBackupServiceRemoteTests.swift in Sources */,
@@ -3572,6 +3587,7 @@
 				73B3DAD621FBB20D00B2CF18 /* WordPressComRestApiTests+Locale.swift in Sources */,
 				C738CAEF28622325001BE107 /* QRLoginServiceRemoteTests.swift in Sources */,
 				3297E1DE2564653A00287D21 /* JetpackScanServiceRemoteTests.swift in Sources */,
+				01438D352B6A2B2C0097D60A /* stats-visits-month-unit-week.json in Sources */,
 				9F3E0BAC20873785009CB5BA /* ServiceRequestTest.swift in Sources */,
 				4624223E2548C26D002B8A12 /* SiteDesignServiceRemoteTests.swift in Sources */,
 				4A1DEF44293051BC00322608 /* LoggingTests.swift in Sources */,
