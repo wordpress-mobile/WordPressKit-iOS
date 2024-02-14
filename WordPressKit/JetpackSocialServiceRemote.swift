@@ -26,7 +26,7 @@ public class JetpackSocialServiceRemote: ServiceRemoteWordPressComREST {
                     }
                     return .failure(original.asNSError())
                 }
-                .execute(completion: completion)
+                .execute(completion)
         }
     }
 }

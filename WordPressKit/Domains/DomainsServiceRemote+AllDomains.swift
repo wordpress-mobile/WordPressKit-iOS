@@ -34,7 +34,7 @@ extension DomainsServiceRemote {
                 )
                 .map { $0.body.domains }
                 .mapError { error -> Error in error.asNSError() }
-                .execute(completion: completion)
+                .execute(completion)
         }
     }
 

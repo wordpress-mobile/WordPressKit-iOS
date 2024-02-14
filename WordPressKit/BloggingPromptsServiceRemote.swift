@@ -59,7 +59,7 @@ open class BloggingPromptsServiceRemote: ServiceRemoteWordPressComREST {
                 )
                 .map { $0.body.values.first ?? [] }
                 .mapError { error -> Error in error.asNSError() }
-                .execute(completion: completion)
+                .execute(completion)
         }
     }
 
@@ -74,7 +74,7 @@ open class BloggingPromptsServiceRemote: ServiceRemoteWordPressComREST {
             await self.wordPressComRestApi.perform(.get, URLString: path, type: RemoteBloggingPromptsSettings.self)
                 .map { $0.body }
                 .mapError { error -> Error in error.asNSError() }
-                .execute(completion: completion)
+                .execute(completion)
         }
     }
 
