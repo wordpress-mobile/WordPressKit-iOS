@@ -865,7 +865,7 @@ private extension CharacterSet {
     }()
 }
 
-private extension WordPressAPIError<WordPressComRestApiEndpointError> {
+extension WordPressAPIError<WordPressComRestApiEndpointError> {
     func asNSError() -> NSError {
         // When encoutering `URLError`, return `URLError` to avoid potentially breaking existing error handling code in the apps.
         if case let .connection(urlError) = self {

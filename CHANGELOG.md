@@ -50,6 +50,7 @@ _None._
 - When enabled, `WrodPressOrgXMLRPCApi` sends HTTP requests using URLSession instead of Alamofire. [#719]
 - Refactor API requests that ask for SMS code during WP.com authentication. [#683]
 - Refactor BlazeServiceRemote to use URLSession-backed API. [#721]
+- Refactor some WP.com API endpoints to use URLSession-backed API. [#722]
 
 ## 13.0.0
 

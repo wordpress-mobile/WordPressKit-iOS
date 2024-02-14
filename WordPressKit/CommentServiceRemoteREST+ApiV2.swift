@@ -36,20 +36,17 @@ public extension CommentServiceRemoteREST {
             }
         }()
 
-        wordPressComRestApi.GET(path, parameters: requestParameters as [String: AnyObject]) { result, _ in
-            switch result {
-            case .success(let responseObject):
-                do {
-                    let data = try JSONSerialization.data(withJSONObject: responseObject, options: [])
-                    let comments = try JSONDecoder().decode([RemoteCommentV2].self, from: data)
-                    success(comments)
-                } catch {
-                    failure(error)
-                }
-
-            case .failure(let error):
-                failure(error)
-            }
+        Task { @MainActor in
+            await self.wordPressComRestApi
+                .perform(
+                    .get,
+                    URLString: path,
+                    parameters: requestParameters as [String: AnyObject],
+                    type: [RemoteCommentV2].self
+                )
+                .map { $0.body }
+                .mapError { error -> Error in error.asNSError() }
+                .execute(onSuccess: success, onFailure: failure)
         }
     }
 

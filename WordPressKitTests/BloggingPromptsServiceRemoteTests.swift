@@ -1,4 +1,5 @@
 import XCTest
+import OHHTTPStubs
 
 @testable import WordPressKit
 
@@ -81,24 +82,35 @@ class BloggingPromptsServiceRemoteTests: RemoteTestCase, RESTTestable {
         wait(for: [expect], timeout: timeout)
     }
 
-    func test_fetchPrompts_correctlyAddsParametersToRequest() {
+    func test_fetchPrompts_correctlyAddsParametersToRequest() throws {
+        let requestReceived = expectation(description: "HTTP request is received")
+        var request: URLRequest?
+        stub(condition: isHost("public-api.wordpress.com")) {
+            request = $0
+            requestReceived.fulfill()
+            return HTTPStubsResponse(error: URLError(.networkConnectionLost))
+        }
+
         let expectedNumber = 10
         let expectedDateString = "2022-01-02"
         let expectedDate = dateFormatter.date(from: expectedDateString)
-        let customMockApi = MockWordPressComRestApi()
-        service = BloggingPromptsServiceRemote(wordPressComRestApi: customMockApi)
+        service = BloggingPromptsServiceRemote(wordPressComRestApi: WordPressComRestApi())
 
         // no-op; we just need to check the passed params.
         service.fetchPrompts(for: siteID, number: expectedNumber, fromDate: expectedDate, completion: { _ in })
+        wait(for: [requestReceived], timeout: 0.3)
 
-        XCTAssertNotNil(customMockApi.parametersPassedIn as? [String: AnyObject])
-        let params = customMockApi.parametersPassedIn! as! [String: AnyObject]
+        let url = try XCTUnwrap(request?.url)
+        let queryItems = try XCTUnwrap(URLComponents(url: url, resolvingAgainstBaseURL: true)?.queryItems)
+        let params = queryItems.reduce(into: [String: String]()) { result, query in
+            result[query.name] = query.value
+        }
 
         XCTAssertNotNil(params[.numberKey])
-        XCTAssertEqual(params[.numberKey] as! Int, expectedNumber)
+        XCTAssertEqual(params[.numberKey], expectedNumber.description)
 
         XCTAssertNotNil(params[.dateKey])
-        XCTAssertEqual(params[.dateKey] as! String, expectedDateString)
+        XCTAssertEqual(params[.dateKey], expectedDateString)
     }
 
     func test_fetchSettings_returnsRemoteSettings() {

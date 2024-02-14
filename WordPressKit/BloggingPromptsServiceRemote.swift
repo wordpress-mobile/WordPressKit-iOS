@@ -43,24 +43,23 @@ open class BloggingPromptsServiceRemote: ServiceRemoteWordPressComREST {
             return params
         }()
 
-        wordPressComRestApi.GET(path, parameters: requestParameter as [String: AnyObject]) { result, _ in
-            switch result {
-            case .success(let responseObject):
-                do {
-                    let data = try JSONSerialization.data(withJSONObject: responseObject, options: [])
-                    let decoder = JSONDecoder.apiDecoder
-                    // our API decoder assumes that we're converting from snake case.
-                    // revert it to default so the CodingKeys match the actual response keys.
-                    decoder.keyDecodingStrategy = .useDefaultKeys
-                    let response = try decoder.decode([String: [RemoteBloggingPrompt]].self, from: data)
-                    completion(.success(response.values.first ?? []))
-                } catch {
-                    completion(.failure(error))
-                }
+        let decoder = JSONDecoder.apiDecoder
+        // our API decoder assumes that we're converting from snake case.
+        // revert it to default so the CodingKeys match the actual response keys.
+        decoder.keyDecodingStrategy = .useDefaultKeys
 
-            case .failure(let error):
-                completion(.failure(error))
-            }
+        Task { @MainActor in
+            await self.wordPressComRestApi
+                .perform(
+                    .get,
+                    URLString: path,
+                    parameters: requestParameter as [String: AnyObject],
+                    jsonDecoder: decoder,
+                    type: [String: [RemoteBloggingPrompt]].self
+                )
+                .map { $0.body.values.first ?? [] }
+                .mapError { error -> Error in error.asNSError() }
+                .execute(completion)
         }
     }
 
@@ -71,19 +70,11 @@ open class BloggingPromptsServiceRemote: ServiceRemoteWordPressComREST {
     ///   - completion: Closure that will be called when the request completes.
     open func fetchSettings(for siteID: NSNumber, completion: @escaping (Result<RemoteBloggingPromptsSettings, Error>) -> Void) {
         let path = path(forEndpoint: "sites/\(siteID)/blogging-prompts/settings", withVersion: ._2_0)
-        wordPressComRestApi.GET(path, parameters: nil) { result, _ in
-            switch result {
-            case .success(let responseObject):
-                do {
-                    let data = try JSONSerialization.data(withJSONObject: responseObject)
-                    let settings = try JSONDecoder().decode(RemoteBloggingPromptsSettings.self, from: data)
-                    completion(.success(settings))
-                } catch {
-                    completion(.failure(error))
-                }
-            case .failure(let error):
-                completion(.failure(error))
-            }
+        Task { @MainActor in
+            await self.wordPressComRestApi.perform(.get, URLString: path, type: RemoteBloggingPromptsSettings.self)
+                .map { $0.body }
+                .mapError { error -> Error in error.asNSError() }
+                .execute(completion)
         }
     }
 

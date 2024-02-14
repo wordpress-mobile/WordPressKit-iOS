@@ -11,20 +11,22 @@ public class JetpackSocialServiceRemote: ServiceRemoteWordPressComREST {
     public func fetchPublicizeInfo(for siteID: Int,
                                    completion: @escaping (Result<RemotePublicizeInfo?, Error>) -> Void) {
         let path = path(forEndpoint: "sites/\(siteID)/jetpack-social", withVersion: ._2_0)
-        wordPressComRestApi.GET(path, parameters: nil) { result, response in
-            switch result {
-            case .success(let responseObject):
-                do {
-                    let data = try JSONSerialization.data(withJSONObject: responseObject)
-                    let info = try? JSONDecoder.apiDecoder.decode(RemotePublicizeInfo.self, from: data)
-                    completion(.success(info))
-                } catch {
-                    completion(.failure(error))
+        Task { @MainActor in
+            await self.wordPressComRestApi
+                .perform(
+                    .get,
+                    URLString: path,
+                    jsonDecoder: .apiDecoder,
+                    type: RemotePublicizeInfo.self
+                )
+                .map { $0.body }
+                .flatMapError { original -> Result<RemotePublicizeInfo?, Error> in
+                    if case let .endpointError(endpointError) = original, endpointError.response?.statusCode == 200, endpointError.code == .responseSerializationFailed {
+                        return .success(nil)
+                    }
+                    return .failure(original.asNSError())
                 }
-
-            case .failure(let error):
-                completion(.failure(error))
-            }
+                .execute(completion)
         }
     }
 }

@@ -8,6 +8,10 @@ extension Swift.Result {
         }
     }
 
+    func execute(_ completion: (Self) -> Void) {
+        completion(self)
+    }
+
     func eraseToError() -> Result<Success, Error> {
         mapError { $0 }
     }
