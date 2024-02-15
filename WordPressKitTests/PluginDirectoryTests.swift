@@ -57,7 +57,7 @@ class PluginDirectoryTests: XCTestCase {
         do {
             let request = try endpoint.buildRequest()
             let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: "1.1", headerFields: nil)!
-            XCTAssertNoThrow(try endpoint.validate(request: request, response: response, data: data))
+            XCTAssertNoThrow(try endpoint.validate(response: response, data: data))
         } catch {
             XCTFail(error.localizedDescription)
         }
@@ -70,7 +70,7 @@ class PluginDirectoryTests: XCTestCase {
         let request = try! endpoint.buildRequest()
         let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: "1.1", headerFields: nil)!
 
-        XCTAssertThrowsError(try endpoint.validate(request: request, response: response, data: "null".data(using: .utf8)))
+        XCTAssertThrowsError(try endpoint.validate(response: response, data: "null".data(using: .utf8)))
     }
 
     func testValidatePluginDirectoryFeedResponseSucceeds() throws {
@@ -79,7 +79,7 @@ class PluginDirectoryTests: XCTestCase {
         let request = try endpoint.buildRequest()
         let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: "1.1", headerFields: nil)!
 
-        XCTAssertNoThrow(try endpoint.validate(request: request, response: response, data: "null".data(using: .utf8)))
+        XCTAssertNoThrow(try endpoint.validate(response: response, data: "null".data(using: .utf8)))
     }
 
     func testValidatePluginDirectoryFeedResponseFails() {
@@ -88,7 +88,7 @@ class PluginDirectoryTests: XCTestCase {
         let request = try! endpoint.buildRequest()
         let response = HTTPURLResponse(url: request.url!, statusCode: 403, httpVersion: "1.1", headerFields: nil)!
 
-        XCTAssertThrowsError(try endpoint.validate(request: request, response: response, data: "null".data(using: .utf8)))
+        XCTAssertThrowsError(try endpoint.validate(response: response, data: "null".data(using: .utf8)))
     }
 
     func testNewDirectoryFeedRequest() {
