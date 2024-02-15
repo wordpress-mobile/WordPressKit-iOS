@@ -1,4 +1,5 @@
 import XCTest
+import OHHTTPStubs
 @testable import WordPressKit
 
 class PluginDirectoryTests: XCTestCase {
@@ -49,6 +50,26 @@ class PluginDirectoryTests: XCTestCase {
         } catch {
             XCTFail(error.localizedDescription)
         }
+    }
+
+    func testGetPluginInformation() async throws {
+        let data = try MockPluginDirectoryProvider.getPluginDirectoryMockData(with: "plugin-directory-rename-xml-rpc", sender: type(of: self))
+        stub(condition: isHost("api.wordpress.org")) { _ in
+            HTTPStubsResponse(data: data, statusCode: 200, headers: ["Content-Type": "application/json"])
+        }
+
+        let plugin = try await PluginDirectoryServiceRemote().getPluginInformation(slug: "rename-xml-rpc")
+        XCTAssertEqual(plugin.name, "Rename XMLRPC")
+    }
+
+    func testGetDirectoryFeed() async throws {
+        let data = try MockPluginDirectoryProvider.getPluginDirectoryMockData(with: "plugin-directory-popular", sender: type(of: self))
+        stub(condition: isHost("api.wordpress.org")) { _ in
+            HTTPStubsResponse(data: data, statusCode: 200, headers: ["Content-Type": "application/json"])
+        }
+
+        let feed = try await PluginDirectoryServiceRemote().getPluginFeed(.popular)
+        XCTAssertEqual(feed.plugins.first?.name, "Contact Form 7")
     }
 
     func testValidateResponseFound() {
