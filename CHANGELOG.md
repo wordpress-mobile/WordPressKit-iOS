@@ -34,7 +34,7 @@ _None._
 
 ### Breaking Changes
 
-_None._
+- Decouple `PluginDirectoryServiceRemote` from Alamofire. [#725]
 
 ### New Features
 
