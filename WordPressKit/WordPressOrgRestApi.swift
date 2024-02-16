@@ -26,11 +26,10 @@ public struct WordPressOrgRestApiError: LocalizedError, Decodable, HTTPURLRespon
 @objc
 public final class WordPressOrgRestApi: NSObject {
     public struct SelfHostedSiteCredential {
-        public var loginURL: URL
-        public var username: String
-        public var password: Secret<String>
-
-        public var adminURL: URL
+        public let loginURL: URL
+        public let username: String
+        public let password: Secret<String>
+        public let adminURL: URL
 
         public init(loginURL: URL, username: String, password: String, adminURL: URL) {
             self.loginURL = loginURL
