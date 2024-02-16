@@ -83,7 +83,7 @@ private extension StatsTopCommentsAuthor {
 
         if var components = URLComponents(string: avatar) {
             components.query = "d=mm&s=60" // to get a properly-sized avatar.
-            url = try? components.asURL()
+            url = components.url
         } else {
             url = nil
         }
