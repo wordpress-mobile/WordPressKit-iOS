@@ -1,5 +1,4 @@
 import Foundation
-import Alamofire
 
 private struct PluginDirectoryRemoteConstants {
     static let dateFormatter: DateFormatter = {
@@ -47,7 +46,7 @@ public enum PluginDirectoryFeedType: Hashable {
     }
 }
 
-public struct PluginDirectoryGetInformationEndpoint: Endpoint {
+public struct PluginDirectoryGetInformationEndpoint {
     public enum Error: Swift.Error {
         case pluginNotFound
     }
@@ -57,20 +56,18 @@ public struct PluginDirectoryGetInformationEndpoint: Endpoint {
         self.slug = slug
     }
 
-    public func buildRequest() throws -> URLRequest {
-        let url = PluginDirectoryRemoteConstants.getInformationEndpoint
-            .appendingPathComponent(slug)
-            .appendingPathExtension("json")
-        let request = URLRequest(url: url)
-        let encodedRequest = try URLEncoding.default.encode(request, with: ["fields": "icons,banners"])
-        return encodedRequest
+    func buildRequest() throws -> URLRequest {
+        try HTTPRequestBuilder(url: PluginDirectoryRemoteConstants.getInformationEndpoint)
+            .append(percentEncodedPath: "\(slug).json")
+            .query(name: "fields", value: "icons,banners")
+            .build()
     }
 
-    public func parseResponse(data: Data) throws -> PluginDirectoryEntry {
+    func parseResponse(data: Data) throws -> PluginDirectoryEntry {
         return try PluginDirectoryRemoteConstants.jsonDecoder.decode(PluginDirectoryEntry.self, from: data)
     }
 
-    public func validate(request: URLRequest?, response: HTTPURLResponse, data: Data?) throws {
+    func validate(response: HTTPURLResponse, data: Data?) throws {
         // api.wordpress.org has an odd way of responding to plugin info requests for
         // plugins not in the directory: it will return `null` with an HTTP 200 OK.
         // This turns that case into a `.pluginNotFound` error.
@@ -83,7 +80,7 @@ public struct PluginDirectoryGetInformationEndpoint: Endpoint {
     }
 }
 
-public struct PluginDirectoryFeedEndpoint: Endpoint {
+public struct PluginDirectoryFeedEndpoint {
     public enum Error: Swift.Error {
         case genericError
     }
@@ -91,12 +88,12 @@ public struct PluginDirectoryFeedEndpoint: Endpoint {
     let feedType: PluginDirectoryFeedType
     let pageNumber: Int
 
-    public init(feedType: PluginDirectoryFeedType) {
+    init(feedType: PluginDirectoryFeedType) {
         self.feedType = feedType
         self.pageNumber = 1
     }
 
-    public func buildRequest() throws -> URLRequest {
+    func buildRequest() throws -> URLRequest {
         var parameters: [String: Any] = ["action": "query_plugins",
                                          "request[per_page]": PluginDirectoryRemoteConstants.pluginsPerPage,
                                          "request[fields][icons]": 1,
@@ -113,17 +110,16 @@ public struct PluginDirectoryFeedEndpoint: Endpoint {
 
         }
 
-        let request = URLRequest(url: PluginDirectoryRemoteConstants.feedEndpoint)
-        let encodedRequest = try URLEncoding.default.encode(request, with: parameters)
-
-        return encodedRequest
+        return try HTTPRequestBuilder(url: PluginDirectoryRemoteConstants.feedEndpoint)
+            .query(parameters)
+            .build()
     }
 
-    public func parseResponse(data: Data) throws -> PluginDirectoryFeedPage {
+    func parseResponse(data: Data) throws -> PluginDirectoryFeedPage {
         return try PluginDirectoryRemoteConstants.jsonDecoder.decode(PluginDirectoryFeedPage.self, from: data)
     }
 
-    public func validate(request: URLRequest?, response: HTTPURLResponse, data: Data?) throws {
+    func validate(response: HTTPURLResponse, data: Data?) throws {
         if response.statusCode != 200 { throw Error.genericError}
     }
 }
@@ -132,13 +128,19 @@ public struct PluginDirectoryServiceRemote {
 
     public init() {}
 
-    public func getPluginFeed(_ feedType: PluginDirectoryFeedType,
-                              pageNumber: Int = 1,
-                              completion: @escaping (Result<PluginDirectoryFeedPage>) -> Void) {
-        PluginDirectoryFeedEndpoint(feedType: feedType).request(completion: completion)
+    public func getPluginFeed(_ feedType: PluginDirectoryFeedType, pageNumber: Int = 1) async throws -> PluginDirectoryFeedPage {
+        let endpoint = PluginDirectoryFeedEndpoint(feedType: feedType)
+        let (data, response) = try await URLSession.shared.data(for: endpoint.buildRequest())
+        let httpResponse = response as! HTTPURLResponse
+        try endpoint.validate(response: httpResponse, data: data)
+        return try endpoint.parseResponse(data: data)
     }
 
-    public func getPluginInformation(slug: String, completion: @escaping (Result<PluginDirectoryEntry>) -> Void) {
-        PluginDirectoryGetInformationEndpoint(slug: slug).request(completion: completion)
+    public func getPluginInformation(slug: String) async throws -> PluginDirectoryEntry {
+        let endpoint = PluginDirectoryGetInformationEndpoint(slug: slug)
+        let (data, response) = try await URLSession.shared.data(for: endpoint.buildRequest())
+        let httpResponse = response as! HTTPURLResponse
+        try endpoint.validate(response: httpResponse, data: data)
+        return try endpoint.parseResponse(data: data)
     }
 }

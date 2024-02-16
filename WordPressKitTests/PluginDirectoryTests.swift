@@ -1,4 +1,5 @@
 import XCTest
+import OHHTTPStubs
 @testable import WordPressKit
 
 class PluginDirectoryTests: XCTestCase {
@@ -51,13 +52,33 @@ class PluginDirectoryTests: XCTestCase {
         }
     }
 
+    func testGetPluginInformation() async throws {
+        let data = try MockPluginDirectoryProvider.getPluginDirectoryMockData(with: "plugin-directory-rename-xml-rpc", sender: type(of: self))
+        stub(condition: isHost("api.wordpress.org")) { _ in
+            HTTPStubsResponse(data: data, statusCode: 200, headers: ["Content-Type": "application/json"])
+        }
+
+        let plugin = try await PluginDirectoryServiceRemote().getPluginInformation(slug: "rename-xml-rpc")
+        XCTAssertEqual(plugin.name, "Rename XMLRPC")
+    }
+
+    func testGetDirectoryFeed() async throws {
+        let data = try MockPluginDirectoryProvider.getPluginDirectoryMockData(with: "plugin-directory-popular", sender: type(of: self))
+        stub(condition: isHost("api.wordpress.org")) { _ in
+            HTTPStubsResponse(data: data, statusCode: 200, headers: ["Content-Type": "application/json"])
+        }
+
+        let feed = try await PluginDirectoryServiceRemote().getPluginFeed(.popular)
+        XCTAssertEqual(feed.plugins.first?.name, "Contact Form 7")
+    }
+
     func testValidateResponseFound() {
         let data = try! MockPluginDirectoryProvider.getPluginDirectoryMockData(with: "plugin-directory-rename-xml-rpc", sender: type(of: self))
         let endpoint = PluginDirectoryGetInformationEndpoint(slug: "jetpack")
         do {
             let request = try endpoint.buildRequest()
             let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: "1.1", headerFields: nil)!
-            XCTAssertNoThrow(try endpoint.validate(request: request, response: response, data: data))
+            XCTAssertNoThrow(try endpoint.validate(response: response, data: data))
         } catch {
             XCTFail(error.localizedDescription)
         }
@@ -70,7 +91,7 @@ class PluginDirectoryTests: XCTestCase {
         let request = try! endpoint.buildRequest()
         let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: "1.1", headerFields: nil)!
 
-        XCTAssertThrowsError(try endpoint.validate(request: request, response: response, data: "null".data(using: .utf8)))
+        XCTAssertThrowsError(try endpoint.validate(response: response, data: "null".data(using: .utf8)))
     }
 
     func testValidatePluginDirectoryFeedResponseSucceeds() throws {
@@ -79,7 +100,7 @@ class PluginDirectoryTests: XCTestCase {
         let request = try endpoint.buildRequest()
         let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: "1.1", headerFields: nil)!
 
-        XCTAssertNoThrow(try endpoint.validate(request: request, response: response, data: "null".data(using: .utf8)))
+        XCTAssertNoThrow(try endpoint.validate(response: response, data: "null".data(using: .utf8)))
     }
 
     func testValidatePluginDirectoryFeedResponseFails() {
@@ -88,7 +109,7 @@ class PluginDirectoryTests: XCTestCase {
         let request = try! endpoint.buildRequest()
         let response = HTTPURLResponse(url: request.url!, statusCode: 403, httpVersion: "1.1", headerFields: nil)!
 
-        XCTAssertThrowsError(try endpoint.validate(request: request, response: response, data: "null".data(using: .utf8)))
+        XCTAssertThrowsError(try endpoint.validate(response: response, data: "null".data(using: .utf8)))
     }
 
     func testNewDirectoryFeedRequest() {

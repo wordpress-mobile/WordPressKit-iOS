@@ -35,6 +35,8 @@ _None._
 ### Breaking Changes
 
 - Rewrite `WordPressOrgRestApi` to support self hosted sites and WordPress.com sites. [#724]
+- Decouple `PluginDirectoryServiceRemote` from Alamofire. [#725]
+- Remove `Endpoint`. [#725]
 
 ### New Features
 

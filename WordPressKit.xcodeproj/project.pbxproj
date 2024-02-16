@@ -607,7 +607,6 @@
 		E14694031F344F71004052C8 /* site-plugins-error.json in Resources */ = {isa = PBXBuildFile; fileRef = E14694021F344F71004052C8 /* site-plugins-error.json */; };
 		E1787DB0200E564B004CB3AF /* timezones.json in Resources */ = {isa = PBXBuildFile; fileRef = E1787DAF200E564B004CB3AF /* timezones.json */; };
 		E1787DB2200E5690004CB3AF /* TimeZoneServiceRemoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1787DB1200E5690004CB3AF /* TimeZoneServiceRemoteTests.swift */; };
-		E182BF6A1FD961810001D850 /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = E182BF691FD961810001D850 /* Endpoint.swift */; };
 		E194CB731FBDEF6500B0A8B8 /* PluginState.swift in Sources */ = {isa = PBXBuildFile; fileRef = E194CB721FBDEF6400B0A8B8 /* PluginState.swift */; };
 		E1A6605F1FD694ED00BAC339 /* PluginDirectoryEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A6605E1FD694ED00BAC339 /* PluginDirectoryEntry.swift */; };
 		E1BD95151FD5A2B800CD5CE3 /* PluginDirectoryServiceRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1BD95141FD5A2B800CD5CE3 /* PluginDirectoryServiceRemote.swift */; };
@@ -1336,7 +1335,6 @@
 		E14694021F344F71004052C8 /* site-plugins-error.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "site-plugins-error.json"; sourceTree = "<group>"; };
 		E1787DAF200E564B004CB3AF /* timezones.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = timezones.json; sourceTree = "<group>"; };
 		E1787DB1200E5690004CB3AF /* TimeZoneServiceRemoteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeZoneServiceRemoteTests.swift; sourceTree = "<group>"; };
-		E182BF691FD961810001D850 /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
 		E194CB721FBDEF6400B0A8B8 /* PluginState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PluginState.swift; sourceTree = "<group>"; };
 		E1A6605E1FD694ED00BAC339 /* PluginDirectoryEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PluginDirectoryEntry.swift; sourceTree = "<group>"; };
 		E1BD95141FD5A2B800CD5CE3 /* PluginDirectoryServiceRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PluginDirectoryServiceRemote.swift; sourceTree = "<group>"; };
@@ -1985,7 +1983,6 @@
 				74BA04F11F06DC0A00ED5CD8 /* CommentServiceRemoteXMLRPC.m */,
 				8BB5F62027A99A2000B2FFAF /* DashboardServiceRemote.swift */,
 				7E0D64FE22D855700092AD10 /* EditorServiceRemote.swift */,
-				E182BF691FD961810001D850 /* Endpoint.swift */,
 				F9E56DF724EB125600916770 /* FeatureFlagRemote.swift */,
 				74650F711F0EA1A700188EDB /* GravatarServiceRemote.swift */,
 				1769DEA924729AFF00F42EFC /* HomepageSettingsServiceRemote.swift */,
@@ -3462,7 +3459,6 @@
 				F1BB7806240FB90B0030ADDC /* AtomicAuthenticationServiceRemote.swift in Sources */,
 				404057CE221C38130060250C /* StatsTopVideosTimeIntervalData.swift in Sources */,
 				7E0D64FF22D855700092AD10 /* EditorServiceRemote.swift in Sources */,
-				E182BF6A1FD961810001D850 /* Endpoint.swift in Sources */,
 				9AF4F2FF2183346B00570E4B /* RemoteRevision.swift in Sources */,
 				17D936252475D8AB008B2205 /* RemoteHomepageType.swift in Sources */,
 				74BA04F41F06DC0A00ED5CD8 /* CommentServiceRemoteREST.m in Sources */,
