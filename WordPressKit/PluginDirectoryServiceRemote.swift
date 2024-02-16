@@ -1,5 +1,4 @@
 import Foundation
-import Alamofire
 
 private struct PluginDirectoryRemoteConstants {
     static let dateFormatter: DateFormatter = {
