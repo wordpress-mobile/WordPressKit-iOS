@@ -15,6 +15,12 @@ class SelfHostedPluginManagementClientTests: XCTestCase {
         }
     }
 
+    override func tearDown() {
+        super.tearDown()
+
+        HTTPStubs.removeAllStubs()
+    }
+
     func testGetPluginsSuccess() throws {
         let response = try fixture(filePath: XCTUnwrap(OHPathForFile("self-hosted-plugins-get.json", type(of: self))), headers: nil)
         stub(condition: isHost("wp-site.com") && isPath("/wp-json/wp/v2/plugins")) { _ in
