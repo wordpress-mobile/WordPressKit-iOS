@@ -68,7 +68,7 @@ class WordPressOrgRestApiTests: XCTestCase {
         XCTAssertEqual(response.content.raw, blockContent, "The API should return the block")
     }
 
-        /// Verify that parameters in POST requests are sent as urlencoded form.
+    /// Verify that parameters in POST requests are sent as urlencoded form.
     func testPostParametersContent() async throws {
         var req: URLRequest?
         stub(condition: isHost("wordpress.org")) {
