@@ -36,7 +36,7 @@ extension BlockEditorSettingsServiceRemoteTests {
         }
 
         let waitExpectation = expectation(description: "Theme should be successfully fetched")
-        service.fetchTheme { (response) in
+        service.fetchTheme { response in
             switch response {
             case .success(let result):
                 XCTAssertNotNil(result)
@@ -68,7 +68,7 @@ extension BlockEditorSettingsServiceRemoteTests {
         }
 
         let waitExpectation = expectation(description: "Theme should be successfully fetched")
-        service.fetchTheme { (response) in
+        service.fetchTheme { response in
             switch response {
             case .success(let result):
                 XCTAssertNotNil(result)
@@ -103,7 +103,7 @@ extension BlockEditorSettingsServiceRemoteTests {
 
         let waitExpectation = expectation(description: "Theme should be successfully fetched")
 
-        service.fetchTheme { (response) in
+        service.fetchTheme { response in
             switch response {
             case .success(let result):
                 XCTAssertNotNil(result)
@@ -134,7 +134,7 @@ extension BlockEditorSettingsServiceRemoteTests {
         }
 
         let waitExpectation = expectation(description: "Theme should be successfully fetched")
-        service.fetchTheme { (response) in
+        service.fetchTheme { response in
             switch response {
             case .success(let result):
                 XCTAssertFalse(result!.themeSupport!.blockTemplates)
@@ -153,7 +153,7 @@ extension BlockEditorSettingsServiceRemoteTests {
         }
 
         let waitExpectation = expectation(description: "Theme should be successfully fetched")
-        service.fetchTheme { (response) in
+        service.fetchTheme { response in
             switch response {
             case .success:
                 XCTFail("This Request should have failed")
@@ -177,7 +177,7 @@ extension BlockEditorSettingsServiceRemoteTests {
         }
 
         let waitExpectation = expectation(description: "Block Settings should be successfully fetched")
-        service.fetchBlockEditorSettings { (response) in
+        service.fetchBlockEditorSettings { response in
             switch response {
             case .success(let result):
                 XCTAssertNil(result)
@@ -196,7 +196,7 @@ extension BlockEditorSettingsServiceRemoteTests {
         }
 
         let waitExpectation = expectation(description: "Block Settings should be successfully fetched")
-        service.fetchBlockEditorSettings { (response) in
+        service.fetchBlockEditorSettings { response in
             switch response {
             case .success(let result):
                 self.validateFetchBlockEditorSettingsResults(result)
@@ -217,7 +217,7 @@ extension BlockEditorSettingsServiceRemoteTests {
         }
 
         let waitExpectation = expectation(description: "Block Settings should be successfully fetched")
-        service.fetchBlockEditorSettings { (response) in
+        service.fetchBlockEditorSettings { response in
             switch response {
             case .success(let result):
                 self.validateFetchBlockEditorSettingsResults(result)
@@ -246,7 +246,7 @@ extension BlockEditorSettingsServiceRemoteTests {
 
         let waitExpectation = expectation(description: "Block Settings should be successfully fetched")
 
-        service.fetchBlockEditorSettings { (response) in
+        service.fetchBlockEditorSettings { response in
             switch response {
             case .success(let result):
                 self.validateFetchBlockEditorSettingsResults(result)
@@ -275,7 +275,7 @@ extension BlockEditorSettingsServiceRemoteTests {
         }
 
         let waitExpectation = expectation(description: "Block Settings should be successfully fetched")
-        service.fetchBlockEditorSettings { (response) in
+        service.fetchBlockEditorSettings { response in
             switch response {
             case .success:
                 XCTFail("This Request should have failed")
