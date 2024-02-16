@@ -22,7 +22,6 @@ Pod::Spec.new do |s|
   s.private_header_files = 'WordPressKit/Private/*.h'
   s.header_dir = 'WordPressKit'
 
-  s.dependency 'Alamofire', '~> 4.8.0'
   s.dependency 'NSObject-SafeExpectations', '~> 0.0.4'
   s.dependency 'wpxmlrpc', '~> 0.10'
   s.dependency 'UIDeviceIdentifier', '~> 2.0'
