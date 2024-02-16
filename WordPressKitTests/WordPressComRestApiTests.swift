@@ -336,23 +336,6 @@ class WordPressComRestApiTests: XCTestCase {
         self.waitForExpectations(timeout: 2, handler: nil)
     }
 
-    // MARK: - WordPressRestApi Interfaces
-    func testRequestPathModificationsWPV2() {
-        let orgPath = "/wp/v2/themes?status=active"
-        let expectedPath = "/wp/v2/sites/1001/themes?status=active"
-        let api = WordPressComRestApi(oAuthToken: "fakeToken")
-        let result = api.requestPath(fromOrgPath: orgPath, with: 1001)
-        XCTAssertEqual(result, expectedPath)
-    }
-
-    func testRequestPathModificationsWPBlockEditor() {
-        let orgPath = "/wp-block-editor/v1/settings"
-        let expectedPath = "/wp-block-editor/v1/sites/1001/settings"
-        let api = WordPressComRestApi(oAuthToken: "fakeToken")
-        let result = api.requestPath(fromOrgPath: orgPath, with: 1001)
-        XCTAssertEqual(result, expectedPath)
-    }
-
     func testSuccessfullCallCommonGETStructure() {
         stub(condition: isRestAPIRequest()) { _ in
             let stubPath = OHPathForFile("WordPressComRestApiMedia.json", type(of: self))
@@ -362,15 +345,13 @@ class WordPressComRestApiTests: XCTestCase {
         let expect = self.expectation(description: "One callback should be invoked")
         let api = WordPressComRestApi(oAuthToken: "fakeToken")
 
-        api.GET(wordPressMediaRoutePath, parameters: nil) { (result, _) in
+        api.GET(wordPressMediaRoutePath, parameters: nil, success: { responseObject, _ in
+            XCTAssert(responseObject is [String: AnyObject], "The response should be a dictionary")
             expect.fulfill()
-            switch result {
-            case .success(let responseObject):
-                XCTAssert(responseObject is [String: AnyObject], "The response should be a dictionary")
-            case .failure:
-                XCTFail("This call should be successfull")
-            }
-        }
+        }, failure: { _, _ in
+            XCTFail("This call should be successfull")
+            expect.fulfill()
+        })
         self.waitForExpectations(timeout: 2, handler: nil)
     }
 
@@ -379,20 +360,18 @@ class WordPressComRestApiTests: XCTestCase {
             let stubPath = OHPathForFile("WordPressComRestApiFailInvalidJSON.json", type(of: self))
             return fixture(filePath: stubPath!, status: 200, headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
         }
+
         let expect = self.expectation(description: "One callback should be invoked")
         let api = WordPressComRestApi(oAuthToken: "fakeToken")
-
-        api.GET(wordPressMediaRoutePath, parameters: nil) { (result, _) in
+        api.GET(wordPressMediaRoutePath, parameters: nil, success: { _, _ in
+            XCTFail("This call should fail")
             expect.fulfill()
-            switch result {
-            case .success:
-                XCTFail("This call should fail")
-            case .failure(let err):
-                let error = err as NSError
-                XCTAssert(error.domain == WordPressComRestApiErrorDomain, "The error domain should be WordPressComRestApiErrorDomain")
-                XCTAssert(error.code == Int(WordPressComRestApiErrorCode.responseSerializationFailed.rawValue), "The code should be invalid response serialization")
-            }
-        }
+        }, failure: { err, _ in
+            let error = err as NSError
+            XCTAssert(error.domain == WordPressComRestApiErrorDomain, "The error domain should be WordPressComRestApiErrorDomain")
+            XCTAssert(error.code == Int(WordPressComRestApiErrorCode.responseSerializationFailed.rawValue), "The code should be invalid response serialization")
+            expect.fulfill()
+        })
         self.waitForExpectations(timeout: 2, handler: nil)
     }
 

@@ -22,93 +22,64 @@ class WordPressOrgRestApiTests: XCTestCase {
         }
     }
 
-    func testUnauthorizedCall() {
+    func testUnauthorizedCall() async throws {
         stub(condition: isAPIRequest()) { _ in
             let stubPath = OHPathForFile("wp-forbidden.json", type(of: self))
             return fixture(filePath: stubPath!, status: 401, headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
         }
-        let expect = self.expectation(description: "One callback should be invoked")
         let api = WordPressOrgRestApi(apiBase: apiBase)
-        api.GET("wp/v2/settings", parameters: nil) { (result, response) in
-            expect.fulfill()
-            switch result {
-            case .success:
-                XCTFail("This call should not suceed")
-            case .failure:
-                XCTAssertEqual(response?.statusCode, 401, "Response should be unauthorized")
-            }
+        let result = await api.get(path: "wp/v2/settings", type: AnyResponse.self)
+        switch result {
+        case .success:
+            XCTFail("This call should not suceed")
+        case let .failure(error):
+            XCTAssertEqual(error.response?.statusCode, 401, "Response should be unauthorized")
         }
-        waitForExpectations(timeout: 2, handler: nil)
     }
 
-    func testSuccessfulGetCall() {
+    func testSuccessfulGetCall() async throws {
         stub(condition: isAPIRequest()) { _ in
             let stubPath = OHPathForFile("wp-pages.json", type(of: self))
             return fixture(filePath: stubPath!, headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
         }
-        let expect = self.expectation(description: "One callback should be invoked")
         let api = WordPressOrgRestApi(apiBase: apiBase)
-        api.GET("wp/v2/pages", parameters: nil) { (result, _) in
-            expect.fulfill()
-            switch result {
-            case .success(let object):
-                guard let pages = object as? [AnyObject] else {
-                    XCTFail("Unexpected API result")
-                    return
-                }
-                XCTAssertEqual(pages.count, 10, "The API should return 10 pages")
-            case .failure:
-                XCTFail("This call should not fail")
-            }
-        }
-        waitForExpectations(timeout: 2, handler: nil)
+        let pages = try await api.get(path: "wp/v2/pages", type: [AnyResponse].self).get()
+        XCTAssertEqual(pages.count, 10, "The API should return 10 pages")
     }
 
-    func testSuccessfulPostCall() {
+    func testSuccessfulPostCall() async throws {
         stub(condition: isAPIRequest()) { _ in
             let stubPath = OHPathForFile("wp-reusable-blocks.json", type(of: self))
             return fixture(filePath: stubPath!, headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
         }
-        let expect = self.expectation(description: "One callback should be invoked")
+
+        struct Response: Decodable {
+            struct Content: Decodable {
+                var raw: String
+            }
+
+            var content: Content
+        }
+
         let api = WordPressOrgRestApi(apiBase: apiBase)
         let blockContent = "<!-- wp:paragraph -->\n<p>Some text</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:list -->\n<ul><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul>\n<!-- /wp:list -->"
         let parameters: [String: String] = ["id": "6", "content": blockContent]
-        api.POST("wp/v2/blocks/6", parameters: parameters as [String: AnyObject]) { (result, _) in
-            expect.fulfill()
-            switch result {
-            case .success(let object):
-                guard
-                    let block = object as? [String: AnyObject],
-                    let content = block["content"] as? [String: AnyObject],
-                    let rawContent = content["raw"] as? String
-                else {
-                    XCTFail("Unexpected API result")
-                    return
-                }
-                XCTAssertEqual(block.count, 15, "The API should return the block")
-                XCTAssertEqual(rawContent, blockContent, "The API should return the block")
-            case .failure:
-                XCTFail("This call should not fail")
-            }
-        }
-        waitForExpectations(timeout: 2, handler: nil)
+        let response = try await api.post(path: "wp/v2/blocks/6", parameters: parameters, type: Response.self).get()
+        XCTAssertEqual(response.content.raw, blockContent, "The API should return the block")
     }
 
     /// Verify that parameters in POST requests are sent as urlencoded form.
-    func testPostParametersContent() throws {
+    func testPostParametersContent() async throws {
         var req: URLRequest?
         stub(condition: isHost("wordpress.org")) {
             req = $0
             return HTTPStubsResponse(error: URLError(.notConnectedToInternet))
         }
 
-        let api = WordPressOrgRestApi(apiBase: apiBase)
-        let complete = expectation(description: "API call completed")
-        api.POST("/rest/v1/foo", parameters: ["arg1": "value1"] as [String: AnyObject]) { _, _ in
-            complete.fulfill()
-        }
+        struct Empty: Decodable {}
 
-        wait(for: [complete], timeout: 0.3)
+        let api = WordPressOrgRestApi(apiBase: apiBase)
+        let _ = await api.post(path: "/rest/v1/foo", parameters: ["arg1": "value1"], type: Empty.self)
 
         let request = try XCTUnwrap(req)
         XCTAssertEqual(request.httpMethod?.uppercased(), "POST")
@@ -116,4 +87,31 @@ class WordPressOrgRestApiTests: XCTestCase {
         XCTAssertEqual(request.value(forHTTPHeaderField: "Content-Type"), "application/x-www-form-urlencoded; charset=utf-8")
         XCTAssertEqual(request.httpBodyText, "arg1=value1")
     }
+
+    func testRequestPathModificationsWPV2() async throws {
+        stub(condition: isPath("/wp/v2/sites/1001/themes") && containsQueryParams(["status": "active"])) { _ in
+            HTTPStubsResponse(jsonObject: [String: String](), statusCode: 200, headers: nil)
+        }
+        let api = WordPressOrgRestApi(site: .dotCom(siteID: 1001, bearerToken: "fakeToken"))
+        let _ = try await api.get(path: "/wp/v2/themes", parameters: ["status": "active"], type: AnyResponse.self).get()
+    }
+
+    func testRequestPathModificationsWPBlockEditor() async throws {
+        stub(condition: isPath("/wp-block-editor/v1/sites/1001/settings")) { _ in
+            HTTPStubsResponse(jsonObject: [String: String](), statusCode: 200, headers: nil)
+        }
+        let api = WordPressOrgRestApi(site: .dotCom(siteID: 1001, bearerToken: "fakeToken"))
+        let _ = try await api.get(path: "/wp-block-editor/v1/settings", type: AnyResponse.self).get()
+    }
 }
+
+extension WordPressOrgRestApi {
+    convenience init(apiBase: URL) {
+        self.init(
+            selfHostedSiteWPJSONURL: apiBase,
+            credential: .init(loginURL: URL(string: "https://not-used.com")!, username: "user", password: "pass", adminURL: URL(string: "https://not-used.com")!)
+        )
+    }
+}
+
+private struct AnyResponse: Decodable {}

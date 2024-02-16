@@ -34,7 +34,7 @@ _None._
 
 ### Breaking Changes
 
-_None._
+- Rewrite `WordPressOrgRestApi` to support self hosted sites and WordPress.com sites. [#724]
 
 ### New Features
 

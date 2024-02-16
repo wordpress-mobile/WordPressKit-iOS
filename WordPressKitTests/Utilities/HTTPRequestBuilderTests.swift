@@ -376,14 +376,31 @@ class HTTPRequestBuilderTests: XCTestCase {
 
     }
 
-}
-
-extension URLRequest {
-    var httpBodyText: String? {
-        guard let data = (httpBody ?? httpBodyStream?.readToEnd()) else {
-            return nil
-        }
-
-        return String(data: data, encoding: .utf8)
+    func testAppendingURLString() {
+        XCTAssertEqual(
+            try HTTPRequestBuilder(url: URL(string: "https://wordpress.org/test")!)
+                .appendURLString("foo%2Fbar/path?arg=value")
+                .build()
+                .url?
+                .absoluteString,
+            "https://wordpress.org/test/foo%2Fbar/path?arg=value"
+        )
+        XCTAssertEqual(
+            try HTTPRequestBuilder(url: URL(string: "https://wordpress.org/test")!)
+                .appendURLString("/foo%2Fbar/path?arg=value")
+                .build()
+                .url?
+                .absoluteString,
+            "https://wordpress.org/test/foo%2Fbar/path?arg=value"
+        )
+        XCTAssertEqual(
+            try HTTPRequestBuilder(url: URL(string: "https://wordpress.org/test")!)
+                .appendURLString("/foo%2Fbar/path")
+                .build()
+                .url?
+                .absoluteString,
+            "https://wordpress.org/test/foo%2Fbar/path"
+        )
     }
+
 }

@@ -1,105 +1,268 @@
-import Alamofire
 import Foundation
 
-/**
- Error constants for the WordPress.org REST API
+public struct WordPressOrgRestApiError: LocalizedError, Decodable, HTTPURLResponseProviding {
+    public enum CodingKeys: String, CodingKey {
+        case code, message
+    }
 
- - RequestSerializationFailed:     The serialization of the request failed
- */
-@objc public enum WordPressOrgRestApiError: Int, Error {
-    case requestSerializationFailed
+    public var code: String
+    public var message: String?
+
+    var response: HTTPAPIResponse<Data>?
+
+    var httpResponse: HTTPURLResponse? {
+        response?.response
+    }
+
+    public var errorDescription: String? {
+        return message ?? NSLocalizedString(
+            "wordpresskit.org-rest-api.not-found",
+            value: "Couldn't find your site's REST API URL. The app needs that in order to communicate with your site. Contact your host to solve this problem.",
+            comment: "Message to show to user when the app can't find WordPress.org REST API URL."
+        )
+    }
 }
 
 @objc
-open class WordPressOrgRestApi: NSObject, WordPressRestApi {
-    public typealias Completion = (Swift.Result<Any, Error>, HTTPURLResponse?) -> Void
-    private let apiBase: URL
-    private let authenticator: Authenticator?
-    private let userAgent: String?
+public final class WordPressOrgRestApi: NSObject {
+    public struct SelfHostedSiteCredential {
+        public let loginURL: URL
+        public let username: String
+        public let password: Secret<String>
+        public let adminURL: URL
 
-    public init(apiBase: URL, authenticator: Authenticator? = nil, userAgent: String? = nil) {
-        self.apiBase = apiBase
-        self.authenticator = authenticator
-        self.userAgent = userAgent
-        super.init()
+        public init(loginURL: URL, username: String, password: String, adminURL: URL) {
+            self.loginURL = loginURL
+            self.username = username
+            self.password = .init(password)
+            self.adminURL = adminURL
+        }
     }
 
-    @discardableResult
-    open func GET(_ path: String,
-                  parameters: [String: AnyObject]?,
-                  completion: @escaping Completion) -> Progress? {
-        return request(method: .get, path: path, parameters: parameters, completion: completion)
+    enum Site {
+        case dotCom(siteID: UInt64, bearerToken: String)
+        case selfHosted(apiURL: URL, credential: SelfHostedSiteCredential)
     }
 
-    @discardableResult
-    open func POST(_ path: String,
-                  parameters: [String: AnyObject]?,
-                  completion: @escaping Completion) -> Progress? {
-        return request(method: .post, path: path, parameters: parameters, completion: completion)
+    let site: Site
+    let urlSession: URLSession
+
+    var selfHostedSiteNonce: String?
+
+    public convenience init(dotComSiteID: UInt64, bearerToken: String, userAgent: String? = nil) {
+        self.init(site: .dotCom(siteID: dotComSiteID, bearerToken: bearerToken), userAgent: userAgent)
     }
 
-    @discardableResult
-    open func request(method: HTTPMethod,
-                         path: String,
-                         parameters: [String: AnyObject]?,
-                         completion: @escaping Completion) -> Progress? {
-        let relativePath = path.removingPrefix("/")
-        guard let url = URL(string: relativePath, relativeTo: apiBase) else {
-            let error = NSError(domain: String(describing: WordPressOrgRestApiError.self),
-                    code: WordPressOrgRestApiError.requestSerializationFailed.rawValue,
-                    userInfo: [NSLocalizedDescriptionKey: NSLocalizedString("Failed to serialize request to the REST API.", comment: "Error message to show when wrong URL format is used to access the REST API")])
-            completion(.failure(error), nil)
-            return nil
+    public convenience init(selfHostedSiteWPJSONURL apiURL: URL, credential: SelfHostedSiteCredential, userAgent: String? = nil) {
+        assert(apiURL.host != "public-api.wordpress.com", "Not a self-hosted site: \(apiURL)")
+        // Potential improvement(?): discover API URL instead. See https://developer.wordpress.org/rest-api/using-the-rest-api/discovery/
+        assert(apiURL.lastPathComponent == "wp-json", "Not a REST API URL: \(apiURL)")
+
+        self.init(site: .selfHosted(apiURL: apiURL, credential: credential), userAgent: userAgent)
+    }
+
+    init(site: Site, userAgent: String? = nil) {
+        self.site = site
+
+        var additionalHeaders = [String: String]()
+        if let userAgent {
+            additionalHeaders["User-Agent"] = userAgent
+        }
+        if case let Site.dotCom(siteID: _, bearerToken: token) = site {
+            additionalHeaders["Authorization"] = "Bearer \(token)"
         }
 
-        let progress = Progress(totalUnitCount: 1)
-        let progressUpdater = {(taskProgress: Progress) in
-            progress.totalUnitCount = taskProgress.totalUnitCount
-            progress.completedUnitCount = taskProgress.completedUnitCount
+        let configuration = URLSessionConfiguration.default
+        configuration.httpAdditionalHeaders = additionalHeaders
+        urlSession = URLSession(configuration: configuration)
+    }
+
+    deinit {
+        urlSession.finishTasksAndInvalidate()
+    }
+
+    @objc
+    public func invalidateAndCancelTasks() {
+        urlSession.invalidateAndCancel()
+    }
+
+    public func get<Success: Decodable>(
+        path: String,
+        parameters: [String: Any]? = nil,
+        jsonDecoder: JSONDecoder = JSONDecoder(),
+        type: Success.Type = Success.self
+    ) async -> WordPressAPIResult<Success, WordPressOrgRestApiError> {
+        await perform(.get, path: path, parameters: parameters, jsonDecoder: jsonDecoder, type: type)
+    }
+
+    public func get(
+        path: String,
+        parameters: [String: Any]? = nil,
+        options: JSONSerialization.ReadingOptions = []
+    ) async -> WordPressAPIResult<Any, WordPressOrgRestApiError> {
+        await perform(.get, path: path, parameters: parameters, options: options)
+    }
+
+    public func post<Success: Decodable>(
+        path: String,
+        parameters: [String: Any]? = nil,
+        jsonDecoder: JSONDecoder = JSONDecoder(),
+        type: Success.Type = Success.self
+    ) async -> WordPressAPIResult<Success, WordPressOrgRestApiError> {
+        await perform(.post, path: path, parameters: parameters, jsonDecoder: jsonDecoder, type: type)
+    }
+
+    public func post(
+        path: String,
+        parameters: [String: Any]? = nil,
+        options: JSONSerialization.ReadingOptions = []
+    ) async -> WordPressAPIResult<Any, WordPressOrgRestApiError> {
+        await perform(.post, path: path, parameters: parameters, options: options)
+    }
+
+    func perform<Success: Decodable>(
+        _ method: HTTPRequestBuilder.Method,
+        path: String,
+        parameters: [String: Any]? = nil,
+        jsonDecoder: JSONDecoder = JSONDecoder(),
+        type: Success.Type = Success.self
+    ) async -> WordPressAPIResult<Success, WordPressOrgRestApiError> {
+        await perform(method, path: path, parameters: parameters) {
+            try jsonDecoder.decode(type, from: $0)
+        }
+    }
+
+    func perform(
+        _ method: HTTPRequestBuilder.Method,
+        path: String,
+        parameters: [String: Any]? = nil,
+        options: JSONSerialization.ReadingOptions = []
+    ) async -> WordPressAPIResult<Any, WordPressOrgRestApiError> {
+        await perform(method, path: path, parameters: parameters) {
+            try JSONSerialization.jsonObject(with: $0, options: options)
+        }
+    }
+
+    private func perform<Success>(
+        _ method: HTTPRequestBuilder.Method,
+        path: String,
+        parameters: [String: Any]? = nil,
+        decoder: @escaping (Data) throws -> Success
+    ) async -> WordPressAPIResult<Success, WordPressOrgRestApiError> {
+        var builder = HTTPRequestBuilder(url: apiBaseURL())
+            .dotOrgRESTAPI(route: path, site: site)
+            .method(method)
+        if method.allowsHTTPBody {
+            builder = builder.body(form: parameters ?? [:])
+        } else {
+            builder = builder.query(parameters ?? [:])
         }
 
-        let dataRequest = sessionManager.request(url, method: method, parameters: parameters, encoding: URLEncoding.default)
-            .validate()
-            .responseJSON(completionHandler: { (response) in
-            switch response.result {
-            case .success(let responseObject):
-                progress.completedUnitCount = progress.totalUnitCount
-                completion(.success(responseObject), response.response)
-            case .failure(let error):
-                completion(.failure(error), response.response)
+        return await perform(builder: builder)
+            .mapSuccess { try decoder($0.body) }
+    }
+
+    func perform(builder originalBuilder: HTTPRequestBuilder) async -> WordPressAPIResult<HTTPAPIResponse<Data>, WordPressOrgRestApiError> {
+        var builder = originalBuilder
+
+        if case .selfHosted = site, let nonce = selfHostedSiteNonce {
+            builder = originalBuilder.header(name: "X-WP-Nonce", value: nonce)
+        }
+
+        var result = await urlSession.perform(request: builder, errorType: WordPressOrgRestApiError.self)
+
+        // When a self hosted site request fails with 401, authenticate and retry the request.
+        if case .selfHosted = site,
+            case let .failure(.unacceptableStatusCode(response, _)) = result,
+            response.statusCode == 401,
+            await refreshNonce(),
+            let nonce = selfHostedSiteNonce {
+            builder = originalBuilder.header(name: "X-WP-Nonce", value: nonce)
+            result = await urlSession.perform(request: builder, errorType: WordPressOrgRestApiError.self)
+        }
+
+        return result
+            .mapError { error in
+                if case let .unacceptableStatusCode(response, body) = error {
+                    do {
+                        var endpointError = try JSONDecoder().decode(WordPressOrgRestApiError.self, from: body)
+                        endpointError.response = HTTPAPIResponse(response: response, body: body)
+                        return WordPressAPIError.endpointError(endpointError)
+                    } catch {
+                        return .unparsableResponse(response: response, body: body, underlyingError: error)
+                    }
+                }
+                return error
+            }
+    }
+
+}
+
+// MARK: - Authentication
+
+private extension WordPressOrgRestApi {
+    func apiBaseURL() -> URL {
+        switch site {
+        case .dotCom:
+            return URL(string: "https://public-api.wordpress.com")!
+        case let .selfHosted(apiURL, _):
+            return apiURL
+        }
+    }
+
+    /// Fetch REST API nonce from the site.
+    ///
+    /// - Returns true if the nonce is fetched and it's different than the cached one.
+    func refreshNonce() async -> Bool {
+        guard case let .selfHosted(_, credential) = site else {
+            return false
+        }
+
+        var refreshed = false
+
+        let methods: [NonceRetrievalMethod] = [.ajaxNonceRequest, .newPostScrap]
+        for method in methods {
+            guard let nonce = await method.retrieveNonce(
+                username: credential.username,
+                password: credential.password,
+                loginURL: credential.loginURL,
+                adminURL: credential.adminURL,
+                using: urlSession
+            ) else {
+                continue
             }
 
-        }).downloadProgress(closure: progressUpdater)
-        progress.cancellationHandler = {
-            dataRequest.cancel()
-        }
-        return progress
-    }
+            refreshed = selfHostedSiteNonce != nonce
 
-    /**
-     Cancels all ongoing and makes the session so the object will not fullfil any more request
-     */
-    @objc open func invalidateAndCancelTasks() {
-        sessionManager.session.invalidateAndCancel()
-    }
-
-    private lazy var sessionManager: Alamofire.SessionManager = {
-        let sessionConfiguration = URLSessionConfiguration.default
-        let sessionManager = self.makeSessionManager(configuration: sessionConfiguration)
-        return sessionManager
-    }()
-
-    private func makeSessionManager(configuration sessionConfiguration: URLSessionConfiguration) -> Alamofire.SessionManager {
-        var additionalHeaders: [String: AnyObject] = [:]
-        if let userAgent = self.userAgent {
-            additionalHeaders["User-Agent"] = userAgent as AnyObject?
+            selfHostedSiteNonce = nonce
+            break
         }
 
-        sessionConfiguration.httpAdditionalHeaders = additionalHeaders
+        return refreshed
+    }
+}
 
-        let sessionManager = Alamofire.SessionManager(configuration: sessionConfiguration)
-        sessionManager.adapter = authenticator
-        sessionManager.retrier = authenticator
-        return sessionManager
+// MARK: - Helpers
+
+private extension HTTPRequestBuilder {
+    func dotOrgRESTAPI(route aRoute: String, site: WordPressOrgRestApi.Site) -> Self {
+        var route = aRoute
+        if !route.hasPrefix("/") {
+            route = "/" + route
+        }
+
+        switch site {
+        case let .dotCom(siteID, _):
+            // Currently only the following namespaces are supported. When adding more supported namespaces, remember to
+            // update the "path adapter" code below for the REST API in WP.COM.
+            assert(route.hasPrefix("/wp/v2") || route.hasPrefix("/wp-block-editor/v1"), "Unsupported .org REST API route: \(route)")
+            route = route
+                .replacingOccurrences(of: "/wp/v2/", with: "/wp/v2/sites/\(siteID)/")
+                .replacingOccurrences(of: "/wp-block-editor/v1/", with: "/wp-block-editor/v1/sites/\(siteID)/")
+        case let .selfHosted(apiURL, _):
+            assert(apiURL.lastPathComponent == "wp-json")
+        }
+
+        return appendURLString(route)
     }
 }
