@@ -51,6 +51,23 @@ final class HTTPRequestBuilder {
         return self
     }
 
+    /// Append path and query to the original URL.
+    ///
+    /// Some may call API client using a string that contains path and query, like `api.get("post?id=1")`.
+    /// This function can be used to support those use cases.
+    func appendURLString(_ string: String) -> Self {
+        let urlString = Self.join("https://w.org", string)
+        guard let url = URL(string: urlString),
+              let urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: true)
+        else {
+            assertionFailure("Illegal URL string: \(string)")
+            return self
+        }
+
+        return append(percentEncodedPath: urlComponents.percentEncodedPath)
+            .append(query: urlComponents.queryItems ?? [])
+    }
+
     func header(name: String, value: String?) -> Self {
         headers[name] = value
         return self

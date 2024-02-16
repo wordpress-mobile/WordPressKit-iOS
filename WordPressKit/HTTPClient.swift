@@ -162,10 +162,11 @@ extension WordPressAPIResult {
     }
 
     func decodeSuccess<NewSuccess: Decodable, E: LocalizedError>(
-        _ decoder: JSONDecoder = JSONDecoder()
+        _ decoder: JSONDecoder = JSONDecoder(),
+        type: NewSuccess.Type = NewSuccess.self
     ) -> WordPressAPIResult<NewSuccess, E> where Success == HTTPAPIResponse<Data>, Failure == WordPressAPIError<E> {
         mapSuccess {
-            try decoder.decode(NewSuccess.self, from: $0.body)
+            try decoder.decode(type, from: $0.body)
         }
     }
 

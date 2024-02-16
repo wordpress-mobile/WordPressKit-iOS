@@ -66,4 +66,14 @@ class HTTPHeaderValueParserTests: XCTestCase {
         )
     }
 
+    func testValueWithoutParameters() {
+        let response = HTTPURLResponse(url: URL(string: "https://site.com")!, statusCode: 200, httpVersion: "2", headerFields: [
+            "Link": "https://site.com/wp-json; rel=\"https://api.w.org\"",
+            "Content-Type": "text/html"
+        ])
+
+        XCTAssertEqual(response?.value(forHTTPHeaderField: "Link", withoutParameters: true), "https://site.com/wp-json")
+        XCTAssertEqual(response?.value(forHTTPHeaderField: "Content-Type", withoutParameters: true), "text/html")
+    }
+
 }

@@ -57,6 +57,22 @@ extension HTTPURLResponse {
         return Self.value(ofParameter: parameterName, inHeaderValue: headerValue, stripQuotes: stripQuotes)
     }
 
+    func value(forHTTPHeaderField field: String, withoutParameters: Bool) -> String? {
+        guard withoutParameters else {
+            return value(forHTTPHeaderField: field)
+        }
+
+        guard let headerValue = value(forHTTPHeaderField: field) else {
+            return nil
+        }
+
+        guard let firstSemicolon = headerValue.firstIndex(of: ";") else {
+            return headerValue
+        }
+
+        return String(headerValue[headerValue.startIndex..<firstSemicolon])
+    }
+
     static func value(ofParameter parameterName: String, inHeaderValue headerValue: String, stripQuotes: Bool = true) -> String? {
         // Find location of '<parameter>=' string in the header.
         guard let location = headerValue.range(of: parameterName + "=", options: .caseInsensitive) else {
