@@ -38,11 +38,21 @@ _None._
 
 ### New Features
 
-- `StatsTimeIntervalData` now accepts an optional `unit: StatsPeriodUnit` parameter that allows to describe the granularity of data fetched for a given period. [#712]
+_None._
 
 ### Bug Fixes
 
 _None._
+
+### Internal Changes
+
+_None._
+
+## 13.1.0
+
+### New Features
+
+- `StatsTimeIntervalData` now accepts an optional `unit: StatsPeriodUnit` parameter that allows to describe the granularity of data fetched for a given period. [#712]
 
 ### Internal Changes
 
