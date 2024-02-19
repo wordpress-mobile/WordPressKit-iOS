@@ -391,7 +391,7 @@ const NSInteger WPRestErrorCodeMediaNew = 10;
 
 + (RemoteMedia *)remoteMediaFromJSONDictionary:(NSDictionary *)jsonMedia
 {
-    RemoteMedia * remoteMedia=[[RemoteMedia alloc] init];
+    RemoteMedia *remoteMedia = [[RemoteMedia alloc] init];
     remoteMedia.mediaID =  [jsonMedia numberForKey:@"ID"];
     remoteMedia.url = [NSURL URLWithString:[jsonMedia stringForKey:@"URL"]];
     remoteMedia.guid = [NSURL URLWithString:[jsonMedia stringForKey:@"guid"]];
@@ -412,6 +412,7 @@ const NSInteger WPRestErrorCodeMediaNew = 10;
     remoteMedia.remoteThumbnailURL = [jsonMedia stringForKeyPath:@"thumbnails.fmt_std"];
     remoteMedia.videopressGUID = [jsonMedia stringForKey:@"videopress_guid"];
     remoteMedia.length = [jsonMedia numberForKey:@"length"];
+    remoteMedia.size = [jsonMedia stringForKey:@"size"];
     return remoteMedia;
 }
 
