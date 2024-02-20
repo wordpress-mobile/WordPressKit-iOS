@@ -40,7 +40,7 @@ public final class WordPressOrgRestApi: NSObject {
     }
 
     enum Site {
-        case dotCom(siteID: UInt64, bearerToken: String)
+        case dotCom(siteID: UInt64, bearerToken: String, apiURL: URL)
         case selfHosted(apiURL: URL, credential: SelfHostedSiteCredential)
     }
 
@@ -49,8 +49,8 @@ public final class WordPressOrgRestApi: NSObject {
 
     var selfHostedSiteNonce: String?
 
-    public convenience init(dotComSiteID: UInt64, bearerToken: String, userAgent: String? = nil) {
-        self.init(site: .dotCom(siteID: dotComSiteID, bearerToken: bearerToken), userAgent: userAgent)
+    public convenience init(dotComSiteID: UInt64, bearerToken: String, userAgent: String? = nil, apiURL: URL = WordPressComRestApi.apiBaseURL) {
+        self.init(site: .dotCom(siteID: dotComSiteID, bearerToken: bearerToken, apiURL: apiURL), userAgent: userAgent)
     }
 
     public convenience init(selfHostedSiteWPJSONURL apiURL: URL, credential: SelfHostedSiteCredential, userAgent: String? = nil) {
@@ -68,7 +68,7 @@ public final class WordPressOrgRestApi: NSObject {
         if let userAgent {
             additionalHeaders["User-Agent"] = userAgent
         }
-        if case let Site.dotCom(siteID: _, bearerToken: token) = site {
+        if case let Site.dotCom(siteID: _, bearerToken: token, _) = site {
             additionalHeaders["Authorization"] = "Bearer \(token)"
         }
 
@@ -203,8 +203,8 @@ public final class WordPressOrgRestApi: NSObject {
 private extension WordPressOrgRestApi {
     func apiBaseURL() -> URL {
         switch site {
-        case .dotCom:
-            return URL(string: "https://public-api.wordpress.com")!
+        case let .dotCom(_, _, apiURL):
+            return apiURL
         case let .selfHosted(apiURL, _):
             return apiURL
         }
@@ -252,7 +252,7 @@ private extension HTTPRequestBuilder {
         }
 
         switch site {
-        case let .dotCom(siteID, _):
+        case let .dotCom(siteID, _, _):
             // Currently only the following namespaces are supported. When adding more supported namespaces, remember to
             // update the "path adapter" code below for the REST API in WP.COM.
             assert(route.hasPrefix("/wp/v2") || route.hasPrefix("/wp-block-editor/v1"), "Unsupported .org REST API route: \(route)")

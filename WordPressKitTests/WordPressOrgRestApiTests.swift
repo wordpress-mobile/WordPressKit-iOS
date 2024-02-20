@@ -114,4 +114,10 @@ extension WordPressOrgRestApi {
     }
 }
 
+extension WordPressOrgRestApi.Site {
+    static func dotCom(siteID: UInt64, bearerToken: String) -> Self {
+        .dotCom(siteID: siteID, bearerToken: bearerToken, apiURL: WordPressComRestApi.apiBaseURL)
+    }
+}
+
 private struct AnyResponse: Decodable {}
