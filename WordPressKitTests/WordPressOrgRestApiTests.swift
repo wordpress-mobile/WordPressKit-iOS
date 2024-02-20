@@ -115,6 +115,30 @@ class WordPressOrgRestApiTests: XCTestCase {
         let _ = await api.get(path: "/wp/v2/hello", type: AnyResponse.self)
         XCTAssertEqual(request?.url?.absoluteString, "http://localhost:8000/wp/v2/sites/1001/hello")
     }
+
+    // Gutenberg Editor in the WordPress app may call `WordPressOrgRestApi` with a 'path' parameter that contain path
+    // and query. This unit test ensures WordPressKit doesn't break that feature.
+    func testPathWithQuery() async {
+        var request: URLRequest?
+        stub(condition: { _ in true }, response: {
+            request = $0
+            return HTTPStubsResponse(error: URLError(.networkConnectionLost))
+        })
+
+        let api = WordPressOrgRestApi(site: .dotCom(siteID: 1001, bearerToken: "fakeToken"))
+
+        let _ = await api.get(path: "/wp/v2/get-decodable?context=mobile", type: AnyResponse.self)
+        XCTAssertEqual(request?.url?.absoluteString, "https://public-api.wordpress.com/wp/v2/sites/1001/get-decodable?context=mobile")
+
+        let _ = await api.post(path: "/wp/v2/post-decodable?context=mobile", type: AnyResponse.self)
+        XCTAssertEqual(request?.url?.absoluteString, "https://public-api.wordpress.com/wp/v2/sites/1001/post-decodable?context=mobile")
+
+        let _ = await api.get(path: "/wp/v2/get-any-json?context=mobile")
+        XCTAssertEqual(request?.url?.absoluteString, "https://public-api.wordpress.com/wp/v2/sites/1001/get-any-json?context=mobile")
+
+        let _ = await api.post(path: "/wp/v2/post-any-json?context=mobile")
+        XCTAssertEqual(request?.url?.absoluteString, "https://public-api.wordpress.com/wp/v2/sites/1001/post-any-json?context=mobile")
+    }
 }
 
 extension WordPressOrgRestApi {
