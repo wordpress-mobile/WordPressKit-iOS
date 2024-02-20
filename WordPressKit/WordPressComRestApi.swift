@@ -484,8 +484,11 @@ open class WordPressComRestApi: NSObject {
     }
 
     private func requestBuilder(URLString: String) throws -> HTTPRequestBuilder {
-        var builder = HTTPRequestBuilder(url: baseURL)
-            .appendURLString(URLString)
+        guard let url = URL(string: URLString, relativeTo: baseURL) else {
+            throw URLError(.badURL)
+        }
+
+        var builder = HTTPRequestBuilder(url: url)
 
         if appendsPreferredLanguageLocale {
             let preferredLanguageIdentifier = WordPressComLanguageDatabase().deviceLanguage.slug
