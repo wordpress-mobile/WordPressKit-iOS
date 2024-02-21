@@ -304,30 +304,6 @@ open class WordPressComRestApi: NSObject {
         return "\(String(describing: oAuthToken)),\(String(describing: userAgent))".hashValue
     }
 
-    /// This method assembles a valid request URL for the specified path & parameters.
-    /// The framework relies on a field (`appendsPreferredLanguageLocale`) to influence whether or not locale should be
-    /// added to the path of requests. This approach did not consider request parameters.
-    ///
-    /// This method now considers both the path and specified request parameters when performing the substitution.
-    /// It only accounts for the locale parameter. AlamoFire encodes other parameters via `SessionManager.request(_:method:parameters:encoding:headers:)`
-    ///
-    /// - Parameters:
-    ///   - path: the path for the request, which might include `locale`
-    ///   - parameters: the request parameters, which could conceivably include `locale`
-    /// - Returns: a request URL if successful, `nil` otherwise.
-    ///
-    func buildRequestURLFor(path: String, parameters: [String: AnyObject]? = [:]) -> String? {
-        guard let requestURLString = URL(string: path, relativeTo: baseURL)?.absoluteString,
-            let urlComponents = URLComponents(string: requestURLString) else {
-
-            return nil
-        }
-
-        let urlComponentsWithLocale = applyLocaleIfNeeded(urlComponents: urlComponents, parameters: parameters, localeKey: localeKey)
-
-        return urlComponentsWithLocale?.url?.absoluteString
-    }
-
     private func requestBuilder(URLString: String) throws -> HTTPRequestBuilder {
         guard let url = URL(string: URLString, relativeTo: baseURL) else {
             throw URLError(.badURL)
@@ -341,28 +317,6 @@ open class WordPressComRestApi: NSObject {
         }
 
         return builder
-    }
-
-    private func applyLocaleIfNeeded(urlComponents: URLComponents, parameters: [String: AnyObject]? = [:], localeKey: String) -> URLComponents? {
-        guard appendsPreferredLanguageLocale else {
-            return urlComponents
-        }
-
-        var componentsWithLocale = urlComponents
-        var existingQueryItems = componentsWithLocale.queryItems ?? []
-        let existingLocaleQueryItems = existingQueryItems.filter { $0.name == localeKey }
-
-        let inputParameters = parameters ?? [:]
-
-        if inputParameters[localeKey] == nil, existingLocaleQueryItems.isEmpty {
-            let preferredLanguageIdentifier = WordPressComLanguageDatabase().deviceLanguage.slug
-            let localeQueryItem = URLQueryItem(name: localeKey, value: preferredLanguageIdentifier)
-
-            existingQueryItems.append(localeQueryItem)
-        }
-        componentsWithLocale.queryItems = existingQueryItems
-
-        return componentsWithLocale
     }
 
     @objc public func temporaryFileURL(withExtension fileExtension: String) -> URL {
@@ -651,33 +605,6 @@ private extension WordPressComRestApi {
 }
 
 // MARK: - POST encoding
-
-private extension Dictionary {
-    func percentEncoded() -> Data? {
-        return compactMap { key, value in
-            guard
-                let escapedKey = "\(key)".addingPercentEncoding(withAllowedCharacters: .urlQueryValueAllowed),
-                let escapedValue = "\(value)".addingPercentEncoding(withAllowedCharacters: .urlQueryValueAllowed)
-            else {
-                return .none
-            }
-            return escapedKey + "=" + escapedValue
-        }
-        .joined(separator: "&")
-        .data(using: .utf8)
-    }
-}
-
-private extension CharacterSet {
-    static let urlQueryValueAllowed: CharacterSet = {
-        let generalDelimitersToEncode = ":#[]@" // does not include "?" or "/" due to RFC 3986 - Section 3.4
-        let subDelimitersToEncode = "!$&'()*+,;="
-
-        var allowed = CharacterSet.urlQueryAllowed
-        allowed.remove(charactersIn: "\(generalDelimitersToEncode)\(subDelimitersToEncode)")
-        return allowed
-    }()
-}
 
 extension WordPressAPIError<WordPressComRestApiEndpointError> {
     func asNSError() -> NSError {
