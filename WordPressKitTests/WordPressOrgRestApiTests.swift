@@ -103,6 +103,18 @@ class WordPressOrgRestApiTests: XCTestCase {
         let api = WordPressOrgRestApi(site: .dotCom(siteID: 1001, bearerToken: "fakeToken"))
         let _ = try await api.get(path: "/wp-block-editor/v1/settings", type: AnyResponse.self).get()
     }
+
+    func testSettingWPComAPIURL() async {
+        var request: URLRequest?
+        stub(condition: { _ in true }, response: {
+            request = $0
+            return HTTPStubsResponse(error: URLError(.networkConnectionLost))
+        })
+
+        let api = WordPressOrgRestApi(dotComSiteID: 1001, bearerToken: "token", apiURL: URL(string: "http://localhost:8000")!)
+        let _ = await api.get(path: "/wp/v2/hello", type: AnyResponse.self)
+        XCTAssertEqual(request?.url?.absoluteString, "http://localhost:8000/wp/v2/sites/1001/hello")
+    }
 }
 
 extension WordPressOrgRestApi {
@@ -111,6 +123,12 @@ extension WordPressOrgRestApi {
             selfHostedSiteWPJSONURL: apiBase,
             credential: .init(loginURL: URL(string: "https://not-used.com")!, username: "user", password: "pass", adminURL: URL(string: "https://not-used.com")!)
         )
+    }
+}
+
+extension WordPressOrgRestApi.Site {
+    static func dotCom(siteID: UInt64, bearerToken: String) -> Self {
+        .dotCom(siteID: siteID, bearerToken: bearerToken, apiURL: WordPressComRestApi.apiBaseURL)
     }
 }
 
