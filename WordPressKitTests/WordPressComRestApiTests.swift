@@ -130,14 +130,22 @@ class WordPressComRestApiTests: XCTestCase {
         self.waitForExpectations(timeout: 2, handler: nil)
     }
 
-    func testBaseUrl() {
+    func testBaseUrl() async throws {
+        var request: URLRequest?
+        stub(condition: { _ in true }, response: {
+            request = $0
+            return HTTPStubsResponse(error: URLError(.networkConnectionLost))
+        })
+
         let defaultApi = WordPressComRestApi()
         XCTAssertEqual(defaultApi.baseURL.absoluteString, "https://public-api.wordpress.com/")
-        XCTAssertTrue(defaultApi.buildRequestURLFor(path: "/path")!.hasPrefix("https://public-api.wordpress.com/path"))
+        let _ = await defaultApi.perform(.get, URLString: "/path")
+        try XCTAssertTrue(XCTUnwrap(request?.url?.absoluteString).hasPrefix("https://public-api.wordpress.com/path"))
 
         let localhostApi = WordPressComRestApi(baseURL: URL(string: "http://localhost:8080")!)
         XCTAssertEqual(localhostApi.baseURL.absoluteString, "http://localhost:8080")
-        XCTAssertTrue(localhostApi.buildRequestURLFor(path: "/path")!.hasPrefix("http://localhost:8080/path"))
+        let _ = await localhostApi.perform(.get, URLString: "/local")
+        try XCTAssertTrue(XCTUnwrap(request?.url?.absoluteString).hasPrefix("http://localhost:8080/local"))
     }
 
     func testURLStringWithQuery() async {
