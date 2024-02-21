@@ -18,10 +18,10 @@ extension WordPressComRestApiTests {
         let _ = await api.perform(.get, URLString: "/path/path")
 
         let preferredLanguageIdentifier = WordPressComLanguageDatabase().deviceLanguage.slug
-        try XCTAssertTrue(XCTUnwrap(request?.url?.query).contains("locale=\(preferredLanguageIdentifier)"))
+        XCTAssertEqual(request?.url?.query, "locale=\(preferredLanguageIdentifier)")
     }
 
-    func testThatAppendingLocaleWorksWithExistingParams() async {
+    func testThatAppendingLocaleWorksWithExistingParams() async throws {
         var request: URLRequest?
         stub(condition: { _ in true }, response: {
             request = $0
@@ -37,8 +37,8 @@ extension WordPressComRestApiTests {
         let _ = await api.perform(.get, URLString: path, parameters: params)
 
         let preferredLanguageIdentifier = WordPressComLanguageDatabase().deviceLanguage.slug
-        try XCTAssertTrue(XCTUnwrap(request?.url?.query).contains("locale=\(preferredLanguageIdentifier)"))
-        try XCTAssertTrue(XCTUnwrap(request?.url?.query).contains("someKey=value"))
+        let query = try XCTUnwrap(request?.url?.query?.split(separator: "&"))
+        XCTAssertEqual(Set(query), Set(["locale=\(preferredLanguageIdentifier)", "someKey=value"]))
     }
 
     func testThatLocaleIsNotAppendedIfAlreadyIncludedInPath() async {
@@ -91,7 +91,8 @@ extension WordPressComRestApiTests {
 
         let api = WordPressComRestApi(localeKey: "foo")
 
+        let preferredLanguageIdentifier = WordPressComLanguageDatabase().deviceLanguage.slug
         let _ = await api.perform(.get, URLString: "/path/path")
-        try XCTAssertTrue(XCTUnwrap(request?.url?.query).contains("foo="))
+        XCTAssertEqual(request?.url?.query, "foo=\(preferredLanguageIdentifier)")
     }
 }
