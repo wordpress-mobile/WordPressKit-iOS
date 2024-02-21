@@ -63,7 +63,8 @@ public enum ResponseType {
 open class WordPressComRestApi: NSObject {
 
     /// Use `URLSession` directly (instead of Alamofire) to send API requests.
-    public static var useURLSession = false
+    @available(*, deprecated, message: "This property is no longer being used because WordPressKit now sends all HTTP requests using `URLSession` directly.")
+    public static var useURLSession = true
 
     // MARK: Properties
 

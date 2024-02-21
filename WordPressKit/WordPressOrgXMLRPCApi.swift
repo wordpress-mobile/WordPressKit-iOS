@@ -6,7 +6,8 @@ open class WordPressOrgXMLRPCApi: NSObject {
     public typealias SuccessResponseBlock = (AnyObject, HTTPURLResponse?) -> Void
     public typealias FailureReponseBlock = (_ error: NSError, _ httpResponse: HTTPURLResponse?) -> Void
 
-    public static var useURLSession = false
+    @available(*, deprecated, message: "This property is no longer being used because WordPressKit now sends all HTTP requests using `URLSession` directly.")
+    public static var useURLSession = true
 
     private let endpoint: URL
     private let userAgent: String?
