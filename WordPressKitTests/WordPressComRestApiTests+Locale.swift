@@ -7,7 +7,7 @@ import WordPressShared
 
 extension WordPressComRestApiTests {
 
-    func testThatAppendingLocaleWorks() async throws {
+    func testAddsLocaleToURLQueryByDefault() async throws {
         var request: URLRequest?
         stub(condition: { _ in true }, response: {
             request = $0
@@ -21,7 +21,7 @@ extension WordPressComRestApiTests {
         XCTAssertEqual(request?.url?.query, "locale=\(preferredLanguageIdentifier)")
     }
 
-    func testThatAppendingLocaleWorksWithExistingParams() async throws {
+    func testAddsLocaleToURLQueryByDefaultAndMaintainsInputParameters() async throws {
         var request: URLRequest?
         stub(condition: { _ in true }, response: {
             request = $0

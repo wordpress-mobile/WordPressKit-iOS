@@ -205,7 +205,7 @@ class HTTPRequestBuilderTests: XCTestCase {
         try XCTAssertEqual(builder.query(name: "foo", value: "bar").build().url?.query, "locale=zh&foo=bar")
     }
 
-    func testDefaultQueryExistsInOriginalURL() throws {
+    func testDefaultQueryDoesNotOverriedQueryItemInOriginalURL() throws {
         let url = try HTTPRequestBuilder(url: URL(string: "https://wordpress.org/hello?locale=foo")!)
             .query(defaults: [URLQueryItem(name: "locale", value: "en")])
             .build()
