@@ -228,7 +228,7 @@ final class HTTPRequestBuilder {
         } else {
             let data = try encoder.dataEncoded()
             request.setValue("\(data.count)", forHTTPHeaderField: "Content-Length")
-            return try .left(encoder.dataEncoded())
+            return .left(data)
         }
     }
 }
