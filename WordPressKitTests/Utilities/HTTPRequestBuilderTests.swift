@@ -407,12 +407,14 @@ class HTTPRequestBuilderTests: XCTestCase {
         let file = try XCTUnwrap(Bundle(for: type(of: self)).url(forResource: "me-settings-success", withExtension: "json"))
         let fileContentBase64 = try Data(contentsOf: file).base64EncodedString()
         let fileStream = try XCTUnwrap(InputStream(url: file))
-
         let request = try HTTPRequestBuilder(url: URL(string: "https://w.org/xmlrpc.php")!)
             .method(.post)
             .body(xmlrpc: "wp.uploadFile", parameters: ["username", "passowrd", fileStream])
             .build(encodeBody: true)
-        XCTAssertTrue(request.httpBodyText?.contains(fileContentBase64) == true)
+
+        let xmlrpcContent = try XCTUnwrap(request.httpBodyText)
+        let filePart = "<base64>" + fileContentBase64 + "</base64>"
+        XCTAssertTrue(xmlrpcContent.contains(filePart))
     }
 
 }
