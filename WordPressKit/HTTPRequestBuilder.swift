@@ -153,8 +153,9 @@ final class HTTPRequestBuilder {
         // Add default query items if they don't exist in `appendedQuery`.
         var newQuery = appendedQuery
         if !defaultQuery.isEmpty {
+            let allQuery = (original.queryItems ?? []) + newQuery
             let toBeAdded = defaultQuery.filter { item in
-                !newQuery.contains(where: { $0.name == item.name})
+                !allQuery.contains(where: { $0.name == item.name})
             }
             newQuery.append(contentsOf: toBeAdded)
         }
