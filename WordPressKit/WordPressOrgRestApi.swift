@@ -68,7 +68,7 @@ public final class WordPressOrgRestApi: NSObject {
         if let userAgent {
             additionalHeaders["User-Agent"] = userAgent
         }
-        if case let Site.dotCom(siteID: _, bearerToken: token, _) = site {
+        if case let Site.dotCom(_, token, _) = site {
             additionalHeaders["Authorization"] = "Bearer \(token)"
         }
 
