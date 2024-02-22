@@ -1529,6 +1529,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		3F21E8F12B86D01900DCE8DD /* Jetpack */ = {
+			isa = PBXGroup;
+			children = (
+				32FC1D25255C91ED00CD0A7B /* Jetpack Scan */,
+			);
+			path = Jetpack;
+			sourceTree = "<group>";
+		};
 		3F3195AB266FF91100397EE7 /* Plans */ = {
 			isa = PBXGroup;
 			children = (
@@ -1931,6 +1939,7 @@
 		9368C77D1EC5EF1B0092CE8E /* WordPressKit */ = {
 			isa = PBXGroup;
 			children = (
+				3F21E8F12B86D01900DCE8DD /* Jetpack */,
 				B5A4821F20AC6B5C009D95F6 /* Private */,
 				9368C79C1EC62EBD0092CE8E /* Models */,
 				9368C79B1EC62EB70092CE8E /* Services */,
@@ -2080,7 +2089,6 @@
 				E1EF5D5E1F9F3CA700B6D53E /* Plugins */,
 				9AF4F2FD2183345D00570E4B /* Revisions */,
 				930F52B91ECF8A44002F921B /* Stats */,
-				32FC1D25255C91ED00CD0A7B /* Jetpack Scan */,
 				FAD1344A259094C300A8FEB1 /* JetpackBackup.swift */,
 				FA28A3D5259079960082C7B0 /* JetpackRestoreTypes.swift */,
 				7403A3011EF0726E00DED7DC /* AccountSettings.swift */,
