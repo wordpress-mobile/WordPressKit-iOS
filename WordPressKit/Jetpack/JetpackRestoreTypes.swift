@@ -1,5 +1,3 @@
-import Foundation
-
 public struct JetpackRestoreTypes {
     public var themes: Bool
     public var plugins: Bool
