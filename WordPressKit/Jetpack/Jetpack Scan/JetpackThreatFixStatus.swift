@@ -1,5 +1,3 @@
-import Foundation
-
 public struct JetpackThreatFixResponse: Decodable {
     public let success: Bool
     public let threats: [JetpackThreatFixStatus]

@@ -1,5 +1,3 @@
-import Foundation
-
 public struct JetpackScanThreat: Decodable {
     public enum ThreatStatus: String, Decodable, UnknownCaseRepresentable {
         case fixed

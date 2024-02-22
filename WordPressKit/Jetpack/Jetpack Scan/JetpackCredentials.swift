@@ -1,5 +1,3 @@
-import Foundation
-
 /// A limited representation of the users Jetpack credentials
 public struct JetpackScanCredentials: Decodable {
     public let host: String?

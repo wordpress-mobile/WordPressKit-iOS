@@ -61,6 +61,7 @@
 		32FC1D28255C91ED00CD0A7B /* JetpackScan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32FC1D26255C91ED00CD0A7B /* JetpackScan.swift */; };
 		32FC1D29255C91ED00CD0A7B /* JetpackScanServiceRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32FC1D27255C91ED00CD0A7B /* JetpackScanServiceRemote.swift */; };
 		32FC20CE255DCC6100CD0A7B /* JetpackScanThreat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32FC20CD255DCC6100CD0A7B /* JetpackScanThreat.swift */; };
+		3F21E8F32B86D0B600DCE8DD /* JetpackScanHistoryStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F21E8F22B86D0B600DCE8DD /* JetpackScanHistoryStats.swift */; };
 		3F3195AD266FF94B00397EE7 /* ZendeskMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3195AC266FF94B00397EE7 /* ZendeskMetadata.swift */; };
 		3F391E1A2B50F3EB007975C4 /* Result+Callback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F391E192B50F3EB007975C4 /* Result+Callback.swift */; };
 		3F3C9E9C289A3E31009A1357 /* TestCollector+Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3C9E9B289A3E31009A1357 /* TestCollector+Constants.swift */; };
@@ -782,6 +783,7 @@
 		32FC1D26255C91ED00CD0A7B /* JetpackScan.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JetpackScan.swift; sourceTree = "<group>"; };
 		32FC1D27255C91ED00CD0A7B /* JetpackScanServiceRemote.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JetpackScanServiceRemote.swift; sourceTree = "<group>"; };
 		32FC20CD255DCC6100CD0A7B /* JetpackScanThreat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JetpackScanThreat.swift; sourceTree = "<group>"; };
+		3F21E8F22B86D0B600DCE8DD /* JetpackScanHistoryStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JetpackScanHistoryStats.swift; sourceTree = "<group>"; };
 		3F3195AC266FF94B00397EE7 /* ZendeskMetadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZendeskMetadata.swift; sourceTree = "<group>"; };
 		3F391E192B50F3EB007975C4 /* Result+Callback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Result+Callback.swift"; sourceTree = "<group>"; };
 		3F3C9E9B289A3E31009A1357 /* TestCollector+Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TestCollector+Constants.swift"; sourceTree = "<group>"; };
@@ -1514,6 +1516,7 @@
 				3297E15525645C7D00287D21 /* JetpackCredentials.swift */,
 				C785325525B5F46C006CEAFB /* JetpackThreatFixStatus.swift */,
 				C76F456725B9F30E00BFEC87 /* JetpackScanHistory.swift */,
+				3F21E8F22B86D0B600DCE8DD /* JetpackScanHistoryStats.swift */,
 			);
 			path = "Jetpack Scan";
 			sourceTree = "<group>";
@@ -3346,6 +3349,7 @@
 				8C5734F925681A6A005E61EE /* Enum+UnknownCaseRepresentable.swift in Sources */,
 				9F3E0BA32087345F009CB5BA /* ReaderTopicServiceRemote+Subscription.swift in Sources */,
 				9F3E0B9E208733C3009CB5BA /* ReaderServiceDeliveryFrequency.swift in Sources */,
+				3F21E8F32B86D0B600DCE8DD /* JetpackScanHistoryStats.swift in Sources */,
 				74E2295E1F1E777B0085F7F2 /* RemoteSharingButton.swift in Sources */,
 				4A05E7962B2FCB6400C25E3B /* NonceRetrieval.swift in Sources */,
 				93BD27701EE737A8002BB00B /* ServiceRemoteWordPressComREST.m in Sources */,

@@ -1,5 +1,3 @@
-import Foundation
-
 public struct JetpackScan: Decodable {
     public enum JetpackScanState: String, Decodable, UnknownCaseRepresentable {
         case idle
