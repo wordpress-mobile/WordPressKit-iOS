@@ -1508,7 +1508,7 @@
 			path = Scan;
 			sourceTree = "<group>";
 		};
-		32FC1D25255C91ED00CD0A7B /* Jetpack Scan */ = {
+		32FC1D25255C91ED00CD0A7B /* Jetpack-Scan */ = {
 			isa = PBXGroup;
 			children = (
 				3297E15525645C7D00287D21 /* JetpackCredentials.swift */,
@@ -1518,7 +1518,7 @@
 				32FC20CD255DCC6100CD0A7B /* JetpackScanThreat.swift */,
 				C785325525B5F46C006CEAFB /* JetpackThreatFixStatus.swift */,
 			);
-			path = "Jetpack Scan";
+			path = "Jetpack-Scan";
 			sourceTree = "<group>";
 		};
 		38C6ABE94A27A12C9C4AD19D /* Frameworks */ = {
@@ -1535,7 +1535,8 @@
 		3F21E8F12B86D01900DCE8DD /* Jetpack */ = {
 			isa = PBXGroup;
 			children = (
-				32FC1D25255C91ED00CD0A7B /* Jetpack Scan */,
+				F4B0F4712ACAF47D003ABC61 /* Domains */,
+				32FC1D25255C91ED00CD0A7B /* Jetpack-Scan */,
 				FAD1344A259094C300A8FEB1 /* JetpackBackup.swift */,
 				FA28A3D5259079960082C7B0 /* JetpackRestoreTypes.swift */,
 			);
@@ -1972,7 +1973,6 @@
 		9368C79B1EC62EB70092CE8E /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				F4B0F4712ACAF47D003ABC61 /* Domains */,
 				93BD27381EE73282002BB00B /* AccountServiceRemote.h */,
 				93BD27391EE73282002BB00B /* AccountServiceRemoteREST.h */,
 				93BD273A1EE73282002BB00B /* AccountServiceRemoteREST.m */,
@@ -2101,8 +2101,6 @@
 				40247DFB2120E69600AE1C3C /* AutomatedTransferStatus.swift */,
 				826016F21F9FA17B00533B6C /* Activity.swift */,
 				436D56342118D85800CEAA33 /* WPCountry.swift */,
-				436D5640211B7F4400CEAA33 /* DomainContactInformation.swift */,
-				4A68E3CC29404181004AC3DC /* RemoteBlog.swift */,
 				82FFBF511F45F04100F4573F /* RemoteBlogJetpackMonitorSettings.swift */,
 				8236EB4C2024B9F8007C7CF9 /* RemoteBlogJetpackModulesSettings.swift */,
 				82FFBF4F1F45EFD100F4573F /* RemoteBlogJetpackSettings.swift */,
@@ -2702,8 +2700,10 @@
 		F4B0F4712ACAF47D003ABC61 /* Domains */ = {
 			isa = PBXGroup;
 			children = (
+				436D5640211B7F4400CEAA33 /* DomainContactInformation.swift */,
 				74585B8D1F0D51A100E7E667 /* DomainsServiceRemote.swift */,
 				F4B0F4722ACAF498003ABC61 /* DomainsServiceRemote+AllDomains.swift */,
+				4A68E3CC29404181004AC3DC /* RemoteBlog.swift */,
 			);
 			path = Domains;
 			sourceTree = "<group>";

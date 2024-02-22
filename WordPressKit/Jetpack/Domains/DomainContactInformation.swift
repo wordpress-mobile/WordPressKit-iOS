@@ -1,5 +1,3 @@
-import Foundation
-
 public struct ValidateDomainContactInformationResponse: Codable {
     public struct Messages: Codable {
         public var phone: [String]?
