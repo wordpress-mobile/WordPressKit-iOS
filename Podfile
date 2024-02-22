@@ -9,6 +9,12 @@ APP_IOS_DEPLOYMENT_TARGET = Gem::Version.new('13.0')
 
 platform :ios, APP_IOS_DEPLOYMENT_TARGET
 
+def swiftlint_version
+  require 'yaml'
+
+  YAML.load_file('.swiftlint.yml')['swiftlint_version']
+end
+
 def wordpresskit_pods
   pod 'Alamofire', '~> 4.8.0'
   pod 'WordPressShared', '~> 2.0.0-beta.2'
@@ -35,7 +41,7 @@ target 'WordPressKitTests' do
 end
 
 abstract_target 'Tools' do
-  pod 'SwiftLint', '~> 0.54'
+  pod 'SwiftLint', swiftlint_version
 end
 
 # Let Pods targets inherit deployment target from the app
