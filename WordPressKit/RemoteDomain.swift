@@ -30,7 +30,7 @@ import Foundation
         )
     }
 
-    init(type: String?, wpComDomain: Bool?, hasRegistration: Bool?) {
+    public init(type: String?, wpComDomain: Bool?, hasRegistration: Bool?) {
         if type == "redirect" {
             self = .siteRedirect
         } else if type == "transfer" {

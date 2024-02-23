@@ -8,7 +8,7 @@ extension Swift.Result {
         }
     }
 
-    func execute(_ completion: (Self) -> Void) {
+    public func execute(_ completion: (Self) -> Void) {
         completion(self)
     }
 
