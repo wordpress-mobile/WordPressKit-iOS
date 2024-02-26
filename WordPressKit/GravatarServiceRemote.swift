@@ -15,7 +15,7 @@ open class GravatarServiceRemote {
     ///     - success: A success block.
     ///     - failure: A failure block.
     ///
-    open func fetchProfile(_ email: String, success:@escaping ((_ profile: RemoteGravatarProfile) -> Void), failure:@escaping ((_ error: Error?) -> Void)) {
+    open func fetchProfile(_ email: String, success: @escaping ((_ profile: RemoteGravatarProfile) -> Void), failure: @escaping ((_ error: Error?) -> Void)) {
         guard let hash = (email as NSString).md5() else {
             assertionFailure()
             return
@@ -31,7 +31,7 @@ open class GravatarServiceRemote {
     ///     - success: A success block.
     ///     - failure: A failure block.
     ///
-    open func fetchProfile(hash: String, success:@escaping ((_ profile: RemoteGravatarProfile) -> Void), failure:@escaping ((_ error: Error?) -> Void)) {
+    open func fetchProfile(hash: String, success: @escaping ((_ profile: RemoteGravatarProfile) -> Void), failure: @escaping ((_ error: Error?) -> Void)) {
         let path = baseGravatarURL + hash + ".json"
         guard let targetURL = URL(string: path) else {
             assertionFailure()

@@ -2,11 +2,15 @@
 AllCops:
   NewCops: enable
 
+# Override the maximum line length
+Layout/LineLength:
+  Max: 160
+
 # Allow the Podspec filename to match the project
 Naming/FileName:
   Exclude:
     - 'WordPressKit.podspec'
 
-# Override the maximum line length
-Layout/LineLength:
-  Max: 160
+Metrics/BlockLength:
+  Exclude:
+    - 'fastlane/Fastfile'

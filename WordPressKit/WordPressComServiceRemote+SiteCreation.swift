@@ -177,7 +177,7 @@ public enum SiteCreationResult {
 public typealias SiteCreationResultHandler = ((SiteCreationResult) -> Void)
 
 /// Site creation services, exclusive to WordPress.com.
-/// 
+///
 public extension WordPressComServiceRemote {
 
     /// Initiates a request to create a new WPCOM site.

@@ -182,7 +182,7 @@ public final class WordPressComOAuthClient: NSObject {
 
         let builder = tokenRequestBuilder().body(form: form)
         return await oauth2Session
-            .perform(request:  builder)
+            .perform(request: builder)
             .mapUnacceptableStatusCodeError(AuthenticationFailure.init(response:body:))
             .mapSuccess { response in
                 let responseObject = try JSONSerialization.jsonObject(with: response.body)
@@ -260,7 +260,7 @@ public final class WordPressComOAuthClient: NSObject {
                 "wpcom_resend_otp": "true"
             ])
         return await oauth2Session
-            .perform(request:  builder)
+            .perform(request: builder)
             .mapUnacceptableStatusCodeError(AuthenticationFailure.init(response:body:))
             .mapSuccess { _ in () }
     }
@@ -377,7 +377,7 @@ public final class WordPressComOAuthClient: NSObject {
             )
 
         return await socialSession
-            .perform(request:  builder, errorType: AuthenticationFailure.self)
+            .perform(request: builder, errorType: AuthenticationFailure.self)
             .mapUnacceptableStatusCodeError(AuthenticationFailure.init(response:body:))
             .mapSuccess { response in
                 WPKitLogVerbose("Received Social Login Oauth response.")
@@ -467,7 +467,7 @@ public final class WordPressComOAuthClient: NSObject {
                 "two_step_nonce": twoStepNonce,
             ])
         return await webAuthnSession
-            .perform(request:  builder)
+            .perform(request: builder)
             .mapUnacceptableStatusCodeError(AuthenticationFailure.init(response:body:))
             .mapSuccess { response in
                 // Expect the parent data response object
@@ -567,7 +567,7 @@ public final class WordPressComOAuthClient: NSObject {
             ])
 
         return await webAuthnSession
-            .perform(request:  builder)
+            .perform(request: builder)
             .mapUnacceptableStatusCodeError(AuthenticationFailure.init(response:body:))
             .mapSuccess { response in
                 let responseObject = try? JSONSerialization.jsonObject(with: response.body)
@@ -623,7 +623,7 @@ public final class WordPressComOAuthClient: NSObject {
         }
     }
 
-    /// A helper method to get an instance of SocialLogin2FANonceInfo and populate 
+    /// A helper method to get an instance of SocialLogin2FANonceInfo and populate
     /// it with the supplied data.
     ///
     /// - Parameters:

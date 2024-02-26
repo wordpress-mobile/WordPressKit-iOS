@@ -9,6 +9,12 @@ APP_IOS_DEPLOYMENT_TARGET = Gem::Version.new('13.0')
 
 platform :ios, APP_IOS_DEPLOYMENT_TARGET
 
+def swiftlint_version
+  require 'yaml'
+
+  YAML.load_file('.swiftlint.yml')['swiftlint_version']
+end
+
 def wordpresskit_pods
   pod 'WordPressShared', '~> 2.0.0-beta.2'
   pod 'NSObject-SafeExpectations', '~> 0.0.4'
@@ -34,6 +40,10 @@ target 'WordPressKitTests' do
   pod 'Alamofire', '~> 5.0'
 end
 
+abstract_target 'Tools' do
+  pod 'SwiftLint', swiftlint_version
+end
+
 # Let Pods targets inherit deployment target from the app
 post_install do |installer|
   installer.pods_project.targets.each do |target|
@@ -43,4 +53,9 @@ post_install do |installer|
       configuration.build_settings.delete(ios_deployment_key) if pod_ios_deployment_target <= APP_IOS_DEPLOYMENT_TARGET
     end
   end
+
+  yellow_marker = "\033[33m"
+  reset_marker = "\033[0m"
+  puts "#{yellow_marker}The abstract target warning below is expected. Feel free to ignore
+ it.#{reset_marker}"
 end

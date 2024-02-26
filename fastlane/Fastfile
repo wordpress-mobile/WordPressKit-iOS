@@ -2,7 +2,27 @@
 
 default_platform(:ios)
 
+SWIFTLINT_PATH = './Pods/SwiftLint/swiftlint'
+
 platform :ios do
+  lane :lint do
+    swiftlint(
+      executable: SWIFTLINT_PATH,
+      strict: true,
+      quiet: true
+    )
+  end
+
+  lane :format do
+    swiftlint(
+      executable: SWIFTLINT_PATH,
+      strict: true,
+      quiet: true,
+      mode: :fix,
+      format: true
+    )
+  end
+
   desc 'Builds the project and runs tests'
   lane :test do
     run_tests(
