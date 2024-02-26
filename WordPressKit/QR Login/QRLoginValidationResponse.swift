@@ -6,7 +6,6 @@ public struct QRLoginValidationResponse: Decodable {
     /// This may be null if the browser could not be determined
     public var browser: String?
 
-
     /// The City, State the user has requested the login from
     /// IE: Columbus, Ohio
     public var location: String

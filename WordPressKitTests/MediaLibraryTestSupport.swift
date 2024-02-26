@@ -133,7 +133,7 @@ extension MediaLibraryTestSupport {
         var content: String?
         var paramName: String?
 
-        func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String] = [:]) {
+        func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String: String] = [:]) {
             elementPath.append(elementName)
         }
 

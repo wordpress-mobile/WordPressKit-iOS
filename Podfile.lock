@@ -17,6 +17,7 @@ PODS:
   - OHHTTPStubs/OHPathHelpers (9.1.0)
   - OHHTTPStubs/Swift (9.1.0):
     - OHHTTPStubs/Default
+  - SwiftLint (0.54.0)
   - UIDeviceIdentifier (2.3.0)
   - WordPressShared (2.0.1)
   - wpxmlrpc (0.10.0)
@@ -27,6 +28,7 @@ DEPENDENCIES:
   - OCMock (~> 3.4)
   - OHHTTPStubs (~> 9.0)
   - OHHTTPStubs/Swift (~> 9.0)
+  - SwiftLint (= 0.54.0)
   - UIDeviceIdentifier (~> 2.0)
   - WordPressShared (~> 2.0.0-beta.2)
   - wpxmlrpc (~> 0.10.0)
@@ -37,6 +39,7 @@ SPEC REPOS:
     - NSObject-SafeExpectations
     - OCMock
     - OHHTTPStubs
+    - SwiftLint
     - UIDeviceIdentifier
     - WordPressShared
     - wpxmlrpc
@@ -46,10 +49,11 @@ SPEC CHECKSUMS:
   NSObject-SafeExpectations: c01c8881cbd97efad6f668286b913cd0b7d62ab5
   OCMock: 300b1b1b9155cb6378660b981c2557448830bdc6
   OHHTTPStubs: 90eac6d8f2c18317baeca36698523dc67c513831
+  SwiftLint: c1de071d9d08c8aba837545f6254315bc900e211
   UIDeviceIdentifier: 442b65b4ff1832d4ca9c2a157815cb29ad981b17
   WordPressShared: f93f99269258b46dad04f4e4dbf540ce2e5c1e66
   wpxmlrpc: 68db063041e85d186db21f674adf08d9c70627fd
 
-PODFILE CHECKSUM: 7998039b722f0fe77c684f509f0478349cf5fb9b
+PODFILE CHECKSUM: a06b4d2f7183f40a91a0f219ca399141aee28c5f
 
 COCOAPODS: 1.14.3

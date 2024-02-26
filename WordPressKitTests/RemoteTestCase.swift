@@ -149,9 +149,9 @@ extension RemoteTestCase {
     /// Helper function that stubs ALL endpoints so that they return a CFNetworkErrors.cfurlErrorNotConnectedToInternet
     /// error. In the response, prior to returning the error, XCTFail will also be called logging the endpoint
     /// which was called.
-    /// 
+    ///
     /// - Note: Remember that order is important when stubbing requests with HTTPStubs. Therefore, it is important
-    ///         this is called **before** stubbing out a specific endpoint you are testing. See: 
+    ///         this is called **before** stubbing out a specific endpoint you are testing. See:
     ///         https://github.com/AliSoftware/OHHTTPStubs/wiki/Usage-Examples#stack-multiple-stubs-and-remove-installed-stubs
     ///
     func stubAllNetworkRequestsWithNotConnectedError() {
