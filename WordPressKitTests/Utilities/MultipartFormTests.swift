@@ -23,8 +23,7 @@ class MutliparFormDataTests: XCTestCase {
         }
 
         func formDataUsingAlamofire() throws -> Data {
-            let formData = MultipartFormData()
-            formData.boundary = "testboundary"
+            let formData = MultipartFormData(boundary: "testboundary")
             for field in fields {
                 formData.append(field.content.data(using: .utf8)!, withName: field.name)
             }

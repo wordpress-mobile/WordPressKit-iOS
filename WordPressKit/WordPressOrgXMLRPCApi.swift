@@ -1,13 +1,13 @@
 import Foundation
 import wpxmlrpc
-import Alamofire
 
 /// Class to connect to the XMLRPC API on self hosted sites.
 open class WordPressOrgXMLRPCApi: NSObject {
     public typealias SuccessResponseBlock = (AnyObject, HTTPURLResponse?) -> Void
     public typealias FailureReponseBlock = (_ error: NSError, _ httpResponse: HTTPURLResponse?) -> Void
 
-    public static var useURLSession = false
+    @available(*, deprecated, message: "This property is no longer being used because WordPressKit now sends all HTTP requests using `URLSession` directly.")
+    public static var useURLSession = true
 
     private let endpoint: URL
     private let userAgent: String?
@@ -34,51 +34,6 @@ open class WordPressOrgXMLRPCApi: NSObject {
             ? makeSession(configuration: .background(withIdentifier: self.backgroundSessionIdentifier))
             : urlSession
     }()
-
-    private var _sessionManager: Alamofire.SessionManager?
-    private var sessionManager: Alamofire.SessionManager {
-        guard let sessionManager = _sessionManager else {
-            let sessionConfiguration = URLSessionConfiguration.default
-            let sessionManager = self.makeSessionManager(configuration: sessionConfiguration)
-            _sessionManager = sessionManager
-            return sessionManager
-        }
-        return sessionManager
-    }
-
-    private var _uploadSessionManager: Alamofire.SessionManager?
-    private var uploadSessionManager: Alamofire.SessionManager {
-        if self.backgroundUploads {
-            guard let uploadSessionManager = _uploadSessionManager else {
-                let sessionConfiguration = URLSessionConfiguration.background(withIdentifier: self.backgroundSessionIdentifier)
-                let sessionManager = self.makeSessionManager(configuration: sessionConfiguration)
-                _uploadSessionManager = sessionManager
-                return sessionManager
-            }
-            return uploadSessionManager
-        }
-        return sessionManager
-    }
-
-    private func makeSessionManager(configuration sessionConfiguration: URLSessionConfiguration) -> Alamofire.SessionManager {
-        var additionalHeaders: [String: AnyObject] = ["Accept-Encoding": "gzip, deflate" as AnyObject]
-        if let userAgent = self.userAgent {
-            additionalHeaders["User-Agent"] = userAgent as AnyObject?
-        }
-        sessionConfiguration.httpAdditionalHeaders = additionalHeaders
-        let sessionManager = Alamofire.SessionManager(configuration: sessionConfiguration)
-
-        let sessionDidReceiveChallengeWithCompletion: ((URLSession, URLAuthenticationChallenge, @escaping(URLSession.AuthChallengeDisposition, URLCredential?) -> Void) -> Void) = { [sessionDelegate] session, authenticationChallenge, completionHandler in
-            sessionDelegate.urlSession(session, didReceive: authenticationChallenge, completionHandler: completionHandler)
-        }
-        sessionManager.delegate.sessionDidReceiveChallengeWithCompletion = sessionDidReceiveChallengeWithCompletion
-
-        let taskDidReceiveChallengeWithCompletion: ((URLSession, URLSessionTask, URLAuthenticationChallenge, @escaping(URLSession.AuthChallengeDisposition, URLCredential?) -> Void) -> Void) = { [sessionDelegate] session, task, authenticationChallenge, completionHandler in
-            sessionDelegate.urlSession(session, task: task, didReceive: authenticationChallenge, completionHandler: completionHandler)
-        }
-        sessionManager.delegate.taskDidReceiveChallengeWithCompletion = taskDidReceiveChallengeWithCompletion
-        return sessionManager
-    }
 
     private func makeSession(configuration sessionConfiguration: URLSessionConfiguration) -> URLSession {
         var additionalHeaders: [String: AnyObject] = ["Accept-Encoding": "gzip, deflate" as AnyObject]
@@ -119,7 +74,7 @@ open class WordPressOrgXMLRPCApi: NSObject {
     }
 
     deinit {
-        for session in [urlSession, uploadURLSession, sessionManager.session, uploadSessionManager.session] {
+        for session in [urlSession, uploadURLSession] {
             session.finishTasksAndInvalidate()
         }
     }
@@ -128,7 +83,7 @@ open class WordPressOrgXMLRPCApi: NSObject {
      Cancels all ongoing and makes the session so the object will not fullfil any more request
      */
     @objc open func invalidateAndCancelTasks() {
-        for session in [urlSession, uploadURLSession, sessionManager.session, uploadSessionManager.session] {
+        for session in [urlSession, uploadURLSession] {
             session.invalidateAndCancel()
         }
     }
@@ -165,49 +120,16 @@ open class WordPressOrgXMLRPCApi: NSObject {
                            parameters: [AnyObject]?,
                            success: @escaping SuccessResponseBlock,
                            failure: @escaping FailureReponseBlock) -> Progress? {
-        guard !WordPressOrgXMLRPCApi.useURLSession else {
-            let progress = Progress.discreteProgress(totalUnitCount: 100)
-            Task { @MainActor in
-                let result = await self.call(method: method, parameters: parameters, fulfilling: progress, streaming: false)
-                switch result {
-                case let .success(response):
-                    success(response.body, response.response)
-                case let .failure(error):
-                    failure(error.asNSError(), error.response)
-                }
+        let progress = Progress.discreteProgress(totalUnitCount: 100)
+        Task { @MainActor in
+            let result = await self.call(method: method, parameters: parameters, fulfilling: progress, streaming: false)
+            switch result {
+            case let .success(response):
+                success(response.body, response.response)
+            case let .failure(error):
+                failure(error.asNSError(), error.response)
             }
-            return progress
         }
-
-        // Encode request
-        let request: URLRequest
-        do {
-            request = try requestWithMethod(method, parameters: parameters)
-        } catch let encodingError as NSError {
-            failure(encodingError, nil)
-            return nil
-        }
-
-        let progress: Progress = Progress.discreteProgress(totalUnitCount: 1)
-        sessionManager.request(request)
-            .downloadProgress { (requestProgress) in
-                progress.totalUnitCount = requestProgress.totalUnitCount + 1
-                progress.completedUnitCount = requestProgress.completedUnitCount
-            }.response(queue: DispatchQueue.global()) { (response) in
-                do {
-                    let responseObject = try self.handleResponseWithData(response.data, urlResponse: response.response, error: response.error as NSError?)
-                    DispatchQueue.main.async {
-                        progress.completedUnitCount = progress.totalUnitCount
-                        success(responseObject, response.response)
-                    }
-                } catch let error as NSError {
-                    DispatchQueue.main.async {
-                        progress.completedUnitCount = progress.totalUnitCount
-                        failure(error, response.response)
-                    }
-                    return
-                }
-            }
         return progress
     }
 
@@ -228,57 +150,16 @@ open class WordPressOrgXMLRPCApi: NSObject {
                                  parameters: [AnyObject]?,
                                  success: @escaping SuccessResponseBlock,
                                  failure: @escaping FailureReponseBlock) -> Progress? {
-        guard !WordPressOrgXMLRPCApi.useURLSession else {
-            let progress = Progress.discreteProgress(totalUnitCount: 100)
-            Task { @MainActor in
-                let result = await self.call(method: method, parameters: parameters, fulfilling: progress, streaming: true)
-                switch result {
-                case let .success(response):
-                    success(response.body, response.response)
-                case let .failure(error):
-                    failure(error.asNSError(), error.response)
-                }
-            }
-            return progress
-        }
-
-        let progress: Progress = Progress.discreteProgress(totalUnitCount: 1)
-        progress.isCancellable = true
-        DispatchQueue.global().async {
-            let fileURL = self.URLForTemporaryFile()
-            // Encode request
-            let request: URLRequest
-            do {
-                request = try self.streamingRequestWithMethod(method, parameters: parameters, usingFileURLForCache: fileURL)
-            } catch let encodingError as NSError {
-                failure(encodingError, nil)
-                return
-            }
-
-            let uploadRequest = self.uploadSessionManager.upload(fileURL, with: request)
-                .uploadProgress { (requestProgress) in
-                    progress.totalUnitCount = requestProgress.totalUnitCount + 1
-                    progress.completedUnitCount = requestProgress.completedUnitCount
-                }.response(queue: DispatchQueue.global()) { (response) in
-                    do {
-                        let responseObject = try self.handleResponseWithData(response.data, urlResponse: response.response, error: response.error as NSError?)
-                        DispatchQueue.main.async {
-                            progress.completedUnitCount = progress.totalUnitCount
-                            success(responseObject, response.response)
-                        }
-                    } catch let error as NSError {
-                        DispatchQueue.main.async {
-                            progress.completedUnitCount = progress.totalUnitCount
-                            failure(error, response.response)
-                        }
-                        return
-                    }
-              }
-            progress.cancellationHandler = {
-              uploadRequest.cancel()
+        let progress = Progress.discreteProgress(totalUnitCount: 100)
+        Task { @MainActor in
+            let result = await self.call(method: method, parameters: parameters, fulfilling: progress, streaming: true)
+            switch result {
+            case let .success(response):
+                success(response.body, response.response)
+            case let .failure(error):
+                failure(error.asNSError(), error.response)
             }
         }
-
         return progress
     }
 
@@ -307,80 +188,6 @@ open class WordPressOrgXMLRPCApi: NSObject {
                 errorType: WordPressOrgXMLRPCApiFault.self
             )
             .decodeXMLRPCResult()
-    }
-
-    // MARK: - Request Building
-
-    private func requestWithMethod(_ method: String, parameters: [AnyObject]?) throws -> URLRequest {
-        let mutableRequest = NSMutableURLRequest(url: endpoint)
-        mutableRequest.httpMethod = "POST"
-        mutableRequest.setValue("text/xml", forHTTPHeaderField: "Content-Type")
-        let encoder = WPXMLRPCEncoder(method: method, andParameters: parameters)
-        mutableRequest.httpBody = try encoder.dataEncoded()
-
-        return mutableRequest as URLRequest
-    }
-
-    private func streamingRequestWithMethod(_ method: String, parameters: [AnyObject]?, usingFileURLForCache fileURL: URL) throws -> URLRequest {
-        let mutableRequest = NSMutableURLRequest(url: endpoint)
-        mutableRequest.httpMethod = "POST"
-        mutableRequest.setValue("text/xml", forHTTPHeaderField: "Content-Type")
-        let encoder = WPXMLRPCEncoder(method: method, andParameters: parameters)
-        try encoder.encode(toFile: fileURL.path)
-        var optionalFileSize: AnyObject?
-        try (fileURL as NSURL).getResourceValue(&optionalFileSize, forKey: URLResourceKey.fileSizeKey)
-        if let fileSize = optionalFileSize as? NSNumber {
-            mutableRequest.setValue(fileSize.stringValue, forHTTPHeaderField: "Content-Length")
-        }
-
-        return mutableRequest as URLRequest
-    }
-
-    private func URLForTemporaryFile() -> URL {
-        let fileName = "\(ProcessInfo.processInfo.globallyUniqueString)_file.xmlrpc"
-        let fileURL = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(fileName)
-        return fileURL
-    }
-
-    // MARK: - Handling of data
-
-    private func handleResponseWithData(_ originalData: Data?, urlResponse: URLResponse?, error: NSError?) throws -> AnyObject {
-        guard let data = originalData,
-            let httpResponse = urlResponse as? HTTPURLResponse,
-            let contentType = httpResponse.allHeaderFields["Content-Type"] as? String, error == nil else {
-                if let unwrappedError = error {
-                    throw Self.convertError(unwrappedError, data: originalData)
-                } else {
-                    throw Self.convertError(WordPressOrgXMLRPCApiError.unknown as NSError, data: originalData)
-                }
-        }
-
-        if (400..<600).contains(httpResponse.statusCode) {
-            if let decoder = WPXMLRPCDecoder(data: data), decoder.isFault(), let decoderError = decoder.error() {
-                // when XML-RPC is disabled for authenticated calls (e.g. xmlrpc_enabled is false on WP.org),
-                // it will return a valid fault payload with a non-200
-                throw decoderError
-            } else {
-                throw Self.convertError(WordPressOrgXMLRPCApiError.httpErrorStatusCode as NSError, data: originalData, statusCode: httpResponse.statusCode)
-            }
-        }
-
-        if ["application/xml", "text/xml"].filter({ (type) -> Bool in return contentType.hasPrefix(type)}).count == 0 {
-            throw Self.convertError(WordPressOrgXMLRPCApiError.responseSerializationFailed as NSError, data: originalData)
-        }
-
-        guard let decoder = WPXMLRPCDecoder(data: data) else {
-            throw WordPressOrgXMLRPCApiError.responseSerializationFailed
-        }
-        guard !(decoder.isFault()), let responseXML = decoder.object() else {
-            if let decoderError = decoder.error() {
-                throw Self.convertError(decoderError as NSError, data: data)
-            } else {
-                throw WordPressOrgXMLRPCApiError.responseSerializationFailed
-            }
-        }
-
-        return responseXML as AnyObject
     }
 
     @objc public static let WordPressOrgXMLRPCApiErrorKeyData: NSError.UserInfoKey = "WordPressOrgXMLRPCApiErrorKeyData"

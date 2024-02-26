@@ -424,11 +424,7 @@ class WordPressComRestApiTests: XCTestCase {
             failure: { error, _ in
                 complete.fulfill()
 
-                if WordPressComRestApi.useURLSession {
-                    XCTAssertTrue(error is WordPressAPIError<WordPressComRestApiEndpointError>)
-                } else {
-                    XCTAssertEqual(error.domain, "Alamofire.AFError")
-                }
+                XCTAssertTrue(error is WordPressAPIError<WordPressComRestApiEndpointError>)
             }
         )
 

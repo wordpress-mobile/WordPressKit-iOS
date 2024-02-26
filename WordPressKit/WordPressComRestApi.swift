@@ -1,6 +1,5 @@
 import Foundation
 import WordPressShared
-import Alamofire
 
 // MARK: - WordPressComRestApiError
 
@@ -64,7 +63,8 @@ public enum ResponseType {
 open class WordPressComRestApi: NSObject {
 
     /// Use `URLSession` directly (instead of Alamofire) to send API requests.
-    public static var useURLSession = false
+    @available(*, deprecated, message: "This property is no longer being used because WordPressKit now sends all HTTP requests using `URLSession` directly.")
+    public static var useURLSession = true
 
     // MARK: Properties
 
@@ -105,38 +105,6 @@ open class WordPressComRestApi: NSObject {
      Configure whether or not the user's preferred language locale should be appended. Defaults to true.
      */
     @objc open var appendsPreferredLanguageLocale = true
-
-    private lazy var sessionManager: Alamofire.SessionManager = {
-        let sessionConfiguration = URLSessionConfiguration.default
-        let sessionManager = self.makeSessionManager(configuration: sessionConfiguration)
-        return sessionManager
-    }()
-
-    private lazy var uploadSessionManager: Alamofire.SessionManager = {
-        if self.backgroundUploads {
-            let sessionConfiguration = URLSessionConfiguration.background(withIdentifier: self.backgroundSessionIdentifier)
-            sessionConfiguration.sharedContainerIdentifier = self.sharedContainerIdentifier
-            let sessionManager = self.makeSessionManager(configuration: sessionConfiguration)
-            return sessionManager
-        }
-
-        return self.sessionManager
-    }()
-
-    private func makeSessionManager(configuration sessionConfiguration: URLSessionConfiguration) -> Alamofire.SessionManager {
-        var additionalHeaders: [String: AnyObject] = [:]
-        if let oAuthToken = self.oAuthToken {
-            additionalHeaders["Authorization"] = "Bearer \(oAuthToken)" as AnyObject?
-        }
-        if let userAgent = self.userAgent {
-            additionalHeaders["User-Agent"] = userAgent as AnyObject?
-        }
-
-        sessionConfiguration.httpAdditionalHeaders = additionalHeaders
-        let sessionManager = Alamofire.SessionManager(configuration: sessionConfiguration)
-
-        return sessionManager
-    }
 
     // MARK: WordPressComRestApi
 
@@ -182,14 +150,14 @@ open class WordPressComRestApi: NSObject {
     }
 
     deinit {
-        for session in [urlSession, uploadURLSession, sessionManager.session, uploadSessionManager.session] {
+        for session in [urlSession, uploadURLSession] {
             session.finishTasksAndInvalidate()
         }
     }
 
     /// Cancels all outgoing tasks asynchronously without invalidating the session.
     public func cancelTasks() {
-        for session in [urlSession, uploadURLSession, sessionManager.session, uploadSessionManager.session] {
+        for session in [urlSession, uploadURLSession] {
             session.getAllTasks { tasks in
                 tasks.forEach({ $0.cancel() })
             }
@@ -200,7 +168,7 @@ open class WordPressComRestApi: NSObject {
      Cancels all ongoing taks and makes the session invalid so the object will not fullfil any more request
      */
     @objc open func invalidateAndCancelTasks() {
-        for session in [urlSession, uploadURLSession, sessionManager.session, uploadSessionManager.session] {
+        for session in [urlSession, uploadURLSession] {
             session.invalidateAndCancel()
         }
     }
@@ -210,66 +178,6 @@ open class WordPressComRestApi: NSObject {
     }
 
     // MARK: Network requests
-
-    private func request(method: HTTPMethod,
-                         urlString: String,
-                         parameters: [String: AnyObject]?,
-                         encoding: ParameterEncoding,
-                         success: @escaping SuccessResponseBlock,
-                         failure: @escaping FailureReponseBlock) -> Progress? {
-
-        guard let URLString = buildRequestURLFor(path: urlString, parameters: parameters) else {
-            failure(Constants.buildRequestError, nil)
-            return nil
-        }
-
-        let progress = Progress(totalUnitCount: 1)
-        let progressUpdater = { [weak progress] (taskProgress: Progress) in
-            progress?.totalUnitCount = taskProgress.totalUnitCount
-            progress?.completedUnitCount = taskProgress.completedUnitCount
-        }
-
-        let dataRequest = sessionManager.request(URLString, method: method, parameters: parameters, encoding: encoding)
-            .validate()
-            .responseJSON(completionHandler: { [weak progress] (response) in
-            switch response.result {
-            case .success(let responseObject):
-                progress?.completedUnitCount = progress?.totalUnitCount ?? 0
-                success(responseObject as AnyObject, response.response)
-            case .failure(let error):
-                let processedError = self.processError(response: response, originalError: error).flatMap { $0 as NSError }
-                failure(processedError ?? (error as NSError), response.response)
-            }
-        }).downloadProgress(closure: progressUpdater)
-        progress.cancellationHandler = { [weak dataRequest] in
-            dataRequest?.cancel()
-        }
-        return progress
-    }
-
-    /// A request that produces a response in the form of a byte array
-    private func dataRequest(method: HTTPMethod,
-                             urlString: String,
-                             parameters: [String: AnyObject]?,
-                             encoding: ParameterEncoding,
-                             completion: @escaping (Swift.Result<(Data, HTTPURLResponse?), Error>) -> Void) {
-
-        guard let URLString = buildRequestURLFor(path: urlString, parameters: parameters) else {
-            completion(.failure(Constants.buildRequestError))
-            return
-        }
-
-        sessionManager.request(URLString, method: method, parameters: parameters, encoding: encoding)
-            .validate()
-            .responseData(completionHandler: { (response) in
-            switch response.result {
-            case .success(let data):
-                completion(.success((data, response.response)))
-            case .failure(let error):
-                completion(.failure(error))
-            }
-        })
-    }
 
     /**
      Executes a GET request to the specified endpoint defined on URLString
@@ -287,11 +195,6 @@ open class WordPressComRestApi: NSObject {
                      parameters: [String: AnyObject]?,
                      success: @escaping SuccessResponseBlock,
                      failure: @escaping FailureReponseBlock) -> Progress? {
-
-        guard WordPressComRestApi.useURLSession else {
-            return request(method: .get, urlString: URLString, parameters: parameters, encoding: URLEncoding.default, success: success, failure: failure)
-        }
-
         let progress = Progress.discreteProgress(totalUnitCount: 100)
 
         Task { @MainActor in
@@ -311,15 +214,6 @@ open class WordPressComRestApi: NSObject {
     open func GETData(_ URLString: String,
                                          parameters: [String: AnyObject]?,
                                          completion: @escaping (Swift.Result<(Data, HTTPURLResponse?), Error>) -> Void) {
-        guard WordPressComRestApi.useURLSession else {
-            dataRequest(method: .get,
-                        urlString: URLString,
-                        parameters: parameters,
-                        encoding: URLEncoding.default,
-                        completion: completion)
-            return
-        }
-
         Task { @MainActor in
             let result: APIResult<Data> = await perform(.get, URLString: URLString, parameters: parameters)
 
@@ -347,10 +241,6 @@ open class WordPressComRestApi: NSObject {
                      parameters: [String: AnyObject]?,
                      success: @escaping SuccessResponseBlock,
                      failure: @escaping FailureReponseBlock) -> Progress? {
-        guard WordPressComRestApi.useURLSession else {
-            return request(method: .post, urlString: URLString, parameters: parameters, encoding: JSONEncoding.default, success: success, failure: failure)
-        }
-
         let progress = Progress.discreteProgress(totalUnitCount: 100)
 
         Task { @MainActor in
@@ -388,62 +278,17 @@ open class WordPressComRestApi: NSObject {
                               requestEnqueued: RequestEnqueuedBlock? = nil,
                               success: @escaping SuccessResponseBlock,
                               failure: @escaping FailureReponseBlock) -> Progress? {
-        guard !WordPressComRestApi.useURLSession else {
-            let progress = Progress.discreteProgress(totalUnitCount: 100)
+        let progress = Progress.discreteProgress(totalUnitCount: 100)
 
-            Task { @MainActor in
-                let result = await upload(URLString: URLString, parameters: parameters, fileParts: fileParts, requestEnqueued: requestEnqueued, fulfilling: progress)
-                switch result {
-                case let .success(response):
-                    success(response.body, response.response)
-                case let .failure(error):
-                    failure(error.asNSError(), error.response)
-                }
+        Task { @MainActor in
+            let result = await upload(URLString: URLString, parameters: parameters, fileParts: fileParts, requestEnqueued: requestEnqueued, fulfilling: progress)
+            switch result {
+            case let .success(response):
+                success(response.body, response.response)
+            case let .failure(error):
+                failure(error.asNSError(), error.response)
             }
-
-            return progress
         }
-
-        guard let URLString = buildRequestURLFor(path: URLString, parameters: parameters) else {
-            failure(Constants.buildRequestError, nil)
-            return nil
-        }
-
-        let progress = Progress(totalUnitCount: 1)
-        let progressUpdater = {(taskProgress: Progress) in
-            // Sergio Estevao: Add an extra 1 unit to the progress to take in account the upload response and not only the uploading of data
-            progress.totalUnitCount = taskProgress.totalUnitCount + 1
-            progress.completedUnitCount = taskProgress.completedUnitCount
-        }
-
-        uploadSessionManager.upload(multipartFormData: { (multipartFormData) in
-            for filePart in fileParts {
-                multipartFormData.append(filePart.url, withName: filePart.parameterName, fileName: filePart.filename, mimeType: filePart.mimeType)
-            }
-        }, to: URLString, encodingCompletion: { (encodingResult) in
-            switch encodingResult {
-            case .success(let upload, _, _):
-                if let taskIdentifier = upload.task?.taskIdentifier {
-                    requestEnqueued?(NSNumber(value: taskIdentifier))
-                }
-                let dataRequest = upload.validate().responseJSON(completionHandler: { response in
-                    switch response.result {
-                    case .success(let responseObject):
-                        progress.completedUnitCount = progress.totalUnitCount
-                        success(responseObject as AnyObject, response.response)
-                    case .failure(let error):
-                        let processedError = self.processError(response: response, originalError: error).flatMap { $0 as NSError }
-                        failure(processedError ?? (error as NSError), response.response)
-                    }
-                }).uploadProgress(closure: progressUpdater)
-
-                progress.cancellationHandler = {
-                    dataRequest.cancel()
-                }
-            case .failure(let encodingError):
-                failure(encodingError as NSError, nil)
-            }
-        })
 
         return progress
     }
@@ -459,30 +304,6 @@ open class WordPressComRestApi: NSObject {
         return "\(String(describing: oAuthToken)),\(String(describing: userAgent))".hashValue
     }
 
-    /// This method assembles a valid request URL for the specified path & parameters.
-    /// The framework relies on a field (`appendsPreferredLanguageLocale`) to influence whether or not locale should be
-    /// added to the path of requests. This approach did not consider request parameters.
-    ///
-    /// This method now considers both the path and specified request parameters when performing the substitution.
-    /// It only accounts for the locale parameter. AlamoFire encodes other parameters via `SessionManager.request(_:method:parameters:encoding:headers:)`
-    ///
-    /// - Parameters:
-    ///   - path: the path for the request, which might include `locale`
-    ///   - parameters: the request parameters, which could conceivably include `locale`
-    /// - Returns: a request URL if successful, `nil` otherwise.
-    ///
-    func buildRequestURLFor(path: String, parameters: [String: AnyObject]? = [:]) -> String? {
-        guard let requestURLString = URL(string: path, relativeTo: baseURL)?.absoluteString,
-            let urlComponents = URLComponents(string: requestURLString) else {
-
-            return nil
-        }
-
-        let urlComponentsWithLocale = applyLocaleIfNeeded(urlComponents: urlComponents, parameters: parameters, localeKey: localeKey)
-
-        return urlComponentsWithLocale?.url?.absoluteString
-    }
-
     private func requestBuilder(URLString: String) throws -> HTTPRequestBuilder {
         guard let url = URL(string: URLString, relativeTo: baseURL) else {
             throw URLError(.badURL)
@@ -496,28 +317,6 @@ open class WordPressComRestApi: NSObject {
         }
 
         return builder
-    }
-
-    private func applyLocaleIfNeeded(urlComponents: URLComponents, parameters: [String: AnyObject]? = [:], localeKey: String) -> URLComponents? {
-        guard appendsPreferredLanguageLocale else {
-            return urlComponents
-        }
-
-        var componentsWithLocale = urlComponents
-        var existingQueryItems = componentsWithLocale.queryItems ?? []
-        let existingLocaleQueryItems = existingQueryItems.filter { $0.name == localeKey }
-
-        let inputParameters = parameters ?? [:]
-
-        if inputParameters[localeKey] == nil, existingLocaleQueryItems.isEmpty {
-            let preferredLanguageIdentifier = WordPressComLanguageDatabase().deviceLanguage.slug
-            let localeQueryItem = URLQueryItem(name: localeKey, value: preferredLanguageIdentifier)
-
-            existingQueryItems.append(localeQueryItem)
-        }
-        componentsWithLocale.queryItems = existingQueryItems
-
-        return componentsWithLocale
     }
 
     @objc public func temporaryFileURL(withExtension fileExtension: String) -> URL {
@@ -694,19 +493,6 @@ public final class FilePart: NSObject {
 
 extension WordPressComRestApi {
 
-    /// A custom error processor to handle error responses when status codes are betwen 400 and 500
-    func processError(response: DataResponse<Any>, originalError: Error) -> WordPressComRestApiEndpointError? {
-        if let afError = originalError as? AFError, case AFError.responseSerializationFailed(_) = afError {
-            return .init(code: .responseSerializationFailed, response: response.response)
-        }
-
-        guard let httpResponse = response.response, let data = response.data else {
-            return nil
-        }
-
-        return processError(response: httpResponse, body: data, additionalUserInfo: (originalError as NSError).userInfo)
-    }
-
     func processError(response httpResponse: HTTPURLResponse, body data: Data, additionalUserInfo: [String: Any]?) -> WordPressComRestApiEndpointError? {
         // Not sure if it's intentional to include 500 status code, but the code seems to be there from the very beginning.
         // https://github.com/wordpress-mobile/WordPressKit-iOS/blob/1.0.1/WordPressKit/WordPressComRestApi.swift#L374
@@ -819,33 +605,6 @@ private extension WordPressComRestApi {
 }
 
 // MARK: - POST encoding
-
-private extension Dictionary {
-    func percentEncoded() -> Data? {
-        return compactMap { key, value in
-            guard
-                let escapedKey = "\(key)".addingPercentEncoding(withAllowedCharacters: .urlQueryValueAllowed),
-                let escapedValue = "\(value)".addingPercentEncoding(withAllowedCharacters: .urlQueryValueAllowed)
-            else {
-                return .none
-            }
-            return escapedKey + "=" + escapedValue
-        }
-        .joined(separator: "&")
-        .data(using: .utf8)
-    }
-}
-
-private extension CharacterSet {
-    static let urlQueryValueAllowed: CharacterSet = {
-        let generalDelimitersToEncode = ":#[]@" // does not include "?" or "/" due to RFC 3986 - Section 3.4
-        let subDelimitersToEncode = "!$&'()*+,;="
-
-        var allowed = CharacterSet.urlQueryAllowed
-        allowed.remove(charactersIn: "\(generalDelimitersToEncode)\(subDelimitersToEncode)")
-        return allowed
-    }()
-}
 
 extension WordPressAPIError<WordPressComRestApiEndpointError> {
     func asNSError() -> NSError {

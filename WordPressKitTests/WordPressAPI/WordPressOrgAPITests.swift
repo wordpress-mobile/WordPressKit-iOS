@@ -115,7 +115,6 @@ class WordPressOrgAPITests: XCTestCase {
 
         await fulfillment(of: [unauthenticatedReuqest, ajaxNonceRequest, authenticatedReuqest], timeout: 0.1, enforceOrder: true)
 
-
         // Remove added stubs and add a new one.
         let requestsHasNonce = expectation(description: "Call an endpoint with an authenticated request")
         requestsHasNonce.expectedFulfillmentCount = 3

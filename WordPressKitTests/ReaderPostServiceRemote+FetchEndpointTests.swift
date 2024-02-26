@@ -27,7 +27,7 @@ class ReaderPostServiceRemoteFetchEndpointTests: XCTestCase {
             algorithm: "none",
             count: 1,
             before: Date(),
-            success: { _,_ in complete.fulfill() },
+            success: { _, _ in complete.fulfill() },
             failure: { _ in complete.fulfill() }
         )
         wait(for: [complete], timeout: 0.3)

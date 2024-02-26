@@ -1,5 +1,5 @@
 PODS:
-  - Alamofire (4.8.2)
+  - Alamofire (5.8.1)
   - NSObject-SafeExpectations (0.0.6)
   - OCMock (3.9.3)
   - OHHTTPStubs (9.1.0):
@@ -23,7 +23,7 @@ PODS:
   - wpxmlrpc (0.10.0)
 
 DEPENDENCIES:
-  - Alamofire (~> 4.8.0)
+  - Alamofire (~> 5.0)
   - NSObject-SafeExpectations (~> 0.0.4)
   - OCMock (~> 3.4)
   - OHHTTPStubs (~> 9.0)
@@ -45,7 +45,7 @@ SPEC REPOS:
     - wpxmlrpc
 
 SPEC CHECKSUMS:
-  Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
+  Alamofire: 3ca42e259043ee0dc5c0cdd76c4bc568b8e42af7
   NSObject-SafeExpectations: c01c8881cbd97efad6f668286b913cd0b7d62ab5
   OCMock: 300b1b1b9155cb6378660b981c2557448830bdc6
   OHHTTPStubs: 90eac6d8f2c18317baeca36698523dc67c513831
@@ -54,6 +54,6 @@ SPEC CHECKSUMS:
   WordPressShared: f93f99269258b46dad04f4e4dbf540ce2e5c1e66
   wpxmlrpc: 68db063041e85d186db21f674adf08d9c70627fd
 
-PODFILE CHECKSUM: a06b4d2f7183f40a91a0f219ca399141aee28c5f
+PODFILE CHECKSUM: 64af6d71574c7a92d01a9446aa874e066917ebe5
 
 COCOAPODS: 1.14.3
