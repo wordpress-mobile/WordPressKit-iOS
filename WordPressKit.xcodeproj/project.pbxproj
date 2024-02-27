@@ -1619,6 +1619,27 @@
 			path = ComAPIBasicTests;
 			sourceTree = "<group>";
 		};
+		3F21EC252B8D88BD00DCE8DD /* WordPressAndJetpack */ = {
+			isa = PBXGroup;
+			children = (
+				B5A4821F20AC6B5C009D95F6 /* Private */,
+				9368C79C1EC62EBD0092CE8E /* Models */,
+				9368C79B1EC62EB70092CE8E /* Services */,
+				93BD27871EE829B4002BB00B /* Utility */,
+			);
+			path = WordPressAndJetpack;
+			sourceTree = "<group>";
+		};
+		3F21EC262B8D88D900DCE8DD /* WordPressAndJetpackTests */ = {
+			isa = PBXGroup;
+			children = (
+				57A38E572624FF1000472480 /* Fakes */,
+				93BD27421EE73384002BB00B /* Mock Data */,
+				930F52BA1ECF8A67002F921B /* Tests */,
+			);
+			path = WordPressAndJetpackTests;
+			sourceTree = "<group>";
+		};
 		3F3195AB266FF91100397EE7 /* Plans */ = {
 			isa = PBXGroup;
 			children = (
@@ -1958,6 +1979,7 @@
 				740B23D51F17F7C100067A2A /* XMLRPCTestable.swift */,
 			);
 			name = Tests;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		930F52BB1ECF8A78002F921B /* Stats */ = {
@@ -2004,17 +2026,14 @@
 		9368C77D1EC5EF1B0092CE8E /* WordPressKit */ = {
 			isa = PBXGroup;
 			children = (
-				3F21EC232B8D87FD00DCE8DD /* ComAPIBasic */,
-				3F21EC222B8D872C00DCE8DD /* RFC3339 */,
 				3F21EC202B8D866300DCE8DD /* Account */,
 				3F21E9F22B8D860800DCE8DD /* AccountObjc */,
+				3F21EC232B8D87FD00DCE8DD /* ComAPIBasic */,
 				3F21E9EF2B8D83A600DCE8DD /* CoreAPI */,
-				B5A4821F20AC6B5C009D95F6 /* Private */,
-				9368C79C1EC62EBD0092CE8E /* Models */,
-				9368C79B1EC62EB70092CE8E /* Services */,
-				93BD27871EE829B4002BB00B /* Utility */,
-				9368C77E1EC5EF1B0092CE8E /* WordPressKit.h */,
 				9368C77F1EC5EF1B0092CE8E /* Info.plist */,
+				3F21EC222B8D872C00DCE8DD /* RFC3339 */,
+				3F21EC252B8D88BD00DCE8DD /* WordPressAndJetpack */,
+				9368C77E1EC5EF1B0092CE8E /* WordPressKit.h */,
 			);
 			path = WordPressKit;
 			sourceTree = "<group>";
@@ -2022,14 +2041,12 @@
 		9368C7881EC5EF1B0092CE8E /* WordPressKitTests */ = {
 			isa = PBXGroup;
 			children = (
-				3F21EC242B8D885D00DCE8DD /* ComAPIBasicTests */,
 				3F21EC212B8D867600DCE8DD /* AccountObjcTests */,
+				3F21EC242B8D885D00DCE8DD /* ComAPIBasicTests */,
 				3F21E9F12B8D842F00DCE8DD /* CoreAPITests */,
-				57A38E572624FF1000472480 /* Fakes */,
 				9368C78B1EC5EF1B0092CE8E /* Info.plist */,
-				93BD27421EE73384002BB00B /* Mock Data */,
-				930F52BA1ECF8A67002F921B /* Tests */,
 				3FB8642D288813E9003A86BE /* UnitTests.xctestplan */,
+				3F21EC262B8D88D900DCE8DD /* WordPressAndJetpackTests */,
 				93BD273F1EE73310002BB00B /* WordPressKitTests-Bridging-Header.h */,
 			);
 			path = WordPressKitTests;
@@ -2143,6 +2160,7 @@
 				803DE80E28FFA787007D4E9C /* RemoteConfigRemote.swift */,
 			);
 			name = Services;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		9368C79C1EC62EBD0092CE8E /* Models */ = {
@@ -2238,6 +2256,7 @@
 				F41D98E92B48602B004EC050 /* SessionDetails.swift */,
 			);
 			name = Models;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		93BD273E1EE732CC002BB00B /* Accounts */ = {
@@ -2578,6 +2597,7 @@
 				4A57A6862B54C68C008D0660 /* Constants.m */,
 			);
 			name = Utility;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		93F50A421F227CC400B5BEBA /* Users */ = {
