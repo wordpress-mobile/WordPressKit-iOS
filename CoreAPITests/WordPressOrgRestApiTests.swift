@@ -1,7 +1,7 @@
 import Foundation
 import XCTest
 import OHHTTPStubs
-@testable import WordPressKit
+@testable import CoreAPI
 
 class WordPressOrgRestApiTests: XCTestCase {
 

@@ -1,9 +1,8 @@
-import Foundation
 import Alamofire
-import XCTest
+@testable import CoreAPI
 import CryptoKit
+import XCTest
 
-@testable import WordPressKit
 
 class MutliparFormDataTests: XCTestCase {
     struct Form: Codable {

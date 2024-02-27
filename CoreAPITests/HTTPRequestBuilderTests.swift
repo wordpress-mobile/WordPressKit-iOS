@@ -2,7 +2,7 @@ import Foundation
 import XCTest
 import wpxmlrpc
 
-@testable import WordPressKit
+@testable import CoreAPI
 
 class HTTPRequestBuilderTests: XCTestCase {
 

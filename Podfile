@@ -40,6 +40,20 @@ target 'WordPressKitTests' do
   pod 'Alamofire', '~> 5.0'
 end
 
+target 'CoreAPI' do
+  pod 'WordPressShared', '~> 2.0.0-beta.2'
+  pod 'wpxmlrpc', '~> 0.10.0'
+end
+
+target 'CoreAPITests' do
+  pod 'WordPressShared', '~> 2.0.0-beta.2'
+  pod 'wpxmlrpc', '~> 0.10.0'
+
+  pod 'OHHTTPStubs', '~> 9.0'
+  pod 'OHHTTPStubs/Swift', '~> 9.0'
+  pod 'Alamofire', '~> 5.0'
+end
+
 abstract_target 'Tools' do
   pod 'SwiftLint', swiftlint_version
 end

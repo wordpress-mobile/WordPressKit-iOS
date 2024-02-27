@@ -1,8 +1,7 @@
-import Foundation
-import XCTest
+@testable import CoreAPI
 import OHHTTPStubs
 import WordPressShared
-@testable import WordPressKit
+import XCTest
 
 class WordPressComRestApiTests: XCTestCase {
 

@@ -2,7 +2,7 @@ import Foundation
 import XCTest
 import OHHTTPStubs
 import wpxmlrpc
-@testable import WordPressKit
+@testable import CoreAPI
 
 class WordPressOrgXMLRPCApiTests: XCTestCase {
 

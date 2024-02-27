@@ -1,5 +1,5 @@
 import XCTest
-@testable import WordPressKit
+@testable import CoreAPI
 
 final class AppTransportSecuritySettingsTests: XCTestCase {
 

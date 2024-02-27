@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "E9067A0B-26FA-4AB7-B865-D3A2653C433B",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:WordPressKit.xcodeproj",
+        "identifier" : "3F21EC432B8D8E4200DCE8DD",
+        "name" : "CoreAPITests"
+      }
+    }
+  ],
+  "version" : 1
+}

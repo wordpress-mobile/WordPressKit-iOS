@@ -1,5 +1,4 @@
-import Foundation
-@testable import WordPressKit
+@testable import CoreAPI
 
 class FakeInfoDictionaryObjectProvider: InfoDictionaryObjectProvider {
     private let appTransportSecurity: [String: Any]?
