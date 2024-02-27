@@ -1,5 +1,6 @@
-import XCTest
+import Alamofire // for the URLComponents asURL() call
 @testable import WordPressKit
+import XCTest
 
 class StatsDotComFollowersInsightTests: XCTestCase {
 

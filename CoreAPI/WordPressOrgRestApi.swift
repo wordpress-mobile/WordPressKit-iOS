@@ -40,7 +40,7 @@ public final class WordPressOrgRestApi: NSObject {
         }
     }
 
-    enum Site {
+    public enum Site {
         case dotCom(siteID: UInt64, bearerToken: String, apiURL: URL)
         case selfHosted(apiURL: URL, credential: SelfHostedSiteCredential)
     }
@@ -62,7 +62,7 @@ public final class WordPressOrgRestApi: NSObject {
         self.init(site: .selfHosted(apiURL: apiURL, credential: credential), userAgent: userAgent)
     }
 
-    init(site: Site, userAgent: String? = nil) {
+    public init(site: Site, userAgent: String? = nil) {
         self.site = site
 
         var additionalHeaders = [String: String]()

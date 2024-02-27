@@ -1,6 +1,7 @@
-import XCTest
+import CoreAPI
 import OHHTTPStubs
 @testable import WordPressKit
+import XCTest
 
 class BlockEditorSettingsServiceRemoteTests: XCTestCase {
     private let blockSettingsNOTThemeJSONResponseFilename = "wp-block-editor-v1-settings-success-NotThemeJSON.json"

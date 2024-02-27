@@ -1,8 +1,7 @@
-import Foundation
-import XCTest
+import CoreAPI
 import OHHTTPStubs
-
 @testable import WordPressKit
+import XCTest
 
 class SelfHostedPluginManagementClientTests: XCTestCase {
 
@@ -111,4 +110,21 @@ class SelfHostedPluginManagementClientTests: XCTestCase {
         wait(for: [success], timeout: 0.3)
     }
 
+}
+
+// FIXME: Duplicated from CoreAPITests. Investigate whether appropriate or if we should add a test helper or something.
+extension WordPressOrgRestApi {
+    convenience init(apiBase: URL) {
+        self.init(
+            selfHostedSiteWPJSONURL: apiBase,
+            credential: .init(loginURL: URL(string: "https://not-used.com")!, username: "user", password: "pass", adminURL: URL(string: "https://not-used.com")!)
+        )
+    }
+}
+
+// FIXME: Duplicated from CoreAPITests. Investigate whether appropriate or if we should add a test helper or something.
+extension WordPressOrgRestApi.Site {
+    static func dotCom(siteID: UInt64, bearerToken: String) -> Self {
+        .dotCom(siteID: siteID, bearerToken: bearerToken, apiURL: WordPressComRestApi.apiBaseURL)
+    }
 }
