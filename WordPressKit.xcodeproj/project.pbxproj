@@ -1536,8 +1536,6 @@
 				4A11239D2B1926D1004690CF /* HTTPClient.swift */,
 				4A11239B2B1926B7004690CF /* HTTPRequestBuilder.swift */,
 				4A05E7952B2FCB6400C25E3B /* NonceRetrieval.swift */,
-				93BD27751EE73944002BB00B /* NSDate+WordPressJSON.h */,
-				93BD27761EE73944002BB00B /* NSDate+WordPressJSON.m */,
 				4A1123992B19269A004690CF /* WordPressAPIError.swift */,
 				4A57A6822B54A326008D0660 /* WordPressAPIError+NSErrorBrdige.swift */,
 				93BD27771EE73944002BB00B /* WordPressComOAuthClient.swift */,
@@ -1567,6 +1565,41 @@
 				46ABD0DF262EED3D00C7FF24 /* WordPressOrgXMLRPCValidatorTests.swift */,
 			);
 			path = CoreAPITests;
+			sourceTree = "<group>";
+		};
+		3F21E9F22B8D860800DCE8DD /* AccountObjc */ = {
+			isa = PBXGroup;
+			children = (
+				93BD27381EE73282002BB00B /* AccountServiceRemote.h */,
+				93BD27391EE73282002BB00B /* AccountServiceRemoteREST.h */,
+				93BD273A1EE73282002BB00B /* AccountServiceRemoteREST.m */,
+			);
+			path = AccountObjc;
+			sourceTree = "<group>";
+		};
+		3F21EC202B8D866300DCE8DD /* Account */ = {
+			isa = PBXGroup;
+			children = (
+				E6D0EE611F7EF9CE0064D3FC /* AccountServiceRemoteREST+SocialService.swift */,
+			);
+			path = Account;
+			sourceTree = "<group>";
+		};
+		3F21EC212B8D867600DCE8DD /* AccountObjcTests */ = {
+			isa = PBXGroup;
+			children = (
+				93BD27401EE73311002BB00B /* AccountServiceRemoteRESTTests.swift */,
+			);
+			path = AccountObjcTests;
+			sourceTree = "<group>";
+		};
+		3F21EC222B8D872C00DCE8DD /* RFC3339 */ = {
+			isa = PBXGroup;
+			children = (
+				93BD27751EE73944002BB00B /* NSDate+WordPressJSON.h */,
+				93BD27761EE73944002BB00B /* NSDate+WordPressJSON.m */,
+			);
+			path = RFC3339;
 			sourceTree = "<group>";
 		};
 		3F3195AB266FF91100397EE7 /* Plans */ = {
@@ -1954,6 +1987,9 @@
 		9368C77D1EC5EF1B0092CE8E /* WordPressKit */ = {
 			isa = PBXGroup;
 			children = (
+				3F21EC222B8D872C00DCE8DD /* RFC3339 */,
+				3F21EC202B8D866300DCE8DD /* Account */,
+				3F21E9F22B8D860800DCE8DD /* AccountObjc */,
 				3F21E9EF2B8D83A600DCE8DD /* CoreAPI */,
 				B5A4821F20AC6B5C009D95F6 /* Private */,
 				9368C79C1EC62EBD0092CE8E /* Models */,
@@ -1968,6 +2004,7 @@
 		9368C7881EC5EF1B0092CE8E /* WordPressKitTests */ = {
 			isa = PBXGroup;
 			children = (
+				3F21EC212B8D867600DCE8DD /* AccountObjcTests */,
 				3F21E9F12B8D842F00DCE8DD /* CoreAPITests */,
 				57A38E572624FF1000472480 /* Fakes */,
 				9368C78B1EC5EF1B0092CE8E /* Info.plist */,
@@ -1983,10 +2020,6 @@
 			isa = PBXGroup;
 			children = (
 				F4B0F4712ACAF47D003ABC61 /* Domains */,
-				93BD27381EE73282002BB00B /* AccountServiceRemote.h */,
-				93BD27391EE73282002BB00B /* AccountServiceRemoteREST.h */,
-				93BD273A1EE73282002BB00B /* AccountServiceRemoteREST.m */,
-				E6D0EE611F7EF9CE0064D3FC /* AccountServiceRemoteREST+SocialService.swift */,
 				7403A2E31EF06ED500DED7DC /* AccountSettingsRemote.swift */,
 				7397F019220A072500C723F3 /* ActivityServiceRemote_ApiVersion1_0.swift */,
 				826016F01F9FA13A00533B6C /* ActivityServiceRemote.swift */,
@@ -2195,7 +2228,6 @@
 			children = (
 				D813437521F6D70D0060D99A /* SiteSegmentsResponseDecodingTests.swift */,
 				D8DB403F21EF222000B8238E /* SiteCreationSegmentsTests.swift */,
-				93BD27401EE73311002BB00B /* AccountServiceRemoteRESTTests.swift */,
 				7403A2E51EF06F7000DED7DC /* AccountSettingsRemoteTests.swift */,
 				93F50A391F226BB600B5BEBA /* WordPressComServiceRemoteRestTests.swift */,
 			);
