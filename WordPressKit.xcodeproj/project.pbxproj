@@ -1529,6 +1529,46 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		3F21E9EF2B8D83A600DCE8DD /* CoreAPI */ = {
+			isa = PBXGroup;
+			children = (
+				93BD27741EE73944002BB00B /* HTTPAuthenticationAlertController.swift */,
+				4A11239D2B1926D1004690CF /* HTTPClient.swift */,
+				4A11239B2B1926B7004690CF /* HTTPRequestBuilder.swift */,
+				4A05E7952B2FCB6400C25E3B /* NonceRetrieval.swift */,
+				93BD27751EE73944002BB00B /* NSDate+WordPressJSON.h */,
+				93BD27761EE73944002BB00B /* NSDate+WordPressJSON.m */,
+				4A1123992B19269A004690CF /* WordPressAPIError.swift */,
+				4A57A6822B54A326008D0660 /* WordPressAPIError+NSErrorBrdige.swift */,
+				93BD27771EE73944002BB00B /* WordPressComOAuthClient.swift */,
+				93BD27781EE73944002BB00B /* WordPressComRestApi.swift */,
+				4A05E7992B2FDC3200C25E3B /* WordPressOrgRestApi.swift */,
+				93BD27791EE73944002BB00B /* WordPressOrgXMLRPCApi.swift */,
+				93BD277A1EE73944002BB00B /* WordPressOrgXMLRPCValidator.swift */,
+				93BD277B1EE73944002BB00B /* WordPressRSDParser.swift */,
+			);
+			path = CoreAPI;
+			sourceTree = "<group>";
+		};
+		3F21E9F12B8D842F00DCE8DD /* CoreAPITests */ = {
+			isa = PBXGroup;
+			children = (
+				4A6B4A832B26974F00802316 /* HTTPRequestBuilderTests.swift */,
+				4A05E7972B2FCB9A00C25E3B /* NonceRetrievalTests.swift */,
+				4A05E7AB2B35048A00C25E3B /* RSDParserTests.swift */,
+				4A40F6542B2A5A1A0015DA77 /* WordPressAPIErrorTests.swift */,
+				FFE247A620C891D1002DF3A2 /* WordPressComOAuthClientTests.swift */,
+				74B335D91F06F3D60053A184 /* WordPressComRestApiTests.swift */,
+				4A57A6802B549144008D0660 /* WordPressComRestApiTests+Error.swift */,
+				73B3DAD521FBB20D00B2CF18 /* WordPressComRestApiTests+Locale.swift */,
+				4A05E79B2B2FDC6100C25E3B /* WordPressOrgAPITests.swift */,
+				FFA4D4A82423B10A00BF5180 /* WordPressOrgRestApiTests.swift */,
+				74B335DB1F06F4180053A184 /* WordPressOrgXMLRPCApiTests.swift */,
+				46ABD0DF262EED3D00C7FF24 /* WordPressOrgXMLRPCValidatorTests.swift */,
+			);
+			path = CoreAPITests;
+			sourceTree = "<group>";
+		};
 		3F3195AB266FF91100397EE7 /* Plans */ = {
 			isa = PBXGroup;
 			children = (
@@ -1625,16 +1665,6 @@
 				465F88A6263B371D00F4C950 /* BlockEditorSettingsServiceRemoteTests.swift */,
 			);
 			name = BlockEditorSettings;
-			sourceTree = "<group>";
-		};
-		57A38E502624F7D000472480 /* WordPressAPI */ = {
-			isa = PBXGroup;
-			children = (
-				46ABD0DF262EED3D00C7FF24 /* WordPressOrgXMLRPCValidatorTests.swift */,
-				4A05E7972B2FCB9A00C25E3B /* NonceRetrievalTests.swift */,
-				4A05E79B2B2FDC6100C25E3B /* WordPressOrgAPITests.swift */,
-			);
-			path = WordPressAPI;
 			sourceTree = "<group>";
 		};
 		57A38E572624FF1000472480 /* Fakes */ = {
@@ -1875,13 +1905,6 @@
 				436D56362118DC2800CEAA33 /* Transactions */,
 				93F50A421F227CC400B5BEBA /* Users */,
 				F9E56DF924EB18A300916770 /* Utilities */,
-				57A38E502624F7D000472480 /* WordPressAPI */,
-				FFE247A620C891D1002DF3A2 /* WordPressComOAuthClientTests.swift */,
-				74B335D91F06F3D60053A184 /* WordPressComRestApiTests.swift */,
-				73B3DAD521FBB20D00B2CF18 /* WordPressComRestApiTests+Locale.swift */,
-				4A57A6802B549144008D0660 /* WordPressComRestApiTests+Error.swift */,
-				FFA4D4A82423B10A00BF5180 /* WordPressOrgRestApiTests.swift */,
-				74B335DB1F06F4180053A184 /* WordPressOrgXMLRPCApiTests.swift */,
 				740B23D51F17F7C100067A2A /* XMLRPCTestable.swift */,
 			);
 			name = Tests;
@@ -1931,11 +1954,11 @@
 		9368C77D1EC5EF1B0092CE8E /* WordPressKit */ = {
 			isa = PBXGroup;
 			children = (
+				3F21E9EF2B8D83A600DCE8DD /* CoreAPI */,
 				B5A4821F20AC6B5C009D95F6 /* Private */,
 				9368C79C1EC62EBD0092CE8E /* Models */,
 				9368C79B1EC62EB70092CE8E /* Services */,
 				93BD27871EE829B4002BB00B /* Utility */,
-				93BD27731EE7388E002BB00B /* WordPressAPI */,
 				9368C77E1EC5EF1B0092CE8E /* WordPressKit.h */,
 				9368C77F1EC5EF1B0092CE8E /* Info.plist */,
 			);
@@ -1945,6 +1968,7 @@
 		9368C7881EC5EF1B0092CE8E /* WordPressKitTests */ = {
 			isa = PBXGroup;
 			children = (
+				3F21E9F12B8D842F00DCE8DD /* CoreAPITests */,
 				57A38E572624FF1000472480 /* Fakes */,
 				9368C78B1EC5EF1B0092CE8E /* Info.plist */,
 				93BD27421EE73384002BB00B /* Mock Data */,
@@ -2486,27 +2510,6 @@
 			path = "Mock Data";
 			sourceTree = "<group>";
 		};
-		93BD27731EE7388E002BB00B /* WordPressAPI */ = {
-			isa = PBXGroup;
-			children = (
-				4A05E7952B2FCB6400C25E3B /* NonceRetrieval.swift */,
-				4A05E7992B2FDC3200C25E3B /* WordPressOrgRestApi.swift */,
-				93BD27741EE73944002BB00B /* HTTPAuthenticationAlertController.swift */,
-				93BD27751EE73944002BB00B /* NSDate+WordPressJSON.h */,
-				93BD27761EE73944002BB00B /* NSDate+WordPressJSON.m */,
-				93BD27771EE73944002BB00B /* WordPressComOAuthClient.swift */,
-				93BD27781EE73944002BB00B /* WordPressComRestApi.swift */,
-				93BD27791EE73944002BB00B /* WordPressOrgXMLRPCApi.swift */,
-				93BD277A1EE73944002BB00B /* WordPressOrgXMLRPCValidator.swift */,
-				93BD277B1EE73944002BB00B /* WordPressRSDParser.swift */,
-				4A11239D2B1926D1004690CF /* HTTPClient.swift */,
-				4A11239B2B1926B7004690CF /* HTTPRequestBuilder.swift */,
-				4A1123992B19269A004690CF /* WordPressAPIError.swift */,
-				4A57A6822B54A326008D0660 /* WordPressAPIError+NSErrorBrdige.swift */,
-			);
-			name = WordPressAPI;
-			sourceTree = "<group>";
-		};
 		93BD27871EE829B4002BB00B /* Utility */ = {
 			isa = PBXGroup;
 			children = (
@@ -2716,12 +2719,9 @@
 				4A1DEF43293051BC00322608 /* LoggingTests.swift */,
 				4A1DEF45293051C600322608 /* LoggingTests.m */,
 				4A1123A12B19690C004690CF /* MultipartFormTests.swift */,
-				4A6B4A832B26974F00802316 /* HTTPRequestBuilderTests.swift */,
 				4A6B4A852B269D0C00802316 /* URLSessionHelperTests.swift */,
-				4A40F6542B2A5A1A0015DA77 /* WordPressAPIErrorTests.swift */,
 				4AE278472B2FBF1100E4D9B1 /* HTTPBodyEncodingTests.swift */,
 				4AE278492B2FC6C600E4D9B1 /* HTTPHeaderValueParserTests.swift */,
-				4A05E7AB2B35048A00C25E3B /* RSDParserTests.swift */,
 				4A05E79D2B30F3C500C25E3B /* HTTPRequestHelpers.swift */,
 			);
 			path = Utilities;
