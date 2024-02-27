@@ -1602,6 +1602,23 @@
 			path = RFC3339;
 			sourceTree = "<group>";
 		};
+		3F21EC232B8D87FD00DCE8DD /* ComAPIBasic */ = {
+			isa = PBXGroup;
+			children = (
+				93F50A351F226B9300B5BEBA /* WordPressComServiceRemote.h */,
+				93F50A361F226B9300B5BEBA /* WordPressComServiceRemote.m */,
+			);
+			path = ComAPIBasic;
+			sourceTree = "<group>";
+		};
+		3F21EC242B8D885D00DCE8DD /* ComAPIBasicTests */ = {
+			isa = PBXGroup;
+			children = (
+				93F50A391F226BB600B5BEBA /* WordPressComServiceRemoteRestTests.swift */,
+			);
+			path = ComAPIBasicTests;
+			sourceTree = "<group>";
+		};
 		3F3195AB266FF91100397EE7 /* Plans */ = {
 			isa = PBXGroup;
 			children = (
@@ -1987,6 +2004,7 @@
 		9368C77D1EC5EF1B0092CE8E /* WordPressKit */ = {
 			isa = PBXGroup;
 			children = (
+				3F21EC232B8D87FD00DCE8DD /* ComAPIBasic */,
 				3F21EC222B8D872C00DCE8DD /* RFC3339 */,
 				3F21EC202B8D866300DCE8DD /* Account */,
 				3F21E9F22B8D860800DCE8DD /* AccountObjc */,
@@ -2004,6 +2022,7 @@
 		9368C7881EC5EF1B0092CE8E /* WordPressKitTests */ = {
 			isa = PBXGroup;
 			children = (
+				3F21EC242B8D885D00DCE8DD /* ComAPIBasicTests */,
 				3F21EC212B8D867600DCE8DD /* AccountObjcTests */,
 				3F21E9F12B8D842F00DCE8DD /* CoreAPITests */,
 				57A38E572624FF1000472480 /* Fakes */,
@@ -2117,8 +2136,6 @@
 				436D56322118D7AA00CEAA33 /* TransactionsServiceRemote.swift */,
 				0CED1FE72B617CF300E6DD52 /* AtomicSiteServiceRemote.swift */,
 				93F50A3E1F227C8900B5BEBA /* UsersServiceRemoteXMLRPC.swift */,
-				93F50A351F226B9300B5BEBA /* WordPressComServiceRemote.h */,
-				93F50A361F226B9300B5BEBA /* WordPressComServiceRemote.m */,
 				7328420321CD786C00126755 /* WordPressComServiceRemote+SiteCreation.swift */,
 				D816857021EDACD10049883E /* WordPressComServiceRemote+SiteSegments.swift */,
 				730E869E21E44EFD00753E1A /* WordPressComServiceRemote+SiteVerticals.swift */,
@@ -2229,7 +2246,6 @@
 				D813437521F6D70D0060D99A /* SiteSegmentsResponseDecodingTests.swift */,
 				D8DB403F21EF222000B8238E /* SiteCreationSegmentsTests.swift */,
 				7403A2E51EF06F7000DED7DC /* AccountSettingsRemoteTests.swift */,
-				93F50A391F226BB600B5BEBA /* WordPressComServiceRemoteRestTests.swift */,
 			);
 			name = Accounts;
 			sourceTree = "<group>";
