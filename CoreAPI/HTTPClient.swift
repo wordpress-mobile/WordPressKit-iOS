@@ -42,7 +42,7 @@ extension URLSession {
     ///   - parentProgress: A `Progress` instance that will be used as the parent progress of the HTTP request's overall
     ///         progress. See the function documentation regarding requirements on this argument.
     ///   - errorType: The concret endpoint error type.
-    func perform<E: LocalizedError>(
+    public func perform<E: LocalizedError>(
         request builder: HTTPRequestBuilder,
         acceptableStatusCodes: [ClosedRange<Int>] = [200...299],
         taskCreated: ((Int) -> Void)? = nil,

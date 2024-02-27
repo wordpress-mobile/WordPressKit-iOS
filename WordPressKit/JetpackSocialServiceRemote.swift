@@ -1,3 +1,5 @@
+import CoreAPI
+
 /// Encapsulates remote service logic related to Jetpack Social.
 public class JetpackSocialServiceRemote: ServiceRemoteWordPressComREST {
 

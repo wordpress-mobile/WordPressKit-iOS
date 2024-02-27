@@ -1,3 +1,5 @@
+import CoreAPI
+
 public class SelfHostedPluginManagementClient: PluginManagementClient {
     private let remote: WordPressOrgRestApi
 

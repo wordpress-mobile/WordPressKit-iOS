@@ -1,8 +1,6 @@
-import Foundation
-import XCTest
+@testable import CoreAPI
 import OHHTTPStubs
-
-@testable import WordPressKit
+import XCTest
 
 class URLSessionHelperTests: XCTestCase {
 

@@ -1,6 +1,6 @@
-import Foundation
-import XCTest
+@testable import CoreAPI // FIXME: Not sure whether this is appropriate. Kit should only interface via public API.
 @testable import WordPressKit
+import XCTest
 
 class HTTPBodyEncodingTests: XCTestCase {
 

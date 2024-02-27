@@ -1,4 +1,4 @@
-import Foundation
+import CoreAPI
 import WordPressShared
 
 public class AccountSettingsRemote: ServiceRemoteWordPressComREST {

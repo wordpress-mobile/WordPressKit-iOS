@@ -1,3 +1,4 @@
+import CoreAPI
 import Foundation
 
 /// Remote type to fetch the user's IP Location using the public `geo` API.

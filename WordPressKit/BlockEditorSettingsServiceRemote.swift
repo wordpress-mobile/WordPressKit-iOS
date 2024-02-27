@@ -1,4 +1,4 @@
-import Foundation
+import CoreAPI
 
 public class BlockEditorSettingsServiceRemote {
     let remoteAPI: WordPressOrgRestApi

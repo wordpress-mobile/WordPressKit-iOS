@@ -32,7 +32,7 @@ public typealias WordPressComRestApiError = WordPressComRestApiErrorCode
 
 public struct WordPressComRestApiEndpointError: Error {
     public var code: WordPressComRestApiErrorCode
-    var response: HTTPURLResponse?
+    public internal(set) var response: HTTPURLResponse?
 
     public var apiErrorCode: String?
     public var apiErrorMessage: String?
@@ -365,7 +365,7 @@ open class WordPressComRestApi: NSObject {
         }
     }
 
-    func perform<T: Decodable>(
+    public func perform<T: Decodable>(
         _ method: HTTPRequestBuilder.Method,
         URLString: String,
         parameters: [String: AnyObject]? = nil,
@@ -606,7 +606,7 @@ private extension WordPressComRestApi {
 
 // MARK: - POST encoding
 
-extension WordPressAPIError<WordPressComRestApiEndpointError> {
+public extension WordPressAPIError<WordPressComRestApiEndpointError> {
     func asNSError() -> NSError {
         // When encoutering `URLError`, return `URLError` to avoid potentially breaking existing error handling code in the apps.
         if case let .connection(urlError) = self {

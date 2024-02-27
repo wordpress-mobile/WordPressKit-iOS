@@ -1,3 +1,5 @@
+import CoreAPI
+
 /// Encapsulates logic to fetch blogging prompts from the remote endpoint.
 ///
 open class BloggingPromptsServiceRemote: ServiceRemoteWordPressComREST {

@@ -5,8 +5,8 @@ import wpxmlrpc
 ///
 /// Calling this class's url related functions (the ones that changes path, query, etc) does not modify the
 /// original URL string. The URL will be perserved in the final result that's returned by the `build` function.
-final class HTTPRequestBuilder {
-    enum Method: String, CaseIterable {
+public final class HTTPRequestBuilder {
+    public enum Method: String, CaseIterable {
         case get = "GET"
         case post = "POST"
         case put = "PUT"
@@ -28,7 +28,7 @@ final class HTTPRequestBuilder {
     private(set) var multipartForm: [MultipartFormField]?
     private(set) var xmlrpcRequest: XMLRPCRequest?
 
-    init(url: URL) {
+    public init(url: URL) {
         assert(url.scheme == "http" || url.scheme == "https")
         assert(url.host != nil)
 
@@ -43,7 +43,7 @@ final class HTTPRequestBuilder {
     /// Append path to the original URL.
     ///
     /// The argument will be appended to the original URL as it is.
-    func append(percentEncodedPath path: String) -> Self {
+    public func append(percentEncodedPath path: String) -> Self {
         assert(!path.contains("?") && !path.contains("#"), "Path should not have query or fragment: \(path)")
 
         appendedPath = Self.join(appendedPath, path)
@@ -78,11 +78,11 @@ final class HTTPRequestBuilder {
         return self
     }
 
-    func query(name: String, value: String?, override: Bool = false) -> Self {
+    public func query(name: String, value: String?, override: Bool = false) -> Self {
         append(query: [URLQueryItem(name: name, value: value)], override: override)
     }
 
-    func query(_ parameters: [String: Any]) -> Self {
+    public func query(_ parameters: [String: Any]) -> Self {
         append(query: parameters.flatten(), override: false)
     }
 
@@ -141,7 +141,7 @@ final class HTTPRequestBuilder {
         return self
     }
 
-    func build(encodeBody: Bool = false) throws -> URLRequest {
+    public func build(encodeBody: Bool = false) throws -> URLRequest {
         var components = original
 
         var newPath = Self.join(components.percentEncodedPath, appendedPath)

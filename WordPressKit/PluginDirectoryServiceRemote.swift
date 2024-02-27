@@ -1,3 +1,4 @@
+import CoreAPI
 import Foundation
 
 private struct PluginDirectoryRemoteConstants {

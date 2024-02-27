@@ -1,4 +1,4 @@
-import Foundation
+import CoreAPI
 
 open class BlazeServiceRemote: ServiceRemoteWordPressComREST {
 

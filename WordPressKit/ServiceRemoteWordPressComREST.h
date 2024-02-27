@@ -1,4 +1,5 @@
-#import <Foundation/Foundation.h>
+@import CoreAPI;
+@import Foundation;
 
 @class WordPressComRestApi;
 

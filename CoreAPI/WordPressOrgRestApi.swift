@@ -121,7 +121,7 @@ public final class WordPressOrgRestApi: NSObject {
         await perform(.post, path: path, parameters: parameters, options: options)
     }
 
-    func perform<Success: Decodable>(
+    public func perform<Success: Decodable>(
         _ method: HTTPRequestBuilder.Method,
         path: String,
         parameters: [String: Any]? = nil,
