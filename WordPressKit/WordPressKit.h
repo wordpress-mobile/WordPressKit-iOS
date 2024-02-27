@@ -47,7 +47,6 @@ FOUNDATION_EXPORT const unsigned char WordPressKitVersionString[];
 #import <WordPressKit/RemoteTheme.h>
 #import <WordPressKit/RemoteUser.h>
 
-#import <WordPressKit/NSDate+WordPressJSON.h>
 #import <WordPressKit/NSString+MD5.h>
 
 #import <WordPressKit/WPKitLogging.h>
