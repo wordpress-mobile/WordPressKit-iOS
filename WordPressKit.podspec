@@ -40,12 +40,12 @@ Pod::Spec.new do |s|
   end
 
   s.subspec 'RFC3339' do |subspec|
-    subspec.source_files = 'RFC3339/**/*.{h,m}'
-    subspec.public_header_files = 'RFC3339/include', 'RFC3339/RFC3339.h'
+    subspec.source_files = 'Sources/RFC3339/**/*.{h,m}'
+    subspec.public_header_files = 'Sources/RFC3339/include/*.h', 'Sources/RFC3339/RFC3339.h'
   end
 
   s.subspec 'CoreAPI' do |subspec|
-    subspec.source_files = 'CoreAPI'
+    subspec.source_files = 'Sources/CoreAPI'
 
     subspec.dependency 'wpxmlrpc', '~> 0.10'
     subspec.dependency 'UIDeviceIdentifier', '~> 2.0'
@@ -54,7 +54,7 @@ Pod::Spec.new do |s|
     # The unit tests work on Xcode, but the CocoaPods validation fails with them.
     #
     # subspec.test_spec do |test_spec|
-    #   test_spec.source_files = 'CoreAPITests'
+    #   test_spec.source_files = 'Tests/CoreAPITests'
 
     #   test_spec.dependency 'OHHTTPStubs', '~> 9.0'
     #   test_spec.dependency 'OHHTTPStubs/Swift', '~> 9.0'
