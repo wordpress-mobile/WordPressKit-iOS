@@ -41,4 +41,18 @@ Pod::Spec.new do |s|
   #   test_spec.dependency 'OCMock', '~> 3.4'
   #   test_spec.dependency 'Alamofire', '~> 5.0'
   # end
+
+  s.subspec 'CoreAPI' do |subspec|
+    subspec.source_files = 'Sources/CoreAPI'
+
+    # Currently failing during `lib lint`.
+    # Will need to followup.
+    #
+    # subspec.test_spec do |test_spec|
+    #   test_spec.source_files = 'Tests/CoreAPITests'
+    #   test_spec.dependency 'OHHTTPStubs', '~> 9.0'
+    #   test_spec.dependency 'OHHTTPStubs/Swift', '~> 9.0'
+    #   test_spec.dependency 'Alamofire', '~> 5.0'
+    # end
+  end
 end
