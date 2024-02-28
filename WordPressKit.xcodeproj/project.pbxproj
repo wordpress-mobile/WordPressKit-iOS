@@ -812,7 +812,7 @@
 		3F21EC6E2B8D8F3B00DCE8DD /* StringEncoding+IANA.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StringEncoding+IANA.swift"; sourceTree = "<group>"; };
 		3F21EC702B8D8F7800DCE8DD /* Either.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Either.swift; sourceTree = "<group>"; };
 		3F21EC7C2B8D927000DCE8DD /* WordPressComRestApiErrorDomain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordPressComRestApiErrorDomain.swift; sourceTree = "<group>"; };
-		3F21EC8B2B8DA66000DCE8DD /* CoreAPI.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; name = CoreAPI.xctestplan; path = "/Users/gio/Developer/a8c/WordPressKit-iOS/CoreAPITests/CoreAPI.xctestplan"; sourceTree = "<absolute>"; };
+		3F21EC8B2B8DA66000DCE8DD /* CoreAPI.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; name = CoreAPI.xctestplan; path = "/Users/gio/Developer/a8c/WordPressKit-iOS/Tests/CoreAPITests/CoreAPI.xctestplan"; sourceTree = "<absolute>"; };
 		3F21ECBD2B8DAAC500DCE8DD /* me-settings-success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "me-settings-success.json"; sourceTree = "<group>"; };
 		3F21ECC12B8DB30300DCE8DD /* WordPressOrgRestApiTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WordPressOrgRestApiTests.swift; sourceTree = "<group>"; };
 		3F21ECC42B8DCDCF00DCE8DD /* xmlrpc-bad-username-password-error.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = "xmlrpc-bad-username-password-error.xml"; path = "CoreAPITests/Stubs/XML-stubs/xmlrpc-bad-username-password-error.xml"; sourceTree = SOURCE_ROOT; };
@@ -981,7 +981,7 @@
 		7403A2F01EF06FEB00DED7DC /* me-settings-change-primary-site-success.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "me-settings-change-primary-site-success.json"; path = "WordPressKitTests/me-settings-change-primary-site-success.json"; sourceTree = SOURCE_ROOT; };
 		7403A2F11EF06FEB00DED7DC /* me-settings-change-web-address-success.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "me-settings-change-web-address-success.json"; path = "WordPressKitTests/me-settings-change-web-address-success.json"; sourceTree = SOURCE_ROOT; };
 		7403A2F21EF06FEB00DED7DC /* me-settings-revert-email-success.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "me-settings-revert-email-success.json"; path = "WordPressKitTests/me-settings-revert-email-success.json"; sourceTree = SOURCE_ROOT; };
-		7403A2F31EF06FEB00DED7DC /* me-settings-success.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "me-settings-success.json"; path = "CoreAPITests/Stubs/JSON/me-settings-success.json"; sourceTree = SOURCE_ROOT; };
+		7403A2F31EF06FEB00DED7DC /* me-settings-success.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "me-settings-success.json"; path = "Tests/CoreAPITests/Stubs/JSON/me-settings-success.json"; sourceTree = SOURCE_ROOT; };
 		7403A3011EF0726E00DED7DC /* AccountSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountSettings.swift; sourceTree = "<group>"; };
 		740B23B21F17EC7300067A2A /* PostServiceRemote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostServiceRemote.h; sourceTree = "<group>"; };
 		740B23B31F17EC7300067A2A /* PostServiceRemoteREST.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostServiceRemoteREST.h; sourceTree = "<group>"; };
@@ -1827,6 +1827,7 @@
 		3FF873EE2B8EFFDD00EB8AFA /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				3F21EC3E2B8D8E4100DCE8DD /* CoreAPI */,
 				3F21EC2D2B8D899400DCE8DD /* RFC3339 */,
 			);
 			path = Sources;
@@ -1835,6 +1836,7 @@
 		3FF873EF2B8EFFE900EB8AFA /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				3F21EC482B8D8E4200DCE8DD /* CoreAPITests */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -2184,19 +2186,17 @@
 		9368C7711EC5EF1B0092CE8E = {
 			isa = PBXGroup;
 			children = (
-				3FF873EF2B8EFFE900EB8AFA /* Tests */,
-				3FF873EE2B8EFFDD00EB8AFA /* Sources */,
-				FFE247CD20CB1245002DF3A2 /* LICENSE */,
-				FFE247CC20CB118A002DF3A2 /* README.md */,
 				0C3A2A412A2E7BA500FD91D6 /* CHANGELOG.md */,
-				FF20AD2120B8471A00082398 /* WordPressKit.podspec */,
-				9368C77D1EC5EF1B0092CE8E /* WordPressKit */,
-				9368C7881EC5EF1B0092CE8E /* WordPressKitTests */,
-				3F21EC3E2B8D8E4100DCE8DD /* CoreAPI */,
-				3F21EC482B8D8E4200DCE8DD /* CoreAPITests */,
-				9368C77C1EC5EF1B0092CE8E /* Products */,
 				38C6ABE94A27A12C9C4AD19D /* Frameworks */,
+				FFE247CD20CB1245002DF3A2 /* LICENSE */,
 				E5EA953F7DD505CCED2E44CD /* Pods */,
+				9368C77C1EC5EF1B0092CE8E /* Products */,
+				FFE247CC20CB118A002DF3A2 /* README.md */,
+				3FF873EE2B8EFFDD00EB8AFA /* Sources */,
+				3FF873EF2B8EFFE900EB8AFA /* Tests */,
+				9368C77D1EC5EF1B0092CE8E /* WordPressKit */,
+				FF20AD2120B8471A00082398 /* WordPressKit.podspec */,
+				9368C7881EC5EF1B0092CE8E /* WordPressKitTests */,
 			);
 			sourceTree = "<group>";
 		};

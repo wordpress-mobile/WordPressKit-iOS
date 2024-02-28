@@ -34,7 +34,7 @@ let package = Package(
                 .product(name: "WordPressShared", package: "WordPress-iOS-Shared"),
                 "wpxmlrpc",
             ],
-            path: "CoreAPI"
+            path: "Sources/CoreAPI"
         ),
         .testTarget(
             name: "CoreAPITests",
@@ -44,7 +44,7 @@ let package = Package(
                 .product(name: "OHHTTPStubsSwift", package: "OHHTTPStubs"),
                 "Alamofire",
             ],
-            path: "CoreAPITests",
+            path: "Tests/CoreAPITests",
             resources: [
                 .process("Stubs")
             ]
