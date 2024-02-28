@@ -1599,13 +1599,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		3F21E9EF2B8D83A600DCE8DD /* CoreAPI */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = CoreAPI;
-			sourceTree = "<group>";
-		};
 		3F21E9F12B8D842F00DCE8DD /* CoreAPITests */ = {
 			isa = PBXGroup;
 			children = (
@@ -2218,7 +2211,6 @@
 				3F21EC202B8D866300DCE8DD /* Account */,
 				3F21E9F22B8D860800DCE8DD /* AccountObjc */,
 				3F21EC232B8D87FD00DCE8DD /* ComAPIBasic */,
-				3F21E9EF2B8D83A600DCE8DD /* CoreAPI */,
 				9368C77F1EC5EF1B0092CE8E /* Info.plist */,
 				3F21EC252B8D88BD00DCE8DD /* WordPressAndJetpack */,
 				9368C77E1EC5EF1B0092CE8E /* WordPressKit.h */,
