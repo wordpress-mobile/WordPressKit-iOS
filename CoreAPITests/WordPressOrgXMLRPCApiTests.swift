@@ -67,8 +67,10 @@ class WordPressOrgXMLRPCApiTests: XCTestCase {
                 expect.fulfill()
 
                 // FIXME: SPM can't find this
-                // XCTAssertEqual(error.domain, WordPressOrgXMLRPCApiErrorDomain)
-                XCTAssertEqual(error.domain, "potato")
+#if SWIFT_PACKAGE
+#else
+                 XCTAssertEqual(error.domain, WordPressOrgXMLRPCApiErrorDomain)
+#endif
                 XCTAssertEqual(error.code, WordPressOrgXMLRPCApiError.httpErrorStatusCode.rawValue)
                 XCTAssertEqual(error.localizedFailureReason, "An HTTP error code 404 was returned.")
                 XCTAssertNotNil(
@@ -99,8 +101,10 @@ class WordPressOrgXMLRPCApiTests: XCTestCase {
 
                 XCTAssertFalse(error is WordPressOrgXMLRPCApiError)
                 // FIXME: SPM can't find this
-                // XCTAssertEqual(error.domain, WordPressOrgXMLRPCApiErrorDomain)
-                XCTAssertEqual(error.domain, "potato")
+#if SWIFT_PACKAGE
+#else
+                 XCTAssertEqual(error.domain, WordPressOrgXMLRPCApiErrorDomain)
+#endif
                 XCTAssertEqual(error.code, 403)
                 XCTAssertEqual(error.localizedFailureReason, "An HTTP error code 403 was returned.")
                 XCTAssertNotNil(
@@ -128,11 +132,13 @@ class WordPressOrgXMLRPCApiTests: XCTestCase {
             },
             failure: { (error, _) in
                 expect.fulfill()
-                
+
                 XCTAssertTrue(error is WordPressOrgXMLRPCApiError)
                 // FIXME: SPM can't find this
-                // XCTAssertEqual(error.domain, WordPressOrgXMLRPCApiErrorDomain)
-                XCTAssertEqual(error.domain, "potato")
+#if SWIFT_PACKAGE
+#else
+                 XCTAssertEqual(error.domain, WordPressOrgXMLRPCApiErrorDomain)
+#endif
                 XCTAssertEqual(error.code, WordPressOrgXMLRPCApiError.unknown.rawValue)
                 XCTAssertEqual(
                     error.localizedFailureReason, WordPressOrgXMLRPCApiError.unknown.failureReason)
