@@ -120,7 +120,7 @@ class WordPressComRestApiTests: XCTestCase {
         }
     }
 
-    func testSuccessfullCall() throws  {
+    func testSuccessfullCall() throws {
         let stubPath = try XCTUnwrap(
             OHPathForFileInBundle("WordPressComRestApiMedia.json", Bundle.coreAPITestsBundle)
         )

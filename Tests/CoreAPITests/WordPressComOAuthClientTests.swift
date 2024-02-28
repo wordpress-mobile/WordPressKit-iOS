@@ -359,7 +359,7 @@ class WordPressComOAuthClientTests: XCTestCase {
         waitForExpectations(timeout: 2, handler: nil)
     }
 
-    func testAuthenticateWithIDToken() throws{
+    func testAuthenticateWithIDToken() throws {
         let stubPath = try XCTUnwrap(
             OHPathForFileInBundle("WordPressComAuthenticateWithIDTokenBearerTokenSuccess.json", Bundle.coreAPITestsBundle)
         )
