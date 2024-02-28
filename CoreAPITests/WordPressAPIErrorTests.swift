@@ -1,6 +1,6 @@
+@testable import CoreAPI
 import Foundation
 import XCTest
-@testable import CoreAPI
 
 class WordPressAPIErrorTests: XCTestCase {
 

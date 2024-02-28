@@ -1,8 +1,7 @@
+@testable import CoreAPI
 import Foundation
 import XCTest
 import wpxmlrpc
-
-@testable import CoreAPI
 
 class HTTPRequestBuilderTests: XCTestCase {
 
