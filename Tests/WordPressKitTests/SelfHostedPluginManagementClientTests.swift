@@ -1,4 +1,6 @@
+#if SWIFT_PACKAGE
 import CoreAPI
+#endif
 import OHHTTPStubs
 @testable import WordPressKit
 import XCTest
@@ -112,6 +114,7 @@ class SelfHostedPluginManagementClientTests: XCTestCase {
 
 }
 
+#if SWIFT_PACKAGE
 // FIXME: Duplicated from CoreAPITests. Investigate whether appropriate or if we should add a test helper or something.
 extension WordPressOrgRestApi {
     convenience init(apiBase: URL) {
@@ -128,3 +131,4 @@ extension WordPressOrgRestApi.Site {
         .dotCom(siteID: siteID, bearerToken: bearerToken, apiURL: WordPressComRestApi.apiBaseURL)
     }
 }
+#endif

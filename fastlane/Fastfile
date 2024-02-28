@@ -8,12 +8,12 @@ SWIFTLINT_PLUGIN_VALIDATION_BYPASS_XCARGS = '-skipPackagePluginValidation -skipM
 platform :ios do
   lane :package_build do
     xcodebuild(
-      scheme: 'WordPressKit-Package',
+      scheme: 'WordPressKit',
       xcargs: "-resolvePackageDependencies #{SWIFTLINT_PLUGIN_VALIDATION_BYPASS_XCARGS}"
     )
     run_tests(
       package_path: '.',
-      scheme: 'WordPressKit-Package',
+      scheme: 'WordPressKit',
       device: 'iPhone 15',
       prelaunch_simulator: true,
       xcargs: SWIFTLINT_PLUGIN_VALIDATION_BYPASS_XCARGS

@@ -1,4 +1,6 @@
+#if SWIFT_PACKAGE
 import CoreAPI
+#endif
 
 /// Encapsulates logic for fetching content to be shared by the user.
 ///

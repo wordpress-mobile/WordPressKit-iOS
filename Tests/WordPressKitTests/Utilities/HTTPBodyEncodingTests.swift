@@ -1,4 +1,6 @@
+#if SWIFT_PACKAGE
 @testable import CoreAPI // FIXME: Not sure whether this is appropriate. Kit should only interface via public API.
+#endif
 @testable import WordPressKit
 import XCTest
 

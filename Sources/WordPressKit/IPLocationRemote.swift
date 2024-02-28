@@ -1,4 +1,6 @@
+#if SWIFT_PACKAGE
 import CoreAPI
+#endif
 import Foundation
 
 /// Remote type to fetch the user's IP Location using the public `geo` API.

@@ -2,7 +2,9 @@
 #import "WPKit-Swift.h"
 #import "RemoteComment.h"
 #import "RemoteUser.h"
+#if SWIFT_PACKAGE
 @import CoreAPI;
+#endif
 @import NSObject_SafeExpectations;
 @import WordPressShared;
 

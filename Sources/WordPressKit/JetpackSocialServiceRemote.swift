@@ -1,4 +1,6 @@
+#if SWIFT_PACKAGE
 import CoreAPI
+#endif
 
 /// Encapsulates remote service logic related to Jetpack Social.
 public class JetpackSocialServiceRemote: ServiceRemoteWordPressComREST {

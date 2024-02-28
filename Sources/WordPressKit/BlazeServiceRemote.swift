@@ -1,4 +1,6 @@
+#if SWIFT_PACKAGE
 import CoreAPI
+#endif
 
 open class BlazeServiceRemote: ServiceRemoteWordPressComREST {
 

@@ -1,4 +1,6 @@
+#if SWIFT_PACKAGE
 import CoreAPI
+#endif
 
 public extension CommentServiceRemoteREST {
     /// Lists the available keys for the request parameter.

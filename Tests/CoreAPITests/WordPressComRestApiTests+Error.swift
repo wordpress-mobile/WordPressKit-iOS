@@ -1,4 +1,8 @@
+#if SWIFT_PACKAGE
 @testable import CoreAPI
+#else
+@testable import WordPressKit
+#endif
 import Foundation
 import XCTest
 

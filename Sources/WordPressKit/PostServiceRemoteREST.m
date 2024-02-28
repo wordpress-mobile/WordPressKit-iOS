@@ -3,7 +3,9 @@
 #import "RemotePostCategory.h"
 #import "RemoteUser.h"
 #import "WPKit-Swift.h"
+#if SWIFT_PACKAGE
 @import CoreAPI;
+#endif
 @import WordPressShared;
 @import NSObject_SafeExpectations;
 

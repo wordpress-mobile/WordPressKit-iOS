@@ -1,4 +1,8 @@
+#if SWIFT_PACKAGE
 @testable import CoreAPI
+#else
+@testable import WordPressKit
+#endif
 import Foundation
 import OHHTTPStubs
 #if SWIFT_PACKAGE
@@ -11,6 +15,8 @@ class WordPressOrgXMLRPCApiTests: XCTestCase {
 
     let xmlrpcEndpoint = "http://wordpress.org/xmlrpc.php"
     let xmlContentTypeHeaders: [String: Any] = ["Content-Type": "application/xml"]
+
+    let badUsernameOrPasswordErrorPath = OHPathForFileInBundle("xmlrpc-bad-username-or-password-error.xml", Bundle.coreAPITestsBundle)
 
     override func setUp() {
         super.setUp()
@@ -179,9 +185,7 @@ class WordPressOrgXMLRPCApiTests: XCTestCase {
     }
 
     func testFault() throws {
-        let responseFile = try XCTUnwrap(
-            OHPathForFileInBundle("xmlrpc-bad-username-password-error.xml", Bundle.coreAPITestsBundle)
-        )
+        let responseFile = try XCTUnwrap(badUsernameOrPasswordErrorPath)
         stub(condition: isXmlRpcAPIRequest()) { _ in
             fixture(filePath: responseFile, headers: self.xmlContentTypeHeaders)
         }
@@ -211,9 +215,7 @@ class WordPressOrgXMLRPCApiTests: XCTestCase {
     }
 
     func testFault401() throws {
-        let responseFile = try XCTUnwrap(
-            OHPathForFileInBundle("xmlrpc-bad-username-password-error.xml", Bundle.coreAPITestsBundle)
-        )
+        let responseFile = try XCTUnwrap(badUsernameOrPasswordErrorPath)
         stub(condition: isXmlRpcAPIRequest()) { _ in
             fixture(filePath: responseFile, status: 401, headers: self.xmlContentTypeHeaders)
         }
@@ -337,9 +339,7 @@ class WordPressOrgXMLRPCApiTests: XCTestCase {
     }
 
     func testProgressUpdateFailure() throws {
-        let stubPath = try XCTUnwrap(
-            OHPathForFileInBundle("xmlrpc-bad-username-password-error.xml", Bundle.coreAPITestsBundle)
-        )
+        let stubPath = try XCTUnwrap(badUsernameOrPasswordErrorPath)
         stub(condition: isXmlRpcAPIRequest()) { _ in
             return fixture(filePath: stubPath, headers: self.xmlContentTypeHeaders)
         }
@@ -401,9 +401,7 @@ class WordPressOrgXMLRPCApiTests: XCTestCase {
     }
 
     func testProgressUpdateStreamAPIFailure() throws {
-        let stubPath = try XCTUnwrap(
-            OHPathForFileInBundle("xmlrpc-bad-username-password-error.xml", Bundle.coreAPITestsBundle)
-        )
+        let stubPath = try XCTUnwrap(badUsernameOrPasswordErrorPath)
         stub(condition: isXmlRpcAPIRequest()) { _ in
             return fixture(filePath: stubPath, headers: self.xmlContentTypeHeaders)
         }

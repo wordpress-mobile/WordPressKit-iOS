@@ -1,4 +1,6 @@
+#if SWIFT_PACKAGE
 import CoreAPI
+#endif
 
 /// Encapsulates logic to fetch blogging prompts from the remote endpoint.
 ///

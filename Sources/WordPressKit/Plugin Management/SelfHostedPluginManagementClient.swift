@@ -1,4 +1,6 @@
+#if SWIFT_PACKAGE
 import CoreAPI
+#endif
 
 public class SelfHostedPluginManagementClient: PluginManagementClient {
     private let remote: WordPressOrgRestApi

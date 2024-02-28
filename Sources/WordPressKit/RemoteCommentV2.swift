@@ -1,4 +1,6 @@
+#if SWIFT_PACKAGE
 import CoreAPI
+#endif
 
 /// Captures the JSON structure for Comments returned from API v2 endpoint.
 public struct RemoteCommentV2 {

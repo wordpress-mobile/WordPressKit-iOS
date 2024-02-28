@@ -1,4 +1,8 @@
+#if SWIFT_PACKAGE
 @testable import CoreAPI
+#else
+@testable import WordPressKit
+#endif
 import OHHTTPStubs
 #if SWIFT_PACKAGE
 import OHHTTPStubsSwift

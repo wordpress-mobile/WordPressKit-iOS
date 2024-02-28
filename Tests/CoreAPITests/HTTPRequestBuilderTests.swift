@@ -1,4 +1,8 @@
+#if SWIFT_PACKAGE
 @testable import CoreAPI
+#else
+@testable import WordPressKit
+#endif
 import Foundation
 import XCTest
 import wpxmlrpc
@@ -412,7 +416,7 @@ class HTTPRequestBuilderTests: XCTestCase {
     }
 
     func testXMLRPCUpload() throws {
-        let file = try XCTUnwrap(Bundle.coreAPITestsBundle.url(forResource: "me-settings-success", withExtension: "json"))
+        let file = try XCTUnwrap(Bundle.coreAPITestsBundle.url(forResource: "wp-pages", withExtension: "json"))
         let fileContentBase64 = try Data(contentsOf: file).base64EncodedString()
         let fileStream = try XCTUnwrap(InputStream(url: file))
         let request = try HTTPRequestBuilder(url: URL(string: "https://w.org/xmlrpc.php")!)

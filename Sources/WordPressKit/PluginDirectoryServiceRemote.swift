@@ -1,4 +1,6 @@
+#if SWIFT_PACKAGE
 import CoreAPI
+#endif
 import Foundation
 
 private struct PluginDirectoryRemoteConstants {

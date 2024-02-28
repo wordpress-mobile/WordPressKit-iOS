@@ -1,7 +1,9 @@
 #import "MediaServiceRemoteREST.h"
 #import "RemoteMedia.h"
 #import "WPKit-Swift.h"
+#if SWIFT_PACKAGE
 @import CoreAPI;
+#endif
 @import WordPressShared;
 @import NSObject_SafeExpectations;
 

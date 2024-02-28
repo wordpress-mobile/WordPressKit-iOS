@@ -1,5 +1,9 @@
 import Alamofire
+#if SWIFT_PACKAGE
 @testable import CoreAPI
+#else
+@testable import WordPressKit
+#endif
 import CryptoKit
 import XCTest
 
