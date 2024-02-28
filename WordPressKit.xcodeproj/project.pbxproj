@@ -1677,7 +1677,7 @@
 		3F21EC2D2B8D899400DCE8DD /* RFC3339 */ = {
 			isa = PBXGroup;
 			children = (
-				93BD27751EE73944002BB00B /* NSDate+WordPressJSON.h */,
+				3F21ECC92B8EDA5300DCE8DD /* include */,
 				93BD27761EE73944002BB00B /* NSDate+WordPressJSON.m */,
 				3F21EC2E2B8D899400DCE8DD /* RFC3339.h */,
 			);
@@ -1802,6 +1802,14 @@
 				3F21ECC42B8DCDCF00DCE8DD /* xmlrpc-bad-username-password-error.xml */,
 			);
 			path = "Duplicated-From-CoreAPI";
+			sourceTree = "<group>";
+		};
+		3F21ECC92B8EDA5300DCE8DD /* include */ = {
+			isa = PBXGroup;
+			children = (
+				93BD27751EE73944002BB00B /* NSDate+WordPressJSON.h */,
+			);
+			path = include;
 			sourceTree = "<group>";
 		};
 		3F3195AB266FF91100397EE7 /* Plans */ = {

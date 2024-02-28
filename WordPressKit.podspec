@@ -19,7 +19,7 @@ Pod::Spec.new do |s|
 
   s.source        = { git: 'https://github.com/wordpress-mobile/WordPressKit-iOS.git', tag: s.version.to_s }
   s.source_files  = 'WordPressKit/**/*.{h,m,swift}'
-  s.private_header_files = 'WordPressKit/Private/*.h'
+  s.private_header_files = 'WordPressKit/WordPressAndJetpack/Private/*.h'
   s.header_dir = 'WordPressKit'
 
   s.dependency 'NSObject-SafeExpectations', '~> 0.0.4'
@@ -29,4 +29,36 @@ Pod::Spec.new do |s|
   # Use a loose restriction that allows both production and beta versions, up to the next major version.
   # If you want to update which of these is used, specify it in the host app.
   s.dependency 'WordPressShared', '~> 2.0-beta'
+
+  s.test_spec do |test_spec|
+    test_spec.source_files = 'WordPressKitTests'
+
+    test_spec.dependency 'OHHTTPStubs', '~> 9.0'
+    test_spec.dependency 'OHHTTPStubs/Swift', '~> 9.0'
+    test_spec.dependency 'OCMock', '~> 3.4'
+    test_spec.dependency 'Alamofire', '~> 5.0'
+  end
+
+  s.subspec 'RFC3339' do |subspec|
+    subspec.source_files = 'RFC3339/**/*.{h,m}'
+    subspec.public_header_files = 'RFC3339/include', 'RFC3339/RFC3339.h'
+  end
+
+  s.subspec 'CoreAPI' do |subspec|
+    subspec.source_files = 'CoreAPI'
+
+    subspec.dependency 'wpxmlrpc', '~> 0.10'
+    subspec.dependency 'UIDeviceIdentifier', '~> 2.0'
+    subspec.dependency 'WordPressShared', '~> 2.0-beta'
+
+    # The unit tests work on Xcode, but the CocoaPods validation fails with them.
+    #
+    # subspec.test_spec do |test_spec|
+    #   test_spec.source_files = 'CoreAPITests'
+
+    #   test_spec.dependency 'OHHTTPStubs', '~> 9.0'
+    #   test_spec.dependency 'OHHTTPStubs/Swift', '~> 9.0'
+    #   test_spec.dependency 'Alamofire', '~> 5.0'
+    # end
+  end
 end
