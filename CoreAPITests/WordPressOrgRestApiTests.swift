@@ -26,12 +26,17 @@ class WordPressOrgRestApiTests: XCTestCase {
     }
 
     func testUnauthorizedCall() async throws {
+        let stubPath = try XCTUnwrap(
+            OHPathForFileInBundle("wp-forbidden.json", Bundle.coreAPITestsBundle)
+        )
         stub(condition: isAPIRequest()) { _ in
-            let stubPath = OHPathForFileInBundle("wp-forbidden.json", Bundle.coreAPITestsBundle)
             return fixture(
-                filePath: stubPath!, status: 401,
-                headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
+                filePath: stubPath,
+                status: 401,
+                headers: ["Content-Type" as NSObject: "application/json" as AnyObject]
+            )
         }
+
         let api = WordPressOrgRestApi(apiBase: apiBase)
         let result = await api.get(path: "wp/v2/settings", type: AnyResponse.self)
         switch result {
@@ -43,21 +48,30 @@ class WordPressOrgRestApiTests: XCTestCase {
     }
 
     func testSuccessfulGetCall() async throws {
+        let stubPath = try XCTUnwrap(
+            OHPathForFileInBundle("wp-pages.json", Bundle.coreAPITestsBundle)
+        )
         stub(condition: isAPIRequest()) { _ in
-            let stubPath = OHPathForFileInBundle("wp-pages.json", Bundle.coreAPITestsBundle)
             return fixture(
-                filePath: stubPath!, headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
+                filePath: stubPath,
+                headers: ["Content-Type" as NSObject: "application/json" as AnyObject]
+            )
         }
+
         let api = WordPressOrgRestApi(apiBase: apiBase)
         let pages = try await api.get(path: "wp/v2/pages", type: [AnyResponse].self).get()
         XCTAssertEqual(pages.count, 10, "The API should return 10 pages")
     }
 
     func testSuccessfulPostCall() async throws {
+        let stubPath = try XCTUnwrap(
+            OHPathForFileInBundle("wp-reusable-blocks.json", Bundle.coreAPITestsBundle)
+        )
         stub(condition: isAPIRequest()) { _ in
-            let stubPath = OHPathForFileInBundle("wp-reusable-blocks.json", Bundle.coreAPITestsBundle)
             return fixture(
-                filePath: stubPath!, headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
+                filePath: stubPath,
+                headers: ["Content-Type" as NSObject: "application/json" as AnyObject]
+            )
         }
 
         struct Response: Decodable {

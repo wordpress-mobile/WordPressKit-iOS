@@ -31,11 +31,14 @@ class WordPressComOAuthClientTests: XCTestCase {
         }
     }
 
-    func testAuthenticateUsernameNo2FASuccessCase() {
+    func testAuthenticateUsernameNo2FASuccessCase() throws {
+        let stubPath = try XCTUnwrap(
+            OHPathForFileInBundle("WordPressComOAuthSuccess.json", Bundle.coreAPITestsBundle)
+        )
         stub(condition: isOauthTokenRequest(url: .oAuthTokenUrl)) { _ in
-            let stubPath = OHPathForFileInBundle("WordPressComOAuthSuccess.json", Bundle.coreAPITestsBundle)
             return fixture(
-                filePath: stubPath!, headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
+                filePath: stubPath, headers: ["Content-Type" as NSObject: "application/json" as AnyObject]
+            )
         }
 
         let expect = expectation(description: "One callback should be invoked")
@@ -58,11 +61,14 @@ class WordPressComOAuthClientTests: XCTestCase {
         waitForExpectations(timeout: 2, handler: nil)
     }
 
-    func testAuthenticateUsernameNo2FASuccessCase_withMFAClosure() {
+    func testAuthenticateUsernameNo2FASuccessCase_withMFAClosure() throws {
+        let stubPath = try XCTUnwrap(
+            OHPathForFileInBundle("WordPressComOAuthSuccess.json", Bundle.coreAPITestsBundle)
+        )
         stub(condition: isOauthTokenRequest(url: .oAuthTokenUrl)) { _ in
-            let stubPath = OHPathForFileInBundle("WordPressComOAuthSuccess.json", Bundle.coreAPITestsBundle)
             return fixture(
-                filePath: stubPath!, headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
+                filePath: stubPath, headers: ["Content-Type" as NSObject: "application/json" as AnyObject]
+            )
         }
 
         let expect = expectation(description: "One callback should be invoked")
@@ -88,12 +94,16 @@ class WordPressComOAuthClientTests: XCTestCase {
         waitForExpectations(timeout: 2, handler: nil)
     }
 
-    func testAuthenticateUsernameNo2FAFailureWrongPasswordCase() {
+    func testAuthenticateUsernameNo2FAFailureWrongPasswordCase() throws {
+        let stubPath = try XCTUnwrap(
+            OHPathForFileInBundle("WordPressComOAuthWrongPasswordFail.json", Bundle.coreAPITestsBundle)
+        )
         stub(condition: isOauthTokenRequest(url: .oAuthTokenUrl)) { _ in
-            let stubPath = OHPathForFileInBundle("WordPressComOAuthWrongPasswordFail.json", Bundle.coreAPITestsBundle)
             return fixture(
-                filePath: stubPath!, status: 400,
-                headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
+                filePath: stubPath,
+                status: 400,
+                headers: ["Content-Type" as NSObject: "application/json" as AnyObject]
+            )
         }
 
         let expect = expectation(description: "One callback should be invoked")
@@ -116,12 +126,16 @@ class WordPressComOAuthClientTests: XCTestCase {
         waitForExpectations(timeout: 2, handler: nil)
     }
 
-    func testAuthenticateUsernameNo2FAFailureWrongPasswordCase_withMFAClosure() {
+    func testAuthenticateUsernameNo2FAFailureWrongPasswordCase_withMFAClosure() throws {
+        let stubPath = try XCTUnwrap(
+            OHPathForFileInBundle("WordPressComOAuthWrongPasswordFail.json", Bundle.coreAPITestsBundle)
+        )
         stub(condition: isOauthTokenRequest(url: .oAuthTokenUrl)) { _ in
-            let stubPath = OHPathForFileInBundle("WordPressComOAuthWrongPasswordFail.json", Bundle.coreAPITestsBundle)
             return fixture(
-                filePath: stubPath!, status: 400,
-                headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
+                filePath: stubPath,
+                status: 400,
+                headers: ["Content-Type" as NSObject: "application/json" as AnyObject]
+            )
         }
 
         let expect = expectation(description: "One callback should be invoked")
@@ -147,12 +161,16 @@ class WordPressComOAuthClientTests: XCTestCase {
         waitForExpectations(timeout: 2, handler: nil)
     }
 
-    func testAuthenticateUsername2FAWrong2FACase() {
+    func testAuthenticateUsername2FAWrong2FACase() throws {
+        let stubPath = try XCTUnwrap(
+            OHPathForFileInBundle("WordPressComOAuthNeeds2FAFail.json", Bundle.coreAPITestsBundle)
+        )
         stub(condition: isOauthTokenRequest(url: .oAuthTokenUrl)) { _ in
-            let stubPath = OHPathForFileInBundle("WordPressComOAuthNeeds2FAFail.json", Bundle.coreAPITestsBundle)
             return fixture(
-                filePath: stubPath!, status: 400,
-                headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
+                filePath: stubPath,
+                status: 400,
+                headers: ["Content-Type" as NSObject: "application/json" as AnyObject]
+            )
         }
 
         let expect = expectation(description: "Call should complete")
@@ -198,12 +216,16 @@ class WordPressComOAuthClientTests: XCTestCase {
         waitForExpectations(timeout: 2, handler: nil)
     }
 
-    func testAuthenticateUsername2FAWrong2FACase_withMFAClosure() {
+    func testAuthenticateUsername2FAWrong2FACase_withMFAClosure() throws {
+        let stubPath = try XCTUnwrap(
+            OHPathForFileInBundle("WordPressComOAuthNeeds2FAFail.json", Bundle.coreAPITestsBundle)
+        )
         stub(condition: isOauthTokenRequest(url: .oAuthTokenUrl)) { _ in
-            let stubPath = OHPathForFileInBundle("WordPressComOAuthNeeds2FAFail.json", Bundle.coreAPITestsBundle)
             return fixture(
-                filePath: stubPath!, status: 400,
-                headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
+                filePath: stubPath,
+                status: 400,
+                headers: ["Content-Type" as NSObject: "application/json" as AnyObject]
+            )
         }
 
         let expect = expectation(description: "Call should complete")
@@ -252,11 +274,15 @@ class WordPressComOAuthClientTests: XCTestCase {
         waitForExpectations(timeout: 2, handler: nil)
     }
 
-    func testAuthenticateUsernameRequiresWebauthnMultifactorAuthentication() {
+    func testAuthenticateUsernameRequiresWebauthnMultifactorAuthentication() throws {
+        let stubPath = try XCTUnwrap(
+            OHPathForFileInBundle("WordPressComOAuthNeedsWebauthnMFA.json", Bundle.coreAPITestsBundle)
+        )
         stub(condition: isOauthTokenRequest(url: .oAuthTokenUrl)) { _ in
-            let stubPath = OHPathForFileInBundle("WordPressComOAuthNeedsWebauthnMFA.json", Bundle.coreAPITestsBundle)
             return fixture(
-                filePath: stubPath!, headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
+                filePath: stubPath,
+                headers: ["Content-Type" as NSObject: "application/json" as AnyObject]
+            )
         }
 
         let expect = expectation(description: "Call should complete")
@@ -282,11 +308,13 @@ class WordPressComOAuthClientTests: XCTestCase {
         waitForExpectations(timeout: 2, handler: nil)
     }
 
-    func testRequestOneTimeCodeWithUsername() {
+    func testRequestOneTimeCodeWithUsername() throws {
+        let stubPath = try XCTUnwrap(OHPathForFileInBundle("WordPressComOAuthNeeds2FAFail.json", Bundle.coreAPITestsBundle))
         stub(condition: isOauthTokenRequest(url: .oAuthTokenUrl)) { _ in
-            let stubPath = OHPathForFileInBundle("WordPressComOAuthNeeds2FAFail.json", Bundle.coreAPITestsBundle)
             return fixture(
-                filePath: stubPath!, headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
+                filePath: stubPath,
+                headers: ["Content-Type" as NSObject: "application/json" as AnyObject]
+            )
         }
 
         let expect = expectation(description: "One callback should be invoked")
@@ -304,11 +332,14 @@ class WordPressComOAuthClientTests: XCTestCase {
         waitForExpectations(timeout: 2, handler: nil)
     }
 
-    func testRequestSocial2FACodeWithUserID() {
+    func testRequestSocial2FACodeWithUserID() throws {
+        let stubPath = try XCTUnwrap(
+            OHPathForFileInBundle("WordPressComSocial2FACodeSuccess.json", Bundle.coreAPITestsBundle)
+        )
         stub(condition: isOauthTokenRequest(url: .socialLoginNewSMS2FA)) { _ in
-            let stubPath = OHPathForFileInBundle("WordPressComSocial2FACodeSuccess.json", Bundle.coreAPITestsBundle)
             return fixture(
-                filePath: stubPath!, headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
+                filePath: stubPath, headers: ["Content-Type" as NSObject: "application/json" as AnyObject]
+            )
         }
 
         let expect = expectation(description: "One callback should be invoked")
@@ -328,12 +359,15 @@ class WordPressComOAuthClientTests: XCTestCase {
         waitForExpectations(timeout: 2, handler: nil)
     }
 
-    func testAuthenticateWithIDToken() {
+    func testAuthenticateWithIDToken() throws{
+        let stubPath = try XCTUnwrap(
+            OHPathForFileInBundle("WordPressComAuthenticateWithIDTokenBearerTokenSuccess.json", Bundle.coreAPITestsBundle)
+        )
         stub(condition: isOauthTokenRequest(url: .socialLogin)) { _ in
-            let stubPath = OHPathForFileInBundle(
-                "WordPressComAuthenticateWithIDTokenBearerTokenSuccess.json", Bundle.coreAPITestsBundle)
             return fixture(
-                filePath: stubPath!, headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
+                filePath: stubPath,
+                headers: ["Content-Type" as NSObject: "application/json" as AnyObject]
+            )
         }
 
         let expect = expectation(description: "One callback should be invoked")
@@ -363,12 +397,15 @@ class WordPressComOAuthClientTests: XCTestCase {
         waitForExpectations(timeout: 2, handler: nil)
     }
 
-    func testAuthenticateWithIDToken2FANeeded() {
+    func testAuthenticateWithIDToken2FANeeded() throws {
+        let stubPath = try XCTUnwrap(
+            OHPathForFileInBundle("WordPressComAuthenticateWithIDToken2FANeededSuccess.json", Bundle.coreAPITestsBundle)
+        )
         stub(condition: isOauthTokenRequest(url: .socialLogin)) { _ in
-            let stubPath = OHPathForFileInBundle(
-                "WordPressComAuthenticateWithIDToken2FANeededSuccess.json", Bundle.coreAPITestsBundle)
             return fixture(
-                filePath: stubPath!, headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
+                filePath: stubPath,
+                headers: ["Content-Type" as NSObject: "application/json" as AnyObject]
+            )
         }
 
         let expect = expectation(description: "One callback should be invoked")
@@ -399,13 +436,15 @@ class WordPressComOAuthClientTests: XCTestCase {
         waitForExpectations(timeout: 2, handler: nil)
     }
 
-    func testAuthenticateWithIDTokenUserNeedsConnection() {
+    func testAuthenticateWithIDTokenUserNeedsConnection() throws {
+        let stubPath = try XCTUnwrap( OHPathForFileInBundle("WordPressComAuthenticateWithIDTokenExistingUserNeedsConnection.json", Bundle.coreAPITestsBundle)
+        )
         stub(condition: isOauthTokenRequest(url: .socialLogin)) { _ in
-            let stubPath = OHPathForFileInBundle(
-                "WordPressComAuthenticateWithIDTokenExistingUserNeedsConnection.json", Bundle.coreAPITestsBundle)
             return fixture(
-                filePath: stubPath!, status: 400,
-                headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
+                filePath: stubPath,
+                status: 400,
+                headers: ["Content-Type" as NSObject: "application/json" as AnyObject]
+            )
         }
 
         let expect = expectation(description: "One callback should be invoked")
@@ -434,12 +473,15 @@ class WordPressComOAuthClientTests: XCTestCase {
         waitForExpectations(timeout: 2, handler: nil)
     }
 
-    func testAuthenticateSocialLoginUser() {
+    func testAuthenticateSocialLoginUser() throws {
+        let stubPath = try XCTUnwrap(
+            OHPathForFileInBundle("WordPressComAuthenticateWithIDTokenBearerTokenSuccess.json", Bundle.coreAPITestsBundle)
+        )
         stub(condition: isOauthTokenRequest(url: .socialLogin2FA)) { _ in
-            let stubPath = OHPathForFileInBundle(
-                "WordPressComAuthenticateWithIDTokenBearerTokenSuccess.json", Bundle.coreAPITestsBundle)
             return fixture(
-                filePath: stubPath!, headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
+                filePath: stubPath,
+                headers: ["Content-Type" as NSObject: "application/json" as AnyObject]
+            )
         }
 
         let expect = expectation(description: "One callback should be invoked")
@@ -460,11 +502,15 @@ class WordPressComOAuthClientTests: XCTestCase {
         waitForExpectations(timeout: 2, handler: nil)
     }
 
-    func testRequestWebauthnChallengeReturnsCompleteChallengeInfo() {
+    func testRequestWebauthnChallengeReturnsCompleteChallengeInfo() throws {
+        let stubPath = try XCTUnwrap(
+            OHPathForFileInBundle("WordPressComOAuthRequestChallenge.json", Bundle.coreAPITestsBundle)
+        )
         stub(condition: isOauthTokenRequest(url: .requestWebauthnChallenge)) { _ in
-            let stubPath = OHPathForFileInBundle("WordPressComOAuthRequestChallenge.json", Bundle.coreAPITestsBundle)
             return fixture(
-                filePath: stubPath!, headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
+                filePath: stubPath,
+                headers: ["Content-Type" as NSObject: "application/json" as AnyObject]
+            )
         }
 
         let expect = expectation(description: "One callback should be invoked")
@@ -487,11 +533,15 @@ class WordPressComOAuthClientTests: XCTestCase {
         waitForExpectations(timeout: 2, handler: nil)
     }
 
-    func testAuthenticateWebauthSignatureReturnsOauthToken() {
+    func testAuthenticateWebauthSignatureReturnsOauthToken() throws {
+        let stubPath = try XCTUnwrap(
+            OHPathForFileInBundle("WordPressComOAuthAuthenticateSignature.json", Bundle.coreAPITestsBundle)
+        )
         stub(condition: isOauthTokenRequest(url: .verifySignature)) { _ in
-            let stubPath = OHPathForFileInBundle("WordPressComOAuthAuthenticateSignature.json", Bundle.coreAPITestsBundle)
             return fixture(
-                filePath: stubPath!, headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
+                filePath: stubPath,
+                headers: ["Content-Type" as NSObject: "application/json" as AnyObject]
+            )
         }
 
         let expect = expectation(description: "One callback should be invoked")

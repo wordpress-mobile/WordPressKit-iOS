@@ -9,6 +9,10 @@ final class WordPressOrgXMLRPCValidatorTests: XCTestCase {
 
     private let exampleURLString = "http://example.com"
 
+    let responseInvalidHTML = OHPathForFileInBundle("xmlrpc-response-invalid.html", Bundle.coreAPITestsBundle)
+
+    let responseListMethods = OHPathForFileInBundle("xmlrpc-response-list-methods.xml", Bundle.coreAPITestsBundle)
+
     override func setUp() {
         super.setUp()
 
@@ -99,21 +103,22 @@ final class WordPressOrgXMLRPCValidatorTests: XCTestCase {
         XCTAssertEqual(schemes, Set(arrayLiteral: "https", "http"))
     }
 
-    func testNotWordPressSiteError() {
+    func testNotWordPressSiteError() throws {
         // Create HTTP stubs to simulate a plain static website
         // - Return a plain HTML webpage for all GET requests
         // - Return a 405 method not allowed error for all POST requests
 
+        let stubPath = try XCTUnwrap(responseInvalidHTML)
         stub(condition: isHost("www.apple.com") && isMethodGET()) { _ in
             fixture(
-                filePath: OHPathForFileInBundle("xmlrpc-response-invalid.html", Bundle.coreAPITestsBundle)!,
+                filePath: stubPath,
                 status: 200,
                 headers: nil
             )
         }
         stub(condition: isHost("www.apple.com") && isMethodPOST()) { _ in
             fixture(
-                filePath: OHPathForFileInBundle("xmlrpc-response-invalid.html", Bundle.coreAPITestsBundle)!,
+                filePath: stubPath,
                 status: 405,
                 headers: nil
             )
@@ -139,10 +144,11 @@ final class WordPressOrgXMLRPCValidatorTests: XCTestCase {
         wait(for: [failure], timeout: 0.3)
     }
 
-    func testSuccessWithSiteAddress() {
+    func testSuccessWithSiteAddress() throws {
+        let stubPath = try XCTUnwrap(responseListMethods)
         stub(condition: isHost("www.apple.com") && isPath("/blog/xmlrpc.php")) { _ in
             fixture(
-                filePath: OHPathForFileInBundle("xmlrpc-response-list-methods.xml", Bundle.coreAPITestsBundle)!,
+                filePath: stubPath,
                 status: 200,
                 headers: [
                     "Content-Type": "application/xml"
@@ -164,25 +170,27 @@ final class WordPressOrgXMLRPCValidatorTests: XCTestCase {
         wait(for: [success], timeout: 0.3)
     }
 
-    func testSuccessWithIrregularXMLRPCAddress() {
+    func testSuccessWithIrregularXMLRPCAddress() throws {
         let apiCalls = [
             expectation(description: "Request #1: call xmlrpc.php"),
             expectation(description: "Request #2: call the url argument"),
         ]
 
+        let stubPathInvalid = try XCTUnwrap(responseInvalidHTML)
         stub(condition: isHost("www.apple.com") && isPath("/blog/xmlrpc.php")) { _ in
             apiCalls[0].fulfill()
             return fixture(
-                filePath: OHPathForFileInBundle("xmlrpc-response-invalid.html", Bundle.coreAPITestsBundle)!,
+                filePath: stubPathInvalid,
                 status: 403,
                 headers: nil
             )
         }
 
+        let stubPathList = try XCTUnwrap(responseListMethods)
         stub(condition: isHost("www.apple.com") && isPath("/blog")) { _ in
             apiCalls[1].fulfill()
             return fixture(
-                filePath: OHPathForFileInBundle("xmlrpc-response-list-methods.xml", Bundle.coreAPITestsBundle)!,
+                filePath: stubPathList,
                 status: 200,
                 headers: [
                     "Content-Type": "application/xml"
@@ -204,10 +212,11 @@ final class WordPressOrgXMLRPCValidatorTests: XCTestCase {
         wait(for: apiCalls + [success], timeout: 0.3, enforceOrder: true)
     }
 
-    func testSuccessWithRSDLink() {
+    func testSuccessWithRSDLink() throws {
+        let stubPath = try XCTUnwrap(responseInvalidHTML)
         stub(condition: isHost("www.apple.com") && isPath("/blog/xmlrpc.php")) { _ in
             return fixture(
-                filePath: OHPathForFileInBundle("xmlrpc-response-invalid.html", Bundle.coreAPITestsBundle)!,
+                filePath: stubPath,
                 status: 403,
                 headers: nil
             )
@@ -254,9 +263,10 @@ final class WordPressOrgXMLRPCValidatorTests: XCTestCase {
             )
         }
 
+        let listStubPath = try XCTUnwrap(responseListMethods)
         stub(condition: isHost("www.apple.com") && isPath("/blog-xmlrpc.php")) { _ in
             fixture(
-                filePath: OHPathForFileInBundle("xmlrpc-response-list-methods.xml", Bundle.coreAPITestsBundle)!,
+                filePath: listStubPath,
                 status: 200,
                 headers: [
                     "Content-Type": "application/xml"
@@ -278,7 +288,7 @@ final class WordPressOrgXMLRPCValidatorTests: XCTestCase {
         wait(for: [success], timeout: 0.3)
     }
 
-    func testManyRedirectsError() {
+    func testManyRedirectsError() throws {
         // redirect 'POST /redirect/<num>' to '/redirect/<num + 1>'.
         for number in 1...30 {
             stub(condition: isMethodPOST() && { $0.url!.path.hasPrefix("/redirect/\(number)-req") }) {
@@ -291,10 +301,11 @@ final class WordPressOrgXMLRPCValidatorTests: XCTestCase {
             }
         }
 
-        // All GET requests get a html webpage.
+        // All GET requests get a HTML webpage.
+        let stubPath = try XCTUnwrap(responseInvalidHTML)
         stub(condition: isMethodGET()) { _ in
             fixture(
-                filePath: OHPathForFileInBundle("xmlrpc-response-invalid.html", Bundle.coreAPITestsBundle)!,
+                filePath: stubPath,
                 status: 405,
                 headers: nil
             )
@@ -320,7 +331,7 @@ final class WordPressOrgXMLRPCValidatorTests: XCTestCase {
         wait(for: [failure], timeout: 0.3)
     }
 
-    func testMobilePluginRedirectedError() {
+    func testMobilePluginRedirectedError() throws {
         // redirect 'POST /redirect/<num>' to '/redirect/<num + 1>'.
         stub(condition: isMethodPOST() && isHost("www.apple.com")) { _ in
             HTTPStubsResponse(
@@ -329,12 +340,11 @@ final class WordPressOrgXMLRPCValidatorTests: XCTestCase {
                     "Location": "https://m.apple.com"
                 ])
         }
+        let stubPath = try XCTUnwrap(
+            OHPathForFileInBundle("xmlrpc-response-mobile-plugin-redirect.html", Bundle.coreAPITestsBundle)
+        )
         stub(condition: isMethodPOST() && isHost("m.apple.com")) { _ in
-            fixture(
-                filePath: OHPathForFileInBundle("xmlrpc-response-mobile-plugin-redirect.html", Bundle.coreAPITestsBundle)!,
-                status: 200,
-                headers: nil
-            )
+            fixture(filePath: stubPath, status: 200, headers: nil)
         }
 
         let failure = self.expectation(description: "returns error")
