@@ -1,7 +1,3 @@
-// Note that this is duplicated with the main WordPressKit but only for use when built as a Swift package.
-//
-// We could use a third-party shared implementation, but given it's so simple to implement copy-paste will do for the moment.
-#if SWIFT_PACKAGE
 enum Either<L, R> {
     case left(L)
     case right(R)
@@ -15,4 +11,3 @@ enum Either<L, R> {
         }
     }
 }
-#endif
