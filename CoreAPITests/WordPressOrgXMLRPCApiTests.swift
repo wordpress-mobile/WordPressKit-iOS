@@ -29,7 +29,7 @@ class WordPressOrgXMLRPCApiTests: XCTestCase {
 
     func testSuccessfullCall() {
         stub(condition: isXmlRpcAPIRequest()) { _ in
-            let stubPath = OHPathForFile("xmlrpc-response-getpost.xml", type(of: self))
+            let stubPath = OHPathForFileInBundle("xmlrpc-response-getpost.xml", Bundle.coreAPITestsBundle)
             return fixture(filePath: stubPath!, headers: self.xmlContentTypeHeaders)
         }
 
@@ -178,7 +178,8 @@ class WordPressOrgXMLRPCApiTests: XCTestCase {
 
     func testFault() throws {
         let responseFile = try XCTUnwrap(
-            OHPathForFile("xmlrpc-bad-username-password-error.xml", WordPressOrgXMLRPCApiTests.self))
+            OHPathForFileInBundle("xmlrpc-bad-username-password-error.xml", Bundle.coreAPITestsBundle)
+        )
         stub(condition: isXmlRpcAPIRequest()) { _ in
             fixture(filePath: responseFile, headers: self.xmlContentTypeHeaders)
         }
@@ -209,7 +210,8 @@ class WordPressOrgXMLRPCApiTests: XCTestCase {
 
     func testFault401() throws {
         let responseFile = try XCTUnwrap(
-            OHPathForFile("xmlrpc-bad-username-password-error.xml", WordPressOrgXMLRPCApiTests.self))
+            OHPathForFileInBundle("xmlrpc-bad-username-password-error.xml", Bundle.coreAPITestsBundle)
+        )
         stub(condition: isXmlRpcAPIRequest()) { _ in
             fixture(filePath: responseFile, status: 401, headers: self.xmlContentTypeHeaders)
         }
@@ -271,7 +273,8 @@ class WordPressOrgXMLRPCApiTests: XCTestCase {
 
     func testInvalidXML() throws {
         let responseFile = try XCTUnwrap(
-            OHPathForFile("xmlrpc-response-invalid.html", WordPressOrgXMLRPCApiTests.self))
+            OHPathForFileInBundle("xmlrpc-response-invalid.html", Bundle.coreAPITestsBundle)
+        )
         stub(condition: isXmlRpcAPIRequest()) { _ in
             fixture(filePath: responseFile, headers: self.xmlContentTypeHeaders)
         }
@@ -301,7 +304,7 @@ class WordPressOrgXMLRPCApiTests: XCTestCase {
 
     func testProgressUpdate() {
         stub(condition: isXmlRpcAPIRequest()) { _ in
-            let stubPath = OHPathForFile("xmlrpc-response-getpost.xml", type(of: self))
+            let stubPath = OHPathForFileInBundle("xmlrpc-response-getpost.xml", Bundle.coreAPITestsBundle)
             return fixture(filePath: stubPath!, headers: self.xmlContentTypeHeaders)
         }
 
@@ -331,7 +334,7 @@ class WordPressOrgXMLRPCApiTests: XCTestCase {
 
     func testProgressUpdateFailure() {
         stub(condition: isXmlRpcAPIRequest()) { _ in
-            let stubPath = OHPathForFile("xmlrpc-bad-username-password-error.xml", type(of: self))
+            let stubPath = OHPathForFileInBundle("xmlrpc-bad-username-password-error.xml", Bundle.coreAPITestsBundle)
             return fixture(filePath: stubPath!, headers: self.xmlContentTypeHeaders)
         }
 
@@ -361,7 +364,7 @@ class WordPressOrgXMLRPCApiTests: XCTestCase {
 
     func testProgressUpdateStreamAPI() {
         stub(condition: isXmlRpcAPIRequest()) { _ in
-            let stubPath = OHPathForFile("xmlrpc-response-getpost.xml", type(of: self))
+            let stubPath = OHPathForFileInBundle("xmlrpc-response-getpost.xml", Bundle.coreAPITestsBundle)
             return fixture(filePath: stubPath!, headers: self.xmlContentTypeHeaders)
         }
 
@@ -391,7 +394,7 @@ class WordPressOrgXMLRPCApiTests: XCTestCase {
 
     func testProgressUpdateStreamAPIFailure() {
         stub(condition: isXmlRpcAPIRequest()) { _ in
-            let stubPath = OHPathForFile("xmlrpc-bad-username-password-error.xml", type(of: self))
+            let stubPath = OHPathForFileInBundle("xmlrpc-bad-username-password-error.xml", Bundle.coreAPITestsBundle)
             return fixture(filePath: stubPath!, headers: self.xmlContentTypeHeaders)
         }
 

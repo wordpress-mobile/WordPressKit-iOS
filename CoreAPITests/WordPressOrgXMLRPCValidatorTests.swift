@@ -106,14 +106,14 @@ final class WordPressOrgXMLRPCValidatorTests: XCTestCase {
 
         stub(condition: isHost("www.apple.com") && isMethodGET()) { _ in
             fixture(
-                filePath: OHPathForFile("xmlrpc-response-invalid.html", type(of: self))!,
+                filePath: OHPathForFileInBundle("xmlrpc-response-invalid.html", Bundle.coreAPITestsBundle)!,
                 status: 200,
                 headers: nil
             )
         }
         stub(condition: isHost("www.apple.com") && isMethodPOST()) { _ in
             fixture(
-                filePath: OHPathForFile("xmlrpc-response-invalid.html", type(of: self))!,
+                filePath: OHPathForFileInBundle("xmlrpc-response-invalid.html", Bundle.coreAPITestsBundle)!,
                 status: 405,
                 headers: nil
             )
@@ -142,7 +142,7 @@ final class WordPressOrgXMLRPCValidatorTests: XCTestCase {
     func testSuccessWithSiteAddress() {
         stub(condition: isHost("www.apple.com") && isPath("/blog/xmlrpc.php")) { _ in
             fixture(
-                filePath: OHPathForFile("xmlrpc-response-list-methods.xml", type(of: self))!,
+                filePath: OHPathForFileInBundle("xmlrpc-response-list-methods.xml", Bundle.coreAPITestsBundle)!,
                 status: 200,
                 headers: [
                     "Content-Type": "application/xml"
@@ -173,7 +173,7 @@ final class WordPressOrgXMLRPCValidatorTests: XCTestCase {
         stub(condition: isHost("www.apple.com") && isPath("/blog/xmlrpc.php")) { _ in
             apiCalls[0].fulfill()
             return fixture(
-                filePath: OHPathForFile("xmlrpc-response-invalid.html", type(of: self))!,
+                filePath: OHPathForFileInBundle("xmlrpc-response-invalid.html", Bundle.coreAPITestsBundle)!,
                 status: 403,
                 headers: nil
             )
@@ -182,7 +182,7 @@ final class WordPressOrgXMLRPCValidatorTests: XCTestCase {
         stub(condition: isHost("www.apple.com") && isPath("/blog")) { _ in
             apiCalls[1].fulfill()
             return fixture(
-                filePath: OHPathForFile("xmlrpc-response-list-methods.xml", type(of: self))!,
+                filePath: OHPathForFileInBundle("xmlrpc-response-list-methods.xml", Bundle.coreAPITestsBundle)!,
                 status: 200,
                 headers: [
                     "Content-Type": "application/xml"
@@ -207,7 +207,7 @@ final class WordPressOrgXMLRPCValidatorTests: XCTestCase {
     func testSuccessWithRSDLink() {
         stub(condition: isHost("www.apple.com") && isPath("/blog/xmlrpc.php")) { _ in
             return fixture(
-                filePath: OHPathForFile("xmlrpc-response-invalid.html", type(of: self))!,
+                filePath: OHPathForFileInBundle("xmlrpc-response-invalid.html", Bundle.coreAPITestsBundle)!,
                 status: 403,
                 headers: nil
             )
@@ -256,7 +256,7 @@ final class WordPressOrgXMLRPCValidatorTests: XCTestCase {
 
         stub(condition: isHost("www.apple.com") && isPath("/blog-xmlrpc.php")) { _ in
             fixture(
-                filePath: OHPathForFile("xmlrpc-response-list-methods.xml", type(of: self))!,
+                filePath: OHPathForFileInBundle("xmlrpc-response-list-methods.xml", Bundle.coreAPITestsBundle)!,
                 status: 200,
                 headers: [
                     "Content-Type": "application/xml"
@@ -294,7 +294,7 @@ final class WordPressOrgXMLRPCValidatorTests: XCTestCase {
         // All GET requests get a html webpage.
         stub(condition: isMethodGET()) { _ in
             fixture(
-                filePath: OHPathForFile("xmlrpc-response-invalid.html", type(of: self))!,
+                filePath: OHPathForFileInBundle("xmlrpc-response-invalid.html", Bundle.coreAPITestsBundle)!,
                 status: 405,
                 headers: nil
             )
@@ -331,7 +331,7 @@ final class WordPressOrgXMLRPCValidatorTests: XCTestCase {
         }
         stub(condition: isMethodPOST() && isHost("m.apple.com")) { _ in
             fixture(
-                filePath: OHPathForFile("xmlrpc-response-mobile-plugin-redirect.html", type(of: self))!,
+                filePath: OHPathForFileInBundle("xmlrpc-response-mobile-plugin-redirect.html", Bundle.coreAPITestsBundle)!,
                 status: 200,
                 headers: nil
             )
