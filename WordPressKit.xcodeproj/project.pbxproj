@@ -255,7 +255,6 @@
 		7403A2F61EF06FEB00DED7DC /* me-settings-change-aboutme-success.json in Resources */ = {isa = PBXBuildFile; fileRef = 7403A2E91EF06FEB00DED7DC /* me-settings-change-aboutme-success.json */; };
 		7403A2F71EF06FEB00DED7DC /* me-settings-change-display-name-bad-json-failure.json in Resources */ = {isa = PBXBuildFile; fileRef = 7403A2EA1EF06FEB00DED7DC /* me-settings-change-display-name-bad-json-failure.json */; };
 		7403A2F81EF06FEB00DED7DC /* me-settings-change-display-name-success.json in Resources */ = {isa = PBXBuildFile; fileRef = 7403A2EB1EF06FEB00DED7DC /* me-settings-change-display-name-success.json */; };
-		7403A2F91EF06FEB00DED7DC /* me-settings-change-display-name-success.json in Resources */ = {isa = PBXBuildFile; fileRef = 7403A2EC1EF06FEB00DED7DC /* me-settings-change-display-name-success.json */; };
 		7403A2FA1EF06FEB00DED7DC /* me-settings-change-firstname-success.json in Resources */ = {isa = PBXBuildFile; fileRef = 7403A2ED1EF06FEB00DED7DC /* me-settings-change-firstname-success.json */; };
 		7403A2FB1EF06FEB00DED7DC /* me-settings-change-invalid-input-failure.json in Resources */ = {isa = PBXBuildFile; fileRef = 7403A2EE1EF06FEB00DED7DC /* me-settings-change-invalid-input-failure.json */; };
 		7403A2FC1EF06FEB00DED7DC /* me-settings-change-lastname-success.json in Resources */ = {isa = PBXBuildFile; fileRef = 7403A2EF1EF06FEB00DED7DC /* me-settings-change-lastname-success.json */; };
@@ -3345,7 +3344,6 @@
 				436D56532121F60500CEAA33 /* supported-states-empty.json in Resources */,
 				9ABE13EB223F8DA3006A8806 /* jetpack-service-error-invalid-credentials.json in Resources */,
 				E670CD722277A85000E75735 /* plans-me-sites-success.json in Resources */,
-				7403A2F91EF06FEB00DED7DC /* me-settings-change-display-name-success.json in Resources */,
 				439A44DC2107CE3C00795ED7 /* site-plans-v3-empty-failure.json in Resources */,
 				9AB6D64F218731AB0008F274 /* post-revisions-failure.json in Resources */,
 				0CB190612A2A6A13004D3E80 /* blaze-campaigns-search.json in Resources */,
