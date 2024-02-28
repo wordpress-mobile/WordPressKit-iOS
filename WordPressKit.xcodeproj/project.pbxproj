@@ -1824,6 +1824,21 @@
 			path = Plans;
 			sourceTree = "<group>";
 		};
+		3FF873EE2B8EFFDD00EB8AFA /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				3F21EC2D2B8D899400DCE8DD /* RFC3339 */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		3FF873EF2B8EFFE900EB8AFA /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
 		404057C3221B30140060250C /* Time Interval */ = {
 			isa = PBXGroup;
 			children = (
@@ -2169,13 +2184,14 @@
 		9368C7711EC5EF1B0092CE8E = {
 			isa = PBXGroup;
 			children = (
+				3FF873EF2B8EFFE900EB8AFA /* Tests */,
+				3FF873EE2B8EFFDD00EB8AFA /* Sources */,
 				FFE247CD20CB1245002DF3A2 /* LICENSE */,
 				FFE247CC20CB118A002DF3A2 /* README.md */,
 				0C3A2A412A2E7BA500FD91D6 /* CHANGELOG.md */,
 				FF20AD2120B8471A00082398 /* WordPressKit.podspec */,
 				9368C77D1EC5EF1B0092CE8E /* WordPressKit */,
 				9368C7881EC5EF1B0092CE8E /* WordPressKitTests */,
-				3F21EC2D2B8D899400DCE8DD /* RFC3339 */,
 				3F21EC3E2B8D8E4100DCE8DD /* CoreAPI */,
 				3F21EC482B8D8E4200DCE8DD /* CoreAPITests */,
 				9368C77C1EC5EF1B0092CE8E /* Products */,

@@ -25,7 +25,7 @@ let package = Package(
     targets: [
         .target(
             name: "RFC3339",
-            path: "RFC3339",
+            path: "Sources/RFC3339",
             publicHeadersPath: "include"  // publicHeadersPath is relative to path
         ),
         .target(
