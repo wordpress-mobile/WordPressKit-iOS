@@ -18,9 +18,9 @@ Pod::Spec.new do |s|
   s.swift_version = '5.0'
 
   s.source        = { git: 'https://github.com/wordpress-mobile/WordPressKit-iOS.git', tag: s.version.to_s }
-  s.source_files  = 'WordPressKit/**/*.{h,m,swift}'
-  s.private_header_files = 'WordPressKit/WordPressAndJetpack/Private/*.h'
-  s.header_dir = 'WordPressKit'
+  s.source_files  = 'Sources/WordPressKit/**/*.{h,m,swift}'
+  s.private_header_files = 'Sources/WordPressKit/WordPressAndJetpack/Private/*.h'
+  s.header_dir = 'Sources/WordPressKit'
 
   s.dependency 'NSObject-SafeExpectations', '~> 0.0.4'
   s.dependency 'wpxmlrpc', '~> 0.10'
@@ -31,7 +31,7 @@ Pod::Spec.new do |s|
   s.dependency 'WordPressShared', '~> 2.0-beta'
 
   s.test_spec do |test_spec|
-    test_spec.source_files = 'WordPressKitTests'
+    test_spec.source_files = 'Tests/WordPressKitTests'
 
     test_spec.dependency 'OHHTTPStubs', '~> 9.0'
     test_spec.dependency 'OHHTTPStubs/Swift', '~> 9.0'
