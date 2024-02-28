@@ -1,0 +1,41 @@
+{
+  "pins" : [
+    {
+      "identity" : "alamofire",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Alamofire/Alamofire",
+      "state" : {
+        "revision" : "3dc6a42c7727c49bf26508e29b0a0b35f9c7e1ad",
+        "version" : "5.8.1"
+      }
+    },
+    {
+      "identity" : "ohhttpstubs",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/AliSoftware/OHHTTPStubs",
+      "state" : {
+        "revision" : "12f19662426d0434d6c330c6974d53e2eb10ecd9",
+        "version" : "9.1.0"
+      }
+    },
+    {
+      "identity" : "wordpress-ios-shared",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/wordpress-mobile/WordPress-iOS-Shared.git",
+      "state" : {
+        "revision" : "f22f2bf5612b2d1f1b41bf27d646df5bd80c5dfa",
+        "version" : "2.3.0"
+      }
+    },
+    {
+      "identity" : "wpxmlrpc",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/wordpress-mobile/wpxmlrpc",
+      "state" : {
+        "revision" : "bfc413d336bdeaab89e62dc483380baa99b2257e",
+        "version" : "0.10.0"
+      }
+    }
+  ],
+  "version" : 2
+}
