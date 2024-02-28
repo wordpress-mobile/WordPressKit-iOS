@@ -1,3 +1,5 @@
+import Foundation
+
 extension String.Encoding {
     /// See: https://www.iana.org/assignments/character-sets/character-sets.xhtml
     init?(ianaCharsetName: String) {
