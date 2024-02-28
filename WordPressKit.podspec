@@ -18,9 +18,9 @@ Pod::Spec.new do |s|
   s.swift_version = '5.0'
 
   s.source        = { git: 'https://github.com/wordpress-mobile/WordPressKit-iOS.git', tag: s.version.to_s }
-  s.source_files  = 'Sources/WordPressKit/**/*.{h,m,swift}'
+  s.source_files  = 'Sources/**/*.{h,m,swift}'
+  s.public_header_files = 'Sources/WordPressKit/**/*.h', 'Sources/WordPressKit/WordPressKit.h'
   s.private_header_files = 'Sources/WordPressKit/WordPressAndJetpack/Private/*.h'
-  s.header_dir = 'Sources/WordPressKit'
 
   s.dependency 'NSObject-SafeExpectations', '~> 0.0.4'
   s.dependency 'wpxmlrpc', '~> 0.10'
@@ -30,30 +30,15 @@ Pod::Spec.new do |s|
   # If you want to update which of these is used, specify it in the host app.
   s.dependency 'WordPressShared', '~> 2.0-beta'
 
-  s.test_spec do |test_spec|
-    test_spec.source_files = 'Tests/WordPressKitTests'
+  # Test specs disabled because they also use Buildkite's test collector, which is not setup via CocoaPod.
+  # https://github.com/buildkite/test-collector-swift
+  #
+  # s.test_spec do |test_spec|
+  #   test_spec.source_files = 'Tests/WordPressKitTests'
 
-    test_spec.dependency 'OHHTTPStubs', '~> 9.0'
-    test_spec.dependency 'OHHTTPStubs/Swift', '~> 9.0'
-    test_spec.dependency 'OCMock', '~> 3.4'
-    test_spec.dependency 'Alamofire', '~> 5.0'
-  end
-
-  s.subspec 'CoreAPI' do |subspec|
-    subspec.source_files = 'Sources/CoreAPI'
-
-    subspec.dependency 'wpxmlrpc', '~> 0.10'
-    subspec.dependency 'UIDeviceIdentifier', '~> 2.0'
-    subspec.dependency 'WordPressShared', '~> 2.0-beta'
-
-    # The unit tests work on Xcode, but the CocoaPods validation fails with them.
-    #
-    # subspec.test_spec do |test_spec|
-    #   test_spec.source_files = 'Tests/CoreAPITests'
-
-    #   test_spec.dependency 'OHHTTPStubs', '~> 9.0'
-    #   test_spec.dependency 'OHHTTPStubs/Swift', '~> 9.0'
-    #   test_spec.dependency 'Alamofire', '~> 5.0'
-    # end
-  end
+  #   test_spec.dependency 'OHHTTPStubs', '~> 9.0'
+  #   test_spec.dependency 'OHHTTPStubs/Swift', '~> 9.0'
+  #   test_spec.dependency 'OCMock', '~> 3.4'
+  #   test_spec.dependency 'Alamofire', '~> 5.0'
+  # end
 end
