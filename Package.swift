@@ -7,10 +7,6 @@ let package = Package(
     platforms: [.iOS(.v13)],
     products: [
         .library(
-            name: "RFC3339",
-            targets: ["RFC3339"]
-        ),
-        .library(
             name: "CoreAPI",
             targets: ["CoreAPI"]
         ),
@@ -23,11 +19,6 @@ let package = Package(
         .package(url: "https://github.com/Alamofire/Alamofire", from: "5.8.1"),
     ],
     targets: [
-        .target(
-            name: "RFC3339",
-            path: "Sources/RFC3339",
-            publicHeadersPath: "include"  // publicHeadersPath is relative to path
-        ),
         .target(
             name: "CoreAPI",
             dependencies: [

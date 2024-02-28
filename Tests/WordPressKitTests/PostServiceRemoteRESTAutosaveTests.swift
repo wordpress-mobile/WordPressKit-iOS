@@ -1,3 +1,4 @@
+import CoreAPI
 import Foundation
 import XCTest
 
@@ -41,7 +42,7 @@ class PostServiceRemoteRESTAutosaveTests: RemoteTestCase, RESTTestable {
             XCTAssertEqual(remotePost.autosave.content, "<!-- wp:paragraph -->\n<p>Uno.</p>\n<!-- /wp:paragraph -->")
             XCTAssertEqual(remotePost.autosave.excerpt, "abc")
             XCTAssertEqual(remotePost.autosave.previewURL, "https://hello.wordpress.com/2019/10/28/hello-world/?preview=true&preview_nonce=07346f4e5d")
-            XCTAssertEqual(remotePost.autosave.modifiedDate, NSDate(wordPressComJSONString: "2019-10-28T02:06:39+00:00") as Date?)
+            XCTAssertEqual(remotePost.autosave.modifiedDate, NSDate.with(wordPressComJSONString: "2019-10-28T02:06:39+00:00"))
             expect.fulfill()
         }, failure: { _ in
             XCTFail("This callback shouldn't get called")

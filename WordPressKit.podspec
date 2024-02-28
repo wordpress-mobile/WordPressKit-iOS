@@ -39,11 +39,6 @@ Pod::Spec.new do |s|
     test_spec.dependency 'Alamofire', '~> 5.0'
   end
 
-  s.subspec 'RFC3339' do |subspec|
-    subspec.source_files = 'Sources/RFC3339/**/*.{h,m}'
-    subspec.public_header_files = 'Sources/RFC3339/include/*.h', 'Sources/RFC3339/RFC3339.h'
-  end
-
   s.subspec 'CoreAPI' do |subspec|
     subspec.source_files = 'Sources/CoreAPI'
 
