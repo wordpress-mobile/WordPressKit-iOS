@@ -321,3 +321,9 @@ private extension URLSession {
     }
 
 }
+
+extension URLSession {
+    var debugNumberOfTaskData: Int {
+        self.taskData.count
+    }
+}

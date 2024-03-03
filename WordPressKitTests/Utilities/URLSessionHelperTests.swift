@@ -16,6 +16,7 @@ class URLSessionHelperTests: XCTestCase {
     override func tearDown() {
         super.tearDown()
         HTTPStubs.removeAllStubs()
+        XCTAssertEqual(session.debugNumberOfTaskData, 0)
     }
 
     func testConnectionError() async throws {
