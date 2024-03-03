@@ -22,6 +22,18 @@ extension HTTPAPIResponse where Body == Data {
 
 extension URLSession {
 
+    /// Create a background URLSession instance that can be used in the `perform(request:...)` async function.
+    ///
+    /// The `perform(request:...)` async function can be used in all non-background URLSession instances without any
+    /// extra work. However, there is a requirement to make the function works with with background URLSession instances.
+    /// That is the URLSession must have a delegate of `BackgroundURLSessionDelegate` type.
+    static func backgroundSession(configuration: URLSessionConfiguration) -> URLSession {
+        assert(configuration.identifier != nil)
+        // Pass `delegateQueue: nil` to get a serial queue, which is required to ensure thread safe access to
+        // `WordPressKitSessionDelegate` instances.
+        return URLSession(configuration: configuration, delegate: BackgroundURLSessionDelegate(), delegateQueue: nil)
+    }
+
     /// Send a HTTP request and return its response as a `WordPressAPIResult` instance.
     ///
     /// ## Progress Tracking and Cancellation
@@ -49,6 +61,10 @@ extension URLSession {
         fulfilling parentProgress: Progress? = nil,
         errorType: E.Type = E.self
     ) async -> WordPressAPIResult<HTTPAPIResponse<Data>, E> {
+        if configuration.identifier != nil {
+            assert(delegate is BackgroundURLSessionDelegate, "Unexpected URLSession delegate type. See the `backgroundSession(configuration:)`")
+        }
+
         if let parentProgress {
             assert(parentProgress.completedUnitCount == 0 && parentProgress.totalUnitCount > 0, "Invalid parent progress")
             assert(parentProgress.cancellationHandler == nil, "The progress instance's cancellationHandler property must be nil")
@@ -97,23 +113,50 @@ extension URLSession {
     ) throws -> URLSessionTask {
         var request = try builder.build(encodeBody: false)
 
+        // This additional `callCompletionFromDelegate` is added so that we can test `BackgroundURLSessionDelegate`
+        // in unit tests. Background URLSession doesn't work on unit tests, we have to create a non-background URLSession
+        // which has a `BackgroundURLSessionDelegate` delegate in order to test `BackgroundURLSessionDelegate`.
+        //
+        // In reality, `callCompletionFromDelegate` and `isBackgroundSession` have the same value.
+        let callCompletionFromDelegate = delegate is BackgroundURLSessionDelegate
         let isBackgroundSession = configuration.identifier != nil
+        let task: URLSessionTask
         let body = try builder.encodeMultipartForm(request: &request, forceWriteToFile: isBackgroundSession)
             ?? builder.encodeXMLRPC(request: &request, forceWriteToFile: isBackgroundSession)
         if let body {
             // Use special `URLSession.uploadTask` API for multipart POST requests.
-            return body.map(
+            task = body.map(
                 left: {
-                    uploadTask(with: request, from: $0, completionHandler: completion)
+                    if callCompletionFromDelegate {
+                        return uploadTask(with: request, from: $0)
+                    } else {
+                        return uploadTask(with: request, from: $0, completionHandler: completion)
+                    }
                 },
                 right: {
-                    uploadTask(with: request, fromFile: $0, completionHandler: completion)
+                    if callCompletionFromDelegate {
+                        return uploadTask(with: request, fromFile: $0)
+                    } else {
+                        return uploadTask(with: request, fromFile: $0, completionHandler: completion)
+                    }
                 }
             )
         } else {
             // Use `URLSession.dataTask` for all other request
-            return dataTask(with: request, completionHandler: completion)
+            if callCompletionFromDelegate {
+                task = dataTask(with: request)
+            } else {
+                task = dataTask(with: request, completionHandler: completion)
+            }
         }
+
+        if callCompletionFromDelegate {
+            assert(delegate is BackgroundURLSessionDelegate, "Unexpected URLSession delegate type. See the `backgroundSession(configuration:)`")
+
+            set(completion: completion, forTaskWithIdentifier: task.taskIdentifier)
+        }
+
+        return task
     }
 
     private static func parseResponse<E: LocalizedError>(
@@ -204,4 +247,77 @@ extension Progress {
                 self?.completedUnitCount = start + Int64(fraction * Double(totalUnit))
             }
     }
+}
+
+// MARK: - Background URL Session Support
+
+private final class SessionTaskData {
+    var responseBody = Data()
+    var completion: ((Data?, URLResponse?, Error?) -> Void)?
+}
+
+class BackgroundURLSessionDelegate: NSObject, URLSessionDataDelegate {
+
+    private var taskData = [Int: SessionTaskData]()
+
+    func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
+        session.recieved(data, forTaskWithIdentifier: dataTask.taskIdentifier)
+    }
+
+    func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
+        session.completed(with: error, response: task.response, forTaskWithIdentifier: task.taskIdentifier)
+    }
+
+}
+
+private extension URLSession {
+
+    static var taskDataKey = 0
+
+    // A map from `URLSessionTask` identifier to in-memory data of the given task.
+    //
+    // This property is in `URLSession` not `BackgroundURLSessionDelegate` because task id (the key) is unique within
+    // the context of a `URLSession` instance. And in theory `BackgroundURLSessionDelegate` can be used by multiple
+    // `URLSession` instances.
+    var taskData: [Int: SessionTaskData] {
+        get {
+            objc_getAssociatedObject(self, &URLSession.taskDataKey) as? [Int: SessionTaskData] ?? [:]
+        }
+        set {
+            objc_setAssociatedObject(self, &URLSession.taskDataKey, newValue, .OBJC_ASSOCIATION_RETAIN)
+        }
+    }
+
+    func updateData(forTaskWithIdentifier taskID: Int, using closure: (SessionTaskData) -> Void) {
+        let task = self.taskData[taskID] ?? SessionTaskData()
+        closure(task)
+        self.taskData[taskID] = task
+    }
+
+    func set(completion: @escaping (Data?, URLResponse?, Error?) -> Void, forTaskWithIdentifier taskID: Int) {
+        updateData(forTaskWithIdentifier: taskID) {
+            $0.completion = completion
+        }
+    }
+
+    func recieved(_ data: Data, forTaskWithIdentifier taskID: Int) {
+        updateData(forTaskWithIdentifier: taskID) { task in
+            task.responseBody.append(data)
+        }
+    }
+
+    func completed(with error: Error?, response: URLResponse?, forTaskWithIdentifier taskID: Int) {
+        guard let task = taskData[taskID] else {
+            return
+        }
+
+        if let error {
+            task.completion?(nil, response, error)
+        } else {
+            task.completion?(task.responseBody, response, nil)
+        }
+
+        self.taskData.removeValue(forKey: taskID)
+    }
+
 }

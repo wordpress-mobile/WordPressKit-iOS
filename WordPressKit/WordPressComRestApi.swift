@@ -335,7 +335,11 @@ open class WordPressComRestApi: NSObject {
     private lazy var uploadURLSession: URLSession = {
         let configuration = sessionConfiguration(background: backgroundUploads)
         configuration.sharedContainerIdentifier = self.sharedContainerIdentifier
-        return URLSession(configuration: configuration)
+        if configuration.identifier != nil {
+            return URLSession.backgroundSession(configuration: configuration)
+        } else {
+            return URLSession(configuration: configuration)
+        }
     }()
 
     private func sessionConfiguration(background: Bool) -> URLSessionConfiguration {
