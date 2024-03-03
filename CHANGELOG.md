@@ -44,7 +44,7 @@ _None._
 
 ### Bug Fixes
 
-_None._
+- Fix crash when uploading files using background URLSession. [#739]
 
 ### Internal Changes
 
