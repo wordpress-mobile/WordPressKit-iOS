@@ -200,7 +200,7 @@ NSString * const ParamKeyMetaValue = @"site,feed";
                            success:(void (^)(NSArray<RemoteReaderPost *> *posts, NSString *algorithm))success
                            failure:(void (^)(NSError *))failure
 {
-    NSString *path = [endpoint absoluteString];
+    NSString *path = [endpoint path];
     [self.wordPressComRestApi GET:path
            parameters:params
               success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
