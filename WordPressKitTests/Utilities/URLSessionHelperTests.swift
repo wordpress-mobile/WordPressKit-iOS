@@ -261,8 +261,9 @@ class URLSessionHelperTests: XCTestCase {
             HTTPStubsResponse(data: "success".data(using: .utf8)!, statusCode: 200, headers: nil)
         }
 
-        // Create a large file which will be uploaded
-        let file = try self.createLargeFile(megaBytes: 100)
+        // Create a large file which will be uploaded. The file size needs to be larger than the hardcoded threshold of
+        // creating a temporary file for upload.
+        let file = try self.createLargeFile(megaBytes: 30)
         defer {
             try? FileManager.default.removeItem(at: file)
         }
@@ -290,8 +291,9 @@ class URLSessionHelperTests: XCTestCase {
             HTTPStubsResponse(error: URLError(.networkConnectionLost))
         }
 
-        // Create a large file which will be uploaded
-        let file = try self.createLargeFile(megaBytes: 100)
+        // Create a large file which will be uploaded. The file size needs to be larger than the hardcoded threshold of
+        // creating a temporary file for upload.
+        let file = try self.createLargeFile(megaBytes: 30)
         defer {
             try? FileManager.default.removeItem(at: file)
         }
