@@ -24,9 +24,9 @@ extension URLSession {
 
     /// Create a background URLSession instance that can be used in the `perform(request:...)` async function.
     ///
-    /// The `perform(request:...)` async function can be used in all non-background URLSession instances without any
-    /// extra work. However, there is a requirement to make the function works with with background URLSession instances.
-    /// That is the URLSession must have a delegate of `BackgroundURLSessionDelegate` type.
+    /// The `perform(request:...)` async function can be used in all non-background `URLSession` instances without any
+    /// extra work. However, there is a requirement to make the function works with with background `URLSession` instances.
+    /// That is the `URLSession` must have a delegate of `BackgroundURLSessionDelegate` type.
     static func backgroundSession(configuration: URLSessionConfiguration) -> URLSession {
         assert(configuration.identifier != nil)
         // Pass `delegateQueue: nil` to get a serial queue, which is required to ensure thread safe access to
@@ -62,7 +62,7 @@ extension URLSession {
         errorType: E.Type = E.self
     ) async -> WordPressAPIResult<HTTPAPIResponse<Data>, E> {
         if configuration.identifier != nil {
-            assert(delegate is BackgroundURLSessionDelegate, "Unexpected URLSession delegate type. See the `backgroundSession(configuration:)`")
+            assert(delegate is BackgroundURLSessionDelegate, "Unexpected `URLSession` delegate type. See the `backgroundSession(configuration:)`")
         }
 
         if let parentProgress {
@@ -113,8 +113,8 @@ extension URLSession {
     ) throws -> URLSessionTask {
         var request = try builder.build(encodeBody: false)
 
-        // This additional `callCompletionFromDelegate` is added so that we can test `BackgroundURLSessionDelegate`
-        // in unit tests. Background URLSession doesn't work on unit tests, we have to create a non-background URLSession
+        // This additional `callCompletionFromDelegate` is added to unit test `BackgroundURLSessionDelegate`.
+        // Background `URLSession` doesn't work on unit tests, we have to create a non-background `URLSession`
         // which has a `BackgroundURLSessionDelegate` delegate in order to test `BackgroundURLSessionDelegate`.
         //
         // In reality, `callCompletionFromDelegate` and `isBackgroundSession` have the same value.
@@ -151,7 +151,7 @@ extension URLSession {
         }
 
         if callCompletionFromDelegate {
-            assert(delegate is BackgroundURLSessionDelegate, "Unexpected URLSession delegate type. See the `backgroundSession(configuration:)`")
+            assert(delegate is BackgroundURLSessionDelegate, "Unexpected `URLSession` delegate type. See the `backgroundSession(configuration:)`")
 
             set(completion: completion, forTaskWithIdentifier: task.taskIdentifier)
         }
