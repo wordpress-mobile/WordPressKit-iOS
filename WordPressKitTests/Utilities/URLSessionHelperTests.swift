@@ -256,6 +256,80 @@ class URLSessionHelperTests: XCTestCase {
         )
     }
 
+    func testTempFileRemovedAfterMultipartUpload() async throws {
+        stub(condition: isPath("/upload")) { _ in
+            HTTPStubsResponse(data: "success".data(using: .utf8)!, statusCode: 200, headers: nil)
+        }
+
+        // Create a large file which will be uploaded
+        let file = try self.createLargeFile(megaBytes: 100)
+        defer {
+            try? FileManager.default.removeItem(at: file)
+        }
+
+        // Capture a list of files in temp dirs, before calling the upload function.
+        let tempFilesBeforeUpload = existingTempFiles()
+
+        // Perform upload HTTP request
+        let builder = try HTTPRequestBuilder(url: URL(string: "https://wordpress.org/upload")!)
+            .method(.post)
+            .body(form: [MultipartFormField(fileAtPath: file.path, name: "file", filename: "file.txt", mimeType: "text/plain")])
+        let _ = await session.perform(request: builder, errorType: TestError.self)
+
+        // Capture a list of files in the temp dirs, after calling the upload function.
+        let tempFilesAfterUpload = existingTempFiles()
+
+        // There should be no new files after the HTTP request returns. This assertion relies on an implementation detail
+        // where the multipart form content is put into a file in temp dirs.
+        let newFiles = tempFilesAfterUpload.subtracting(tempFilesBeforeUpload)
+        XCTAssertEqual(newFiles.count, 0)
+    }
+
+    func testTempFileRemovedAfterMultipartUploadError() async throws {
+        stub(condition: isPath("/upload")) { _ in
+            HTTPStubsResponse(error: URLError(.networkConnectionLost))
+        }
+
+        // Create a large file which will be uploaded
+        let file = try self.createLargeFile(megaBytes: 100)
+        defer {
+            try? FileManager.default.removeItem(at: file)
+        }
+
+        // Capture a list of files in temp dirs, before calling the upload function.
+        let tempFilesBeforeUpload = existingTempFiles()
+
+        // Perform upload HTTP request
+        let builder = try HTTPRequestBuilder(url: URL(string: "https://wordpress.org/upload")!)
+            .method(.post)
+            .body(form: [MultipartFormField(fileAtPath: file.path, name: "file", filename: "file.txt", mimeType: "text/plain")])
+        let _ = await session.perform(request: builder, errorType: TestError.self)
+
+        // Capture a list of files in the temp dirs, after calling the upload function.
+        let tempFilesAfterUpload = existingTempFiles()
+
+        // There should be no new files after the HTTP request returns. This assertion relies on an implementation detail
+        // where the multipart form content is put into a file in temp dirs.
+        let newFiles = tempFilesAfterUpload.subtracting(tempFilesBeforeUpload)
+        XCTAssertEqual(newFiles.count, 0)
+    }
+
+    private func existingTempFiles() -> Set<String> {
+        let fm = FileManager.default
+        let enumerators = [
+            fm.enumerator(atPath: NSTemporaryDirectory()),
+            fm.enumerator(atPath: fm.temporaryDirectory.path)
+        ].compactMap { $0 }
+
+        var result: Set<String> = []
+        for enumerator in enumerators {
+            while let file = enumerator.nextObject() as? String {
+                result.insert(file)
+            }
+        }
+        return result
+    }
+
     private func createLargeFile(megaBytes: Int) throws -> URL {
         let fileManager = FileManager.default
         let file = try fileManager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)

@@ -215,7 +215,7 @@ final class HTTPRequestBuilder {
         request.setValue("text/xml", forHTTPHeaderField: "Content-Type")
         let encoder = WPXMLRPCEncoder(method: xmlrpcRequest.method, andParameters: xmlrpcRequest.parameters)
         if forceWriteToFile {
-            let fileName = "\(ProcessInfo.processInfo.globallyUniqueString)_file.xmlrpc"
+            let fileName = "\(UUID().uuidString).xmlrpc"
             let fileURL = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(fileName)
             try encoder.encode(toFile: fileURL.path)
 

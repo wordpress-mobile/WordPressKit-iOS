@@ -109,7 +109,7 @@ extension URLSession {
 
     private func task(
         for builder: HTTPRequestBuilder,
-        completion: @escaping @Sendable (Data?, URLResponse?, Error?) -> Void
+        completion originalCompletion: @escaping @Sendable (Data?, URLResponse?, Error?) -> Void
     ) throws -> URLSessionTask {
         var request = try builder.build(encodeBody: false)
 
@@ -123,6 +123,7 @@ extension URLSession {
         let task: URLSessionTask
         let body = try builder.encodeMultipartForm(request: &request, forceWriteToFile: isBackgroundSession)
             ?? builder.encodeXMLRPC(request: &request, forceWriteToFile: isBackgroundSession)
+        var completion = originalCompletion
         if let body {
             // Use special `URLSession.uploadTask` API for multipart POST requests.
             task = body.map(
@@ -133,11 +134,17 @@ extension URLSession {
                         return uploadTask(with: request, from: $0, completionHandler: completion)
                     }
                 },
-                right: {
+                right: { tempFileURL in
+                    // Remove the temp file, which contains request body, once the HTTP request completes.
+                    completion = { data, response, error in
+                        try? FileManager.default.removeItem(at: tempFileURL)
+                        originalCompletion(data, response, error)
+                    }
+
                     if callCompletionFromDelegate {
-                        return uploadTask(with: request, fromFile: $0)
+                        return uploadTask(with: request, fromFile: tempFileURL)
                     } else {
-                        return uploadTask(with: request, fromFile: $0, completionHandler: completion)
+                        return uploadTask(with: request, fromFile: tempFileURL, completionHandler: completion)
                     }
                 }
             )
