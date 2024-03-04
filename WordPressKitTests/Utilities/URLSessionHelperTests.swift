@@ -1,4 +1,5 @@
 import Foundation
+import CryptoKit
 import XCTest
 import OHHTTPStubs
 
@@ -6,9 +7,17 @@ import OHHTTPStubs
 
 class URLSessionHelperTests: XCTestCase {
 
+    var session: URLSession!
+
+    override func setUp() {
+        super.setUp()
+        session = .shared
+    }
+
     override func tearDown() {
         super.tearDown()
         HTTPStubs.removeAllStubs()
+        XCTAssertEqual(session.debugNumberOfTaskData, 0)
     }
 
     func testConnectionError() async throws {
@@ -16,7 +25,7 @@ class URLSessionHelperTests: XCTestCase {
             HTTPStubsResponse(error: URLError(.serverCertificateUntrusted))
         }
 
-        let result = await URLSession.shared.perform(request: .init(url: URL(string: "https://wordpress.org/hello")!), errorType: TestError.self)
+        let result = await session.perform(request: .init(url: URL(string: "https://wordpress.org/hello")!), errorType: TestError.self)
         do {
             _ = try result.get()
             XCTFail("The above call should throw")
@@ -32,7 +41,7 @@ class URLSessionHelperTests: XCTestCase {
             HTTPStubsResponse(data: "success".data(using: .utf8)!, statusCode: 200, headers: nil)
         }
 
-        let result = await URLSession.shared.perform(request: .init(url: URL(string: "https://wordpress.org/hello")!), errorType: TestError.self)
+        let result = await session.perform(request: .init(url: URL(string: "https://wordpress.org/hello")!), errorType: TestError.self)
 
         // The result is a successful result. This line should not throw
         let response = try result.get()
@@ -45,7 +54,7 @@ class URLSessionHelperTests: XCTestCase {
             HTTPStubsResponse(data: "Internal server error".data(using: .utf8)!, statusCode: 500, headers: nil)
         }
 
-        let result = await URLSession.shared
+        let result = await session
             .perform(request: .init(url: URL(string: "https://wordpress.org/hello")!), errorType: TestError.self)
 
         switch result {
@@ -61,7 +70,7 @@ class URLSessionHelperTests: XCTestCase {
             HTTPStubsResponse(data: "Not found".data(using: .utf8)!, statusCode: 404, headers: nil)
         }
 
-        let result = await URLSession.shared
+        let result = await session
             .perform(
                 request: .init(url: URL(string: "https://wordpress.org/hello")!),
                 acceptableStatusCodes: [200...299, 400...499], errorType: TestError.self
@@ -77,7 +86,7 @@ class URLSessionHelperTests: XCTestCase {
             HTTPStubsResponse(data: "Not found".data(using: .utf8)!, statusCode: 404, headers: nil)
         }
 
-        let result = await URLSession.shared
+        let result = await session
             .perform(request: .init(url: URL(string: "https://wordpress.org/hello")!), errorType: TestError.self)
             .mapUnacceptableStatusCodeError { response, _ in
                 XCTAssertEqual(response.statusCode, 404)
@@ -100,7 +109,7 @@ class URLSessionHelperTests: XCTestCase {
             var title: String
         }
 
-        let result: WordPressAPIResult<Post, TestError> = await URLSession.shared
+        let result: WordPressAPIResult<Post, TestError> = await session
             .perform(request: .init(url: URL(string: "https://wordpress.org/hello")!))
             .decodeSuccess()
 
@@ -116,7 +125,7 @@ class URLSessionHelperTests: XCTestCase {
         XCTAssertEqual(progress.completedUnitCount, 0)
         XCTAssertEqual(progress.fractionCompleted, 0)
 
-        let _ = await URLSession.shared.perform(request: .init(url: URL(string: "https://wordpress.org/hello")!), fulfilling: progress, errorType: TestError.self)
+        let _ = await session.perform(request: .init(url: URL(string: "https://wordpress.org/hello")!), fulfilling: progress, errorType: TestError.self)
         XCTAssertEqual(progress.completedUnitCount, 20)
         XCTAssertEqual(progress.fractionCompleted, 1)
     }
@@ -134,7 +143,7 @@ class URLSessionHelperTests: XCTestCase {
             progressReported.fulfill()
         }
 
-        let _ = await URLSession.shared.perform(request: .init(url: URL(string: "https://wordpress.org/hello")!), fulfilling: progress, errorType: TestError.self)
+        let _ = await session.perform(request: .init(url: URL(string: "https://wordpress.org/hello")!), fulfilling: progress, errorType: TestError.self)
         await fulfillment(of: [progressReported], timeout: 0.3)
         observer.invalidate()
     }
@@ -154,7 +163,7 @@ class URLSessionHelperTests: XCTestCase {
         }
 
         // The result should be an cancellation result
-        let result = await URLSession.shared.perform(request: .init(url: URL(string: "https://wordpress.org/hello")!), fulfilling: progress, errorType: TestError.self)
+        let result = await session.perform(request: .init(url: URL(string: "https://wordpress.org/hello")!), fulfilling: progress, errorType: TestError.self)
         if case let .failure(.connection(urlError)) = result, urlError.code == .cancelled {
             // Do nothing
         } else {
@@ -167,7 +176,7 @@ class URLSessionHelperTests: XCTestCase {
         let builder = HTTPRequestBuilder(url: URL(string: "https://wordpress.org")!)
             .method(.post)
             .body(json: { throw underlyingError })
-        let result = await URLSession.shared.perform(request: builder, errorType: TestError.self)
+        let result = await session.perform(request: builder, errorType: TestError.self)
 
         if case let .failure(.requestEncodingFailure(underlyingError: error)) = result {
             XCTAssertEqual(error as NSError, underlyingError)
@@ -185,7 +194,7 @@ class URLSessionHelperTests: XCTestCase {
             HTTPStubsResponse(data: "success".data(using: .utf8)!, statusCode: 200, headers: nil)
         }
 
-        let result: WordPressAPIResult<Model, TestError> = await URLSession.shared
+        let result: WordPressAPIResult<Model, TestError> = await session
             .perform(request: .init(url: URL(string: "https://wordpress.org/hello")!))
             .decodeSuccess()
 
@@ -207,7 +216,7 @@ class URLSessionHelperTests: XCTestCase {
             .method(.post)
             .body(form: [MultipartFormField(text: "value", name: "name", filename: nil)])
 
-        let _ = await URLSession.shared.perform(request: builder, errorType: TestError.self)
+        let _ = await session.perform(request: builder, errorType: TestError.self)
 
         let request = try XCTUnwrap(req)
         let boundary = try XCTUnwrap(
@@ -226,6 +235,92 @@ class URLSessionHelperTests: XCTestCase {
 
         let expectedBody = "--\(boundary)\r\nContent-Disposition: form-data; name=\"name\"\r\n\r\nvalue\r\n--\(boundary)--\r\n"
         XCTAssertEqual(String(data: requestBody, encoding: .utf8), expectedBody)
+    }
+
+    func testGetLargeData() async throws {
+        let file = try self.createLargeFile(megaBytes: 100)
+        defer {
+            try? FileManager.default.removeItem(at: file)
+        }
+
+        stub(condition: isPath("/hello")) { _ in
+            HTTPStubsResponse(fileURL: file, statusCode: 200, headers: nil)
+        }
+
+        let builder = HTTPRequestBuilder(url: URL(string: "https://wordpress.org/hello")!)
+        let response = try await session.perform(request: builder, errorType: TestError.self).get()
+
+        try XCTAssertEqual(
+            sha256(XCTUnwrap(InputStream(url: file))),
+            sha256(InputStream(data: response.body))
+        )
+    }
+
+    private func createLargeFile(megaBytes: Int) throws -> URL {
+        let fileManager = FileManager.default
+        let file = try fileManager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+            .appendingPathComponent("large-file-\(UUID().uuidString).txt")
+        fileManager.createFile(atPath: file.path, contents: nil)
+
+        let handle = try FileHandle(forUpdating: file)
+        for _ in 0..<megaBytes {
+            handle.write(Data(repeating: 46, count: 1_000_000))
+        }
+        try handle.close()
+        return file
+    }
+
+    private func sha256(_ stream: InputStream) -> SHA256Digest {
+        stream.open()
+        defer { stream.close() }
+
+        var hash = SHA256()
+        let maxLength = 1024
+        var buffer = [UInt8](repeating: 0, count: maxLength)
+        while stream.hasBytesAvailable {
+            let bytes = stream.read(&buffer, maxLength: maxLength)
+            let data = Data(bytesNoCopy: &buffer, count: bytes, deallocator: .none)
+            hash.update(data: data)
+        }
+        return hash.finalize()
+    }
+}
+
+class BackgroundURLSessionHelperTests: URLSessionHelperTests {
+
+    // swiftlint:disable weak_delegate
+    private var delegate: TestBackgroundURLSessionDelegate!
+    // swiftlint:enable weak_delegate
+
+    override func setUp() {
+        super.setUp()
+
+        delegate = TestBackgroundURLSessionDelegate()
+        session = URLSession(configuration: .default, delegate: delegate, delegateQueue: nil)
+    }
+
+    override func tearDown() {
+        super.tearDown()
+
+        if delegate.startedReceivingResponse {
+            XCTAssertTrue(delegate.completionCalled)
+        }
+    }
+
+}
+
+private class TestBackgroundURLSessionDelegate: BackgroundURLSessionDelegate {
+    var startedReceivingResponse = false
+    var completionCalled = false
+
+    override func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
+        startedReceivingResponse = true
+        super.urlSession(session, dataTask: dataTask, didReceive: data)
+    }
+
+    override func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
+        completionCalled = true
+        super.urlSession(session, task: task, didCompleteWithError: error)
     }
 }
 

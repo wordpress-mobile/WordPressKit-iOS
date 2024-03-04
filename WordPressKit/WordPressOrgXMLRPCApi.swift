@@ -41,7 +41,13 @@ open class WordPressOrgXMLRPCApi: NSObject {
             additionalHeaders["User-Agent"] = userAgent as AnyObject?
         }
         sessionConfiguration.httpAdditionalHeaders = additionalHeaders
-        return URLSession(configuration: sessionConfiguration, delegate: sessionDelegate, delegateQueue: nil)
+        // When using a background URLSession, we don't need to apply the authentication challenge related
+        // implementations in `SessionDelegate`.
+        if sessionConfiguration.identifier != nil {
+            return URLSession.backgroundSession(configuration: sessionConfiguration)
+        } else {
+            return URLSession(configuration: sessionConfiguration, delegate: sessionDelegate, delegateQueue: nil)
+        }
     }
 
     // swiftlint:disable weak_delegate
