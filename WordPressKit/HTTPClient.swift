@@ -261,7 +261,7 @@ class BackgroundURLSessionDelegate: NSObject, URLSessionDataDelegate {
     private var taskData = [Int: SessionTaskData]()
 
     func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
-        session.recieved(data, forTaskWithIdentifier: dataTask.taskIdentifier)
+        session.received(data, forTaskWithIdentifier: dataTask.taskIdentifier)
     }
 
     func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
@@ -300,7 +300,7 @@ private extension URLSession {
         }
     }
 
-    func recieved(_ data: Data, forTaskWithIdentifier taskID: Int) {
+    func received(_ data: Data, forTaskWithIdentifier taskID: Int) {
         updateData(forTaskWithIdentifier: taskID) { task in
             task.responseBody.append(data)
         }
