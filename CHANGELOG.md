@@ -34,9 +34,7 @@ _None._
 
 ### Breaking Changes
 
-- Rewrite `WordPressOrgRestApi` to support self hosted sites and WordPress.com sites. [#724]
-- Decouple `PluginDirectoryServiceRemote` from Alamofire. [#725]
-- Remove `Endpoint`. [#725]
+_None._
 
 ### New Features
 
@@ -44,11 +42,23 @@ _None._
 
 ### Bug Fixes
 
-- Fix crash when uploading files using background URLSession. [#739]
+_None._
 
 ### Internal Changes
 
 _None._
+
+## 14.0.0
+
+### Breaking Changes
+
+- Rewrite `WordPressOrgRestApi` to support self hosted sites and WordPress.com sites. [#724]
+- Decouple `PluginDirectoryServiceRemote` from Alamofire. [#725]
+- Remove `Endpoint`. [#725]
+
+### Bug Fixes
+
+- Fix crash when uploading files using background `URLSession`. [#739]
 
 ## 13.1.0
 
