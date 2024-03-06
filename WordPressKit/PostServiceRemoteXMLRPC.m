@@ -407,6 +407,10 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
         postParams[@"date_created_gmt"] = [NSDate date];
     }
 
+    if (post.ifNotModifiedSince) {
+        postParams[@"if_not_modified_since"] = post.ifNotModifiedSince;
+    }
+
     if (post.categories) {
         NSArray *categoryNames = [post.categories wp_map:^id(RemotePostCategory *category) {
             return category.name;
