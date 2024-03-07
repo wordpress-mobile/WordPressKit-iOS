@@ -38,7 +38,7 @@ _None._
 
 ### New Features
 
-_None._
+- Add Reader discover streams endpoint. [#744]
 
 ### Bug Fixes
 
