@@ -198,7 +198,7 @@ open class WordPressComRestApi: NSObject {
         let progress = Progress.discreteProgress(totalUnitCount: 100)
 
         Task { @MainActor in
-            let result = await self.perform(.get, URLString: URLString, parameters: parameters, fulfilling: progress)
+            let result: APIResult<AnyObject> = await self.perform(.get, URLString: URLString, parameters: parameters, fulfilling: progress)
 
             switch result {
             case let .success(response):
@@ -244,7 +244,7 @@ open class WordPressComRestApi: NSObject {
         let progress = Progress.discreteProgress(totalUnitCount: 100)
 
         Task { @MainActor in
-            let result = await self.perform(.post, URLString: URLString, parameters: parameters, fulfilling: progress)
+            let result: APIResult<AnyObject> = await self.perform(.post, URLString: URLString, parameters: parameters, fulfilling: progress)
 
             switch result {
             case let .success(response):
@@ -380,6 +380,17 @@ open class WordPressComRestApi: NSObject {
         await perform(method, URLString: URLString, parameters: parameters, fulfilling: progress) {
             let decoder = jsonDecoder ?? JSONDecoder()
             return try decoder.decode(type, from: $0)
+        }
+    }
+
+    func perform(
+        _ method: HTTPRequestBuilder.Method,
+        URLString: String,
+        parameters: [String: AnyObject]? = nil,
+        fulfilling progress: Progress? = nil
+    ) async -> APIResult<Data> {
+        await perform(method, URLString: URLString, parameters: parameters, fulfilling: progress) {
+            return $0
         }
     }
 
