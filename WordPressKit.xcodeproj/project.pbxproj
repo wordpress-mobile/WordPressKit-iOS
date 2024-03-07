@@ -15,6 +15,7 @@
 		0152100C28EDA9E400DD6783 /* StatsAnnualAndMostPopularTimeInsightDecodingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0152100B28EDA9E400DD6783 /* StatsAnnualAndMostPopularTimeInsightDecodingTests.swift */; };
 		0847B92C2A4442730044D32F /* IPLocationRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0847B92B2A4442730044D32F /* IPLocationRemote.swift */; };
 		08C7493E2A45EA11000DA0E2 /* IPLocationRemoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08C7493D2A45EA11000DA0E2 /* IPLocationRemoteTests.swift */; };
+		0C9CD7992B9A107E0045BE03 /* RemotePostUpdateParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C9CD7982B9A107E0045BE03 /* RemotePostUpdateParameters.swift */; };
 		0CB1905E2A2A5E83004D3E80 /* BlazeCampaign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB1905D2A2A5E83004D3E80 /* BlazeCampaign.swift */; };
 		0CB190612A2A6A13004D3E80 /* blaze-campaigns-search.json in Resources */ = {isa = PBXBuildFile; fileRef = 0CB1905F2A2A6943004D3E80 /* blaze-campaigns-search.json */; };
 		0CB190652A2A7569004D3E80 /* BlazeCampaignsSearchResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB190642A2A7569004D3E80 /* BlazeCampaignsSearchResponse.swift */; };
@@ -736,6 +737,7 @@
 		0847B92B2A4442730044D32F /* IPLocationRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPLocationRemote.swift; sourceTree = "<group>"; };
 		08C7493D2A45EA11000DA0E2 /* IPLocationRemoteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPLocationRemoteTests.swift; sourceTree = "<group>"; };
 		0C3A2A412A2E7BA500FD91D6 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
+		0C9CD7982B9A107E0045BE03 /* RemotePostUpdateParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemotePostUpdateParameters.swift; sourceTree = "<group>"; };
 		0CB1905D2A2A5E83004D3E80 /* BlazeCampaign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlazeCampaign.swift; sourceTree = "<group>"; };
 		0CB1905F2A2A6943004D3E80 /* blaze-campaigns-search.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "blaze-campaigns-search.json"; sourceTree = "<group>"; };
 		0CB190642A2A7569004D3E80 /* BlazeCampaignsSearchResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlazeCampaignsSearchResponse.swift; sourceTree = "<group>"; };
@@ -2116,6 +2118,7 @@
 				E61A51A521B172A900A5F902 /* RemoteWpcomPlan.swift */,
 				740B23C01F17EE8000067A2A /* RemotePost.h */,
 				740B23C11F17EE8000067A2A /* RemotePost.m */,
+				0C9CD7982B9A107E0045BE03 /* RemotePostUpdateParameters.swift */,
 				740B23BE1F17EE8000067A2A /* RemotePostCategory.h */,
 				740B23BF1F17EE8000067A2A /* RemotePostCategory.m */,
 				93188D1C1F2262BF0028ED4D /* RemotePostTag.h */,
@@ -3502,6 +3505,7 @@
 				93BD27811EE73944002BB00B /* WordPressOrgXMLRPCApi.swift in Sources */,
 				4A57A6832B54A326008D0660 /* WordPressAPIError+NSErrorBrdige.swift in Sources */,
 				439A44D62107C66A00795ED7 /* JSONDecoderExtension.swift in Sources */,
+				0C9CD7992B9A107E0045BE03 /* RemotePostUpdateParameters.swift in Sources */,
 				B5A4822B20AC6C0B009D95F6 /* WPKitLogging.swift in Sources */,
 				B5A4822E20AC6C1A009D95F6 /* WPKitLogging.m in Sources */,
 				7430C9A61F1927180051B8E6 /* ReaderSiteServiceRemote.m in Sources */,

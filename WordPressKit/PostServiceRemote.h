@@ -2,6 +2,7 @@
 #import <WordPressKit/PostServiceRemoteOptions.h>
 
 @class RemotePost;
+@class RemotePostUpdateParameters;
 
 @protocol PostServiceRemote <NSObject>
 
@@ -61,6 +62,18 @@
 - (void)updatePost:(RemotePost *)post
            success:(void (^)(RemotePost *post))success
            failure:(void (^)(NSError *error))failure;
+
+/**
+ *  @brief      Updates a blog's post.
+ *
+ *  @param      postID      The ID of the post to update.  Cannot be nil.
+ *  @param      success     The block that will be executed on success.  Can be nil.
+ *  @param      failure     The block that will be executed on failure.  Can be nil.
+ */
+- (void)patchPostWithID:(NSNumber *)postID
+             parameters:(RemotePostUpdateParameters *)post
+                success:(void (^)(RemotePost *post))success
+                failure:(void (^)(NSError *error))failure;
 
 /**
  *  @brief      Deletes a post.
