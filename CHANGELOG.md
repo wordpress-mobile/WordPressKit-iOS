@@ -42,7 +42,7 @@ _None._
 
 ### Bug Fixes
 
-_None._
+Fix data requests. [#745]
 
 ### Internal Changes
 
