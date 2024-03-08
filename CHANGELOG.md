@@ -42,7 +42,7 @@ _None._
 
 ### Bug Fixes
 
-_None._
+- Fix parsing issues in getting Zendesk metadata and feature announcements. [#746]
 
 ### Internal Changes
 
