@@ -1,7 +1,8 @@
 import Foundation
 
 public final class RemotePostUpdateParameters: NSObject, Encodable {
-    public var ifNotModifiedSince: Date??
+    public var ifNotModifiedSince: Date?
+
     public var status: String??
     public var authorID: String??
     public var date: Date??
