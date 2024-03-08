@@ -42,11 +42,17 @@ _None._
 
 ### Bug Fixes
 
-- Fix parsing issues in getting Zendesk metadata and feature announcements. [#746]
+_None._
 
 ### Internal Changes
 
 _None._
+
+## 14.0.1
+
+### Bug Fixes
+
+- Fix parsing issues in getting Zendesk metadata and feature announcements. [#746]
 
 ## 14.0.0
 
