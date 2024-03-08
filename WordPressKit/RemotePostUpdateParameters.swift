@@ -22,7 +22,7 @@ public final class RemotePostUpdateParameters: NSObject, Encodable {
     @objc public func makeWordPressCOMParameters() -> [String: Any]? {
         let encoder = JSONEncoder()
         encoder.dateEncodingStrategy = .formatted(NSDate.rfc3339DateFormatter())
-        guard let data = try? encoder.encode(self),
+        guard let data = try? encoder.encode(RemotePostUpdateParametersWordPressComEncoder(parameters: self)),
               let object = try? JSONSerialization.jsonObject(with: data) else {
             return nil // Should never happen
         }
