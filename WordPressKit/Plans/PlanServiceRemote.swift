@@ -195,28 +195,18 @@ public class PlanServiceRemote: ServiceRemoteWordPressComREST {
     public func getZendeskMetadata(siteID: Int, completion: @escaping (Result<ZendeskMetadata, Error>) -> Void) {
         let endpoint = "me/sites"
         let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
-        let parameters: [String: String] = ["fields": "ID, zendesk_site_meta"]
+        let parameters = ["fields": "ID, zendesk_site_meta"] as [String: AnyObject]
 
-        wordPressComRestApi.GETData(path, parameters: parameters as [String: AnyObject]) { result in
-            switch result {
-            case .success((let data, _)):
-                do {
-                    let metadata = try self.decodeZendeskMetadata(from: data, siteID: siteID)
-                    completion(.success(metadata))
-                } catch {
-                    completion(.failure(error))
+        Task { @MainActor [wordPressComRestApi] in
+            await wordPressComRestApi.perform(.get, URLString: path, parameters: parameters, type: ZendeskSiteContainer.self)
+                .eraseToError()
+                .flatMap { container in
+                    guard let metadata = container.body.sites.filter({ $0.ID == siteID }).first?.zendeskMetadata else {
+                        return .failure(PlanServiceRemoteError.noMetadata)
+                    }
+                    return .success(metadata)
                 }
-            case .failure(let error):
-                completion(.failure(error))
-            }
+                .execute(completion)
         }
-    }
-
-    private func decodeZendeskMetadata(from data: Data, siteID: Int) throws -> ZendeskMetadata {
-        let container = try JSONDecoder().decode(ZendeskSiteContainer.self, from: data)
-        guard let metadata = container.sites.filter({ $0.ID == siteID }).first?.zendeskMetadata else {
-            throw PlanServiceRemoteError.noMetadata
-        }
-        return metadata
     }
 }
