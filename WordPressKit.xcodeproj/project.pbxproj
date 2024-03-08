@@ -188,6 +188,7 @@
 		4AE278482B2FBF1100E4D9B1 /* HTTPBodyEncodingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE278472B2FBF1100E4D9B1 /* HTTPBodyEncodingTests.swift */; };
 		4AE2784A2B2FC6C600E4D9B1 /* HTTPHeaderValueParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE278492B2FC6C600E4D9B1 /* HTTPHeaderValueParserTests.swift */; };
 		4AE7E36B2B9A995500C8CED5 /* AnnouncementServiceRemoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE7E36A2B9A995500C8CED5 /* AnnouncementServiceRemoteTests.swift */; };
+		4AE7E36D2B9A9BC400C8CED5 /* site-zendesk-metadata-success.json in Resources */ = {isa = PBXBuildFile; fileRef = 4AE7E36C2B9A9BC400C8CED5 /* site-zendesk-metadata-success.json */; };
 		57BCD3D426209D9500292CB3 /* AppTransportSecuritySettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57BCD3D326209D9500292CB3 /* AppTransportSecuritySettings.swift */; };
 		730E869F21E44EFD00753E1A /* WordPressComServiceRemote+SiteVerticals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 730E869E21E44EFD00753E1A /* WordPressComServiceRemote+SiteVerticals.swift */; };
 		731BA83621DECD61000FDFCD /* SiteCreationRequestEncodingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 731BA83521DECD61000FDFCD /* SiteCreationRequestEncodingTests.swift */; };
@@ -910,6 +911,7 @@
 		4AE278472B2FBF1100E4D9B1 /* HTTPBodyEncodingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPBodyEncodingTests.swift; sourceTree = "<group>"; };
 		4AE278492B2FC6C600E4D9B1 /* HTTPHeaderValueParserTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPHeaderValueParserTests.swift; sourceTree = "<group>"; };
 		4AE7E36A2B9A995500C8CED5 /* AnnouncementServiceRemoteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnouncementServiceRemoteTests.swift; sourceTree = "<group>"; };
+		4AE7E36C2B9A9BC400C8CED5 /* site-zendesk-metadata-success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "site-zendesk-metadata-success.json"; sourceTree = "<group>"; };
 		57BCD3D326209D9500292CB3 /* AppTransportSecuritySettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTransportSecuritySettings.swift; sourceTree = "<group>"; };
 		6C2A33D76FD1052D6F30466D /* Pods-WordPressKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WordPressKit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WordPressKit/Pods-WordPressKit.debug.xcconfig"; sourceTree = "<group>"; };
 		6F2E0CC4FA01B5475A378DA2 /* Pods-WordPressKitTests.release-alpha.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WordPressKitTests.release-alpha.xcconfig"; path = "Pods/Target Support Files/Pods-WordPressKitTests/Pods-WordPressKitTests.release-alpha.xcconfig"; sourceTree = "<group>"; };
@@ -2412,6 +2414,7 @@
 				74D67F2C1F15C3740010C5ED /* site-viewers-delete-bad-json.json */,
 				74D67F2D1F15C3740010C5ED /* site-viewers-delete-failure.json */,
 				74D67F2E1F15C3740010C5ED /* site-viewers-delete-success.json */,
+				4AE7E36C2B9A9BC400C8CED5 /* site-zendesk-metadata-success.json */,
 				E6B0461125E5B6F500DF6F4F /* sites-invites-links-disable-empty.json */,
 				E6B0460F25E5B6F500DF6F4F /* sites-invites-links-disable.json */,
 				E6B0461025E5B6F500DF6F4F /* sites-invites-links-generate.json */,
@@ -3096,6 +3099,7 @@
 				C738CAF3286226D6001BE107 /* qrlogin-validate-400.json in Resources */,
 				93BD27651EE73442002BB00B /* me-sites-visibility-success.json in Resources */,
 				404057D0221C46790060250C /* stats-videos-data.json in Resources */,
+				4AE7E36D2B9A9BC400C8CED5 /* site-zendesk-metadata-success.json in Resources */,
 				E1787DB0200E564B004CB3AF /* timezones.json in Resources */,
 				93BD275E1EE73442002BB00B /* me-bad-json-failure.json in Resources */,
 				FFE247AF20C891E6002DF3A2 /* WordPressComOAuthWrongPasswordFail.json in Resources */,

@@ -14,6 +14,7 @@ class PlanServiceRemoteTests: RemoteTestCase, RESTTestable {
     let getPlansBadJsonFailureMockFilename_ApiVersion1_3 = "site-plans-v3-bad-json-failure.json"
     let getWpcomPlansSuccessMockFilename                 = "plans-mobile-success.json"
     let getPlansMeSitesSuccessMockFilename               = "plans-me-sites-success.json"
+    let getZendeskMetadataSuccessMockFilename            = "site-zendesk-metadata-success.json"
 
     // MARK: - Properties
 
@@ -293,5 +294,40 @@ class PlanServiceRemoteTests: RemoteTestCase, RESTTestable {
 
         XCTAssertEqual(result2.siteID, 2)
         XCTAssertFalse(result2.plan.name.contains(jetpackFlag))
+    }
+
+    // MARK: - Zendesk
+
+    func testZendeskMetadata() throws {
+        stubRemoteResponse("rest/v1.1/me/sites?fields=ID%2C%20zendesk_site_meta", filename: getZendeskMetadataSuccessMockFilename, contentType: .ApplicationJSON, status: 200)
+
+        var result: Result<ZendeskMetadata, Error>? = nil
+        let completed = expectation(description: "API call completed")
+        remote.getZendeskMetadata(siteID: 123, completion: {
+            result = $0
+            completed.fulfill()
+        })
+        wait(for: [completed], timeout: 0.3)
+
+        try XCTAssertEqual(XCTUnwrap(result).get().plan, "free")
+    }
+
+    func testZendeskMetadataSiteNotFound() throws {
+        stubRemoteResponse("rest/v1.1/me/sites?fields=ID%2C%20zendesk_site_meta", filename: getZendeskMetadataSuccessMockFilename, contentType: .ApplicationJSON, status: 200)
+
+        var result: Result<ZendeskMetadata, Error>? = nil
+        let completed = expectation(description: "API call completed")
+        remote.getZendeskMetadata(siteID: 9999, completion: {
+            result = $0
+            completed.fulfill()
+        })
+        wait(for: [completed], timeout: 0.3)
+
+        switch try XCTUnwrap(result) {
+        case .failure(PlanServiceRemoteError.noMetadata):
+            XCTAssertTrue(true)
+        default:
+            XCTFail("Unexpected result: \(result)")
+        }
     }
 }
