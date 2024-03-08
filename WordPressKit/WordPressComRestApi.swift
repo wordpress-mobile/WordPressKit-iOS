@@ -215,7 +215,7 @@ open class WordPressComRestApi: NSObject {
                                          parameters: [String: AnyObject]?,
                                          completion: @escaping (Swift.Result<(Data, HTTPURLResponse?), Error>) -> Void) {
         Task { @MainActor in
-            let result: APIResult<Data> = await perform(.get, URLString: URLString, parameters: parameters)
+            let result = await perform(.get, URLString: URLString, parameters: parameters, fulfilling: nil, decoder: { $0 })
 
             completion(
                 result
