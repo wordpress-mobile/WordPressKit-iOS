@@ -14,19 +14,11 @@ public class AnnouncementServiceRemote: ServiceRemoteWordPressComREST {
         }
 
         let path = self.path(forEndpoint: endPoint, withVersion: ._2_0)
-
-        wordPressComRestApi.GETData(path, parameters: nil) { result in
-            switch result {
-            case .success((let data, _)):
-                do {
-                    let announcements = try self.decodeAnnouncements(from: data)
-                    completion(.success(announcements))
-                } catch {
-                    completion(.failure(error))
-                }
-            case .failure(let error):
-                completion(.failure(error))
-            }
+        Task { @MainActor [wordPressComRestApi] in
+            await wordPressComRestApi.perform(.get, URLString: path, type: AnnouncementsContainer.self)
+                .map { $0.body.announcements }
+                .eraseToError()
+                .execute(completion)
         }
     }
 }
@@ -44,11 +36,6 @@ private extension AnnouncementServiceRemote {
         var path = URLComponents(string: Constants.baseUrl)
         path?.queryItems = makeQueryItems(appId: appId, appVersion: appVersion, locale: locale)
         return path?.string
-    }
-
-    func decodeAnnouncements(from data: Data) throws -> [Announcement] {
-        let container = try JSONDecoder().decode(AnnouncementsContainer.self, from: data)
-        return container.announcements
     }
 }
 
