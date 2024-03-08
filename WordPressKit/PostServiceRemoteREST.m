@@ -217,7 +217,7 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
     NSString *path = [NSString stringWithFormat:@"sites/%@/posts/%@?context=edit", self.siteID, postID];
     NSString *requestUrl = [self pathForEndpoint:path withVersion:ServiceRemoteWordPressComRESTApiVersion_1_2];
 
-    NSDictionary *parameters = [postUpdateParameters makeRESTParameters];
+    NSDictionary *parameters = [postUpdateParameters makeWordPressCOMParameters];
 
     [self.wordPressComRestApi POST:requestUrl
         parameters:parameters
@@ -563,9 +563,6 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
     } else if (existingPost) {
         // safety net. An existing post with no create date should publish immediately
         parameters[@"date"] = [[NSDate date] WordPressComJSONString];
-    }
-    if (post.ifNotModifiedSince) {
-        parameters[@"if_not_modified_since"] = [post.ifNotModifiedSince WordPressComJSONString];
     }
     if (post.excerpt) {
         parameters[@"excerpt"] = post.excerpt;
