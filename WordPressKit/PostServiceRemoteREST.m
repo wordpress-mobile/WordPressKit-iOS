@@ -210,29 +210,6 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
            }];
 }
 
-- (void)patchPostWithID:(NSNumber *)postID 
-             parameters:(RemotePostUpdateParameters *)postUpdateParameters
-                success:(void (^)(RemotePost *))success
-                failure:(void (^)(NSError *))failure {
-    NSString *path = [NSString stringWithFormat:@"sites/%@/posts/%@?context=edit", self.siteID, postID];
-    NSString *requestUrl = [self pathForEndpoint:path withVersion:ServiceRemoteWordPressComRESTApiVersion_1_2];
-
-    NSDictionary *parameters = [postUpdateParameters makeWordPressCOMParameters];
-
-    [self.wordPressComRestApi POST:requestUrl
-        parameters:parameters
-           success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
-               RemotePost *post = [self remotePostFromJSONDictionary:responseObject];
-               if (success) {
-                   success(post);
-               }
-           } failure:^(NSError *error, NSHTTPURLResponse *httpResponse) {
-               if (failure) {
-                   failure(error);
-               }
-           }];
-}
-
 - (void)autoSave:(RemotePost *)post
          success:(void (^)(RemotePost *, NSString *))success
          failure:(void (^)(NSError *))failure
@@ -458,6 +435,10 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
 }
 
 - (RemotePost *)remotePostFromJSONDictionary:(NSDictionary *)jsonPost {
+    return [PostServiceRemoteREST remotePostFromJSONDictionary:jsonPost];
+}
+
++ (RemotePost *)remotePostFromJSONDictionary:(NSDictionary *)jsonPost {
     RemotePost *post = [RemotePost new];
     post.postID = jsonPost[@"ID"];
     post.siteID = jsonPost[@"site_ID"];
@@ -496,7 +477,7 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
 
     post.isStickyPost = [jsonPost numberForKeyPath:@"sticky"];
     
-    // FIXME: remove conversion once API is fixed #38-io
+    // FIXME: remove conversion once API is fixed #38-;
     // metadata should always be an array but it's returning false when there are no custom fields
     post.metadata = [jsonPost arrayForKey:@"metadata"];
     // Or even worse, in some cases (Jetpack sites?) is an array containing false
@@ -634,13 +615,13 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
     }];
 }
 
-- (NSArray *)remoteCategoriesFromJSONArray:(NSArray *)jsonCategories {
++ (NSArray *)remoteCategoriesFromJSONArray:(NSArray *)jsonCategories {
     return [jsonCategories wp_map:^id(NSDictionary *jsonCategory) {
         return [self remoteCategoryFromJSONDictionary:jsonCategory];
     }];
 }
 
-- (RemotePostCategory *)remoteCategoryFromJSONDictionary:(NSDictionary *)jsonCategory {
++ (RemotePostCategory *)remoteCategoryFromJSONDictionary:(NSDictionary *)jsonCategory {
     RemotePostCategory *category = [RemotePostCategory new];
     category.categoryID = jsonCategory[@"ID"];
     category.name = jsonCategory[@"name"];
@@ -649,7 +630,7 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
     return category;
 }
 
-- (NSArray *)tagNamesFromJSONDictionary:(NSDictionary *)jsonTags {
++ (NSArray *)tagNamesFromJSONDictionary:(NSDictionary *)jsonTags {
     return [jsonTags allKeys];
 }
 

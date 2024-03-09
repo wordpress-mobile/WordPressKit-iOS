@@ -1,42 +1,37 @@
 import Foundation
 
-/// Represents a partial update to be applied to a post.
-public final class RemotePostUpdateParameters: NSObject, Encodable {
-    public var ifNotModifiedSince: Date?
+extension PostServiceRemoteREST: PostServiceRemoteExtended {
+    public func patchPost(withID postID: Int, changes: RemotePostUpdateParameters) async throws -> RemotePost {
+        let path = self.path(forEndpoint: "sites/\(siteID)/posts/\(postID)?context=edit", withVersion: ._1_2)
+        let parameters = RemotePostUpdateParametersWordPressComEncoder.makeParameters(for: changes)
 
-    public var status: String?
-    public var date: Date?
-    public var authorID: Int??
-    public var title: String??
-    public var content: String??
-    public var password: String??
-    public var excerpt: String??
-    public var slug: String??
-    public var featuredImageID: Int??
-
-    // Pages
-    public var parentPageID: Int??
-
-    // Posts
-    public var format: String??
-    public var tags: [String]?
-    public var categoryIDs: [Int]?
-    public var isSticky: Bool?
-
-    // Makes it compatible with Objective-C.
-    @objc public func makeWordPressCOMParameters() -> [String: Any]? {
-        let encoder = JSONEncoder()
-        encoder.dateEncodingStrategy = .formatted(NSDate.rfc3339DateFormatter())
-        guard let data = try? encoder.encode(RemotePostUpdateParametersWordPressComEncoder(parameters: self)),
-              let object = try? JSONSerialization.jsonObject(with: data) else {
-            return nil // Should never happen
+        return try await withUnsafeThrowingContinuation { continuation in
+            wordPressComRestApi.POST(path, parameters: parameters) { responseObject, _ in
+                if let dictionary = responseObject as? [AnyHashable: Any],
+                   let post = PostServiceRemoteREST.remotePost(fromJSONDictionary: dictionary) {
+                    continuation.resume(returning: post)
+                } else {
+                    continuation.resume(throwing: URLError(.unknown)) // Should never happen
+                }
+            } failure: { error, _ in
+                continuation.resume(throwing: error)
+            }
         }
-        return object as? [String: Any]
     }
 }
 
 private struct RemotePostUpdateParametersWordPressComEncoder: Encodable {
     let parameters: RemotePostUpdateParameters
+
+    static func makeParameters(for parameters: RemotePostUpdateParameters) -> [String: AnyObject]? {
+        let encoder = JSONEncoder()
+        encoder.dateEncodingStrategy = .formatted(NSDate.rfc3339DateFormatter())
+        guard let data = try? encoder.encode(RemotePostUpdateParametersWordPressComEncoder(parameters: parameters)),
+              let object = try? JSONSerialization.jsonObject(with: data) else {
+            return nil // Should never happen
+        }
+        return object as? [String: AnyObject]
+    }
 
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: StringCodingKey.self)
