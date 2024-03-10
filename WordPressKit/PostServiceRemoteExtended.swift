@@ -1,6 +1,9 @@
 import Foundation
 
 public protocol PostServiceRemoteExtended: PostServiceRemote {
-    /// Performs a partial update of the given post.
+    /// Creates a new post with the given parameters.
+    func createPost(with parameters: RemotePostCreateParameters) async throws -> RemotePost
+
+    /// Performs a partial update to the existing post.
     func patchPost(withID postID: Int, changes: RemotePostUpdateParameters) async throws -> RemotePost
 }

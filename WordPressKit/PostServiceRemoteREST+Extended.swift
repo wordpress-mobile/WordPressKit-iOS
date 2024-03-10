@@ -1,66 +1,51 @@
 import Foundation
 
 extension PostServiceRemoteREST: PostServiceRemoteExtended {
-    public func patchPost(withID postID: Int, changes: RemotePostUpdateParameters) async throws -> RemotePost {
-        let path = self.path(forEndpoint: "sites/\(siteID)/posts/\(postID)?context=edit", withVersion: ._1_2)
-        let parameters = RemotePostUpdateParametersWordPressComEncoder.makeParameters(for: changes)
+    public func createPost(with parameters: RemotePostCreateParameters) async throws -> RemotePost {
+        let path = self.path(forEndpoint: "sites/\(siteID)/posts/new?context=edit", withVersion: ._1_2)
+        let parameters = try makeParameters(from: RemotePostCreateParametersWordPressComEncoder(parameters: parameters))
 
-        return try await withUnsafeThrowingContinuation { continuation in
-            wordPressComRestApi.POST(path, parameters: parameters) { responseObject, _ in
-                if let dictionary = responseObject as? [AnyHashable: Any],
-                   let post = PostServiceRemoteREST.remotePost(fromJSONDictionary: dictionary) {
-                    continuation.resume(returning: post)
-                } else {
-                    continuation.resume(throwing: URLError(.unknown)) // Should never happen
-                }
+        let response = try await withUnsafeThrowingContinuation { continuation in
+            wordPressComRestApi.POST(path, parameters: parameters) { object, _ in
+                continuation.resume(returning: object)
             } failure: { error, _ in
                 continuation.resume(throwing: error)
             }
         }
+        return try await decodePost(from: response)
+    }
+
+    public func patchPost(withID postID: Int, changes: RemotePostUpdateParameters) async throws -> RemotePost {
+        let path = self.path(forEndpoint: "sites/\(siteID)/posts/\(postID)?context=edit", withVersion: ._1_2)
+        let parameters = try makeParameters(from: RemotePostUpdateParametersWordPressComEncoder(parameters: changes))
+
+        let response = try await withUnsafeThrowingContinuation { continuation in
+            wordPressComRestApi.POST(path, parameters: parameters) { object, _ in
+                continuation.resume(returning: object)
+            } failure: { error, _ in
+                continuation.resume(throwing: error)
+            }
+        }
+        return try await decodePost(from: response)
     }
 }
 
-private struct RemotePostUpdateParametersWordPressComEncoder: Encodable {
-    let parameters: RemotePostUpdateParameters
-
-    static func makeParameters(for parameters: RemotePostUpdateParameters) -> [String: AnyObject]? {
-        let encoder = JSONEncoder()
-        encoder.dateEncodingStrategy = .formatted(NSDate.rfc3339DateFormatter())
-        guard let data = try? encoder.encode(RemotePostUpdateParametersWordPressComEncoder(parameters: parameters)),
-              let object = try? JSONSerialization.jsonObject(with: data) else {
-            return nil // Should never happen
-        }
-        return object as? [String: AnyObject]
+// Decodes the post in the background.
+private func decodePost(from object: AnyObject) async throws -> RemotePost {
+    guard let dictionary = object as? [AnyHashable: Any],
+          let post = PostServiceRemoteREST.remotePost(fromJSONDictionary: dictionary) else {
+        throw WordPressAPIError<WordPressComRestApiEndpointError>.unparsableResponse(response: nil, body: nil)
     }
+    return post
+}
 
-    func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: StringCodingKey.self)
-        try container.encodeIfPresent(parameters.ifNotModifiedSince, forKey: "if_not_modified_since")
-        try container.encodeIfPresent(parameters.status, forKey: "status")
-        try container.encodeIfPresent(parameters.date, forKey: "date")
-        try container.encodeIfPresent(parameters.authorID, forKey: "author")
-        try container.encodeIfPresent(parameters.title, forKey: "title")
-        try container.encodeIfPresent(parameters.content, forKey: "content")
-        try container.encodeIfPresent(parameters.password, forKey: "password")
-        try container.encodeIfPresent(parameters.excerpt, forKey: "excerpt")
-        try container.encodeIfPresent(parameters.slug, forKey: "slug")
-        try container.encodeIfPresent(parameters.featuredImageID, forKey: "featured_image")
-
-        // Pages
-        if let parentPageID = parameters.parentPageID {
-            try container.encodeIfPresent(parentPageID, forKey: "parent")
-        }
-
-        // Posts
-        try container.encodeIfPresent(parameters.format, forKey: "format")
-        if let tags = parameters.tags {
-            try container.encode([
-                "terms": [
-                    "post_tag": tags
-                ]
-            ], forKey: "terms")
-        }
-        try container.encodeIfPresent(parameters.categoryIDs, forKey: "categories_by_id")
-        try container.encodeIfPresent(parameters.isSticky, forKey: "sticky")
+private func makeParameters<T: Encodable>(from value: T) throws -> [String: AnyObject] {
+    let encoder = JSONEncoder()
+    encoder.dateEncodingStrategy = .formatted(NSDate.rfc3339DateFormatter())
+    let data = try encoder.encode(value)
+    let object = try JSONSerialization.jsonObject(with: data)
+    guard let dictionary = object as? [String: AnyObject] else {
+        throw URLError(.unknown) // This should never happen
     }
+    return dictionary
 }
