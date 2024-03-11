@@ -477,7 +477,7 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
 
     post.isStickyPost = [jsonPost numberForKeyPath:@"sticky"];
     
-    // FIXME: remove conversion once API is fixed #38-;
+    // FIXME: remove conversion once API is fixed #38-io
     // metadata should always be an array but it's returning false when there are no custom fields
     post.metadata = [jsonPost arrayForKey:@"metadata"];
     // Or even worse, in some cases (Jetpack sites?) is an array containing false
