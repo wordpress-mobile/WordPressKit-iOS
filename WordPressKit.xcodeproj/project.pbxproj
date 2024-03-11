@@ -15,7 +15,6 @@
 		0152100C28EDA9E400DD6783 /* StatsAnnualAndMostPopularTimeInsightDecodingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0152100B28EDA9E400DD6783 /* StatsAnnualAndMostPopularTimeInsightDecodingTests.swift */; };
 		0847B92C2A4442730044D32F /* IPLocationRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0847B92B2A4442730044D32F /* IPLocationRemote.swift */; };
 		08C7493E2A45EA11000DA0E2 /* IPLocationRemoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08C7493D2A45EA11000DA0E2 /* IPLocationRemoteTests.swift */; };
-		0C1C08382B9B675400E52F8C /* StringCodingKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1C08372B9B675400E52F8C /* StringCodingKey.swift */; };
 		0C1C08412B9CD79900E52F8C /* PostServiceRemoteExtended.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1C08402B9CD79900E52F8C /* PostServiceRemoteExtended.swift */; };
 		0C1C08432B9CD8D200E52F8C /* PostServiceRemoteREST+Extended.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1C08422B9CD8D200E52F8C /* PostServiceRemoteREST+Extended.swift */; };
 		0C1C08452B9CDB0B00E52F8C /* PostServiceRemoteXMLRPC+Extended.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1C08442B9CDB0B00E52F8C /* PostServiceRemoteXMLRPC+Extended.swift */; };
@@ -740,7 +739,6 @@
 		0152100B28EDA9E400DD6783 /* StatsAnnualAndMostPopularTimeInsightDecodingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsAnnualAndMostPopularTimeInsightDecodingTests.swift; sourceTree = "<group>"; };
 		0847B92B2A4442730044D32F /* IPLocationRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPLocationRemote.swift; sourceTree = "<group>"; };
 		08C7493D2A45EA11000DA0E2 /* IPLocationRemoteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPLocationRemoteTests.swift; sourceTree = "<group>"; };
-		0C1C08372B9B675400E52F8C /* StringCodingKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringCodingKey.swift; sourceTree = "<group>"; };
 		0C1C08402B9CD79900E52F8C /* PostServiceRemoteExtended.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostServiceRemoteExtended.swift; sourceTree = "<group>"; };
 		0C1C08422B9CD8D200E52F8C /* PostServiceRemoteREST+Extended.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PostServiceRemoteREST+Extended.swift"; sourceTree = "<group>"; };
 		0C1C08442B9CDB0B00E52F8C /* PostServiceRemoteXMLRPC+Extended.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PostServiceRemoteXMLRPC+Extended.swift"; sourceTree = "<group>"; };
@@ -2537,7 +2535,6 @@
 				4AE278432B2FAF6200E4D9B1 /* HTTPProtocolHelpers.swift */,
 				3F391E192B50F3EB007975C4 /* Result+Callback.swift */,
 				4A5BC1A72B59DE6600C7D037 /* Either.swift */,
-				0C1C08372B9B675400E52F8C /* StringCodingKey.swift */,
 				4A57A6852B54C68C008D0660 /* Constants.h */,
 				4A57A6862B54C68C008D0660 /* Constants.m */,
 			);
@@ -3476,7 +3473,6 @@
 				40819778221F00E600A298E4 /* StatsSummaryTimeIntervalData.swift in Sources */,
 				7430C9A81F1927180051B8E6 /* ReaderTopicServiceRemote.m in Sources */,
 				17CE77F120C6EB41001DEA5A /* ReaderFeed.swift in Sources */,
-				0C1C08382B9B675400E52F8C /* StringCodingKey.swift in Sources */,
 				93C674F21EE8351E00BFAF05 /* NSMutableDictionary+Helpers.m in Sources */,
 				4624222D2548BA0F002B8A12 /* RemoteSiteDesign.swift in Sources */,
 				74D67F061F1528470010C5ED /* PeopleServiceRemote.swift in Sources */,

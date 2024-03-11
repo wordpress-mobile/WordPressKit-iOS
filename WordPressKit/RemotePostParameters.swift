@@ -151,9 +151,9 @@ extension RemotePostCreateParameters {
     }
 }
 
-// MARK: - Encoding
+// MARK: - Encoding (WP.COM REST API)
 
-private enum RemotePostCodingKeys: String, CodingKey {
+private enum RemotePostWordPressComCodingKeys: String, CodingKey {
     case ifNotModifiedSince = "if_not_modified_since"
     case status
     case date
@@ -177,7 +177,7 @@ struct RemotePostCreateParametersWordPressComEncoder: Encodable {
     let parameters: RemotePostCreateParameters
 
     func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: RemotePostCodingKeys.self)
+        var container = encoder.container(keyedBy: RemotePostWordPressComCodingKeys.self)
         try container.encodeIfPresent(parameters.status, forKey: .status)
         try container.encodeIfPresent(parameters.date, forKey: .date)
         try container.encodeIfPresent(parameters.authorID, forKey: .authorID)
@@ -196,7 +196,7 @@ struct RemotePostCreateParametersWordPressComEncoder: Encodable {
         // Posts
         try container.encodeIfPresent(parameters.format, forKey: .format)
         if !parameters.tags.isEmpty {
-            try container.encode([RemotePostCodingKeys.postTags: parameters.tags], forKey: .terms)
+            try container.encode([RemotePostWordPressComCodingKeys.postTags: parameters.tags], forKey: .terms)
         }
         if !parameters.categoryIDs.isEmpty {
             try container.encodeIfPresent(parameters.categoryIDs, forKey: .categoryIDs)
@@ -211,7 +211,7 @@ struct RemotePostUpdateParametersWordPressComEncoder: Encodable {
     let parameters: RemotePostUpdateParameters
 
     func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: RemotePostCodingKeys.self)
+        var container = encoder.container(keyedBy: RemotePostWordPressComCodingKeys.self)
         try container.encodeIfPresent(parameters.ifNotModifiedSince, forKey: .ifNotModifiedSince)
 
         try container.encodeIfPresent(parameters.status, forKey: .status)
@@ -232,7 +232,111 @@ struct RemotePostUpdateParametersWordPressComEncoder: Encodable {
         // Posts
         try container.encodeIfPresent(parameters.format, forKey: .format)
         if let tags = parameters.tags {
-            try container.encode([RemotePostCodingKeys.postTags: tags], forKey: .terms)
+            try container.encode([RemotePostWordPressComCodingKeys.postTags: tags], forKey: .terms)
+        }
+        try container.encodeIfPresent(parameters.categoryIDs, forKey: .categoryIDs)
+        try container.encodeIfPresent(parameters.isSticky, forKey: .isSticky)
+    }
+}
+
+// MARK: - Encoding (XML-RPC)
+
+private enum RemotePostXMLRPCCodingKeys: String, CodingKey {
+    case ifNotModifiedSince = "if_not_modified_since"
+    case postStatus = "post_status"
+    case pageStatus = "page_status"
+    case date = "date_created_gmt"
+    case authorID = "wp_author_id"
+    case title
+    case content = "description"
+    case password = "wp_password"
+    case excerpt = "mt_excerpt"
+    case slug = "wp_slug"
+    case featuredImageID = "wp_post_thumbnail"
+    case parentPageID = "wp_page_parent_id"
+    case tags = "mt_keywords"
+    case format = "wp_post_format"
+    case isSticky = "sticky"
+    case categoryIDs = "categories"
+
+    static let postTags = "post_tag"
+}
+
+enum RemotePostEncodingPostType {
+    case post, page
+}
+
+struct RemotePostCreateParametersXMLRPCEncoder: Encodable {
+    let parameters: RemotePostCreateParameters
+    let type: RemotePostEncodingPostType
+
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: RemotePostXMLRPCCodingKeys.self)
+        switch type {
+        case .post:
+            try container.encodeIfPresent(parameters.status, forKey: .postStatus)
+        case .page:
+            try container.encodeIfPresent(parameters.status, forKey: .pageStatus)
+        }
+        try container.encodeIfPresent(parameters.date, forKey: .date)
+        try container.encodeIfPresent(parameters.authorID, forKey: .authorID)
+        try container.encodeIfPresent(parameters.title, forKey: .title)
+        try container.encodeIfPresent(parameters.content, forKey: .content)
+        try container.encodeIfPresent(parameters.password, forKey: .password)
+        try container.encodeIfPresent(parameters.excerpt, forKey: .excerpt)
+        try container.encodeIfPresent(parameters.slug, forKey: .slug)
+        try container.encodeIfPresent(parameters.featuredImageID, forKey: .featuredImageID)
+
+        // Pages
+        if let parentPageID = parameters.parentPageID {
+            try container.encodeIfPresent(parentPageID, forKey: .parentPageID)
+        }
+
+        // Posts
+        try container.encodeIfPresent(parameters.format, forKey: .format)
+        if !parameters.tags.isEmpty {
+            try container.encode(parameters.tags, forKey: .tags)
+        }
+        if !parameters.categoryIDs.isEmpty {
+            try container.encodeIfPresent(parameters.categoryIDs, forKey: .categoryIDs)
+        }
+        if parameters.isSticky {
+            try container.encode(parameters.isSticky, forKey: .isSticky)
+        }
+    }
+}
+
+struct RemotePostUpdateParametersXMLRPCEncoder: Encodable {
+    let parameters: RemotePostUpdateParameters
+    let type: RemotePostEncodingPostType
+
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: RemotePostXMLRPCCodingKeys.self)
+        try container.encodeIfPresent(parameters.ifNotModifiedSince, forKey: .ifNotModifiedSince)
+        switch type {
+        case .post:
+            try container.encodeIfPresent(parameters.status, forKey: .postStatus)
+        case .page:
+            try container.encodeIfPresent(parameters.status, forKey: .pageStatus)
+        }
+        try container.encodeIfPresent(parameters.date, forKey: .date)
+        try container.encodeIfPresent(parameters.authorID, forKey: .authorID)
+        try container.encodeIfPresent(parameters.title, forKey: .title)
+        try container.encodeIfPresent(parameters.content, forKey: .content)
+        try container.encodeIfPresent(parameters.password, forKey: .password)
+        try container.encodeIfPresent(parameters.excerpt, forKey: .excerpt)
+        try container.encodeIfPresent(parameters.slug, forKey: .slug)
+        try container.encodeIfPresent(parameters.featuredImageID, forKey: .featuredImageID)
+
+        // Pages
+        if let parentPageID = parameters.parentPageID {
+            try container.encodeIfPresent(parentPageID, forKey: .parentPageID)
+        }
+
+        // Posts
+        try container.encodeIfPresent(parameters.format, forKey: .format)
+        if let tags = parameters.tags {
+            try container.encode(tags, forKey: .tags)
         }
         try container.encodeIfPresent(parameters.categoryIDs, forKey: .categoryIDs)
         try container.encodeIfPresent(parameters.isSticky, forKey: .isSticky)

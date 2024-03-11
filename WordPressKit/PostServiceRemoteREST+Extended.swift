@@ -15,9 +15,9 @@ extension PostServiceRemoteREST: PostServiceRemoteExtended {
         return try await decodePost(from: response)
     }
 
-    public func patchPost(withID postID: Int, changes: RemotePostUpdateParameters) async throws -> RemotePost {
+    public func patchPost(withID postID: Int, parameters: RemotePostUpdateParameters) async throws -> RemotePost {
         let path = self.path(forEndpoint: "sites/\(siteID)/posts/\(postID)?context=edit", withVersion: ._1_2)
-        let parameters = try makeParameters(from: RemotePostUpdateParametersWordPressComEncoder(parameters: changes))
+        let parameters = try makeParameters(from: RemotePostUpdateParametersWordPressComEncoder(parameters: parameters))
 
         let response = try await withUnsafeThrowingContinuation { continuation in
             wordPressComRestApi.POST(path, parameters: parameters) { object, _ in

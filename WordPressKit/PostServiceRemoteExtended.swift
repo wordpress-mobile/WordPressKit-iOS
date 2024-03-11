@@ -5,5 +5,5 @@ public protocol PostServiceRemoteExtended: PostServiceRemote {
     func createPost(with parameters: RemotePostCreateParameters) async throws -> RemotePost
 
     /// Performs a partial update to the existing post.
-    func patchPost(withID postID: Int, changes: RemotePostUpdateParameters) async throws -> RemotePost
+    func patchPost(withID postID: Int, parameters: RemotePostUpdateParameters) async throws -> RemotePost
 }
