@@ -86,51 +86,66 @@ class ReaderPostServiceRemoteCardTests: RemoteTestCase, RESTTestable {
         waitForExpectations(timeout: timeout, handler: nil)
     }
 
+    func testHTTPMethod() {
+        let expect = expectation(description: "Executes fetch call")
+        let failure: (Error) -> Void = { _ in expect.fulfill() }
+        let readerPostServiceRemote = ReaderPostServiceRemote(wordPressComRestApi: mockRemoteApi)
+
+        readerPostServiceRemote.fetchCards(for: ["dogs"], success: { _, _ in }, failure: failure)
+
+        waitForExpectations(timeout: timeout)
+        XCTAssertEqual(mockRemoteApi.performMethodCall, .get)
+    }
+
     // Calls the API with the given page handle
     //
     func testCallAPIWithTheGivenPageHandle() {
+        let expect = expectation(description: "Executes fetch call")
+        let failure: (Error) -> Void = { _ in expect.fulfill() }
         let readerPostServiceRemote = ReaderPostServiceRemote(wordPressComRestApi: mockRemoteApi)
 
-        readerPostServiceRemote.fetchCards(for: ["dogs"], page: "foobar", success: { _, _ in }, failure: { _ in })
+        readerPostServiceRemote.fetchCards(for: ["dogs"], page: "foobar", success: { _, _ in }, failure: failure)
 
-        XCTAssertTrue(mockRemoteApi.getMethodCalled)
-
+        waitForExpectations(timeout: timeout)
         XCTAssertTrue(mockRemoteApi.URLStringPassedIn?.contains("&page_handle=foobar") ?? false)
     }
 
     // Calls the API with .popularity as the given sorting option
     //
     func testCallAPIWithPopularityAsTheGivenSortingOption() {
+        let expect = expectation(description: "Executes fetch call")
+        let failure: (Error) -> Void = { _ in expect.fulfill() }
         let readerPostServiceRemote = ReaderPostServiceRemote(wordPressComRestApi: mockRemoteApi)
 
-        readerPostServiceRemote.fetchCards(for: [], sortingOption: .popularity, success: { _, _ in }, failure: { _ in })
+        readerPostServiceRemote.fetchCards(for: [], sortingOption: .popularity, success: { _, _ in }, failure: failure)
 
-        XCTAssertTrue(mockRemoteApi.getMethodCalled)
-
+        waitForExpectations(timeout: timeout)
         XCTAssertTrue(mockRemoteApi.URLStringPassedIn?.contains("sort=popularity") ?? false)
     }
 
     // Calls the API with .date as the given sorting option
     //
     func testCallAPIWithDateAsTheGivenSortingOption() {
+        let expect = expectation(description: "Executes fetch call")
+        let failure: (Error) -> Void = { _ in expect.fulfill() }
         let readerPostServiceRemote = ReaderPostServiceRemote(wordPressComRestApi: mockRemoteApi)
 
-        readerPostServiceRemote.fetchCards(for: [], sortingOption: .date, success: { _, _ in }, failure: { _ in })
+        readerPostServiceRemote.fetchCards(for: [], sortingOption: .date, success: { _, _ in }, failure: failure)
 
-        XCTAssertTrue(mockRemoteApi.getMethodCalled)
-
+        waitForExpectations(timeout: timeout)
         XCTAssertTrue(mockRemoteApi.URLStringPassedIn?.contains("sort=date") ?? false)
     }
 
     // Calls the API without the given sorting option
     //
     func testCallAPIWithoutTheGivenSortingOption() {
+        let expect = expectation(description: "Executes fetch call")
+        let failure: (Error) -> Void = { _ in expect.fulfill() }
         let readerPostServiceRemote = ReaderPostServiceRemote(wordPressComRestApi: mockRemoteApi)
 
-        readerPostServiceRemote.fetchCards(for: [], success: { _, _ in }, failure: { _ in })
+        readerPostServiceRemote.fetchCards(for: [], success: { _, _ in }, failure: failure)
 
-        XCTAssertTrue(mockRemoteApi.getMethodCalled)
-
+        waitForExpectations(timeout: timeout)
         XCTAssertFalse(mockRemoteApi.URLStringPassedIn?.contains("sort=") ?? true)
     }
 
@@ -221,54 +236,70 @@ class ReaderPostServiceRemoteCardTests: RemoteTestCase, RESTTestable {
         waitForExpectations(timeout: timeout, handler: nil)
     }
 
-    func testStreamsCallAPIWithTheGivenPageHandle() {
+    func testStreamsHTTPMethod() {
+        let expect = expectation(description: "Executes fetch call")
+        let failure: (Error) -> Void = { _ in expect.fulfill() }
         let readerPostServiceRemote = ReaderPostServiceRemote(wordPressComRestApi: mockRemoteApi)
 
-        readerPostServiceRemote.fetchStreamCards(for: ["dogs"], page: "foobar", success: { _, _ in }, failure: { _ in })
+        readerPostServiceRemote.fetchStreamCards(for: ["dogs"], success: { _, _ in }, failure: failure)
 
-        XCTAssertTrue(mockRemoteApi.getMethodCalled)
+        waitForExpectations(timeout: timeout)
+        XCTAssertEqual(mockRemoteApi.performMethodCall, .get)
+    }
 
+    func testStreamsCallAPIWithTheGivenPageHandle() {
+        let expect = expectation(description: "Executes fetch call")
+        let failure: (Error) -> Void = { _ in expect.fulfill() }
+        let readerPostServiceRemote = ReaderPostServiceRemote(wordPressComRestApi: mockRemoteApi)
+
+        readerPostServiceRemote.fetchStreamCards(for: ["dogs"], page: "foobar", success: { _, _ in }, failure: failure)
+
+        waitForExpectations(timeout: timeout)
         XCTAssertTrue(mockRemoteApi.URLStringPassedIn?.contains("&page_handle=foobar") ?? false)
     }
 
     func testStreamsCallAPIWithPopularityAsTheGivenSortingOption() {
+        let expect = expectation(description: "Executes fetch call")
+        let failure: (Error) -> Void = { _ in expect.fulfill() }
         let readerPostServiceRemote = ReaderPostServiceRemote(wordPressComRestApi: mockRemoteApi)
 
-        readerPostServiceRemote.fetchStreamCards(for: [], sortingOption: .popularity, success: { _, _ in }, failure: { _ in })
+        readerPostServiceRemote.fetchStreamCards(for: [], sortingOption: .popularity, success: { _, _ in }, failure: failure)
 
-        XCTAssertTrue(mockRemoteApi.getMethodCalled)
-
+        waitForExpectations(timeout: timeout)
         XCTAssertTrue(mockRemoteApi.URLStringPassedIn?.contains("sort=popularity") ?? false)
     }
 
     func testStreamsCallAPIWithDateAsTheGivenSortingOption() {
+        let expect = expectation(description: "Executes fetch call")
+        let failure: (Error) -> Void = { _ in expect.fulfill() }
         let readerPostServiceRemote = ReaderPostServiceRemote(wordPressComRestApi: mockRemoteApi)
 
-        readerPostServiceRemote.fetchStreamCards(for: [], sortingOption: .date, success: { _, _ in }, failure: { _ in })
+        readerPostServiceRemote.fetchStreamCards(for: [], sortingOption: .date, success: { _, _ in }, failure: failure)
 
-        XCTAssertTrue(mockRemoteApi.getMethodCalled)
-
+        waitForExpectations(timeout: timeout)
         XCTAssertTrue(mockRemoteApi.URLStringPassedIn?.contains("sort=date") ?? false)
     }
 
     func testStreamsCallAPIWithoutTheGivenSortingOption() {
+        let expect = expectation(description: "Executes fetch call")
+        let failure: (Error) -> Void = { _ in expect.fulfill() }
         let readerPostServiceRemote = ReaderPostServiceRemote(wordPressComRestApi: mockRemoteApi)
 
-        readerPostServiceRemote.fetchStreamCards(for: [], success: { _, _ in }, failure: { _ in })
+        readerPostServiceRemote.fetchStreamCards(for: [], success: { _, _ in }, failure: failure)
 
-        XCTAssertTrue(mockRemoteApi.getMethodCalled)
-
+        waitForExpectations(timeout: timeout)
         XCTAssertFalse(mockRemoteApi.URLStringPassedIn?.contains("sort=") ?? true)
     }
 
     func testStreamsCallAPIWithCountValue() {
+        let expect = expectation(description: "Executes fetch call")
+        let failure: (Error) -> Void = { _ in expect.fulfill() }
         let readerPostServiceRemote = ReaderPostServiceRemote(wordPressComRestApi: mockRemoteApi)
         let expectedCount = 5
 
-        readerPostServiceRemote.fetchStreamCards(for: ["dogs"], count: expectedCount, success: { _, _ in }, failure: { _ in })
+        readerPostServiceRemote.fetchStreamCards(for: ["dogs"], count: expectedCount, success: { _, _ in }, failure: failure)
 
-        XCTAssertTrue(mockRemoteApi.getMethodCalled)
-
+        waitForExpectations(timeout: timeout)
         XCTAssertTrue(mockRemoteApi.URLStringPassedIn?.contains("&count=\(expectedCount)") ?? false)
     }
 

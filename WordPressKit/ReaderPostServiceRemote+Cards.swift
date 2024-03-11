@@ -74,24 +74,12 @@ extension ReaderPostServiceRemote {
     private func fetch(_ endpoint: String,
                        success: @escaping ([RemoteReaderCard], String?) -> Void,
                        failure: @escaping (Error) -> Void) {
-        wordPressComRestApi.GET(endpoint,
-                                parameters: nil,
-                                success: { response, _ in
-            do {
-                let decoder = JSONDecoder()
-                let data = try JSONSerialization.data(withJSONObject: response, options: [])
-                let envelope = try decoder.decode(ReaderCardEnvelope.self, from: data)
-
-                success(envelope.cards, envelope.nextPageHandle)
-            } catch {
-                WPKitLogError("Error parsing the reader cards response: \(error)")
-                failure(error)
-            }
-        }, failure: { error, _ in
-            WPKitLogError("Error fetching reader cards: \(error)")
-
-            failure(error)
-        })
+        Task { @MainActor [wordPressComRestApi] in
+            await wordPressComRestApi.perform(.get, URLString: endpoint, type: ReaderCardEnvelope.self)
+                .map { ($0.body.cards, $0.body.nextPageHandle) }
+                .mapError { error -> Error in error.asNSError() }
+                .execute(onSuccess: success, onFailure: failure)
+        }
     }
 
     private func cardsEndpoint(with path: String,

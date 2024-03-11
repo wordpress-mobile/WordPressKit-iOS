@@ -9,6 +9,8 @@ class MockWordPressComRestApi: WordPressComRestApi {
     @objc var successBlockPassedIn: ((AnyObject, HTTPURLResponse?) -> Void)?
     @objc var failureBlockPassedIn: ((NSError, HTTPURLResponse?) -> Void)?
 
+    var performMethodCall: HTTPRequestBuilder.Method?
+
     override func GET(_ URLString: String?, parameters: [String: AnyObject]?, success: @escaping ((AnyObject, HTTPURLResponse?) -> Void), failure: @escaping ((NSError, HTTPURLResponse?) -> Void)) -> Progress? {
         getMethodCalled = true
         URLStringPassedIn = URLString
@@ -42,6 +44,19 @@ class MockWordPressComRestApi: WordPressComRestApi {
         successBlockPassedIn = success
         failureBlockPassedIn = failure
         return Progress()
+    }
+
+    override func perform<T: Decodable>(
+        _ method: HTTPRequestBuilder.Method,
+        URLString: String,
+        parameters: [String: AnyObject]? = nil,
+        fulfilling progress: Progress? = nil,
+        jsonDecoder: JSONDecoder? = nil,
+        type: T.Type = T.self
+    ) async -> APIResult<T> {
+        performMethodCall = method
+        URLStringPassedIn = URLString
+        return .failure(.connection(.init(.cancelled)))
     }
 
     @objc func methodCalled() -> String {
