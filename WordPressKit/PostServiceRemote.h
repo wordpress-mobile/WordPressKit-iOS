@@ -103,7 +103,4 @@
  */
 - (NSDictionary *)dictionaryWithRemoteOptions:(id <PostServiceRemoteOptions>)options;
 
-/// Returns a remote post with the given data.
-+ (RemotePost *)remotePostFromJSONDictionary:(NSDictionary *)jsonPost;
-
 @end

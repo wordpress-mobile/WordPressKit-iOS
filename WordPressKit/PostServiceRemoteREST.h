@@ -76,4 +76,7 @@
                   success:(void (^ _Nullable)(NSArray<RemoteLikeUser *> * _Nonnull users, NSNumber * _Nonnull found))success
                   failure:(void (^ _Nullable)(NSError * _Nullable))failure;
 
+/// Returns a remote post with the given data.
++ (nonnull RemotePost *)remotePostFromJSONDictionary:(nonnull NSDictionary *)jsonPost;
+
 @end

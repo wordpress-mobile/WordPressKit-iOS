@@ -5,38 +5,37 @@ extension PostServiceRemoteREST: PostServiceRemoteExtended {
         let path = self.path(forEndpoint: "sites/\(siteID)/posts/new?context=edit", withVersion: ._1_2)
         let parameters = try makeParameters(from: RemotePostCreateParametersWordPressComEncoder(parameters: parameters))
 
-        let response = try await withUnsafeThrowingContinuation { continuation in
-            wordPressComRestApi.POST(path, parameters: parameters) { object, _ in
-                continuation.resume(returning: object)
-            } failure: { error, _ in
-                continuation.resume(throwing: error)
-            }
-        }
-        return try await decodePost(from: response)
+        let response = try await wordPressComRestApi.perform(.post, URLString: path, parameters: parameters).get()
+        return try await decodePost(from: response.body)
     }
 
     public func patchPost(withID postID: Int, parameters: RemotePostUpdateParameters) async throws -> RemotePost {
         let path = self.path(forEndpoint: "sites/\(siteID)/posts/\(postID)?context=edit", withVersion: ._1_2)
         let parameters = try makeParameters(from: RemotePostUpdateParametersWordPressComEncoder(parameters: parameters))
 
-        let response = try await withUnsafeThrowingContinuation { continuation in
-            wordPressComRestApi.POST(path, parameters: parameters) { object, _ in
-                continuation.resume(returning: object)
-            } failure: { error, _ in
-                continuation.resume(throwing: error)
+        let result = await wordPressComRestApi.perform(.post, URLString: path, parameters: parameters)
+        switch result {
+        case .success(let response):
+            return try await decodePost(from: response.body)
+        case .failure(let error):
+            guard case .endpointError(let error) = error else {
+                throw error
+            }
+            switch error.apiErrorCode ?? "" {
+            case "unknown_post": throw PostServiceRemoteUpdatePostError.notFound
+            case "old-revision": throw PostServiceRemoteUpdatePostError.conflict
+            default: throw error
             }
         }
-        return try await decodePost(from: response)
     }
 }
 
 // Decodes the post in the background.
 private func decodePost(from object: AnyObject) async throws -> RemotePost {
-    guard let dictionary = object as? [AnyHashable: Any],
-          let post = PostServiceRemoteREST.remotePost(fromJSONDictionary: dictionary) else {
+    guard let dictionary = object as? [AnyHashable: Any] else {
         throw WordPressAPIError<WordPressComRestApiEndpointError>.unparsableResponse(response: nil, body: nil)
     }
-    return post
+    return PostServiceRemoteREST.remotePost(fromJSONDictionary: dictionary)
 }
 
 private func makeParameters<T: Encodable>(from value: T) throws -> [String: AnyObject] {

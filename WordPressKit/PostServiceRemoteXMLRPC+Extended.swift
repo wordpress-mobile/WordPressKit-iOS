@@ -5,14 +5,8 @@ extension PostServiceRemoteXMLRPC: PostServiceRemoteExtended {
     public func createPost(with parameters: RemotePostCreateParameters) async throws -> RemotePost {
         let dictionary = try makeParameters(from: RemotePostCreateParametersXMLRPCEncoder(parameters: parameters, type: .post))
         let parameters = xmlrpcArguments(withExtra: dictionary) as [AnyObject]
-        let response = try await withUnsafeThrowingContinuation { continuation in
-            api.callMethod("metaWeblog.newPost", parameters: parameters) { object, _ in
-                continuation.resume(returning: object)
-            } failure: { error, _ in
-                continuation.resume(throwing: error)
-            }
-        }
-        guard let postID = (response as? NSNumber) else {
+        let response = try await api.call(method: "metaWeblog.newPost", parameters: parameters).get()
+        guard let postID = (response.body as? NSNumber) else {
             throw URLError(.unknown) // Should never happen
         }
         return try await getPost(withID: postID)
@@ -24,14 +18,20 @@ extension PostServiceRemoteXMLRPC: PostServiceRemoteExtended {
         if parameters.count > 0 {
             parameters[0] = postID as NSNumber
         }
-        try await withUnsafeThrowingContinuation { continuation in
-            api.callMethod("metaWeblog.editPost", parameters: parameters) { _, _ in
-                continuation.resume(returning: ())
-            } failure: { error, _ in
-                continuation.resume(throwing: error)
+        let result = await api.call(method: "metaWeblog.editPost", parameters: parameters)
+        switch result {
+        case .success:
+            return try await getPost(withID: postID as NSNumber)
+        case .failure(let error):
+            guard case .endpointError(let error) = error else {
+                throw error
+            }
+            switch error.code ?? 0 {
+            case 404: throw PostServiceRemoteUpdatePostError.notFound
+            case 409: throw PostServiceRemoteUpdatePostError.conflict
+            default: throw error
             }
         }
-        return try await getPost(withID: postID as NSNumber)
     }
 
     private func getPost(withID postID: NSNumber) async throws -> RemotePost {
