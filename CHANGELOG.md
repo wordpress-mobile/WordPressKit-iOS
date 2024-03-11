@@ -42,7 +42,7 @@ _None._
 
 ### Bug Fixes
 
-_None._
+- Fix a rare crash when accessing date formatter from different threads in StatsRemoteService. [#749]
 
 ### Internal Changes
 
