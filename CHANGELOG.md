@@ -46,7 +46,7 @@ _None._
 
 ### Internal Changes
 
-- Add WP.com theme tier information. [#750]
+- Add WP.com theme type information. [#750]
 
 ## 14.0.1
 
