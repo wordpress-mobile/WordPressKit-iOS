@@ -38,7 +38,7 @@ _None._
 
 ### New Features
 
-- Add Reader discover streams endpoint. [#744]
+_None._
 
 ### Bug Fixes
 
@@ -47,6 +47,12 @@ _None._
 ### Internal Changes
 
 _None._
+
+## 14.1.0
+
+### New Features
+
+- Add Reader discover streams endpoint. [#744]
 
 ## 14.0.1
 
