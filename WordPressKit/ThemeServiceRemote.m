@@ -359,7 +359,7 @@ static NSString* const ThemeRequestPageKey = @"page";
     NSParameterAssert([dictionary isKindOfClass:[NSDictionary class]]);
     
     static NSString* const ThemeActiveKey = @"active";
-    static NSString* const ThemeTierPath = @"theme_tier.slug";
+    static NSString* const ThemeTypeKey = @"theme_type";
     static NSString* const ThemeAuthorKey = @"author";
     static NSString* const ThemeAuthorURLKey = @"author_uri";
     static NSString* const ThemeCostPath = @"cost.number";
@@ -385,7 +385,7 @@ static NSString* const ThemeRequestPageKey = @"page";
     [self loadLaunchDateForTheme:theme fromDictionary:dictionary];
 
     theme.active = [[dictionary numberForKey:ThemeActiveKey] boolValue];
-    theme.tier = [dictionary stringForKeyPath:ThemeTierPath];
+    theme.type = [dictionary stringForKey:ThemeTypeKey];
     theme.author = [dictionary stringForKey:ThemeAuthorKey];
     theme.authorUrl = [dictionary stringForKey:ThemeAuthorURLKey];
     theme.demoUrl = [dictionary stringForKey:ThemeDemoURLKey];
