@@ -261,8 +261,9 @@ class URLSessionHelperTests: XCTestCase {
             HTTPStubsResponse(data: "success".data(using: .utf8)!, statusCode: 200, headers: nil)
         }
 
-        // Create a large file which will be uploaded
-        let file = try self.createLargeFile(megaBytes: 100)
+        // Create a large file which will be uploaded. The file size needs to be larger than the hardcoded threshold of
+        // creating a temporary file for upload.
+        let file = try self.createLargeFile(megaBytes: 30)
         defer {
             try? FileManager.default.removeItem(at: file)
         }
@@ -290,8 +291,9 @@ class URLSessionHelperTests: XCTestCase {
             HTTPStubsResponse(error: URLError(.networkConnectionLost))
         }
 
-        // Create a large file which will be uploaded
-        let file = try self.createLargeFile(megaBytes: 100)
+        // Create a large file which will be uploaded. The file size needs to be larger than the hardcoded threshold of
+        // creating a temporary file for upload.
+        let file = try self.createLargeFile(megaBytes: 30)
         defer {
             try? FileManager.default.removeItem(at: file)
         }
@@ -331,16 +333,11 @@ class URLSessionHelperTests: XCTestCase {
     }
 
     private func createLargeFile(megaBytes: Int) throws -> URL {
-        let fileManager = FileManager.default
-        let file = try fileManager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+        let file = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
             .appendingPathComponent("large-file-\(UUID().uuidString).txt")
-        fileManager.createFile(atPath: file.path, contents: nil)
 
-        let handle = try FileHandle(forUpdating: file)
-        for _ in 0..<megaBytes {
-            handle.write(Data(repeating: 46, count: 1_000_000))
-        }
-        try handle.close()
+        try Data(repeating: 46, count: 1024 * 1000 * megaBytes).write(to: file)
+
         return file
     }
 
@@ -349,7 +346,7 @@ class URLSessionHelperTests: XCTestCase {
         defer { stream.close() }
 
         var hash = SHA256()
-        let maxLength = 1024
+        let maxLength = 50 * 1024
         var buffer = [UInt8](repeating: 0, count: maxLength)
         while stream.hasBytesAvailable {
             let bytes = stream.read(&buffer, maxLength: maxLength)
