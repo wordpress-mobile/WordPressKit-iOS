@@ -3,6 +3,7 @@
 @interface RemoteTheme : NSObject
 
 @property (nonatomic, assign) BOOL active;
+@property (nonatomic, strong) NSString *type;
 @property (nonatomic, strong) NSString *author;
 @property (nonatomic, strong) NSString *authorUrl;
 @property (nonatomic, strong) NSString *desc;
