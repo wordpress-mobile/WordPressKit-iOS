@@ -17,12 +17,12 @@ open class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
     public let siteID: Int
     private let siteTimezone: TimeZone
 
-    private lazy var periodDataQueryDateFormatter: DateFormatter = {
+    private var periodDataQueryDateFormatter: DateFormatter {
         let df = DateFormatter()
         df.locale = Locale(identifier: "en_US_POSIX")
         df.dateFormat = "yyyy-MM-dd"
         return df
-    }()
+    }
 
     private lazy var calendarForSite: Calendar = {
         var cal = Calendar(identifier: .iso8601)
@@ -117,8 +117,9 @@ open class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
             return val1
         }
 
-        wordPressComRestApi.GET(path, parameters: properties, success: { (response, _) in
+        wordPressComRestApi.GET(path, parameters: properties, success: { [weak self] (response, _) in
             guard
+                let self,
                 let jsonResponse = response as? [String: AnyObject],
                 let dateString = jsonResponse["date"] as? String,
                 let date = self.periodDataQueryDateFormatter.date(from: dateString)
