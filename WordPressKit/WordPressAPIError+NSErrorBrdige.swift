@@ -37,13 +37,13 @@ extension WordPressAPIError: CustomNSError {
         switch self {
         case let .endpointError(endpointError):
             return (endpointError as NSError).userInfo
-        case .requestEncodingFailure, .connection, .unacceptableStatusCode, .unparsableResponse,
+        case .connection(let error):
+            return [NSUnderlyingErrorKey: error]
+        case .requestEncodingFailure, .unacceptableStatusCode, .unparsableResponse,
                 .unknown:
             return [:]
         }
-
     }
-
 }
 
 // MARK: - Bridge WordPressComRestApiEndpointError to NSError

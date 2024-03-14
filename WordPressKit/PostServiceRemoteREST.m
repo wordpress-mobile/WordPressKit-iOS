@@ -435,6 +435,10 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
 }
 
 - (RemotePost *)remotePostFromJSONDictionary:(NSDictionary *)jsonPost {
+    return [PostServiceRemoteREST remotePostFromJSONDictionary:jsonPost];
+}
+
++ (RemotePost *)remotePostFromJSONDictionary:(NSDictionary *)jsonPost {
     RemotePost *post = [RemotePost new];
     post.postID = jsonPost[@"ID"];
     post.siteID = jsonPost[@"site_ID"];
@@ -611,13 +615,13 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
     }];
 }
 
-- (NSArray *)remoteCategoriesFromJSONArray:(NSArray *)jsonCategories {
++ (NSArray *)remoteCategoriesFromJSONArray:(NSArray *)jsonCategories {
     return [jsonCategories wp_map:^id(NSDictionary *jsonCategory) {
         return [self remoteCategoryFromJSONDictionary:jsonCategory];
     }];
 }
 
-- (RemotePostCategory *)remoteCategoryFromJSONDictionary:(NSDictionary *)jsonCategory {
++ (RemotePostCategory *)remoteCategoryFromJSONDictionary:(NSDictionary *)jsonCategory {
     RemotePostCategory *category = [RemotePostCategory new];
     category.categoryID = jsonCategory[@"ID"];
     category.name = jsonCategory[@"name"];
@@ -626,7 +630,7 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
     return category;
 }
 
-- (NSArray *)tagNamesFromJSONDictionary:(NSDictionary *)jsonTags {
++ (NSArray *)tagNamesFromJSONDictionary:(NSDictionary *)jsonTags {
     return [jsonTags allKeys];
 }
 

@@ -9,6 +9,7 @@ extern NSString * const PostStatusScheduled;
 extern NSString * const PostStatusTrash;
 extern NSString * const PostStatusDeleted;
 
+/// Represents the response object for APIs that create or update posts.
 @interface RemotePost : NSObject
 - (id)initWithSiteID:(NSNumber *)siteID status:(NSString *)status title:(NSString *)title content:(NSString *)content;
 

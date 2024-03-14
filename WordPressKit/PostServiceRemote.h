@@ -2,6 +2,7 @@
 #import <WordPressKit/PostServiceRemoteOptions.h>
 
 @class RemotePost;
+@class RemotePostUpdateParameters;
 
 @protocol PostServiceRemote <NSObject>
 
