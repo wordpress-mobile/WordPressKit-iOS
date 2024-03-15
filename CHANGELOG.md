@@ -72,6 +72,7 @@ _None._
 ### Internal Changes
 
 - Add WP.com theme type information. [#750]
+- Add `page` and `number` parameters to fetchFollowedSites in `ReaderTopicServiceRemote` [#753]
 
 ## 14.0.1
 
