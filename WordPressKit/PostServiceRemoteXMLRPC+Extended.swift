@@ -6,7 +6,7 @@ extension PostServiceRemoteXMLRPC: PostServiceRemoteExtended {
         let dictionary = try makeParameters(from: RemotePostCreateParametersXMLRPCEncoder(parameters: parameters))
         let parameters = xmlrpcArguments(withExtra: dictionary) as [AnyObject]
         let response = try await api.call(method: "metaWeblog.newPost", parameters: parameters).get()
-        guard let postID = (response.body as? NSNumber) else {
+        guard let postID = (response.body as? NSObject)?.numericValue() else {
             throw URLError(.unknown) // Should never happen
         }
         return try await getPost(withID: postID)
