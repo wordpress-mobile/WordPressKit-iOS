@@ -1,7 +1,7 @@
 import Foundation
 
 /// The parameters required to create a post or a page.
-public struct RemotePostCreateParameters {
+public struct RemotePostCreateParameters: Equatable {
     public var status: String
     public var date: Date?
     public var authorID: Int?
@@ -27,7 +27,7 @@ public struct RemotePostCreateParameters {
 }
 
 /// Represents a partial update to be applied to a post or a page.
-public struct RemotePostUpdateParameters {
+public struct RemotePostUpdateParameters: Equatable {
     public var ifNotModifiedSince: Date?
 
     public var status: String?
