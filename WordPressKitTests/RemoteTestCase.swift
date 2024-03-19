@@ -54,13 +54,15 @@ extension RemoteTestCase {
         contentType: ResponseContentType,
         status: Int32 = 200
     ) {
+        // This doesn't follow the XCTUnwrap pattern (yet?) because the method is used many times and it was too time consuming to update every call site at the time
+        let stubPath = OHPathForFile(filename, type(of: self))
         stub(condition: condition) { _ in
-            let stubPath = OHPathForFile(filename, type(of: self))
             var headers: [NSObject: AnyObject]?
 
             if contentType != .NoContentType {
                 headers = ["Content-Type" as NSObject: contentType.rawValue as AnyObject]
             }
+            // This is force-unwrapped at call site, despite it making more sense at declaration site, so it can be found when grepping for force unwraps.
             return OHHTTPStubs.fixture(filePath: stubPath!, status: status, headers: headers)
         }
     }
@@ -74,15 +76,17 @@ extension RemoteTestCase {
     ///     - status: The status code to use for the response. Defaults to 200.
     ///
     func stubRemoteResponse(_ endpoint: String, filename: String, contentType: ResponseContentType, status: Int32 = 200) {
+        // This doesn't follow the XCTUnwrap pattern (yet?) because the method is used many times and it was too time consuming to update every call site at the time
+        let stubPath = OHPathForFile(filename, type(of: self))
         stub(condition: { request in
             return request.url?.absoluteString.range(of: endpoint) != nil
         }) { _ in
-            let stubPath = OHPathForFile(filename, type(of: self))
             var headers: [NSObject: AnyObject]?
 
             if contentType != .NoContentType {
                 headers = ["Content-Type" as NSObject: contentType.rawValue as AnyObject]
             }
+            // This is force-unwrapped at call site, despite it making more sense at declaration site, so it can be found when grepping for force unwraps.
             return fixture(filePath: stubPath!, status: status, headers: headers)
         }
     }
