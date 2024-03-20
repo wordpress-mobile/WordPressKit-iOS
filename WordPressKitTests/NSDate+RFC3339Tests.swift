@@ -9,14 +9,6 @@ import XCTest
 // - https://datatracker.ietf.org/doc/html/rfc3339
 class NSDateRFC3339Tests: XCTestCase {
 
-    func testDateFormatterConfiguration() throws {
-        let rfc3339Formatter = try XCTUnwrap(NSDate.rfc3339Formatter)
-
-        XCTAssertEqual(rfc3339Formatter.timeZone, TimeZone(secondsFromGMT: 0))
-        XCTAssertEqual(rfc3339Formatter.locale, Locale(identifier: "en_US_POSIX"))
-        XCTAssertEqual(rfc3339Formatter.dateFormat, "yyyy'-'MM'-'dd'T'HH':'mm':'ssZ")
-    }
-
     func testValidRFC3339DateFromString() {
         XCTAssertEqual(
             NSDate.with(wordPressComJSONString: "2023-03-19T15:00:00Z"),

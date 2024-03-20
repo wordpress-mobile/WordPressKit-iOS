@@ -2,7 +2,7 @@ import Foundation
 
 extension NSDate {
 
-    static let rfc3339Formatter = DateFormatter.rfc3339Formatter
+    static let rfc3339Formatter = DateFormatter.wordPressCom
 
     /// Parses a date string
     ///
@@ -23,15 +23,4 @@ extension NSDate {
     public func wordPressComJSONString() -> String {
         NSDate.rfc3339Formatter.string(from: self as Date)
     }
-}
-
-extension DateFormatter {
-
-    static let rfc3339Formatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ssZ"
-        formatter.timeZone = NSTimeZone(forSecondsFromGMT: 0) as TimeZone
-        formatter.locale = NSLocale(localeIdentifier: "en_US_POSIX") as Locale
-        return formatter
-    }()
 }
