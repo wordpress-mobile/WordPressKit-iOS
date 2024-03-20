@@ -72,6 +72,7 @@
 		3F8308A729EE683500354497 /* ActivityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8308A629EE683500354497 /* ActivityTests.swift */; };
 		3FB8642C2888089F003A86BE /* BuildkiteTestCollector in Frameworks */ = {isa = PBXBuildFile; productRef = 3FB8642B2888089F003A86BE /* BuildkiteTestCollector */; };
 		3FFCC0412BA995290051D229 /* NSDate+RFC3339Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FFCC0402BA995290051D229 /* NSDate+RFC3339Tests.swift */; };
+		3FFCC0472BAA6EF40051D229 /* NSDate+RFC3339.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FFCC0462BAA6EF40051D229 /* NSDate+RFC3339.swift */; };
 		40247DFA2120D8E100AE1C3C /* AutomatedTransferService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40247DF92120D8E100AE1C3C /* AutomatedTransferService.swift */; };
 		40247DFC2120E69600AE1C3C /* AutomatedTransferStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40247DFB2120E69600AE1C3C /* AutomatedTransferStatus.swift */; };
 		404057C5221B30400060250C /* StatsSearchTermTimeIntervalData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404057C4221B30400060250C /* StatsSearchTermTimeIntervalData.swift */; };
@@ -800,6 +801,7 @@
 		3F8308A629EE683500354497 /* ActivityTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityTests.swift; sourceTree = "<group>"; };
 		3FB8642D288813E9003A86BE /* UnitTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = UnitTests.xctestplan; sourceTree = "<group>"; };
 		3FFCC0402BA995290051D229 /* NSDate+RFC3339Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSDate+RFC3339Tests.swift"; sourceTree = "<group>"; };
+		3FFCC0462BAA6EF40051D229 /* NSDate+RFC3339.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSDate+RFC3339.swift"; sourceTree = "<group>"; };
 		40247DF92120D8E100AE1C3C /* AutomatedTransferService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutomatedTransferService.swift; sourceTree = "<group>"; };
 		40247DFB2120E69600AE1C3C /* AutomatedTransferStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutomatedTransferStatus.swift; sourceTree = "<group>"; };
 		404057C4221B30400060250C /* StatsSearchTermTimeIntervalData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsSearchTermTimeIntervalData.swift; sourceTree = "<group>"; };
@@ -2523,6 +2525,7 @@
 				93BD27741EE73944002BB00B /* HTTPAuthenticationAlertController.swift */,
 				93BD27751EE73944002BB00B /* NSDate+WordPressJSON.h */,
 				93BD27761EE73944002BB00B /* NSDate+WordPressJSON.m */,
+				3FFCC0462BAA6EF40051D229 /* NSDate+RFC3339.swift */,
 				93BD27771EE73944002BB00B /* WordPressComOAuthClient.swift */,
 				93BD27781EE73944002BB00B /* WordPressComRestApi.swift */,
 				93BD27791EE73944002BB00B /* WordPressOrgXMLRPCApi.swift */,
@@ -3462,6 +3465,7 @@
 				E632D7781F6E047400297F6D /* SocialLogin2FANonceInfo.swift in Sources */,
 				32FC1D29255C91ED00CD0A7B /* JetpackScanServiceRemote.swift in Sources */,
 				9F3E0B9B208732B3009CB5BA /* RemoteReaderSiteInfoSubscription.swift in Sources */,
+				3FFCC0472BAA6EF40051D229 /* NSDate+RFC3339.swift in Sources */,
 				7403A2E41EF06ED500DED7DC /* AccountSettingsRemote.swift in Sources */,
 				3236F77824AE34B40088E8F3 /* ReaderTopicServiceRemote+Interests.swift in Sources */,
 				FE20A6A4282A96C00025E975 /* RemoteBloggingPromptsSettings.swift in Sources */,

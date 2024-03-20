@@ -19,8 +19,4 @@
     return [[self rfc3339DateFormatter] dateFromString:string];
 }
 
-- (NSString *)WordPressComJSONString {
-    return [[[self class] rfc3339DateFormatter] stringFromDate:self];
-}
-
 @end

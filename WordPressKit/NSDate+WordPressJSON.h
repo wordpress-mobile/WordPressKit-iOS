@@ -16,6 +16,4 @@
 
 + (instancetype)dateWithWordPressComJSONString:(NSString *)string;
 
-- (NSString *)WordPressComJSONString;
-
 @end
