@@ -4,12 +4,6 @@ extension NSDate {
 
     static let rfc3339Formatter = DateFormatter.rfc3339Formatter
 
-    @objc
-    @available(*, deprecated, message: "Please use the static property instead. This is here for backwards compatibility and will soon be removed.")
-    public static func rfc3339DateFormatter() -> DateFormatter {
-        rfc3339Formatter
-    }
-
     /// Parses a date string
     ///
     /// Dates in the format specified in http://www.w3.org/TR/NOTE-datetime should be OK.
