@@ -1,13 +1,7 @@
 @testable import WordPressKit
 import XCTest
 
-// This is an incomplete test for implementing RFC 3339.
-// It's purpose is to ensure our code "works".
-//
-// See also:
-//
-// - https://datatracker.ietf.org/doc/html/rfc3339
-class NSDateRFC3339Tests: XCTestCase {
+class NSDateWordPressComTests: XCTestCase {
 
     func testValidRFC3339DateFromString() {
         XCTAssertEqual(
