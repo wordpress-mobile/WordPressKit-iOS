@@ -12,13 +12,7 @@ extension StatsTagsAndCategoriesInsight: StatsInsightData {
     }
 
     public init?(jsonDictionary: [String: AnyObject]) {
-        guard
-            let outerTags = jsonDictionary["tags"] as? [[String: AnyObject]]
-            // The shape of the API response here leaves... something to be desired.
-            else {
-                return nil
-        }
-
+        let outerTags = jsonDictionary["tags"] as? [[String: AnyObject]] ?? []
         let tags = outerTags.compactMap { StatsTagAndCategory(tagsGroup: $0)}
 
         self.topTagsAndCategories = tags
