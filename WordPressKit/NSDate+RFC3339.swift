@@ -2,8 +2,13 @@ import Foundation
 
 extension NSDate {
 
+    static let rfc3339Formatter = DateFormatter.rfc3339Formatter
+
     @objc
-    static let rfc3339DateFormatter = DateFormatter.rfc3339Formatter
+    @available(*, deprecated, message: "Please use the static property instead. This is here for backwards compatibility and will soon be removed.")
+    public static func rfc3339DateFormatter() -> DateFormatter {
+        rfc3339Formatter
+    }
 
     /// Parses a date string
     ///
@@ -17,12 +22,12 @@ extension NSDate {
     // Needs to be `public` because of the usages in the Objective-C code.
     @objc(dateWithWordPressComJSONString:)
     public static func with(wordPressComJSONString jsonString: String) -> Date? {
-        self.rfc3339DateFormatter.date(from: jsonString)
+        self.rfc3339Formatter.date(from: jsonString)
     }
 
     @objc(WordPressComJSONString)
     public func wordPressComJSONString() -> String {
-        NSDate.rfc3339DateFormatter.string(from: self as Date)
+        NSDate.rfc3339Formatter.string(from: self as Date)
     }
 }
 

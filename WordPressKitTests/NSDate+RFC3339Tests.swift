@@ -10,7 +10,7 @@ import XCTest
 class NSDateRFC3339Tests: XCTestCase {
 
     func testDateFormatterConfiguration() throws {
-        let rfc3339Formatter = try XCTUnwrap(NSDate.rfc3339DateFormatter)
+        let rfc3339Formatter = try XCTUnwrap(NSDate.rfc3339Formatter)
 
         XCTAssertEqual(rfc3339Formatter.timeZone, TimeZone(secondsFromGMT: 0))
         XCTAssertEqual(rfc3339Formatter.locale, Locale(identifier: "en_US_POSIX"))
