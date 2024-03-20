@@ -2,8 +2,6 @@
 
 @interface NSDate (WordPressJSON)
 
-+ (NSDateFormatter *)rfc3339DateFormatter;
-
 /**
  Parses a date string
 

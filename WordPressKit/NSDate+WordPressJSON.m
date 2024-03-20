@@ -2,6 +2,7 @@
 
 @implementation NSDate (WordPressJSON)
 
+// FIXME: This is here only for the benefit of dateWithWordPressComJSONString. Remove together with that.
 + (NSDateFormatter *)rfc3339DateFormatter {
     static NSDateFormatter *rfc3339DateFormatter;
     if (rfc3339DateFormatter == nil) {
