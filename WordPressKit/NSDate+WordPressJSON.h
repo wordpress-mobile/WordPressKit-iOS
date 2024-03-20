@@ -12,6 +12,6 @@
  @warning this method doesn't support fractional seconds or dates with leap seconds (23:59:60 turns into 23:59:00)
  */
 
-+ (instancetype)dateWithWordPressComJSONString:(NSString *)string;
+//+ (instancetype)dateWithWordPressComJSONString:(NSString *)string;
 
 @end

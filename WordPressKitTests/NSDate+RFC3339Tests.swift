@@ -19,17 +19,17 @@ class NSDateRFC3339Tests: XCTestCase {
 
     func testValidRFC3339DateFromString() {
         XCTAssertEqual(
-            NSDate(wordPressComJSONString: "2023-03-19T15:00:00Z"),
-            NSDate(timeIntervalSince1970: 1_679_238_000)
+            NSDate.with(wordPressComJSONString: "2023-03-19T15:00:00Z"),
+            Date(timeIntervalSince1970: 1_679_238_000)
         )
     }
 
     func testInvalidRFC3339DateFromString() {
-        XCTAssertNil(NSDate(wordPressComJSONString: "2024-01-01"))
+        XCTAssertNil(NSDate.with(wordPressComJSONString: "2024-01-01"))
     }
 
     func testInvalidDateFromString() {
-        XCTAssertNil(NSDate(wordPressComJSONString: "not a date"))
+        XCTAssertNil(NSDate.with(wordPressComJSONString: "not a date"))
     }
 
     func testValidRFC3339StringFromDate() {
