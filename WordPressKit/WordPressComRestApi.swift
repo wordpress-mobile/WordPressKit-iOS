@@ -620,3 +620,20 @@ extension WordPressAPIError<WordPressComRestApiEndpointError> {
         return self as NSError
     }
 }
+
+extension WordPressComRestApi: WordPressComRESTAPIInterfacing {
+
+    // A note on the naming: Even if defined as `GET` in Objective-C, then method gets converted to Swift as `get`.
+    //
+    // Also, there is no Objective-C direct equivalent of `AnyObject`, which here is used in `parameters: [String: AnyObject]?`.
+    //
+    // For those reasons, we can't immediately conform to `WordPressComRESTAPIInterfacing` and need instead to use this kind of wrapping.
+    public func get(
+        _ URLString: String,
+        parameters: [String: NSObject]?,
+        success: @escaping (Any, HTTPURLResponse?) -> Void,
+        failure: @escaping (any Error, HTTPURLResponse?) -> Void
+    ) {
+        GET(URLString, parameters: parameters, success: success, failure: failure)
+    }
+}

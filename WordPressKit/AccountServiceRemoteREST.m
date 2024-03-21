@@ -56,7 +56,7 @@ MagicLinkFlow const MagicLinkFlowSignup = @"signup";
     NSString *requestUrl = [self pathForEndpoint:@"me"
                                      withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
     
-    [self.wordPressComRestApi GET:requestUrl
+    [self.wordPressComRESTAPI get:requestUrl
        parameters:nil
           success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
               if (!success) {

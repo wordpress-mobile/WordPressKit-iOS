@@ -77,6 +77,7 @@
 		3FFCC04B2BABA5220051D229 /* DateFormatter+WordPressComTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FFCC04A2BABA5220051D229 /* DateFormatter+WordPressComTests.swift */; };
 		3FFCC04D2BABA6980051D229 /* NSDate+WordPressComTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FFCC04C2BABA6980051D229 /* NSDate+WordPressComTests.swift */; };
 		3FFCC04F2BABA6E60051D229 /* Date+WordPressCom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FFCC04E2BABA6E60051D229 /* Date+WordPressCom.swift */; };
+		3FFCC0572BABC7E00051D229 /* WordPressComRESTAPIInterfacing.h in Headers */ = {isa = PBXBuildFile; fileRef = 3FFCC0552BABC78B0051D229 /* WordPressComRESTAPIInterfacing.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		40247DFA2120D8E100AE1C3C /* AutomatedTransferService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40247DF92120D8E100AE1C3C /* AutomatedTransferService.swift */; };
 		40247DFC2120E69600AE1C3C /* AutomatedTransferStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40247DFB2120E69600AE1C3C /* AutomatedTransferStatus.swift */; };
 		404057C5221B30400060250C /* StatsSearchTermTimeIntervalData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404057C4221B30400060250C /* StatsSearchTermTimeIntervalData.swift */; };
@@ -808,6 +809,7 @@
 		3FFCC04A2BABA5220051D229 /* DateFormatter+WordPressComTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+WordPressComTests.swift"; sourceTree = "<group>"; };
 		3FFCC04C2BABA6980051D229 /* NSDate+WordPressComTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSDate+WordPressComTests.swift"; sourceTree = "<group>"; };
 		3FFCC04E2BABA6E60051D229 /* Date+WordPressCom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+WordPressCom.swift"; sourceTree = "<group>"; };
+		3FFCC0552BABC78B0051D229 /* WordPressComRESTAPIInterfacing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WordPressComRESTAPIInterfacing.h; sourceTree = "<group>"; };
 		40247DF92120D8E100AE1C3C /* AutomatedTransferService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutomatedTransferService.swift; sourceTree = "<group>"; };
 		40247DFB2120E69600AE1C3C /* AutomatedTransferStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutomatedTransferStatus.swift; sourceTree = "<group>"; };
 		404057C4221B30400060250C /* StatsSearchTermTimeIntervalData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsSearchTermTimeIntervalData.swift; sourceTree = "<group>"; };
@@ -1558,6 +1560,30 @@
 			path = Plans;
 			sourceTree = "<group>";
 		};
+		3FFCC0532BABC75F0051D229 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				3FFCC0542BABC7680051D229 /* APIInterface */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		3FFCC0542BABC7680051D229 /* APIInterface */ = {
+			isa = PBXGroup;
+			children = (
+				3FFCC0562BABC7D20051D229 /* include */,
+			);
+			path = APIInterface;
+			sourceTree = "<group>";
+		};
+		3FFCC0562BABC7D20051D229 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				3FFCC0552BABC78B0051D229 /* WordPressComRESTAPIInterfacing.h */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
 		404057C3221B30140060250C /* Time Interval */ = {
 			isa = PBXGroup;
 			children = (
@@ -1939,6 +1965,7 @@
 		9368C7711EC5EF1B0092CE8E = {
 			isa = PBXGroup;
 			children = (
+				3FFCC0532BABC75F0051D229 /* Sources */,
 				FFE247CD20CB1245002DF3A2 /* LICENSE */,
 				FFE247CC20CB118A002DF3A2 /* README.md */,
 				0C3A2A412A2E7BA500FD91D6 /* CHANGELOG.md */,
@@ -2811,6 +2838,7 @@
 				93BD276F1EE737A8002BB00B /* ServiceRemoteWordPressComREST.h in Headers */,
 				93BD273B1EE73282002BB00B /* AccountServiceRemote.h in Headers */,
 				93BD27691EE736A8002BB00B /* RemoteUser.h in Headers */,
+				3FFCC0572BABC7E00051D229 /* WordPressComRESTAPIInterfacing.h in Headers */,
 				74B5F0DC1EF829B800B411E7 /* BlogServiceRemote.h in Headers */,
 				74B5F0D71EF8299B00B411E7 /* BlogServiceRemoteREST.h in Headers */,
 				74B5F0E61EF8699C00B411E7 /* RemotePostType.h in Headers */,

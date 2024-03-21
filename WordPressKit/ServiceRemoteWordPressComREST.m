@@ -26,6 +26,7 @@ static NSString* const ServiceRemoteWordPressComRESTApiVersionString_2_0 = @"wpc
     self = [super init];
     if (self) {
         _wordPressComRestApi = wordPressComRestApi;
+        _wordPressComRESTAPI = wordPressComRestApi;
     }
     return self;
 }
