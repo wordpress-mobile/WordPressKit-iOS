@@ -1,21 +1,7 @@
 @testable import WordPressKit
 import XCTest
 
-// This is an incomplete test for implementing RFC 3339.
-// It's purpose is to ensure our code "works".
-//
-// See also:
-//
-// - https://datatracker.ietf.org/doc/html/rfc3339
-class NSDateRFC3339Tests: XCTestCase {
-
-    func testDateFormatterConfiguration() throws {
-        let rfc3339Formatter = try XCTUnwrap(NSDate.rfc3339Formatter)
-
-        XCTAssertEqual(rfc3339Formatter.timeZone, TimeZone(secondsFromGMT: 0))
-        XCTAssertEqual(rfc3339Formatter.locale, Locale(identifier: "en_US_POSIX"))
-        XCTAssertEqual(rfc3339Formatter.dateFormat, "yyyy'-'MM'-'dd'T'HH':'mm':'ssZ")
-    }
+class NSDateWordPressComTests: XCTestCase {
 
     func testValidRFC3339DateFromString() {
         XCTAssertEqual(

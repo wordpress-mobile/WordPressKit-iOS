@@ -1,14 +1,11 @@
 import Foundation
 
+// This `NSDate` extension wraps the `Date` implementation.
+//
+// It's done in two types because we cannot expose the `Date` methods to Objective-C, since `Date` is not a class:
+//
+// `@objc can only be used with members of classes, @objc protocols, and concrete extensions of classes`
 extension NSDate {
-
-    static let rfc3339Formatter = DateFormatter.rfc3339Formatter
-
-    @objc
-    @available(*, deprecated, message: "Please use the static property instead. This is here for backwards compatibility and will soon be removed.")
-    public static func rfc3339DateFormatter() -> DateFormatter {
-        rfc3339Formatter
-    }
 
     /// Parses a date string
     ///
@@ -17,27 +14,17 @@ extension NSDate {
     ///
     /// Parsing the full ISO 8601, or even RFC 3339 is more complex than this, and makes no sense right now.
     ///
+    /// - SeeAlso: [WordPress.com REST API docs](https://developer.wordpress.com/docs/api/)
     /// - Warning: This method doesn't support fractional seconds or dates with leap seconds (23:59:60 turns into 23:59:00)
     //
     // Needs to be `public` because of the usages in the Objective-C code.
     @objc(dateWithWordPressComJSONString:)
     public static func with(wordPressComJSONString jsonString: String) -> Date? {
-        self.rfc3339Formatter.date(from: jsonString)
+        Date.with(wordPressComJSONString: jsonString)
     }
 
     @objc(WordPressComJSONString)
     public func wordPressComJSONString() -> String {
-        NSDate.rfc3339Formatter.string(from: self as Date)
+        (self as Date).wordPressComJSONString
     }
-}
-
-extension DateFormatter {
-
-    static let rfc3339Formatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ssZ"
-        formatter.timeZone = NSTimeZone(forSecondsFromGMT: 0) as TimeZone
-        formatter.locale = NSLocale(localeIdentifier: "en_US_POSIX") as Locale
-        return formatter
-    }()
 }
