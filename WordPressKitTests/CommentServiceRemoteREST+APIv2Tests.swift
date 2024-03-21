@@ -41,7 +41,7 @@ final class CommentServiceRemoteREST_APIv2Tests: RemoteTestCase, RESTTestable {
             XCTAssertEqual(firstComment.authorID, 135)
             XCTAssertEqual(firstComment.authorName, "John Doe")
             XCTAssertEqual(firstComment.authorURL, "https://example.com/john-doe")
-            XCTAssertEqual(firstComment.date, NSDate(wordPressComJSONString: "2021-07-01T10:50:11+00:00") as Date)
+            XCTAssertEqual(firstComment.date, NSDate.with(wordPressComJSONString: "2021-07-01T10:50:11+00:00"))
             XCTAssertEqual(firstComment.content, "<p>Some example comment.</p>\n")
             XCTAssertEqual(firstComment.link, "https://example.com/2021/05/25/example-post/comment-page-1/#comment-2")
             XCTAssertEqual(firstComment.status, "approve") // verify that it's converted correctly.

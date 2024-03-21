@@ -65,7 +65,7 @@ extension RemoteCommentV2: Decodable {
 
         // since `date_gmt` is already in GMT timezone, manually add the timezone string to make the rfc3339 formatter happy (or it will throw otherwise).
         guard let dateString = try? container.decode(String.self, forKey: .date),
-              let date = NSDate(wordPressComJSONString: dateString + "+00:00") as Date? else {
+              let date = NSDate.with(wordPressComJSONString: dateString + "+00:00") else {
             throw DecodingError.dataCorruptedError(forKey: .date, in: container, debugDescription: "Date parsing failed")
         }
         self.date = date

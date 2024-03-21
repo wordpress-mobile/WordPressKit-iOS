@@ -40,7 +40,7 @@ private func decodePost(from object: AnyObject) async throws -> RemotePost {
 
 private func makeParameters<T: Encodable>(from value: T) throws -> [String: AnyObject] {
     let encoder = JSONEncoder()
-    encoder.dateEncodingStrategy = .formatted(NSDate.rfc3339DateFormatter())
+    encoder.dateEncodingStrategy = .formatted(.wordPressCom)
     let data = try encoder.encode(value)
     let object = try JSONSerialization.jsonObject(with: data)
     guard let dictionary = object as? [String: AnyObject] else {
