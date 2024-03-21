@@ -34,7 +34,7 @@ _None._
 
 ### Breaking Changes
 
-_None._
+- Reworked the `NSDate` RFC3339 / WordPress.com JSON conversions API [#759]
 
 ### New Features
 
