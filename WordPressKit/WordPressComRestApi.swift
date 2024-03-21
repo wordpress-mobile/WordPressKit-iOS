@@ -628,6 +628,7 @@ extension WordPressComRestApi: WordPressComRESTAPIInterfacing {
     // Also, there is no Objective-C direct equivalent of `AnyObject`, which here is used in `parameters: [String: AnyObject]?`.
     //
     // For those reasons, we can't immediately conform to `WordPressComRESTAPIInterfacing` and need instead to use this kind of wrapping.
+    // The same applies for the other methods below.
     public func get(
         _ URLString: String,
         parameters: [String: NSObject]?,
@@ -635,5 +636,14 @@ extension WordPressComRestApi: WordPressComRESTAPIInterfacing {
         failure: @escaping (any Error, HTTPURLResponse?) -> Void
     ) {
         GET(URLString, parameters: parameters, success: success, failure: failure)
+    }
+
+    public func post(
+        _ URLString: String,
+        parameters: [String: NSObject]?,
+        success: @escaping (Any, HTTPURLResponse?) -> Void,
+        failure: @escaping (any Error, HTTPURLResponse?) -> Void
+    ) {
+        POST(URLString, parameters: parameters, success: success, failure: failure)
     }
 }

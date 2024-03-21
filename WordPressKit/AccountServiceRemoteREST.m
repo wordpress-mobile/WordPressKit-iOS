@@ -108,7 +108,7 @@ MagicLinkFlow const MagicLinkFlowSignup = @"signup";
                                  };
     NSString *path = [self pathForEndpoint:@"me/sites"
                                withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
-    [self.wordPressComRestApi POST:path
+    [self.wordPressComRESTAPI post:path
         parameters:parameters
            success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
                if (success) {
@@ -317,7 +317,7 @@ MagicLinkFlow const MagicLinkFlowSignup = @"signup";
         [params addEntriesFromDictionary:extraParams];
     }
 
-    [self.wordPressComRestApi POST:path
+    [self.wordPressComRESTAPI post:path
                         parameters:[NSDictionary dictionaryWithDictionary:params]
                            success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
                                if (success) {
@@ -336,7 +336,7 @@ MagicLinkFlow const MagicLinkFlowSignup = @"signup";
     NSString *path = [self pathForEndpoint:@"me/send-verification-email"
                                withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
 
-    [self.wordPressComRestApi POST:path parameters:nil success:^(id _Nonnull responseObject, NSHTTPURLResponse * _Nullable httpResponse) {
+    [self.wordPressComRESTAPI post:path parameters:nil success:^(id _Nonnull responseObject, NSHTTPURLResponse * _Nullable httpResponse) {
         if (success) {
             success();
         }
