@@ -24,6 +24,10 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, strong, readonly) WordPressComRestApi *wordPressComRestApi;
 
+/**
+ *  @brief      The interface to the WordPress.com API to use for performing REST requests.
+ *              This is meant to gradually replace `wordPressComRestApi`.
+ */
 @property (nonatomic, strong, readonly) id<WordPressComRESTAPIInterfacing> wordPressComRESTAPI;
 
 /**
