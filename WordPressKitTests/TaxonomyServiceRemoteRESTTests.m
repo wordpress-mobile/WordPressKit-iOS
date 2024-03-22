@@ -56,7 +56,7 @@
         return ([parameters isKindOfClass:[NSDictionary class]] && [[parameters objectForKey:@"name"] isEqualToString:category.name]);
     };
     
-    WordPressComRestApi *api = self.service.wordPressComRestApi;
+    id<WordPressComRESTAPIInterfacing> api = self.service.wordPressComRESTAPI;
     OCMStub([api post:[OCMArg isEqual:url]
            parameters:[OCMArg checkWithBlock:parametersCheckBlock]
               success:[OCMArg isNotNil]
@@ -75,7 +75,7 @@
         return ([parameters isKindOfClass:[NSDictionary class]] && [[parameters objectForKey:@"number"] integerValue] == 1000);
     };
 
-    WordPressComRestApi *api = self.service.wordPressComRestApi;
+    id<WordPressComRESTAPIInterfacing> api = self.service.wordPressComRESTAPI;
     OCMStub([api get:[OCMArg isEqual:url]
           parameters:[OCMArg checkWithBlock:parametersCheckBlock]
              success:[OCMArg isNotNil]
@@ -90,7 +90,7 @@
 {
     NSString *url = [self GETtaxonomyURLWithType:@"categories"];
 
-    WordPressComRestApi *api = self.service.wordPressComRestApi;
+    id<WordPressComRESTAPIInterfacing> api = self.service.wordPressComRESTAPI;
     NSDictionary *json = @{
         @"found": @1,
         @"categories": @[
@@ -163,7 +163,7 @@
         return YES;
     };
     
-    WordPressComRestApi *api = self.service.wordPressComRestApi;
+    id<WordPressComRESTAPIInterfacing> api = self.service.wordPressComRESTAPI;
     OCMStub([api get:[OCMArg isEqual:url]
           parameters:[OCMArg checkWithBlock:parametersCheckBlock]
              success:[OCMArg isNotNil]
@@ -189,7 +189,7 @@
         return YES;
     };
     
-    WordPressComRestApi *api = self.service.wordPressComRestApi;
+    id<WordPressComRESTAPIInterfacing> api = self.service.wordPressComRESTAPI;
     OCMStub([api get:[OCMArg isEqual:url]
           parameters:[OCMArg checkWithBlock:parametersCheckBlock]
              success:[OCMArg isNotNil]
@@ -216,7 +216,7 @@
         return ([parameters isKindOfClass:[NSDictionary class]] && [[parameters objectForKey:@"name"] isEqualToString:tag.name]);
     };
 
-    WordPressComRestApi *api = self.service.wordPressComRestApi;
+    id<WordPressComRESTAPIInterfacing> api = self.service.wordPressComRESTAPI;
     OCMStub([api post:[OCMArg isEqual:url]
            parameters:[OCMArg checkWithBlock:parametersCheckBlock]
               success:[OCMArg isNotNil]
@@ -235,7 +235,7 @@
         return ([parameters isKindOfClass:[NSDictionary class]] && [[parameters objectForKey:@"number"] integerValue] == 1000);
     };
 
-    WordPressComRestApi *api = self.service.wordPressComRestApi;
+    id<WordPressComRESTAPIInterfacing> api = self.service.wordPressComRESTAPI;
     OCMStub([api get:[OCMArg isEqual:url]
           parameters:[OCMArg checkWithBlock:parametersCheckBlock]
              success:[OCMArg isNotNil]
@@ -278,7 +278,7 @@
         return YES;
     };
     
-    WordPressComRestApi *api = self.service.wordPressComRestApi;
+    id<WordPressComRESTAPIInterfacing> api = self.service.wordPressComRESTAPI;
     OCMStub([api get:[OCMArg isEqual:url]
           parameters:[OCMArg checkWithBlock:parametersCheckBlock]
              success:[OCMArg isNotNil]
@@ -304,7 +304,7 @@
         return YES;
     };
     
-    WordPressComRestApi *api = self.service.wordPressComRestApi;
+    id<WordPressComRESTAPIInterfacing> api = self.service.wordPressComRESTAPI;
     OCMStub([api get:[OCMArg isEqual:url]
           parameters:[OCMArg checkWithBlock:parametersCheckBlock]
              success:[OCMArg isNotNil]
