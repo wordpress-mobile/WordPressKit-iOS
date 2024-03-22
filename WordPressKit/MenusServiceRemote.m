@@ -39,7 +39,7 @@ NSString * const MenusRemoteKeyClasses = @"classes";
     NSString *requestURL = [self pathForEndpoint:path
                                      withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
     
-    [self.wordPressComRestApi POST:requestURL
+    [self.wordPressComRESTAPI post:requestURL
         parameters:@{MenusRemoteKeyName: menuName}
            success:^(id  _Nonnull responseObject, NSHTTPURLResponse *httpResponse) {
                void(^responseFailure)(void) = ^() {
@@ -94,7 +94,7 @@ NSString * const MenusRemoteKeyClasses = @"classes";
     // Brent Coursey - 10/1/2015
     [params setObject:menuID forKey:MenusRemoteKeyID];
     
-    [self.wordPressComRestApi POST:requestURL
+    [self.wordPressComRESTAPI post:requestURL
         parameters:params
            success:^(id  _Nonnull responseObject, NSHTTPURLResponse *httpResponse) {
                void(^responseFailure)(void) = ^() {
@@ -131,7 +131,7 @@ NSString * const MenusRemoteKeyClasses = @"classes";
     NSString *path = [NSString stringWithFormat:@"sites/%@/menus/%@/delete", siteID, menuID];
     NSString *requestURL = [self pathForEndpoint:path
                                      withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
-    [self.wordPressComRestApi POST:requestURL
+    [self.wordPressComRESTAPI post:requestURL
         parameters:nil
            success:^(id  _Nonnull responseObject, NSHTTPURLResponse *httpResponse) {
                void(^responseFailure)(void) = ^() {
@@ -169,7 +169,7 @@ NSString * const MenusRemoteKeyClasses = @"classes";
     NSString *requestURL = [self pathForEndpoint:path
                                      withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
     
-    [self.wordPressComRestApi GET:requestURL
+    [self.wordPressComRESTAPI get:requestURL
        parameters:nil
           success:^(id  _Nonnull responseObject, NSHTTPURLResponse *httpResponse) {
               if (![responseObject isKindOfClass:[NSDictionary class]]) {
