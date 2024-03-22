@@ -1,4 +1,5 @@
 {
+  "originHash" : "f28a54e288718485642adbe7b780a05abf05f95f0f435b3f87b6d3684b95d268",
   "pins" : [
     {
       "identity" : "test-collector-swift",
@@ -10,5 +11,5 @@
       }
     }
   ],
-  "version" : 2
+  "version" : 3
 }
