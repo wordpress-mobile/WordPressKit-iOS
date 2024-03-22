@@ -116,7 +116,7 @@
     };
 
     NSString *requestUrl = [self pathForEndpoint:@"users/social/new" withVersion:ServiceRemoteWordPressComRESTApiVersion_1_0];
-    [self.wordPressComRestApi POST:requestUrl parameters:params success:successBlock failure:failureBlock];
+    [self.wordPressComRESTAPI post:requestUrl parameters:params success:successBlock failure:failureBlock];
 }
 
 - (void)validateWPComBlogWithUrl:(NSString *)blogUrl
