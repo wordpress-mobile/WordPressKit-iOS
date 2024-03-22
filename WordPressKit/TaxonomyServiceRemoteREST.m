@@ -186,7 +186,7 @@ static NSUInteger const TaxonomyRESTNumberMaxValue = 1000;
     NSString *path = [NSString stringWithFormat:@"sites/%@/%@/new?context=edit", self.siteID, typeIdentifier];
     NSString *requestUrl = [self pathForEndpoint:path withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
     
-    [self.wordPressComRestApi POST:requestUrl
+    [self.wordPressComRESTAPI post:requestUrl
                         parameters:parameters
                            success:^(id  _Nonnull responseObject, NSHTTPURLResponse *httpResponse) {
                                if (![responseObject isKindOfClass:[NSDictionary class]]) {
@@ -211,7 +211,7 @@ static NSUInteger const TaxonomyRESTNumberMaxValue = 1000;
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
     
-    [self.wordPressComRestApi GET:requestUrl
+    [self.wordPressComRESTAPI get:requestUrl
                        parameters:parameters
                           success:^(id  _Nonnull responseObject, NSHTTPURLResponse *httpResponse) {
                               if (![responseObject isKindOfClass:[NSDictionary class]]) {
@@ -236,7 +236,7 @@ static NSUInteger const TaxonomyRESTNumberMaxValue = 1000;
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
     
-    [self.wordPressComRestApi POST:requestUrl
+    [self.wordPressComRESTAPI post:requestUrl
                         parameters:nil
                            success:^(id _Nonnull responseObject, NSHTTPURLResponse *httpResponse) {
                                if (![responseObject isKindOfClass:[NSDictionary class]]) {
@@ -261,7 +261,7 @@ static NSUInteger const TaxonomyRESTNumberMaxValue = 1000;
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
     
-    [self.wordPressComRestApi POST:requestUrl
+    [self.wordPressComRESTAPI post:requestUrl
                         parameters:parameters
                            success:^(id _Nonnull responseObject, NSHTTPURLResponse *httpResponse) {
                                if (![responseObject isKindOfClass:[NSDictionary class]]) {

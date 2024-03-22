@@ -57,7 +57,7 @@
     };
     
     WordPressComRestApi *api = self.service.wordPressComRestApi;
-    OCMStub([api POST:[OCMArg isEqual:url]
+    OCMStub([api post:[OCMArg isEqual:url]
            parameters:[OCMArg checkWithBlock:parametersCheckBlock]
               success:[OCMArg isNotNil]
               failure:[OCMArg isNotNil]]);
@@ -76,7 +76,7 @@
     };
 
     WordPressComRestApi *api = self.service.wordPressComRestApi;
-    OCMStub([api GET:[OCMArg isEqual:url]
+    OCMStub([api get:[OCMArg isEqual:url]
           parameters:[OCMArg checkWithBlock:parametersCheckBlock]
              success:[OCMArg isNotNil]
              failure:[OCMArg isNotNil]]);
@@ -113,7 +113,7 @@
         ]
       };
     NSHTTPURLResponse *response = OCMStrictClassMock([NSHTTPURLResponse class]);
-    OCMStub([api GET:[OCMArg isEqual:url]
+    OCMStub([api get:[OCMArg isEqual:url]
           parameters:[OCMArg any]
              success:([OCMArg invokeBlockWithArgs:json, response, nil])
              failure:[OCMArg isNotNil]]);
@@ -164,7 +164,7 @@
     };
     
     WordPressComRestApi *api = self.service.wordPressComRestApi;
-    OCMStub([api GET:[OCMArg isEqual:url]
+    OCMStub([api get:[OCMArg isEqual:url]
           parameters:[OCMArg checkWithBlock:parametersCheckBlock]
              success:[OCMArg isNotNil]
              failure:[OCMArg isNotNil]]);
@@ -190,7 +190,7 @@
     };
     
     WordPressComRestApi *api = self.service.wordPressComRestApi;
-    OCMStub([api GET:[OCMArg isEqual:url]
+    OCMStub([api get:[OCMArg isEqual:url]
           parameters:[OCMArg checkWithBlock:parametersCheckBlock]
              success:[OCMArg isNotNil]
              failure:[OCMArg isNotNil]]);
@@ -217,7 +217,7 @@
     };
 
     WordPressComRestApi *api = self.service.wordPressComRestApi;
-    OCMStub([api POST:[OCMArg isEqual:url]
+    OCMStub([api post:[OCMArg isEqual:url]
            parameters:[OCMArg checkWithBlock:parametersCheckBlock]
               success:[OCMArg isNotNil]
               failure:[OCMArg isNotNil]]);
@@ -236,7 +236,7 @@
     };
 
     WordPressComRestApi *api = self.service.wordPressComRestApi;
-    OCMStub([api GET:[OCMArg isEqual:url]
+    OCMStub([api get:[OCMArg isEqual:url]
           parameters:[OCMArg checkWithBlock:parametersCheckBlock]
              success:[OCMArg isNotNil]
              failure:[OCMArg isNotNil]]);
@@ -279,7 +279,7 @@
     };
     
     WordPressComRestApi *api = self.service.wordPressComRestApi;
-    OCMStub([api GET:[OCMArg isEqual:url]
+    OCMStub([api get:[OCMArg isEqual:url]
           parameters:[OCMArg checkWithBlock:parametersCheckBlock]
              success:[OCMArg isNotNil]
              failure:[OCMArg isNotNil]]);
@@ -305,7 +305,7 @@
     };
     
     WordPressComRestApi *api = self.service.wordPressComRestApi;
-    OCMStub([api GET:[OCMArg isEqual:url]
+    OCMStub([api get:[OCMArg isEqual:url]
           parameters:[OCMArg checkWithBlock:parametersCheckBlock]
              success:[OCMArg isNotNil]
              failure:[OCMArg isNotNil]]);
