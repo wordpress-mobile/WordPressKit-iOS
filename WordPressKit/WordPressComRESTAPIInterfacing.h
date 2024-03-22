@@ -2,6 +2,8 @@
 
 @protocol WordPressComRESTAPIInterfacing
 
+@property (strong, nonatomic, readonly) NSURL * _Nonnull baseURL;
+
 - (void)get:(NSString * _Nonnull)URLString
  parameters:(NSDictionary<NSString *, NSObject *> * _Nullable)parameters
     success:(void (^ _Nonnull)(id _Nonnull, NSHTTPURLResponse * _Nullable))success
