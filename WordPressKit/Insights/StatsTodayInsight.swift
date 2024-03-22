@@ -1,4 +1,4 @@
-public struct StatsTodayInsight {
+public struct StatsTodayInsight: Codable {
     public let viewsCount: Int
     public let visitorsCount: Int
     public let likesCount: Int
@@ -23,9 +23,27 @@ extension StatsTodayInsight: StatsInsightData {
     }
 
     public init?(jsonDictionary: [String: AnyObject]) {
-        self.visitorsCount = jsonDictionary["visitors"] as? Int ?? 0
-        self.viewsCount = jsonDictionary["views"] as? Int ?? 0
-        self.likesCount = jsonDictionary["likes"] as? Int ?? 0
-        self.commentsCount = jsonDictionary["comments"] as? Int ?? 0
+        do {
+            let jsonData = try JSONSerialization.data(withJSONObject: jsonDictionary, options: [])
+            let decoder = JSONDecoder()
+            self = try decoder.decode(StatsTodayInsight.self, from: jsonData)
+        } catch {
+            return nil
+        }
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case viewsCount = "views"
+        case visitorsCount = "visitors"
+        case likesCount = "likes"
+        case commentsCount = "comments"
+    }
+
+    public init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        viewsCount = (try? container.decodeIfPresent(Int.self, forKey: .viewsCount)) ?? 0
+        visitorsCount = (try? container.decodeIfPresent(Int.self, forKey: .visitorsCount)) ?? 0
+        likesCount = (try? container.decodeIfPresent(Int.self, forKey: .likesCount)) ?? 0
+        commentsCount = (try? container.decodeIfPresent(Int.self, forKey: .commentsCount)) ?? 0
     }
 }
