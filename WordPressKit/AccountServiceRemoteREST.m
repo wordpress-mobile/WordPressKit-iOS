@@ -56,7 +56,7 @@ MagicLinkFlow const MagicLinkFlowSignup = @"signup";
     NSString *requestUrl = [self pathForEndpoint:@"me"
                                      withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
     
-    [self.wordPressComRestApi GET:requestUrl
+    [self.wordPressComRESTAPI get:requestUrl
        parameters:nil
           success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
               if (!success) {
@@ -108,7 +108,7 @@ MagicLinkFlow const MagicLinkFlowSignup = @"signup";
                                  };
     NSString *path = [self pathForEndpoint:@"me/sites"
                                withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
-    [self.wordPressComRestApi POST:path
+    [self.wordPressComRESTAPI post:path
         parameters:parameters
            success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
                if (success) {
@@ -127,7 +127,7 @@ MagicLinkFlow const MagicLinkFlowSignup = @"signup";
 
     NSString *path = [self pathForEndpoint:[NSString stringWithFormat:@"users/%@/auth-options", encodedIdentifier]
                                withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
-    [self.wordPressComRestApi GET:path
+    [self.wordPressComRESTAPI get:path
                        parameters:nil
                           success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
                               if (!success) {
@@ -149,7 +149,7 @@ MagicLinkFlow const MagicLinkFlowSignup = @"signup";
     static NSString * const errorEmailAddressInvalid = @"invalid";
     static NSString * const errorEmailAddressTaken = @"taken";
     
-    [self.wordPressComRestApi GET:@"is-available/email"
+    [self.wordPressComRESTAPI get:@"is-available/email"
                        parameters:@{ @"q": email, @"format": @"json"}
                           success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
         if ([responseObject isKindOfClass:[NSDictionary class]]) {
@@ -211,7 +211,7 @@ MagicLinkFlow const MagicLinkFlowSignup = @"signup";
                     success:(void (^)(BOOL available))success
                     failure:(void (^)(NSError *error))failure
 {
-    [self.wordPressComRestApi GET:@"is-available/username"
+    [self.wordPressComRESTAPI get:@"is-available/username"
                        parameters:@{ @"q": username, @"format": @"json"}
                           success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
                               if (!success) {
@@ -317,7 +317,7 @@ MagicLinkFlow const MagicLinkFlowSignup = @"signup";
         [params addEntriesFromDictionary:extraParams];
     }
 
-    [self.wordPressComRestApi POST:path
+    [self.wordPressComRESTAPI post:path
                         parameters:[NSDictionary dictionaryWithDictionary:params]
                            success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
                                if (success) {
@@ -336,7 +336,7 @@ MagicLinkFlow const MagicLinkFlowSignup = @"signup";
     NSString *path = [self pathForEndpoint:@"me/send-verification-email"
                                withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
 
-    [self.wordPressComRestApi POST:path parameters:nil success:^(id _Nonnull responseObject, NSHTTPURLResponse * _Nullable httpResponse) {
+    [self.wordPressComRESTAPI post:path parameters:nil success:^(id _Nonnull responseObject, NSHTTPURLResponse * _Nullable httpResponse) {
         if (success) {
             success();
         }
@@ -355,7 +355,7 @@ MagicLinkFlow const MagicLinkFlowSignup = @"signup";
 {
     NSString *requestUrl = [self pathForEndpoint:@"me/sites"
                                      withVersion:ServiceRemoteWordPressComRESTApiVersion_1_2];
-    [self.wordPressComRestApi GET:requestUrl
+    [self.wordPressComRESTAPI get:requestUrl
                        parameters:parameters
                           success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
                               if (success) {

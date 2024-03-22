@@ -1,4 +1,5 @@
 #import <Foundation/Foundation.h>
+#import <WordPressKit/WordPressComRESTAPIInterfacing.h>
 
 @class WordPressComRestApi;
 
@@ -22,6 +23,12 @@ NS_ASSUME_NONNULL_BEGIN
  *  @brief      The API object to use for communications.
  */
 @property (nonatomic, strong, readonly) WordPressComRestApi *wordPressComRestApi;
+
+/**
+ *  @brief      The interface to the WordPress.com API to use for performing REST requests.
+ *              This is meant to gradually replace `wordPressComRestApi`.
+ */
+@property (nonatomic, strong, readonly) id<WordPressComRESTAPIInterfacing> wordPressComRESTAPI;
 
 /**
  *  @brief      Designated initializer.
