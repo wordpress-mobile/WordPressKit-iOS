@@ -42,7 +42,7 @@ static NSString* const ThemeServiceRemoteTestGetSingleThemeJson = @"get-single-t
     NSString *url = [service pathForEndpoint:endpoint
                                  withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
 
-    [OCMStub([api GET:[OCMArg isEqual:url]
+    [OCMStub([api get:[OCMArg isEqual:url]
            parameters:[OCMArg isNil]
               success:[OCMArg isNotNil]
               failure:[OCMArg isNotNil]]) andDo:^(NSInvocation *invocation) {
@@ -95,7 +95,7 @@ static NSString* const ThemeServiceRemoteTestGetSingleThemeJson = @"get-single-t
     NSString *url = [service pathForEndpoint:endpoint
                                  withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
 
-    [OCMStub([api GET:[OCMArg isEqual:url]
+    [OCMStub([api get:[OCMArg isEqual:url]
            parameters:[OCMArg isNil]
               success:[OCMArg isNotNil]
               failure:[OCMArg isNotNil]]) andDo:^(NSInvocation *invocation) {
@@ -148,7 +148,7 @@ static NSString* const ThemeServiceRemoteTestGetSingleThemeJson = @"get-single-t
     NSString *url = [service pathForEndpoint:endpoint
                                  withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
 
-    [OCMStub([api GET:[OCMArg isEqual:url]
+    [OCMStub([api get:[OCMArg isEqual:url]
            parameters:[OCMArg isNil]
               success:[OCMArg isNotNil]
               failure:[OCMArg isNotNil]]) andDo:^(NSInvocation *invocation) {
@@ -203,7 +203,7 @@ static NSString* const ThemeServiceRemoteTestGetSingleThemeJson = @"get-single-t
         NSCAssert(totalThemeCount == expectedThemes, @"Expected %ld themes to be found", expectedThemes);
     };
     
-    [OCMStub([api GET:[OCMArg isEqual:url]
+    [OCMStub([api get:[OCMArg isEqual:url]
            parameters:[OCMArg isNotNil]
               success:[OCMArg isNotNil]
               failure:[OCMArg isNotNil]]) andDo:^(NSInvocation *invocation) {
@@ -247,7 +247,7 @@ static NSString* const ThemeServiceRemoteTestGetSingleThemeJson = @"get-single-t
     NSString *url = [service pathForEndpoint:endpoint
                                  withVersion:ServiceRemoteWordPressComRESTApiVersion_1_2];
 
-    [OCMStub([api GET:[OCMArg isEqual:url]
+    [OCMStub([api get:[OCMArg isEqual:url]
            parameters:[OCMArg isNotNil]
               success:[OCMArg isNotNil]
               failure:[OCMArg isNotNil]]) andDo:^(NSInvocation *invocation) {
@@ -311,7 +311,7 @@ static NSString* const ThemeServiceRemoteTestGetSingleThemeJson = @"get-single-t
         return [themeIdParameter isEqualToString:themeId];
     };
 
-    [OCMStub([api POST:[OCMArg isEqual:url]
+    [OCMStub([api post:[OCMArg isEqual:url]
             parameters:[OCMArg checkWithBlock:checkBlock]
                success:[OCMArg isNotNil]
                failure:[OCMArg isNotNil]]) andDo:^(NSInvocation *invocation) {
