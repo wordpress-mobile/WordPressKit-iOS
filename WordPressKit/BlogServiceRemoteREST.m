@@ -106,7 +106,7 @@ static NSInteger const RemoteBlogUncategorizedCategory                      = 1;
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
 
-    [self.wordPressComRestApi GET:requestUrl
+    [self.wordPressComRESTAPI get:requestUrl
                        parameters:parameters
                           success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
                               if (success) {
@@ -138,7 +138,7 @@ static NSInteger const RemoteBlogUncategorizedCategory                      = 1;
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
     NSDictionary *parameters = @{@"context": @"edit"};
-    [self.wordPressComRestApi GET:requestUrl
+    [self.wordPressComRESTAPI get:requestUrl
        parameters:parameters
           success:^(NSDictionary *responseObject, NSHTTPURLResponse *httpResponse) {
              
@@ -168,7 +168,7 @@ static NSInteger const RemoteBlogUncategorizedCategory                      = 1;
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
     
-    [self.wordPressComRestApi GET:requestUrl
+    [self.wordPressComRESTAPI get:requestUrl
        parameters:nil
           success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
               NSDictionary *formats = [self mapPostFormatsFromResponse:responseObject[@"formats"]];
@@ -189,7 +189,7 @@ static NSInteger const RemoteBlogUncategorizedCategory                      = 1;
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
 
-    [self.wordPressComRestApi GET:requestUrl
+    [self.wordPressComRESTAPI get:requestUrl
                        parameters:nil
                           success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
                               NSDictionary *responseDict = (NSDictionary *)responseObject;
@@ -210,7 +210,7 @@ static NSInteger const RemoteBlogUncategorizedCategory                      = 1;
     NSString *path = [self pathForSettings];
     NSString *requestUrl = [self pathForEndpoint:path withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
     
-    [self.wordPressComRestApi GET:requestUrl
+    [self.wordPressComRESTAPI get:requestUrl
        parameters:nil
           success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
               if (![responseObject isKindOfClass:[NSDictionary class]]){
@@ -240,7 +240,7 @@ static NSInteger const RemoteBlogUncategorizedCategory                      = 1;
     NSString *path = [NSString stringWithFormat:@"sites/%@/settings?context=edit", self.siteID];
     NSString *requestUrl = [self pathForEndpoint:path withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
     
-    [self.wordPressComRestApi POST:requestUrl
+    [self.wordPressComRESTAPI post:requestUrl
         parameters:parameters
            success:^(NSDictionary *responseDict, NSHTTPURLResponse *httpResponse) {
                if (![responseDict isKindOfClass:[NSDictionary class]]) {
@@ -272,7 +272,7 @@ static NSInteger const RemoteBlogUncategorizedCategory                      = 1;
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
 
-    [self.wordPressComRestApi GET:requestUrl
+    [self.wordPressComRESTAPI get:requestUrl
                        parameters:nil
                           success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
                               if (success) {
@@ -293,7 +293,7 @@ static NSInteger const RemoteBlogUncategorizedCategory                      = 1;
     NSString *path = [self pathForEndpoint:@"connect/site-info" withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
     NSURL *siteURL = [NSURL URLWithString:siteAddress];
 
-    [self.wordPressComRestApi GET:path
+    [self.wordPressComRESTAPI get:path
                        parameters:@{ @"url": siteURL.absoluteString }
                           success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
                               if (success) {

@@ -37,7 +37,7 @@ static NSTimeInterval const TestExpectationTimeout = 5;
     NSString *url = [service pathForEndpoint:endpoint
                                  withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
 
-    OCMStub([api GET:[OCMArg isEqual:url]
+    OCMStub([api get:[OCMArg isEqual:url]
           parameters:[OCMArg isKindOfClass:[NSDictionary class]]
              success:[OCMArg isNotNil]
              failure:[OCMArg isNotNil]]);
@@ -62,7 +62,7 @@ static NSTimeInterval const TestExpectationTimeout = 5;
     NSString *url = [service pathForEndpoint:endpoint
                                  withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
 
-    OCMStub([api GET:[OCMArg isEqual:url]
+    OCMStub([api get:[OCMArg isEqual:url]
           parameters:[OCMArg isNil]
              success:[OCMArg isNotNil]
              failure:[OCMArg isNotNil]]);
@@ -88,7 +88,7 @@ static NSTimeInterval const TestExpectationTimeout = 5;
                                  withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
 
     NSDictionary *parameters = @{@"context": @"edit"};
-    OCMStub([api GET:[OCMArg isEqual:url]
+    OCMStub([api get:[OCMArg isEqual:url]
           parameters:[OCMArg isEqual:parameters]
              success:[OCMArg isNotNil]
              failure:[OCMArg isNotNil]]);
@@ -113,7 +113,7 @@ static NSTimeInterval const TestExpectationTimeout = 5;
     NSString *url = [service pathForEndpoint:endpoint
                                  withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
 
-    OCMStub([api GET:[OCMArg isEqual:url]
+    OCMStub([api get:[OCMArg isEqual:url]
           parameters:[OCMArg isNil]
              success:[OCMArg isNotNil]
              failure:[OCMArg isNotNil]]);
