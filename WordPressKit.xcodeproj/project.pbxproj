@@ -7,9 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		01438D352B6A2B2C0097D60A /* stats-visits-month-unit-week.json in Sources */ = {isa = PBXBuildFile; fileRef = 01438D342B6A2B2C0097D60A /* stats-visits-month-unit-week.json */; };
 		01438D362B6A31540097D60A /* stats-visits-month-unit-week.json in Resources */ = {isa = PBXBuildFile; fileRef = 01438D342B6A2B2C0097D60A /* stats-visits-month-unit-week.json */; };
-		01438D382B6A35FB0097D60A /* stats-summary.json in Sources */ = {isa = PBXBuildFile; fileRef = 01438D372B6A35FB0097D60A /* stats-summary.json */; };
 		01438D392B6A361B0097D60A /* stats-summary.json in Resources */ = {isa = PBXBuildFile; fileRef = 01438D372B6A35FB0097D60A /* stats-summary.json */; };
 		01438D3B2B6A36BF0097D60A /* StatsTotalsSummaryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01438D3A2B6A36BF0097D60A /* StatsTotalsSummaryData.swift */; };
 		0152100C28EDA9E400DD6783 /* StatsAnnualAndMostPopularTimeInsightDecodingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0152100B28EDA9E400DD6783 /* StatsAnnualAndMostPopularTimeInsightDecodingTests.swift */; };
@@ -3435,7 +3433,6 @@
 				3FFCC0412BA995290051D229 /* Date+WordPressComTests.swift in Sources */,
 				3F8308A729EE683500354497 /* ActivityTests.swift in Sources */,
 				9AB6D64A218727D60008F274 /* PostServiceRemoteRESTRevisionsTest.swift in Sources */,
-				01438D382B6A35FB0097D60A /* stats-summary.json in Sources */,
 				7430C9BD1F192C0F0051B8E6 /* ReaderPostServiceRemoteTests.m in Sources */,
 				1DC837C229B9F04F009DCD4B /* RemoteVideoPressVideoTests.swift in Sources */,
 				3FFCC04D2BABA6980051D229 /* NSDate+WordPressComTests.swift in Sources */,
@@ -3466,7 +3463,6 @@
 				C738CAEF28622325001BE107 /* QRLoginServiceRemoteTests.swift in Sources */,
 				4A05E79C2B2FDC6100C25E3B /* WordPressOrgAPITests.swift in Sources */,
 				3297E1DE2564653A00287D21 /* JetpackScanServiceRemoteTests.swift in Sources */,
-				01438D352B6A2B2C0097D60A /* stats-visits-month-unit-week.json in Sources */,
 				3FFCC04B2BABA5220051D229 /* DateFormatter+WordPressComTests.swift in Sources */,
 				9F3E0BAC20873785009CB5BA /* ServiceRequestTest.swift in Sources */,
 				4624223E2548C26D002B8A12 /* SiteDesignServiceRemoteTests.swift in Sources */,
