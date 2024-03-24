@@ -41,7 +41,7 @@
     [parameters removeObjectForKey:@"status"];
     parameters[@"status"] = [self parameterForCommentStatus:statusFilter];
 
-    [self.wordPressComRestApi GET:requestUrl
+    [self.wordPressComRESTAPI get:requestUrl
                        parameters:parameters
                           success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
                               if (success) {
@@ -84,7 +84,7 @@
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
     
-    [self.wordPressComRestApi GET:requestUrl
+    [self.wordPressComRESTAPI get:requestUrl
                        parameters:nil
                           success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
         RemoteComment *comment = [self remoteCommentFromJSONDictionary:responseObject];
@@ -116,7 +116,7 @@
                                  @"content": comment.content,
                                  @"context": @"edit",
                                  };
-    [self.wordPressComRestApi POST:requestUrl
+    [self.wordPressComRESTAPI post:requestUrl
                         parameters:parameters
                            success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
                                // TODO: validate response
@@ -147,7 +147,7 @@
         @"context": @"edit",
     };
 
-    [self.wordPressComRestApi POST:requestUrl
+    [self.wordPressComRESTAPI post:requestUrl
                         parameters:parameters
                            success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
                                // TODO: validate response
@@ -174,7 +174,7 @@
                                  @"status": [self remoteStatusWithStatus:comment.status],
                                  @"context": @"edit",
                                  };
-    [self.wordPressComRestApi POST:requestUrl
+    [self.wordPressComRESTAPI post:requestUrl
                         parameters:parameters
                            success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
                                // TODO: validate response
@@ -197,7 +197,7 @@
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
     
-    [self.wordPressComRestApi POST:requestUrl
+    [self.wordPressComRESTAPI post:requestUrl
                         parameters:nil
                            success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
                                if (success) {
@@ -226,7 +226,7 @@
     NSDictionary *parameters = @{
         @"force": @"wpcom" // Force fetching data from shadow site on Jetpack sites
     };
-    [self.wordPressComRestApi GET:requestUrl
+    [self.wordPressComRESTAPI get:requestUrl
                        parameters:parameters
                           success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
         if (success) {
@@ -258,7 +258,7 @@
         @"content": content,
         @"context": @"edit",
     };
-    [self.wordPressComRestApi POST:requestUrl
+    [self.wordPressComRESTAPI post:requestUrl
                         parameters:parameters
                            success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
                                if (success) {
@@ -282,7 +282,7 @@
     
     NSDictionary *parameters = @{@"content": content};
     
-    [self.wordPressComRestApi POST:requestUrl
+    [self.wordPressComRESTAPI post:requestUrl
         parameters:parameters
            success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
                if (success) {
@@ -310,7 +310,7 @@
         @"content": content,
         @"context": @"edit",
     };
-    [self.wordPressComRestApi POST:requestUrl
+    [self.wordPressComRESTAPI post:requestUrl
                         parameters:parameters
                            success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
                                if (success) {
@@ -339,7 +339,7 @@
         @"context"  : @"edit",
     };
     
-    [self.wordPressComRestApi POST:requestUrl
+    [self.wordPressComRESTAPI post:requestUrl
                         parameters:parameters
                            success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
                                if (success) {
@@ -360,7 +360,7 @@
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
     
-    [self.wordPressComRestApi POST:requestUrl
+    [self.wordPressComRESTAPI post:requestUrl
                         parameters:nil
                            success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
                                if (success) {
@@ -381,7 +381,7 @@
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
     
-    [self.wordPressComRestApi POST:requestUrl
+    [self.wordPressComRESTAPI post:requestUrl
                         parameters:nil
                            success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
                                if (success) {
@@ -402,7 +402,7 @@
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
     
-    [self.wordPressComRestApi POST:requestUrl
+    [self.wordPressComRESTAPI post:requestUrl
                         parameters:nil
                            success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
                                if (success) {
@@ -444,7 +444,7 @@
         parameters[@"exclude"] = excludeUserIDs;
     }
 
-    [self.wordPressComRestApi GET:requestUrl
+    [self.wordPressComRESTAPI get:requestUrl
                        parameters:parameters
                           success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
         if (success) {

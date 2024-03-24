@@ -41,7 +41,7 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
     
     NSDictionary *parameters = @{ @"context": @"edit" };
     
-    [self.wordPressComRestApi GET:requestUrl
+    [self.wordPressComRESTAPI get:requestUrl
        parameters:parameters
           success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
               if (success) {
@@ -83,7 +83,7 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
         [mutableParameters addEntriesFromDictionary:options];
         parameters = [NSDictionary dictionaryWithDictionary:mutableParameters];
     }
-    [self.wordPressComRestApi GET:requestUrl
+    [self.wordPressComRESTAPI get:requestUrl
        parameters:parameters
           success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
               if (success) {
@@ -106,7 +106,7 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
     
     NSDictionary *parameters = [self parametersWithRemotePost:post];
     
-    [self.wordPressComRestApi GET:requestUrl
+    [self.wordPressComRESTAPI get:requestUrl
                        parameters:parameters
                           success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
                               RemotePost *post = [self remotePostFromJSONDictionary:responseObject];
@@ -132,7 +132,7 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
     
     NSDictionary *parameters = [self parametersWithRemotePost:post];
 
-    [self.wordPressComRestApi POST:requestUrl
+    [self.wordPressComRESTAPI post:requestUrl
         parameters:parameters
            success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
                RemotePost *post = [self remotePostFromJSONDictionary:responseObject];
@@ -196,7 +196,7 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
     
     NSDictionary *parameters = [self parametersWithRemotePost:post];
 
-    [self.wordPressComRestApi POST:requestUrl
+    [self.wordPressComRESTAPI post:requestUrl
         parameters:parameters
            success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
                RemotePost *post = [self remotePostFromJSONDictionary:responseObject];
@@ -222,7 +222,7 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
     
     NSDictionary *parameters = [self parametersWithRemotePost:post];
     
-    [self.wordPressComRestApi POST:requestUrl
+    [self.wordPressComRESTAPI post:requestUrl
                         parameters:parameters
                            success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
                                RemotePost *post = [self remotePostFromJSONDictionary:responseObject];
@@ -247,7 +247,7 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
     
-    [self.wordPressComRestApi POST:requestUrl
+    [self.wordPressComRESTAPI post:requestUrl
         parameters:nil
            success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
                if (success) {
@@ -271,7 +271,7 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
     
-    [self.wordPressComRestApi POST:requestUrl
+    [self.wordPressComRESTAPI post:requestUrl
         parameters:nil
            success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
                RemotePost *post = [self remotePostFromJSONDictionary:responseObject];
@@ -297,7 +297,7 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
     
-    [self.wordPressComRestApi POST:requestUrl
+    [self.wordPressComRESTAPI post:requestUrl
         parameters:nil
            success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
                RemotePost *post = [self remotePostFromJSONDictionary:responseObject];
@@ -340,7 +340,7 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
         parameters[@"exclude"] = excludeUserIDs;
     }
 
-    [self.wordPressComRestApi GET:requestUrl
+    [self.wordPressComRESTAPI get:requestUrl
                        parameters:parameters
                           success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
         if (success) {

@@ -61,7 +61,7 @@
     NSString *requestUrl = [self pathForEndpoint:@"users/new"
                                      withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
     
-    [self.wordPressComRestApi POST:requestUrl parameters:params success:successBlock failure:failureBlock];
+    [self.wordPressComRESTAPI post:requestUrl parameters:params success:successBlock failure:failureBlock];
 }
 
 - (void)createWPComAccountWithGoogle:(NSString *)token
@@ -116,7 +116,7 @@
     };
 
     NSString *requestUrl = [self pathForEndpoint:@"users/social/new" withVersion:ServiceRemoteWordPressComRESTApiVersion_1_0];
-    [self.wordPressComRestApi POST:requestUrl parameters:params success:successBlock failure:failureBlock];
+    [self.wordPressComRESTAPI post:requestUrl parameters:params success:successBlock failure:failureBlock];
 }
 
 - (void)validateWPComBlogWithUrl:(NSString *)blogUrl
@@ -222,7 +222,7 @@
     NSString *requestUrl = [self pathForEndpoint:@"sites/new"
                                      withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
     
-    [self.wordPressComRestApi POST:requestUrl parameters:params success:successBlock failure:failureBlock];
+    [self.wordPressComRESTAPI post:requestUrl parameters:params success:successBlock failure:failureBlock];
 }
 
 #pragma mark - Error localization

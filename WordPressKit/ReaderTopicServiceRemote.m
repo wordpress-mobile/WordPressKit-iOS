@@ -19,7 +19,7 @@ static NSString * const TopicNotFoundMarker = @"-notfound-";
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:ServiceRemoteWordPressComRESTApiVersion_1_3];
 
-    [self.wordPressComRestApi GET:requestUrl parameters:nil success:^(NSDictionary *response, NSHTTPURLResponse *httpResponse) {
+    [self.wordPressComRESTAPI get:requestUrl parameters:nil success:^(NSDictionary *response, NSHTTPURLResponse *httpResponse) {
         if (!success) {
             return;
         }
@@ -65,7 +65,7 @@ static NSString * const TopicNotFoundMarker = @"-notfound-";
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:ServiceRemoteWordPressComRESTApiVersion_1_2];
 
-    [self.wordPressComRestApi GET:requestUrl parameters:nil success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
+    [self.wordPressComRESTAPI get:requestUrl parameters:nil success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
         if (!success) {
             return;
         }
@@ -93,7 +93,7 @@ static NSString * const TopicNotFoundMarker = @"-notfound-";
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
 
-    [self.wordPressComRestApi POST:requestUrl parameters:nil success:^(NSDictionary *responseObject, NSHTTPURLResponse *httpResponse) {
+    [self.wordPressComRESTAPI post:requestUrl parameters:nil success:^(NSDictionary *responseObject, NSHTTPURLResponse *httpResponse) {
         if (!success) {
             return;
         }
@@ -124,7 +124,7 @@ static NSString * const TopicNotFoundMarker = @"-notfound-";
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
 
-    [self.wordPressComRestApi POST:requestUrl parameters:nil success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
+    [self.wordPressComRESTAPI post:requestUrl parameters:nil success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
         if (!success) {
             return;
         }
@@ -146,7 +146,7 @@ static NSString * const TopicNotFoundMarker = @"-notfound-";
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:ServiceRemoteWordPressComRESTApiVersion_1_2];
 
-    [self.wordPressComRestApi GET:requestUrl parameters:nil success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
+    [self.wordPressComRESTAPI get:requestUrl parameters:nil success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
         if (!success) {
             return;
         }
@@ -180,7 +180,7 @@ static NSString * const TopicNotFoundMarker = @"-notfound-";
                                withVersion:ServiceRemoteWordPressComRESTApiVersion_1_2];
     }
     
-    [self.wordPressComRestApi GET:requestUrl parameters:nil success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
+    [self.wordPressComRESTAPI get:requestUrl parameters:nil success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
         if (!success) {
             return;
         }
@@ -221,7 +221,7 @@ static NSString * const TopicNotFoundMarker = @"-notfound-";
 - (NSString *)endpointUrlForPath:(NSString *)endpoint
 {
     NSString *absolutePath = [self pathForEndpoint:endpoint withVersion:ServiceRemoteWordPressComRESTApiVersion_1_2];
-    NSURL *url = [NSURL URLWithString:absolutePath relativeToURL:self.wordPressComRestApi.baseURL];
+    NSURL *url = [NSURL URLWithString:absolutePath relativeToURL:self.wordPressComRESTAPI.baseURL];
     return [url absoluteString];
 }
 

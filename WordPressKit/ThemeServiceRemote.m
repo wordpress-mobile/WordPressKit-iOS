@@ -28,7 +28,7 @@ static NSString* const ThemeRequestPageKey = @"page";
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
     
-    NSProgress *progress = [self.wordPressComRestApi GET:requestUrl
+    NSProgress *progress = [self.wordPressComRESTAPI get:requestUrl
                                               parameters:nil
                                                  success:^(NSDictionary *themeDictionary, NSHTTPURLResponse *httpResponse) {
                                                      if (success) {
@@ -55,7 +55,7 @@ static NSString* const ThemeRequestPageKey = @"page";
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
     
-    NSProgress *progress = [self.wordPressComRestApi GET:requestUrl
+    NSProgress *progress = [self.wordPressComRESTAPI get:requestUrl
                                 parameters:nil
                                    success:^(NSDictionary *response, NSHTTPURLResponse *httpResponse) {
                                        if (success) {
@@ -81,7 +81,7 @@ static NSString* const ThemeRequestPageKey = @"page";
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
     
-    NSProgress *progress = [self.wordPressComRestApi GET:requestUrl
+    NSProgress *progress = [self.wordPressComRESTAPI get:requestUrl
                                 parameters:nil
                                    success:^(NSDictionary *themeDictionary, NSHTTPURLResponse *httpResponse) {
                                        if (success) {
@@ -233,7 +233,7 @@ static NSString* const ThemeRequestPageKey = @"page";
                                 failure:(ThemeServiceRemoteFailureBlock)failure
 {
 
-    return [self.wordPressComRestApi GET:requestUrl
+    return [self.wordPressComRESTAPI get:requestUrl
                               parameters:parameters
                                  success:^(NSDictionary *response, NSHTTPURLResponse *httpResponse) {
                                      if (success) {
@@ -270,7 +270,7 @@ static NSString* const ThemeRequestPageKey = @"page";
     
     NSDictionary* parameters = @{@"theme": themeId};
     
-    NSProgress *progress = [self.wordPressComRestApi POST:requestUrl
+    NSProgress *progress = [self.wordPressComRESTAPI post:requestUrl
                                  parameters:parameters
                                     success:^(NSDictionary *themeDictionary, NSHTTPURLResponse *httpResponse) {
                                         if (success) {
@@ -299,7 +299,7 @@ static NSString* const ThemeRequestPageKey = @"page";
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
 
-    NSProgress *progress = [self.wordPressComRestApi POST:requestUrl
+    NSProgress *progress = [self.wordPressComRESTAPI post:requestUrl
                                                parameters:nil
                                                   success:^(NSDictionary *themeDictionary, NSHTTPURLResponse *httpResponse) {
                                                       if (success) {

@@ -634,7 +634,7 @@ extension WordPressComRestApi: WordPressComRESTAPIInterfacing {
         parameters: [String: NSObject]?,
         success: @escaping (Any, HTTPURLResponse?) -> Void,
         failure: @escaping (any Error, HTTPURLResponse?) -> Void
-    ) {
+    ) -> Progress? {
         GET(URLString, parameters: parameters, success: success, failure: failure)
     }
 
@@ -643,7 +643,7 @@ extension WordPressComRestApi: WordPressComRESTAPIInterfacing {
         parameters: [String: NSObject]?,
         success: @escaping (Any, HTTPURLResponse?) -> Void,
         failure: @escaping (any Error, HTTPURLResponse?) -> Void
-    ) {
+    ) -> Progress? {
         POST(URLString, parameters: parameters, success: success, failure: failure)
     }
 }
