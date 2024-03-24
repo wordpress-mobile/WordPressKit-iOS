@@ -54,14 +54,20 @@ extension RemoteTestCase {
         contentType: ResponseContentType,
         status: Int32 = 200
     ) {
+        // There are hundreds of usages of the various `stubRemoteResponse` overloads.
+        // The pattern here should be to XCTUnwrap and throw.
+        // In the interest of moving along with the work, let's fail the tests at this level if the file is not found.
+        guard let stubPath = OHPathForFile(filename, type(of: self)) else {
+            return XCTFail("Could not find file at path '\(filename)'.")
+        }
+
         stub(condition: condition) { _ in
-            let stubPath = OHPathForFile(filename, type(of: self))
             var headers: [NSObject: AnyObject]?
 
             if contentType != .NoContentType {
                 headers = ["Content-Type" as NSObject: contentType.rawValue as AnyObject]
             }
-            return OHHTTPStubs.fixture(filePath: stubPath!, status: status, headers: headers)
+            return OHHTTPStubs.fixture(filePath: stubPath, status: status, headers: headers)
         }
     }
 
@@ -74,16 +80,22 @@ extension RemoteTestCase {
     ///     - status: The status code to use for the response. Defaults to 200.
     ///
     func stubRemoteResponse(_ endpoint: String, filename: String, contentType: ResponseContentType, status: Int32 = 200) {
+        // There are hundreds of usages of the various `stubRemoteResponse` overloads.
+        // The pattern here should be to XCTUnwrap and throw.
+        // In the interest of moving along with the work, let's fail the tests at this level if the file is not found.
+        guard let stubPath = OHPathForFile(filename, type(of: self)) else {
+            return XCTFail("Could not find file at path '\(filename)'.")
+        }
+
         stub(condition: { request in
             return request.url?.absoluteString.range(of: endpoint) != nil
         }) { _ in
-            let stubPath = OHPathForFile(filename, type(of: self))
             var headers: [NSObject: AnyObject]?
 
             if contentType != .NoContentType {
                 headers = ["Content-Type" as NSObject: contentType.rawValue as AnyObject]
             }
-            return fixture(filePath: stubPath!, status: status, headers: headers)
+            return fixture(filePath: stubPath, status: status, headers: headers)
         }
     }
 
@@ -134,7 +146,12 @@ extension RemoteTestCase {
                 return HTTPStubsResponse(error: notConnectedError)
             }
 
-            let stubPath = OHPathForFile(files[callCounter], type(of: self))
+            guard let stubPath = OHPathForFile(files[callCounter], type(of: self)) else {
+                XCTFail("Could not find file at path '\(files[callCounter])'.")
+                let error = NSError(domain: "RemoteTestCase", code: 0, userInfo: nil)
+                return HTTPStubsResponse(error: error)
+            }
+
             callCounter += 1
 
             var headers: [NSObject: AnyObject]?
@@ -142,7 +159,7 @@ extension RemoteTestCase {
                 headers = ["Content-Type" as NSObject: contentType.rawValue as AnyObject]
             }
 
-            return fixture(filePath: stubPath!, status: status, headers: headers)
+            return fixture(filePath: stubPath, status: status, headers: headers)
         }
     }
 
