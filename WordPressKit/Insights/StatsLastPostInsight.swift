@@ -1,4 +1,4 @@
-public struct StatsLastPostInsight {
+public struct StatsLastPostInsight: Equatable {
     public let title: String
     public let url: URL
     public let publishedDate: Date
