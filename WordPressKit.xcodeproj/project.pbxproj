@@ -1983,6 +1983,19 @@
 			path = Sources;
 			sourceTree = "<group>";
 		};
+		3FE2E9442BB11592002CA2E1 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				57A38E572624FF1000472480 /* Fakes */,
+				9368C78B1EC5EF1B0092CE8E /* Info.plist */,
+				93BD27421EE73384002BB00B /* Mock Data */,
+				3FE2E9422BB11280002CA2E1 /* Tests */,
+				3FB8642D288813E9003A86BE /* UnitTests.xctestplan */,
+				93BD273F1EE73310002BB00B /* WordPressKitTests-Bridging-Header.h */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
 		404057C3221B30140060250C /* Time Interval */ = {
 			isa = PBXGroup;
 			children = (
@@ -2060,11 +2073,11 @@
 			isa = PBXGroup;
 			children = (
 				3FE2E9432BB11413002CA2E1 /* Sources */,
+				3FE2E9442BB11592002CA2E1 /* Tests */,
 				FFE247CD20CB1245002DF3A2 /* LICENSE */,
 				FFE247CC20CB118A002DF3A2 /* README.md */,
 				0C3A2A412A2E7BA500FD91D6 /* CHANGELOG.md */,
 				FF20AD2120B8471A00082398 /* WordPressKit.podspec */,
-				9368C7881EC5EF1B0092CE8E /* WordPressKitTests */,
 				9368C77C1EC5EF1B0092CE8E /* Products */,
 				38C6ABE94A27A12C9C4AD19D /* Frameworks */,
 				E5EA953F7DD505CCED2E44CD /* Pods */,
@@ -2078,19 +2091,6 @@
 				9368C7841EC5EF1B0092CE8E /* WordPressKitTests.xctest */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		9368C7881EC5EF1B0092CE8E /* WordPressKitTests */ = {
-			isa = PBXGroup;
-			children = (
-				57A38E572624FF1000472480 /* Fakes */,
-				9368C78B1EC5EF1B0092CE8E /* Info.plist */,
-				93BD27421EE73384002BB00B /* Mock Data */,
-				3FE2E9422BB11280002CA2E1 /* Tests */,
-				3FB8642D288813E9003A86BE /* UnitTests.xctestplan */,
-				93BD273F1EE73310002BB00B /* WordPressKitTests-Bridging-Header.h */,
-			);
-			path = WordPressKitTests;
 			sourceTree = "<group>";
 		};
 		93BD27421EE73384002BB00B /* Mock Data */ = {
@@ -3670,7 +3670,7 @@
 					"${inherited}",
 					"$(SDKROOT)/usr/include/libxml2",
 				);
-				INFOPLIST_FILE = WordPressKitTests/Info.plist;
+				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -3678,7 +3678,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.automattic.WordPressKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "WordPressKitTests/WordPressKitTests-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Tests/WordPressKitTests-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 			};
@@ -3695,7 +3695,7 @@
 					"${inherited}",
 					"$(SDKROOT)/usr/include/libxml2",
 				);
-				INFOPLIST_FILE = WordPressKitTests/Info.plist;
+				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -3703,7 +3703,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.automattic.WordPressKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "WordPressKitTests/WordPressKitTests-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Tests/WordPressKitTests-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
@@ -3809,7 +3809,7 @@
 					"${inherited}",
 					"$(SDKROOT)/usr/include/libxml2",
 				);
-				INFOPLIST_FILE = WordPressKitTests/Info.plist;
+				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -3817,7 +3817,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.automattic.WordPressKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "WordPressKitTests/WordPressKitTests-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Tests/WordPressKitTests-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 			};
 			name = "Release-Internal";
@@ -3923,7 +3923,7 @@
 					"${inherited}",
 					"$(SDKROOT)/usr/include/libxml2",
 				);
-				INFOPLIST_FILE = WordPressKitTests/Info.plist;
+				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -3931,7 +3931,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.automattic.WordPressKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "WordPressKitTests/WordPressKitTests-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Tests/WordPressKitTests-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 			};
 			name = "Release-Alpha";
