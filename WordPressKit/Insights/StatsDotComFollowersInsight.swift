@@ -59,7 +59,7 @@ extension StatsFollower {
         self.name = try container.decode(String.self, forKey: .name)
         if let id = try? container.decodeIfPresent(Int.self, forKey: .id) {
             self.id = "\(id)"
-        } else if let id = try? container.decodeIfPresent(String.self, forKey: .id)  {
+        } else if let id = try? container.decodeIfPresent(String.self, forKey: .id) {
             self.id = id
         } else {
             self.id = nil

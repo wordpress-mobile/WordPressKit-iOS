@@ -38,14 +38,6 @@ public struct StatsPublicizeService: Codable {
 }
 
 private extension StatsPublicizeService {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        let name = try container.decode(String.self, forKey: .name)
-        let followers = (try? container.decodeIfPresent(Int.self, forKey: .followers)) ?? 0
-
-        self.init(name: name, followers: followers)
-    }
-
     init(name: String, followers: Int) {
         let niceName: String
         let icon: URL?
@@ -77,5 +69,15 @@ private extension StatsPublicizeService {
         self.name = niceName
         self.followers = followers
         self.iconURL = icon
+    }
+}
+
+public extension StatsPublicizeService {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let name = try container.decode(String.self, forKey: .name)
+        let followers = (try? container.decodeIfPresent(Int.self, forKey: .followers)) ?? 0
+
+        self.init(name: name, followers: followers)
     }
 }

@@ -67,20 +67,6 @@ public struct StatsTopCommentsPost: Codable {
 }
 
 private extension StatsTopCommentsAuthor {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        let name = try container.decode(String.self, forKey: .name)
-        let commentCount: Int
-        if let comments = try? container.decodeIfPresent(String.self, forKey: .commentCount) {
-            commentCount = Int(comments) ?? 0
-        } else {
-            commentCount = 0
-        }
-        let iconURL = try container.decodeIfPresent(String.self, forKey: .iconURL)
-
-        self.init(name: name, avatar: iconURL, commentCount: commentCount)
-    }
-
     init(name: String, avatar: String?, commentCount: Int) {
         let url: URL?
 
@@ -97,8 +83,24 @@ private extension StatsTopCommentsAuthor {
     }
 }
 
-private extension StatsTopCommentsPost {
-    public init(from decoder: Decoder) throws {
+public extension StatsTopCommentsAuthor {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let name = try container.decode(String.self, forKey: .name)
+        let commentCount: Int
+        if let comments = try? container.decodeIfPresent(String.self, forKey: .commentCount) {
+            commentCount = Int(comments) ?? 0
+        } else {
+            commentCount = 0
+        }
+        let iconURL = try container.decodeIfPresent(String.self, forKey: .iconURL)
+
+        self.init(name: name, avatar: iconURL, commentCount: commentCount)
+    }
+}
+
+public extension StatsTopCommentsPost {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         let name = try container.decode(String.self, forKey: .name)
         let postID = try container.decode(String.self, forKey: .postID)
