@@ -6,7 +6,9 @@ FOUNDATION_EXPORT double WordPressKitVersionNumber;
 //! Project version string for WordPressKit.
 FOUNDATION_EXPORT const unsigned char WordPressKitVersionString[];
 
+#import <WordPressKit/FilePart.h>
 #import <WordPressKit/WordPressComRESTAPIInterfacing.h>
+
 #import <WordPressKit/ServiceRemoteWordPressComREST.h>
 #import <WordPressKit/ServiceRemoteWordPressXMLRPC.h>
 #import <WordPressKit/SiteServiceRemoteWordPressComREST.h>

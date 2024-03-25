@@ -452,7 +452,7 @@ open class WordPressComRestApi: NSObject {
         let builder: HTTPRequestBuilder
         do {
             let form = try fileParts.map {
-                try MultipartFormField(fileAtPath: $0.url.path, name: $0.parameterName, filename: $0.filename, mimeType: $0.mimeType)
+                try MultipartFormField(fileAtPath: $0.url.path, name: $0.parameterName, filename: $0.fileName, mimeType: $0.mimeType)
             }
             builder = try requestBuilder(URLString: URLString)
                 .method(.post)
@@ -474,23 +474,6 @@ open class WordPressComRestApi: NSObject {
         )
     }
 
-}
-
-// MARK: - FilePart
-
-/// FilePart represents the infomartion needed to encode a file on a multipart form request
-public final class FilePart: NSObject {
-    @objc let parameterName: String
-    @objc let url: URL
-    @objc let filename: String
-    @objc let mimeType: String
-
-    @objc public init(parameterName: String, url: URL, filename: String, mimeType: String) {
-        self.parameterName = parameterName
-        self.url = url
-        self.filename = filename
-        self.mimeType = mimeType
-    }
 }
 
 // MARK: - Error processing

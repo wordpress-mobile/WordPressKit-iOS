@@ -164,7 +164,7 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
     parameters[@"content"] = post.content;
     parameters[@"title"] = post.title;
     parameters[@"status"] = post.status;
-    FilePart *filePart = [[FilePart alloc] initWithParameterName:@"media[]" url:media.localURL filename:filename mimeType:type];
+    FilePart *filePart = [[FilePart alloc] initWithParameterName:@"media[]" url:media.localURL fileName:filename mimeType:type];
     [self.wordPressComRestApi multipartPOST:requestUrl
                                  parameters:parameters
                                   fileParts:@[filePart]
