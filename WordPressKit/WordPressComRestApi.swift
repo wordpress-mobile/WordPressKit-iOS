@@ -268,11 +268,11 @@ open class WordPressComRestApi: NSObject {
      - parameter success:    callback to be called on successful request
      - parameter failure:    callback to be called on failed request
 
-     - returns:  a NSProgress object that can be used to track the progress of the upload and to cancel the upload. If the method
+     - returns:  a `Progerss` object that can be used to track the progress of the upload and to cancel the upload. If the method
      returns nil it's because something happened on the request serialization and the network request was not started, but the failure callback
      will be invoked with the error specificing the serialization issues.
      */
-    @objc @discardableResult open func multipartPOST(_ URLString: String,
+    @discardableResult open func multipartPOST(_ URLString: String,
                               parameters: [String: AnyObject]?,
                               fileParts: [FilePart],
                               requestEnqueued: RequestEnqueuedBlock? = nil,
@@ -605,7 +605,6 @@ extension WordPressAPIError<WordPressComRestApiEndpointError> {
 }
 
 extension WordPressComRestApi: WordPressComRESTAPIInterfacing {
-
     // A note on the naming: Even if defined as `GET` in Objective-C, then method gets converted to Swift as `get`.
     //
     // Also, there is no Objective-C direct equivalent of `AnyObject`, which here is used in `parameters: [String: AnyObject]?`.
@@ -628,5 +627,23 @@ extension WordPressComRestApi: WordPressComRESTAPIInterfacing {
         failure: @escaping (any Error, HTTPURLResponse?) -> Void
     ) -> Progress? {
         POST(URLString, parameters: parameters, success: success, failure: failure)
+    }
+
+    public func multipartPOST(
+        _ URLString: String,
+        parameters: [String: NSObject]?,
+        fileParts: [FilePart],
+        requestEnqueued: @escaping (NSNumber) -> Void,
+        success: @escaping (Any, HTTPURLResponse?) -> Void,
+        failure: @escaping (any Error, HTTPURLResponse?) -> Void
+    ) -> Progress? {
+        multipartPOST(
+            URLString,
+            parameters: parameters,
+            fileParts: fileParts,
+            requestEnqueued: requestEnqueued,
+            success: success as SuccessResponseBlock,
+            failure: failure as FailureReponseBlock
+        )
     }
 }
