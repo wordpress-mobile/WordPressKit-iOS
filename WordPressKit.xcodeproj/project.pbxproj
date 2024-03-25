@@ -1503,15 +1503,6 @@
 			name = Privacy;
 			sourceTree = "<group>";
 		};
-		0CB1905C2A2A5E7B004D3E80 /* Blaze */ = {
-			isa = PBXGroup;
-			children = (
-				0CB1905D2A2A5E83004D3E80 /* BlazeCampaign.swift */,
-				0CB190642A2A7569004D3E80 /* BlazeCampaignsSearchResponse.swift */,
-			);
-			name = Blaze;
-			sourceTree = "<group>";
-		};
 		0CED1FE92B617D6700E6DD52 /* Atomic */ = {
 			isa = PBXGroup;
 			children = (
@@ -1624,6 +1615,15 @@
 				8B52B900257AC5A200221663 /* Date+endOfDay.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		3FE2E93C2BB10FF1002CA2E1 /* Blaze */ = {
+			isa = PBXGroup;
+			children = (
+				0CB1905D2A2A5E83004D3E80 /* BlazeCampaign.swift */,
+				0CB190642A2A7569004D3E80 /* BlazeCampaignsSearchResponse.swift */,
+			);
+			path = Blaze;
 			sourceTree = "<group>";
 		};
 		404057C3221B30140060250C /* Time Interval */ = {
@@ -2148,7 +2148,7 @@
 			isa = PBXGroup;
 			children = (
 				0CED1FE92B617D6700E6DD52 /* Atomic */,
-				0CB1905C2A2A5E7B004D3E80 /* Blaze */,
+				3FE2E93C2BB10FF1002CA2E1 /* Blaze */,
 				3FE2E93B2BB10FBB002CA2E1 /* Extensions */,
 				3FE2E9392BB10F67002CA2E1 /* Plugins */,
 				3FE2E9362BB10EC7002CA2E1 /* Stats */,
