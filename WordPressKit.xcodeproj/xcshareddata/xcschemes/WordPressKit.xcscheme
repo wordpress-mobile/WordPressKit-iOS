@@ -30,7 +30,7 @@
       codeCoverageEnabled = "YES">
       <TestPlans>
          <TestPlanReference
-            reference = "container:Tests/UnitTests.xctestplan"
+            reference = "container:Tests/WordPressKit/UnitTests.xctestplan"
             default = "YES">
          </TestPlanReference>
       </TestPlans>
