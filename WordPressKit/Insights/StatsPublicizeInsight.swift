@@ -16,16 +16,6 @@ extension StatsPublicizeInsight: StatsInsightData {
     public static var pathComponent: String {
         return "stats/publicize"
     }
-
-    public init?(jsonDictionary: [String: AnyObject]) {
-        do {
-            let jsonData = try JSONSerialization.data(withJSONObject: jsonDictionary, options: [])
-            let decoder = JSONDecoder()
-            self = try decoder.decode(StatsPublicizeInsight.self, from: jsonData)
-        } catch {
-            return nil
-        }
-    }
 }
 
 public struct StatsPublicizeService: Codable {

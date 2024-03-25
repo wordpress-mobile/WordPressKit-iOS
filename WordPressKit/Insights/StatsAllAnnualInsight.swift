@@ -81,14 +81,4 @@ extension StatsAllAnnualInsight: StatsInsightData {
     public static var pathComponent: String {
         return "stats/insights"
     }
-
-    public init?(jsonDictionary: [String: AnyObject]) {
-        do {
-            let jsonData = try JSONSerialization.data(withJSONObject: jsonDictionary, options: [])
-            let decoder = JSONDecoder()
-            self = try decoder.decode(StatsAllAnnualInsight.self, from: jsonData)
-        } catch {
-            return nil
-        }
-    }
 }

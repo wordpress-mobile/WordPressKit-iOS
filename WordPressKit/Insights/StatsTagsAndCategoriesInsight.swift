@@ -10,16 +10,6 @@ extension StatsTagsAndCategoriesInsight: StatsInsightData {
     public static var pathComponent: String {
         return "stats/tags"
     }
-
-    public init?(jsonDictionary: [String: AnyObject]) {
-        do {
-            let jsonData = try JSONSerialization.data(withJSONObject: jsonDictionary, options: [])
-            let decoder = JSONDecoder()
-            self = try decoder.decode(StatsTagsAndCategoriesInsight.self, from: jsonData)
-        } catch {
-            return nil
-        }
-    }
 }
 
 public struct StatsTagAndCategory: Codable {

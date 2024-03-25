@@ -25,14 +25,4 @@ extension StatsEmailFollowersInsight: StatsInsightData {
     public static var pathComponent: String {
         return "stats/followers"
     }
-
-    public init?(jsonDictionary: [String: AnyObject]) {
-        do {
-            let jsonData = try JSONSerialization.data(withJSONObject: jsonDictionary, options: [])
-            let decoder = JSONDecoder()
-            self = try decoder.decode(StatsEmailFollowersInsight.self, from: jsonData)
-        } catch {
-            return nil
-        }
-    }
 }

@@ -29,16 +29,6 @@ public struct StatsPostingStreakInsight: Codable {
         case postingEvents = "data"
     }
 
-    public init?(jsonDictionary: [String: AnyObject]) {
-        do {
-            let jsonData = try JSONSerialization.data(withJSONObject: jsonDictionary, options: [])
-            let decoder = JSONDecoder()
-            self = try decoder.decode(StatsPostingStreakInsight.self, from: jsonData)
-        } catch {
-            return nil
-        }
-    }
-
     public init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.streaks = try container.decode(PostingStreaks.self, forKey: .streaks)

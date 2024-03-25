@@ -26,16 +26,6 @@ extension StatsDotComFollowersInsight: StatsInsightData {
         return "stats/followers"
     }
 
-    public init?(jsonDictionary: [String: AnyObject]) {
-        do {
-            let jsonData = try JSONSerialization.data(withJSONObject: jsonDictionary, options: [])
-            let decoder = JSONDecoder()
-            self = try decoder.decode(StatsDotComFollowersInsight.self, from: jsonData)
-        } catch {
-            return nil
-        }
-    }
-
     fileprivate static let dateFormatter = ISO8601DateFormatter()
 }
 

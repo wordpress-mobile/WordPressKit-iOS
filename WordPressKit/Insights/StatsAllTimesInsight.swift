@@ -31,18 +31,6 @@ public struct StatsAllTimesInsight: Codable {
 }
 
 extension StatsAllTimesInsight: StatsInsightData {
-
-    // MARK: - StatsInsightData Conformance
-    public init?(jsonDictionary: [String: AnyObject]) {
-        do {
-            let jsonData = try JSONSerialization.data(withJSONObject: jsonDictionary, options: [])
-            let decoder = JSONDecoder()
-            self = try decoder.decode(StatsAllTimesInsight.self, from: jsonData)
-        } catch {
-            return nil
-        }
-    }
-
     public init (from decoder: Decoder) throws {
         let rootContainer = try decoder.container(keyedBy: RootKeys.self)
         let container = try rootContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: .stats)

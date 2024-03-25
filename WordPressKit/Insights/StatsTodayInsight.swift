@@ -22,16 +22,6 @@ extension StatsTodayInsight: StatsInsightData {
         return "stats/summary"
     }
 
-    public init?(jsonDictionary: [String: AnyObject]) {
-        do {
-            let jsonData = try JSONSerialization.data(withJSONObject: jsonDictionary, options: [])
-            let decoder = JSONDecoder()
-            self = try decoder.decode(StatsTodayInsight.self, from: jsonData)
-        } catch {
-            return nil
-        }
-    }
-
     private enum CodingKeys: String, CodingKey {
         case viewsCount = "views"
         case visitorsCount = "visitors"
