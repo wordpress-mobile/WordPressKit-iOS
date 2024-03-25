@@ -1328,7 +1328,7 @@
 		BAFA775524ADAB3C000F0D3A /* MockPluginDirectoryEntryProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPluginDirectoryEntryProvider.swift; sourceTree = "<group>"; };
 		BEEC8B5D92DA614468900BD7 /* Pods-WordPressKit.release-alpha.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WordPressKit.release-alpha.xcconfig"; path = "Pods/Target Support Files/Pods-WordPressKit/Pods-WordPressKit.release-alpha.xcconfig"; sourceTree = "<group>"; };
 		C5953994B3865AF409BA4210 /* Pods-WordPressKitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WordPressKitTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-WordPressKitTests/Pods-WordPressKitTests.release.xcconfig"; sourceTree = "<group>"; };
-		C738CAEE28622325001BE107 /* QRLoginServiceRemoteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = QRLoginServiceRemoteTests.swift; path = Scan/QRLoginServiceRemoteTests.swift; sourceTree = "<group>"; };
+		C738CAEE28622325001BE107 /* QRLoginServiceRemoteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRLoginServiceRemoteTests.swift; sourceTree = "<group>"; };
 		C738CAF0286224ED001BE107 /* qrlogin-validate-200.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "qrlogin-validate-200.json"; sourceTree = "<group>"; };
 		C738CAF2286226D6001BE107 /* qrlogin-validate-400.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "qrlogin-validate-400.json"; sourceTree = "<group>"; };
 		C738CAF428622953001BE107 /* qrlogin-validate-expired-401.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "qrlogin-validate-expired-401.json"; sourceTree = "<group>"; };
@@ -1855,80 +1855,7 @@
 			path = Utility;
 			sourceTree = "<group>";
 		};
-		404057C3221B30140060250C /* Time Interval */ = {
-			isa = PBXGroup;
-			children = (
-				01438D3A2B6A36BF0097D60A /* StatsTotalsSummaryData.swift */,
-				984E34EA22EF7209005C3F92 /* StatsFileDownloadsTimeIntervalData.swift */,
-				40819772221E10C900A298E4 /* StatsPublishedPostsTimeIntervalData.swift */,
-				404057C4221B30400060250C /* StatsSearchTermTimeIntervalData.swift */,
-				40819777221F00E600A298E4 /* StatsSummaryTimeIntervalData.swift */,
-				404057C8221B789B0060250C /* StatsTopAuthorsTimeIntervalData.swift */,
-				404057D5221C92660060250C /* StatsTopClicksTimeIntervalData.swift */,
-				404057D1221C56AB0060250C /* StatsTopCountryTimeIntervalData.swift */,
-				4081976E221DDE9B00A298E4 /* StatsTopPostsTimeIntervalData.swift */,
-				404057D9221C9D560060250C /* StatsTopReferrersTimeIntervalData.swift */,
-				404057CD221C38130060250C /* StatsTopVideosTimeIntervalData.swift */,
-			);
-			path = "Time Interval";
-			sourceTree = "<group>";
-		};
-		40414061220F9F2800CF7C5B /* Insights */ = {
-			isa = PBXGroup;
-			children = (
-				408197872220A35000A298E4 /* StatsLastPostInsight.swift */,
-				4041405D220F9EF500CF7C5B /* StatsDotComFollowersInsight.swift */,
-				40E7FEA8220FA4050032834E /* StatsEmailFollowersInsight.swift */,
-				4041405F220F9F1F00CF7C5B /* StatsAllTimesInsight.swift */,
-				40E7FEAD220FAEA10032834E /* StatsPublicizeInsight.swift */,
-				40E7FEB0220FB3B60032834E /* StatsAnnualAndMostPopularTimeInsight.swift */,
-				98DC787422BAEBF100267279 /* StatsAllAnnualInsight.swift */,
-				40E7FEB3221063480032834E /* StatsTodayInsight.swift */,
-				40E7FEB622106A8D0032834E /* StatsCommentsInsight.swift */,
-				40E7FEB92210894B0032834E /* StatsTagsAndCategoriesInsight.swift */,
-				40F98808221AC88700B7B369 /* StatsPostingStreakInsight.swift */,
-			);
-			path = Insights;
-			sourceTree = "<group>";
-		};
-		465F8892263B094900F4C950 /* BlockEditorSettings */ = {
-			isa = PBXGroup;
-			children = (
-				465F8893263B09AE00F4C950 /* wp-block-editor-v1-settings-success-NotThemeJSON.json */,
-				465F8899263B09BF00F4C950 /* wp-block-editor-v1-settings-success-ThemeJSON.json */,
-				465F88B0263B3E8A00F4C950 /* get_wp_v2_themes_twentytwentyone.json */,
-				465F88B6263B455300F4C950 /* get_wp_v2_themes_twentytwentyone-no-colors.json */,
-			);
-			path = BlockEditorSettings;
-			sourceTree = "<group>";
-		};
-		57A38E502624F7D000472480 /* WordPressAPI */ = {
-			isa = PBXGroup;
-			children = (
-				46ABD0DF262EED3D00C7FF24 /* WordPressOrgXMLRPCValidatorTests.swift */,
-				4A05E7972B2FCB9A00C25E3B /* NonceRetrievalTests.swift */,
-				4A05E79B2B2FDC6100C25E3B /* WordPressOrgAPITests.swift */,
-			);
-			path = WordPressAPI;
-			sourceTree = "<group>";
-		};
-		57A38E572624FF1000472480 /* Fakes */ = {
-			isa = PBXGroup;
-			children = (
-				46ABD0E5262EEDAB00C7FF24 /* FakeInfoDictionaryObjectProvider.swift */,
-			);
-			path = Fakes;
-			sourceTree = "<group>";
-		};
-		8BE67ED124AD05B5004DB4C9 /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				8BE67ED224AD05D3004DB4C9 /* Decodable+DictionaryTests.swift */,
-			);
-			path = Extensions;
-			sourceTree = "<group>";
-		};
-		930F52BA1ECF8A67002F921B /* Tests */ = {
+		3FE2E9422BB11280002CA2E1 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
 				D813437521F6D70D0060D99A /* SiteSegmentsResponseDecodingTests.swift */,
@@ -2039,7 +1966,80 @@
 				3FFCC04C2BABA6980051D229 /* NSDate+WordPressComTests.swift */,
 				3FFCC04A2BABA5220051D229 /* DateFormatter+WordPressComTests.swift */,
 			);
-			name = Tests;
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		404057C3221B30140060250C /* Time Interval */ = {
+			isa = PBXGroup;
+			children = (
+				01438D3A2B6A36BF0097D60A /* StatsTotalsSummaryData.swift */,
+				984E34EA22EF7209005C3F92 /* StatsFileDownloadsTimeIntervalData.swift */,
+				40819772221E10C900A298E4 /* StatsPublishedPostsTimeIntervalData.swift */,
+				404057C4221B30400060250C /* StatsSearchTermTimeIntervalData.swift */,
+				40819777221F00E600A298E4 /* StatsSummaryTimeIntervalData.swift */,
+				404057C8221B789B0060250C /* StatsTopAuthorsTimeIntervalData.swift */,
+				404057D5221C92660060250C /* StatsTopClicksTimeIntervalData.swift */,
+				404057D1221C56AB0060250C /* StatsTopCountryTimeIntervalData.swift */,
+				4081976E221DDE9B00A298E4 /* StatsTopPostsTimeIntervalData.swift */,
+				404057D9221C9D560060250C /* StatsTopReferrersTimeIntervalData.swift */,
+				404057CD221C38130060250C /* StatsTopVideosTimeIntervalData.swift */,
+			);
+			path = "Time Interval";
+			sourceTree = "<group>";
+		};
+		40414061220F9F2800CF7C5B /* Insights */ = {
+			isa = PBXGroup;
+			children = (
+				408197872220A35000A298E4 /* StatsLastPostInsight.swift */,
+				4041405D220F9EF500CF7C5B /* StatsDotComFollowersInsight.swift */,
+				40E7FEA8220FA4050032834E /* StatsEmailFollowersInsight.swift */,
+				4041405F220F9F1F00CF7C5B /* StatsAllTimesInsight.swift */,
+				40E7FEAD220FAEA10032834E /* StatsPublicizeInsight.swift */,
+				40E7FEB0220FB3B60032834E /* StatsAnnualAndMostPopularTimeInsight.swift */,
+				98DC787422BAEBF100267279 /* StatsAllAnnualInsight.swift */,
+				40E7FEB3221063480032834E /* StatsTodayInsight.swift */,
+				40E7FEB622106A8D0032834E /* StatsCommentsInsight.swift */,
+				40E7FEB92210894B0032834E /* StatsTagsAndCategoriesInsight.swift */,
+				40F98808221AC88700B7B369 /* StatsPostingStreakInsight.swift */,
+			);
+			path = Insights;
+			sourceTree = "<group>";
+		};
+		465F8892263B094900F4C950 /* BlockEditorSettings */ = {
+			isa = PBXGroup;
+			children = (
+				465F8893263B09AE00F4C950 /* wp-block-editor-v1-settings-success-NotThemeJSON.json */,
+				465F8899263B09BF00F4C950 /* wp-block-editor-v1-settings-success-ThemeJSON.json */,
+				465F88B0263B3E8A00F4C950 /* get_wp_v2_themes_twentytwentyone.json */,
+				465F88B6263B455300F4C950 /* get_wp_v2_themes_twentytwentyone-no-colors.json */,
+			);
+			path = BlockEditorSettings;
+			sourceTree = "<group>";
+		};
+		57A38E502624F7D000472480 /* WordPressAPI */ = {
+			isa = PBXGroup;
+			children = (
+				46ABD0DF262EED3D00C7FF24 /* WordPressOrgXMLRPCValidatorTests.swift */,
+				4A05E7972B2FCB9A00C25E3B /* NonceRetrievalTests.swift */,
+				4A05E79B2B2FDC6100C25E3B /* WordPressOrgAPITests.swift */,
+			);
+			path = WordPressAPI;
+			sourceTree = "<group>";
+		};
+		57A38E572624FF1000472480 /* Fakes */ = {
+			isa = PBXGroup;
+			children = (
+				46ABD0E5262EEDAB00C7FF24 /* FakeInfoDictionaryObjectProvider.swift */,
+			);
+			path = Fakes;
+			sourceTree = "<group>";
+		};
+		8BE67ED124AD05B5004DB4C9 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				8BE67ED224AD05D3004DB4C9 /* Decodable+DictionaryTests.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		9368C7711EC5EF1B0092CE8E = {
@@ -2086,7 +2086,7 @@
 				57A38E572624FF1000472480 /* Fakes */,
 				9368C78B1EC5EF1B0092CE8E /* Info.plist */,
 				93BD27421EE73384002BB00B /* Mock Data */,
-				930F52BA1ECF8A67002F921B /* Tests */,
+				3FE2E9422BB11280002CA2E1 /* Tests */,
 				3FB8642D288813E9003A86BE /* UnitTests.xctestplan */,
 				93BD273F1EE73310002BB00B /* WordPressKitTests-Bridging-Header.h */,
 			);
