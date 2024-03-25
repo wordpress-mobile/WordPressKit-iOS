@@ -1298,13 +1298,11 @@
 		AB49D0B225D1B4D80084905B /* post-likes-failure.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "post-likes-failure.json"; sourceTree = "<group>"; };
 		ABD95B7E25DD6C4B00735BEE /* CommentServiceRemoteRESTLikesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentServiceRemoteRESTLikesTests.swift; sourceTree = "<group>"; };
 		ABD95B8425DD6DA200735BEE /* comment-likes-success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "comment-likes-success.json"; sourceTree = "<group>"; };
-		B56D96B0202C9B7500485233 /* WordPressUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = WordPressUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5969E1920A49AC4005E9DF1 /* NSString+MD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+MD5.h"; sourceTree = "<group>"; };
 		B5969E1A20A49AC4005E9DF1 /* NSString+MD5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+MD5.m"; sourceTree = "<group>"; };
 		B5A4822A20AC6C0B009D95F6 /* WPKitLogging.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WPKitLogging.swift; path = WordPressKit/WPKitLogging.swift; sourceTree = SOURCE_ROOT; };
 		B5A4822C20AC6C19009D95F6 /* WPKitLogging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPKitLogging.m; path = WordPressKit/WPKitLogging.m; sourceTree = SOURCE_ROOT; };
 		B5A4822D20AC6C1A009D95F6 /* WPKitLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WPKitLogging.h; path = WordPressKit/WPKitLogging.h; sourceTree = SOURCE_ROOT; };
-		B5A78828202B421B007874FB /* WordPressUIKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = WordPressUIKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B76472D20711B6BE2ACDC332 /* Pods-WordPressKitTests.release-internal.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WordPressKitTests.release-internal.xcconfig"; path = "Pods/Target Support Files/Pods-WordPressKitTests/Pods-WordPressKitTests.release-internal.xcconfig"; sourceTree = "<group>"; };
 		BA0637EC2492382200AF8419 /* PluginStateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PluginStateTests.swift; sourceTree = "<group>"; };
 		BA2A78F924A486D300BB6F53 /* SitePluginTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SitePluginTests.swift; sourceTree = "<group>"; };
@@ -1518,8 +1516,6 @@
 		38C6ABE94A27A12C9C4AD19D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				B56D96B0202C9B7500485233 /* WordPressUI.framework */,
-				B5A78828202B421B007874FB /* WordPressUIKit.framework */,
 				EFF80A6E6EE37118CB1DA158 /* Pods_WordPressKit.framework */,
 				ED05C8FF3E61D93CE5BA527E /* Pods_WordPressKitTests.framework */,
 			);
