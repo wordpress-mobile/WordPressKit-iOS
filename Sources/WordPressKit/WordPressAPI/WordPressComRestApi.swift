@@ -615,20 +615,34 @@ extension WordPressComRestApi: WordPressComRESTAPIInterfacing {
     // The same applies for the other methods below.
     public func get(
         _ URLString: String,
-        parameters: [String: NSObject]?,
+        parameters: [String: Any]?,
         success: @escaping (Any, HTTPURLResponse?) -> Void,
         failure: @escaping (any Error, HTTPURLResponse?) -> Void
     ) -> Progress? {
-        GET(URLString, parameters: parameters, success: success, failure: failure)
+        GET(
+            URLString,
+            // It's possible `WordPressComRestApi` could be updated to use `[String: Any]` instead.
+            // But leaving that investigation for later.
+            parameters: parameters as? [String: AnyObject],
+            success: success,
+            failure: failure
+        )
     }
 
     public func post(
         _ URLString: String,
-        parameters: [String: NSObject]?,
+        parameters: [String: Any]?,
         success: @escaping (Any, HTTPURLResponse?) -> Void,
         failure: @escaping (any Error, HTTPURLResponse?) -> Void
     ) -> Progress? {
-        POST(URLString, parameters: parameters, success: success, failure: failure)
+        POST(
+            URLString,
+            // It's possible `WordPressComRestApi` could be updated to use `[String: Any]` instead.
+            // But leaving that investigation for later.
+            parameters: parameters as? [String: AnyObject],
+            success: success,
+            failure: failure
+        )
     }
 
     public func multipartPOST(
