@@ -30,4 +30,13 @@ Pod::Spec.new do |s|
   # Use a loose restriction that allows both production and beta versions, up to the next major version.
   # If you want to update which of these is used, specify it in the host app.
   s.dependency 'WordPressShared', '~> 2.0-beta'
+
+  s.test_spec do |test|
+    test.source_files = 'Tests/**/*.{h,m,swift}'
+    test.resources = 'Tests/**/*.{json,xml,html}'
+    test.dependency 'OHHTTPStubs', '~> 9.0'
+    test.dependency 'OHHTTPStubs/Swift', '~> 9.0'
+    test.dependency 'OCMock', '~> 3.4'
+    test.dependency 'Alamofire', '~> 5.0'
+  end
 end

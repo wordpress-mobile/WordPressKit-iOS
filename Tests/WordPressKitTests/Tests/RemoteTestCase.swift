@@ -1,4 +1,3 @@
-import BuildkiteTestCollector
 import Foundation
 import XCTest
 import OHHTTPStubs
@@ -174,7 +173,16 @@ extension RemoteTestCase {
     func stubAllNetworkRequestsWithNotConnectedError() {
         // Stub all requests other than those to the Buildkite Test Analytics API,
         // which we need them to go through for Test Analytics reporting.
-        stub(condition: !isHost(TestCollector.apiHost)) { response in
+        //
+        // Because Buildkite's TestCollector comes via SPM, it's not available to CocoaPods during the test spec validation.
+        // To workaround, we use an hardcoded value and rely on it being unlikely to changed.
+        // Besides, if it were to change, we'd learn about it soon enough because the tests would start to fail.
+        #if SWIFT_PACKAGE
+        let condition = !isHost(TestCollector.apiHost)
+        #else
+        let condition = !isHost("analytics-api.buildkite.com")
+        #endif
+        stub(condition: condition) { response in
             XCTFail("Unexpected network request was made to: \(response.url!.absoluteString)")
             let notConnectedError = NSError(domain: NSURLErrorDomain, code: Int(CFNetworkErrors.cfurlErrorNotConnectedToInternet.rawValue), userInfo: nil)
             return HTTPStubsResponse(error: notConnectedError)
@@ -233,3 +241,14 @@ extension RemoteTestCase {
         return queryParams.intersection(queryItems) == queryParams
     }
 }
+
+#if SWIFT_PACKAGE
+import BuildkiteTestCollector
+
+extension TestCollector {
+
+    static let apiHost = {
+        URLComponents(from: baseURL)!.host
+    }
+}
+#endif
