@@ -1503,14 +1503,6 @@
 			name = Privacy;
 			sourceTree = "<group>";
 		};
-		0CED1FE92B617D6700E6DD52 /* Atomic */ = {
-			isa = PBXGroup;
-			children = (
-				0CED1FEA2B617D7D00E6DD52 /* AtomicLogs.swift */,
-			);
-			name = Atomic;
-			sourceTree = "<group>";
-		};
 		3297E1DC2564649D00287D21 /* Scan */ = {
 			isa = PBXGroup;
 			children = (
@@ -1624,6 +1616,14 @@
 				0CB190642A2A7569004D3E80 /* BlazeCampaignsSearchResponse.swift */,
 			);
 			path = Blaze;
+			sourceTree = "<group>";
+		};
+		3FE2E93D2BB1100F002CA2E1 /* Atomic */ = {
+			isa = PBXGroup;
+			children = (
+				0CED1FEA2B617D7D00E6DD52 /* AtomicLogs.swift */,
+			);
+			path = Atomic;
 			sourceTree = "<group>";
 		};
 		404057C3221B30140060250C /* Time Interval */ = {
@@ -2147,7 +2147,7 @@
 		9368C79C1EC62EBD0092CE8E /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				0CED1FE92B617D6700E6DD52 /* Atomic */,
+				3FE2E93D2BB1100F002CA2E1 /* Atomic */,
 				3FE2E93C2BB10FF1002CA2E1 /* Blaze */,
 				3FE2E93B2BB10FBB002CA2E1 /* Extensions */,
 				3FE2E9392BB10F67002CA2E1 /* Plugins */,
