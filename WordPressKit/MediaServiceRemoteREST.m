@@ -143,7 +143,7 @@ const NSInteger WPRestErrorCodeMediaNew = 10;
         [fileParts addObject:filePart];
     }
 
-    [self.wordPressComRestApi multipartPOST:requestUrl
+    [self.wordPressComRESTAPI multipartPOST:requestUrl
                                  parameters:parameters
                                   fileParts:fileParts
                             requestEnqueued:^(NSNumber *taskID) {
@@ -204,7 +204,7 @@ const NSInteger WPRestErrorCodeMediaNew = 10;
         return;
     }
     FilePart *filePart = [[FilePart alloc] initWithParameterName:@"media[]" url:media.localURL fileName:filename mimeType:type];
-    __block NSProgress *localProgress = [self.wordPressComRestApi multipartPOST:requestUrl
+    __block NSProgress *localProgress = [self.wordPressComRESTAPI multipartPOST:requestUrl
                                                                      parameters:parameters
                                                                       fileParts:@[filePart]
                                                                 requestEnqueued:nil

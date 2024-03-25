@@ -633,7 +633,13 @@ extension WordPressComRestApi: WordPressComRESTAPIInterfacing {
         _ URLString: String,
         parameters: [String: NSObject]?,
         fileParts: [FilePart],
-        requestEnqueued: @escaping (NSNumber) -> Void,
+        // Notice this does not require @escaping because it is Optional.
+        //
+        // Annotate with @escaping, and the compiler will fail with:
+        // > Closure is already escaping in optional type argument
+        //
+        // It is necessary to explicitly set this as Optional because of the _Nullable parameter requirement in the Objective-C protocol.
+        requestEnqueued: ((NSNumber) -> Void)?,
         success: @escaping (Any, HTTPURLResponse?) -> Void,
         failure: @escaping (any Error, HTTPURLResponse?) -> Void
     ) -> Progress? {
