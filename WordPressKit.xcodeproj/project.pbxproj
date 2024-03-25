@@ -1602,6 +1602,18 @@
 			path = Revisions;
 			sourceTree = "<group>";
 		};
+		3FE2E9392BB10F67002CA2E1 /* Plugins */ = {
+			isa = PBXGroup;
+			children = (
+				40AB1AD9200FED25009B533D /* PluginDirectoryFeedPage.swift */,
+				E194CB721FBDEF6400B0A8B8 /* PluginState.swift */,
+				E1EF5D5C1F9F329900B6D53E /* SitePluginCapabilities.swift */,
+				E11C2AD11FA77FB90023BDE2 /* SitePlugin.swift */,
+				E1A6605E1FD694ED00BAC339 /* PluginDirectoryEntry.swift */,
+			);
+			path = Plugins;
+			sourceTree = "<group>";
+		};
 		404057C3221B30140060250C /* Time Interval */ = {
 			isa = PBXGroup;
 			children = (
@@ -2138,7 +2150,7 @@
 				0CED1FE92B617D6700E6DD52 /* Atomic */,
 				0CB1905C2A2A5E7B004D3E80 /* Blaze */,
 				7E3E7A4620E443100075D159 /* Extensions */,
-				E1EF5D5E1F9F3CA700B6D53E /* Plugins */,
+				3FE2E9392BB10F67002CA2E1 /* Plugins */,
 				3FE2E9362BB10EC7002CA2E1 /* Stats */,
 				3FE2E9372BB10F10002CA2E1 /* Revisions */,
 				32FC1D25255C91ED00CD0A7B /* Jetpack Scan */,
@@ -2648,18 +2660,6 @@
 				BA0637EC2492382200AF8419 /* PluginStateTests.swift */,
 				BA2A78F924A486D300BB6F53 /* SitePluginTests.swift */,
 				4A3239632B73132B00EFD2A8 /* SelfHostedPluginManagementClientTests.swift */,
-			);
-			name = Plugins;
-			sourceTree = "<group>";
-		};
-		E1EF5D5E1F9F3CA700B6D53E /* Plugins */ = {
-			isa = PBXGroup;
-			children = (
-				40AB1AD9200FED25009B533D /* PluginDirectoryFeedPage.swift */,
-				E194CB721FBDEF6400B0A8B8 /* PluginState.swift */,
-				E1EF5D5C1F9F329900B6D53E /* SitePluginCapabilities.swift */,
-				E11C2AD11FA77FB90023BDE2 /* SitePlugin.swift */,
-				E1A6605E1FD694ED00BAC339 /* PluginDirectoryEntry.swift */,
 			);
 			name = Plugins;
 			sourceTree = "<group>";
