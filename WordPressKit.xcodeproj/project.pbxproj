@@ -1495,14 +1495,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		08C7493C2A45E9E3000DA0E2 /* Privacy */ = {
-			isa = PBXGroup;
-			children = (
-				08C7493D2A45EA11000DA0E2 /* IPLocationRemoteTests.swift */,
-			);
-			name = Privacy;
-			sourceTree = "<group>";
-		};
 		3297E1DC2564649D00287D21 /* Scan */ = {
 			isa = PBXGroup;
 			children = (
@@ -1899,30 +1891,6 @@
 			path = Insights;
 			sourceTree = "<group>";
 		};
-		436D56362118DC2800CEAA33 /* Transactions */ = {
-			isa = PBXGroup;
-			children = (
-				436D56372118DC4B00CEAA33 /* TransactionsServiceRemoteTests.swift */,
-			);
-			name = Transactions;
-			sourceTree = "<group>";
-		};
-		4624223C2548C235002B8A12 /* SiteDesigns */ = {
-			isa = PBXGroup;
-			children = (
-				4624223D2548C26D002B8A12 /* SiteDesignServiceRemoteTests.swift */,
-			);
-			name = SiteDesigns;
-			sourceTree = "<group>";
-		};
-		4625B96A253A34D300C04AAD /* StarterPageLayouts */ = {
-			isa = PBXGroup;
-			children = (
-				4625BAEA253E118400C04AAD /* PageLayoutServiceRemoteTests.swift */,
-			);
-			name = StarterPageLayouts;
-			sourceTree = "<group>";
-		};
 		465F8892263B094900F4C950 /* BlockEditorSettings */ = {
 			isa = PBXGroup;
 			children = (
@@ -1932,22 +1900,6 @@
 				465F88B6263B455300F4C950 /* get_wp_v2_themes_twentytwentyone-no-colors.json */,
 			);
 			path = BlockEditorSettings;
-			sourceTree = "<group>";
-		};
-		465F88A5263B370300F4C950 /* BlockEditorSettings */ = {
-			isa = PBXGroup;
-			children = (
-				465F88A6263B371D00F4C950 /* BlockEditorSettingsServiceRemoteTests.swift */,
-			);
-			name = BlockEditorSettings;
-			sourceTree = "<group>";
-		};
-		4AE7E3692B9A994200C8CED5 /* Announcement */ = {
-			isa = PBXGroup;
-			children = (
-				4AE7E36A2B9A995500C8CED5 /* AnnouncementServiceRemoteTests.swift */,
-			);
-			name = Announcement;
 			sourceTree = "<group>";
 		};
 		57A38E502624F7D000472480 /* WordPressAPI */ = {
@@ -1968,21 +1920,73 @@
 			path = Fakes;
 			sourceTree = "<group>";
 		};
-		740B23D41F17F6D200067A2A /* Post */ = {
+		8BE67ED124AD05B5004DB4C9 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				8BE67ED224AD05D3004DB4C9 /* Decodable+DictionaryTests.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		930F52BA1ECF8A67002F921B /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				D813437521F6D70D0060D99A /* SiteSegmentsResponseDecodingTests.swift */,
+				D8DB403F21EF222000B8238E /* SiteCreationSegmentsTests.swift */,
+				93BD27401EE73311002BB00B /* AccountServiceRemoteRESTTests.swift */,
+				7403A2E51EF06F7000DED7DC /* AccountSettingsRemoteTests.swift */,
+				93F50A391F226BB600B5BEBA /* WordPressComServiceRemoteRestTests.swift */,
+				826016FF1F9FD60A00533B6C /* ActivityServiceRemoteTests.swift */,
+				3F8308A629EE683500354497 /* ActivityTests.swift */,
+				4AE7E36A2B9A995500C8CED5 /* AnnouncementServiceRemoteTests.swift */,
+				F194E1222417ED9F00874408 /* AtomicAuthenticationServiceRemoteTests.swift */,
+				FAD1345025909DEA00A8FEB1 /* JetpackBackupServiceRemoteTests.swift */,
+				FA1D0F8D299534FF0025D76C /* BlazeServiceRemoteTests.swift */,
+				465F88A6263B371D00F4C950 /* BlockEditorSettingsServiceRemoteTests.swift */,
+				74B5F0DD1EF82A9600B411E7 /* BlogServiceRemoteRESTTests.m */,
+				FEE48EF52A4B3602008A48E0 /* BlogServiceRemote+ActiveFeaturesTests.swift */,
+				FEEFD8B6280EC91B00A3E261 /* BloggingPromptsServiceRemoteTests.swift */,
+				ABD95B7E25DD6C4B00735BEE /* CommentServiceRemoteRESTLikesTests.swift */,
+				98F884D326BC6445009ADF57 /* CommentServiceRemoteRESTTests.swift */,
+				9817D9D326BC8AF000ECBD8C /* CommentServiceRemoteXMLRPCTests.swift */,
+				FEE4EF5A27302317003CDA3C /* CommentServiceRemoteREST+APIv2Tests.swift */,
+				8BB5F62327A9A5D100B2FFAF /* DashboardServiceRemoteTests.swift */,
+				74585B8F1F0D51F900E7E667 /* DomainsServiceRemoteRESTTests.swift */,
+				F4B0F47F2ACB4EA9003ABC61 /* AllDomainsResultDomainTests.swift */,
+				BA62CFE824B592E000978BE1 /* DynamicMockProvider.swift */,
+				7EC60EBD22DC4F9000FB0336 /* EditorServiceRemoteTests.swift */,
+				8BE67ED124AD05B5004DB4C9 /* Extensions */,
+				FE5096662A309E3700DDD071 /* Social */,
+				3297E1DC2564649D00287D21 /* Scan */,
+				9A2D0B2A225E0E22009E585F /* JetpackServiceRemoteTests.swift */,
+				8B749E8125AF7DDA00023F03 /* JetpackCapabilitiesServiceRemoteTests.swift */,
+				FED77252298B819900C2346E /* JetpackProxyServiceRemoteTests.swift */,
+				931924231F1662FA0069CBCC /* JSONLoader.swift */,
+				74FA25F61F1FDA200044BC54 /* MediaServiceRemoteRESTTests.swift */,
+				4AA5A1A22AA68F6B00969464 /* MediaLibraryTestSupport.swift */,
+				4AA5A1A42AA695D700969464 /* LoadMediaLibraryTests.swift */,
+				74D97CB71F1CF6D500AC49B7 /* MenusServiceRemoteTests.m */,
+				BAFA775524ADAB3C000F0D3A /* MockPluginDirectoryEntryProvider.swift */,
+				BAB0E36324AD599700B3D22C /* MockPluginStateProvider.swift */,
+				9F3E0BA920873772009CB5BA /* MockServiceRequest.swift */,
+				74B335D71F06F1CA0053A184 /* MockWordPressComRestApi.swift */,
+				74A44DD21F13C6D8006CD8F4 /* RemoteNotificationTests.swift */,
+				74A44DD31F13C6D8006CD8F4 /* PushAuthenticationServiceRemoteTests.swift */,
+				74FC6F3A1F191BB400112505 /* NotificationSyncServiceRemoteTests.swift */,
+				74D67F091F15C24C0010C5ED /* PeopleServiceRemoteTests.swift */,
+				7433BC031EFC4556002D9E92 /* PlanServiceRemoteTests.swift */,
+				E13EE14B1F332C4400C15787 /* PluginServiceRemoteTests.swift */,
+				E1E89C691FD6BDB1006E7A33 /* PluginDirectoryTests.swift */,
+				BA0637EC2492382200AF8419 /* PluginStateTests.swift */,
+				BA2A78F924A486D300BB6F53 /* SitePluginTests.swift */,
+				4A3239632B73132B00EFD2A8 /* SelfHostedPluginManagementClientTests.swift */,
 				32AF21E2236DEB3C001C6502 /* PostServiceRemoteRESTAutosaveTests.swift */,
 				9AB6D649218727D60008F274 /* PostServiceRemoteRESTRevisionsTest.swift */,
 				AB49D09225D1A85D0084905B /* PostServiceRemoteRESTLikesTests.swift */,
 				740B23D01F17F6BB00067A2A /* PostServiceRemoteRESTTests.m */,
 				740B23D11F17F6BB00067A2A /* PostServiceRemoteXMLRPCTests.swift */,
-			);
-			name = Post;
-			sourceTree = "<group>";
-		};
-		7430C9BF1F192C210051B8E6 /* Reader */ = {
-			isa = PBXGroup;
-			children = (
+				08C7493D2A45EA11000DA0E2 /* IPLocationRemoteTests.swift */,
+				C738CAEE28622325001BE107 /* QRLoginServiceRemoteTests.swift */,
 				9F3E0BA72087355D009CB5BA /* RemoteReaderSiteInfoSubscriptionTests.swift */,
 				9F3E0BAB20873785009CB5BA /* ServiceRequestTest.swift */,
 				9F3E0BAD20873835009CB5BA /* ReaderTopicServiceRemoteTest+Subscriptions.swift */,
@@ -1997,49 +2001,12 @@
 				3236F79924AE406D0088E8F3 /* ReaderTopicServiceRemote+InterestsTests.swift */,
 				8B16CE91252502C4007BE5A9 /* RemoteReaderPostTests+V2.swift */,
 				4AB6A3642B83191600769115 /* ReaderPostServiceRemote+FetchEndpointTests.swift */,
-			);
-			name = Reader;
-			sourceTree = "<group>";
-		};
-		7433BC061EFC456B002D9E92 /* Plans */ = {
-			isa = PBXGroup;
-			children = (
-				7433BC031EFC4556002D9E92 /* PlanServiceRemoteTests.swift */,
-			);
-			name = Plans;
-			sourceTree = "<group>";
-		};
-		74585B911F0D520700E7E667 /* Domains */ = {
-			isa = PBXGroup;
-			children = (
-				74585B8F1F0D51F900E7E667 /* DomainsServiceRemoteRESTTests.swift */,
-				F4B0F47F2ACB4EA9003ABC61 /* AllDomainsResultDomainTests.swift */,
-			);
-			name = Domains;
-			sourceTree = "<group>";
-		};
-		74A44DD61F13C6F3006CD8F4 /* Notifications */ = {
-			isa = PBXGroup;
-			children = (
-				74A44DD21F13C6D8006CD8F4 /* RemoteNotificationTests.swift */,
-				74A44DD31F13C6D8006CD8F4 /* PushAuthenticationServiceRemoteTests.swift */,
-				74FC6F3A1F191BB400112505 /* NotificationSyncServiceRemoteTests.swift */,
-			);
-			name = Notifications;
-			sourceTree = "<group>";
-		};
-		74B5F0DF1EF82AAB00B411E7 /* Blog */ = {
-			isa = PBXGroup;
-			children = (
-				74B5F0DD1EF82A9600B411E7 /* BlogServiceRemoteRESTTests.m */,
-				FEE48EF52A4B3602008A48E0 /* BlogServiceRemote+ActiveFeaturesTests.swift */,
-			);
-			name = Blog;
-			sourceTree = "<group>";
-		};
-		74C473AD1EF2F7BF009918F2 /* Site */ = {
-			isa = PBXGroup;
-			children = (
+				F3FF8A1A279C86AF00E5C90F /* Models */,
+				93AB06031EE8838400EF8764 /* RemoteTestCase.swift */,
+				74A923B11F2BE2DF00EC8F92 /* RESTTestable.swift */,
+				FE5096512A13938500DDD071 /* SharingServiceRemoteTests.swift */,
+				FEFFD99A26C1598F00F34231 /* ShareAppContentServiceRemoteTests.swift */,
+				74155E241EF87DDF00A06AEA /* ServiceRemoteRESTTests.m */,
 				731BA83521DECD61000FDFCD /* SiteCreationRequestEncodingTests.swift */,
 				731BA83721DECD97000FDFCD /* SiteCreationResponseDecodingTests.swift */,
 				74C473AE1EF2F7D1009918F2 /* SiteManagementServiceRemoteTests.swift */,
@@ -2050,134 +2017,15 @@
 				7328420521CD798A00126755 /* WordPressComServiceRemoteTests+SiteCreation.swift */,
 				73D5930421E5541200E4CF84 /* WordPressComServiceRemoteTests+SiteVerticals.swift */,
 				73A2F38C21E7FC8200388609 /* WordPressComServiceRemoteTests+SiteVerticalsPrompt.swift */,
-			);
-			name = Site;
-			sourceTree = "<group>";
-		};
-		74D67F0B1F15C2570010C5ED /* People */ = {
-			isa = PBXGroup;
-			children = (
-				74D67F091F15C24C0010C5ED /* PeopleServiceRemoteTests.swift */,
-			);
-			name = People;
-			sourceTree = "<group>";
-		};
-		74D97CB91F1CF6E200AC49B7 /* Menu */ = {
-			isa = PBXGroup;
-			children = (
-				74D97CB71F1CF6D500AC49B7 /* MenusServiceRemoteTests.m */,
-			);
-			name = Menu;
-			sourceTree = "<group>";
-		};
-		74E2294C1F1E73650085F7F2 /* Sharing */ = {
-			isa = PBXGroup;
-			children = (
-				FE5096512A13938500DDD071 /* SharingServiceRemoteTests.swift */,
-				FEFFD99A26C1598F00F34231 /* ShareAppContentServiceRemoteTests.swift */,
-			);
-			name = Sharing;
-			sourceTree = "<group>";
-		};
-		74FA25F81F1FDA240044BC54 /* Media */ = {
-			isa = PBXGroup;
-			children = (
-				74FA25F61F1FDA200044BC54 /* MediaServiceRemoteRESTTests.swift */,
-				4AA5A1A22AA68F6B00969464 /* MediaLibraryTestSupport.swift */,
-				4AA5A1A42AA695D700969464 /* LoadMediaLibraryTests.swift */,
-			);
-			name = Media;
-			sourceTree = "<group>";
-		};
-		7EC60EBC22DC4F5A00FB0336 /* Editor */ = {
-			isa = PBXGroup;
-			children = (
-				7EC60EBD22DC4F9000FB0336 /* EditorServiceRemoteTests.swift */,
-			);
-			name = Editor;
-			sourceTree = "<group>";
-		};
-		826016FE1F9FD59400533B6C /* Activity */ = {
-			isa = PBXGroup;
-			children = (
-				826016FF1F9FD60A00533B6C /* ActivityServiceRemoteTests.swift */,
-				3F8308A629EE683500354497 /* ActivityTests.swift */,
-			);
-			name = Activity;
-			sourceTree = "<group>";
-		};
-		8BB5F62227A9A5AF00B2FFAF /* Dashboard */ = {
-			isa = PBXGroup;
-			children = (
-				8BB5F62327A9A5D100B2FFAF /* DashboardServiceRemoteTests.swift */,
-			);
-			name = Dashboard;
-			sourceTree = "<group>";
-		};
-		8BE67ED124AD05B5004DB4C9 /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				8BE67ED224AD05D3004DB4C9 /* Decodable+DictionaryTests.swift */,
-			);
-			path = Extensions;
-			sourceTree = "<group>";
-		};
-		9309994F1F1658DB00F006A1 /* Theme */ = {
-			isa = PBXGroup;
-			children = (
-				930999511F1658F800F006A1 /* ThemeServiceRemoteTests.m */,
-			);
-			name = Theme;
-			sourceTree = "<group>";
-		};
-		930F52BA1ECF8A67002F921B /* Tests */ = {
-			isa = PBXGroup;
-			children = (
-				93BD273E1EE732CC002BB00B /* Accounts */,
-				826016FE1F9FD59400533B6C /* Activity */,
-				4AE7E3692B9A994200C8CED5 /* Announcement */,
-				F194E1212417ED7E00874408 /* Authentication */,
-				FAD1345425909DF500A8FEB1 /* Backup */,
-				FA1D0F8F299535020025D76C /* Blaze */,
-				465F88A5263B370300F4C950 /* BlockEditorSettings */,
-				74B5F0DF1EF82AAB00B411E7 /* Blog */,
-				FEEFD8B5280EC8C800A3E261 /* BloggingPrompts */,
-				ABD95B7D25DD6C2400735BEE /* Comment */,
-				8BB5F62227A9A5AF00B2FFAF /* Dashboard */,
-				74585B911F0D520700E7E667 /* Domains */,
-				BA62CFE824B592E000978BE1 /* DynamicMockProvider.swift */,
-				7EC60EBC22DC4F5A00FB0336 /* Editor */,
-				8BE67ED124AD05B5004DB4C9 /* Extensions */,
-				9A2D0B29225E0DF7009E585F /* Jetpack */,
-				931924231F1662FA0069CBCC /* JSONLoader.swift */,
-				74FA25F81F1FDA240044BC54 /* Media */,
-				74D97CB91F1CF6E200AC49B7 /* Menu */,
-				BAFA775524ADAB3C000F0D3A /* MockPluginDirectoryEntryProvider.swift */,
-				BAB0E36324AD599700B3D22C /* MockPluginStateProvider.swift */,
-				9F3E0BA920873772009CB5BA /* MockServiceRequest.swift */,
-				74B335D71F06F1CA0053A184 /* MockWordPressComRestApi.swift */,
-				F3FF8A1A279C86AF00E5C90F /* Models */,
-				74A44DD61F13C6F3006CD8F4 /* Notifications */,
-				74D67F0B1F15C2570010C5ED /* People */,
-				7433BC061EFC456B002D9E92 /* Plans */,
-				E13EE14A1F332C3100C15787 /* Plugins */,
-				740B23D41F17F6D200067A2A /* Post */,
-				08C7493C2A45E9E3000DA0E2 /* Privacy */,
-				C738CAED286222C9001BE107 /* QR Login */,
-				7430C9BF1F192C210051B8E6 /* Reader */,
-				93AB06031EE8838400EF8764 /* RemoteTestCase.swift */,
-				74A923B11F2BE2DF00EC8F92 /* RESTTestable.swift */,
-				74155E241EF87DDF00A06AEA /* ServiceRemoteRESTTests.m */,
-				74E2294C1F1E73650085F7F2 /* Sharing */,
-				74C473AD1EF2F7BF009918F2 /* Site */,
-				4624223C2548C235002B8A12 /* SiteDesigns */,
-				4625B96A253A34D300C04AAD /* StarterPageLayouts */,
-				930F52BB1ECF8A78002F921B /* Stats */,
-				93188D201F2264A80028ED4D /* Taxonomy */,
+				4624223D2548C26D002B8A12 /* SiteDesignServiceRemoteTests.swift */,
+				4625BAEA253E118400C04AAD /* PageLayoutServiceRemoteTests.swift */,
+				40F9880B221ACEEE00B7B369 /* StatsRemoteV2Tests.swift */,
+				0152100B28EDA9E400DD6783 /* StatsAnnualAndMostPopularTimeInsightDecodingTests.swift */,
+				93188D211F2264E60028ED4D /* TaxonomyServiceRemoteRESTTests.m */,
 				3F3C9E9B289A3E31009A1357 /* TestCollector+Constants.swift */,
-				9309994F1F1658DB00F006A1 /* Theme */,
-				436D56362118DC2800CEAA33 /* Transactions */,
-				93F50A421F227CC400B5BEBA /* Users */,
+				930999511F1658F800F006A1 /* ThemeServiceRemoteTests.m */,
+				436D56372118DC4B00CEAA33 /* TransactionsServiceRemoteTests.swift */,
+				93F50A431F227CFB00B5BEBA /* UsersServiceRemoteXMLRPCTests.swift */,
 				F9E56DF924EB18A300916770 /* Utilities */,
 				57A38E502624F7D000472480 /* WordPressAPI */,
 				FFE247A620C891D1002DF3A2 /* WordPressComOAuthClientTests.swift */,
@@ -2192,23 +2040,6 @@
 				3FFCC04A2BABA5220051D229 /* DateFormatter+WordPressComTests.swift */,
 			);
 			name = Tests;
-			sourceTree = "<group>";
-		};
-		930F52BB1ECF8A78002F921B /* Stats */ = {
-			isa = PBXGroup;
-			children = (
-				40F9880B221ACEEE00B7B369 /* StatsRemoteV2Tests.swift */,
-				0152100B28EDA9E400DD6783 /* StatsAnnualAndMostPopularTimeInsightDecodingTests.swift */,
-			);
-			name = Stats;
-			sourceTree = "<group>";
-		};
-		93188D201F2264A80028ED4D /* Taxonomy */ = {
-			isa = PBXGroup;
-			children = (
-				93188D211F2264E60028ED4D /* TaxonomyServiceRemoteRESTTests.m */,
-			);
-			name = Taxonomy;
 			sourceTree = "<group>";
 		};
 		9368C7711EC5EF1B0092CE8E = {
@@ -2260,18 +2091,6 @@
 				93BD273F1EE73310002BB00B /* WordPressKitTests-Bridging-Header.h */,
 			);
 			path = WordPressKitTests;
-			sourceTree = "<group>";
-		};
-		93BD273E1EE732CC002BB00B /* Accounts */ = {
-			isa = PBXGroup;
-			children = (
-				D813437521F6D70D0060D99A /* SiteSegmentsResponseDecodingTests.swift */,
-				D8DB403F21EF222000B8238E /* SiteCreationSegmentsTests.swift */,
-				93BD27401EE73311002BB00B /* AccountServiceRemoteRESTTests.swift */,
-				7403A2E51EF06F7000DED7DC /* AccountSettingsRemoteTests.swift */,
-				93F50A391F226BB600B5BEBA /* WordPressComServiceRemoteRestTests.swift */,
-			);
-			name = Accounts;
 			sourceTree = "<group>";
 		};
 		93BD27421EE73384002BB00B /* Mock Data */ = {
@@ -2583,37 +2402,6 @@
 			path = "Mock Data";
 			sourceTree = "<group>";
 		};
-		93F50A421F227CC400B5BEBA /* Users */ = {
-			isa = PBXGroup;
-			children = (
-				93F50A431F227CFB00B5BEBA /* UsersServiceRemoteXMLRPCTests.swift */,
-			);
-			name = Users;
-			sourceTree = "<group>";
-		};
-		9A2D0B29225E0DF7009E585F /* Jetpack */ = {
-			isa = PBXGroup;
-			children = (
-				FE5096662A309E3700DDD071 /* Social */,
-				3297E1DC2564649D00287D21 /* Scan */,
-				9A2D0B2A225E0E22009E585F /* JetpackServiceRemoteTests.swift */,
-				8B749E8125AF7DDA00023F03 /* JetpackCapabilitiesServiceRemoteTests.swift */,
-				FED77252298B819900C2346E /* JetpackProxyServiceRemoteTests.swift */,
-			);
-			name = Jetpack;
-			sourceTree = "<group>";
-		};
-		ABD95B7D25DD6C2400735BEE /* Comment */ = {
-			isa = PBXGroup;
-			children = (
-				ABD95B7E25DD6C4B00735BEE /* CommentServiceRemoteRESTLikesTests.swift */,
-				98F884D326BC6445009ADF57 /* CommentServiceRemoteRESTTests.swift */,
-				9817D9D326BC8AF000ECBD8C /* CommentServiceRemoteXMLRPCTests.swift */,
-				FEE4EF5A27302317003CDA3C /* CommentServiceRemoteREST+APIv2Tests.swift */,
-			);
-			name = Comment;
-			sourceTree = "<group>";
-		};
 		B5A4821F20AC6B5C009D95F6 /* Private */ = {
 			isa = PBXGroup;
 			children = (
@@ -2623,14 +2411,6 @@
 				1A4F98662279A87D00D86E8E /* WPKit-Swift.h */,
 			);
 			path = Private;
-			sourceTree = "<group>";
-		};
-		C738CAED286222C9001BE107 /* QR Login */ = {
-			isa = PBXGroup;
-			children = (
-				C738CAEE28622325001BE107 /* QRLoginServiceRemoteTests.swift */,
-			);
-			name = "QR Login";
 			sourceTree = "<group>";
 		};
 		C79719682679007B0072F984 /* Plugin Management */ = {
@@ -2652,18 +2432,6 @@
 			path = "QR Login";
 			sourceTree = "<group>";
 		};
-		E13EE14A1F332C3100C15787 /* Plugins */ = {
-			isa = PBXGroup;
-			children = (
-				E13EE14B1F332C4400C15787 /* PluginServiceRemoteTests.swift */,
-				E1E89C691FD6BDB1006E7A33 /* PluginDirectoryTests.swift */,
-				BA0637EC2492382200AF8419 /* PluginStateTests.swift */,
-				BA2A78F924A486D300BB6F53 /* SitePluginTests.swift */,
-				4A3239632B73132B00EFD2A8 /* SelfHostedPluginManagementClientTests.swift */,
-			);
-			name = Plugins;
-			sourceTree = "<group>";
-		};
 		E5EA953F7DD505CCED2E44CD /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -2677,14 +2445,6 @@
 				B76472D20711B6BE2ACDC332 /* Pods-WordPressKitTests.release-internal.xcconfig */,
 			);
 			name = Pods;
-			sourceTree = "<group>";
-		};
-		F194E1212417ED7E00874408 /* Authentication */ = {
-			isa = PBXGroup;
-			children = (
-				F194E1222417ED9F00874408 /* AtomicAuthenticationServiceRemoteTests.swift */,
-			);
-			name = Authentication;
 			sourceTree = "<group>";
 		};
 		F3FF8A1A279C86AF00E5C90F /* Models */ = {
@@ -2760,36 +2520,12 @@
 			path = Utilities;
 			sourceTree = "<group>";
 		};
-		FA1D0F8F299535020025D76C /* Blaze */ = {
-			isa = PBXGroup;
-			children = (
-				FA1D0F8D299534FF0025D76C /* BlazeServiceRemoteTests.swift */,
-			);
-			name = Blaze;
-			sourceTree = "<group>";
-		};
-		FAD1345425909DF500A8FEB1 /* Backup */ = {
-			isa = PBXGroup;
-			children = (
-				FAD1345025909DEA00A8FEB1 /* JetpackBackupServiceRemoteTests.swift */,
-			);
-			name = Backup;
-			sourceTree = "<group>";
-		};
 		FE5096662A309E3700DDD071 /* Social */ = {
 			isa = PBXGroup;
 			children = (
 				FE5096672A309E4600DDD071 /* JetpackSocialServiceRemoteTests.swift */,
 			);
 			path = Social;
-			sourceTree = "<group>";
-		};
-		FEEFD8B5280EC8C800A3E261 /* BloggingPrompts */ = {
-			isa = PBXGroup;
-			children = (
-				FEEFD8B6280EC91B00A3E261 /* BloggingPromptsServiceRemoteTests.swift */,
-			);
-			name = BloggingPrompts;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
