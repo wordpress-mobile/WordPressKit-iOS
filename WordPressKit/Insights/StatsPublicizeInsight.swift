@@ -1,8 +1,12 @@
-public struct StatsPublicizeInsight {
+public struct StatsPublicizeInsight: Codable {
     public let publicizeServices: [StatsPublicizeService]
 
     public init(publicizeServices: [StatsPublicizeService]) {
         self.publicizeServices = publicizeServices
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case publicizeServices = "services"
     }
 }
 
@@ -14,20 +18,17 @@ extension StatsPublicizeInsight: StatsInsightData {
     }
 
     public init?(jsonDictionary: [String: AnyObject]) {
-        guard
-            let subscribers = jsonDictionary["services"] as? [[String: AnyObject]]
-            else {
-                return nil
+        do {
+            let jsonData = try JSONSerialization.data(withJSONObject: jsonDictionary, options: [])
+            let decoder = JSONDecoder()
+            self = try decoder.decode(StatsPublicizeInsight.self, from: jsonData)
+        } catch {
+            return nil
         }
-
-        let followers = subscribers.compactMap { StatsPublicizeService(publicizeServiceDictionary: $0) }
-
-        self.publicizeServices = followers
     }
-
 }
 
-public struct StatsPublicizeService {
+public struct StatsPublicizeService: Codable {
     public let name: String
     public let followers: Int
     public let iconURL: URL?
@@ -39,18 +40,20 @@ public struct StatsPublicizeService {
         self.followers = followers
         self.iconURL = iconURL
     }
+
+    private enum CodingKeys: String, CodingKey {
+        case name = "service"
+        case followers
+    }
 }
 
 private extension StatsPublicizeService {
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let name = try container.decode(String.self, forKey: .name)
+        let followers = (try? container.decodeIfPresent(Int.self, forKey: .followers)) ?? 0
 
-    init?(publicizeServiceDictionary dictionary: [String: AnyObject]) {
-        guard
-            let name = dictionary["service"] as? String,
-            let followersCount = dictionary["followers"] as? Int else {
-                return nil
-        }
-
-        self.init(name: name, followers: followersCount)
+        self.init(name: name, followers: followers)
     }
 
     init(name: String, followers: Int) {
