@@ -1969,6 +1969,20 @@
 			path = Tests;
 			sourceTree = "<group>";
 		};
+		3FE2E9432BB11413002CA2E1 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				3FE2E9352BB10D92002CA2E1 /* WordPressAPI */,
+				B5A4821F20AC6B5C009D95F6 /* Private */,
+				3FE2E93F2BB11038002CA2E1 /* Models */,
+				3FE2E9402BB11075002CA2E1 /* Services */,
+				3FE2E9412BB110B3002CA2E1 /* Utility */,
+				9368C77E1EC5EF1B0092CE8E /* WordPressKit.h */,
+				9368C77F1EC5EF1B0092CE8E /* Info.plist */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
 		404057C3221B30140060250C /* Time Interval */ = {
 			isa = PBXGroup;
 			children = (
@@ -2045,11 +2059,11 @@
 		9368C7711EC5EF1B0092CE8E = {
 			isa = PBXGroup;
 			children = (
+				3FE2E9432BB11413002CA2E1 /* Sources */,
 				FFE247CD20CB1245002DF3A2 /* LICENSE */,
 				FFE247CC20CB118A002DF3A2 /* README.md */,
 				0C3A2A412A2E7BA500FD91D6 /* CHANGELOG.md */,
 				FF20AD2120B8471A00082398 /* WordPressKit.podspec */,
-				9368C77D1EC5EF1B0092CE8E /* WordPressKit */,
 				9368C7881EC5EF1B0092CE8E /* WordPressKitTests */,
 				9368C77C1EC5EF1B0092CE8E /* Products */,
 				38C6ABE94A27A12C9C4AD19D /* Frameworks */,
@@ -2064,20 +2078,6 @@
 				9368C7841EC5EF1B0092CE8E /* WordPressKitTests.xctest */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		9368C77D1EC5EF1B0092CE8E /* WordPressKit */ = {
-			isa = PBXGroup;
-			children = (
-				3FE2E9352BB10D92002CA2E1 /* WordPressAPI */,
-				B5A4821F20AC6B5C009D95F6 /* Private */,
-				3FE2E93F2BB11038002CA2E1 /* Models */,
-				3FE2E9402BB11075002CA2E1 /* Services */,
-				3FE2E9412BB110B3002CA2E1 /* Utility */,
-				9368C77E1EC5EF1B0092CE8E /* WordPressKit.h */,
-				9368C77F1EC5EF1B0092CE8E /* Info.plist */,
-			);
-			path = WordPressKit;
 			sourceTree = "<group>";
 		};
 		9368C7881EC5EF1B0092CE8E /* WordPressKitTests */ = {
@@ -3612,7 +3612,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = WordPressKit/Info.plist;
+				INFOPLIST_FILE = Sources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3644,7 +3644,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = WordPressKit/Info.plist;
+				INFOPLIST_FILE = Sources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3783,7 +3783,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = WordPressKit/Info.plist;
+				INFOPLIST_FILE = Sources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3897,7 +3897,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = WordPressKit/Info.plist;
+				INFOPLIST_FILE = Sources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
