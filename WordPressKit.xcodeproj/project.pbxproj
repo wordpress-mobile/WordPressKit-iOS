@@ -1593,6 +1593,15 @@
 			path = Stats;
 			sourceTree = "<group>";
 		};
+		3FE2E9372BB10F10002CA2E1 /* Revisions */ = {
+			isa = PBXGroup;
+			children = (
+				9AF4F2FE2183346B00570E4B /* RemoteRevision.swift */,
+				9AB6D646218705E90008F274 /* RemoteDiff.swift */,
+			);
+			path = Revisions;
+			sourceTree = "<group>";
+		};
 		404057C3221B30140060250C /* Time Interval */ = {
 			isa = PBXGroup;
 			children = (
@@ -2126,12 +2135,12 @@
 		9368C79C1EC62EBD0092CE8E /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				3FE2E9362BB10EC7002CA2E1 /* Stats */,
 				0CED1FE92B617D6700E6DD52 /* Atomic */,
 				0CB1905C2A2A5E7B004D3E80 /* Blaze */,
 				7E3E7A4620E443100075D159 /* Extensions */,
 				E1EF5D5E1F9F3CA700B6D53E /* Plugins */,
-				9AF4F2FD2183345D00570E4B /* Revisions */,
+				3FE2E9362BB10EC7002CA2E1 /* Stats */,
+				3FE2E9372BB10F10002CA2E1 /* Revisions */,
 				32FC1D25255C91ED00CD0A7B /* Jetpack Scan */,
 				FAD1344A259094C300A8FEB1 /* JetpackBackup.swift */,
 				FA28A3D5259079960082C7B0 /* JetpackRestoreTypes.swift */,
@@ -2580,15 +2589,6 @@
 				FED77252298B819900C2346E /* JetpackProxyServiceRemoteTests.swift */,
 			);
 			name = Jetpack;
-			sourceTree = "<group>";
-		};
-		9AF4F2FD2183345D00570E4B /* Revisions */ = {
-			isa = PBXGroup;
-			children = (
-				9AF4F2FE2183346B00570E4B /* RemoteRevision.swift */,
-				9AB6D646218705E90008F274 /* RemoteDiff.swift */,
-			);
-			name = Revisions;
 			sourceTree = "<group>";
 		};
 		ABD95B7D25DD6C2400735BEE /* Comment */ = {
