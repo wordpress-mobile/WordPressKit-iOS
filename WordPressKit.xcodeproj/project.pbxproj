@@ -1300,9 +1300,9 @@
 		ABD95B8425DD6DA200735BEE /* comment-likes-success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "comment-likes-success.json"; sourceTree = "<group>"; };
 		B5969E1920A49AC4005E9DF1 /* NSString+MD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+MD5.h"; sourceTree = "<group>"; };
 		B5969E1A20A49AC4005E9DF1 /* NSString+MD5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+MD5.m"; sourceTree = "<group>"; };
-		B5A4822A20AC6C0B009D95F6 /* WPKitLogging.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WPKitLogging.swift; path = Sources/Logging/WPKitLogging.swift; sourceTree = SOURCE_ROOT; };
-		B5A4822C20AC6C19009D95F6 /* WPKitLogging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPKitLogging.m; path = Sources/Logging/WPKitLogging.m; sourceTree = SOURCE_ROOT; };
-		B5A4822D20AC6C1A009D95F6 /* WPKitLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WPKitLogging.h; path = Sources/Logging/WPKitLogging.h; sourceTree = SOURCE_ROOT; };
+		B5A4822A20AC6C0B009D95F6 /* WPKitLogging.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WPKitLogging.swift; sourceTree = "<group>"; };
+		B5A4822C20AC6C19009D95F6 /* WPKitLogging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WPKitLogging.m; sourceTree = "<group>"; };
+		B5A4822D20AC6C1A009D95F6 /* WPKitLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WPKitLogging.h; sourceTree = "<group>"; };
 		B76472D20711B6BE2ACDC332 /* Pods-WordPressKitTests.release-internal.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WordPressKitTests.release-internal.xcconfig"; path = "Pods/Target Support Files/Pods-WordPressKitTests/Pods-WordPressKitTests.release-internal.xcconfig"; sourceTree = "<group>"; };
 		BA0637EC2492382200AF8419 /* PluginStateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PluginStateTests.swift; sourceTree = "<group>"; };
 		BA2A78F924A486D300BB6F53 /* SitePluginTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SitePluginTests.swift; sourceTree = "<group>"; };
@@ -1968,14 +1968,7 @@
 		3FE2E9432BB11413002CA2E1 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				3FE2E9352BB10D92002CA2E1 /* WordPressAPI */,
-				B5A4821F20AC6B5C009D95F6 /* Private */,
-				3FE2E9452BB11BA7002CA2E1 /* Logging */,
-				3FE2E93F2BB11038002CA2E1 /* Models */,
-				3FE2E9402BB11075002CA2E1 /* Services */,
-				3FE2E9412BB110B3002CA2E1 /* Utility */,
-				9368C77E1EC5EF1B0092CE8E /* WordPressKit.h */,
-				9368C77F1EC5EF1B0092CE8E /* Info.plist */,
+				3FE2E9462BB12020002CA2E1 /* WordPressKit */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -1983,12 +1976,7 @@
 		3FE2E9442BB11592002CA2E1 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				57A38E572624FF1000472480 /* Fakes */,
-				9368C78B1EC5EF1B0092CE8E /* Info.plist */,
-				93BD27421EE73384002BB00B /* Mock Data */,
-				3FE2E9422BB11280002CA2E1 /* Tests */,
-				3FB8642D288813E9003A86BE /* UnitTests.xctestplan */,
-				93BD273F1EE73310002BB00B /* WordPressKitTests-Bridging-Header.h */,
+				3FE2E9472BB12113002CA2E1 /* WordPressKitTests */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -2001,6 +1989,34 @@
 				B5A4822C20AC6C19009D95F6 /* WPKitLogging.m */,
 			);
 			path = Logging;
+			sourceTree = "<group>";
+		};
+		3FE2E9462BB12020002CA2E1 /* WordPressKit */ = {
+			isa = PBXGroup;
+			children = (
+				3FE2E9352BB10D92002CA2E1 /* WordPressAPI */,
+				B5A4821F20AC6B5C009D95F6 /* Private */,
+				3FE2E9452BB11BA7002CA2E1 /* Logging */,
+				3FE2E93F2BB11038002CA2E1 /* Models */,
+				3FE2E9402BB11075002CA2E1 /* Services */,
+				3FE2E9412BB110B3002CA2E1 /* Utility */,
+				9368C77E1EC5EF1B0092CE8E /* WordPressKit.h */,
+				9368C77F1EC5EF1B0092CE8E /* Info.plist */,
+			);
+			path = WordPressKit;
+			sourceTree = "<group>";
+		};
+		3FE2E9472BB12113002CA2E1 /* WordPressKitTests */ = {
+			isa = PBXGroup;
+			children = (
+				57A38E572624FF1000472480 /* Fakes */,
+				9368C78B1EC5EF1B0092CE8E /* Info.plist */,
+				93BD27421EE73384002BB00B /* Mock Data */,
+				3FE2E9422BB11280002CA2E1 /* Tests */,
+				3FB8642D288813E9003A86BE /* UnitTests.xctestplan */,
+				93BD273F1EE73310002BB00B /* WordPressKitTests-Bridging-Header.h */,
+			);
+			path = WordPressKitTests;
 			sourceTree = "<group>";
 		};
 		404057C3221B30140060250C /* Time Interval */ = {
@@ -3616,7 +3632,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = Sources/Info.plist;
+				INFOPLIST_FILE = Sources/WordPressKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3648,7 +3664,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = Sources/Info.plist;
+				INFOPLIST_FILE = Sources/WordPressKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3674,7 +3690,7 @@
 					"${inherited}",
 					"$(SDKROOT)/usr/include/libxml2",
 				);
-				INFOPLIST_FILE = Tests/Info.plist;
+				INFOPLIST_FILE = Tests/WordPressKitTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -3682,7 +3698,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.automattic.WordPressKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "Tests/WordPressKitTests-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Tests/WordPressKitTests/WordPressKitTests-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 			};
@@ -3699,7 +3715,7 @@
 					"${inherited}",
 					"$(SDKROOT)/usr/include/libxml2",
 				);
-				INFOPLIST_FILE = Tests/Info.plist;
+				INFOPLIST_FILE = Tests/WordPressKitTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -3707,7 +3723,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.automattic.WordPressKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "Tests/WordPressKitTests-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Tests/WordPressKitTests/WordPressKitTests-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
@@ -3787,7 +3803,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = Sources/Info.plist;
+				INFOPLIST_FILE = Sources/WordPressKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3813,7 +3829,7 @@
 					"${inherited}",
 					"$(SDKROOT)/usr/include/libxml2",
 				);
-				INFOPLIST_FILE = Tests/Info.plist;
+				INFOPLIST_FILE = Tests/WordPressKitTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -3821,7 +3837,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.automattic.WordPressKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "Tests/WordPressKitTests-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Tests/WordPressKitTests/WordPressKitTests-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 			};
 			name = "Release-Internal";
@@ -3901,7 +3917,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = Sources/Info.plist;
+				INFOPLIST_FILE = Sources/WordPressKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3927,7 +3943,7 @@
 					"${inherited}",
 					"$(SDKROOT)/usr/include/libxml2",
 				);
-				INFOPLIST_FILE = Tests/Info.plist;
+				INFOPLIST_FILE = Tests/WordPressKitTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -3935,7 +3951,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.automattic.WordPressKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "Tests/WordPressKitTests-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Tests/WordPressKitTests/WordPressKitTests-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 			};
 			name = "Release-Alpha";
