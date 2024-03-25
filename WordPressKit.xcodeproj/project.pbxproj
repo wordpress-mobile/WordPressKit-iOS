@@ -1841,6 +1841,28 @@
 			path = Services;
 			sourceTree = "<group>";
 		};
+		3FE2E9412BB110B3002CA2E1 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				B5969E1920A49AC4005E9DF1 /* NSString+MD5.h */,
+				B5969E1A20A49AC4005E9DF1 /* NSString+MD5.m */,
+				F1B7F4FB272376A8004215CD /* NSCharacterSet+URLEncode.swift */,
+				93C674EF1EE8351E00BFAF05 /* NSMutableDictionary+Helpers.h */,
+				93C674F01EE8351E00BFAF05 /* NSMutableDictionary+Helpers.m */,
+				9F4E51FF2088E38200424676 /* ObjectValidation.swift */,
+				57BCD3D326209D9500292CB3 /* AppTransportSecuritySettings.swift */,
+				465F88A1263B325C00F4C950 /* ChecksumUtil.swift */,
+				3F3195AC266FF94B00397EE7 /* ZendeskMetadata.swift */,
+				4A11239F2B196821004690CF /* MultipartForm.swift */,
+				4AE278432B2FAF6200E4D9B1 /* HTTPProtocolHelpers.swift */,
+				3F391E192B50F3EB007975C4 /* Result+Callback.swift */,
+				4A5BC1A72B59DE6600C7D037 /* Either.swift */,
+				4A57A6852B54C68C008D0660 /* Constants.h */,
+				4A57A6862B54C68C008D0660 /* Constants.m */,
+			);
+			path = Utility;
+			sourceTree = "<group>";
+		};
 		404057C3221B30140060250C /* Time Interval */ = {
 			isa = PBXGroup;
 			children = (
@@ -2220,7 +2242,7 @@
 				B5A4821F20AC6B5C009D95F6 /* Private */,
 				3FE2E93F2BB11038002CA2E1 /* Models */,
 				3FE2E9402BB11075002CA2E1 /* Services */,
-				93BD27871EE829B4002BB00B /* Utility */,
+				3FE2E9412BB110B3002CA2E1 /* Utility */,
 				9368C77E1EC5EF1B0092CE8E /* WordPressKit.h */,
 				9368C77F1EC5EF1B0092CE8E /* Info.plist */,
 			);
@@ -2559,28 +2581,6 @@
 				4A3239672B74319400EFD2A8 /* self-hosted-plugins-install.json */,
 			);
 			path = "Mock Data";
-			sourceTree = "<group>";
-		};
-		93BD27871EE829B4002BB00B /* Utility */ = {
-			isa = PBXGroup;
-			children = (
-				B5969E1920A49AC4005E9DF1 /* NSString+MD5.h */,
-				B5969E1A20A49AC4005E9DF1 /* NSString+MD5.m */,
-				F1B7F4FB272376A8004215CD /* NSCharacterSet+URLEncode.swift */,
-				93C674EF1EE8351E00BFAF05 /* NSMutableDictionary+Helpers.h */,
-				93C674F01EE8351E00BFAF05 /* NSMutableDictionary+Helpers.m */,
-				9F4E51FF2088E38200424676 /* ObjectValidation.swift */,
-				57BCD3D326209D9500292CB3 /* AppTransportSecuritySettings.swift */,
-				465F88A1263B325C00F4C950 /* ChecksumUtil.swift */,
-				3F3195AC266FF94B00397EE7 /* ZendeskMetadata.swift */,
-				4A11239F2B196821004690CF /* MultipartForm.swift */,
-				4AE278432B2FAF6200E4D9B1 /* HTTPProtocolHelpers.swift */,
-				3F391E192B50F3EB007975C4 /* Result+Callback.swift */,
-				4A5BC1A72B59DE6600C7D037 /* Either.swift */,
-				4A57A6852B54C68C008D0660 /* Constants.h */,
-				4A57A6862B54C68C008D0660 /* Constants.m */,
-			);
-			name = Utility;
 			sourceTree = "<group>";
 		};
 		93F50A421F227CC400B5BEBA /* Users */ = {
