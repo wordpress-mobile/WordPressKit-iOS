@@ -1614,6 +1614,18 @@
 			path = Plugins;
 			sourceTree = "<group>";
 		};
+		3FE2E93B2BB10FBB002CA2E1 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				7E3E7A4420E443050075D159 /* NSAttributedString+extensions.swift */,
+				7E3E7A4B20E443AA0075D159 /* NSMutableParagraphStyle+extensions.swift */,
+				8B2F4BEC24ABCAEF0056C08A /* Decodable+Dictionary.swift */,
+				8C5734F825681A6A005E61EE /* Enum+UnknownCaseRepresentable.swift */,
+				8B52B900257AC5A200221663 /* Date+endOfDay.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		404057C3221B30140060250C /* Time Interval */ = {
 			isa = PBXGroup;
 			children = (
@@ -1838,18 +1850,6 @@
 				4AA5A1A42AA695D700969464 /* LoadMediaLibraryTests.swift */,
 			);
 			name = Media;
-			sourceTree = "<group>";
-		};
-		7E3E7A4620E443100075D159 /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				7E3E7A4420E443050075D159 /* NSAttributedString+extensions.swift */,
-				7E3E7A4B20E443AA0075D159 /* NSMutableParagraphStyle+extensions.swift */,
-				8B2F4BEC24ABCAEF0056C08A /* Decodable+Dictionary.swift */,
-				8C5734F825681A6A005E61EE /* Enum+UnknownCaseRepresentable.swift */,
-				8B52B900257AC5A200221663 /* Date+endOfDay.swift */,
-			);
-			name = Extensions;
 			sourceTree = "<group>";
 		};
 		7EC60EBC22DC4F5A00FB0336 /* Editor */ = {
@@ -2149,7 +2149,7 @@
 			children = (
 				0CED1FE92B617D6700E6DD52 /* Atomic */,
 				0CB1905C2A2A5E7B004D3E80 /* Blaze */,
-				7E3E7A4620E443100075D159 /* Extensions */,
+				3FE2E93B2BB10FBB002CA2E1 /* Extensions */,
 				3FE2E9392BB10F67002CA2E1 /* Plugins */,
 				3FE2E9362BB10EC7002CA2E1 /* Stats */,
 				3FE2E9372BB10F10002CA2E1 /* Revisions */,
