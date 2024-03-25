@@ -5,7 +5,7 @@ public struct StatsAllAnnualInsight: Codable {
         self.allAnnualInsights = allAnnualInsights
     }
 
-    enum CodingKeys: String, CodingKey {
+    private enum CodingKeys: String, CodingKey {
         case allAnnualInsights = "years"
     }
 }

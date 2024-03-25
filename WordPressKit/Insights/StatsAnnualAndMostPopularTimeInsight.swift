@@ -8,7 +8,7 @@ public struct StatsAnnualAndMostPopularTimeInsight: Codable {
     public let mostPopularHourPercentage: Int
     public let years: [Year]?
 
-    enum CodingKeys: String, CodingKey {
+    private enum CodingKeys: String, CodingKey {
         case mostPopularHour = "highest_hour"
         case mostPopularHourPercentage = "highest_hour_percent"
         case mostPopularDayOfWeek = "highest_day_of_week"
@@ -28,7 +28,7 @@ public struct StatsAnnualAndMostPopularTimeInsight: Codable {
         public let totalImages: Int
         public let averageImages: Double
 
-        enum CodingKeys: String, CodingKey {
+        private enum CodingKeys: String, CodingKey {
             case year
             case totalPosts = "total_posts"
             case totalWords = "total_words"
