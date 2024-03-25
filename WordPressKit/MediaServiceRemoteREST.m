@@ -18,7 +18,7 @@ const NSInteger WPRestErrorCodeMediaNew = 10;
     
     NSDictionary * parameters = @{};
     
-    [self.wordPressComRestApi GET:requestUrl parameters:parameters success:^(id responseObject, NSHTTPURLResponse *response) {
+    [self.wordPressComRESTAPI get:requestUrl parameters:parameters success:^(id responseObject, NSHTTPURLResponse *response) {
         if (success) {
             NSDictionary *response = (NSDictionary *)responseObject;
             success([MediaServiceRemoteREST remoteMediaFromJSONDictionary:response]);
@@ -60,7 +60,7 @@ const NSInteger WPRestErrorCodeMediaNew = 10;
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
     
-    [self.wordPressComRestApi GET:requestUrl
+    [self.wordPressComRESTAPI get:requestUrl
        parameters:[NSDictionary dictionaryWithDictionary:parameters]
           success:^(id responseObject, NSHTTPURLResponse *response) {
               NSArray *mediaItems = responseObject[@"media"];
@@ -104,7 +104,7 @@ const NSInteger WPRestErrorCodeMediaNew = 10;
         parameters[@"mime_type"] = mediaType;
     }
     
-    [self.wordPressComRestApi GET:requestUrl
+    [self.wordPressComRESTAPI get:requestUrl
        parameters:[NSDictionary dictionaryWithDictionary:parameters]
           success:^(id responseObject, NSHTTPURLResponse *response) {
               NSDictionary *jsonDictionary = (NSDictionary *)responseObject;
@@ -261,7 +261,7 @@ const NSInteger WPRestErrorCodeMediaNew = 10;
 
     NSDictionary *parameters = [self parametersFromRemoteMedia:media];
 
-    [self.wordPressComRestApi POST:requestUrl
+    [self.wordPressComRESTAPI post:requestUrl
         parameters:parameters
            success:^(id responseObject, NSHTTPURLResponse *response) {
                RemoteMedia *media = [MediaServiceRemoteREST remoteMediaFromJSONDictionary:responseObject];
@@ -285,7 +285,7 @@ const NSInteger WPRestErrorCodeMediaNew = 10;
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
 
-    [self.wordPressComRestApi POST:requestUrl
+    [self.wordPressComRESTAPI post:requestUrl
                         parameters:nil
                            success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
                                NSDictionary *response = (NSDictionary *)responseObject;
@@ -318,7 +318,7 @@ const NSInteger WPRestErrorCodeMediaNew = 10;
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
     
-    [self.wordPressComRestApi GET:requestUrl
+    [self.wordPressComRESTAPI get:requestUrl
                        parameters:nil
                           success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
         NSDictionary *response = (NSDictionary *)responseObject;
@@ -358,7 +358,7 @@ const NSInteger WPRestErrorCodeMediaNew = 10;
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:ServiceRemoteWordPressComRESTApiVersion_2_0];
 
-    [self.wordPressComRestApi POST:requestUrl
+    [self.wordPressComRESTAPI post:requestUrl
                         parameters:nil
                            success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
                                NSDictionary *response = (NSDictionary *)responseObject;

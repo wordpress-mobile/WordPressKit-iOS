@@ -35,6 +35,7 @@ _None._
 ### Breaking Changes
 
 - Changes the structure of `StatsAnnualAndMostPopularTimeInsight` to more accurately reflect JSON response. [#763]
+- Reworked the `NSDate` RFC3339 / WordPress.com JSON conversions API [#759]
 
 ### New Features
 

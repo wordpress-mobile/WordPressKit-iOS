@@ -6,7 +6,7 @@ FOUNDATION_EXPORT double WordPressKitVersionNumber;
 //! Project version string for WordPressKit.
 FOUNDATION_EXPORT const unsigned char WordPressKitVersionString[];
 
-// In this header, you should import all the public headers of your framework using statements like #import <WordPressKit/PublicHeader.h>
+#import <WordPressKit/WordPressComRESTAPIInterfacing.h>
 #import <WordPressKit/ServiceRemoteWordPressComREST.h>
 #import <WordPressKit/ServiceRemoteWordPressXMLRPC.h>
 #import <WordPressKit/SiteServiceRemoteWordPressComREST.h>
@@ -47,7 +47,6 @@ FOUNDATION_EXPORT const unsigned char WordPressKitVersionString[];
 #import <WordPressKit/RemoteTheme.h>
 #import <WordPressKit/RemoteUser.h>
 
-#import <WordPressKit/NSDate+WordPressJSON.h>
 #import <WordPressKit/NSString+MD5.h>
 
 #import <WordPressKit/WPKitLogging.h>

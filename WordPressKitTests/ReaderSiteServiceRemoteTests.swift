@@ -289,12 +289,12 @@ class ReaderSiteServiceRemoteTests: XCTestCase {
         XCTAssertTrue(failure)
     }
 
-    func testCheckSiteExistsAtURLSuccess() {
+    func testCheckSiteExistsAtURLSuccess() throws {
         let testURLString = "http://www.wordpress.com"
         let testURL = URL(string: testURLString)!
+        let stubPath = try XCTUnwrap(OHPathForFile("empty.json", type(of: self)))
         stub(condition: {request in request.url?.absoluteString == testURLString}) { _ in
-            let stubPath = OHPathForFile("empty.json", type(of: self))
-            return fixture(filePath: stubPath!, headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
+            return fixture(filePath: stubPath, headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
         }
 
         let expect = self.expectation(description: "One callback should be invoked")
@@ -308,12 +308,16 @@ class ReaderSiteServiceRemoteTests: XCTestCase {
         self.waitForExpectations(timeout: 2, handler: nil)
     }
 
-    func testCheckSiteExistsAtURLFailure() {
+    func testCheckSiteExistsAtURLFailure() throws {
         let testURLString = "http://www.wordpress.com"
         let testURL = URL(string: testURLString)!
+        let stubPath = try XCTUnwrap(OHPathForFile("empty.json", type(of: self)))
         stub(condition: {request in request.url?.absoluteString == testURLString}) { _ in
-            let stubPath = OHPathForFile("empty.json", type(of: self))
-            return fixture(filePath: stubPath!, status: 400, headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
+            return fixture(
+                filePath: stubPath,
+                status: 400,
+                headers: ["Content-Type" as NSObject: "application/json" as AnyObject]
+            )
         }
 
         let expect = self.expectation(description: "One callback should be invoked")

@@ -23,9 +23,9 @@ class WordPressOrgRestApiTests: XCTestCase {
     }
 
     func testUnauthorizedCall() async throws {
+        let stubPath = try XCTUnwrap(OHPathForFile("wp-forbidden.json", type(of: self)))
         stub(condition: isAPIRequest()) { _ in
-            let stubPath = OHPathForFile("wp-forbidden.json", type(of: self))
-            return fixture(filePath: stubPath!, status: 401, headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
+            return fixture(filePath: stubPath, status: 401, headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
         }
         let api = WordPressOrgRestApi(apiBase: apiBase)
         let result = await api.get(path: "wp/v2/settings", type: AnyResponse.self)
@@ -38,9 +38,9 @@ class WordPressOrgRestApiTests: XCTestCase {
     }
 
     func testSuccessfulGetCall() async throws {
+        let stubPath = try XCTUnwrap(OHPathForFile("wp-pages.json", type(of: self)))
         stub(condition: isAPIRequest()) { _ in
-            let stubPath = OHPathForFile("wp-pages.json", type(of: self))
-            return fixture(filePath: stubPath!, headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
+            return fixture(filePath: stubPath, headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
         }
         let api = WordPressOrgRestApi(apiBase: apiBase)
         let pages = try await api.get(path: "wp/v2/pages", type: [AnyResponse].self).get()
@@ -48,9 +48,9 @@ class WordPressOrgRestApiTests: XCTestCase {
     }
 
     func testSuccessfulPostCall() async throws {
+        let stubPath = try XCTUnwrap(OHPathForFile("wp-reusable-blocks.json", type(of: self)))
         stub(condition: isAPIRequest()) { _ in
-            let stubPath = OHPathForFile("wp-reusable-blocks.json", type(of: self))
-            return fixture(filePath: stubPath!, headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
+            return fixture(filePath: stubPath, headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
         }
 
         struct Response: Decodable {

@@ -40,7 +40,7 @@
     NSString *url = [service pathForEndpoint:endpoint
                                  withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
 
-    OCMStub([api GET:[OCMArg isEqual:url]
+    OCMStub([api get:[OCMArg isEqual:url]
           parameters:[OCMArg isNotNil]
              success:[OCMArg isNotNil]
              failure:[OCMArg isNotNil]]);
@@ -82,7 +82,7 @@
                 && [[parameters objectForKey:@"type"] isEqualToString:postType]);
     };
     
-    OCMStub([api GET:[OCMArg isEqual:url]
+    OCMStub([api get:[OCMArg isEqual:url]
           parameters:[OCMArg checkWithBlock:parametersCheckBlock]
              success:[OCMArg isNotNil]
              failure:[OCMArg isNotNil]]);
@@ -118,7 +118,7 @@
                 && [parameters objectForKey:testOptionKey] == testOptionValue);
     };
     
-    OCMStub([api GET:[OCMArg isEqual:url]
+    OCMStub([api get:[OCMArg isEqual:url]
           parameters:[OCMArg checkWithBlock:parametersCheckBlock]
              success:[OCMArg isNotNil]
              failure:[OCMArg isNotNil]]);
@@ -153,7 +153,7 @@
     NSString *url = [service pathForEndpoint:endpoint
                                  withVersion:ServiceRemoteWordPressComRESTApiVersion_1_2];
 
-    OCMStub([api POST:[OCMArg isEqual:url]
+    OCMStub([api post:[OCMArg isEqual:url]
            parameters:[OCMArg isKindOfClass:[NSDictionary class]]
               success:[OCMArg isNotNil]
               failure:[OCMArg isNotNil]]);
@@ -198,7 +198,7 @@
     NSString *url = [service pathForEndpoint:endpoint
                                  withVersion:ServiceRemoteWordPressComRESTApiVersion_1_2];
 
-    OCMStub([api POST:[OCMArg isEqual:url]
+    OCMStub([api post:[OCMArg isEqual:url]
            parameters:[OCMArg isKindOfClass:[NSDictionary class]]
               success:[OCMArg isNotNil]
               failure:[OCMArg isNotNil]]);
@@ -243,7 +243,7 @@
     NSString *url = [service pathForEndpoint:endpoint
                                  withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
     
-    OCMStub([api POST:[OCMArg isEqual:url]
+    OCMStub([api post:[OCMArg isEqual:url]
            parameters:[OCMArg isKindOfClass:[NSDictionary class]]
               success:[OCMArg isNotNil]
               failure:[OCMArg isNotNil]]);
@@ -276,7 +276,7 @@
     NSString *url = [service pathForEndpoint:endpoint
                                  withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
     
-    OCMStub([api GET:[OCMArg isEqual:url]
+    OCMStub([api get:[OCMArg isEqual:url]
           parameters:[OCMArg isNotNil]
              success:[OCMArg isNotNil]
              failure:[OCMArg isNotNil]]);
@@ -304,7 +304,7 @@
     NSString *url = [service pathForEndpoint:endpoint
                                  withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
     
-    OCMStub([api POST:[OCMArg isEqual:url]
+    OCMStub([api post:[OCMArg isEqual:url]
            parameters:[OCMArg isNil]
               success:[OCMArg isNotNil]
               failure:[OCMArg isNotNil]]);
@@ -341,7 +341,7 @@
     NSString *url = [service pathForEndpoint:endpoint
                                  withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
 
-    OCMStub([api POST:[OCMArg isEqual:url]
+    OCMStub([api post:[OCMArg isEqual:url]
            parameters:[OCMArg isNil]
               success:[OCMArg isNotNil]
               failure:[OCMArg isNotNil]]);
@@ -378,7 +378,7 @@
     NSString *url = [service pathForEndpoint:endpoint
                                  withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
 
-    OCMStub([api POST:[OCMArg isEqual:url]
+    OCMStub([api post:[OCMArg isEqual:url]
            parameters:[OCMArg isNil]
               success:[OCMArg isNotNil]
               failure:[OCMArg isNotNil]]);

@@ -1,7 +1,9 @@
 import Foundation
 
 /// The parameters required to create a post or a page.
-public struct RemotePostCreateParameters {
+public struct RemotePostCreateParameters: Equatable {
+    public var type: String
+
     public var status: String
     public var date: Date?
     public var authorID: Int?
@@ -21,13 +23,14 @@ public struct RemotePostCreateParameters {
     public var tags: [String] = []
     public var categoryIDs: [Int] = []
 
-    public init(status: String) {
+    public init(type: String, status: String) {
+        self.type = type
         self.status = status
     }
 }
 
 /// Represents a partial update to be applied to a post or a page.
-public struct RemotePostUpdateParameters {
+public struct RemotePostUpdateParameters: Equatable {
     public var ifNotModifiedSince: Date?
 
     public var status: String?
@@ -155,6 +158,7 @@ extension RemotePostCreateParameters {
 
 private enum RemotePostWordPressComCodingKeys: String, CodingKey {
     case ifNotModifiedSince = "if_not_modified_since"
+    case type
     case status
     case date
     case authorID = "author"
@@ -178,6 +182,7 @@ struct RemotePostCreateParametersWordPressComEncoder: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: RemotePostWordPressComCodingKeys.self)
+        try container.encodeIfPresent(parameters.type, forKey: .type)
         try container.encodeIfPresent(parameters.status, forKey: .status)
         try container.encodeIfPresent(parameters.date, forKey: .date)
         try container.encodeIfPresent(parameters.authorID, forKey: .authorID)
@@ -243,8 +248,8 @@ struct RemotePostUpdateParametersWordPressComEncoder: Encodable {
 
 private enum RemotePostXMLRPCCodingKeys: String, CodingKey {
     case ifNotModifiedSince = "if_not_modified_since"
+    case type = "post_type"
     case postStatus = "post_status"
-    case pageStatus = "page_status"
     case date = "date_created_gmt"
     case authorID = "wp_author_id"
     case title
@@ -262,22 +267,13 @@ private enum RemotePostXMLRPCCodingKeys: String, CodingKey {
     static let postTags = "post_tag"
 }
 
-enum RemotePostEncodingPostType {
-    case post, page
-}
-
 struct RemotePostCreateParametersXMLRPCEncoder: Encodable {
     let parameters: RemotePostCreateParameters
-    let type: RemotePostEncodingPostType
 
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: RemotePostXMLRPCCodingKeys.self)
-        switch type {
-        case .post:
-            try container.encodeIfPresent(parameters.status, forKey: .postStatus)
-        case .page:
-            try container.encodeIfPresent(parameters.status, forKey: .pageStatus)
-        }
+        try container.encode(parameters.type, forKey: .type)
+        try container.encodeIfPresent(parameters.status, forKey: .postStatus)
         try container.encodeIfPresent(parameters.date, forKey: .date)
         try container.encodeIfPresent(parameters.authorID, forKey: .authorID)
         try container.encodeIfPresent(parameters.title, forKey: .title)
@@ -308,17 +304,11 @@ struct RemotePostCreateParametersXMLRPCEncoder: Encodable {
 
 struct RemotePostUpdateParametersXMLRPCEncoder: Encodable {
     let parameters: RemotePostUpdateParameters
-    let type: RemotePostEncodingPostType
 
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: RemotePostXMLRPCCodingKeys.self)
         try container.encodeIfPresent(parameters.ifNotModifiedSince, forKey: .ifNotModifiedSince)
-        switch type {
-        case .post:
-            try container.encodeIfPresent(parameters.status, forKey: .postStatus)
-        case .page:
-            try container.encodeIfPresent(parameters.status, forKey: .pageStatus)
-        }
+        try container.encodeIfPresent(parameters.status, forKey: .postStatus)
         try container.encodeIfPresent(parameters.date, forKey: .date)
         try container.encodeIfPresent(parameters.authorID, forKey: .authorID)
         try container.encodeIfPresent(parameters.title, forKey: .title)
