@@ -1583,6 +1583,16 @@
 			path = WordPressAPI;
 			sourceTree = "<group>";
 		};
+		3FE2E9362BB10EC7002CA2E1 /* Stats */ = {
+			isa = PBXGroup;
+			children = (
+				404057C3221B30140060250C /* Time Interval */,
+				40414061220F9F2800CF7C5B /* Insights */,
+				40819782221F5C8200A298E4 /* StatsPostDetails.swift */,
+			);
+			path = Stats;
+			sourceTree = "<group>";
+		};
 		404057C3221B30140060250C /* Time Interval */ = {
 			isa = PBXGroup;
 			children = (
@@ -1617,16 +1627,6 @@
 				40F98808221AC88700B7B369 /* StatsPostingStreakInsight.swift */,
 			);
 			path = Insights;
-			sourceTree = "<group>";
-		};
-		40B01BF3220E534900036D10 /* V2 */ = {
-			isa = PBXGroup;
-			children = (
-				404057C3221B30140060250C /* Time Interval */,
-				40414061220F9F2800CF7C5B /* Insights */,
-				40819782221F5C8200A298E4 /* StatsPostDetails.swift */,
-			);
-			name = V2;
 			sourceTree = "<group>";
 		};
 		436D56362118DC2800CEAA33 /* Transactions */ = {
@@ -1870,14 +1870,6 @@
 				930999511F1658F800F006A1 /* ThemeServiceRemoteTests.m */,
 			);
 			name = Theme;
-			sourceTree = "<group>";
-		};
-		930F52B91ECF8A44002F921B /* Stats */ = {
-			isa = PBXGroup;
-			children = (
-				40B01BF3220E534900036D10 /* V2 */,
-			);
-			name = Stats;
 			sourceTree = "<group>";
 		};
 		930F52BA1ECF8A67002F921B /* Tests */ = {
@@ -2134,12 +2126,12 @@
 		9368C79C1EC62EBD0092CE8E /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				3FE2E9362BB10EC7002CA2E1 /* Stats */,
 				0CED1FE92B617D6700E6DD52 /* Atomic */,
 				0CB1905C2A2A5E7B004D3E80 /* Blaze */,
 				7E3E7A4620E443100075D159 /* Extensions */,
 				E1EF5D5E1F9F3CA700B6D53E /* Plugins */,
 				9AF4F2FD2183345D00570E4B /* Revisions */,
-				930F52B91ECF8A44002F921B /* Stats */,
 				32FC1D25255C91ED00CD0A7B /* Jetpack Scan */,
 				FAD1344A259094C300A8FEB1 /* JetpackBackup.swift */,
 				FA28A3D5259079960082C7B0 /* JetpackRestoreTypes.swift */,
