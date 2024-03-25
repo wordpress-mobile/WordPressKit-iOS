@@ -42,7 +42,7 @@ extension StatsLastPostInsight: StatsInsightData {
     }
 
     public init?(jsonDictionary: [String: AnyObject]) {
-        fatalError("This shouldn't be ever called, instead init?(jsonDictionary:_ views:_) be called instead.")
+        self.init(jsonDictionary: jsonDictionary, views: 0)
     }
 
     // MARK: -
@@ -86,11 +86,11 @@ extension StatsLastPostInsight {
             throw DecodingError.dataCorruptedError(forKey: .publishedDate, in: container, debugDescription: "Date string does not match format expected by formatter.")
         }
         publishedDate = date
-        likesCount = try container.decodeIfPresent(Int.self, forKey: .likesCount) ?? 0
+        likesCount = (try? container.decodeIfPresent(Int.self, forKey: .likesCount)) ?? 0
         postID = try container.decode(Int.self, forKey: .postID)
         featuredImageURL = try? container.decodeIfPresent(URL.self, forKey: .featuredImageURL)
 
         let discussionContainer = try container.nestedContainer(keyedBy: DiscussionKeys.self, forKey: .discussion)
-        commentsCount = try discussionContainer.decode(Int.self, forKey: .commentsCount)
+        commentsCount = (try? discussionContainer.decodeIfPresent(Int.self, forKey: .commentsCount)) ?? 0
     }
 }

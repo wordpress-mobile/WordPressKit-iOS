@@ -43,7 +43,6 @@ public struct StatsAnnualAndMostPopularTimeInsight: Codable {
     }
 }
 
-
 extension StatsAnnualAndMostPopularTimeInsight: StatsInsightData {
     public static var pathComponent: String {
         return "stats/insights"
