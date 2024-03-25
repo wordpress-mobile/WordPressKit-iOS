@@ -40,6 +40,20 @@ public struct StatsAnnualAndMostPopularTimeInsight: Codable {
             case totalImages = "total_images"
             case averageImages = "avg_images"
         }
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            year = try container.decode(String.self, forKey: .year)
+            totalPosts = (try? container.decodeIfPresent(Int.self, forKey: .totalPosts)) ?? 0
+            totalWords = (try? container.decode(Int.self, forKey: .totalWords)) ?? 0
+            averageWords = (try? container.decode(Double.self, forKey: .averageWords)) ?? 0
+            totalLikes = (try? container.decode(Int.self, forKey: .totalLikes)) ?? 0
+            averageLikes = (try? container.decode(Double.self, forKey: .averageLikes)) ?? 0
+            totalComments = (try? container.decode(Int.self, forKey: .totalComments)) ?? 0
+            averageComments = (try? container.decode(Double.self, forKey: .averageComments)) ?? 0
+            totalImages = (try? container.decode(Int.self, forKey: .totalImages)) ?? 0
+            averageImages = (try? container.decode(Double.self, forKey: .averageImages)) ?? 0
+        }
     }
 }
 
