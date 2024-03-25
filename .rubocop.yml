@@ -14,3 +14,4 @@ Naming/FileName:
 Metrics/BlockLength:
   Exclude:
     - 'fastlane/Fastfile'
+    - 'WordPressKit.podspec'
