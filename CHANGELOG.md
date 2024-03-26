@@ -43,7 +43,7 @@ _None._
 
 ### Bug Fixes
 
-_None._
+- Fix crash when querying a WordPress plugin whose slug is not url-safe. [#767]
 
 ### Internal Changes
 
