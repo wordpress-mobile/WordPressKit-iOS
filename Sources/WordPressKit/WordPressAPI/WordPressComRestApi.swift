@@ -268,16 +268,18 @@ open class WordPressComRestApi: NSObject {
      - parameter success:    callback to be called on successful request
      - parameter failure:    callback to be called on failed request
 
-     - returns:  a NSProgress object that can be used to track the progress of the upload and to cancel the upload. If the method
+     - returns:  a `Progerss` object that can be used to track the progress of the upload and to cancel the upload. If the method
      returns nil it's because something happened on the request serialization and the network request was not started, but the failure callback
      will be invoked with the error specificing the serialization issues.
      */
-    @objc @discardableResult open func multipartPOST(_ URLString: String,
-                              parameters: [String: AnyObject]?,
-                              fileParts: [FilePart],
-                              requestEnqueued: RequestEnqueuedBlock? = nil,
-                              success: @escaping SuccessResponseBlock,
-                              failure: @escaping FailureReponseBlock) -> Progress? {
+    @nonobjc @discardableResult open func multipartPOST(
+        _ URLString: String,
+        parameters: [String: AnyObject]?,
+        fileParts: [FilePart],
+        requestEnqueued: RequestEnqueuedBlock? = nil,
+        success: @escaping SuccessResponseBlock,
+        failure: @escaping FailureReponseBlock
+    ) -> Progress? {
         let progress = Progress.discreteProgress(totalUnitCount: 100)
 
         Task { @MainActor in
@@ -452,7 +454,7 @@ open class WordPressComRestApi: NSObject {
         let builder: HTTPRequestBuilder
         do {
             let form = try fileParts.map {
-                try MultipartFormField(fileAtPath: $0.url.path, name: $0.parameterName, filename: $0.filename, mimeType: $0.mimeType)
+                try MultipartFormField(fileAtPath: $0.url.path, name: $0.parameterName, filename: $0.fileName, mimeType: $0.mimeType)
             }
             builder = try requestBuilder(URLString: URLString)
                 .method(.post)
@@ -474,23 +476,6 @@ open class WordPressComRestApi: NSObject {
         )
     }
 
-}
-
-// MARK: - FilePart
-
-/// FilePart represents the infomartion needed to encode a file on a multipart form request
-public final class FilePart: NSObject {
-    @objc let parameterName: String
-    @objc let url: URL
-    @objc let filename: String
-    @objc let mimeType: String
-
-    @objc public init(parameterName: String, url: URL, filename: String, mimeType: String) {
-        self.parameterName = parameterName
-        self.url = url
-        self.filename = filename
-        self.mimeType = mimeType
-    }
 }
 
 // MARK: - Error processing
@@ -622,7 +607,6 @@ extension WordPressAPIError<WordPressComRestApiEndpointError> {
 }
 
 extension WordPressComRestApi: WordPressComRESTAPIInterfacing {
-
     // A note on the naming: Even if defined as `GET` in Objective-C, then method gets converted to Swift as `get`.
     //
     // Also, there is no Objective-C direct equivalent of `AnyObject`, which here is used in `parameters: [String: AnyObject]?`.
@@ -645,5 +629,29 @@ extension WordPressComRestApi: WordPressComRESTAPIInterfacing {
         failure: @escaping (any Error, HTTPURLResponse?) -> Void
     ) -> Progress? {
         POST(URLString, parameters: parameters, success: success, failure: failure)
+    }
+
+    public func multipartPOST(
+        _ URLString: String,
+        parameters: [String: NSObject]?,
+        fileParts: [FilePart],
+        // Notice this does not require @escaping because it is Optional.
+        //
+        // Annotate with @escaping, and the compiler will fail with:
+        // > Closure is already escaping in optional type argument
+        //
+        // It is necessary to explicitly set this as Optional because of the _Nullable parameter requirement in the Objective-C protocol.
+        requestEnqueued: ((NSNumber) -> Void)?,
+        success: @escaping (Any, HTTPURLResponse?) -> Void,
+        failure: @escaping (any Error, HTTPURLResponse?) -> Void
+    ) -> Progress? {
+        multipartPOST(
+            URLString,
+            parameters: parameters,
+            fileParts: fileParts,
+            requestEnqueued: requestEnqueued,
+            success: success as SuccessResponseBlock,
+            failure: failure as FailureReponseBlock
+        )
     }
 }

@@ -35,6 +35,7 @@ _None._
 ### Breaking Changes
 
 - Reworked the `NSDate` RFC3339 / WordPress.com JSON conversions API [#759]
+- Changed `FilePart` `filename` property to `fileName` [#765]
 
 ### New Features
 
