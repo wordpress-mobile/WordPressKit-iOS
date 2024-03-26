@@ -34,8 +34,7 @@ _None._
 
 ### Breaking Changes
 
-- Reworked the `NSDate` RFC3339 / WordPress.com JSON conversions API [#759]
-- Changed `FilePart` `filename` property to `fileName` [#765]
+_None._
 
 ### New Features
 
@@ -43,11 +42,22 @@ _None._
 
 ### Bug Fixes
 
-- Fix crash when querying a WordPress plugin whose slug is not url-safe. [#767]
+_None._
 
 ### Internal Changes
 
 _None._
+
+## 15.0.0
+
+### Breaking Changes
+
+- Reworked the `NSDate` RFC3339 / WordPress.com JSON conversions API [#759]
+- Changed `FilePart` `filename` property to `fileName` [#765]
+
+### Bug Fixes
+
+- Fix crash when querying a WordPress plugin whose slug is not url-safe. [#767]
 
 ## 14.1.0
 
