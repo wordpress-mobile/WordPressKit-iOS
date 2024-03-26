@@ -12,7 +12,9 @@
 		01438D382B6A35FB0097D60A /* stats-summary.json in Sources */ = {isa = PBXBuildFile; fileRef = 01438D372B6A35FB0097D60A /* stats-summary.json */; };
 		01438D392B6A361B0097D60A /* stats-summary.json in Resources */ = {isa = PBXBuildFile; fileRef = 01438D372B6A35FB0097D60A /* stats-summary.json */; };
 		01438D3B2B6A36BF0097D60A /* StatsTotalsSummaryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01438D3A2B6A36BF0097D60A /* StatsTotalsSummaryData.swift */; };
+		0146F61C2BB30C8600830CC4 /* RFC339NoTimeDateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0146F61B2BB30C8600830CC4 /* RFC339NoTimeDateFormatter.swift */; };
 		0152100C28EDA9E400DD6783 /* StatsAnnualAndMostPopularTimeInsightDecodingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0152100B28EDA9E400DD6783 /* StatsAnnualAndMostPopularTimeInsightDecodingTests.swift */; };
+		01B5F13B2BB318DD006C86D7 /* RFC339NoTimeDateFormatterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01B5F13A2BB318DD006C86D7 /* RFC339NoTimeDateFormatterTests.swift */; };
 		0847B92C2A4442730044D32F /* IPLocationRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0847B92B2A4442730044D32F /* IPLocationRemote.swift */; };
 		08C7493E2A45EA11000DA0E2 /* IPLocationRemoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08C7493D2A45EA11000DA0E2 /* IPLocationRemoteTests.swift */; };
 		0C1C08412B9CD79900E52F8C /* PostServiceRemoteExtended.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1C08402B9CD79900E52F8C /* PostServiceRemoteExtended.swift */; };
@@ -738,7 +740,9 @@
 		01438D342B6A2B2C0097D60A /* stats-visits-month-unit-week.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "stats-visits-month-unit-week.json"; sourceTree = "<group>"; };
 		01438D372B6A35FB0097D60A /* stats-summary.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "stats-summary.json"; sourceTree = "<group>"; };
 		01438D3A2B6A36BF0097D60A /* StatsTotalsSummaryData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatsTotalsSummaryData.swift; sourceTree = "<group>"; };
+		0146F61B2BB30C8600830CC4 /* RFC339NoTimeDateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RFC339NoTimeDateFormatter.swift; sourceTree = "<group>"; };
 		0152100B28EDA9E400DD6783 /* StatsAnnualAndMostPopularTimeInsightDecodingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsAnnualAndMostPopularTimeInsightDecodingTests.swift; sourceTree = "<group>"; };
+		01B5F13A2BB318DD006C86D7 /* RFC339NoTimeDateFormatterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RFC339NoTimeDateFormatterTests.swift; sourceTree = "<group>"; };
 		0847B92B2A4442730044D32F /* IPLocationRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPLocationRemote.swift; sourceTree = "<group>"; };
 		08C7493D2A45EA11000DA0E2 /* IPLocationRemoteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPLocationRemoteTests.swift; sourceTree = "<group>"; };
 		0C1C08402B9CD79900E52F8C /* PostServiceRemoteExtended.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostServiceRemoteExtended.swift; sourceTree = "<group>"; };
@@ -1913,6 +1917,7 @@
 			children = (
 				40F9880B221ACEEE00B7B369 /* StatsRemoteV2Tests.swift */,
 				0152100B28EDA9E400DD6783 /* StatsAnnualAndMostPopularTimeInsightDecodingTests.swift */,
+				01B5F13A2BB318DD006C86D7 /* RFC339NoTimeDateFormatterTests.swift */,
 			);
 			name = Stats;
 			sourceTree = "<group>";
@@ -2551,6 +2556,7 @@
 				4A5BC1A72B59DE6600C7D037 /* Either.swift */,
 				4A57A6852B54C68C008D0660 /* Constants.h */,
 				4A57A6862B54C68C008D0660 /* Constants.m */,
+				0146F61B2BB30C8600830CC4 /* RFC339NoTimeDateFormatter.swift */,
 			);
 			name = Utility;
 			sourceTree = "<group>";
@@ -3471,6 +3477,7 @@
 				4A68E3D329406AA0004AC3DC /* RemoteMenu.swift in Sources */,
 				40819783221F5C8200A298E4 /* StatsPostDetails.swift in Sources */,
 				7397F01A220A072500C723F3 /* ActivityServiceRemote_ApiVersion1_0.swift in Sources */,
+				0146F61C2BB30C8600830CC4 /* RFC339NoTimeDateFormatter.swift in Sources */,
 				4A68E3D429406AA0004AC3DC /* RemoteMenuItem.swift in Sources */,
 				8B2F4BEF24ACCC120056C08A /* RemoteReaderCard.swift in Sources */,
 				4A11239C2B1926B7004690CF /* HTTPRequestBuilder.swift in Sources */,
@@ -3595,6 +3602,7 @@
 				4AA5A1A32AA68F6B00969464 /* MediaLibraryTestSupport.swift in Sources */,
 				748437EF1F1D4D8B00E8DDAF /* MenusServiceRemoteTests.m in Sources */,
 				4A3239642B73132B00EFD2A8 /* SelfHostedPluginManagementClientTests.swift in Sources */,
+				01B5F13B2BB318DD006C86D7 /* RFC339NoTimeDateFormatterTests.swift in Sources */,
 				73D5930121E550F500E4CF84 /* SiteVerticalsResponseDecodingTests.swift in Sources */,
 				FE5096682A309E4600DDD071 /* JetpackSocialServiceRemoteTests.swift in Sources */,
 				74A44DD41F13C6D8006CD8F4 /* RemoteNotificationTests.swift in Sources */,
