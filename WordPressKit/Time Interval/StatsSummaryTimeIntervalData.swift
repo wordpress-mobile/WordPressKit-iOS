@@ -184,11 +184,8 @@ private extension StatsSummaryData {
         }
     }
 
-    static var regularDateFormatter: DateFormatter {
-        let df = DateFormatter()
-        df.locale = Locale(identifier: "en_US_POS")
-        df.dateFormat = "yyyy-MM-dd"
-        return df
+    static var regularDateFormatter: RFC339NoTimeDateFormatter {
+        RFC339NoTimeDateFormatter()
     }
 
     // We have our own handrolled date format for data broken up on week basis.
@@ -200,9 +197,8 @@ private extension StatsSummaryData {
     // Note that in contrast to almost every other date used in Stats, those dates
     // represent the _beginning_ of the period they're applying to, e.g.
     // data set for `2019W02W18` is containing data for the period of Feb 18 - Feb 24 2019.
-    private static var weeksDateFormatter: DateFormatter {
-        let df = DateFormatter()
-        df.locale = Locale(identifier: "en_US_POS")
+    private static var weeksDateFormatter: RFC339NoTimeDateFormatter {
+        let df = RFC339NoTimeDateFormatter()
         df.dateFormat = "yyyy'W'MM'W'dd"
         return df
     }
