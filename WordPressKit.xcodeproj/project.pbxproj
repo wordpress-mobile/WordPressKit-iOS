@@ -262,7 +262,6 @@
 		740B23EA1F17FB4200067A2A /* xmlrpc-wp-getpost-success.xml in Resources */ = {isa = PBXBuildFile; fileRef = 740B23E01F17FB4200067A2A /* xmlrpc-wp-getpost-success.xml */; };
 		740B23ED1F17FB7E00067A2A /* xmlrpc-bad-username-password-error.xml in Resources */ = {isa = PBXBuildFile; fileRef = 740B23EB1F17FB7E00067A2A /* xmlrpc-bad-username-password-error.xml */; };
 		740B23EE1F17FB7E00067A2A /* xmlrpc-malformed-request-xml-error.xml in Resources */ = {isa = PBXBuildFile; fileRef = 740B23EC1F17FB7E00067A2A /* xmlrpc-malformed-request-xml-error.xml */; };
-		74155E251EF87DDF00A06AEA /* ServiceRemoteRESTTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 74155E241EF87DDF00A06AEA /* ServiceRemoteRESTTests.m */; };
 		742362D61F10250600BD0A7F /* MenusServiceRemote.h in Headers */ = {isa = PBXBuildFile; fileRef = 742362D41F10250600BD0A7F /* MenusServiceRemote.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		742362D71F10250600BD0A7F /* MenusServiceRemote.m in Sources */ = {isa = PBXBuildFile; fileRef = 742362D51F10250600BD0A7F /* MenusServiceRemote.m */; };
 		7430C9A31F1927180051B8E6 /* ReaderPostServiceRemote.h in Headers */ = {isa = PBXBuildFile; fileRef = 7430C99D1F1927180051B8E6 /* ReaderPostServiceRemote.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -998,7 +997,6 @@
 		740B23E01F17FB4200067A2A /* xmlrpc-wp-getpost-success.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "xmlrpc-wp-getpost-success.xml"; sourceTree = "<group>"; };
 		740B23EB1F17FB7E00067A2A /* xmlrpc-bad-username-password-error.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "xmlrpc-bad-username-password-error.xml"; sourceTree = "<group>"; };
 		740B23EC1F17FB7E00067A2A /* xmlrpc-malformed-request-xml-error.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "xmlrpc-malformed-request-xml-error.xml"; sourceTree = "<group>"; };
-		74155E241EF87DDF00A06AEA /* ServiceRemoteRESTTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServiceRemoteRESTTests.m; sourceTree = "<group>"; };
 		742362D41F10250600BD0A7F /* MenusServiceRemote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenusServiceRemote.h; sourceTree = "<group>"; };
 		742362D51F10250600BD0A7F /* MenusServiceRemote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenusServiceRemote.m; sourceTree = "<group>"; };
 		7430C99D1F1927180051B8E6 /* ReaderPostServiceRemote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReaderPostServiceRemote.h; sourceTree = "<group>"; };
@@ -1935,7 +1933,6 @@
 				74A923B11F2BE2DF00EC8F92 /* RESTTestable.swift */,
 				FE5096512A13938500DDD071 /* SharingServiceRemoteTests.swift */,
 				FEFFD99A26C1598F00F34231 /* ShareAppContentServiceRemoteTests.swift */,
-				74155E241EF87DDF00A06AEA /* ServiceRemoteRESTTests.m */,
 				731BA83521DECD61000FDFCD /* SiteCreationRequestEncodingTests.swift */,
 				731BA83721DECD97000FDFCD /* SiteCreationResponseDecodingTests.swift */,
 				74C473AE1EF2F7D1009918F2 /* SiteManagementServiceRemoteTests.swift */,
@@ -3372,7 +3369,6 @@
 				FE5096682A309E4600DDD071 /* JetpackSocialServiceRemoteTests.swift in Sources */,
 				74A44DD41F13C6D8006CD8F4 /* RemoteNotificationTests.swift in Sources */,
 				74A923B21F2BE2DF00EC8F92 /* RESTTestable.swift in Sources */,
-				74155E251EF87DDF00A06AEA /* ServiceRemoteRESTTests.m in Sources */,
 				46ABD0EA262EEE0400C7FF24 /* AppTransportSecuritySettingsTests.swift in Sources */,
 				74D67F0A1F15C24C0010C5ED /* PeopleServiceRemoteTests.swift in Sources */,
 				4A1123A22B19690C004690CF /* MultipartFormTests.swift in Sources */,
