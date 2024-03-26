@@ -48,6 +48,17 @@ _None._
 
 - Improve yyyy-MM-dd date formatter to support dates happening at DST transitions. [#771]
 
+## 15.0.0
+
+### Breaking Changes
+
+- Reworked the `NSDate` RFC3339 / WordPress.com JSON conversions API [#759]
+- Changed `FilePart` `filename` property to `fileName` [#765]
+
+### Bug Fixes
+
+- Fix crash when querying a WordPress plugin whose slug is not url-safe. [#767]
+
 ## 14.1.0
 
 ### New Features
