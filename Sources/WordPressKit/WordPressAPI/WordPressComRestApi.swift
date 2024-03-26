@@ -272,12 +272,14 @@ open class WordPressComRestApi: NSObject {
      returns nil it's because something happened on the request serialization and the network request was not started, but the failure callback
      will be invoked with the error specificing the serialization issues.
      */
-    @discardableResult open func multipartPOST(_ URLString: String,
-                              parameters: [String: AnyObject]?,
-                              fileParts: [FilePart],
-                              requestEnqueued: RequestEnqueuedBlock? = nil,
-                              success: @escaping SuccessResponseBlock,
-                              failure: @escaping FailureReponseBlock) -> Progress? {
+    @nonobjc @discardableResult open func multipartPOST(
+        _ URLString: String,
+        parameters: [String: AnyObject]?,
+        fileParts: [FilePart],
+        requestEnqueued: RequestEnqueuedBlock? = nil,
+        success: @escaping SuccessResponseBlock,
+        failure: @escaping FailureReponseBlock
+    ) -> Progress? {
         let progress = Progress.discreteProgress(totalUnitCount: 100)
 
         Task { @MainActor in
