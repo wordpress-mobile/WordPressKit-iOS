@@ -46,7 +46,7 @@ _None._
 
 ### Internal Changes
 
-_None._
+- Improve yyyy-MM-dd date formatter to support dates happening at DST transitions. [#771]
 
 ## 15.0.0
 

@@ -17,11 +17,8 @@ open class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
     public let siteID: Int
     private let siteTimezone: TimeZone
 
-    private var periodDataQueryDateFormatter: DateFormatter {
-        let df = DateFormatter()
-        df.locale = Locale(identifier: "en_US_POSIX")
-        df.dateFormat = "yyyy-MM-dd"
-        return df
+    private var periodDataQueryDateFormatter: RFC339NoTimeDateFormatter {
+        return RFC339NoTimeDateFormatter()
     }
 
     private lazy var calendarForSite: Calendar = {
