@@ -52,8 +52,11 @@ extension StatsPostDetails {
         self.lastTwoWeeks = StatsPostViews.mapDailyData(data: Array(data.suffix(14)))
     }
 
-    static var dateFormatter: RFC339NoTimeDateFormatter {
-        RFC339NoTimeDateFormatter()
+    static var dateFormatter: DateFormatter {
+        let df = DateFormatter()
+        df.locale = Locale(identifier: "en_US_POS")
+        df.dateFormat = "yyyy-MM-dd"
+        return df
     }
 }
 
