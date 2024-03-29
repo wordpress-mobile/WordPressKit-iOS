@@ -2,7 +2,7 @@
 
 Pod::Spec.new do |s|
   s.name          = 'WordPressKit'
-  s.version       = '15.0.0-beta.1'
+  s.version       = '15.0.0'
 
   s.summary       = 'WordPressKit offers a clean and simple WordPress.com and WordPress.org API.'
   s.description   = <<-DESC
@@ -18,9 +18,10 @@ Pod::Spec.new do |s|
   s.swift_version = '5.0'
 
   s.source        = { git: 'https://github.com/wordpress-mobile/WordPressKit-iOS.git', tag: s.version.to_s }
-  s.source_files  = 'WordPressKit/**/*.{h,m,swift}'
-  s.private_header_files = 'WordPressKit/Private/*.h'
-  s.header_dir = 'WordPressKit'
+  s.source_files  = 'Sources/**/*.{h,m,swift}'
+  # When headers are not specified, then all headers are considered public.
+  # The only thing left to do is to explicitly specify those that should be private.
+  s.private_header_files = 'Sources/WordPressKit/Private/*.h'
 
   s.dependency 'NSObject-SafeExpectations', '~> 0.0.4'
   s.dependency 'wpxmlrpc', '~> 0.10'
