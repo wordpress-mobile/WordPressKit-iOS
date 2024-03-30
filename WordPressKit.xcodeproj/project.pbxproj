@@ -557,6 +557,16 @@
 		AB49D0B325D1B4D80084905B /* post-likes-failure.json in Resources */ = {isa = PBXBuildFile; fileRef = AB49D0B225D1B4D80084905B /* post-likes-failure.json */; };
 		ABD95B7F25DD6C4B00735BEE /* CommentServiceRemoteRESTLikesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD95B7E25DD6C4B00735BEE /* CommentServiceRemoteRESTLikesTests.swift */; };
 		ABD95B8525DD6DA200735BEE /* comment-likes-success.json in Resources */ = {isa = PBXBuildFile; fileRef = ABD95B8425DD6DA200735BEE /* comment-likes-success.json */; };
+		B04D8C042BB7895A002717A2 /* stats-insight-comments.json in Resources */ = {isa = PBXBuildFile; fileRef = B04D8BF92BB7895A002717A2 /* stats-insight-comments.json */; };
+		B04D8C052BB7895A002717A2 /* stats-insight-followers.json in Resources */ = {isa = PBXBuildFile; fileRef = B04D8BFA2BB7895A002717A2 /* stats-insight-followers.json */; };
+		B04D8C062BB7895A002717A2 /* stats-insight-last-post.json in Resources */ = {isa = PBXBuildFile; fileRef = B04D8BFB2BB7895A002717A2 /* stats-insight-last-post.json */; };
+		B04D8C072BB7895A002717A2 /* stats-insight-publicize.json in Resources */ = {isa = PBXBuildFile; fileRef = B04D8BFC2BB7895A002717A2 /* stats-insight-publicize.json */; };
+		B04D8C082BB7895A002717A2 /* stats-insight-streak.json in Resources */ = {isa = PBXBuildFile; fileRef = B04D8BFD2BB7895A002717A2 /* stats-insight-streak.json */; };
+		B04D8C092BB7895A002717A2 /* stats-insight-summary.json in Resources */ = {isa = PBXBuildFile; fileRef = B04D8BFE2BB7895A002717A2 /* stats-insight-summary.json */; };
+		B04D8C0A2BB7895A002717A2 /* stats-insight-tag-and-category.json in Resources */ = {isa = PBXBuildFile; fileRef = B04D8BFF2BB7895A002717A2 /* stats-insight-tag-and-category.json */; };
+		B04D8C0B2BB7895A002717A2 /* stats-insight.json in Resources */ = {isa = PBXBuildFile; fileRef = B04D8C002BB7895A002717A2 /* stats-insight.json */; };
+		B04D8C0C2BB7895A002717A2 /* stats.json in Resources */ = {isa = PBXBuildFile; fileRef = B04D8C012BB7895A002717A2 /* stats.json */; };
+		B04D8C0D2BB7895A002717A2 /* StatsInsightDecodingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B04D8C032BB7895A002717A2 /* StatsInsightDecodingTests.swift */; };
 		B5969E1C20A49AC4005E9DF1 /* NSString+MD5.h in Headers */ = {isa = PBXBuildFile; fileRef = B5969E1920A49AC4005E9DF1 /* NSString+MD5.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B5969E1D20A49AC4005E9DF1 /* NSString+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = B5969E1A20A49AC4005E9DF1 /* NSString+MD5.m */; };
 		B5A4822B20AC6C0B009D95F6 /* WPKitLogging.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A4822A20AC6C0B009D95F6 /* WPKitLogging.swift */; };
@@ -1296,6 +1306,16 @@
 		AB49D0B225D1B4D80084905B /* post-likes-failure.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "post-likes-failure.json"; sourceTree = "<group>"; };
 		ABD95B7E25DD6C4B00735BEE /* CommentServiceRemoteRESTLikesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentServiceRemoteRESTLikesTests.swift; sourceTree = "<group>"; };
 		ABD95B8425DD6DA200735BEE /* comment-likes-success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "comment-likes-success.json"; sourceTree = "<group>"; };
+		B04D8BF92BB7895A002717A2 /* stats-insight-comments.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "stats-insight-comments.json"; sourceTree = "<group>"; };
+		B04D8BFA2BB7895A002717A2 /* stats-insight-followers.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "stats-insight-followers.json"; sourceTree = "<group>"; };
+		B04D8BFB2BB7895A002717A2 /* stats-insight-last-post.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "stats-insight-last-post.json"; sourceTree = "<group>"; };
+		B04D8BFC2BB7895A002717A2 /* stats-insight-publicize.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "stats-insight-publicize.json"; sourceTree = "<group>"; };
+		B04D8BFD2BB7895A002717A2 /* stats-insight-streak.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "stats-insight-streak.json"; sourceTree = "<group>"; };
+		B04D8BFE2BB7895A002717A2 /* stats-insight-summary.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "stats-insight-summary.json"; sourceTree = "<group>"; };
+		B04D8BFF2BB7895A002717A2 /* stats-insight-tag-and-category.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "stats-insight-tag-and-category.json"; sourceTree = "<group>"; };
+		B04D8C002BB7895A002717A2 /* stats-insight.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "stats-insight.json"; sourceTree = "<group>"; };
+		B04D8C012BB7895A002717A2 /* stats.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = stats.json; sourceTree = "<group>"; };
+		B04D8C032BB7895A002717A2 /* StatsInsightDecodingTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatsInsightDecodingTests.swift; sourceTree = "<group>"; };
 		B5969E1920A49AC4005E9DF1 /* NSString+MD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+MD5.h"; sourceTree = "<group>"; };
 		B5969E1A20A49AC4005E9DF1 /* NSString+MD5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+MD5.m"; sourceTree = "<group>"; };
 		B5A4822A20AC6C0B009D95F6 /* WPKitLogging.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WPKitLogging.swift; sourceTree = "<group>"; };
@@ -2419,6 +2439,22 @@
 			path = "Mock Data";
 			sourceTree = "<group>";
 		};
+		B04D8C022BB7895A002717A2 /* MockData */ = {
+			isa = PBXGroup;
+			children = (
+				B04D8BF92BB7895A002717A2 /* stats-insight-comments.json */,
+				B04D8BFA2BB7895A002717A2 /* stats-insight-followers.json */,
+				B04D8BFB2BB7895A002717A2 /* stats-insight-last-post.json */,
+				B04D8BFC2BB7895A002717A2 /* stats-insight-publicize.json */,
+				B04D8BFD2BB7895A002717A2 /* stats-insight-streak.json */,
+				B04D8BFE2BB7895A002717A2 /* stats-insight-summary.json */,
+				B04D8BFF2BB7895A002717A2 /* stats-insight-tag-and-category.json */,
+				B04D8C002BB7895A002717A2 /* stats-insight.json */,
+				B04D8C012BB7895A002717A2 /* stats.json */,
+			);
+			path = MockData;
+			sourceTree = "<group>";
+		};
 		B5A4821F20AC6B5C009D95F6 /* Private */ = {
 			isa = PBXGroup;
 			children = (
@@ -2490,6 +2526,8 @@
 		F3FF8A1D279C86FE00E5C90F /* Insights */ = {
 			isa = PBXGroup;
 			children = (
+				B04D8C022BB7895A002717A2 /* MockData */,
+				B04D8C032BB7895A002717A2 /* StatsInsightDecodingTests.swift */,
 				F3FF8A1E279C871A00E5C90F /* StatsDotComFollowersInsightTests.swift */,
 			);
 			path = Insights;
@@ -2755,6 +2793,7 @@
 				9A881756223C01E400A3AB20 /* jetpack-service-error-activation-failure.json in Resources */,
 				740B23E71F17FB4200067A2A /* xmlrpc-metaweblog-newpost-success.xml in Resources */,
 				74FC6F411F191C1D00112505 /* notifications-last-seen.json in Resources */,
+				B04D8C092BB7895A002717A2 /* stats-insight-summary.json in Resources */,
 				74C473BD1EF329CA009918F2 /* site-export-auth-failure.json in Resources */,
 				E6C1E84A1EF21FC100D139D9 /* is-passwordless-account-success.json in Resources */,
 				BA3F139224A0AB54006367A3 /* plugin-install-already-installed.json in Resources */,
@@ -2794,6 +2833,7 @@
 				FFE247B420C891E6002DF3A2 /* WordPressComOAuthSuccess.json in Resources */,
 				404057D4221C5FC40060250C /* stats-countries-data.json in Resources */,
 				74D67F1F1F15C3240010C5ED /* people-send-invitation-success.json in Resources */,
+				B04D8C0A2BB7895A002717A2 /* stats-insight-tag-and-category.json in Resources */,
 				FFE247B020C891E6002DF3A2 /* WordPressComAuthenticateWithIDToken2FANeededSuccess.json in Resources */,
 				8B2F4BEB24ABCA700056C08A /* reader-cards-success.json in Resources */,
 				436D563E2118E34D00CEAA33 /* supported-states-success.json in Resources */,
@@ -2818,16 +2858,20 @@
 				74D67F141F15C2D70010C5ED /* site-roles-bad-json-failure.json in Resources */,
 				9A2D0B31225E1245009E585F /* jetpack-service-check-site-failure-data.json in Resources */,
 				40E4698B2017C2840030DB5F /* plugin-directory-popular.json in Resources */,
+				B04D8C0B2BB7895A002717A2 /* stats-insight.json in Resources */,
 				74C473B91EF325F6009918F2 /* site-delete-missing-status-failure.json in Resources */,
 				7403A2FD1EF06FEB00DED7DC /* me-settings-change-primary-site-success.json in Resources */,
+				B04D8C082BB7895A002717A2 /* stats-insight-streak.json in Resources */,
 				74C473B71EF3229B009918F2 /* site-delete-unexpected-json-failure.json in Resources */,
 				3297E2852564746800287D21 /* jetpack-scan-unavailable.json in Resources */,
+				B04D8C072BB7895A002717A2 /* stats-insight-publicize.json in Resources */,
 				AB49D0B325D1B4D80084905B /* post-likes-failure.json in Resources */,
 				9A2D0B30225E1245009E585F /* jetpack-service-check-site-success-no-jetpack.json in Resources */,
 				FA79F1882591730D00D235A9 /* backup-prepare-backup-success.json in Resources */,
 				E6B0461225E5B6F500DF6F4F /* sites-invites.json in Resources */,
 				9A88174E223C01E400A3AB20 /* jetpack-service-error-unknown.json in Resources */,
 				40819771221DFDB700A298E4 /* stats-posts-data.json in Resources */,
+				B04D8C062BB7895A002717A2 /* stats-insight-last-post.json in Resources */,
 				740B23EE1F17FB7E00067A2A /* xmlrpc-malformed-request-xml-error.xml in Resources */,
 				826016F91F9FAF6300533B6C /* activity-log-success-3.json in Resources */,
 				FE20A6A8282BC83A0025E975 /* blogging-prompts-settings-update-with-response.json in Resources */,
@@ -2899,6 +2943,7 @@
 				E6B0461525E5B6F500DF6F4F /* sites-invites-links-disable-empty.json in Resources */,
 				93BD27631EE73442002BB00B /* me-sites-visibility-bad-json-failure.json in Resources */,
 				17BF9A7220C7E18200BF57D2 /* reader-site-search-success-hasmore.json in Resources */,
+				B04D8C0C2BB7895A002717A2 /* stats.json in Resources */,
 				FE5096632A309DE000DDD071 /* jetpack-social-no-publicize.json in Resources */,
 				9AB6D64B21872A0D0008F274 /* post-revisions-success.json in Resources */,
 				1DF972C029B107E7007A72BC /* videopress-public-video.json in Resources */,
@@ -2908,6 +2953,7 @@
 				3297E1E42564683600287D21 /* jetpack-scan-in-progress.json in Resources */,
 				E689431E21B0A1A800C5E4A7 /* plans-mobile-success.json in Resources */,
 				BA8EA71724A0763900D5CC9F /* site-plugins-malformed.json in Resources */,
+				B04D8C052BB7895A002717A2 /* stats-insight-followers.json in Resources */,
 				74D67F3B1F15C3740010C5ED /* site-viewers-delete-success.json in Resources */,
 				93BD275F1EE73442002BB00B /* me-sites-auth-failure.json in Resources */,
 				74585BA11F0D6F5300E7E667 /* domain-service-empty.json in Resources */,
@@ -2920,6 +2966,7 @@
 				74D67F151F15C2D70010C5ED /* site-roles-success.json in Resources */,
 				8BFB4E6625B07905004D026E /* jetpack-capabilities-34197361-success.json in Resources */,
 				9A881753223C01E400A3AB20 /* jetpack-service-error-site-is-jetpack.json in Resources */,
+				B04D8C042BB7895A002717A2 /* stats-insight-comments.json in Resources */,
 				D8DB404221EF22B500B8238E /* site-segments-multiple.json in Resources */,
 				740B23E11F17FB4200067A2A /* xmlrpc-metaweblog-editpost-bad-xml-failure.xml in Resources */,
 				BA5AEF6D24923DDD007D8E49 /* plugin-state-contact-form-7.json in Resources */,
@@ -3376,6 +3423,7 @@
 				46ABD0EA262EEE0400C7FF24 /* AppTransportSecuritySettingsTests.swift in Sources */,
 				74D67F0A1F15C24C0010C5ED /* PeopleServiceRemoteTests.swift in Sources */,
 				4A1123A22B19690C004690CF /* MultipartFormTests.swift in Sources */,
+				B04D8C0D2BB7895A002717A2 /* StatsInsightDecodingTests.swift in Sources */,
 				9F3E0BAE20873836009CB5BA /* ReaderTopicServiceRemoteTest+Subscriptions.swift in Sources */,
 				4A05E79E2B30F3C500C25E3B /* HTTPRequestHelpers.swift in Sources */,
 				BA0637ED2492382200AF8419 /* PluginStateTests.swift in Sources */,
