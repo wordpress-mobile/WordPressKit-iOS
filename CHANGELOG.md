@@ -34,7 +34,8 @@ _None._
 
 ### Breaking Changes
 
-_None._
+- Changes the structure of `StatsAnnualAndMostPopularTimeInsight` to more accurately reflect JSON response. [#763]
+- Reworked the `NSDate` RFC3339 / WordPress.com JSON conversions API [#759]
 
 ### New Features
 
@@ -47,6 +48,7 @@ _None._
 ### Internal Changes
 
 - Improve yyyy-MM-dd date formatter to support dates happening at DST transitions. [#771]
+- Improved parsing using Codable for Stats Insight entities. [#763]
 
 ## 15.0.0
 
@@ -72,6 +74,7 @@ _None._
 ### Internal Changes
 
 - Add WP.com theme type information. [#750]
+- Add `page` and `number` parameters to fetchFollowedSites in `ReaderTopicServiceRemote` [#753]
 
 ## 14.0.1
 
