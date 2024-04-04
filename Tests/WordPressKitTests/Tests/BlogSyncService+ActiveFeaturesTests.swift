@@ -1,7 +1,7 @@
 import XCTest
 @testable import WordPressKit
 
-class BlogServiceRemote_ActiveFeaturesTests: RemoteTestCase, RESTTestable {
+class BlogSyncService_ActiveFeaturesTests: RemoteTestCase, RESTTestable {
 
     private let siteID = NSNumber(value: 1001)
     private let syncBlogWithFeaturesFilename = "sites-site-active-features.json"
@@ -11,7 +11,7 @@ class BlogServiceRemote_ActiveFeaturesTests: RemoteTestCase, RESTTestable {
         "/sites/\(siteID)"
     }
 
-    private lazy var remote: BlogServiceRemoteREST = {
+    private lazy var remote: BlogSyncService = {
         .init(wordPressComRestApi: getRestApi(), siteID: siteID)
     }()
 
@@ -28,7 +28,7 @@ class BlogServiceRemote_ActiveFeaturesTests: RemoteTestCase, RESTTestable {
             }
         }
 
-        let features = try XCTUnwrap(blog?.planActiveFeatures)
+        let features = try XCTUnwrap(blog.planActiveFeatures)
         XCTAssertEqual(features.count, 3)
     }
 
@@ -43,7 +43,7 @@ class BlogServiceRemote_ActiveFeaturesTests: RemoteTestCase, RESTTestable {
             }
         }
 
-        let features = try XCTUnwrap(blog?.planActiveFeatures)
+        let features = try XCTUnwrap(blog.planActiveFeatures)
         XCTAssertTrue(features.isEmpty)
     }
 }

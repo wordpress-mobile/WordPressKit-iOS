@@ -182,28 +182,6 @@ static NSInteger const RemoteBlogUncategorizedCategory                      = 1;
           }];
 }
 
-- (void)syncBlogWithSuccess:(BlogDetailsHandler)success
-                    failure:(void (^)(NSError *))failure
-{
-    NSString *path = [self pathForSite];
-    NSString *requestUrl = [self pathForEndpoint:path
-                                     withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
-
-    [self.wordPressComRESTAPI get:requestUrl
-                       parameters:nil
-                          success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
-                              NSDictionary *responseDict = (NSDictionary *)responseObject;
-                              RemoteBlog *remoteBlog = [[RemoteBlog alloc] initWithJSONDictionary:responseDict];
-                              if (success) {
-                                  success(remoteBlog);
-                              }
-                          } failure:^(NSError *error, NSHTTPURLResponse *httpResponse) {
-                              if (failure) {
-                                  failure(error);
-                              }
-                          }];
-}
-
 - (void)syncBlogSettingsWithSuccess:(SettingsHandler)success
                         failure:(void (^)(NSError *error))failure
 {
@@ -311,11 +289,6 @@ static NSInteger const RemoteBlogUncategorizedCategory                      = 1;
 - (NSString *)pathForUsers
 {
     return [NSString stringWithFormat:@"sites/%@/users", self.siteID];
-}
-
-- (NSString *)pathForSite
-{
-    return [NSString stringWithFormat:@"sites/%@", self.siteID];
 }
 
 - (NSString *)pathForPostTypes

@@ -54,9 +54,9 @@ static NSTimeInterval const TestExpectationTimeout = 5;
     OCMStub([blog blogID]).andReturn(@10);
 
     WordPressComRestApi *api = OCMStrictClassMock([WordPressComRestApi class]);
-    BlogServiceRemoteREST *service = nil;
+    BlogSyncService *service = nil;
 
-    XCTAssertNoThrow(service = [[BlogServiceRemoteREST alloc] initWithWordPressComRestApi:api siteID:blog.blogID]);
+    XCTAssertNoThrow(service = [[BlogSyncService alloc] initWithWordPressComRestApi:api siteID:blog.blogID]);
 
     NSString *endpoint = [NSString stringWithFormat:@"sites/%@", blog.blogID];
     NSString *url = [service pathForEndpoint:endpoint
