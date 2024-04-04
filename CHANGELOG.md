@@ -34,7 +34,7 @@ _None._
 
 ### Breaking Changes
 
-_None._
+- Remove unused `anonymousWordPressComRestApiWithUserAgent` method from `ServiceRemoteWordPressComREST` [TBD]
 
 ### New Features
 
