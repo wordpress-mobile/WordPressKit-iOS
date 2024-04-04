@@ -298,13 +298,6 @@ static NSString * const RemoteBlogDefaultPostFormat                         = @"
     return postType;
 }
 
-- (RemoteBlogSettings *)remoteBlogSettingFromJSONDictionary:(NSDictionary *)json
-{
-    NSAssert([json isKindOfClass:[NSDictionary class]], @"Invalid Settings Kind");
-    
-    return [[RemoteBlogSettings alloc] initWithJsonDictionary:json];
-}
-
 - (NSDictionary *)remoteSettingsToDictionary:(RemoteBlogSettings *)settings
 {
     return [settings dictionaryRepresentation];
