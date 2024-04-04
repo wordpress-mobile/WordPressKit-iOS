@@ -4,7 +4,9 @@ common_params:
     - automattic/a8c-ci-toolkit#3.1.0
   # Common environment values to use with the `env` key.
   env: &common_env
-    IMAGE_ID: xcode-15.0.1
+    # -v3 contains a workaround for a Simulator boot issue
+    # See paaHJt-6gL-p2#comment-8712
+    IMAGE_ID: xcode-15.3-v3
 
 # This is the default pipeline – it will build and test the app
 steps:
