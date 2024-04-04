@@ -29,4 +29,28 @@ public class BlogSyncService: ServiceRemoteWordPressComREST {
             }
         )
     }
+
+    @objc public func syncBlogSettings(
+        success: ((RemoteBlogSettings) -> Void)?,
+        failure: ((Error?) -> Void)?
+    ) {
+        wordPressComRESTAPI.get(
+            path(forEndpoint: "sites/\(blogID)/settings", withVersion: ._1_1),
+            parameters: nil,
+            success: { response, _ in
+                guard let success else { return }
+                guard let responseDict = response as? NSDictionary else {
+                    failure?(.none)
+                    return
+                }
+
+                let remoteBlogSettings = RemoteBlogSettings(jsonDictionary: responseDict)
+                success(remoteBlogSettings)
+            },
+            failure: { error, _ in
+                failure?(error)
+            }
+        )
+
+    }
 }

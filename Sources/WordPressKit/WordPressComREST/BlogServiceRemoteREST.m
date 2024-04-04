@@ -133,32 +133,6 @@ static NSString * const RemoteBlogDefaultPostFormat                         = @"
           }];
 }
 
-- (void)syncBlogSettingsWithSuccess:(SettingsHandler)success
-                        failure:(void (^)(NSError *error))failure
-{
-    NSString *path = [self pathForSettings];
-    NSString *requestUrl = [self pathForEndpoint:path withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
-    
-    [self.wordPressComRESTAPI get:requestUrl
-       parameters:nil
-          success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
-              if (![responseObject isKindOfClass:[NSDictionary class]]){
-                  if (failure) {
-                      failure(nil);
-                  }
-                  return;
-              }
-              RemoteBlogSettings *remoteSettings = [self remoteBlogSettingFromJSONDictionary:responseObject];
-              if (success) {
-                  success(remoteSettings);
-              }
-          } failure:^(NSError *error, NSHTTPURLResponse *httpResponse) {
-              if (failure) {
-                  failure(error);
-              }
-          }];
-}
-
 - (void)updateBlogSettings:(RemoteBlogSettings *)settings
                    success:(SuccessHandler)success
                    failure:(void (^)(NSError *error))failure;
@@ -251,12 +225,6 @@ static NSString * const RemoteBlogDefaultPostFormat                         = @"
 {
     return [NSString stringWithFormat:@"sites/%@/post-formats", self.siteID];
 }
-
-- (NSString *)pathForSettings
-{
-    return [NSString stringWithFormat:@"sites/%@/settings", self.siteID];
-}
-
 
 #pragma mark - Mapping methods
 

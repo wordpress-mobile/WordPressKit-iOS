@@ -7,17 +7,6 @@ typedef void (^SettingsHandler)(RemoteBlogSettings *settings);
 @interface BlogServiceRemoteREST : SiteServiceRemoteWordPressComREST <BlogServiceRemote>
 
 /**
- *  @brief      Synchronizes a blog's settings.
- *
- *  @note       Requires WPCOM/Jetpack APIs.
- *
- *  @param      success     The block that will be executed on success.  Can be nil.
- *  @param      failure     The block that will be executed on failure.  Can be nil.
- */
-- (void)syncBlogSettingsWithSuccess:(SettingsHandler)success
-                            failure:(void (^)(NSError *error))failure;
-
-/**
  *  @brief      Updates the blog settings.
  *
  *  @note       Requires WPCOM/Jetpack APIs.
