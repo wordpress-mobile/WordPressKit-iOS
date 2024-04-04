@@ -1,4 +1,5 @@
 import Foundation
+import NSObject_SafeExpectations
 
 /// This class encapsulates all of the *remote* settings available for a Blog entity
 ///
@@ -197,6 +198,68 @@ public class RemoteBlogSettings: NSObject {
         get {
             return commentsSortOrder == RemoteBlogSettings.AscendingStringValue
         }
+    }
+
+    /// Parses details from a JSON dictionary, as returned by the WordPress.com REST API.
+    @objc
+    public init(jsonDictionary json: NSDictionary) {
+        let rawSettings = json.object(forKey: "settings") as? NSDictionary ?? [:]
+
+        name = json.string(forKey: "name")
+        tagline = json.string(forKey: "description")
+        privacy = rawSettings.number(forKey: "blog_public")
+        languageID = rawSettings.number(forKey: "lang_id")
+        iconMediaID = rawSettings.number(forKey: "site_icon")
+        gmtOffset = rawSettings.number(forKey: "gmt_offset")
+        timezoneString = rawSettings.string(forKey: "timezone_string")
+
+        defaultCategoryID = rawSettings.number(forKey: "default_category") ?? 1
+        // Note: the backend might send '0' as a number, OR a string value.
+        // See https://github.com/wordpress-mobile/WordPress-iOS/issues/4187
+        let defaultPostFormatKey = "default_post_format"
+        if let defaultPostFormatNumber = rawSettings.number(forKey: defaultPostFormatKey), defaultPostFormatNumber == 0 ||
+            rawSettings.string(forKey: defaultPostFormatKey) == "0" {
+            defaultPostFormat = "standard"
+        } else {
+            defaultPostFormat = rawSettings.string(forKey: defaultPostFormatKey)
+        }
+        dateFormat = rawSettings.string(forKey: "date_format")
+        timeFormat = rawSettings.string(forKey: "time_format")
+        startOfWeek = rawSettings.string(forKey: "start_of_week")
+        postsPerPage = rawSettings.number(forKey: "posts_per_page")
+
+        commentsAllowed = rawSettings.number(forKey: "default_comment_status")
+        commentsBlocklistKeys = rawSettings.string(forKey: "blacklist_keys")
+        commentsCloseAutomatically = rawSettings.number(forKey: "close_comments_for_old_posts")
+        commentsCloseAutomaticallyAfterDays = rawSettings.number(forKey: "close_comments_days_old")
+        commentsFromKnownUsersAllowlisted = rawSettings.number(forKey: "comment_whitelist")
+        commentsMaximumLinks = rawSettings.number(forKey: "comment_max_links")
+        commentsModerationKeys = rawSettings.string(forKey: "moderation_keys")
+        commentsPagingEnabled = rawSettings.number(forKey: "page_comments")
+        commentsPageSize = rawSettings.number(forKey: "comments_per_page")
+        commentsRequireManualModeration = rawSettings.number(forKey: "comment_moderation")
+        commentsRequireNameAndEmail = rawSettings.number(forKey: "require_name_email")
+        commentsRequireRegistration = rawSettings.number(forKey: "comment_registration")
+        commentsSortOrder = rawSettings.string(forKey: "comment_order")
+        commentsThreadingEnabled = rawSettings.number(forKey: "thread_comments")
+        commentsThreadingDepth = rawSettings.number(forKey: "thread_comments_depth")
+        pingbackOutboundEnabled = rawSettings.number(forKey: "default_pingback_flag")
+        pingbackInboundEnabled = rawSettings.number(forKey: "default_ping_status")
+
+        relatedPostsAllowed = rawSettings.number(forKey: "jetpack_relatedposts_allowed")
+        relatedPostsEnabled = rawSettings.number(forKey: "jetpack_relatedposts_enabled")
+        relatedPostsShowHeadline = rawSettings.number(forKey: "jetpack_relatedposts_show_headline")
+        relatedPostsShowThumbnails = rawSettings.number(forKey: "jetpack_relatedposts_show_thumbnails")
+
+        ampSupported = rawSettings.number(forKey: "amp_is_supported")
+        ampEnabled = rawSettings.number(forKey: "amp_is_enabled")
+
+        sharingButtonStyle = rawSettings.string(forKey: "sharing_button_style")
+        sharingLabel = rawSettings.string(forKey: "sharing_label")
+        sharingTwitterName = rawSettings.string(forKey: "twitter_via")
+        sharingCommentLikesEnabled = rawSettings.number(forKey: "jetpack_comment_likes_enabled")
+        sharingDisabledLikes = rawSettings.number(forKey: "disabled_likes")
+        sharingDisabledReblogs = rawSettings.number(forKey: "disabled_reblogs")
     }
 
     // MARK: - Private
