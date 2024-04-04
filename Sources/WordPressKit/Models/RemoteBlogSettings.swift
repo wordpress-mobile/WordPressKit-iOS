@@ -309,8 +309,71 @@ public class RemoteBlogSettings: NSObject {
         sharingDisabledReblogs = rawSettings.number(forKey: CodingKeys.sharingDisabledReblogs.rawValue)
     }
 
+    @objc
+    public var dictionaryRepresentation: NSDictionary {
+        let parameters = NSMutableDictionary()
+
+        name.ifSome { parameters.setValue($0, forKey: CodingKeys.name.rawValue) }
+        tagline.ifSome { parameters.setValue($0, forKey: CodingKeys.tagline.rawValue) }
+        privacy.ifSome { parameters.setValue($0, forKey: CodingKeys.privacy.rawValue) }
+        languageID.ifSome { parameters.setValue($0, forKey: CodingKeys.languageID.rawValue) }
+        iconMediaID.ifSome { parameters.setValue($0, forKey: CodingKeys.iconMediaID.rawValue) }
+        gmtOffset.ifSome { parameters.setValue($0, forKey: CodingKeys.gmtOffset.rawValue) }
+        timezoneString.ifSome { parameters.setValue($0, forKey: CodingKeys.timezoneString.rawValue) }
+
+        defaultCategoryID.ifSome { parameters.setValue($0, forKey: CodingKeys.defaultCategory.rawValue) }
+        defaultPostFormat.ifSome { parameters.setValue($0, forKey: CodingKeys.defaultPostFormat.rawValue) }
+        dateFormat.ifSome { parameters.setValue($0, forKey: CodingKeys.dateFormat.rawValue) }
+        timeFormat.ifSome { parameters.setValue($0, forKey: CodingKeys.timeFormat.rawValue) }
+        startOfWeek.ifSome { parameters.setValue($0, forKey: CodingKeys.startOfWeek.rawValue) }
+        postsPerPage.ifSome { parameters.setValue($0, forKey: CodingKeys.postsPerPage.rawValue) }
+
+        commentsAllowed.ifSome { parameters.setValue($0, forKey: CodingKeys.commentsAllowed.rawValue) }
+        commentsBlocklistKeys.ifSome { parameters.setValue($0, forKey: CodingKeys.commentsBlocklistKeys.rawValue) }
+        commentsCloseAutomatically.ifSome { parameters.setValue($0, forKey: CodingKeys.commentsCloseAutomatically.rawValue) }
+        commentsCloseAutomaticallyAfterDays.ifSome { parameters.setValue($0, forKey: CodingKeys.commentsCloseAutomaticallyAfterDays.rawValue) }
+        commentsFromKnownUsersAllowlisted.ifSome { parameters.setValue($0, forKey: CodingKeys.commentsKnownUsersAllowlist.rawValue) }
+        commentsMaximumLinks.ifSome { parameters.setValue($0, forKey: CodingKeys.commentsMaxLinks.rawValue) }
+        commentsModerationKeys.ifSome { parameters.setValue($0, forKey: CodingKeys.commentsModerationKeys.rawValue) }
+        commentsPagingEnabled.ifSome { parameters.setValue($0, forKey: CodingKeys.commentsPagingEnabled.rawValue) }
+        commentsPageSize.ifSome { parameters.setValue($0, forKey: CodingKeys.commentsPageSize.rawValue) }
+        commentsRequireManualModeration.ifSome { parameters.setValue($0, forKey: CodingKeys.commentsRequireModeration.rawValue) }
+        commentsRequireNameAndEmail.ifSome { parameters.setValue($0, forKey: CodingKeys.commentsRequireNameAndEmail.rawValue) }
+        commentsRequireRegistration.ifSome { parameters.setValue($0, forKey: CodingKeys.commentsRequireRegistration.rawValue) }
+        commentsSortOrder.ifSome { parameters.setValue($0, forKey: CodingKeys.commentsSortOrder.rawValue) }
+        commentsThreadingEnabled.ifSome { parameters.setValue($0, forKey: CodingKeys.commentsThreadingEnabled.rawValue) }
+        commentsThreadingDepth.ifSome { parameters.setValue($0, forKey: CodingKeys.commentsThreadingDepth.rawValue) }
+
+        pingbackOutboundEnabled.ifSome { parameters.setValue($0, forKey: CodingKeys.pingbackOutbound.rawValue) }
+        pingbackInboundEnabled.ifSome { parameters.setValue($0, forKey: CodingKeys.pingbackInbound.rawValue) }
+
+        relatedPostsEnabled.ifSome { parameters.setValue($0, forKey: CodingKeys.relatedPostsEnabled.rawValue) }
+        relatedPostsShowHeadline.ifSome { parameters.setValue($0, forKey: CodingKeys.relatedPostsShowHeadline.rawValue) }
+        relatedPostsShowThumbnails.ifSome { parameters.setValue($0, forKey: CodingKeys.relatedPostsShowThumbnails.rawValue) }
+
+        ampEnabled.ifSome { parameters.setValue($0, forKey: CodingKeys.ampEnabled.rawValue) }
+
+        sharingButtonStyle.ifSome { parameters.setValue($0, forKey: CodingKeys.sharingButtonStyle.rawValue) }
+        sharingLabel.ifSome { parameters.setValue($0, forKey: CodingKeys.sharingLabel.rawValue) }
+        sharingTwitterName.ifSome { parameters.setValue($0, forKey: CodingKeys.sharingTwitterName.rawValue) }
+        sharingCommentLikesEnabled.ifSome { parameters.setValue($0, forKey: CodingKeys.sharingCommentLikesEnabled.rawValue) }
+        sharingDisabledLikes.ifSome { parameters.setValue($0, forKey: CodingKeys.sharingDisabledLikes.rawValue) }
+        sharingDisabledReblogs.ifSome { parameters.setValue($0, forKey: CodingKeys.sharingDisabledReblogs.rawValue) }
+
+        return parameters
+    }
+
     // MARK: - Private
 
     private static let AscendingStringValue     = "asc"
     private static let DescendingStringValue    = "desc"
+}
+
+extension Optional {
+
+    func ifSome(_ body: (Wrapped) -> Void) {
+        guard case .some(let value) = self else { return }
+
+        body(value)
+    }
 }

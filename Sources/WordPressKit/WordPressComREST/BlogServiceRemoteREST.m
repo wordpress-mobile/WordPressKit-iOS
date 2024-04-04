@@ -7,52 +7,6 @@
 @import WordPressShared;
 
 #pragma mark - Parsing Keys
-static NSString * const RemoteBlogNameKey                                   = @"name";
-static NSString * const RemoteBlogTaglineKey                                = @"description";
-static NSString * const RemoteBlogPrivacyKey                                = @"blog_public";
-static NSString * const RemoteBlogLanguageKey                               = @"lang_id";
-static NSString * const RemoteBlogIconKey                                   = @"site_icon";
-static NSString * const RemoteBlogGMTOffsetKey                              = @"gmt_offset";
-static NSString * const RemoteBlogTimezoneStringKey                         = @"timezone_string";
-
-static NSString * const RemoteBlogSettingsKey                               = @"settings";
-static NSString * const RemoteBlogDefaultCategoryKey                        = @"default_category";
-static NSString * const RemoteBlogDefaultPostFormatKey                      = @"default_post_format";
-static NSString * const RemoteBlogDateFormatKey                             = @"date_format";
-static NSString * const RemoteBlogTimeFormatKey                             = @"time_format";
-static NSString * const RemoteBlogStartOfWeekKey                            = @"start_of_week";
-static NSString * const RemoteBlogPostsPerPageKey                           = @"posts_per_page";
-static NSString * const RemoteBlogCommentsAllowedKey                        = @"default_comment_status";
-static NSString * const RemoteBlogCommentsBlocklistKeys                     = @"blacklist_keys";
-static NSString * const RemoteBlogCommentsCloseAutomaticallyKey             = @"close_comments_for_old_posts";
-static NSString * const RemoteBlogCommentsCloseAutomaticallyAfterDaysKey    = @"close_comments_days_old";
-static NSString * const RemoteBlogCommentsKnownUsersAllowlistKey            = @"comment_whitelist";
-static NSString * const RemoteBlogCommentsMaxLinksKey                       = @"comment_max_links";
-static NSString * const RemoteBlogCommentsModerationKeys                    = @"moderation_keys";
-static NSString * const RemoteBlogCommentsPagingEnabledKey                  = @"page_comments";
-static NSString * const RemoteBlogCommentsPageSizeKey                       = @"comments_per_page";
-static NSString * const RemoteBlogCommentsRequireModerationKey              = @"comment_moderation";
-static NSString * const RemoteBlogCommentsRequireNameAndEmailKey            = @"require_name_email";
-static NSString * const RemoteBlogCommentsRequireRegistrationKey            = @"comment_registration";
-static NSString * const RemoteBlogCommentsSortOrderKey                      = @"comment_order";
-static NSString * const RemoteBlogCommentsThreadingEnabledKey               = @"thread_comments";
-static NSString * const RemoteBlogCommentsThreadingDepthKey                 = @"thread_comments_depth";
-static NSString * const RemoteBlogCommentsPingbackOutboundKey               = @"default_pingback_flag";
-static NSString * const RemoteBlogCommentsPingbackInboundKey                = @"default_ping_status";
-static NSString * const RemoteBlogRelatedPostsAllowedKey                    = @"jetpack_relatedposts_allowed";
-static NSString * const RemoteBlogRelatedPostsEnabledKey                    = @"jetpack_relatedposts_enabled";
-static NSString * const RemoteBlogRelatedPostsShowHeadlineKey               = @"jetpack_relatedposts_show_headline";
-static NSString * const RemoteBlogRelatedPostsShowThumbnailsKey             = @"jetpack_relatedposts_show_thumbnails";
-static NSString * const RemoteBlogAmpSupportedKey                           = @"amp_is_supported";
-static NSString * const RemoteBlogAmpEnabledKey                             = @"amp_is_enabled";
-
-static NSString * const RemoteBlogSharingButtonStyle                        = @"sharing_button_style";
-static NSString * const RemoteBlogSharingLabel                              = @"sharing_label";
-static NSString * const RemoteBlogSharingTwitterName                        = @"twitter_via";
-static NSString * const RemoteBlogSharingCommentLikesEnabled                = @"jetpack_comment_likes_enabled";
-static NSString * const RemoteBlogSharingDisabledLikes                      = @"disabled_likes";
-static NSString * const RemoteBlogSharingDisabledReblogs                    = @"disabled_reblogs";
-
 static NSString * const RemotePostTypesKey                                  = @"post_types";
 static NSString * const RemotePostTypeNameKey                               = @"name";
 static NSString * const RemotePostTypeLabelKey                              = @"label";
@@ -65,9 +19,6 @@ static NSString * const RemoteBlogTaglineForUpdateKey                       = @"
 
 #pragma mark - Defaults
 static NSString * const RemoteBlogDefaultPostFormat                         = @"standard";
-static NSInteger const RemoteBlogUncategorizedCategory                      = 1;
-
-
 
 @implementation BlogServiceRemoteREST
 
@@ -356,58 +307,7 @@ static NSInteger const RemoteBlogUncategorizedCategory                      = 1;
 
 - (NSDictionary *)remoteSettingsToDictionary:(RemoteBlogSettings *)settings
 {
-    NSParameterAssert(settings);
-    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
-
-    [parameters setValueIfNotNil:settings.name forKey:RemoteBlogNameForUpdateKey];
-    [parameters setValueIfNotNil:settings.tagline forKey:RemoteBlogTaglineForUpdateKey];
-    [parameters setValueIfNotNil:settings.privacy forKey:RemoteBlogPrivacyKey];
-    [parameters setValueIfNotNil:settings.languageID forKey:RemoteBlogLanguageKey];
-    [parameters setValueIfNotNil:settings.iconMediaID forKey:RemoteBlogIconKey];
-    [parameters setValueIfNotNil:settings.gmtOffset forKey:RemoteBlogGMTOffsetKey];
-    [parameters setValueIfNotNil:settings.timezoneString forKey:RemoteBlogTimezoneStringKey];
-
-    [parameters setValueIfNotNil:settings.defaultCategoryID forKey:RemoteBlogDefaultCategoryKey];
-    [parameters setValueIfNotNil:settings.defaultPostFormat forKey:RemoteBlogDefaultPostFormatKey];
-    [parameters setValueIfNotNil:settings.dateFormat forKey:RemoteBlogDateFormatKey];
-    [parameters setValueIfNotNil:settings.timeFormat forKey:RemoteBlogTimeFormatKey];
-    [parameters setValueIfNotNil:settings.startOfWeek forKey:RemoteBlogStartOfWeekKey];
-    [parameters setValueIfNotNil:settings.postsPerPage forKey:RemoteBlogPostsPerPageKey];
-
-    [parameters setValueIfNotNil:settings.commentsAllowed forKey:RemoteBlogCommentsAllowedKey];
-    [parameters setValueIfNotNil:settings.commentsBlocklistKeys forKey:RemoteBlogCommentsBlocklistKeys];
-    [parameters setValueIfNotNil:settings.commentsCloseAutomatically forKey:RemoteBlogCommentsCloseAutomaticallyKey];
-    [parameters setValueIfNotNil:settings.commentsCloseAutomaticallyAfterDays forKey:RemoteBlogCommentsCloseAutomaticallyAfterDaysKey];
-    [parameters setValueIfNotNil:settings.commentsFromKnownUsersAllowlisted forKey:RemoteBlogCommentsKnownUsersAllowlistKey];
-    [parameters setValueIfNotNil:settings.commentsMaximumLinks forKey:RemoteBlogCommentsMaxLinksKey];
-    [parameters setValueIfNotNil:settings.commentsModerationKeys forKey:RemoteBlogCommentsModerationKeys];
-    [parameters setValueIfNotNil:settings.commentsPagingEnabled forKey:RemoteBlogCommentsPagingEnabledKey];
-    [parameters setValueIfNotNil:settings.commentsPageSize forKey:RemoteBlogCommentsPageSizeKey];
-    [parameters setValueIfNotNil:settings.commentsRequireManualModeration forKey:RemoteBlogCommentsRequireModerationKey];
-    [parameters setValueIfNotNil:settings.commentsRequireNameAndEmail forKey:RemoteBlogCommentsRequireNameAndEmailKey];
-    [parameters setValueIfNotNil:settings.commentsRequireRegistration forKey:RemoteBlogCommentsRequireRegistrationKey];
-    [parameters setValueIfNotNil:settings.commentsSortOrder forKey:RemoteBlogCommentsSortOrderKey];
-    [parameters setValueIfNotNil:settings.commentsThreadingEnabled forKey:RemoteBlogCommentsThreadingEnabledKey];
-    [parameters setValueIfNotNil:settings.commentsThreadingDepth forKey:RemoteBlogCommentsThreadingDepthKey];
-    
-    [parameters setValueIfNotNil:settings.pingbackOutboundEnabled forKey:RemoteBlogCommentsPingbackOutboundKey];
-    [parameters setValueIfNotNil:settings.pingbackInboundEnabled forKey:RemoteBlogCommentsPingbackInboundKey];
-    
-    [parameters setValueIfNotNil:settings.relatedPostsEnabled forKey:RemoteBlogRelatedPostsEnabledKey];
-    [parameters setValueIfNotNil:settings.relatedPostsShowHeadline forKey:RemoteBlogRelatedPostsShowHeadlineKey];
-    [parameters setValueIfNotNil:settings.relatedPostsShowThumbnails forKey:RemoteBlogRelatedPostsShowThumbnailsKey];
-
-    [parameters setValueIfNotNil:settings.ampEnabled forKey:RemoteBlogAmpEnabledKey];
-
-    // Sharing
-    [parameters setValueIfNotNil:settings.sharingButtonStyle forKey:RemoteBlogSharingButtonStyle];
-    [parameters setValueIfNotNil:settings.sharingLabel forKey:RemoteBlogSharingLabel];
-    [parameters setValueIfNotNil:settings.sharingTwitterName forKey:RemoteBlogSharingTwitterName];
-    [parameters setValueIfNotNil:settings.sharingCommentLikesEnabled forKey:RemoteBlogSharingCommentLikesEnabled];
-    [parameters setValueIfNotNil:settings.sharingDisabledLikes forKey:RemoteBlogSharingDisabledLikes];
-    [parameters setValueIfNotNil:settings.sharingDisabledReblogs forKey:RemoteBlogSharingDisabledReblogs];
-    
-    return parameters;
+    return [settings dictionaryRepresentation];
 }
 
 @end
