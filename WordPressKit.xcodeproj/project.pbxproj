@@ -71,6 +71,7 @@
 		3FB8642C2888089F003A86BE /* BuildkiteTestCollector in Frameworks */ = {isa = PBXBuildFile; productRef = 3FB8642B2888089F003A86BE /* BuildkiteTestCollector */; };
 		3FE2E94F2BB29A1B002CA2E1 /* FilePart.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FE2E94D2BB29A1B002CA2E1 /* FilePart.m */; };
 		3FE2E9502BB29A1B002CA2E1 /* FilePart.h in Headers */ = {isa = PBXBuildFile; fileRef = 3FE2E94E2BB29A1B002CA2E1 /* FilePart.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3FE2E9672BBEB8D2002CA2E1 /* WordPressComRESTAPIVersion.h in Headers */ = {isa = PBXBuildFile; fileRef = 3FE2E9662BBEB8D2002CA2E1 /* WordPressComRESTAPIVersion.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3FFCC0412BA995290051D229 /* Date+WordPressComTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FFCC0402BA995290051D229 /* Date+WordPressComTests.swift */; };
 		3FFCC0472BAA6EF40051D229 /* NSDate+WordPressCom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FFCC0462BAA6EF40051D229 /* NSDate+WordPressCom.swift */; };
 		3FFCC0492BAB98130051D229 /* DateFormatter+WordPressCom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FFCC0482BAB98130051D229 /* DateFormatter+WordPressCom.swift */; };
@@ -815,6 +816,7 @@
 		3FB8642D288813E9003A86BE /* UnitTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = UnitTests.xctestplan; sourceTree = "<group>"; };
 		3FE2E94D2BB29A1B002CA2E1 /* FilePart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilePart.m; sourceTree = "<group>"; };
 		3FE2E94E2BB29A1B002CA2E1 /* FilePart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilePart.h; sourceTree = "<group>"; };
+		3FE2E9662BBEB8D2002CA2E1 /* WordPressComRESTAPIVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WordPressComRESTAPIVersion.h; sourceTree = "<group>"; };
 		3FFCC0402BA995290051D229 /* Date+WordPressComTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+WordPressComTests.swift"; sourceTree = "<group>"; };
 		3FFCC0462BAA6EF40051D229 /* NSDate+WordPressCom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSDate+WordPressCom.swift"; sourceTree = "<group>"; };
 		3FFCC0482BAB98130051D229 /* DateFormatter+WordPressCom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+WordPressCom.swift"; sourceTree = "<group>"; };
@@ -2033,6 +2035,7 @@
 			children = (
 				3FE2E94E2BB29A1B002CA2E1 /* FilePart.h */,
 				3FFCC0552BABC78B0051D229 /* WordPressComRESTAPIInterfacing.h */,
+				3FE2E9662BBEB8D2002CA2E1 /* WordPressComRESTAPIVersion.h */,
 			);
 			path = include;
 			sourceTree = "<group>";
@@ -2617,6 +2620,7 @@
 				93C674F11EE8351E00BFAF05 /* NSMutableDictionary+Helpers.h in Headers */,
 				93BD273C1EE73282002BB00B /* AccountServiceRemoteREST.h in Headers */,
 				93BD27711EE737A8002BB00B /* ServiceRemoteWordPressXMLRPC.h in Headers */,
+				3FE2E9672BBEB8D2002CA2E1 /* WordPressComRESTAPIVersion.h in Headers */,
 				93BD276F1EE737A8002BB00B /* ServiceRemoteWordPressComREST.h in Headers */,
 				93BD273B1EE73282002BB00B /* AccountServiceRemote.h in Headers */,
 				93BD27691EE736A8002BB00B /* RemoteUser.h in Headers */,
