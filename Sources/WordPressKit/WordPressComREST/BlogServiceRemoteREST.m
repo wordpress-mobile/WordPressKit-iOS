@@ -133,40 +133,6 @@ static NSString * const RemoteBlogDefaultPostFormat                         = @"
           }];
 }
 
-- (void)updateBlogSettings:(RemoteBlogSettings *)settings
-                   success:(SuccessHandler)success
-                   failure:(void (^)(NSError *error))failure;
-{
-    NSParameterAssert(settings);
-
-    NSDictionary *parameters = [self remoteSettingsToDictionary:settings];
-    NSString *path = [NSString stringWithFormat:@"sites/%@/settings?context=edit", self.siteID];
-    NSString *requestUrl = [self pathForEndpoint:path withVersion:ServiceRemoteWordPressComRESTApiVersion_1_1];
-    
-    [self.wordPressComRESTAPI post:requestUrl
-        parameters:parameters
-           success:^(NSDictionary *responseDict, NSHTTPURLResponse *httpResponse) {
-               if (![responseDict isKindOfClass:[NSDictionary class]]) {
-                   if (failure) {
-                       failure(nil);
-                   }
-                   return;
-               }
-               if (!responseDict[@"updated"]) {
-                   if (failure) {
-                       failure(nil);
-                   }
-               } else if (success) {
-                   success();
-               }
-           }
-           failure:^(NSError *error, NSHTTPURLResponse *httpResponse) {
-               if (failure) {
-                   failure(error);
-               }
-           }];
-}
-
 - (void)fetchSiteInfoForAddress:(NSString *)siteAddress
                         success:(void(^)(NSDictionary *siteInfoDict))success
                         failure:(void (^)(NSError *error))failure
