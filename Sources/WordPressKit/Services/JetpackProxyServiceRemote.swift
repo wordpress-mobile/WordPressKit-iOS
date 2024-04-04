@@ -27,7 +27,7 @@ public class JetpackProxyServiceRemote: ServiceRemoteWordPressComREST {
                              parameters: [String: AnyHashable] = [:],
                              locale: String? = nil,
                              completion: @escaping (Result<Any, Error>) -> Void) -> Progress? {
-        let urlString = self.path(forEndpoint: "jetpack-blogs/\(siteID)/rest-api", withVersion: ._1_1)
+        let urlString = self.path(forEndpoint: "jetpack-blogs/\(siteID)/rest-api", with: ._1_1)
 
         // Construct the request parameters to be forwarded to the actual endpoint.
         var requestParams: [String: AnyHashable] = [

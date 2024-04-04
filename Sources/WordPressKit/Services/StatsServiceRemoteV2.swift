@@ -46,7 +46,7 @@ open class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
         let properties = InsightType.queryProperties(with: limit) as [String: AnyObject]
         let pathComponent = InsightType.pathComponent
 
-        let path = self.path(forEndpoint: "sites/\(siteID)/\(pathComponent)/", withVersion: ._1_1)
+        let path = self.path(forEndpoint: "sites/\(siteID)/\(pathComponent)/", with: ._1_1)
 
         wordPressComRESTAPI.get(path, parameters: properties, success: { (response, _) in
             guard
@@ -105,7 +105,7 @@ open class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
                                                               limit: Int = 10,
                                                               completion: @escaping ((TimeStatsType?, Error?) -> Void)) {
         let pathComponent = TimeStatsType.pathComponent
-        let path = self.path(forEndpoint: "sites/\(siteID)/\(pathComponent)/", withVersion: ._1_1)
+        let path = self.path(forEndpoint: "sites/\(siteID)/\(pathComponent)/", with: ._1_1)
 
         let staticProperties = ["period": period.stringValue,
                                 "unit": unit?.stringValue ?? period.stringValue,
@@ -151,7 +151,7 @@ open class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
     }
 
     public func getDetails(forPostID postID: Int, completion: @escaping ((StatsPostDetails?, Error?) -> Void)) {
-        let path = self.path(forEndpoint: "sites/\(siteID)/stats/post/\(postID)/", withVersion: ._1_1)
+        let path = self.path(forEndpoint: "sites/\(siteID)/stats/post/\(postID)/", with: ._1_1)
 
         wordPressComRESTAPI.get(path, parameters: [:], success: { (response, _) in
             guard
@@ -181,7 +181,7 @@ extension StatsServiceRemoteV2 {
     private func getLastPostInsight(limit: Int = 10, completion: @escaping ((StatsLastPostInsight?, Error?) -> Void)) {
         let properties = StatsLastPostInsight.queryProperties(with: limit) as [String: AnyObject]
         let pathComponent = StatsLastPostInsight.pathComponent
-        let path = self.path(forEndpoint: "sites/\(siteID)/\(pathComponent)", withVersion: ._1_1)
+        let path = self.path(forEndpoint: "sites/\(siteID)/\(pathComponent)", with: ._1_1)
 
         wordPressComRESTAPI.get(path, parameters: properties, success: { (response, _) in
             guard let jsonResponse = response as? [String: AnyObject],
@@ -222,7 +222,7 @@ extension StatsServiceRemoteV2 {
     private func getPostViews(`for` postID: Int, completion: @escaping ((Int?, Error?) -> Void)) {
         let parameters = ["fields": "views" as AnyObject]
 
-        let path = self.path(forEndpoint: "sites/\(siteID)/stats/post/\(postID)", withVersion: ._1_1)
+        let path = self.path(forEndpoint: "sites/\(siteID)/stats/post/\(postID)", with: ._1_1)
 
         wordPressComRESTAPI.get(path,
                                 parameters: parameters,
@@ -252,7 +252,7 @@ extension StatsServiceRemoteV2 {
                         limit: Int = 10,
                         completion: @escaping ((StatsPublishedPostsTimeIntervalData?, Error?) -> Void)) {
         let pathComponent = StatsLastPostInsight.pathComponent
-        let path = self.path(forEndpoint: "sites/\(siteID)/\(pathComponent)", withVersion: ._1_1)
+        let path = self.path(forEndpoint: "sites/\(siteID)/\(pathComponent)", with: ._1_1)
 
         let properties = ["number": limit,
                           "fields": "ID, title, URL",
@@ -301,7 +301,7 @@ extension StatsServiceRemoteV2 {
 private extension StatsServiceRemoteV2 {
     func pathForToggleSpamStateEndpoint(referrerDomain: String, markAsSpam: Bool) -> String {
         let action = markAsSpam ? "new" : "delete"
-        return self.path(forEndpoint: "sites/\(siteID)/stats/referrers/spam/\(action)?domain=\(referrerDomain)", withVersion: ._1_1)
+        return self.path(forEndpoint: "sites/\(siteID)/stats/referrers/spam/\(action)?domain=\(referrerDomain)", with: ._1_1)
     }
 
     struct MarkAsSpamResponse {

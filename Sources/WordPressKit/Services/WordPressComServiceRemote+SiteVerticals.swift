@@ -80,7 +80,7 @@ public extension WordPressComServiceRemote {
     func retrieveVerticals(request: SiteVerticalsRequest, completion: @escaping SiteVerticalsServiceCompletion) {
 
         let endpoint = "verticals"
-        let path = self.path(forEndpoint: endpoint, withVersion: ._2_0)
+        let path = self.path(forEndpoint: endpoint, with: ._2_0)
 
         let requestParameters: [String: AnyObject]
         do {

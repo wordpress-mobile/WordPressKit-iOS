@@ -24,7 +24,7 @@ extension AccountServiceRemoteREST {
                                        oAuthClientSecret: String,
                                        success: @escaping (() -> Void),
                                        failure: @escaping ((Error) -> Void)) {
-        let path = self.path(forEndpoint: "me/social-login/connect", withVersion: ._1_1)
+        let path = self.path(forEndpoint: "me/social-login/connect", with: ._1_1)
 
         var params = [
             "client_id": oAuthClientID,
@@ -66,7 +66,7 @@ extension AccountServiceRemoteREST {
     ///     - success The block that will be executed on success.
     ///     - failure The block that will be executed on failure.
     public func disconnectFromSocialService(_ service: SocialServiceName, oAuthClientID: String, oAuthClientSecret: String, success: @escaping(() -> Void), failure: @escaping((Error) -> Void)) {
-        let path = self.path(forEndpoint: "me/social-login/disconnect", withVersion: ._1_1)
+        let path = self.path(forEndpoint: "me/social-login/disconnect", with: ._1_1)
         let params = [
             "client_id": oAuthClientID,
             "client_secret": oAuthClientSecret,

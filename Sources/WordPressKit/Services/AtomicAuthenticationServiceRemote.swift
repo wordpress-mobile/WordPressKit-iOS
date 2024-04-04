@@ -14,7 +14,7 @@ public class AtomicAuthenticationServiceRemote: ServiceRemoteWordPressComREST {
         failure: @escaping (Error) -> Void) {
 
         let endpoint = "sites/\(siteID)/atomic-auth-proxy/read-access-cookies"
-        let path = self.path(forEndpoint: endpoint, withVersion: ._2_0)
+        let path = self.path(forEndpoint: endpoint, with: ._2_0)
 
         wordPressComRESTAPI.get(path,
                 parameters: nil,

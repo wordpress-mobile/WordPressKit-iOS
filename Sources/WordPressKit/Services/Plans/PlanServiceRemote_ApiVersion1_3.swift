@@ -9,7 +9,7 @@ import WordPressShared
                                 success: @escaping (SitePlans) -> Void,
                                 failure: @escaping (Error) -> Void) {
         let endpoint = "sites/\(siteID)/plans"
-        let path = self.path(forEndpoint: endpoint, withVersion: ._1_3)
+        let path = self.path(forEndpoint: endpoint, with: ._1_3)
 
         wordPressComRESTAPI.get(
             path,

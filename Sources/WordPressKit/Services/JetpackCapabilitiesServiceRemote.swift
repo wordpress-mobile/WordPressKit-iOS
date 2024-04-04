@@ -17,7 +17,7 @@ open class JetpackCapabilitiesServiceRemote: ServiceRemoteWordPressComREST {
 
             dispatchQueue.async {
                 let endpoint = "sites/\(siteID)/rewind/capabilities"
-                let path = self.path(forEndpoint: endpoint, withVersion: ._2_0)
+                let path = self.path(forEndpoint: endpoint, with: ._2_0)
 
                 self.wordPressComRESTAPI.get(path,
                                          parameters: nil,

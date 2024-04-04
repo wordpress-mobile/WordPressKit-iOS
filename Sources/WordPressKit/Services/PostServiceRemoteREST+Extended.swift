@@ -2,7 +2,7 @@ import Foundation
 
 extension PostServiceRemoteREST: PostServiceRemoteExtended {
     public func createPost(with parameters: RemotePostCreateParameters) async throws -> RemotePost {
-        let path = self.path(forEndpoint: "sites/\(siteID)/posts/new?context=edit", withVersion: ._1_2)
+        let path = self.path(forEndpoint: "sites/\(siteID)/posts/new?context=edit", with: ._1_2)
         let parameters = try makeParameters(from: RemotePostCreateParametersWordPressComEncoder(parameters: parameters))
 
         let response = try await wordPressComRestApi.perform(.post, URLString: path, parameters: parameters).get()
@@ -10,7 +10,7 @@ extension PostServiceRemoteREST: PostServiceRemoteExtended {
     }
 
     public func patchPost(withID postID: Int, parameters: RemotePostUpdateParameters) async throws -> RemotePost {
-        let path = self.path(forEndpoint: "sites/\(siteID)/posts/\(postID)?context=edit", withVersion: ._1_2)
+        let path = self.path(forEndpoint: "sites/\(siteID)/posts/\(postID)?context=edit", with: ._1_2)
         let parameters = try makeParameters(from: RemotePostUpdateParametersWordPressComEncoder(parameters: parameters))
 
         let result = await wordPressComRestApi.perform(.post, URLString: path, parameters: parameters)

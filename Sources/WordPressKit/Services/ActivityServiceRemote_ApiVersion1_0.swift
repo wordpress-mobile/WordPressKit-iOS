@@ -21,7 +21,7 @@
                             success: @escaping (_ restoreID: String, _ jobID: Int) -> Void,
                             failure: @escaping (Error) -> Void) {
         let endpoint = "activity-log/\(siteID)/rewind/to/\(rewindID)"
-        let path = self.path(forEndpoint: endpoint, withVersion: ._1_0)
+        let path = self.path(forEndpoint: endpoint, with: ._1_0)
         var parameters: [String: AnyObject] = [:]
 
         if let types = types {

@@ -80,7 +80,7 @@ extension ReaderTopicServiceRemote {
     // MARK: Private methods
 
     private func POST(with request: ReaderTopicServiceSubscriptionsRequest, parameters: [String: AnyObject]? = nil, success: @escaping () -> Void, failure: @escaping (ReaderTopicServiceError?) -> Void) {
-        let urlRequest = path(forEndpoint: request.path, withVersion: request.apiVersion)
+        let urlRequest = path(forEndpoint: request.path, with: request.apiVersion)
 
         WPKitLogInfo("URL: \(urlRequest)")
 

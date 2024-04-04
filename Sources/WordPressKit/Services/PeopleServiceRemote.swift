@@ -31,7 +31,7 @@ public class PeopleServiceRemote: ServiceRemoteWordPressComREST {
                   success: @escaping ((_ users: [User], _ hasMore: Bool) -> Void),
                   failure: @escaping ((Error) -> Void)) {
         let endpoint = "sites/\(siteID)/users"
-        let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
+        let path = self.path(forEndpoint: endpoint, with: ._1_1)
         let parameters: [String: AnyObject] = [
             "number": count as AnyObject,
             "offset": offset as AnyObject,
@@ -73,7 +73,7 @@ public class PeopleServiceRemote: ServiceRemoteWordPressComREST {
                       success: @escaping ((_ followers: [Follower], _ hasMore: Bool) -> Void),
                       failure: @escaping (Error) -> Void) {
         let endpoint = "sites/\(siteID)/follows"
-        let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
+        let path = self.path(forEndpoint: endpoint, with: ._1_1)
         let pageNumber = (offset / count + 1)
         let parameters: [String: AnyObject] = [
             "number": count as AnyObject,
@@ -112,7 +112,7 @@ public class PeopleServiceRemote: ServiceRemoteWordPressComREST {
                                   success: @escaping ((_ followers: [EmailFollower], _ hasMore: Bool) -> Void),
                                   failure: @escaping (Error) -> Void) {
         let endpoint = "sites/\(siteID)/stats/followers"
-        let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
+        let path = self.path(forEndpoint: endpoint, with: ._1_1)
         let parameters: [String: AnyObject] = [
             "page": page as AnyObject,
             "max": max as AnyObject,
@@ -151,7 +151,7 @@ public class PeopleServiceRemote: ServiceRemoteWordPressComREST {
                     success: @escaping ((_ followers: [Viewer], _ hasMore: Bool) -> Void),
                     failure: @escaping (Error) -> Void) {
         let endpoint = "sites/\(siteID)/viewers"
-        let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
+        let path = self.path(forEndpoint: endpoint, with: ._1_1)
         let pageNumber = (offset / count + 1)
         let parameters: [String: AnyObject] = [
             "number": count as AnyObject,
@@ -191,7 +191,7 @@ public class PeopleServiceRemote: ServiceRemoteWordPressComREST {
                         success: ((RemotePerson) -> Void)? = nil,
                         failure: ((Error) -> Void)? = nil) {
         let endpoint = "sites/\(siteID)/users/\(userID)"
-        let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
+        let path = self.path(forEndpoint: endpoint, with: ._1_1)
         let parameters = ["roles": [newRole]]
 
         wordPressComRESTAPI.post(path,
@@ -226,7 +226,7 @@ public class PeopleServiceRemote: ServiceRemoteWordPressComREST {
                     success: (() -> Void)? = nil,
                     failure: ((Error) -> Void)? = nil) {
         let endpoint = "sites/\(siteID)/users/\(userID)/delete"
-        let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
+        let path = self.path(forEndpoint: endpoint, with: ._1_1)
         var parameters = [String: AnyObject]()
 
         if let reassignID = reassignID {
@@ -253,7 +253,7 @@ public class PeopleServiceRemote: ServiceRemoteWordPressComREST {
                         success: (() -> Void)? = nil,
                         failure: ((Error) -> Void)? = nil) {
         let endpoint = "sites/\(siteID)/followers/\(userID)/delete"
-        let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
+        let path = self.path(forEndpoint: endpoint, with: ._1_1)
 
         wordPressComRESTAPI.post(path, parameters: nil, success: { (_, _) in
             success?()
@@ -275,7 +275,7 @@ public class PeopleServiceRemote: ServiceRemoteWordPressComREST {
                                           success: (() -> Void)? = nil,
                                           failure: ((Error) -> Void)? = nil) {
         let endpoint = "sites/\(siteID)/email-followers/\(userID)/delete"
-        let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
+        let path = self.path(forEndpoint: endpoint, with: ._1_1)
 
         wordPressComRESTAPI.post(path, parameters: nil, success: { _, _ in
             success?()
@@ -297,7 +297,7 @@ public class PeopleServiceRemote: ServiceRemoteWordPressComREST {
                       success: (() -> Void)? = nil,
                       failure: ((Error) -> Void)? = nil) {
         let endpoint = "sites/\(siteID)/viewers/\(userID)/delete"
-        let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
+        let path = self.path(forEndpoint: endpoint, with: ._1_1)
 
         wordPressComRESTAPI.post(path, parameters: nil, success: { (_, _) in
             success?()
@@ -319,7 +319,7 @@ public class PeopleServiceRemote: ServiceRemoteWordPressComREST {
                       success: @escaping (([RemoteRole]) -> Void),
                       failure: ((Error) -> Void)? = nil) {
         let endpoint = "sites/\(siteID)/roles"
-        let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
+        let path = self.path(forEndpoint: endpoint, with: ._1_1)
 
         wordPressComRESTAPI.get(path, parameters: nil, success: { (responseObject, _) in
             guard let response = responseObject as? [String: AnyObject],
@@ -349,7 +349,7 @@ public class PeopleServiceRemote: ServiceRemoteWordPressComREST {
                             success: @escaping (() -> Void),
                             failure: @escaping ((Error) -> Void)) {
         let endpoint = "sites/\(siteID)/invites/validate"
-        let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
+        let path = self.path(forEndpoint: endpoint, with: ._1_1)
 
         let parameters = [
             "invitees": usernameOrEmail,
@@ -391,7 +391,7 @@ public class PeopleServiceRemote: ServiceRemoteWordPressComREST {
                         success: @escaping (() -> Void),
                         failure: @escaping ((Error) -> Void)) {
         let endpoint = "sites/\(siteID)/invites/new"
-        let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
+        let path = self.path(forEndpoint: endpoint, with: ._1_1)
 
         let parameters = [
             "invitees": usernameOrEmail,
@@ -428,7 +428,7 @@ public class PeopleServiceRemote: ServiceRemoteWordPressComREST {
                         success: @escaping (([RemoteInviteLink]) -> Void),
                         failure: @escaping ((Error) -> Void)) {
         let endpoint = "sites/\(siteID)/invites"
-        let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
+        let path = self.path(forEndpoint: endpoint, with: ._1_1)
 
         let params = [
             "status": "all",
@@ -465,7 +465,7 @@ public class PeopleServiceRemote: ServiceRemoteWordPressComREST {
                              success: @escaping (([RemoteInviteLink]) -> Void),
                              failure: @escaping ((Error) -> Void)) {
         let endpoint = "sites/\(siteID)/invites/links/generate"
-        let path = self.path(forEndpoint: endpoint, withVersion: ._2_0)
+        let path = self.path(forEndpoint: endpoint, with: ._2_0)
 
         wordPressComRESTAPI.post(path, parameters: nil, success: { (responseObject, _) in
             guard let responseArray = responseObject as? [[String: AnyObject]] else {
@@ -496,7 +496,7 @@ public class PeopleServiceRemote: ServiceRemoteWordPressComREST {
                             success: @escaping (([String]) -> Void),
                             failure: @escaping ((Error) -> Void)) {
         let endpoint = "sites/\(siteID)/invites/links/disable"
-        let path = self.path(forEndpoint: endpoint, withVersion: ._2_0)
+        let path = self.path(forEndpoint: endpoint, with: ._2_0)
 
         wordPressComRESTAPI.post(path, parameters: nil, success: { (responseObject, _) in
             let deletedKeys = responseObject as? [String] ?? [String]()

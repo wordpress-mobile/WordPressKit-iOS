@@ -57,7 +57,7 @@ open class ActivityServiceRemote: ServiceRemoteWordPressComREST {
             return
         }
 
-        let finalPath = self.path(forEndpoint: endpoint, withVersion: ._2_0)
+        let finalPath = self.path(forEndpoint: endpoint, with: ._2_0)
 
         wordPressComRESTAPI.get(finalPath,
                                 parameters: nil,
@@ -94,7 +94,7 @@ open class ActivityServiceRemote: ServiceRemoteWordPressComREST {
                                        success: @escaping (_ groups: [ActivityGroup]) -> Void,
                                        failure: @escaping (Error) -> Void) {
         let endpoint = "sites/\(siteID)/activity/count/group"
-        let path = self.path(forEndpoint: endpoint, withVersion: ._2_0)
+        let path = self.path(forEndpoint: endpoint, with: ._2_0)
         var parameters: [String: AnyObject] = [:]
 
         if let after = after, let before = before,
@@ -133,7 +133,7 @@ open class ActivityServiceRemote: ServiceRemoteWordPressComREST {
                               success: @escaping (RewindStatus) -> Void,
                               failure: @escaping (Error) -> Void) {
         let endpoint = "sites/\(siteID)/rewind"
-        let path = self.path(forEndpoint: endpoint, withVersion: ._2_0)
+        let path = self.path(forEndpoint: endpoint, with: ._2_0)
 
         wordPressComRESTAPI.get(path,
                                 parameters: nil,

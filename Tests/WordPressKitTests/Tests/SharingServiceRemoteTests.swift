@@ -19,7 +19,7 @@ final class SharingServiceRemoteTests: RemoteTestCase, RESTTestable {
     // MARK: - Tests
 
     func testGetPublicizeServicesV1_1() {
-        let url = service.path(forEndpoint: "meta/external-services", withVersion: ._1_1)
+        let url = service.path(forEndpoint: "meta/external-services", with: ._1_1)
 
         service.getPublicizeServices(nil, failure: nil)
 
@@ -61,7 +61,7 @@ final class SharingServiceRemoteTests: RemoteTestCase, RESTTestable {
     }
 
     func testGetKeyringServices() {
-        let url = service.path(forEndpoint: "me/keyring-connections", withVersion: ._1_1)
+        let url = service.path(forEndpoint: "me/keyring-connections", with: ._1_1)
 
         service.getKeyringConnections(nil, failure: nil)
 
@@ -71,7 +71,7 @@ final class SharingServiceRemoteTests: RemoteTestCase, RESTTestable {
 
     func testGetPublicizeConnections() {
         let mockID = NSNumber(value: 10)
-        let url = service.path(forEndpoint: "sites/\(mockID)/publicize-connections", withVersion: ._1_1)
+        let url = service.path(forEndpoint: "sites/\(mockID)/publicize-connections", with: ._1_1)
 
         service.getPublicizeConnections(mockID, success: nil, failure: nil)
 
@@ -81,7 +81,7 @@ final class SharingServiceRemoteTests: RemoteTestCase, RESTTestable {
 
     func testCreatePublicizeConnection() {
         let mockID = NSNumber(value: 10)
-        let url = service.path(forEndpoint: "sites/\(mockID)/publicize-connections/new", withVersion: ._1_1)
+        let url = service.path(forEndpoint: "sites/\(mockID)/publicize-connections/new", with: ._1_1)
 
         service.createPublicizeConnection(mockID,
                                           keyringConnectionID: mockID,
@@ -96,7 +96,7 @@ final class SharingServiceRemoteTests: RemoteTestCase, RESTTestable {
     func testDeletePublicizeConnection() {
         let mockID = NSNumber(value: 10)
         let url = service.path(forEndpoint: "sites/\(mockID)/publicize-connections/\(mockID)/delete",
-                               withVersion: ._1_1)
+                               with: ._1_1)
 
         service.deletePublicizeConnection(mockID, connectionID: mockID, success: nil, failure: nil)
 
@@ -106,7 +106,7 @@ final class SharingServiceRemoteTests: RemoteTestCase, RESTTestable {
 
     func testGetSharingButtonsForSite() {
         let mockID = NSNumber(value: 10)
-        let url = service.path(forEndpoint: "sites/\(mockID)/sharing-buttons", withVersion: ._1_1)
+        let url = service.path(forEndpoint: "sites/\(mockID)/sharing-buttons", with: ._1_1)
 
         service.getSharingButtonsForSite(mockID, success: nil, failure: nil)
 
@@ -116,7 +116,7 @@ final class SharingServiceRemoteTests: RemoteTestCase, RESTTestable {
 
     func testUpdateSharingButtonsForSite() {
         let mockID = NSNumber(value: 10)
-        let url = service.path(forEndpoint: "sites/\(mockID)/sharing-buttons", withVersion: ._1_1)
+        let url = service.path(forEndpoint: "sites/\(mockID)/sharing-buttons", with: ._1_1)
 
         service.updateSharingButtonsForSite(mockID,
                                             sharingButtons: [RemoteSharingButton](),

@@ -11,7 +11,7 @@ open class FeatureFlagRemote: ServiceRemoteWordPressComREST {
     open func getRemoteFeatureFlags(forDeviceId deviceId: String, callback: @escaping FeatureFlagResponseCallback) {
         let params = SessionDetails(deviceId: deviceId)
         let endpoint = "mobile/feature-flags"
-        let path = self.path(forEndpoint: endpoint, withVersion: ._2_0)
+        let path = self.path(forEndpoint: endpoint, with: ._2_0)
         var dictionary: [String: AnyObject]?
 
         do {

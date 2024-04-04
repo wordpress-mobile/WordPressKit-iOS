@@ -30,7 +30,7 @@ public class PluginServiceRemote: ServiceRemoteWordPressComREST {
 
     public func getPlugins(siteID: Int, success: @escaping (SitePlugins) -> Void, failure: @escaping (Error) -> Void) {
         let endpoint = "sites/\(siteID)/plugins"
-        let path = self.path(forEndpoint: endpoint, withVersion: ._1_2)
+        let path = self.path(forEndpoint: endpoint, with: ._1_2)
         let parameters = [String: AnyObject]()
 
         wordPressComRESTAPI.get(path, parameters: parameters, success: { (responseObject, _) in
@@ -56,7 +56,7 @@ public class PluginServiceRemote: ServiceRemoteWordPressComREST {
             return
         }
         let endpoint = "sites/\(siteID)/plugins/\(escapedPluginID)/update"
-        let path = self.path(forEndpoint: endpoint, withVersion: ._1_2)
+        let path = self.path(forEndpoint: endpoint, with: ._1_2)
         let parameters = [String: AnyObject]()
 
         wordPressComRESTAPI.post(
@@ -118,7 +118,7 @@ public class PluginServiceRemote: ServiceRemoteWordPressComREST {
 
     public func install(pluginSlug: String, siteID: Int, success: @escaping (PluginState) -> Void, failure: @escaping (Error) -> Void) {
         let endpoint = "sites/\(siteID)/plugins/\(pluginSlug)/install"
-        let path = self.path(forEndpoint: endpoint, withVersion: ._1_2)
+        let path = self.path(forEndpoint: endpoint, with: ._1_2)
 
         wordPressComRESTAPI.post(
             path,
@@ -146,7 +146,7 @@ public class PluginServiceRemote: ServiceRemoteWordPressComREST {
             return
         }
         let endpoint = "sites/\(siteID)/plugins/\(escapedPluginID)/delete"
-        let path = self.path(forEndpoint: endpoint, withVersion: ._1_2)
+        let path = self.path(forEndpoint: endpoint, with: ._1_2)
 
         wordPressComRESTAPI.post(
             path,
@@ -165,7 +165,7 @@ public class PluginServiceRemote: ServiceRemoteWordPressComREST {
             return
         }
         let endpoint = "sites/\(siteID)/plugins/\(escapedPluginID)"
-        let path = self.path(forEndpoint: endpoint, withVersion: ._1_2)
+        let path = self.path(forEndpoint: endpoint, with: ._1_2)
 
         wordPressComRESTAPI.post(
             path,

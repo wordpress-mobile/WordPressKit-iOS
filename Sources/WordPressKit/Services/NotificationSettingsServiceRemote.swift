@@ -23,7 +23,7 @@ open class NotificationSettingsServiceRemote: ServiceRemoteWordPressComREST {
     ///
     open func getAllSettings(_ deviceId: String, success: (([RemoteNotificationSettings]) -> Void)?, failure: ((NSError?) -> Void)?) {
         let path = String(format: "me/notifications/settings/?device_id=%@", deviceId)
-        let requestUrl = self.path(forEndpoint: path, withVersion: ._1_1)
+        let requestUrl = self.path(forEndpoint: path, with: ._1_1)
 
         wordPressComRESTAPI.get(requestUrl,
             parameters: nil,
@@ -45,7 +45,7 @@ open class NotificationSettingsServiceRemote: ServiceRemoteWordPressComREST {
     ///
     @objc open func updateSettings(_ settings: [String: AnyObject], success: (() -> Void)?, failure: ((NSError?) -> Void)?) {
         let path = String(format: "me/notifications/settings/")
-        let requestUrl = self.path(forEndpoint: path, withVersion: ._1_1)
+        let requestUrl = self.path(forEndpoint: path, with: ._1_1)
 
         let parameters = settings
 
@@ -69,7 +69,7 @@ open class NotificationSettingsServiceRemote: ServiceRemoteWordPressComREST {
     ///
     @objc open func registerDeviceForPushNotifications(_ token: String, pushNotificationAppId: String, success: ((_ deviceId: String) -> Void)?, failure: ((NSError) -> Void)?) {
         let endpoint = "devices/new"
-        let requestUrl = path(forEndpoint: endpoint, withVersion: ._1_1)
+        let requestUrl = path(forEndpoint: endpoint, with: ._1_1)
 
         let device = UIDevice.current
         let parameters = [
@@ -112,7 +112,7 @@ open class NotificationSettingsServiceRemote: ServiceRemoteWordPressComREST {
     ///
     @objc open func unregisterDeviceForPushNotifications(_ deviceId: String, success: (() -> Void)?, failure: ((NSError) -> Void)?) {
         let endpoint = String(format: "devices/%@/delete", deviceId)
-        let requestUrl = path(forEndpoint: endpoint, withVersion: ._1_1)
+        let requestUrl = path(forEndpoint: endpoint, with: ._1_1)
 
         wordPressComRESTAPI.post(requestUrl,
             parameters: nil,

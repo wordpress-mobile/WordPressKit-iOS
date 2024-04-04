@@ -26,7 +26,7 @@ extension ReaderPostServiceRemote {
                                               from siteID: Int,
                                               success: @escaping (Bool) -> Void,
                                               failure: @escaping (Error?) -> Void) {
-        let path = self.path(forEndpoint: "sites/\(siteID)/posts/\(postID)/subscribers/mine", withVersion: ._1_1)
+        let path = self.path(forEndpoint: "sites/\(siteID)/posts/\(postID)/subscribers/mine", with: ._1_1)
 
         wordPressComRESTAPI.get(path, parameters: nil, success: { response, _ in
             do {
@@ -56,7 +56,7 @@ extension ReaderPostServiceRemote {
                                       for siteID: Int,
                                       success: @escaping (Bool) -> Void,
                                       failure: @escaping (Error?) -> Void) {
-        let path = self.path(forEndpoint: "sites/\(siteID)/posts/\(postID)/subscribers/new", withVersion: ._1_1)
+        let path = self.path(forEndpoint: "sites/\(siteID)/posts/\(postID)/subscribers/new", with: ._1_1)
 
         wordPressComRESTAPI.post(path, parameters: nil, success: { response, _ in
             do {
@@ -86,7 +86,7 @@ extension ReaderPostServiceRemote {
                                           for siteID: Int,
                                           success: @escaping (Bool) -> Void,
                                           failure: @escaping (Error) -> Void) {
-        let path = self.path(forEndpoint: "sites/\(siteID)/posts/\(postID)/subscribers/mine/delete", withVersion: ._1_1)
+        let path = self.path(forEndpoint: "sites/\(siteID)/posts/\(postID)/subscribers/mine/delete", with: ._1_1)
 
         wordPressComRESTAPI.post(path, parameters: nil, success: { response, _ in
             do {
@@ -123,7 +123,7 @@ extension ReaderPostServiceRemote {
                                                       receiveNotifications: Bool,
                                                       success: @escaping () -> Void,
                                                       failure: @escaping (Error?) -> Void) {
-        let path = self.path(forEndpoint: "sites/\(siteID)/posts/\(postID)/subscribers/mine/update", withVersion: ._1_1)
+        let path = self.path(forEndpoint: "sites/\(siteID)/posts/\(postID)/subscribers/mine/update", with: ._1_1)
 
         wordPressComRESTAPI.post(path,
                                  parameters: [Constants.receiveNotificationsRequestKey: receiveNotifications] as [String: AnyObject],

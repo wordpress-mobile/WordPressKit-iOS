@@ -65,7 +65,7 @@ public class JetpackScanServiceRemote: ServiceRemoteWordPressComREST {
 
     /// Begins the fix process for multiple threats
     public func fixThreats(_ threats: [JetpackScanThreat], siteID: Int, success: @escaping(JetpackThreatFixResponse) -> Void, failure: @escaping(Error) -> Void) {
-        let path = self.path(forEndpoint: "sites/\(siteID)/alerts/fix", withVersion: ._2_0)
+        let path = self.path(forEndpoint: "sites/\(siteID)/alerts/fix", with: ._2_0)
         let parameters = ["threat_ids": threats.map { $0.id as AnyObject }] as [String: AnyObject]
 
         wordPressComRESTAPI.post(path, parameters: parameters, success: { (response, _) in
@@ -99,7 +99,7 @@ public class JetpackScanServiceRemote: ServiceRemoteWordPressComREST {
 
     /// Begins the ignore process for a single threat
     public func ignoreThreat(_ threat: JetpackScanThreat, siteID: Int, success: @escaping () -> Void, failure: @escaping(Error) -> Void) {
-        let path = self.path(forEndpoint: "sites/\(siteID)/alerts/\(threat.id)", withVersion: ._2_0)
+        let path = self.path(forEndpoint: "sites/\(siteID)/alerts/\(threat.id)", with: ._2_0)
         let parameters = ["ignore": true] as [String: AnyObject]
 
         wordPressComRESTAPI.post(path, parameters: parameters, success: { (_, _) in
@@ -111,7 +111,7 @@ public class JetpackScanServiceRemote: ServiceRemoteWordPressComREST {
 
     /// Returns the fix status for multiple threats
     public func getFixStatusForThreats(_ threats: [JetpackScanThreat], siteID: Int, success: @escaping(JetpackThreatFixResponse) -> Void, failure: @escaping(Error) -> Void) {
-        let path = self.path(forEndpoint: "sites/\(siteID)/alerts/fix", withVersion: ._2_0)
+        let path = self.path(forEndpoint: "sites/\(siteID)/alerts/fix", with: ._2_0)
         let parameters = ["threat_ids": threats.map { $0.id as AnyObject }] as [String: AnyObject]
 
         wordPressComRESTAPI.get(path, parameters: parameters, success: { (response, _) in
@@ -156,6 +156,6 @@ public class JetpackScanServiceRemote: ServiceRemoteWordPressComREST {
             endpoint = endpoint.appending(path)
         }
 
-        return self.path(forEndpoint: endpoint, withVersion: ._2_0)
+        return self.path(forEndpoint: endpoint, with: ._2_0)
     }
 }

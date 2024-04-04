@@ -12,7 +12,7 @@ open class RemoteConfigRemote: ServiceRemoteWordPressComREST {
     open func getRemoteConfig(callback: @escaping RemoteConfigResponseCallback) {
 
         let endpoint = "mobile/remote-config"
-        let path = self.path(forEndpoint: endpoint, withVersion: ._2_0)
+        let path = self.path(forEndpoint: endpoint, with: ._2_0)
 
         wordPressComRESTAPI.get(path,
                                 parameters: nil,

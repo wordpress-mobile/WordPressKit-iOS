@@ -14,7 +14,7 @@ public class HomepageSettingsServiceRemote: ServiceRemoteWordPressComREST {
      */
     public func setHomepageType(type: RemoteHomepageType, for siteID: Int, withPostsPageID postsPageID: Int? = nil, homePageID: Int? = nil, success: @escaping () -> Void, failure: @escaping (Error) -> Void) {
         let endpoint = "sites/\(siteID)/homepage"
-        let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
+        let path = self.path(forEndpoint: endpoint, with: ._1_1)
 
         var parameters: [String: AnyObject] = [Keys.isPageOnFront: type.isPageOnFront as AnyObject]
 

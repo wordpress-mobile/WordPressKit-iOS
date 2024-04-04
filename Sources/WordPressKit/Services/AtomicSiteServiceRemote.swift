@@ -10,7 +10,7 @@ public final class AtomicSiteServiceRemote: ServiceRemoteWordPressComREST {
                              pageSize: Int = 50,
                              success: @escaping (AtomicErrorLogsResponse) -> Void,
                              failure: @escaping (Error) -> Void) {
-        let path = self.path(forEndpoint: "sites/\(siteID)/hosting/error-logs/", withVersion: ._2_0)
+        let path = self.path(forEndpoint: "sites/\(siteID)/hosting/error-logs/", with: ._2_0)
         var parameters = [
             "start": "\(Int(range.lowerBound.timeIntervalSince1970))",
             "end": "\(Int(range.upperBound.timeIntervalSince1970))",
@@ -51,7 +51,7 @@ public final class AtomicSiteServiceRemote: ServiceRemoteWordPressComREST {
                                  pageSize: Int = 50,
                                  success: @escaping (AtomicWebServerLogsResponse) -> Void,
                                  failure: @escaping (Error) -> Void) {
-        let path = self.path(forEndpoint: "sites/\(siteID)/hosting/logs/", withVersion: ._2_0)
+        let path = self.path(forEndpoint: "sites/\(siteID)/hosting/logs/", with: ._2_0)
         var parameters = [
             "start": "\(Int(range.lowerBound.timeIntervalSince1970))",
             "end": "\(Int(range.upperBound.timeIntervalSince1970))",

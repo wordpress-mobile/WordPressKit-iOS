@@ -91,7 +91,7 @@ public typealias SiteSegmentsServiceCompletion = (SiteSegmentsResult) -> Void
 public extension WordPressComServiceRemote {
     func retrieveSegments(completion: @escaping SiteSegmentsServiceCompletion) {
         let endpoint = "segments"
-        let remotePath = path(forEndpoint: endpoint, withVersion: ._2_0)
+        let remotePath = path(forEndpoint: endpoint, with: ._2_0)
 
         wordPressComRESTAPI.get(
             remotePath,

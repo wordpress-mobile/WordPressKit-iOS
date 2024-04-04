@@ -26,7 +26,7 @@ open class BloggingPromptsServiceRemote: ServiceRemoteWordPressComREST {
                            number: Int? = nil,
                            fromDate: Date? = nil,
                            completion: @escaping (Result<[RemoteBloggingPrompt], Error>) -> Void) {
-        let path = path(forEndpoint: "sites/\(siteID)/blogging-prompts", withVersion: ._2_0)
+        let path = path(forEndpoint: "sites/\(siteID)/blogging-prompts", with: ._2_0)
         let requestParameter: [String: AnyHashable] = {
             var params = [String: AnyHashable]()
 
@@ -69,7 +69,7 @@ open class BloggingPromptsServiceRemote: ServiceRemoteWordPressComREST {
     ///   - siteID: The site ID for the blogging prompts settings.
     ///   - completion: Closure that will be called when the request completes.
     open func fetchSettings(for siteID: NSNumber, completion: @escaping (Result<RemoteBloggingPromptsSettings, Error>) -> Void) {
-        let path = path(forEndpoint: "sites/\(siteID)/blogging-prompts/settings", withVersion: ._2_0)
+        let path = path(forEndpoint: "sites/\(siteID)/blogging-prompts/settings", with: ._2_0)
         Task { @MainActor in
             await self.wordPressComRestApi.perform(.get, URLString: path, type: RemoteBloggingPromptsSettings.self)
                 .map { $0.body }
@@ -90,7 +90,7 @@ open class BloggingPromptsServiceRemote: ServiceRemoteWordPressComREST {
     open func updateSettings(for siteID: NSNumber,
                              with settings: RemoteBloggingPromptsSettings,
                              completion: @escaping (Result<RemoteBloggingPromptsSettings?, Error>) -> Void) {
-        let path = path(forEndpoint: "sites/\(siteID)/blogging-prompts/settings", withVersion: ._2_0)
+        let path = path(forEndpoint: "sites/\(siteID)/blogging-prompts/settings", with: ._2_0)
         var parameters = [String: AnyObject]()
         do {
             let data = try JSONEncoder().encode(settings)

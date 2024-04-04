@@ -18,7 +18,7 @@ class PushAuthenticationServiceRemoteTests: XCTestCase {
 
         XCTAssertTrue(mockRemoteApi.postMethodCalled, "Method was not called")
 
-        let url = pushAuthenticationServiceRemote.path(forEndpoint: "me/two-step/push-authentication", withVersion: ._1_1)
+        let url = pushAuthenticationServiceRemote.path(forEndpoint: "me/two-step/push-authentication", with: ._1_1)
         XCTAssertEqual(mockRemoteApi.URLStringPassedIn!, url, "Incorrect URL passed in")
     }
 

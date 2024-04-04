@@ -110,7 +110,7 @@ public class DomainsServiceRemote: ServiceRemoteWordPressComREST {
 
     public func getDomainsForSite(_ siteID: Int, success: @escaping ([RemoteDomain]) -> Void, failure: @escaping (Error) -> Void) {
         let endpoint = "sites/\(siteID)/domains"
-        let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
+        let path = self.path(forEndpoint: endpoint, with: ._1_1)
 
         wordPressComRESTAPI.get(path, parameters: nil,
             success: {
@@ -129,7 +129,7 @@ public class DomainsServiceRemote: ServiceRemoteWordPressComREST {
 
     public func setPrimaryDomainForSite(siteID: Int, domain: String, success: @escaping () -> Void, failure: @escaping (Error) -> Void) {
         let endpoint = "sites/\(siteID)/domains/primary"
-        let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
+        let path = self.path(forEndpoint: endpoint, with: ._1_1)
 
         let parameters: [String: AnyObject] = ["domain": domain as AnyObject]
 
@@ -147,7 +147,7 @@ public class DomainsServiceRemote: ServiceRemoteWordPressComREST {
                                 success: @escaping ([WPState]) -> Void,
                                 failure: @escaping (Error) -> Void) {
         let endPoint = "domains/supported-states/\(countryCode)"
-        let servicePath = path(forEndpoint: endPoint, withVersion: ._1_1)
+        let servicePath = path(forEndpoint: endPoint, with: ._1_1)
 
         wordPressComRESTAPI.get(
             servicePath,
@@ -173,7 +173,7 @@ public class DomainsServiceRemote: ServiceRemoteWordPressComREST {
     public func getDomainContactInformation(success: @escaping (DomainContactInformation) -> Void,
                                             failure: @escaping (Error) -> Void) {
         let endPoint = "me/domain-contact-information"
-        let servicePath = path(forEndpoint: endPoint, withVersion: ._1_1)
+        let servicePath = path(forEndpoint: endPoint, with: ._1_1)
 
         wordPressComRESTAPI.get(
             servicePath,
@@ -197,7 +197,7 @@ public class DomainsServiceRemote: ServiceRemoteWordPressComREST {
                                                  success: @escaping (ValidateDomainContactInformationResponse) -> Void,
                                                  failure: @escaping (Error) -> Void) {
         let endPoint = "me/domain-contact-information/validate"
-        let servicePath = path(forEndpoint: endPoint, withVersion: ._1_1)
+        let servicePath = path(forEndpoint: endPoint, with: ._1_1)
 
         let parameters: [String: AnyObject] = ["contact_information": contactInformation as AnyObject,
                                                "domain_names": domainNames as AnyObject]
@@ -222,7 +222,7 @@ public class DomainsServiceRemote: ServiceRemoteWordPressComREST {
                                      success: @escaping ([DomainSuggestion]) -> Void,
                                      failure: @escaping (Error) -> Void) {
         let endPoint = "domains/suggestions"
-        let servicePath = path(forEndpoint: endPoint, withVersion: ._1_1)
+        let servicePath = path(forEndpoint: endPoint, with: ._1_1)
         var parameters: [String: AnyObject] = [
             "query": request.query as AnyObject
         ]

@@ -42,7 +42,7 @@ extension ReaderPostServiceRemote {
             return nil
         }
 
-        return self.path(forEndpoint: endpoint, withVersion: ._2_0)
+        return self.path(forEndpoint: endpoint, with: ._2_0)
     }
 
     /// Sets the `is_seen` status for a given feed post.
@@ -98,7 +98,7 @@ extension ReaderPostServiceRemote {
                                   success: @escaping (() -> Void),
                                   failure: @escaping ((Error) -> Void)) {
 
-        let path = self.path(forEndpoint: endpoint, withVersion: ._2_0)
+        let path = self.path(forEndpoint: endpoint, with: ._2_0)
 
         wordPressComRESTAPI.post(path, parameters: params, success: { (responseObject, _) in
             guard let response = responseObject as? [String: AnyObject],

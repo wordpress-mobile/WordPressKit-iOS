@@ -39,7 +39,7 @@ open class ProductServiceRemote {
     /// Gets a list of available products for purchase.
     ///
     open func getProducts(completion: @escaping (Result<[Product], Error>) -> Void) {
-        let path = serviceRemote.path(forEndpoint: "products", withVersion: ._1_1)
+        let path = serviceRemote.path(forEndpoint: "products", with: ._1_1)
 
         serviceRemote.wordPressComRESTAPI.get(
             path,

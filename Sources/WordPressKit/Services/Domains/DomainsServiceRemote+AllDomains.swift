@@ -11,7 +11,7 @@ extension DomainsServiceRemote {
     /// - `no_wpcom`of type `boolean`. If `true`, the respnse won't include `wpcom` domains.
     /// - `locale` of type `string`. Used for string localization.
     public func fetchAllDomains(params: AllDomainsEndpointParams? = nil, completion: @escaping (AllDomainsEndpointResult) -> Void) {
-        let path = self.path(forEndpoint: "all-domains", withVersion: ._1_1)
+        let path = self.path(forEndpoint: "all-domains", with: ._1_1)
         let parameters: [String: AnyObject]?
 
         do {

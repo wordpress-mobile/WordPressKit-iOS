@@ -4,7 +4,7 @@ import WordPressShared
 open class QRLoginServiceRemote: ServiceRemoteWordPressComREST {
     /// Validates the incoming QR Login token and retrieves the requesting browser, and location
     open func validate(token: String, data: String, success: @escaping (QRLoginValidationResponse) -> Void, failure: @escaping (Error?, QRLoginError?) -> Void) {
-        let path = self.path(forEndpoint: "auth/qr-code/validate", withVersion: ._2_0)
+        let path = self.path(forEndpoint: "auth/qr-code/validate", with: ._2_0)
         let parameters = [ "token": token, "data": data ] as [String: AnyObject]
 
         wordPressComRESTAPI.post(path, parameters: parameters as [String: AnyObject], success: { (response, _) in
@@ -30,7 +30,7 @@ open class QRLoginServiceRemote: ServiceRemoteWordPressComREST {
 
     /// Authenticates the users browser
     open func authenticate(token: String, data: String, success: @escaping(Bool) -> Void, failure: @escaping(Error) -> Void) {
-        let path = self.path(forEndpoint: "auth/qr-code/authenticate", withVersion: ._2_0)
+        let path = self.path(forEndpoint: "auth/qr-code/authenticate", with: ._2_0)
         let parameters = [ "token": token, "data": data ] as [String: AnyObject]
 
         wordPressComRESTAPI.post(path, parameters: parameters, success: { (response, _) in

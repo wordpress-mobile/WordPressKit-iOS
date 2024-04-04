@@ -17,7 +17,7 @@ extension ReaderPostServiceRemote {
                                   failure: @escaping (Error?) -> Void) {
 
         let endpoint = "read/site/\(siteID)/post/\(postID)/related"
-        let path = self.path(forEndpoint: endpoint, withVersion: ._1_2)
+        let path = self.path(forEndpoint: endpoint, with: ._1_2)
 
         let parameters = [
             "size_local": count,

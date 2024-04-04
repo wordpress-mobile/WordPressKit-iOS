@@ -112,6 +112,6 @@ extension ReaderPostServiceRemote {
             return nil
         }
 
-        return self.path(forEndpoint: endpoint, withVersion: ._2_0)
+        return self.path(forEndpoint: endpoint, with: ._2_0)
     }
 }

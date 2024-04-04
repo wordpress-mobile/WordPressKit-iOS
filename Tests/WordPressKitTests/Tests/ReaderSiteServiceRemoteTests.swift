@@ -15,7 +15,7 @@ class ReaderSiteServiceRemoteTests: XCTestCase {
     func testFetchFollowedSitesPath() {
 
         let expectedPath = readerSiteServiceRemote.path(forEndpoint: "read/following/mine?meta=site,feed",
-                                                        withVersion: ._1_1)
+                                                        with: ._1_1)
         readerSiteServiceRemote.fetchFollowedSites(success: nil, failure: nil)
         XCTAssertTrue(mockRemoteApi.getMethodCalled, "Wrong method")
         XCTAssertEqual(mockRemoteApi.URLStringPassedIn, expectedPath, "Wrong path")
@@ -37,7 +37,7 @@ class ReaderSiteServiceRemoteTests: XCTestCase {
     func testFollowSiteWithIDPath() {
 
         let expectedPath = readerSiteServiceRemote.path(forEndpoint: "sites/1/follows/new",
-                                                        withVersion: ._1_1)
+                                                        with: ._1_1)
         readerSiteServiceRemote.followSite(withID: 1, success: nil, failure: nil)
         XCTAssertTrue(mockRemoteApi.postMethodCalled, "Wrong method")
 
@@ -60,7 +60,7 @@ class ReaderSiteServiceRemoteTests: XCTestCase {
     func testUnfollowSiteWithIDPath() {
 
         let expectedPath = readerSiteServiceRemote.path(forEndpoint: "sites/1/follows/mine/delete",
-                                                        withVersion: ._1_1)
+                                                        with: ._1_1)
         readerSiteServiceRemote.unfollowSite(withID: 1, success: nil, failure: nil)
         XCTAssertTrue(mockRemoteApi.postMethodCalled, "Wrong method")
         XCTAssertEqual(mockRemoteApi.URLStringPassedIn, expectedPath, "Wrong path")
@@ -81,7 +81,7 @@ class ReaderSiteServiceRemoteTests: XCTestCase {
 
         let url = "http://www.wordpress.com"
         let expectedPath = readerSiteServiceRemote.path(forEndpoint: "read/following/mine/new",
-                                                        withVersion: ._1_1)
+                                                        with: ._1_1)
         readerSiteServiceRemote.followSite(atURL: url, success: nil, failure: nil)
         XCTAssertTrue(mockRemoteApi.postMethodCalled, "Wrong method")
         XCTAssertEqual(mockRemoteApi.URLStringPassedIn, expectedPath, "Wrong path")
@@ -118,7 +118,7 @@ class ReaderSiteServiceRemoteTests: XCTestCase {
 
         let url = "http://www.wordpress.com"
         let expectedPath = readerSiteServiceRemote.path(forEndpoint: "read/following/mine/delete",
-                                                        withVersion: ._1_1)
+                                                        with: ._1_1)
         readerSiteServiceRemote.unfollowSite(atURL: url, success: nil, failure: nil)
         XCTAssertTrue(mockRemoteApi.postMethodCalled, "Wrong method")
         XCTAssertEqual(mockRemoteApi.URLStringPassedIn, expectedPath, "Wrong path")
@@ -154,7 +154,7 @@ class ReaderSiteServiceRemoteTests: XCTestCase {
 
         let url = URL(string: "http://www.wordpress.com")!
         let expectedPath = readerSiteServiceRemote.path(forEndpoint: "sites/\(url.host!)",
-                                                        withVersion: ._1_1)
+                                                        with: ._1_1)
         readerSiteServiceRemote.findSiteID(for: url as URL, success: nil, failure: nil)
         XCTAssertTrue(mockRemoteApi.getMethodCalled, "Wrong method")
         XCTAssertEqual(mockRemoteApi.URLStringPassedIn, expectedPath, "Wrong path")
@@ -187,7 +187,7 @@ class ReaderSiteServiceRemoteTests: XCTestCase {
     func testSubscribedToSiteByIDPath() {
 
         let expectedPath = readerSiteServiceRemote.path(forEndpoint: "sites/1/follows/mine",
-                                                        withVersion: ._1_1)
+                                                        with: ._1_1)
         readerSiteServiceRemote.checkSubscribedToSite(byID: 1, success: nil, failure: nil)
         XCTAssertTrue(mockRemoteApi.getMethodCalled, "Wrong method")
         XCTAssertEqual(mockRemoteApi.URLStringPassedIn, expectedPath, "Wrong path")
@@ -219,7 +219,7 @@ class ReaderSiteServiceRemoteTests: XCTestCase {
 
         let url = URL(string: "http://www.wordpress.com")!
         let expectedPath = readerSiteServiceRemote.path(forEndpoint: "read/following/mine",
-                                                        withVersion: ._1_1)
+                                                        with: ._1_1)
         readerSiteServiceRemote.checkSubscribedToFeed(by: url as URL, success: nil, failure: nil)
         XCTAssertTrue(mockRemoteApi.getMethodCalled, "Wrong method")
         XCTAssertEqual(mockRemoteApi.URLStringPassedIn, expectedPath, "Wrong path")
@@ -252,7 +252,7 @@ class ReaderSiteServiceRemoteTests: XCTestCase {
     func testFlagSiteWithIDPath() {
 
         let expectedPath = readerSiteServiceRemote.path(forEndpoint: "me/block/sites/1/delete",
-                                                        withVersion: ._1_1)
+                                                        with: ._1_1)
         readerSiteServiceRemote.flagSite(withID: 1, asBlocked: false, success: nil, failure: nil)
         XCTAssertTrue(mockRemoteApi.postMethodCalled, "Wrong method")
         XCTAssertEqual(mockRemoteApi.URLStringPassedIn, expectedPath, "Wrong path")
@@ -261,7 +261,7 @@ class ReaderSiteServiceRemoteTests: XCTestCase {
     func testFlagBlockedSiteWithIDPath() {
 
         let expectedPath = readerSiteServiceRemote.path(forEndpoint: "me/block/sites/1/new",
-                                                        withVersion: ._1_1)
+                                                        with: ._1_1)
         readerSiteServiceRemote.flagSite(withID: 1, asBlocked: true, success: nil, failure: nil)
         XCTAssertTrue(mockRemoteApi.postMethodCalled, "Wrong method")
         XCTAssertEqual(mockRemoteApi.URLStringPassedIn, expectedPath, "Wrong path")

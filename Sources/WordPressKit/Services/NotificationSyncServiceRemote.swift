@@ -75,7 +75,7 @@ public class NotificationSyncServiceRemote: ServiceRemoteWordPressComREST {
         }
 
         let path = "notifications/read"
-        let requestUrl = self.path(forEndpoint: path, withVersion: ._1_1)
+        let requestUrl = self.path(forEndpoint: path, with: ._1_1)
 
         // Note: Isn't the API wonderful?
         let value = read ? 9999 : -9999
@@ -105,7 +105,7 @@ public class NotificationSyncServiceRemote: ServiceRemoteWordPressComREST {
     ///
     @objc public func updateLastSeen(_ timestamp: String, completion: @escaping ((Error?) -> Void)) {
         let path = "notifications/seen"
-        let requestUrl = self.path(forEndpoint: path, withVersion: ._1_1)
+        let requestUrl = self.path(forEndpoint: path, with: ._1_1)
 
         let parameters = [
             "time": timestamp
@@ -152,7 +152,7 @@ private extension NotificationSyncServiceRemote {
     ///
     func loadNotes(withNoteIds noteIds: [String]? = nil, fields: String? = nil, pageSize: Int?, completion: @escaping ((Error?, [RemoteNotification]?) -> Void)) {
         let path = "notifications/"
-        let requestUrl = self.path(forEndpoint: path, withVersion: ._1_1)
+        let requestUrl = self.path(forEndpoint: path, with: ._1_1)
 
         var parameters: [String: AnyObject] = [
             "number": pageSize as AnyObject? ?? defaultPageSize as AnyObject

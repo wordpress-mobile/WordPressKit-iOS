@@ -12,7 +12,7 @@ open class SiteManagementServiceRemote: ServiceRemoteWordPressComREST {
     ///
     @objc open func deleteSite(_ siteID: NSNumber, success: (() -> Void)?, failure: ((NSError) -> Void)?) {
         let endpoint = "sites/\(siteID)/delete"
-        let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
+        let path = self.path(forEndpoint: endpoint, with: ._1_1)
 
         wordPressComRESTAPI.post(path,
             parameters: nil,
@@ -48,7 +48,7 @@ open class SiteManagementServiceRemote: ServiceRemoteWordPressComREST {
     ///
     @objc open func exportContent(_ siteID: NSNumber, success: (() -> Void)?, failure: ((NSError) -> Void)?) {
         let endpoint = "sites/\(siteID)/exports/start"
-        let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
+        let path = self.path(forEndpoint: endpoint, with: ._1_1)
 
         wordPressComRESTAPI.post(path,
             parameters: nil,
@@ -82,7 +82,7 @@ open class SiteManagementServiceRemote: ServiceRemoteWordPressComREST {
     ///
     @objc open func getActivePurchases(_ siteID: NSNumber, success: (([SitePurchase]) -> Void)?, failure: ((NSError) -> Void)?) {
         let endpoint = "sites/\(siteID)/purchases"
-        let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
+        let path = self.path(forEndpoint: endpoint, with: ._1_1)
 
         wordPressComRESTAPI.get(path,
             parameters: nil,
@@ -109,7 +109,7 @@ open class SiteManagementServiceRemote: ServiceRemoteWordPressComREST {
     ///
     @objc open func markQuickStartChecklistAsComplete(_ siteID: NSNumber, success: (() -> Void)?, failure: ((NSError) -> Void)?) {
         let endpoint = "sites/\(siteID)/mobile-quick-start"
-        let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
+        let path = self.path(forEndpoint: endpoint, with: ._1_1)
         let parameters = ["variant": "next-steps"] as [String: AnyObject]
 
         wordPressComRESTAPI.post(path,

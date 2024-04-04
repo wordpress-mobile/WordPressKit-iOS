@@ -41,7 +41,7 @@ open class SharingServiceRemote: ServiceRemoteWordPressComREST {
     ///
     @objc open func getPublicizeServices(_ success: (([RemotePublicizeService]) -> Void)?, failure: ((NSError?) -> Void)?) {
         let endpoint = "meta/external-services"
-        let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
+        let path = self.path(forEndpoint: endpoint, with: ._1_1)
         let params = ["type": "publicize"]
 
         wordPressComRESTAPI.get(path, parameters: params as [String: AnyObject]?) { responseObject, httpResponse in
@@ -66,7 +66,7 @@ open class SharingServiceRemote: ServiceRemoteWordPressComREST {
     @objc open func getPublicizeServices(for siteID: NSNumber,
                                          success: (([RemotePublicizeService]) -> Void)?,
                                          failure: ((NSError?) -> Void)?) {
-        let path = path(forEndpoint: "sites/\(siteID)/external-services", withVersion: ._2_0)
+        let path = path(forEndpoint: "sites/\(siteID)/external-services", with: ._2_0)
         let params = ["type": "publicize" as AnyObject]
 
         wordPressComRESTAPI.get(
@@ -94,7 +94,7 @@ open class SharingServiceRemote: ServiceRemoteWordPressComREST {
     ///
     @objc open func getKeyringConnections(_ success: (([KeyringConnection]) -> Void)?, failure: ((NSError?) -> Void)?) {
         let endpoint = "me/keyring-connections"
-        let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
+        let path = self.path(forEndpoint: endpoint, with: ._1_1)
 
         wordPressComRESTAPI.get(path,
             parameters: nil,
@@ -168,7 +168,7 @@ open class SharingServiceRemote: ServiceRemoteWordPressComREST {
     ///
     @objc open func getPublicizeConnections(_ siteID: NSNumber, success: (([RemotePublicizeConnection]) -> Void)?, failure: ((NSError?) -> Void)?) {
         let endpoint = "sites/\(siteID)/publicize-connections"
-        let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
+        let path = self.path(forEndpoint: endpoint, with: ._1_1)
 
         wordPressComRESTAPI.get(path,
             parameters: nil,
@@ -211,7 +211,7 @@ open class SharingServiceRemote: ServiceRemoteWordPressComREST {
         failure: ((NSError) -> Void)?) {
 
             let endpoint = "sites/\(siteID)/publicize-connections/new"
-            let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
+            let path = self.path(forEndpoint: endpoint, with: ._1_1)
 
             var parameters: [String: AnyObject] = [PublicizeConnectionParams.keyringConnectionID: keyringConnectionID]
             if let userID = externalUserID {
@@ -255,7 +255,7 @@ open class SharingServiceRemote: ServiceRemoteWordPressComREST {
         success: ((RemotePublicizeConnection) -> Void)?,
         failure: ((NSError?) -> Void)?) {
             let endpoint = "sites/\(siteID)/publicize-connections/\(connectionID)"
-            let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
+            let path = self.path(forEndpoint: endpoint, with: ._1_1)
             let externalUserID = (externalID == nil) ? "false" : externalID!
 
             let parameters = [
@@ -297,7 +297,7 @@ open class SharingServiceRemote: ServiceRemoteWordPressComREST {
         success: ((RemotePublicizeConnection) -> Void)?,
         failure: ((NSError?) -> Void)?) {
             let endpoint = "sites/\(siteID)/publicize-connections/\(connectionID)"
-            let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
+            let path = self.path(forEndpoint: endpoint, with: ._1_1)
             let parameters = [
                 PublicizeConnectionParams.shared: shared
             ]
@@ -332,7 +332,7 @@ open class SharingServiceRemote: ServiceRemoteWordPressComREST {
     ///
     @objc open func deletePublicizeConnection(_ siteID: NSNumber, connectionID: NSNumber, success: (() -> Void)?, failure: ((NSError?) -> Void)?) {
         let endpoint = "sites/\(siteID)/publicize-connections/\(connectionID)/delete"
-        let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
+        let path = self.path(forEndpoint: endpoint, with: ._1_1)
 
         wordPressComRESTAPI.post(path,
             parameters: nil,
@@ -403,7 +403,7 @@ open class SharingServiceRemote: ServiceRemoteWordPressComREST {
     ///
     @objc open func getSharingButtonsForSite(_ siteID: NSNumber, success: (([RemoteSharingButton]) -> Void)?, failure: ((NSError?) -> Void)?) {
         let endpoint = "sites/\(siteID)/sharing-buttons"
-        let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
+        let path = self.path(forEndpoint: endpoint, with: ._1_1)
 
         wordPressComRESTAPI.get(path,
             parameters: nil,
@@ -437,7 +437,7 @@ open class SharingServiceRemote: ServiceRemoteWordPressComREST {
     ///
     @objc open func updateSharingButtonsForSite(_ siteID: NSNumber, sharingButtons: [RemoteSharingButton], success: (([RemoteSharingButton]) -> Void)?, failure: ((NSError?) -> Void)?) {
         let endpoint = "sites/\(siteID)/sharing-buttons"
-        let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
+        let path = self.path(forEndpoint: endpoint, with: ._1_1)
         let buttons = dictionariesFromRemoteSharingButtons(sharingButtons)
         let parameters = [SharingButtonsKeys.sharingButtons: buttons]
 

@@ -30,7 +30,7 @@ public class AccountSettingsRemote: ServiceRemoteWordPressComREST {
     public func getSettings(success: @escaping (AccountSettings) -> Void, failure: @escaping (Error) -> Void) {
         let endpoint = "me/settings"
         let parameters = ["context": "edit"]
-        let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
+        let path = self.path(forEndpoint: endpoint, with: ._1_1)
 
         wordPressComRESTAPI.get(path,
                 parameters: parameters as [String: AnyObject]?,
@@ -51,7 +51,7 @@ public class AccountSettingsRemote: ServiceRemoteWordPressComREST {
 
     public func updateSetting(_ change: AccountSettingsChange, success: @escaping () -> Void, failure: @escaping (Error) -> Void) {
         let endpoint = "me/settings"
-        let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
+        let path = self.path(forEndpoint: endpoint, with: ._1_1)
         let parameters = [fieldNameForChange(change): change.stringValue]
 
         wordPressComRESTAPI.post(path,
@@ -77,7 +77,7 @@ public class AccountSettingsRemote: ServiceRemoteWordPressComREST {
         let action = "none"
         let parameters = ["username": username, "action": action]
 
-        let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
+        let path = self.path(forEndpoint: endpoint, with: ._1_1)
 
         wordPressComRESTAPI.post(path,
                                  parameters: parameters as [String: AnyObject]?,
@@ -97,7 +97,7 @@ public class AccountSettingsRemote: ServiceRemoteWordPressComREST {
     ///   - failure: block for failure
     public func validateUsername(to username: String, success: @escaping () -> Void, failure: @escaping (Error) -> Void) {
         let endpoint = "me/username/validate/\(username)"
-        let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
+        let path = self.path(forEndpoint: endpoint, with: ._1_1)
 
         wordPressComRESTAPI.get(path,
                                 parameters: nil,
@@ -131,7 +131,7 @@ public class AccountSettingsRemote: ServiceRemoteWordPressComREST {
 
     public func updatePassword(_ password: String, success: @escaping () -> Void, failure: @escaping (Error) -> Void) {
         let endpoint = "me/settings"
-        let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
+        let path = self.path(forEndpoint: endpoint, with: ._1_1)
         let parameters = ["password": password]
 
         wordPressComRESTAPI.post(path,
@@ -147,7 +147,7 @@ public class AccountSettingsRemote: ServiceRemoteWordPressComREST {
 
     public func closeAccount(success: @escaping () -> Void, failure: @escaping (Error) -> Void) {
         let endpoint = "me/account/close"
-        let path = path(forEndpoint: endpoint, withVersion: ._1_1)
+        let path = path(forEndpoint: endpoint, with: ._1_1)
 
         wordPressComRESTAPI.post(path, parameters: nil) { _, _ in
             success()

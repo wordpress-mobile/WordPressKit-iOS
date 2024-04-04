@@ -45,7 +45,7 @@ public class JetpackServiceRemote: ServiceRemoteWordPressComREST {
     public func checkSiteHasJetpack(_ url: URL,
                                           success: @escaping (Bool) -> Void,
                                           failure: @escaping (Error?) -> Void) {
-        let path = self.path(forEndpoint: "connect/site-info", withVersion: ._1_0)
+        let path = self.path(forEndpoint: "connect/site-info", with: ._1_0)
         let parameters = ["url": url.absoluteString as AnyObject]
         wordPressComRESTAPI.get(path,
                                 parameters: parameters,
@@ -70,7 +70,7 @@ public class JetpackServiceRemote: ServiceRemoteWordPressComREST {
             return
         }
         let path = String(format: "jetpack-install/%@/", escapedURL)
-        let requestUrl = self.path(forEndpoint: path, withVersion: ._1_0)
+        let requestUrl = self.path(forEndpoint: path, with: ._1_0)
         let parameters = ["user": username,
                           "password": password]
 

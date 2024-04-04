@@ -10,7 +10,7 @@ public class JetpackSocialServiceRemote: ServiceRemoteWordPressComREST {
     ///   - completion: Closure to be called once the request completes.
     public func fetchPublicizeInfo(for siteID: Int,
                                    completion: @escaping (Result<RemotePublicizeInfo?, Error>) -> Void) {
-        let path = path(forEndpoint: "sites/\(siteID)/jetpack-social", withVersion: ._2_0)
+        let path = path(forEndpoint: "sites/\(siteID)/jetpack-social", with: ._2_0)
         Task { @MainActor in
             await self.wordPressComRestApi
                 .perform(

@@ -14,7 +14,7 @@ import WordPressShared
     @objc public func getSupportedCountries(success: @escaping ([WPCountry]) -> Void,
                                             failure: @escaping (Error) -> Void) {
         let endPoint = "me/transactions/supported-countries/"
-        let servicePath = path(forEndpoint: endPoint, withVersion: ._1_1)
+        let servicePath = path(forEndpoint: endPoint, with: ._1_1)
 
         wordPressComRESTAPI.get(servicePath,
                                 parameters: nil,
@@ -48,7 +48,7 @@ import WordPressShared
                                    failure: @escaping (Error) -> Void) {
         let siteIDString = siteID != nil ? "\(siteID ?? 0)" : "no-site"
         let endPoint = "me/shopping-cart/\(siteIDString)"
-        let urlPath = path(forEndpoint: endPoint, withVersion: ._1_1)
+        let urlPath = path(forEndpoint: endPoint, with: ._1_1)
 
         var productsDictionary: [[String: AnyObject]] = []
 
@@ -96,7 +96,7 @@ import WordPressShared
 
         let endPoint = "me/transactions"
 
-        let urlPath = path(forEndpoint: endPoint, withVersion: ._1_1)
+        let urlPath = path(forEndpoint: endPoint, with: ._1_1)
 
         let paymentDict = ["payment_method": Constants.freeDomainPaymentMethod]
 

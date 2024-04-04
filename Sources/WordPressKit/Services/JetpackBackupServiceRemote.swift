@@ -130,7 +130,7 @@ open class JetpackBackupServiceRemote: ServiceRemoteWordPressComREST {
             endpoint = endpoint.appending(path)
         }
 
-        return self.path(forEndpoint: endpoint, withVersion: ._2_0)
+        return self.path(forEndpoint: endpoint, with: ._2_0)
     }
 
 }

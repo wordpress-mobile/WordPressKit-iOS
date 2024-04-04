@@ -24,7 +24,7 @@ public class AutomatedTransferService: ServiceRemoteWordPressComREST {
                                          success: @escaping () -> Void,
                                          failure: @escaping (AutomatedTransferEligibilityError) -> Void) {
         let endpoint = "sites/\(siteID)/automated-transfers/eligibility"
-        let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
+        let path = self.path(forEndpoint: endpoint, with: ._1_1)
 
         wordPressComRESTAPI.get(path, parameters: nil, success: { (responseObject, _) in
             guard let response = responseObject as? [String: AnyObject] else {
@@ -50,7 +50,7 @@ public class AutomatedTransferService: ServiceRemoteWordPressComREST {
                                           failure: @escaping (Error) -> Void) {
 
         let endpoint = "sites/\(siteID)/automated-transfers/initiate"
-        let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
+        let path = self.path(forEndpoint: endpoint, with: ._1_1)
         let payload = ["plugin": pluginSlug] as [String: AnyObject]
 
         wordPressComRESTAPI.post(path, parameters: payload, success: { (responseObject, _) in
@@ -78,7 +78,7 @@ public class AutomatedTransferService: ServiceRemoteWordPressComREST {
                                              failure: @escaping (Error) -> Void) {
 
         let endpoint = "sites/\(siteID)/automated-transfers/status"
-        let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
+        let path = self.path(forEndpoint: endpoint, with: ._1_1)
 
         wordPressComRESTAPI.get(path, parameters: nil, success: { (responseObject, _) in
             guard let response = responseObject as? [String: AnyObject] else {

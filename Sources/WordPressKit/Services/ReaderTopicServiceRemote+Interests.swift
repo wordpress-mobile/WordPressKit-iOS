@@ -7,7 +7,7 @@ extension ReaderTopicServiceRemote {
     /// - Parameter failure: Called if the request fails for any reason, or the response data is invalid
     public func fetchInterests(_ success: @escaping ([RemoteReaderInterest]) -> Void,
                                failure: @escaping (Error) -> Void) {
-        let path = self.path(forEndpoint: "read/interests", withVersion: ._2_0)
+        let path = self.path(forEndpoint: "read/interests", with: ._2_0)
 
         wordPressComRESTAPI.get(path,
                                 parameters: nil,
@@ -33,7 +33,7 @@ extension ReaderTopicServiceRemote {
     public func followInterests(withSlugs: [String],
                                 success: @escaping () -> Void,
                                 failure: @escaping (Error) -> Void) {
-        let path = self.path(forEndpoint: "read/tags/mine/new", withVersion: ._1_2)
+        let path = self.path(forEndpoint: "read/tags/mine/new", with: ._1_2)
         let parameters = ["tags": withSlugs] as [String: AnyObject]
 
         wordPressComRESTAPI.post(path, parameters: parameters, success: { _, _ in
@@ -48,7 +48,7 @@ extension ReaderTopicServiceRemote {
     /// Returns an API path for the given tag/topic/interest slug
     /// - Returns: https://_api_/read/tags/_slug_/posts
     public func pathForTopic(slug: String) -> String {
-        let endpoint = path(forEndpoint: "read/tags/\(slug)/posts", withVersion: ._1_2)
+        let endpoint = path(forEndpoint: "read/tags/\(slug)/posts", with: ._1_2)
 
         return wordPressComRESTAPI.baseURL.appendingPathComponent(endpoint).absoluteString
     }

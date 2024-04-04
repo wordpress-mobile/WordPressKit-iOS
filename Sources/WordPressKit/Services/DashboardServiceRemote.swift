@@ -8,7 +8,7 @@ open class DashboardServiceRemote: ServiceRemoteWordPressComREST {
         success: @escaping (NSDictionary) -> Void,
         failure: @escaping (Error) -> Void
     ) {
-        let requestUrl =  self.path(forEndpoint: "sites/\(blogID)/dashboard/cards-data/", withVersion: ._2_0)
+        let requestUrl =  self.path(forEndpoint: "sites/\(blogID)/dashboard/cards-data/", with: ._2_0)
         var params: [String: AnyObject]?
 
         do {

@@ -8,7 +8,7 @@ open class ShareAppContentServiceRemote: ServiceRemoteWordPressComREST {
     ///   - completion: A closure that will be called when the fetch request completes.
     open func getContent(for appName: ShareAppName, completion: @escaping (Result<RemoteShareAppContent, Error>) -> Void) {
         let endpoint = "mobile/share-app-link"
-        let requestURLString = path(forEndpoint: endpoint, withVersion: ._2_0)
+        let requestURLString = path(forEndpoint: endpoint, with: ._2_0)
         let params: [String: AnyObject] = [Constants.appNameParameterKey: appName.rawValue as AnyObject]
 
         Task { @MainActor in

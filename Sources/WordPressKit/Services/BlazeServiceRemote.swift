@@ -11,7 +11,7 @@ open class BlazeServiceRemote: ServiceRemoteWordPressComREST {
     ///   - page: The response page. By default, returns the first page.
     open func searchCampaigns(forSiteId siteId: Int, page: Int = 1, callback: @escaping (Result<BlazeCampaignsSearchResponse, Error>) -> Void) {
         let endpoint = "sites/\(siteId)/wordads/dsp/api/v1/search/campaigns/site/\(siteId)"
-        let path = self.path(forEndpoint: endpoint, withVersion: ._2_0)
+        let path = self.path(forEndpoint: endpoint, with: ._2_0)
         Task { @MainActor in
             let result = await self.wordPressComRestApi
                 .perform(

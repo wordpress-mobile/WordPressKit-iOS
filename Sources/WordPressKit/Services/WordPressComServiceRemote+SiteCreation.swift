@@ -189,7 +189,7 @@ public extension WordPressComServiceRemote {
     func createWPComSite(request: SiteCreationRequest, completion: @escaping SiteCreationResultHandler) {
 
         let endpoint = "sites/new"
-        let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
+        let path = self.path(forEndpoint: endpoint, with: ._1_1)
 
         let requestParameters: [String: AnyObject]
         do {

@@ -13,7 +13,7 @@ public class AnnouncementServiceRemote: ServiceRemoteWordPressComREST {
             return
         }
 
-        let path = self.path(forEndpoint: endPoint, withVersion: ._2_0)
+        let path = self.path(forEndpoint: endPoint, with: ._2_0)
         Task { @MainActor [wordPressComRestApi] in
             await wordPressComRestApi.perform(.get, URLString: path, type: AnnouncementsContainer.self)
                 .map { $0.body.announcements }

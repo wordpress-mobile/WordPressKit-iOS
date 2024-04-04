@@ -21,7 +21,7 @@ public class PlanServiceRemote: ServiceRemoteWordPressComREST {
     ///
     public func getWpcomPlans(_ success: @escaping (AvailablePlans) -> Void, failure: @escaping (Error) -> Void) {
         let endpoint = "plans/mobile"
-        let path = self.path(forEndpoint: endpoint, withVersion: ._2_0)
+        let path = self.path(forEndpoint: endpoint, with: ._2_0)
 
         wordPressComRESTAPI.get(path,
                                 parameters: nil,
@@ -50,7 +50,7 @@ public class PlanServiceRemote: ServiceRemoteWordPressComREST {
     ///
     public func getPlanDescriptionsForAllSitesForLocale(_ locale: String, success: @escaping ([Int: RemotePlanSimpleDescription]) -> Void, failure: @escaping (Error) -> Void) {
         let endpoint = "me/sites"
-        let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
+        let path = self.path(forEndpoint: endpoint, with: ._1_1)
         let parameters: [String: String] = [
             "fields": "ID, plan",
             "locale": locale
@@ -194,7 +194,7 @@ public class PlanServiceRemote: ServiceRemoteWordPressComREST {
     /// Retrieves Zendesk meta data: plan and Jetpack addons, if available
     public func getZendeskMetadata(siteID: Int, completion: @escaping (Result<ZendeskMetadata, Error>) -> Void) {
         let endpoint = "me/sites"
-        let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
+        let path = self.path(forEndpoint: endpoint, with: ._1_1)
         let parameters = ["fields": "ID, zendesk_site_meta"] as [String: AnyObject]
 
         Task { @MainActor [wordPressComRestApi] in

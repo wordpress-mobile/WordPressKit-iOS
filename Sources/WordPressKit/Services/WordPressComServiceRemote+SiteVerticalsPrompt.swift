@@ -39,7 +39,7 @@ public extension WordPressComServiceRemote {
     func retrieveVerticalsPrompt(request: SiteVerticalsPromptRequest, completion: @escaping SiteVerticalsPromptServiceCompletion) {
 
         let endpoint = "verticals/prompt"
-        let path = self.path(forEndpoint: endpoint, withVersion: ._2_0)
+        let path = self.path(forEndpoint: endpoint, with: ._2_0)
 
         let requestParameters: [String: AnyObject] = [
             "segment_id": request as AnyObject
