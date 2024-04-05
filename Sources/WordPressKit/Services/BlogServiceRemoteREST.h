@@ -68,5 +68,6 @@ typedef void (^SettingsHandler)(RemoteBlogSettings *settings);
 
 // FIXME: Temporary public for testing. Will remove once the logic moves to Swift
 - (RemoteBlogSettings *)remoteBlogSettingFromJSONDictionary:(NSDictionary *)json;
+- (NSDictionary *)remoteSettingsToDictionary:(RemoteBlogSettings *)settings;
 
 @end
