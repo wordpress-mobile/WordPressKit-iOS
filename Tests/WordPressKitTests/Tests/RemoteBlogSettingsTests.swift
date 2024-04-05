@@ -10,19 +10,50 @@ final class RemoteBlogSettingsTests: XCTestCase {
         let json = try loadJSONSettings()
         let settings = RemoteBlogSettings(jsonDictionary: json as NSDictionary)
 
-        // Root properties
         XCTAssertEqual(settings.name, "My Epic Blog")
         XCTAssertEqual(settings.tagline, "Definitely, the best blog out there")
-        // Flattened settings properties
         XCTAssertEqual(settings.privacy, 1)
         XCTAssertEqual(settings.languageID, 31337)
         XCTAssertNil(settings.iconMediaID)
         XCTAssertEqual(settings.gmtOffset, 0)
-        // And so on...
-
-        // defaultPostFormat has custom decoding, so let's test it explicitly.
-        // Note that here we're obviously testing only one of the possible paths.
+        XCTAssertEqual(settings.timezoneString, "")
+        XCTAssertEqual(settings.defaultCategoryID, 8)
+        // [!] This is the only property with custom decoding.
+        // It would be appropriate to add additional tests to check all its paths.
         XCTAssertEqual(settings.defaultPostFormat, "standard")
+        XCTAssertEqual(settings.dateFormat, "m/d/Y")
+        XCTAssertEqual(settings.timeFormat, "g:i a")
+        XCTAssertEqual(settings.startOfWeek, "0")
+        XCTAssertEqual(settings.postsPerPage, 12)
+        XCTAssertEqual(settings.commentsAllowed, true)
+        XCTAssertEqual(settings.commentsBlocklistKeys, "some evil keywords")
+        XCTAssertEqual(settings.commentsCloseAutomatically, false)
+        XCTAssertEqual(settings.commentsCloseAutomaticallyAfterDays, 3000)
+        XCTAssertEqual(settings.commentsFromKnownUsersAllowlisted, true)
+        XCTAssertEqual(settings.commentsMaximumLinks, 42)
+        XCTAssertEqual(settings.commentsModerationKeys, "moderation keys")
+        XCTAssertEqual(settings.commentsPagingEnabled, true)
+        XCTAssertEqual(settings.commentsPageSize, 5)
+        XCTAssertEqual(settings.commentsRequireManualModeration, true)
+        XCTAssertEqual(settings.commentsRequireNameAndEmail, false)
+        XCTAssertEqual(settings.commentsRequireRegistration, true)
+        XCTAssertEqual(settings.commentsSortOrder, "desc")
+        XCTAssertEqual(settings.commentsThreadingDepth, 5)
+        XCTAssertEqual(settings.commentsThreadingEnabled, true)
+        XCTAssertEqual(settings.pingbackInboundEnabled, true)
+        XCTAssertEqual(settings.pingbackOutboundEnabled, true)
+        XCTAssertEqual(settings.relatedPostsAllowed, true)
+        XCTAssertEqual(settings.relatedPostsEnabled, false)
+        XCTAssertEqual(settings.relatedPostsShowHeadline, true)
+        XCTAssertEqual(settings.relatedPostsShowThumbnails, false)
+        XCTAssertEqual(settings.ampSupported, true)
+        XCTAssertEqual(settings.ampEnabled, false)
+        XCTAssertEqual(settings.sharingButtonStyle, "icon-text")
+        XCTAssertEqual(settings.sharingLabel, "Share this:")
+        XCTAssertEqual(settings.sharingTwitterName, "gcorne")
+        XCTAssertEqual(settings.sharingCommentLikesEnabled, true)
+        XCTAssertEqual(settings.sharingDisabledLikes, false)
+        XCTAssertEqual(settings.sharingDisabledReblogs, false)
     }
 
     func testToDictionary() throws {
