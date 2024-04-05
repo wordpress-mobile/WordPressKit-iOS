@@ -2,13 +2,13 @@
 import XCTest
 
 // The aim of these tests is not to be comprehensive, but to help with migrating the decoding and encoding logic from Objective-C to Swift without regression.
+// (The logic was originally part of BlogServiceRemoteREST).
+// They remain in the suite after the conversion to Swift to prevent future regression and provide a ready made harness where to add more tests.
 final class RemoteBlogSettingsTests: XCTestCase {
 
     func testInitWithJSON() throws {
         let json = try loadJSONSettings()
-        // FIXME: The init logic is currently in BlogServiceRemoteREST. We'll test it from there first, then update the test with the new location.
-        let blogService = BlogServiceRemoteREST(wordPressComRestApi: MockWordPressComRestApi(), siteID: 0)
-        let settings = try XCTUnwrap(blogService.remoteBlogSetting(fromJSONDictionary: json))
+        let settings = RemoteBlogSettings(jsonDictionary: json as NSDictionary)
 
         // Root properties
         XCTAssertEqual(settings.name, "My Epic Blog")
