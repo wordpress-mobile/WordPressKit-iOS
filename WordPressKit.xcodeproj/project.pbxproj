@@ -1556,9 +1556,6 @@
 		3FE2E9352BB10D92002CA2E1 /* WordPressAPI */ = {
 			isa = PBXGroup;
 			children = (
-				3FE2E94E2BB29A1B002CA2E1 /* FilePart.h */,
-				3FE2E94D2BB29A1B002CA2E1 /* FilePart.m */,
-				3FFCC0552BABC78B0051D229 /* WordPressComRESTAPIInterfacing.h */,
 				4A05E7952B2FCB6400C25E3B /* NonceRetrieval.swift */,
 				4A05E7992B2FDC3200C25E3B /* WordPressOrgRestApi.swift */,
 				93BD27741EE73944002BB00B /* HTTPAuthenticationAlertController.swift */,
@@ -1979,6 +1976,7 @@
 		3FE2E9432BB11413002CA2E1 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				3FE2E9532BB3F4ED002CA2E1 /* APIInterface */,
 				3FE2E9462BB12020002CA2E1 /* WordPressKit */,
 			);
 			path = Sources;
@@ -2028,6 +2026,24 @@
 				93BD273F1EE73310002BB00B /* WordPressKitTests-Bridging-Header.h */,
 			);
 			path = WordPressKitTests;
+			sourceTree = "<group>";
+		};
+		3FE2E9522BB3F4ED002CA2E1 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				3FE2E94E2BB29A1B002CA2E1 /* FilePart.h */,
+				3FFCC0552BABC78B0051D229 /* WordPressComRESTAPIInterfacing.h */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		3FE2E9532BB3F4ED002CA2E1 /* APIInterface */ = {
+			isa = PBXGroup;
+			children = (
+				3FE2E9522BB3F4ED002CA2E1 /* include */,
+				3FE2E94D2BB29A1B002CA2E1 /* FilePart.m */,
+			);
+			path = APIInterface;
 			sourceTree = "<group>";
 		};
 		404057C3221B30140060250C /* Time Interval */ = {
