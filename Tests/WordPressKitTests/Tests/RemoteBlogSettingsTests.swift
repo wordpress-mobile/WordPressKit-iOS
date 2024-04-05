@@ -1,6 +1,7 @@
 @testable import WordPressKit
 import XCTest
 
+// The aim of these tests is not to be comprehensive, but to help with migrating the decoding and encoding logic from Objective-C to Swift without regression.
 final class RemoteBlogSettingsTests: XCTestCase {
 
     func testInitWithJSON() throws {
