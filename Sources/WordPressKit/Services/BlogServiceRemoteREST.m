@@ -219,7 +219,7 @@ static NSInteger const RemoteBlogUncategorizedCategory                      = 1;
                   }
                   return;
               }
-              RemoteBlogSettings *remoteSettings = [self remoteBlogSettingFromJSONDictionary:responseObject];
+              RemoteBlogSettings *remoteSettings = [[RemoteBlogSettings alloc] initWithJsonDictionary:responseObject];
               if (success) {
                   success(remoteSettings);
               }
@@ -236,7 +236,7 @@ static NSInteger const RemoteBlogUncategorizedCategory                      = 1;
 {
     NSParameterAssert(settings);
 
-    NSDictionary *parameters = [self remoteSettingsToDictionary:settings];
+    NSDictionary *parameters = [settings dictionaryRepresentation];
     NSString *path = [NSString stringWithFormat:@"sites/%@/settings?context=edit", self.siteID];
     NSString *requestUrl = [self pathForEndpoint:path withVersion:WordPressComRESTAPIVersion_1_1];
     
@@ -372,16 +372,6 @@ static NSInteger const RemoteBlogUncategorizedCategory                      = 1;
     postType.label = [json stringForKey:RemotePostTypeLabelKey];
     postType.apiQueryable = [json numberForKey:RemotePostTypeQueryableKey];
     return postType;
-}
-
-- (RemoteBlogSettings *)remoteBlogSettingFromJSONDictionary:(NSDictionary *)json
-{
-    return [[RemoteBlogSettings alloc] initWithJsonDictionary:json];
-}
-
-- (NSDictionary *)remoteSettingsToDictionary:(RemoteBlogSettings *)settings
-{
-    return [settings dictionaryRepresentation];
 }
 
 @end
