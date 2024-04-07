@@ -60,25 +60,58 @@ final class RemoteBlogSettingsTests: XCTestCase {
         // Rather than creating an object and checking the resulting NSDictionary,
         // let's load one, convert it, then compare the source and converted dictionaries
         let json = try loadJSONSettings()
-        // FIXME: The init logic is currently in BlogServiceRemoteREST. We'll test it from there first, then update the test with the new location.
-        let blogService = BlogServiceRemoteREST(wordPressComRestApi: MockWordPressComRestApi(), siteID: 0)
-        let settings = try XCTUnwrap(blogService.remoteBlogSetting(fromJSONDictionary: json))
+        let settings = try XCTUnwrap(RemoteBlogSettings(jsonDictionary: json as NSDictionary))
 
-        let dictionary = try XCTUnwrap(blogService.remoteSettings(toDictionary: settings))
-
-        // name and tagline have different keys when encoded...
-        XCTAssertEqual(dictionary["blogname"] as? String, settings.name) // from JSON this is "name"
-        XCTAssertEqual(dictionary["blogdescription"] as? String, settings.tagline) // from JSON this is "description"
-        // Flattened settings properties
-        XCTAssertEqual(dictionary["blog_public"] as? NSNumber, settings.privacy)
-        XCTAssertEqual(dictionary["lang_id"] as? NSNumber, settings.languageID)
-        XCTAssertEqual(dictionary["site_icon"] as? NSNumber, settings.iconMediaID)
-        XCTAssertEqual(dictionary["gmt_offset"] as? NSNumber, settings.gmtOffset)
-        // And so on...
+        let dictionary = try XCTUnwrap(settings.dictionaryRepresentation)
 
         // defaultPostFormat has custom encoding, so let's test it explicitly.
         // Note that here we're obviously testing only one of the possible paths.
         XCTAssertEqual(dictionary["default_post_format"] as? String, settings.defaultPostFormat)
+
+        XCTAssertEqual(dictionary["blogname"] as? String, settings.name) // "name" in JSON
+        XCTAssertEqual(dictionary["blogdescription"] as? String, settings.tagline) // "description" in JSON
+        XCTAssertEqual(dictionary["blog_public"] as? NSNumber, settings.privacy)
+        XCTAssertEqual(dictionary["lang_id"] as? NSNumber, settings.languageID)
+        XCTAssertEqual(dictionary["site_icon"] as? NSNumber, settings.iconMediaID)
+        XCTAssertEqual(dictionary["gmt_offset"] as? NSNumber, settings.gmtOffset)
+        XCTAssertEqual(dictionary["timezone_string"] as? String, settings.timezoneString)
+        XCTAssertEqual(dictionary["default_category"] as? NSNumber, settings.defaultCategoryID)
+
+        // defaultPostFormat has custom encoding, so let's test it explicitly.
+        // Note that here we're obviously testing only one of the possible paths.
+        XCTAssertEqual(dictionary["default_post_format"] as? String, settings.defaultPostFormat)
+
+        XCTAssertEqual(dictionary["date_format"] as? String, settings.dateFormat)
+        XCTAssertEqual(dictionary["time_format"] as? String, settings.timeFormat)
+        XCTAssertEqual(dictionary["start_of_week"] as? String, settings.startOfWeek)
+        XCTAssertEqual(dictionary["posts_per_page"] as? NSNumber, settings.postsPerPage)
+        XCTAssertEqual(dictionary["default_comment_status"] as? NSNumber, settings.commentsAllowed)
+        XCTAssertEqual(dictionary["blacklist_keys"] as? String, settings.commentsBlocklistKeys)
+        XCTAssertEqual(dictionary["close_comments_for_old_posts"] as? NSNumber, settings.commentsCloseAutomatically)
+        XCTAssertEqual(dictionary["close_comments_days_old"] as? NSNumber, settings.commentsCloseAutomaticallyAfterDays)
+        XCTAssertEqual(dictionary["comment_whitelist"] as? NSNumber, settings.commentsFromKnownUsersAllowlisted)
+        XCTAssertEqual(dictionary["comment_max_links"] as? NSNumber, settings.commentsMaximumLinks)
+        XCTAssertEqual(dictionary["moderation_keys"] as? String, settings.commentsModerationKeys)
+        XCTAssertEqual(dictionary["page_comments"] as? NSNumber, settings.commentsPagingEnabled)
+        XCTAssertEqual(dictionary["comments_per_page"] as? NSNumber, settings.commentsPageSize)
+        XCTAssertEqual(dictionary["comment_moderation"] as? NSNumber, settings.commentsRequireManualModeration)
+        XCTAssertEqual(dictionary["require_name_email"] as? NSNumber, settings.commentsRequireNameAndEmail)
+        XCTAssertEqual(dictionary["comment_registration"] as? NSNumber, settings.commentsRequireRegistration)
+        XCTAssertEqual(dictionary["comment_order"] as? String, settings.commentsSortOrder)
+        XCTAssertEqual(dictionary["thread_comments"] as? NSNumber, settings.commentsThreadingEnabled)
+        XCTAssertEqual(dictionary["thread_comments_depth"] as? NSNumber, settings.commentsThreadingDepth)
+        XCTAssertEqual(dictionary["jetpack_relatedposts_allowed"] as? NSNumber, settings.relatedPostsAllowed)
+        XCTAssertEqual(dictionary["jetpack_relatedposts_enabled"] as? NSNumber, settings.relatedPostsEnabled)
+        XCTAssertEqual(dictionary["jetpack_relatedposts_show_headline"] as? NSNumber, settings.relatedPostsShowHeadline)
+        XCTAssertEqual(dictionary["jetpack_relatedposts_show_thumbnails"] as? NSNumber, settings.relatedPostsShowThumbnails)
+        XCTAssertEqual(dictionary["amp_is_supported"] as? NSNumber, settings.ampSupported)
+        XCTAssertEqual(dictionary["amp_is_enabled"] as? NSNumber, settings.ampEnabled)
+        XCTAssertEqual(dictionary["sharing_button_style"] as? String, settings.sharingButtonStyle)
+        XCTAssertEqual(dictionary["sharing_label"] as? String, settings.sharingLabel)
+        XCTAssertEqual(dictionary["twitter_via"] as? String, settings.sharingTwitterName)
+        XCTAssertEqual(dictionary["jetpack_comment_likes_enabled"] as? NSNumber, settings.sharingCommentLikesEnabled)
+        XCTAssertEqual(dictionary["disabled_likes"] as? NSNumber, settings.sharingDisabledLikes)
+        XCTAssertEqual(dictionary["disabled_reblogs"] as? NSNumber, settings.sharingDisabledReblogs)
     }
 
     func loadJSONSettings() throws -> [String: Any] {

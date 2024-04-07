@@ -381,58 +381,7 @@ static NSInteger const RemoteBlogUncategorizedCategory                      = 1;
 
 - (NSDictionary *)remoteSettingsToDictionary:(RemoteBlogSettings *)settings
 {
-    NSParameterAssert(settings);
-    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
-
-    [parameters setValueIfNotNil:settings.name forKey:RemoteBlogNameForUpdateKey];
-    [parameters setValueIfNotNil:settings.tagline forKey:RemoteBlogTaglineForUpdateKey];
-    [parameters setValueIfNotNil:settings.privacy forKey:RemoteBlogPrivacyKey];
-    [parameters setValueIfNotNil:settings.languageID forKey:RemoteBlogLanguageKey];
-    [parameters setValueIfNotNil:settings.iconMediaID forKey:RemoteBlogIconKey];
-    [parameters setValueIfNotNil:settings.gmtOffset forKey:RemoteBlogGMTOffsetKey];
-    [parameters setValueIfNotNil:settings.timezoneString forKey:RemoteBlogTimezoneStringKey];
-
-    [parameters setValueIfNotNil:settings.defaultCategoryID forKey:RemoteBlogDefaultCategoryKey];
-    [parameters setValueIfNotNil:settings.defaultPostFormat forKey:RemoteBlogDefaultPostFormatKey];
-    [parameters setValueIfNotNil:settings.dateFormat forKey:RemoteBlogDateFormatKey];
-    [parameters setValueIfNotNil:settings.timeFormat forKey:RemoteBlogTimeFormatKey];
-    [parameters setValueIfNotNil:settings.startOfWeek forKey:RemoteBlogStartOfWeekKey];
-    [parameters setValueIfNotNil:settings.postsPerPage forKey:RemoteBlogPostsPerPageKey];
-
-    [parameters setValueIfNotNil:settings.commentsAllowed forKey:RemoteBlogCommentsAllowedKey];
-    [parameters setValueIfNotNil:settings.commentsBlocklistKeys forKey:RemoteBlogCommentsBlocklistKeys];
-    [parameters setValueIfNotNil:settings.commentsCloseAutomatically forKey:RemoteBlogCommentsCloseAutomaticallyKey];
-    [parameters setValueIfNotNil:settings.commentsCloseAutomaticallyAfterDays forKey:RemoteBlogCommentsCloseAutomaticallyAfterDaysKey];
-    [parameters setValueIfNotNil:settings.commentsFromKnownUsersAllowlisted forKey:RemoteBlogCommentsKnownUsersAllowlistKey];
-    [parameters setValueIfNotNil:settings.commentsMaximumLinks forKey:RemoteBlogCommentsMaxLinksKey];
-    [parameters setValueIfNotNil:settings.commentsModerationKeys forKey:RemoteBlogCommentsModerationKeys];
-    [parameters setValueIfNotNil:settings.commentsPagingEnabled forKey:RemoteBlogCommentsPagingEnabledKey];
-    [parameters setValueIfNotNil:settings.commentsPageSize forKey:RemoteBlogCommentsPageSizeKey];
-    [parameters setValueIfNotNil:settings.commentsRequireManualModeration forKey:RemoteBlogCommentsRequireModerationKey];
-    [parameters setValueIfNotNil:settings.commentsRequireNameAndEmail forKey:RemoteBlogCommentsRequireNameAndEmailKey];
-    [parameters setValueIfNotNil:settings.commentsRequireRegistration forKey:RemoteBlogCommentsRequireRegistrationKey];
-    [parameters setValueIfNotNil:settings.commentsSortOrder forKey:RemoteBlogCommentsSortOrderKey];
-    [parameters setValueIfNotNil:settings.commentsThreadingEnabled forKey:RemoteBlogCommentsThreadingEnabledKey];
-    [parameters setValueIfNotNil:settings.commentsThreadingDepth forKey:RemoteBlogCommentsThreadingDepthKey];
-    
-    [parameters setValueIfNotNil:settings.pingbackOutboundEnabled forKey:RemoteBlogCommentsPingbackOutboundKey];
-    [parameters setValueIfNotNil:settings.pingbackInboundEnabled forKey:RemoteBlogCommentsPingbackInboundKey];
-    
-    [parameters setValueIfNotNil:settings.relatedPostsEnabled forKey:RemoteBlogRelatedPostsEnabledKey];
-    [parameters setValueIfNotNil:settings.relatedPostsShowHeadline forKey:RemoteBlogRelatedPostsShowHeadlineKey];
-    [parameters setValueIfNotNil:settings.relatedPostsShowThumbnails forKey:RemoteBlogRelatedPostsShowThumbnailsKey];
-
-    [parameters setValueIfNotNil:settings.ampEnabled forKey:RemoteBlogAmpEnabledKey];
-
-    // Sharing
-    [parameters setValueIfNotNil:settings.sharingButtonStyle forKey:RemoteBlogSharingButtonStyle];
-    [parameters setValueIfNotNil:settings.sharingLabel forKey:RemoteBlogSharingLabel];
-    [parameters setValueIfNotNil:settings.sharingTwitterName forKey:RemoteBlogSharingTwitterName];
-    [parameters setValueIfNotNil:settings.sharingCommentLikesEnabled forKey:RemoteBlogSharingCommentLikesEnabled];
-    [parameters setValueIfNotNil:settings.sharingDisabledLikes forKey:RemoteBlogSharingDisabledLikes];
-    [parameters setValueIfNotNil:settings.sharingDisabledReblogs forKey:RemoteBlogSharingDisabledReblogs];
-    
-    return parameters;
+    return [settings dictionaryRepresentation];
 }
 
 @end
