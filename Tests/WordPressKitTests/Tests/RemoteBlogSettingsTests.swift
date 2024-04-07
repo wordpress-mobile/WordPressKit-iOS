@@ -8,19 +8,14 @@ final class RemoteBlogSettingsTests: XCTestCase {
 
     func testInitWithJSON() throws {
         let json = try loadJSONSettings()
-        let settings = RemoteBlogSettings(jsonDictionary: json as NSDictionary)
+        let settings = RemoteBlogSettings(jsonDictionary: json)
 
         XCTAssertEqual(settings.name, "My Epic Blog")
         XCTAssertEqual(settings.tagline, "Definitely, the best blog out there")
         XCTAssertEqual(settings.privacy, 1)
-        XCTAssertEqual(settings.languageID, 31337)
         XCTAssertNil(settings.iconMediaID)
-        XCTAssertEqual(settings.gmtOffset, 0)
         XCTAssertEqual(settings.timezoneString, "")
         XCTAssertEqual(settings.defaultCategoryID, 8)
-        // [!] This is the only property with custom decoding.
-        // It would be appropriate to add additional tests to check all its paths.
-        XCTAssertEqual(settings.defaultPostFormat, "standard")
         XCTAssertEqual(settings.dateFormat, "m/d/Y")
         XCTAssertEqual(settings.timeFormat, "g:i a")
         XCTAssertEqual(settings.startOfWeek, "0")
@@ -54,33 +49,28 @@ final class RemoteBlogSettingsTests: XCTestCase {
         XCTAssertEqual(settings.sharingCommentLikesEnabled, true)
         XCTAssertEqual(settings.sharingDisabledLikes, false)
         XCTAssertEqual(settings.sharingDisabledReblogs, false)
+
+        // These properties have custom decoding.
+        // It would be appropriate to add additional tests to check all its paths.
+        XCTAssertEqual(settings.defaultPostFormat, "standard")
+        XCTAssertEqual(settings.languageID, 31337)
+        XCTAssertEqual(settings.gmtOffset, 0)
     }
 
     func testToDictionary() throws {
         // Rather than creating an object and checking the resulting NSDictionary,
         // let's load one, convert it, then compare the source and converted dictionaries
         let json = try loadJSONSettings()
-        let settings = try XCTUnwrap(RemoteBlogSettings(jsonDictionary: json as NSDictionary))
+        let settings = try XCTUnwrap(RemoteBlogSettings(jsonDictionary: json))
 
         let dictionary = try XCTUnwrap(settings.dictionaryRepresentation)
-
-        // defaultPostFormat has custom encoding, so let's test it explicitly.
-        // Note that here we're obviously testing only one of the possible paths.
-        XCTAssertEqual(dictionary["default_post_format"] as? String, settings.defaultPostFormat)
 
         XCTAssertEqual(dictionary["blogname"] as? String, settings.name) // "name" in JSON
         XCTAssertEqual(dictionary["blogdescription"] as? String, settings.tagline) // "description" in JSON
         XCTAssertEqual(dictionary["blog_public"] as? NSNumber, settings.privacy)
-        XCTAssertEqual(dictionary["lang_id"] as? NSNumber, settings.languageID)
         XCTAssertEqual(dictionary["site_icon"] as? NSNumber, settings.iconMediaID)
-        XCTAssertEqual(dictionary["gmt_offset"] as? NSNumber, settings.gmtOffset)
         XCTAssertEqual(dictionary["timezone_string"] as? String, settings.timezoneString)
         XCTAssertEqual(dictionary["default_category"] as? NSNumber, settings.defaultCategoryID)
-
-        // defaultPostFormat has custom encoding, so let's test it explicitly.
-        // Note that here we're obviously testing only one of the possible paths.
-        XCTAssertEqual(dictionary["default_post_format"] as? String, settings.defaultPostFormat)
-
         XCTAssertEqual(dictionary["date_format"] as? String, settings.dateFormat)
         XCTAssertEqual(dictionary["time_format"] as? String, settings.timeFormat)
         XCTAssertEqual(dictionary["start_of_week"] as? String, settings.startOfWeek)
@@ -112,6 +102,12 @@ final class RemoteBlogSettingsTests: XCTestCase {
         XCTAssertEqual(dictionary["jetpack_comment_likes_enabled"] as? NSNumber, settings.sharingCommentLikesEnabled)
         XCTAssertEqual(dictionary["disabled_likes"] as? NSNumber, settings.sharingDisabledLikes)
         XCTAssertEqual(dictionary["disabled_reblogs"] as? NSNumber, settings.sharingDisabledReblogs)
+
+        // These properties have custom decoding.
+        // Note that here we're obviously testing only one of the possible paths.
+        XCTAssertEqual(dictionary["lang_id"] as? NSNumber, settings.languageID)
+        XCTAssertEqual(dictionary["gmt_offset"] as? NSNumber, settings.gmtOffset)
+        XCTAssertEqual(dictionary["default_post_format"] as? String, settings.defaultPostFormat)
     }
 
     func loadJSONSettings() throws -> [String: Any] {

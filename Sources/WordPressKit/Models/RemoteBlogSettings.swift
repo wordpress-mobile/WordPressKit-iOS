@@ -236,122 +236,124 @@ public class RemoteBlogSettings: NSObject {
 
     /// Parses details from a JSON dictionary, as returned by the WordPress.com REST API.
     @objc
-    public init(jsonDictionary json: NSDictionary) {
-        let rawSettings = json.object(forKey: CodingKeys.settings.rawValue) as? NSDictionary ?? [:]
+    public init(jsonDictionary json: [String: Any]) {
+        let rawSettings = json[CodingKeys.settings.rawValue] as? [String: Any] ?? [:]
 
-        name = json.string(forKey: CodingKeys.name.rawValue)
-        tagline = json.string(forKey: CodingKeys.tagline.rawValue)
-        privacy = rawSettings.number(forKey: CodingKeys.privacy.rawValue)
+        name = json[CodingKeys.name.rawValue] as? String
+        tagline = json[CodingKeys.tagline.rawValue] as? String
+        privacy = rawSettings[CodingKeys.privacy.rawValue] as? NSNumber
+        // The value here can be a String, so we need a custom conversion
         languageID = rawSettings.number(forKey: CodingKeys.languageID.rawValue)
-        iconMediaID = rawSettings.number(forKey: CodingKeys.iconMediaID.rawValue)
+        iconMediaID = rawSettings[CodingKeys.iconMediaID.rawValue] as? NSNumber
+        // The value here can be a String, so we need a custom conversion
         gmtOffset = rawSettings.number(forKey: CodingKeys.gmtOffset.rawValue)
-        timezoneString = rawSettings.string(forKey: CodingKeys.timezoneString.rawValue)
+        timezoneString = rawSettings[CodingKeys.timezoneString.rawValue] as? String
 
-        defaultCategoryID = rawSettings.number(forKey: CodingKeys.defaultCategory.rawValue) ?? 1
-        let defaultPostFormatValue = rawSettings.object(forKey: CodingKeys.defaultPostFormat.rawValue)
+        defaultCategoryID = rawSettings[CodingKeys.defaultCategory.rawValue] as? NSNumber ?? 1
+        let defaultPostFormatValue = rawSettings[CodingKeys.defaultPostFormat.rawValue]
         if let defaultPostFormatNumber = defaultPostFormatValue as? NSNumber, defaultPostFormatNumber == 0 ||
            defaultPostFormatValue as? String == "0" {
             defaultPostFormat = "standard"
         } else {
-            defaultPostFormat = rawSettings.string(forKey: CodingKeys.defaultPostFormat.rawValue)
+            defaultPostFormat = defaultPostFormatValue as? String
         }
-        dateFormat = rawSettings.string(forKey: CodingKeys.dateFormat.rawValue)
-        timeFormat = rawSettings.string(forKey: CodingKeys.timeFormat.rawValue)
-        startOfWeek = rawSettings.string(forKey: CodingKeys.startOfWeek.rawValue)
-        postsPerPage = rawSettings.number(forKey: CodingKeys.postsPerPage.rawValue)
+        dateFormat = rawSettings[CodingKeys.dateFormat.rawValue] as? String
+        timeFormat = rawSettings[CodingKeys.timeFormat.rawValue] as? String
+        startOfWeek = rawSettings[CodingKeys.startOfWeek.rawValue] as? String
+        postsPerPage = rawSettings[CodingKeys.postsPerPage.rawValue] as? NSNumber
 
-        commentsAllowed = rawSettings.number(forKey: CodingKeys.commentsAllowed.rawValue)
-        commentsBlocklistKeys = rawSettings.string(forKey: CodingKeys.commentsBlocklistKeys.rawValue)
-        commentsCloseAutomatically = rawSettings.number(forKey: CodingKeys.commentsCloseAutomatically.rawValue)
-        commentsCloseAutomaticallyAfterDays = rawSettings.number(forKey: CodingKeys.commentsCloseAutomaticallyAfterDays.rawValue)
-        commentsFromKnownUsersAllowlisted = rawSettings.number(forKey: CodingKeys.commentsKnownUsersAllowlist.rawValue)
-        commentsMaximumLinks = rawSettings.number(forKey: CodingKeys.commentsMaxLinks.rawValue)
-        commentsModerationKeys = rawSettings.string(forKey: CodingKeys.commentsModerationKeys.rawValue)
-        commentsPagingEnabled = rawSettings.number(forKey: CodingKeys.commentsPagingEnabled.rawValue)
-        commentsPageSize = rawSettings.number(forKey: CodingKeys.commentsPageSize.rawValue)
-        commentsRequireManualModeration = rawSettings.number(forKey: CodingKeys.commentsRequireModeration.rawValue)
-        commentsRequireNameAndEmail = rawSettings.number(forKey: CodingKeys.commentsRequireNameAndEmail.rawValue)
-        commentsRequireRegistration = rawSettings.number(forKey: CodingKeys.commentsRequireRegistration.rawValue)
-        commentsSortOrder = rawSettings.string(forKey: CodingKeys.commentsSortOrder.rawValue)
-        commentsThreadingEnabled = rawSettings.number(forKey: CodingKeys.commentsThreadingEnabled.rawValue)
-        commentsThreadingDepth = rawSettings.number(forKey: CodingKeys.commentsThreadingDepth.rawValue)
-        pingbackOutboundEnabled = rawSettings.number(forKey: CodingKeys.pingbackOutbound.rawValue)
-        pingbackInboundEnabled = rawSettings.number(forKey: CodingKeys.pingbackInbound.rawValue)
+        commentsAllowed = rawSettings[CodingKeys.commentsAllowed.rawValue] as? NSNumber
+        commentsBlocklistKeys = rawSettings[CodingKeys.commentsBlocklistKeys.rawValue] as? String
+        commentsCloseAutomatically = rawSettings[CodingKeys.commentsCloseAutomatically.rawValue] as? NSNumber
+        commentsCloseAutomaticallyAfterDays = rawSettings[CodingKeys.commentsCloseAutomaticallyAfterDays.rawValue] as? NSNumber
+        commentsFromKnownUsersAllowlisted = rawSettings[CodingKeys.commentsKnownUsersAllowlist.rawValue] as? NSNumber
+        commentsMaximumLinks = rawSettings[CodingKeys.commentsMaxLinks.rawValue] as? NSNumber
+        commentsModerationKeys = rawSettings[CodingKeys.commentsModerationKeys.rawValue] as? String
+        commentsPagingEnabled = rawSettings[CodingKeys.commentsPagingEnabled.rawValue] as? NSNumber
+        commentsPageSize = rawSettings[CodingKeys.commentsPageSize.rawValue] as? NSNumber
+        commentsRequireManualModeration = rawSettings[CodingKeys.commentsRequireModeration.rawValue] as? NSNumber
+        commentsRequireNameAndEmail = rawSettings[CodingKeys.commentsRequireNameAndEmail.rawValue] as? NSNumber
+        commentsRequireRegistration = rawSettings[CodingKeys.commentsRequireRegistration.rawValue] as? NSNumber
+        commentsSortOrder = rawSettings[CodingKeys.commentsSortOrder.rawValue] as? String
+        commentsThreadingEnabled = rawSettings[CodingKeys.commentsThreadingEnabled.rawValue] as? NSNumber
+        commentsThreadingDepth = rawSettings[CodingKeys.commentsThreadingDepth.rawValue] as? NSNumber
+        pingbackOutboundEnabled = rawSettings[CodingKeys.pingbackOutbound.rawValue] as? NSNumber
+        pingbackInboundEnabled = rawSettings[CodingKeys.pingbackInbound.rawValue] as? NSNumber
 
-        relatedPostsAllowed = rawSettings.number(forKey: CodingKeys.relatedPostsAllowed.rawValue)
-        relatedPostsEnabled = rawSettings.number(forKey: CodingKeys.relatedPostsEnabled.rawValue)
-        relatedPostsShowHeadline = rawSettings.number(forKey: CodingKeys.relatedPostsShowHeadline.rawValue)
-        relatedPostsShowThumbnails = rawSettings.number(forKey: CodingKeys.relatedPostsShowThumbnails.rawValue)
+        relatedPostsAllowed = rawSettings[CodingKeys.relatedPostsAllowed.rawValue] as? NSNumber
+        relatedPostsEnabled = rawSettings[CodingKeys.relatedPostsEnabled.rawValue] as? NSNumber
+        relatedPostsShowHeadline = rawSettings[CodingKeys.relatedPostsShowHeadline.rawValue] as? NSNumber
+        relatedPostsShowThumbnails = rawSettings[CodingKeys.relatedPostsShowThumbnails.rawValue] as? NSNumber
 
-        ampSupported = rawSettings.number(forKey: CodingKeys.ampSupported.rawValue)
-        ampEnabled = rawSettings.number(forKey: CodingKeys.ampEnabled.rawValue)
+        ampSupported = rawSettings[CodingKeys.ampSupported.rawValue] as? NSNumber
+        ampEnabled = rawSettings[CodingKeys.ampEnabled.rawValue] as? NSNumber
 
-        sharingButtonStyle = rawSettings.string(forKey: CodingKeys.sharingButtonStyle.rawValue)
-        sharingLabel = rawSettings.string(forKey: CodingKeys.sharingLabel.rawValue)
-        sharingTwitterName = rawSettings.string(forKey: CodingKeys.sharingTwitterName.rawValue)
-        sharingCommentLikesEnabled = rawSettings.number(forKey: CodingKeys.sharingCommentLikesEnabled.rawValue)
-        sharingDisabledLikes = rawSettings.number(forKey: CodingKeys.sharingDisabledLikes.rawValue)
-        sharingDisabledReblogs = rawSettings.number(forKey: CodingKeys.sharingDisabledReblogs.rawValue)
+        sharingButtonStyle = rawSettings[CodingKeys.sharingButtonStyle.rawValue] as? String
+        sharingLabel = rawSettings[CodingKeys.sharingLabel.rawValue] as? String
+        sharingTwitterName = rawSettings[CodingKeys.sharingTwitterName.rawValue] as? String
+        sharingCommentLikesEnabled = rawSettings[CodingKeys.sharingCommentLikesEnabled.rawValue] as? NSNumber
+        sharingDisabledLikes = rawSettings[CodingKeys.sharingDisabledLikes.rawValue] as? NSNumber
+        sharingDisabledReblogs = rawSettings[CodingKeys.sharingDisabledReblogs.rawValue] as? NSNumber
     }
 
     @objc
-    public var dictionaryRepresentation: NSDictionary {
-        let parameters = NSMutableDictionary()
+    public var dictionaryRepresentation: [String: Any] {
+        var parameters: [String: Any] = [:]
 
         // name and tagline/description use different keys...
-        name.ifSome { parameters.setValue($0, forKey: "blogname") }
-        tagline.ifSome { parameters.setValue($0, forKey: "blogdescription") }
+        parameters["blogname"] = name
+        parameters["blogdescription"] = tagline
 
-        privacy.ifSome { parameters.setValue($0, forKey: CodingKeys.privacy.rawValue) }
-        languageID.ifSome { parameters.setValue($0, forKey: CodingKeys.languageID.rawValue) }
-        iconMediaID.ifSome { parameters.setValue($0, forKey: CodingKeys.iconMediaID.rawValue) }
-        gmtOffset.ifSome { parameters.setValue($0, forKey: CodingKeys.gmtOffset.rawValue) }
-        timezoneString.ifSome { parameters.setValue($0, forKey: CodingKeys.timezoneString.rawValue) }
+        parameters[CodingKeys.privacy.rawValue] = privacy
+        parameters[CodingKeys.languageID.rawValue] = languageID
+        parameters[CodingKeys.iconMediaID.rawValue] = iconMediaID
+        parameters[CodingKeys.gmtOffset.rawValue] = gmtOffset
+        parameters[CodingKeys.timezoneString.rawValue] = timezoneString
 
-        defaultCategoryID.ifSome { parameters.setValue($0, forKey: CodingKeys.defaultCategory.rawValue) }
-        defaultPostFormat.ifSome { parameters.setValue($0, forKey: CodingKeys.defaultPostFormat.rawValue) }
-        dateFormat.ifSome { parameters.setValue($0, forKey: CodingKeys.dateFormat.rawValue) }
-        timeFormat.ifSome { parameters.setValue($0, forKey: CodingKeys.timeFormat.rawValue) }
-        startOfWeek.ifSome { parameters.setValue($0, forKey: CodingKeys.startOfWeek.rawValue) }
-        postsPerPage.ifSome { parameters.setValue($0, forKey: CodingKeys.postsPerPage.rawValue) }
+        parameters[CodingKeys.defaultCategory.rawValue] = defaultCategoryID
+        parameters[CodingKeys.defaultPostFormat.rawValue] = defaultPostFormat
+        parameters[CodingKeys.dateFormat.rawValue] = dateFormat
+        parameters[CodingKeys.timeFormat.rawValue] = timeFormat
+        parameters[CodingKeys.startOfWeek.rawValue] = startOfWeek
+        parameters[CodingKeys.postsPerPage.rawValue] = postsPerPage
 
-        commentsAllowed.ifSome { parameters.setValue($0, forKey: CodingKeys.commentsAllowed.rawValue) }
-        commentsBlocklistKeys.ifSome { parameters.setValue($0, forKey: CodingKeys.commentsBlocklistKeys.rawValue) }
-        commentsCloseAutomatically.ifSome { parameters.setValue($0, forKey: CodingKeys.commentsCloseAutomatically.rawValue) }
-        commentsCloseAutomaticallyAfterDays.ifSome { parameters.setValue($0, forKey: CodingKeys.commentsCloseAutomaticallyAfterDays.rawValue) }
-        commentsFromKnownUsersAllowlisted.ifSome { parameters.setValue($0, forKey: CodingKeys.commentsKnownUsersAllowlist.rawValue) }
-        commentsMaximumLinks.ifSome { parameters.setValue($0, forKey: CodingKeys.commentsMaxLinks.rawValue) }
-        commentsModerationKeys.ifSome { parameters.setValue($0, forKey: CodingKeys.commentsModerationKeys.rawValue) }
-        commentsPagingEnabled.ifSome { parameters.setValue($0, forKey: CodingKeys.commentsPagingEnabled.rawValue) }
-        commentsPageSize.ifSome { parameters.setValue($0, forKey: CodingKeys.commentsPageSize.rawValue) }
-        commentsRequireManualModeration.ifSome { parameters.setValue($0, forKey: CodingKeys.commentsRequireModeration.rawValue) }
-        commentsRequireNameAndEmail.ifSome { parameters.setValue($0, forKey: CodingKeys.commentsRequireNameAndEmail.rawValue) }
-        commentsRequireRegistration.ifSome { parameters.setValue($0, forKey: CodingKeys.commentsRequireRegistration.rawValue) }
-        commentsSortOrder.ifSome { parameters.setValue($0, forKey: CodingKeys.commentsSortOrder.rawValue) }
-        commentsThreadingEnabled.ifSome { parameters.setValue($0, forKey: CodingKeys.commentsThreadingEnabled.rawValue) }
-        commentsThreadingDepth.ifSome { parameters.setValue($0, forKey: CodingKeys.commentsThreadingDepth.rawValue) }
+        parameters[CodingKeys.commentsAllowed.rawValue] = commentsAllowed
+        parameters[CodingKeys.commentsBlocklistKeys.rawValue] = commentsBlocklistKeys
+        parameters[CodingKeys.commentsCloseAutomatically.rawValue] = commentsCloseAutomatically
+        parameters[CodingKeys.commentsCloseAutomaticallyAfterDays.rawValue] = commentsCloseAutomaticallyAfterDays
+        parameters[CodingKeys.commentsKnownUsersAllowlist.rawValue] = commentsFromKnownUsersAllowlisted
+        parameters[CodingKeys.commentsMaxLinks.rawValue] = commentsMaximumLinks
+        parameters[CodingKeys.commentsModerationKeys.rawValue] = commentsModerationKeys
+        parameters[CodingKeys.commentsPagingEnabled.rawValue] = commentsPagingEnabled
+        parameters[CodingKeys.commentsPageSize.rawValue] = commentsPageSize
+        parameters[CodingKeys.commentsRequireModeration.rawValue] = commentsRequireManualModeration
+        parameters[CodingKeys.commentsRequireNameAndEmail.rawValue] = commentsRequireNameAndEmail
+        parameters[CodingKeys.commentsRequireRegistration.rawValue] = commentsRequireRegistration
+        parameters[CodingKeys.commentsSortOrder.rawValue] = commentsSortOrder
+        parameters[CodingKeys.commentsThreadingEnabled.rawValue] = commentsThreadingEnabled
+        parameters[CodingKeys.commentsThreadingDepth.rawValue] = commentsThreadingDepth
 
-        pingbackOutboundEnabled.ifSome { parameters.setValue($0, forKey: CodingKeys.pingbackOutbound.rawValue) }
-        pingbackInboundEnabled.ifSome { parameters.setValue($0, forKey: CodingKeys.pingbackInbound.rawValue) }
+        parameters[CodingKeys.pingbackOutbound.rawValue] = pingbackOutboundEnabled
+        parameters[CodingKeys.pingbackInbound.rawValue] = pingbackInboundEnabled
 
         // Note: releatedPostsAllowed was not set in the Objective-C implementation.
         // There was no comment about it, so I assumed it was simply something that was never noticed.
-        relatedPostsAllowed.ifSome { parameters.setValue($0, forKey: CodingKeys.relatedPostsAllowed.rawValue) }
-        relatedPostsEnabled.ifSome { parameters.setValue($0, forKey: CodingKeys.relatedPostsEnabled.rawValue) }
-        relatedPostsShowHeadline.ifSome { parameters.setValue($0, forKey: CodingKeys.relatedPostsShowHeadline.rawValue) }
-        relatedPostsShowThumbnails.ifSome { parameters.setValue($0, forKey: CodingKeys.relatedPostsShowThumbnails.rawValue) }
+        parameters[CodingKeys.relatedPostsAllowed.rawValue] = relatedPostsAllowed
+        parameters[CodingKeys.relatedPostsEnabled.rawValue] = relatedPostsEnabled
+        parameters[CodingKeys.relatedPostsShowHeadline.rawValue] = relatedPostsShowHeadline
+        parameters[CodingKeys.relatedPostsShowThumbnails.rawValue] = relatedPostsShowThumbnails
 
         // Note: ampSupported was not set in the Objective-C implementation.
         // There was no comment about it, so I assumed it was simply something that was never noticed.
-        ampSupported.ifSome { parameters.setValue($0, forKey: CodingKeys.ampSupported.rawValue) }
-        ampEnabled.ifSome { parameters.setValue($0, forKey: CodingKeys.ampEnabled.rawValue) }
+        parameters[CodingKeys.ampSupported.rawValue] = ampSupported
+        parameters[CodingKeys.ampEnabled.rawValue] = ampEnabled
 
-        sharingButtonStyle.ifSome { parameters.setValue($0, forKey: CodingKeys.sharingButtonStyle.rawValue) }
-        sharingLabel.ifSome { parameters.setValue($0, forKey: CodingKeys.sharingLabel.rawValue) }
-        sharingTwitterName.ifSome { parameters.setValue($0, forKey: CodingKeys.sharingTwitterName.rawValue) }
-        sharingCommentLikesEnabled.ifSome { parameters.setValue($0, forKey: CodingKeys.sharingCommentLikesEnabled.rawValue) }
-        sharingDisabledLikes.ifSome { parameters.setValue($0, forKey: CodingKeys.sharingDisabledLikes.rawValue) }
-        sharingDisabledReblogs.ifSome { parameters.setValue($0, forKey: CodingKeys.sharingDisabledReblogs.rawValue) }
+        parameters[CodingKeys.sharingButtonStyle.rawValue] = sharingButtonStyle
+        parameters[CodingKeys.sharingLabel.rawValue] = sharingLabel
+        parameters[CodingKeys.sharingTwitterName.rawValue] = sharingTwitterName
+        parameters[CodingKeys.sharingCommentLikesEnabled.rawValue] = sharingCommentLikesEnabled
+        parameters[CodingKeys.sharingDisabledLikes.rawValue] = sharingDisabledLikes
+        parameters[CodingKeys.sharingDisabledReblogs.rawValue] = sharingDisabledReblogs
 
         return parameters
     }
@@ -375,11 +377,19 @@ public class RemoteBlogSettings: NSObject {
     private static let DescendingStringValue    = "desc"
 }
 
-private extension Optional {
+extension Dictionary where Key == String {
 
-    func ifSome(_ body: (Wrapped) -> Void) {
-        guard case .some(let value) = self else { return }
+    func number(forKey key: String) -> NSNumber? {
+        guard let value = self[key] else { return .none }
 
-        body(value)
+        if let value = value as? NSNumber {
+            return value
+        } else if let value = value as? String {
+            let numberFormatter = NumberFormatter()
+            numberFormatter.numberStyle = .none
+            return numberFormatter.number(from: value)
+        } else {
+            return .none
+        }
     }
 }
