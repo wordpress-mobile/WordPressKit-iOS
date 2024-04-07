@@ -250,6 +250,9 @@ public class RemoteBlogSettings: NSObject {
         timezoneString = rawSettings[CodingKeys.timezoneString.rawValue] as? String
 
         defaultCategoryID = rawSettings[CodingKeys.defaultCategory.rawValue] as? NSNumber ?? 1
+
+        // Note: the backend might send '0' as a number, OR a string value.
+        // See https://github.com/wordpress-mobile/WordPress-iOS/issues/4187
         let defaultPostFormatValue = rawSettings[CodingKeys.defaultPostFormat.rawValue]
         if let defaultPostFormatNumber = defaultPostFormatValue as? NSNumber, defaultPostFormatNumber == 0 ||
            defaultPostFormatValue as? String == "0" {
@@ -257,6 +260,7 @@ public class RemoteBlogSettings: NSObject {
         } else {
             defaultPostFormat = defaultPostFormatValue as? String
         }
+
         dateFormat = rawSettings[CodingKeys.dateFormat.rawValue] as? String
         timeFormat = rawSettings[CodingKeys.timeFormat.rawValue] as? String
         startOfWeek = rawSettings[CodingKeys.startOfWeek.rawValue] as? String
