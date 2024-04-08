@@ -7,9 +7,11 @@ let package = Package(
     platforms: [.iOS(.v13)],
     products: [
         .library(name: "APIInterface", targets: ["APIInterface"]),
+        .library(name: "CoreAPI", targets: ["CoreAPI"]),
     ],
     dependencies: [],
     targets: [
-        .target(name: "APIInterface")
+        .target(name: "APIInterface"),
+        .target(name: "CoreAPI"),
     ]
 )
