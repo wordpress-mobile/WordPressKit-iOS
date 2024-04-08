@@ -36,6 +36,7 @@ _None._
 
 - Removed `anonymousWordPressComRestApiWithUserAgent` method from `ServiceRemoteWordPressComREST` [#778]
 - Renamed `ServiceRemoteWordPressComRESTApiVersion` to `WordPressComRestAPIVersion` [#778]
+- Removed sync blog, sync blog settings, and update blog settings from `BlogServiceRemoteREST`. Use new `BlogSyncService` instead. [TBD]
 
 ### New Features
 

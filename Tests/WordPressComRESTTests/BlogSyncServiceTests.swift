@@ -75,7 +75,7 @@ class BlogSyncServiceTests: XCTestCase {
                 // Smoke test
                 XCTAssertEqual(blogSettings.name, "My Epic Blog")
                 XCTAssertEqual(blogSettings.tagline, "Definitely, the best blog out there")
-                XCTAssertEqual(blogSettings.ampSupported, 0)
+                XCTAssertEqual(blogSettings.ampSupported, 1)
             },
             failure: { error in
                 XCTFail("Expected to succeed. Failed with \(String(describing: error)).")
@@ -165,11 +165,12 @@ class BlogSyncServiceTests: XCTestCase {
 
         let callCompleted = expectation(description: "API call completed.")
 
-        service.syncBlogSettings(
-            success: { blogSettings in
+        service.updateBlogSettings(
+            RemoteBlogSettings(jsonDictionary: [:]),
+            success: {
                 XCTFail("Expected to fail, but succeeded")
             },
-            failure: { error in
+            failure: { _ in
                 callCompleted.fulfill()
             }
         )
@@ -177,5 +178,5 @@ class BlogSyncServiceTests: XCTestCase {
         wait(for: [callCompleted], timeout: 1)
     }
 
-    let updateSettingsCondition = isPath("/rest/v1.1/sites/1/settings") && containsQueryParams(["context": "update"])
+    let updateSettingsCondition = isPath("/rest/v1.1/sites/1/settings") && containsQueryParams(["context": "edit"])
 }
