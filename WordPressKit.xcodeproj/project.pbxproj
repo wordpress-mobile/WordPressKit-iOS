@@ -1883,7 +1883,6 @@
 				465F88A6263B371D00F4C950 /* BlockEditorSettingsServiceRemoteTests.swift */,
 				74B5F0DD1EF82A9600B411E7 /* BlogServiceRemoteRESTTests.m */,
 				3FE2E9682BBF7C10002CA2E1 /* RemoteBlogSettingsTests.swift */,
-				FEE48EF52A4B3602008A48E0 /* BlogServiceRemote+ActiveFeaturesTests.swift */,
 				FEEFD8B6280EC91B00A3E261 /* BloggingPromptsServiceRemoteTests.swift */,
 				ABD95B7E25DD6C4B00735BEE /* CommentServiceRemoteRESTLikesTests.swift */,
 				98F884D326BC6445009ADF57 /* CommentServiceRemoteRESTTests.swift */,
@@ -1993,6 +1992,7 @@
 		3FE2E9442BB11592002CA2E1 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				3FE2E9712BC3847A002CA2E1 /* WordPressComRESTTests */,
 				3FE2E9472BB12113002CA2E1 /* WordPressKitTests */,
 			);
 			path = Tests;
@@ -2061,6 +2061,14 @@
 				3FE2E96F2BC37D61002CA2E1 /* BlogSyncService.swift */,
 			);
 			path = WordPressComREST;
+			sourceTree = "<group>";
+		};
+		3FE2E9712BC3847A002CA2E1 /* WordPressComRESTTests */ = {
+			isa = PBXGroup;
+			children = (
+				FEE48EF52A4B3602008A48E0 /* BlogServiceRemote+ActiveFeaturesTests.swift */,
+			);
+			path = WordPressComRESTTests;
 			sourceTree = "<group>";
 		};
 		404057C3221B30140060250C /* Time Interval */ = {
