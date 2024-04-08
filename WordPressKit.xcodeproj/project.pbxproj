@@ -986,7 +986,7 @@
 		7403A2F01EF06FEB00DED7DC /* me-settings-change-primary-site-success.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "me-settings-change-primary-site-success.json"; path = "WordPressKitTests/me-settings-change-primary-site-success.json"; sourceTree = SOURCE_ROOT; };
 		7403A2F11EF06FEB00DED7DC /* me-settings-change-web-address-success.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "me-settings-change-web-address-success.json"; path = "WordPressKitTests/me-settings-change-web-address-success.json"; sourceTree = SOURCE_ROOT; };
 		7403A2F21EF06FEB00DED7DC /* me-settings-revert-email-success.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "me-settings-revert-email-success.json"; path = "WordPressKitTests/me-settings-revert-email-success.json"; sourceTree = SOURCE_ROOT; };
-		7403A2F31EF06FEB00DED7DC /* me-settings-success.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "me-settings-success.json"; path = "WordPressKitTests/me-settings-success.json"; sourceTree = SOURCE_ROOT; };
+		7403A2F31EF06FEB00DED7DC /* me-settings-success.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "me-settings-success.json"; path = "Tests/CoreAPITests/Stubs/JSON/me-settings-success.json"; sourceTree = SOURCE_ROOT; };
 		7403A3011EF0726E00DED7DC /* AccountSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountSettings.swift; sourceTree = "<group>"; };
 		740B23B21F17EC7300067A2A /* PostServiceRemote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostServiceRemote.h; sourceTree = "<group>"; };
 		740B23B31F17EC7300067A2A /* PostServiceRemoteREST.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostServiceRemoteREST.h; sourceTree = "<group>"; };
@@ -1584,7 +1584,9 @@
 		3FD634FC2BC3B23600CEDF5E /* Stubs */ = {
 			isa = PBXGroup;
 			children = (
+				3FD635012BC3C03100CEDF5E /* JSON */,
 				3FD634FD2BC3B25400CEDF5E /* HTML */,
+				3FD635002BC3BFBB00CEDF5E /* XML */,
 			);
 			path = Stubs;
 			sourceTree = "<group>";
@@ -1596,6 +1598,44 @@
 				4A05E7A72B34EAF400C25E3B /* xmlrpc-response-mobile-plugin-redirect.html */,
 			);
 			path = HTML;
+			sourceTree = "<group>";
+		};
+		3FD635002BC3BFBB00CEDF5E /* XML */ = {
+			isa = PBXGroup;
+			children = (
+				740B23EB1F17FB7E00067A2A /* xmlrpc-bad-username-password-error.xml */,
+				74B335E91F06F76B0053A184 /* xmlrpc-response-getpost.xml */,
+				4A05E7A92B34FC4300C25E3B /* xmlrpc-response-list-methods.xml */,
+			);
+			path = XML;
+			sourceTree = "<group>";
+		};
+		3FD635012BC3C03100CEDF5E /* JSON */ = {
+			isa = PBXGroup;
+			children = (
+				7403A2F31EF06FEB00DED7DC /* me-settings-success.json */,
+				FFE247A920C891E5002DF3A2 /* WordPressComAuthenticateWithIDToken2FANeededSuccess.json */,
+				FFE247AB20C891E5002DF3A2 /* WordPressComAuthenticateWithIDTokenBearerTokenSuccess.json */,
+				FFE247AE20C891E6002DF3A2 /* WordPressComAuthenticateWithIDTokenExistingUserNeedsConnection.json */,
+				264E09B62AD25ED9004B5A5F /* WordPressComOAuthAuthenticateSignature.json */,
+				FFE247AC20C891E5002DF3A2 /* WordPressComOAuthNeeds2FAFail.json */,
+				264E09B82AD2709A004B5A5F /* WordPressComOAuthNeedsWebauthnMFA.json */,
+				264E09B42AD259FF004B5A5F /* WordPressComOAuthRequestChallenge.json */,
+				FFE247AD20C891E5002DF3A2 /* WordPressComOAuthSuccess.json */,
+				FFE247A820C891E5002DF3A2 /* WordPressComOAuthWrongPasswordFail.json */,
+				74B335DF1F06F6290053A184 /* WordPressComRestApiFailInvalidInput.json */,
+				74B335DD1F06F5A50053A184 /* WordPressComRestApiFailInvalidJSON.json */,
+				74B335E11F06F6730053A184 /* WordPressComRestApiFailRequestInvalidToken.json */,
+				93F50A3B1F226C0100B5BEBA /* WordPressComRestApiFailThrottled.json */,
+				74B335E71F06F7200053A184 /* WordPressComRestApiFailUnauthorized.json */,
+				74B335E51F06F6E90053A184 /* WordPressComRestApiMedia.json */,
+				74B335E31F06F6B30053A184 /* WordPressComRestApiMultipleErrors.json */,
+				FFE247AA20C891E5002DF3A2 /* WordPressComSocial2FACodeSuccess.json */,
+				FFA4D4AE2423B33800BF5180 /* wp-forbidden.json */,
+				FFA4D4AF2423B33800BF5180 /* wp-pages.json */,
+				1D969EB229D45745001FE37C /* wp-reusable-blocks.json */,
+			);
+			path = JSON;
 			sourceTree = "<group>";
 		};
 		3FE2E9362BB10EC7002CA2E1 /* Stats */ = {
@@ -2281,7 +2321,6 @@
 				93AEA69226CE4EED009502D2 /* me-settings-close-account-failure.json */,
 				93A4232226CBC845004CCA31 /* me-settings-close-account-success.json */,
 				7403A2F21EF06FEB00DED7DC /* me-settings-revert-email-success.json */,
-				7403A2F31EF06FEB00DED7DC /* me-settings-success.json */,
 				93BD274D1EE73442002BB00B /* me-sites-auth-failure.json */,
 				93BD274E1EE73442002BB00B /* me-sites-bad-json-failure.json */,
 				93BD274F1EE73442002BB00B /* me-sites-empty-success.json */,
@@ -2437,28 +2476,7 @@
 				1DF972BD29B107E7007A72BC /* videopress-public-video.json */,
 				1DF972BE29B107E7007A72BC /* videopress-site-default-video.json */,
 				1DF972B729B0DF8C007A72BC /* videopress-token.json */,
-				FFE247A920C891E5002DF3A2 /* WordPressComAuthenticateWithIDToken2FANeededSuccess.json */,
-				FFE247AB20C891E5002DF3A2 /* WordPressComAuthenticateWithIDTokenBearerTokenSuccess.json */,
-				FFE247AE20C891E6002DF3A2 /* WordPressComAuthenticateWithIDTokenExistingUserNeedsConnection.json */,
-				FFE247AC20C891E5002DF3A2 /* WordPressComOAuthNeeds2FAFail.json */,
-				264E09B82AD2709A004B5A5F /* WordPressComOAuthNeedsWebauthnMFA.json */,
-				264E09B42AD259FF004B5A5F /* WordPressComOAuthRequestChallenge.json */,
-				264E09B62AD25ED9004B5A5F /* WordPressComOAuthAuthenticateSignature.json */,
-				FFE247AD20C891E5002DF3A2 /* WordPressComOAuthSuccess.json */,
-				FFE247A820C891E5002DF3A2 /* WordPressComOAuthWrongPasswordFail.json */,
-				74B335DF1F06F6290053A184 /* WordPressComRestApiFailInvalidInput.json */,
-				74B335DD1F06F5A50053A184 /* WordPressComRestApiFailInvalidJSON.json */,
-				74B335E11F06F6730053A184 /* WordPressComRestApiFailRequestInvalidToken.json */,
-				93F50A3B1F226C0100B5BEBA /* WordPressComRestApiFailThrottled.json */,
-				74B335E71F06F7200053A184 /* WordPressComRestApiFailUnauthorized.json */,
-				74B335E51F06F6E90053A184 /* WordPressComRestApiMedia.json */,
-				74B335E31F06F6B30053A184 /* WordPressComRestApiMultipleErrors.json */,
-				FFE247AA20C891E5002DF3A2 /* WordPressComSocial2FACodeSuccess.json */,
 				FFA4D4AC2423B1FE00BF5180 /* wp-admin-post-new.html */,
-				FFA4D4AE2423B33800BF5180 /* wp-forbidden.json */,
-				FFA4D4AF2423B33800BF5180 /* wp-pages.json */,
-				1D969EB229D45745001FE37C /* wp-reusable-blocks.json */,
-				740B23EB1F17FB7E00067A2A /* xmlrpc-bad-username-password-error.xml */,
 				740B23EC1F17FB7E00067A2A /* xmlrpc-malformed-request-xml-error.xml */,
 				740B23D71F17FB4200067A2A /* xmlrpc-metaweblog-editpost-bad-xml-failure.xml */,
 				740B23D81F17FB4200067A2A /* xmlrpc-metaweblog-editpost-change-format-failure.xml */,
@@ -2467,8 +2485,6 @@
 				740B23DB1F17FB4200067A2A /* xmlrpc-metaweblog-newpost-bad-xml-failure.xml */,
 				740B23DC1F17FB4200067A2A /* xmlrpc-metaweblog-newpost-invalid-posttype-failure.xml */,
 				740B23DD1F17FB4200067A2A /* xmlrpc-metaweblog-newpost-success.xml */,
-				74B335E91F06F76B0053A184 /* xmlrpc-response-getpost.xml */,
-				4A05E7A92B34FC4300C25E3B /* xmlrpc-response-list-methods.xml */,
 				93F50A451F227F3600B5BEBA /* xmlrpc-response-getprofile.xml */,
 				93F50A461F227F3600B5BEBA /* xmlrpc-response-valid-but-unexpected-dictionary.xml */,
 				98EA910426BC96B8004098A1 /* xmlrpc-site-comments-success.xml */,
