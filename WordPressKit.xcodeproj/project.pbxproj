@@ -1571,7 +1571,6 @@
 				93BD277B1EE73944002BB00B /* WordPressRSDParser.swift */,
 				4A11239D2B1926D1004690CF /* HTTPClient.swift */,
 				4A11239B2B1926B7004690CF /* HTTPRequestBuilder.swift */,
-				4A1123992B19269A004690CF /* WordPressAPIError.swift */,
 				4A57A6822B54A326008D0660 /* WordPressAPIError+NSErrorBrdige.swift */,
 			);
 			path = WordPressAPI;
@@ -1978,6 +1977,7 @@
 		3FE2E9432BB11413002CA2E1 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				3FE2E9762BC395C2002CA2E1 /* CoreAPI */,
 				3FE2E9532BB3F4ED002CA2E1 /* APIInterface */,
 				3FE2E9462BB12020002CA2E1 /* WordPressKit */,
 			);
@@ -2047,6 +2047,14 @@
 				3FE2E94D2BB29A1B002CA2E1 /* FilePart.m */,
 			);
 			path = APIInterface;
+			sourceTree = "<group>";
+		};
+		3FE2E9762BC395C2002CA2E1 /* CoreAPI */ = {
+			isa = PBXGroup;
+			children = (
+				4A1123992B19269A004690CF /* WordPressAPIError.swift */,
+			);
+			path = CoreAPI;
 			sourceTree = "<group>";
 		};
 		404057C3221B30140060250C /* Time Interval */ = {
