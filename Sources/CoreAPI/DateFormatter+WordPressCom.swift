@@ -1,3 +1,5 @@
+import Foundation
+
 extension DateFormatter {
 
     /// A `DateFormatter` configured to manage dates compatible with the WordPress.com API.
