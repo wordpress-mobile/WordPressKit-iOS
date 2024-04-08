@@ -8,11 +8,15 @@ SWIFTLINT_PLUGIN_VALIDATION_BYPASS_XCARGS = '-skipPackagePluginValidation -skipM
 platform :ios do
   # "swift build" fails because of the UIKit dependency, so we need to validate the package via xcodebuild
   lane :package_build do
-    scheme = 'WordPressKit'
+    scheme = 'WordPressKit-Package'
+
+    # We need to explicitly step the derived data folder, otherwise we'll get errors like:
+    # > Cannot find .xcresult in derived data which is needed to determine test results.
+    derived_data_path = File.join(__dir__, '.build', 'derived-data')
 
     xcodebuild(
       scheme:,
-      xcargs: "-resolvePackageDependencies #{SWIFTLINT_PLUGIN_VALIDATION_BYPASS_XCARGS}"
+      xcargs: "-resolvePackageDependencies #{SWIFTLINT_PLUGIN_VALIDATION_BYPASS_XCARGS} -derivedDataPath #{derived_data_path}"
     )
 
     run_tests(
@@ -20,7 +24,8 @@ platform :ios do
       scheme:,
       device: 'iPhone 15',
       prelaunch_simulator: true,
-      xcargs: SWIFTLINT_PLUGIN_VALIDATION_BYPASS_XCARGS
+      xcargs: SWIFTLINT_PLUGIN_VALIDATION_BYPASS_XCARGS,
+      derived_data_path:
     )
   end
 
@@ -44,7 +49,14 @@ platform :ios do
 
   desc 'Builds the project and runs tests'
   lane :test do
+    derived_data_path = File.join(__dir__, '.build', 'derived-data')
+    xcodebuild(
+      workspace: File.join(__dir__, 'Xcode', 'WordPressKit.xcworkspace'),
+      scheme: 'WordPressKit',
+      xcargs: "-resolvePackageDependencies #{SWIFTLINT_PLUGIN_VALIDATION_BYPASS_XCARGS} -derivedDataPath #{derived_data_path}"
+    )
     run_tests(
+      workspace: File.join(__dir__, 'Xcode', 'WordPressKit.xcworkspace'),
       scheme: 'WordPressKit',
       prelaunch_simulator: true,
       result_bundle: true,

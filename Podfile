@@ -22,16 +22,17 @@ def wordpresskit_pods
   pod 'UIDeviceIdentifier', '~> 2.0'
 end
 
+workspace 'Xcode/WordPressKit.xcworkspace'
+project 'Xcode/WordPressKit.xcodeproj'
+
 ## WordPress Kit
 ## =============
 ##
 target 'WordPressKit' do
-  project 'WordPressKit.xcodeproj'
   wordpresskit_pods
 end
 
 target 'WordPressKitTests' do
-  project 'WordPressKit.xcodeproj'
   wordpresskit_pods
 
   pod 'OHHTTPStubs', '~> 9.0'

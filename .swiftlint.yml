@@ -4,7 +4,8 @@ parent_config: https://raw.githubusercontent.com/Automattic/swiftlint-config/0f8
 remote_timeout: 10.0
 
 excluded:
-  .build # `swift build` etc. output folder
+  - .build # `swift build` etc. output folder
+  - Xcode/DerivedData/**
 
 opt_in_rules:
   - overridden_super_call
