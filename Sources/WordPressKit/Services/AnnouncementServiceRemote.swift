@@ -1,7 +1,17 @@
 import Foundation
 
 /// Retrieves feature announcements from the related endpoint
-public class AnnouncementServiceRemote: ServiceRemoteWordPressComREST {
+public class AnnouncementServiceRemote {
+
+    let api: WordPressComRestApi
+
+    init(api: WordPressComRestApi) {
+        self.api = api
+    }
+
+    convenience init(wordPressComRestApi: WordPressComRestApi) {
+        self.init(api: wordPressComRestApi)
+    }
 
     public func getAnnouncements(appId: String,
                                  appVersion: String,
@@ -13,9 +23,9 @@ public class AnnouncementServiceRemote: ServiceRemoteWordPressComREST {
             return
         }
 
-        let path = self.path(forEndpoint: endPoint, withVersion: ._2_0)
-        Task { @MainActor [wordPressComRestApi] in
-            await wordPressComRestApi.perform(.get, URLString: path, type: AnnouncementsContainer.self)
+        let path = WordPressComRESTAPIVersionedPathBuilder.path(forEndpoint: endPoint, withVersion: ._2_0)
+        Task { @MainActor [api] in
+            await api.perform(.get, URLString: path, type: AnnouncementsContainer.self)
                 .map { $0.body.announcements }
                 .eraseToError()
                 .execute(completion)
