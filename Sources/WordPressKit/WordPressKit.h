@@ -9,6 +9,7 @@ FOUNDATION_EXPORT const unsigned char WordPressKitVersionString[];
 #import <WordPressKit/FilePart.h>
 #import <WordPressKit/WordPressComRESTAPIInterfacing.h>
 #import <WordPressKit/WordPressComRESTAPIVersion.h>
+#import <WordPressKit/WordPressComRESTAPIVersionedPathBuilder.h>
 
 #import <WordPressKit/ServiceRemoteWordPressComREST.h>
 #import <WordPressKit/ServiceRemoteWordPressXMLRPC.h>
