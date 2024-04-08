@@ -269,7 +269,7 @@ class URLSessionHelperTests: XCTestCase {
         }
 
         // Capture a list of files in temp dirs, before calling the upload function.
-        let tempFilesBeforeUpload = existingTempFiles()
+        let tempFilesBeforeUpload = try existingMultipartFormTempFiles()
 
         // Perform upload HTTP request
         let builder = try HTTPRequestBuilder(url: URL(string: "https://wordpress.org/upload")!)
@@ -278,7 +278,7 @@ class URLSessionHelperTests: XCTestCase {
         let _ = await session.perform(request: builder, errorType: TestError.self)
 
         // Capture a list of files in the temp dirs, after calling the upload function.
-        let tempFilesAfterUpload = existingTempFiles()
+        let tempFilesAfterUpload = try existingMultipartFormTempFiles()
 
         // There should be no new files after the HTTP request returns. This assertion relies on an implementation detail
         // where the multipart form content is put into a file in temp dirs.
@@ -299,7 +299,7 @@ class URLSessionHelperTests: XCTestCase {
         }
 
         // Capture a list of files in temp dirs, before calling the upload function.
-        let tempFilesBeforeUpload = existingTempFiles()
+        let tempFilesBeforeUpload = try existingMultipartFormTempFiles()
 
         // Perform upload HTTP request
         let builder = try HTTPRequestBuilder(url: URL(string: "https://wordpress.org/upload")!)
@@ -308,7 +308,7 @@ class URLSessionHelperTests: XCTestCase {
         let _ = await session.perform(request: builder, errorType: TestError.self)
 
         // Capture a list of files in the temp dirs, after calling the upload function.
-        let tempFilesAfterUpload = existingTempFiles()
+        let tempFilesAfterUpload = try existingMultipartFormTempFiles()
 
         // There should be no new files after the HTTP request returns. This assertion relies on an implementation detail
         // where the multipart form content is put into a file in temp dirs.
@@ -316,20 +316,13 @@ class URLSessionHelperTests: XCTestCase {
         XCTAssertEqual(newFiles.count, 0)
     }
 
-    private func existingTempFiles() -> Set<String> {
+    // This functions finds temp files that are used for uploading multipart form.
+    // The implementation relies on an internal implementation detail of building multipart form content.
+    private func existingMultipartFormTempFiles() throws -> Set<String> {
         let fm = FileManager.default
-        let enumerators = [
-            fm.enumerator(atPath: NSTemporaryDirectory()),
-            fm.enumerator(atPath: fm.temporaryDirectory.path)
-        ].compactMap { $0 }
-
-        var result: Set<String> = []
-        for enumerator in enumerators {
-            while let file = enumerator.nextObject() as? String {
-                result.insert(file)
-            }
-        }
-        return result
+        let files = try fm.contentsOfDirectory(atPath: fm.temporaryDirectory.path)
+            .filter { UUID(uuidString: $0) != nil }
+        return Set(files)
     }
 
     private func createLargeFile(megaBytes: Int) throws -> URL {
