@@ -11,8 +11,8 @@ class BlogServiceRemote_ActiveFeaturesTests: RemoteTestCase, RESTTestable {
         "/sites/\(siteID)"
     }
 
-    private lazy var remote: BlogServiceRemoteREST = {
-        .init(wordPressComRestApi: getRestApi(), siteID: siteID)
+    private lazy var remote: BlogSyncService = {
+        .init(wordPressComRESTAPI: getRestApi(), blogID: siteID)
     }()
 
     // MARK: Tests
@@ -28,7 +28,7 @@ class BlogServiceRemote_ActiveFeaturesTests: RemoteTestCase, RESTTestable {
             }
         }
 
-        let features = try XCTUnwrap(blog?.planActiveFeatures)
+        let features = try XCTUnwrap(blog.planActiveFeatures)
         XCTAssertEqual(features.count, 3)
     }
 
@@ -43,7 +43,7 @@ class BlogServiceRemote_ActiveFeaturesTests: RemoteTestCase, RESTTestable {
             }
         }
 
-        let features = try XCTUnwrap(blog?.planActiveFeatures)
+        let features = try XCTUnwrap(blog.planActiveFeatures)
         XCTAssertTrue(features.isEmpty)
     }
 }
