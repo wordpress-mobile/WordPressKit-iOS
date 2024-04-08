@@ -616,6 +616,7 @@ extension WordPressComRestApi: WordPressComRESTAPIInterfacing {
     //
     // For those reasons, we can't immediately conform to `WordPressComRESTAPIInterfacing` and need instead to use this kind of wrapping.
     // The same applies for the other methods below.
+    @discardableResult
     public func get(
         _ URLString: String,
         parameters: [String: Any]?,
@@ -632,6 +633,7 @@ extension WordPressComRestApi: WordPressComRESTAPIInterfacing {
         )
     }
 
+    @discardableResult
     public func post(
         _ URLString: String,
         parameters: [String: Any]?,
@@ -648,6 +650,7 @@ extension WordPressComRestApi: WordPressComRESTAPIInterfacing {
         )
     }
 
+    @discardableResult
     public func multipartPOST(
         _ URLString: String,
         parameters: [String: NSObject]?,
