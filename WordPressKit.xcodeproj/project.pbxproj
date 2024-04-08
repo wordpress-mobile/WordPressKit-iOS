@@ -423,8 +423,8 @@
 		8B16CE92252502C4007BE5A9 /* RemoteReaderPostTests+V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B16CE91252502C4007BE5A9 /* RemoteReaderPostTests+V2.swift */; };
 		8B16CE962525045F007BE5A9 /* reader-posts-success.json in Resources */ = {isa = PBXBuildFile; fileRef = 8B16CE952525045F007BE5A9 /* reader-posts-success.json */; };
 		8B2F4BE524ABB3C70056C08A /* RemoteReaderPostTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B2F4BE424ABB3C70056C08A /* RemoteReaderPostTests.m */; };
-		8B2F4BE724ABC8A90056C08A /* ReaderPostServiceRemote+Cards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2F4BE624ABC8A90056C08A /* ReaderPostServiceRemote+Cards.swift */; };
-		8B2F4BE924ABC9DC0056C08A /* ReaderPostServiceRemote+CardsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2F4BE824ABC9DC0056C08A /* ReaderPostServiceRemote+CardsTests.swift */; };
+		8B2F4BE724ABC8A90056C08A /* ReaderCardServiceRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2F4BE624ABC8A90056C08A /* ReaderCardServiceRemote.swift */; };
+		8B2F4BE924ABC9DC0056C08A /* ReaderCardServiceRemoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2F4BE824ABC9DC0056C08A /* ReaderCardServiceRemoteTests.swift */; };
 		8B2F4BEB24ABCA700056C08A /* reader-cards-success.json in Resources */ = {isa = PBXBuildFile; fileRef = 8B2F4BEA24ABCA6F0056C08A /* reader-cards-success.json */; };
 		8B2F4BEF24ACCC120056C08A /* RemoteReaderCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2F4BEE24ACCC120056C08A /* RemoteReaderCard.swift */; };
 		8B2F4BF124ACE3C30056C08A /* RemoteReaderInterest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2F4BF024ACE3C30056C08A /* RemoteReaderInterest.swift */; };
@@ -1173,8 +1173,8 @@
 		8B16CE91252502C4007BE5A9 /* RemoteReaderPostTests+V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RemoteReaderPostTests+V2.swift"; sourceTree = "<group>"; };
 		8B16CE952525045F007BE5A9 /* reader-posts-success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "reader-posts-success.json"; sourceTree = "<group>"; };
 		8B2F4BE424ABB3C70056C08A /* RemoteReaderPostTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RemoteReaderPostTests.m; sourceTree = "<group>"; };
-		8B2F4BE624ABC8A90056C08A /* ReaderPostServiceRemote+Cards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReaderPostServiceRemote+Cards.swift"; sourceTree = "<group>"; };
-		8B2F4BE824ABC9DC0056C08A /* ReaderPostServiceRemote+CardsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReaderPostServiceRemote+CardsTests.swift"; sourceTree = "<group>"; };
+		8B2F4BE624ABC8A90056C08A /* ReaderCardServiceRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderCardServiceRemote.swift; sourceTree = "<group>"; };
+		8B2F4BE824ABC9DC0056C08A /* ReaderCardServiceRemoteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderCardServiceRemoteTests.swift; sourceTree = "<group>"; };
 		8B2F4BEA24ABCA6F0056C08A /* reader-cards-success.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "reader-cards-success.json"; sourceTree = "<group>"; };
 		8B2F4BEE24ACCC120056C08A /* RemoteReaderCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteReaderCard.swift; sourceTree = "<group>"; };
 		8B2F4BF024ACE3C30056C08A /* RemoteReaderInterest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteReaderInterest.swift; sourceTree = "<group>"; };
@@ -1865,7 +1865,7 @@
 				C7A09A4F284104DB003096ED /* QR Login */,
 				7430C99D1F1927180051B8E6 /* ReaderPostServiceRemote.h */,
 				7430C99E1F1927180051B8E6 /* ReaderPostServiceRemote.m */,
-				8B2F4BE624ABC8A90056C08A /* ReaderPostServiceRemote+Cards.swift */,
+				8B2F4BE624ABC8A90056C08A /* ReaderCardServiceRemote.swift */,
 				FACBDD1925ECA2FB0026705B /* ReaderPostServiceRemote+RelatedPosts.swift */,
 				FAB4F32224EC072700F259BA /* ReaderPostServiceRemote+Subscriptions.swift */,
 				8BB66DAF2523C181000B29DA /* ReaderPostServiceRemote+V2.swift */,
@@ -1992,7 +1992,7 @@
 				7430C9BA1F192C0F0051B8E6 /* ReaderPostServiceRemoteTests.m */,
 				17CE77F320C701C8001DEA5A /* ReaderSiteSearchServiceRemoteTests.swift */,
 				8B2F4BE424ABB3C70056C08A /* RemoteReaderPostTests.m */,
-				8B2F4BE824ABC9DC0056C08A /* ReaderPostServiceRemote+CardsTests.swift */,
+				8B2F4BE824ABC9DC0056C08A /* ReaderCardServiceRemoteTests.swift */,
 				FACBDD3725ECB4480026705B /* ReaderPostServiceRemote+RelatedPostsTests.swift */,
 				FA87FE0624EB39C4003FBEE3 /* ReaderPostServiceRemote+SubscriptionTests.swift */,
 				3236F79924AE406D0088E8F3 /* ReaderTopicServiceRemote+InterestsTests.swift */,
@@ -3259,7 +3259,7 @@
 				408197882220A35000A298E4 /* StatsLastPostInsight.swift in Sources */,
 				803DE80F28FFA787007D4E9C /* RemoteConfigRemote.swift in Sources */,
 				F9E56DF624EB11EF00916770 /* FeatureFlag.swift in Sources */,
-				8B2F4BE724ABC8A90056C08A /* ReaderPostServiceRemote+Cards.swift in Sources */,
+				8B2F4BE724ABC8A90056C08A /* ReaderCardServiceRemote.swift in Sources */,
 				4A68E3D529406AA0004AC3DC /* RemoteMenuLocation.swift in Sources */,
 				8B16CE8E25250039007BE5A9 /* RemoteReaderPost.swift in Sources */,
 				74E2294E1F1E73FE0085F7F2 /* RemotePublicizeService.swift in Sources */,
@@ -3516,7 +3516,7 @@
 				1DC837C229B9F04F009DCD4B /* RemoteVideoPressVideoTests.swift in Sources */,
 				3FFCC04D2BABA6980051D229 /* NSDate+WordPressComTests.swift in Sources */,
 				FAD1345125909DEA00A8FEB1 /* JetpackBackupServiceRemoteTests.swift in Sources */,
-				8B2F4BE924ABC9DC0056C08A /* ReaderPostServiceRemote+CardsTests.swift in Sources */,
+				8B2F4BE924ABC9DC0056C08A /* ReaderCardServiceRemoteTests.swift in Sources */,
 				FEF87FEF2BB7343700A1D2C1 /* ReaderTopicServiceRemoteTests.swift in Sources */,
 				40F9880C221ACEEE00B7B369 /* StatsRemoteV2Tests.swift in Sources */,
 				4625BAEB253E118400C04AAD /* PageLayoutServiceRemoteTests.swift in Sources */,

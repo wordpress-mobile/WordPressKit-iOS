@@ -36,6 +36,7 @@ _None._
 
 - Removed `anonymousWordPressComRestApiWithUserAgent` method from `ServiceRemoteWordPressComREST` [#778]
 - Renamed `ServiceRemoteWordPressComRESTApiVersion` to `WordPressComRestAPIVersion` [#778]
+- Card-fetching methods are part of new `ReaderCardServiceRemote` instead of `ReaderPostServiceRemote` [TBD]
 
 ### New Features
 

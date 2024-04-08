@@ -2,13 +2,13 @@ import XCTest
 
 @testable import WordPressKit
 
-class ReaderPostServiceRemoteCardTests: RemoteTestCase, RESTTestable {
+class ReaderCardServiceRemoteTests: RemoteTestCase, RESTTestable {
     let mockRemoteApi = MockWordPressComRestApi()
-    var readerPostServiceRemote: ReaderPostServiceRemote!
+    var readerCardServiceRemote: ReaderCardServiceRemote!
 
     override func setUp() {
         super.setUp()
-        readerPostServiceRemote = ReaderPostServiceRemote(wordPressComRestApi: getRestApi())
+        readerCardServiceRemote = ReaderCardServiceRemote(api: getRestApi())
     }
 
     // MARK: - Tags fetch cards
@@ -19,7 +19,7 @@ class ReaderPostServiceRemoteCardTests: RemoteTestCase, RESTTestable {
         let expect = expectation(description: "Get cards successfully")
         stubRemoteResponse("read/tags/cards?tags%5B%5D=dogs", filename: "reader-cards-success.json", contentType: .ApplicationJSON)
 
-        readerPostServiceRemote.fetchCards(for: ["dogs"], success: { cards, _ in
+        readerCardServiceRemote.fetchCards(for: ["dogs"], success: { cards, _ in
             XCTAssertTrue(cards.count == 10)
             expect.fulfill()
         }, failure: { _ in })
@@ -33,7 +33,7 @@ class ReaderPostServiceRemoteCardTests: RemoteTestCase, RESTTestable {
         let expect = expectation(description: "Get cards successfully")
         stubRemoteResponse("read/tags/cards?tags%5B%5D=cats", filename: "reader-cards-success.json", contentType: .ApplicationJSON)
 
-        readerPostServiceRemote.fetchCards(for: ["cats"], success: { cards, _ in
+        readerCardServiceRemote.fetchCards(for: ["cats"], success: { cards, _ in
             let postCards = cards.filter { $0.type == .post }
             XCTAssertTrue(postCards.allSatisfy { $0.post != nil })
             expect.fulfill()
@@ -48,7 +48,7 @@ class ReaderPostServiceRemoteCardTests: RemoteTestCase, RESTTestable {
         let expect = expectation(description: "Get cards successfully")
         stubRemoteResponse("read/tags/cards?tags%5B%5D=cats", filename: "reader-cards-success.json", contentType: .ApplicationJSON)
 
-        readerPostServiceRemote.fetchCards(for: ["cats"], success: { cards, _ in
+        readerCardServiceRemote.fetchCards(for: ["cats"], success: { cards, _ in
             let postTypes = cards.map { $0.type }
             let expectedPostTypes: [RemoteReaderCard.CardType] = [.interests, .sites, .post, .post, .post, .post, .post, .post, .post, .post]
             XCTAssertTrue(postTypes == expectedPostTypes)
@@ -64,7 +64,7 @@ class ReaderPostServiceRemoteCardTests: RemoteTestCase, RESTTestable {
         let expect = expectation(description: "Get cards successfully")
         stubRemoteResponse("read/tags/cards?tags%5B%5D=cats", filename: "reader-cards-success.json", contentType: .ApplicationJSON, status: 503)
 
-        readerPostServiceRemote.fetchCards(for: ["cats"], success: { _, _ in }, failure: { error in
+        readerCardServiceRemote.fetchCards(for: ["cats"], success: { _, _ in }, failure: { error in
             XCTAssertNotNil(error)
             expect.fulfill()
         })
@@ -78,7 +78,7 @@ class ReaderPostServiceRemoteCardTests: RemoteTestCase, RESTTestable {
         let expect = expectation(description: "Returns next page handle")
         stubRemoteResponse("read/tags/cards?tags%5B%5D=dogs", filename: "reader-cards-success.json", contentType: .ApplicationJSON)
 
-        readerPostServiceRemote.fetchCards(for: ["dogs"], success: { _, nextPageHandle in
+        readerCardServiceRemote.fetchCards(for: ["dogs"], success: { _, nextPageHandle in
             XCTAssertTrue(nextPageHandle == "ZnJvbT0xMCZiZWZvcmU9MjAyMC0wNy0yNlQxMyUzQTU1JTNBMDMlMkIwMSUzQTAw")
             expect.fulfill()
         }, failure: { _ in })
@@ -89,9 +89,9 @@ class ReaderPostServiceRemoteCardTests: RemoteTestCase, RESTTestable {
     func testHTTPMethod() {
         let expect = expectation(description: "Executes fetch call")
         let failure: (Error) -> Void = { _ in expect.fulfill() }
-        let readerPostServiceRemote = ReaderPostServiceRemote(wordPressComRestApi: mockRemoteApi)
+        let readerCardServiceRemote = ReaderCardServiceRemote(api: mockRemoteApi)
 
-        readerPostServiceRemote.fetchCards(for: ["dogs"], success: { _, _ in }, failure: failure)
+        readerCardServiceRemote.fetchCards(for: ["dogs"], success: { _, _ in }, failure: failure)
 
         waitForExpectations(timeout: timeout)
         XCTAssertEqual(mockRemoteApi.performMethodCall, .get)
@@ -102,9 +102,9 @@ class ReaderPostServiceRemoteCardTests: RemoteTestCase, RESTTestable {
     func testCallAPIWithTheGivenPageHandle() {
         let expect = expectation(description: "Executes fetch call")
         let failure: (Error) -> Void = { _ in expect.fulfill() }
-        let readerPostServiceRemote = ReaderPostServiceRemote(wordPressComRestApi: mockRemoteApi)
+        let readerCardServiceRemote = ReaderCardServiceRemote(api: mockRemoteApi)
 
-        readerPostServiceRemote.fetchCards(for: ["dogs"], page: "foobar", success: { _, _ in }, failure: failure)
+        readerCardServiceRemote.fetchCards(for: ["dogs"], page: "foobar", success: { _, _ in }, failure: failure)
 
         waitForExpectations(timeout: timeout)
         XCTAssertTrue(mockRemoteApi.URLStringPassedIn?.contains("&page_handle=foobar") ?? false)
@@ -115,9 +115,9 @@ class ReaderPostServiceRemoteCardTests: RemoteTestCase, RESTTestable {
     func testCallAPIWithPopularityAsTheGivenSortingOption() {
         let expect = expectation(description: "Executes fetch call")
         let failure: (Error) -> Void = { _ in expect.fulfill() }
-        let readerPostServiceRemote = ReaderPostServiceRemote(wordPressComRestApi: mockRemoteApi)
+        let readerCardServiceRemote = ReaderCardServiceRemote(api: mockRemoteApi)
 
-        readerPostServiceRemote.fetchCards(for: [], sortingOption: .popularity, success: { _, _ in }, failure: failure)
+        readerCardServiceRemote.fetchCards(for: [], sortingOption: .popularity, success: { _, _ in }, failure: failure)
 
         waitForExpectations(timeout: timeout)
         XCTAssertTrue(mockRemoteApi.URLStringPassedIn?.contains("sort=popularity") ?? false)
@@ -128,9 +128,9 @@ class ReaderPostServiceRemoteCardTests: RemoteTestCase, RESTTestable {
     func testCallAPIWithDateAsTheGivenSortingOption() {
         let expect = expectation(description: "Executes fetch call")
         let failure: (Error) -> Void = { _ in expect.fulfill() }
-        let readerPostServiceRemote = ReaderPostServiceRemote(wordPressComRestApi: mockRemoteApi)
+        let readerCardServiceRemote = ReaderCardServiceRemote(api: mockRemoteApi)
 
-        readerPostServiceRemote.fetchCards(for: [], sortingOption: .date, success: { _, _ in }, failure: failure)
+        readerCardServiceRemote.fetchCards(for: [], sortingOption: .date, success: { _, _ in }, failure: failure)
 
         waitForExpectations(timeout: timeout)
         XCTAssertTrue(mockRemoteApi.URLStringPassedIn?.contains("sort=date") ?? false)
@@ -141,9 +141,9 @@ class ReaderPostServiceRemoteCardTests: RemoteTestCase, RESTTestable {
     func testCallAPIWithoutTheGivenSortingOption() {
         let expect = expectation(description: "Executes fetch call")
         let failure: (Error) -> Void = { _ in expect.fulfill() }
-        let readerPostServiceRemote = ReaderPostServiceRemote(wordPressComRestApi: mockRemoteApi)
+        let readerCardServiceRemote = ReaderCardServiceRemote(api: mockRemoteApi)
 
-        readerPostServiceRemote.fetchCards(for: [], success: { _, _ in }, failure: failure)
+        readerCardServiceRemote.fetchCards(for: [], success: { _, _ in }, failure: failure)
 
         waitForExpectations(timeout: timeout)
         XCTAssertFalse(mockRemoteApi.URLStringPassedIn?.contains("sort=") ?? true)
@@ -155,7 +155,7 @@ class ReaderPostServiceRemoteCardTests: RemoteTestCase, RESTTestable {
         let expect = expectation(description: "Get cards sorted by date")
         stubRemoteResponse("read/tags/cards?tags%5B%5D=cats&sort=date", filename: "reader-cards-success.json", contentType: .ApplicationJSON)
 
-        readerPostServiceRemote.fetchCards(for: ["cats"], sortingOption: .date, success: { cards, _ in
+        readerCardServiceRemote.fetchCards(for: ["cats"], sortingOption: .date, success: { cards, _ in
             let posts = cards.filter { $0.type == .post }
             for i in 1..<posts.count {
                 guard let firstPostDate = posts[i-1].post?.sortDate,
@@ -177,7 +177,7 @@ class ReaderPostServiceRemoteCardTests: RemoteTestCase, RESTTestable {
         let expect = expectation(description: "Get cards successfully")
         stubRemoteResponse("read/streams/discover?tags%5B%5D=dogs", filename: "reader-cards-success.json", contentType: .ApplicationJSON)
 
-        readerPostServiceRemote.fetchStreamCards(for: ["dogs"], success: { cards, _ in
+        readerCardServiceRemote.fetchStreamCards(for: ["dogs"], success: { cards, _ in
             XCTAssertTrue(cards.count == 10)
             expect.fulfill()
         }, failure: { _ in })
@@ -189,7 +189,7 @@ class ReaderPostServiceRemoteCardTests: RemoteTestCase, RESTTestable {
         let expect = expectation(description: "Get cards successfully")
         stubRemoteResponse("read/streams/discover?tags%5B%5D=cats", filename: "reader-cards-success.json", contentType: .ApplicationJSON)
 
-        readerPostServiceRemote.fetchStreamCards(for: ["cats"], success: { cards, _ in
+        readerCardServiceRemote.fetchStreamCards(for: ["cats"], success: { cards, _ in
             let postCards = cards.filter { $0.type == .post }
             XCTAssertTrue(postCards.allSatisfy { $0.post != nil })
             expect.fulfill()
@@ -202,7 +202,7 @@ class ReaderPostServiceRemoteCardTests: RemoteTestCase, RESTTestable {
         let expect = expectation(description: "Get cards successfully")
         stubRemoteResponse("read/streams/discover?tags%5B%5D=cats", filename: "reader-cards-success.json", contentType: .ApplicationJSON)
 
-        readerPostServiceRemote.fetchStreamCards(for: ["cats"], success: { cards, _ in
+        readerCardServiceRemote.fetchStreamCards(for: ["cats"], success: { cards, _ in
             let postTypes = cards.map { $0.type }
             let expectedPostTypes: [RemoteReaderCard.CardType] = [.interests, .sites, .post, .post, .post, .post, .post, .post, .post, .post]
             XCTAssertTrue(postTypes == expectedPostTypes)
@@ -216,7 +216,7 @@ class ReaderPostServiceRemoteCardTests: RemoteTestCase, RESTTestable {
         let expect = expectation(description: "Get cards successfully")
         stubRemoteResponse("read/streams/discover?tags%5B%5D=cats", filename: "reader-cards-success.json", contentType: .ApplicationJSON, status: 503)
 
-        readerPostServiceRemote.fetchStreamCards(for: ["cats"], success: { _, _ in }, failure: { error in
+        readerCardServiceRemote.fetchStreamCards(for: ["cats"], success: { _, _ in }, failure: { error in
             XCTAssertNotNil(error)
             expect.fulfill()
         })
@@ -228,7 +228,7 @@ class ReaderPostServiceRemoteCardTests: RemoteTestCase, RESTTestable {
         let expect = expectation(description: "Returns next page handle")
         stubRemoteResponse("read/streams/discover?tags%5B%5D=dogs", filename: "reader-cards-success.json", contentType: .ApplicationJSON)
 
-        readerPostServiceRemote.fetchStreamCards(for: ["dogs"], success: { _, nextPageHandle in
+        readerCardServiceRemote.fetchStreamCards(for: ["dogs"], success: { _, nextPageHandle in
             XCTAssertTrue(nextPageHandle == "ZnJvbT0xMCZiZWZvcmU9MjAyMC0wNy0yNlQxMyUzQTU1JTNBMDMlMkIwMSUzQTAw")
             expect.fulfill()
         }, failure: { _ in })
@@ -239,9 +239,9 @@ class ReaderPostServiceRemoteCardTests: RemoteTestCase, RESTTestable {
     func testStreamsHTTPMethod() {
         let expect = expectation(description: "Executes fetch call")
         let failure: (Error) -> Void = { _ in expect.fulfill() }
-        let readerPostServiceRemote = ReaderPostServiceRemote(wordPressComRestApi: mockRemoteApi)
+        let readerCardServiceRemote = ReaderCardServiceRemote(api: mockRemoteApi)
 
-        readerPostServiceRemote.fetchStreamCards(for: ["dogs"], success: { _, _ in }, failure: failure)
+        readerCardServiceRemote.fetchStreamCards(for: ["dogs"], success: { _, _ in }, failure: failure)
 
         waitForExpectations(timeout: timeout)
         XCTAssertEqual(mockRemoteApi.performMethodCall, .get)
@@ -250,9 +250,9 @@ class ReaderPostServiceRemoteCardTests: RemoteTestCase, RESTTestable {
     func testStreamsCallAPIWithTheGivenPageHandle() {
         let expect = expectation(description: "Executes fetch call")
         let failure: (Error) -> Void = { _ in expect.fulfill() }
-        let readerPostServiceRemote = ReaderPostServiceRemote(wordPressComRestApi: mockRemoteApi)
+        let readerCardServiceRemote = ReaderCardServiceRemote(api: mockRemoteApi)
 
-        readerPostServiceRemote.fetchStreamCards(for: ["dogs"], page: "foobar", success: { _, _ in }, failure: failure)
+        readerCardServiceRemote.fetchStreamCards(for: ["dogs"], page: "foobar", success: { _, _ in }, failure: failure)
 
         waitForExpectations(timeout: timeout)
         XCTAssertTrue(mockRemoteApi.URLStringPassedIn?.contains("&page_handle=foobar") ?? false)
@@ -261,9 +261,9 @@ class ReaderPostServiceRemoteCardTests: RemoteTestCase, RESTTestable {
     func testStreamsCallAPIWithPopularityAsTheGivenSortingOption() {
         let expect = expectation(description: "Executes fetch call")
         let failure: (Error) -> Void = { _ in expect.fulfill() }
-        let readerPostServiceRemote = ReaderPostServiceRemote(wordPressComRestApi: mockRemoteApi)
+        let readerCardServiceRemote = ReaderCardServiceRemote(api: mockRemoteApi)
 
-        readerPostServiceRemote.fetchStreamCards(for: [], sortingOption: .popularity, success: { _, _ in }, failure: failure)
+        readerCardServiceRemote.fetchStreamCards(for: [], sortingOption: .popularity, success: { _, _ in }, failure: failure)
 
         waitForExpectations(timeout: timeout)
         XCTAssertTrue(mockRemoteApi.URLStringPassedIn?.contains("sort=popularity") ?? false)
@@ -272,9 +272,9 @@ class ReaderPostServiceRemoteCardTests: RemoteTestCase, RESTTestable {
     func testStreamsCallAPIWithDateAsTheGivenSortingOption() {
         let expect = expectation(description: "Executes fetch call")
         let failure: (Error) -> Void = { _ in expect.fulfill() }
-        let readerPostServiceRemote = ReaderPostServiceRemote(wordPressComRestApi: mockRemoteApi)
+        let readerCardServiceRemote = ReaderCardServiceRemote(api: mockRemoteApi)
 
-        readerPostServiceRemote.fetchStreamCards(for: [], sortingOption: .date, success: { _, _ in }, failure: failure)
+        readerCardServiceRemote.fetchStreamCards(for: [], sortingOption: .date, success: { _, _ in }, failure: failure)
 
         waitForExpectations(timeout: timeout)
         XCTAssertTrue(mockRemoteApi.URLStringPassedIn?.contains("sort=date") ?? false)
@@ -283,9 +283,9 @@ class ReaderPostServiceRemoteCardTests: RemoteTestCase, RESTTestable {
     func testStreamsCallAPIWithoutTheGivenSortingOption() {
         let expect = expectation(description: "Executes fetch call")
         let failure: (Error) -> Void = { _ in expect.fulfill() }
-        let readerPostServiceRemote = ReaderPostServiceRemote(wordPressComRestApi: mockRemoteApi)
+        let readerCardServiceRemote = ReaderCardServiceRemote(api: mockRemoteApi)
 
-        readerPostServiceRemote.fetchStreamCards(for: [], success: { _, _ in }, failure: failure)
+        readerCardServiceRemote.fetchStreamCards(for: [], success: { _, _ in }, failure: failure)
 
         waitForExpectations(timeout: timeout)
         XCTAssertFalse(mockRemoteApi.URLStringPassedIn?.contains("sort=") ?? true)
@@ -294,10 +294,10 @@ class ReaderPostServiceRemoteCardTests: RemoteTestCase, RESTTestable {
     func testStreamsCallAPIWithCountValue() {
         let expect = expectation(description: "Executes fetch call")
         let failure: (Error) -> Void = { _ in expect.fulfill() }
-        let readerPostServiceRemote = ReaderPostServiceRemote(wordPressComRestApi: mockRemoteApi)
+        let readerCardServiceRemote = ReaderCardServiceRemote(api: mockRemoteApi)
         let expectedCount = 5
 
-        readerPostServiceRemote.fetchStreamCards(for: ["dogs"], count: expectedCount, success: { _, _ in }, failure: failure)
+        readerCardServiceRemote.fetchStreamCards(for: ["dogs"], count: expectedCount, success: { _, _ in }, failure: failure)
 
         waitForExpectations(timeout: timeout)
         XCTAssertTrue(mockRemoteApi.URLStringPassedIn?.contains("&count=\(expectedCount)") ?? false)
@@ -307,7 +307,7 @@ class ReaderPostServiceRemoteCardTests: RemoteTestCase, RESTTestable {
         let expect = expectation(description: "Get cards sorted by date")
         stubRemoteResponse("read/streams/discover?tags%5B%5D=cats&sort=date", filename: "reader-cards-success.json", contentType: .ApplicationJSON)
 
-        readerPostServiceRemote.fetchStreamCards(for: ["cats"], sortingOption: .date, success: { cards, _ in
+        readerCardServiceRemote.fetchStreamCards(for: ["cats"], sortingOption: .date, success: { cards, _ in
             let posts = cards.filter { $0.type == .post }
             for i in 1..<posts.count {
                 guard let firstPostDate = posts[i-1].post?.sortDate,

@@ -11,7 +11,14 @@ public enum ReaderSortingOption: String, CaseIterable {
     }
 }
 
-extension ReaderPostServiceRemote {
+public class ReaderCardServiceRemote {
+
+    let api: WordPressComRestApi
+
+    public init(api: WordPressComRestApi) {
+        self.api = api
+    }
+
     /// Returns a collection of RemoteReaderCard using the tags API
     /// a Reader Card can represent an item for the reader feed, such as
     /// - Reader Post
@@ -74,8 +81,8 @@ extension ReaderPostServiceRemote {
     private func fetch(_ endpoint: String,
                        success: @escaping ([RemoteReaderCard], String?) -> Void,
                        failure: @escaping (Error) -> Void) {
-        Task { @MainActor [wordPressComRestApi] in
-            await wordPressComRestApi.perform(.get, URLString: endpoint, type: ReaderCardEnvelope.self)
+        Task { @MainActor [api] in
+            await api.perform(.get, URLString: endpoint, type: ReaderCardEnvelope.self)
                 .map { ($0.body.cards, $0.body.nextPageHandle) }
                 .mapError { error -> Error in error.asNSError() }
                 .execute(onSuccess: success, onFailure: failure)
@@ -112,6 +119,9 @@ extension ReaderPostServiceRemote {
             return nil
         }
 
-        return self.path(forEndpoint: endpoint, withVersion: ._2_0)
+        return WordPressComRESTAPIVersionedPathBuilder.path(
+            forEndpoint: endpoint,
+            withVersion: ._2_0
+        )
     }
 }
