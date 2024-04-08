@@ -42,7 +42,7 @@ let package = Package(
             ],
             path: "Tests/CoreAPITests",
             resources: [
-                // .process("Stubs") // Relative to path
+                .process("Stubs") // Relative to path
             ]
         ),
     ]

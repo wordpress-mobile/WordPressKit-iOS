@@ -53,4 +53,3 @@ FOUNDATION_EXPORT const unsigned char WordPressKitVersionString[];
 #import <WordPressKit/NSString+MD5.h>
 
 #import <WordPressKit/WPKitLogging.h>
-#import <WordPressKit/Constants.h>
