@@ -57,4 +57,34 @@ public class BlogSyncService: ServiceRemoteWordPressComREST {
             }
         )
     }
+
+    @objc public func updateBlogSettings(
+        _ settings: RemoteBlogSettings,
+        success: (() -> Void)?,
+        failure: ((Error?) -> Void)?
+    ) {
+        wordPressComRESTAPI.post(
+            path(
+                forEndpoint: "sites/\(blogID)/settings?context=edit",
+                withVersion: ._1_1
+            ),
+            parameters: settings.dictionaryRepresentation,
+            success: { response, _ in
+                guard let responseDict = response as? NSDictionary else {
+                    failure?(nil)
+                    return
+                }
+
+                guard responseDict["updated"] != nil else {
+                    failure?(nil)
+                    return
+                }
+
+                success?()
+            },
+            failure: { error, _ in
+                failure?(error)
+            }
+        )
+    }
 }
