@@ -132,7 +132,7 @@ static NSTimeInterval const TestExpectationTimeout = 5;
     NSString *responsePath          = OHPathForFile(@"rest-site-settings.json", self.class);
 
     WordPressComRestApi *api        = [[WordPressComRestApi alloc] initWithOAuthToken:nil userAgent:nil];
-    BlogServiceRemoteREST *service  = [[BlogServiceRemoteREST alloc] initWithWordPressComRestApi:api siteID:blogID];
+    BlogSyncService *service  = [[BlogSyncService alloc] initWithWordPressComRestApi:api siteID:blogID];
     XCTAssertNotNil(service, @"Error while creating the new service");
 
     [HTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
