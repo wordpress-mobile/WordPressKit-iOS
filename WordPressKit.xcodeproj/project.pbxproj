@@ -705,7 +705,7 @@
 		FEAE3AC7298AC2A300E05A24 /* JetpackProxyServiceRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEAE3AC6298AC2A300E05A24 /* JetpackProxyServiceRemote.swift */; };
 		FEB7A88F271873BD00A8CF85 /* reader-post-comments-update-notification-success.json in Resources */ = {isa = PBXBuildFile; fileRef = FEB7A88E271873BD00A8CF85 /* reader-post-comments-update-notification-success.json */; };
 		FED77253298B819900C2346E /* JetpackProxyServiceRemoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FED77252298B819900C2346E /* JetpackProxyServiceRemoteTests.swift */; };
-		FEE48EF62A4B3602008A48E0 /* BlogServiceRemote+ActiveFeaturesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE48EF52A4B3602008A48E0 /* BlogServiceRemote+ActiveFeaturesTests.swift */; };
+		FEE48EF62A4B3602008A48E0 /* BlogSyncService+ActiveFeaturesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE48EF52A4B3602008A48E0 /* BlogSyncService+ActiveFeaturesTests.swift */; };
 		FEE48EF82A4B3E43008A48E0 /* sites-site-active-features.json in Resources */ = {isa = PBXBuildFile; fileRef = FEE48EF72A4B3E43008A48E0 /* sites-site-active-features.json */; };
 		FEE48EFA2A4B3E50008A48E0 /* sites-site-no-active-features.json in Resources */ = {isa = PBXBuildFile; fileRef = FEE48EF92A4B3E50008A48E0 /* sites-site-no-active-features.json */; };
 		FEE4EF57272FDD4B003CDA3C /* RemoteCommentV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE4EF56272FDD4B003CDA3C /* RemoteCommentV2.swift */; };
@@ -1461,7 +1461,7 @@
 		FEAE3AC6298AC2A300E05A24 /* JetpackProxyServiceRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JetpackProxyServiceRemote.swift; sourceTree = "<group>"; };
 		FEB7A88E271873BD00A8CF85 /* reader-post-comments-update-notification-success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "reader-post-comments-update-notification-success.json"; sourceTree = "<group>"; };
 		FED77252298B819900C2346E /* JetpackProxyServiceRemoteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JetpackProxyServiceRemoteTests.swift; sourceTree = "<group>"; };
-		FEE48EF52A4B3602008A48E0 /* BlogServiceRemote+ActiveFeaturesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BlogServiceRemote+ActiveFeaturesTests.swift"; sourceTree = "<group>"; };
+		FEE48EF52A4B3602008A48E0 /* BlogSyncService+ActiveFeaturesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BlogSyncService+ActiveFeaturesTests.swift"; sourceTree = "<group>"; };
 		FEE48EF72A4B3E43008A48E0 /* sites-site-active-features.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "sites-site-active-features.json"; sourceTree = "<group>"; };
 		FEE48EF92A4B3E50008A48E0 /* sites-site-no-active-features.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "sites-site-no-active-features.json"; sourceTree = "<group>"; };
 		FEE4EF56272FDD4B003CDA3C /* RemoteCommentV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteCommentV2.swift; sourceTree = "<group>"; };
@@ -2066,7 +2066,7 @@
 		3FE2E9712BC3847A002CA2E1 /* WordPressComRESTTests */ = {
 			isa = PBXGroup;
 			children = (
-				FEE48EF52A4B3602008A48E0 /* BlogServiceRemote+ActiveFeaturesTests.swift */,
+				FEE48EF52A4B3602008A48E0 /* BlogSyncService+ActiveFeaturesTests.swift */,
 			);
 			path = WordPressComRESTTests;
 			sourceTree = "<group>";
@@ -3543,7 +3543,7 @@
 				4A1DEF46293051C600322608 /* LoggingTests.m in Sources */,
 				930999521F1658F800F006A1 /* ThemeServiceRemoteTests.m in Sources */,
 				8BE67ED324AD05D3004DB4C9 /* Decodable+DictionaryTests.swift in Sources */,
-				FEE48EF62A4B3602008A48E0 /* BlogServiceRemote+ActiveFeaturesTests.swift in Sources */,
+				FEE48EF62A4B3602008A48E0 /* BlogSyncService+ActiveFeaturesTests.swift in Sources */,
 				74B335DA1F06F3D60053A184 /* WordPressComRestApiTests.swift in Sources */,
 				FA87FE0724EB39C4003FBEE3 /* ReaderPostServiceRemote+SubscriptionTests.swift in Sources */,
 				7403A2E61EF06F7000DED7DC /* AccountSettingsRemoteTests.swift in Sources */,

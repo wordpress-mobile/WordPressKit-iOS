@@ -1,7 +1,7 @@
 import XCTest
 @testable import WordPressKit
 
-class BlogServiceRemote_ActiveFeaturesTests: RemoteTestCase, RESTTestable {
+class BlogSyncService_ActiveFeaturesTests: RemoteTestCase, RESTTestable {
 
     private let siteID = NSNumber(value: 1001)
     private let syncBlogWithFeaturesFilename = "sites-site-active-features.json"
