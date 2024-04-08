@@ -3,8 +3,8 @@
 
 @interface WordPressComRESTAPIVersionedPathBuilder: NSObject
 
-+ (NSString *)pathForEndpoint:(NSString *)endpoint
-                  withVersion:(WordPressComRESTAPIVersion)apiVersion
++ (NSString  * _Nonnull )pathForEndpoint:(NSString  * _Nonnull )endpoint
+                             withVersion:(WordPressComRESTAPIVersion)apiVersion
 NS_SWIFT_NAME(path(forEndpoint:withVersion:));
 
 @end
