@@ -1,7 +1,7 @@
 import Foundation
 import WordPressShared
 
-public class PlanServiceRemote: ServiceRemoteWordPressComREST {
+public class PlanServiceRemote {
     public typealias AvailablePlans = (plans: [RemoteWpcomPlan], groups: [RemotePlanGroup], features: [RemotePlanFeature])
 
     typealias EndpointResponse = [String: AnyObject]
@@ -15,33 +15,46 @@ public class PlanServiceRemote: ServiceRemoteWordPressComREST {
         case noActivePlan
     }
 
+    let api: WordPressComRestApi
+
+    init(api: WordPressComRestApi) {
+        self.api = api
+    }
+
+    convenience init(wordPressComRestApi: WordPressComRestApi) {
+        self.init(api: wordPressComRestApi)
+    }
+
     // MARK: - Endpoints
 
     /// Get the list of WordPress.com plans, their descriptions, and their features.
     ///
     public func getWpcomPlans(_ success: @escaping (AvailablePlans) -> Void, failure: @escaping (Error) -> Void) {
         let endpoint = "plans/mobile"
-        let path = self.path(forEndpoint: endpoint, withVersion: ._2_0)
+        let path = WordPressComRESTAPIVersionedPathBuilder.path(
+            forEndpoint: endpoint,
+            withVersion: ._2_0
+        )
 
-        wordPressComRESTAPI.get(path,
-                                parameters: nil,
-                                success: {
-                                    response, _ in
+        api.get(
+            path,
+            parameters: nil,
+            success: { response, _ in
+                guard let response = response as? EndpointResponse else {
+                    failure(PlanServiceRemote.ResponseError.decodingFailure)
+                    return
+                }
 
-                                    guard let response = response as? EndpointResponse else {
-                                        failure(PlanServiceRemote.ResponseError.decodingFailure)
-                                        return
-                                    }
+                let plans = self.parseWpcomPlans(response)
+                let groups = self.parseWpcomPlanGroups(response)
+                let features = self.parseWpcomPlanFeatures(response)
 
-                                    let plans = self.parseWpcomPlans(response)
-                                    let groups = self.parseWpcomPlanGroups(response)
-                                    let features = self.parseWpcomPlanFeatures(response)
-
-                                    success((plans, groups, features))
-        }, failure: {
-            error, _ in
-            failure(error)
-        })
+                success((plans, groups, features))
+            },
+            failure: { error, _ in
+                failure(error)
+            }
+        )
     }
 
     /// Fetch the plan ID and name for each of the user's sites.
@@ -50,29 +63,31 @@ public class PlanServiceRemote: ServiceRemoteWordPressComREST {
     ///
     public func getPlanDescriptionsForAllSitesForLocale(_ locale: String, success: @escaping ([Int: RemotePlanSimpleDescription]) -> Void, failure: @escaping (Error) -> Void) {
         let endpoint = "me/sites"
-        let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
+        let path = WordPressComRESTAPIVersionedPathBuilder.path(
+            forEndpoint: endpoint,
+            withVersion: ._1_1
+        )
         let parameters: [String: String] = [
             "fields": "ID, plan",
             "locale": locale
         ]
 
-        wordPressComRESTAPI.get(path,
-                                parameters: parameters as [String: AnyObject],
-                                success: {
-                                    response, _ in
+        api.get(
+            path,
+            parameters: parameters as [String: AnyObject],
+            success: { response, _ in
+                guard let response = response as? EndpointResponse else {
+                    failure(PlanServiceRemote.ResponseError.decodingFailure)
+                    return
+                }
 
-                                    guard let response = response as? EndpointResponse else {
-                                        failure(PlanServiceRemote.ResponseError.decodingFailure)
-                                        return
-                                    }
-
-                                    let result = self.parsePlanDescriptionsForSites(response)
-                                    success(result)
-        },
-                                failure: {
-                                    error, _ in
-                                    failure(error)
-        })
+                let result = self.parsePlanDescriptionsForSites(response)
+                success(result)
+            },
+            failure: { error, _ in
+                failure(error)
+            }
+        )
     }
 
     // MARK: - Non-public methods
@@ -194,11 +209,14 @@ public class PlanServiceRemote: ServiceRemoteWordPressComREST {
     /// Retrieves Zendesk meta data: plan and Jetpack addons, if available
     public func getZendeskMetadata(siteID: Int, completion: @escaping (Result<ZendeskMetadata, Error>) -> Void) {
         let endpoint = "me/sites"
-        let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
+        let path = WordPressComRESTAPIVersionedPathBuilder.path(
+            forEndpoint: endpoint,
+            withVersion: ._1_1
+        )
         let parameters = ["fields": "ID, zendesk_site_meta"] as [String: AnyObject]
 
-        Task { @MainActor [wordPressComRestApi] in
-            await wordPressComRestApi.perform(.get, URLString: path, parameters: parameters, type: ZendeskSiteContainer.self)
+        Task { @MainActor [api] in
+            await api.perform(.get, URLString: path, parameters: parameters, type: ZendeskSiteContainer.self)
                 .eraseToError()
                 .flatMap { container in
                     guard let metadata = container.body.sites.filter({ $0.ID == siteID }).first?.zendeskMetadata else {
