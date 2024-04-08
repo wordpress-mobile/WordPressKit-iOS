@@ -1638,6 +1638,15 @@
 			path = JSON;
 			sourceTree = "<group>";
 		};
+		3FD635022BC3E7A700CEDF5E /* BasicBlogAPIObjc */ = {
+			isa = PBXGroup;
+			children = (
+				93BD276B1EE737A8002BB00B /* ServiceRemoteWordPressComREST.h */,
+				93BD276C1EE737A8002BB00B /* ServiceRemoteWordPressComREST.m */,
+			);
+			path = BasicBlogAPIObjc;
+			sourceTree = "<group>";
+		};
 		3FE2E9362BB10EC7002CA2E1 /* Stats */ = {
 			isa = PBXGroup;
 			children = (
@@ -1865,8 +1874,6 @@
 				7430C9A21F1927180051B8E6 /* ReaderTopicServiceRemote.m */,
 				3236F77724AE34B40088E8F3 /* ReaderTopicServiceRemote+Interests.swift */,
 				9F3E0BA12087345E009CB5BA /* ReaderTopicServiceRemote+Subscription.swift */,
-				93BD276B1EE737A8002BB00B /* ServiceRemoteWordPressComREST.h */,
-				93BD276C1EE737A8002BB00B /* ServiceRemoteWordPressComREST.m */,
 				93BD276D1EE737A8002BB00B /* ServiceRemoteWordPressXMLRPC.h */,
 				93BD276E1EE737A8002BB00B /* ServiceRemoteWordPressXMLRPC.m */,
 				9F3E0BA02087345E009CB5BA /* ServiceRequest.swift */,
@@ -2025,6 +2032,7 @@
 		3FE2E9432BB11413002CA2E1 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				3FD635022BC3E7A700CEDF5E /* BasicBlogAPIObjc */,
 				3FE2E9762BC395C2002CA2E1 /* CoreAPI */,
 				3FE2E9532BB3F4ED002CA2E1 /* APIInterface */,
 				3FE2E9462BB12020002CA2E1 /* WordPressKit */,
