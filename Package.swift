@@ -27,8 +27,22 @@ let package = Package(
         .target(
             name: "CoreAPI",
             dependencies: [
+                .target(name: "APIInterface"),
                 .product(name: "WordPressShared", package: "WordPress-iOS-Shared"),
                 "wpxmlrpc"
+            ]
+        ),
+        .testTarget(
+            name: "CoreAPITests",
+            dependencies: [
+                .target(name: "CoreAPI"),
+                .product(name: "OHHTTPStubs", package: "OHHTTPStubs"),
+                .product(name: "OHHTTPStubsSwift", package: "OHHTTPStubs"),
+                "Alamofire",
+            ],
+            path: "Tests/CoreAPITests",
+            resources: [
+                // .process("Stubs") // Relative to path
             ]
         ),
     ]

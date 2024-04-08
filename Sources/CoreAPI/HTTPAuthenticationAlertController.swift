@@ -1,4 +1,5 @@
 import Foundation
+import UIKit
 
 /// URLAuthenticationChallenge Handler: It's up to the Host App to actually use this, whenever `WordPressOrgXMLRPCApi.onChallenge` is hit!
 ///

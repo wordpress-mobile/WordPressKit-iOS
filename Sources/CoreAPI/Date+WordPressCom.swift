@@ -1,3 +1,5 @@
+import Foundation
+
 extension Date {
 
     /// Parses a date string
