@@ -3,8 +3,27 @@
 default_platform(:ios)
 
 SWIFTLINT_PATH = './Pods/SwiftLint/swiftlint'
+SWIFTLINT_PLUGIN_VALIDATION_BYPASS_XCARGS = '-skipPackagePluginValidation -skipMacroValidation'
 
 platform :ios do
+  # "swift build" fails because of the UIKit dependency, so we need to validate the package via xcodebuild
+  lane :package_build do
+    scheme = 'WordPressKit'
+
+    xcodebuild(
+      scheme:,
+      xcargs: "-resolvePackageDependencies #{SWIFTLINT_PLUGIN_VALIDATION_BYPASS_XCARGS}"
+    )
+
+    run_tests(
+      package_path: '.',
+      scheme:,
+      device: 'iPhone 15',
+      prelaunch_simulator: true,
+      xcargs: SWIFTLINT_PLUGIN_VALIDATION_BYPASS_XCARGS
+    )
+  end
+
   lane :lint do
     swiftlint(
       executable: SWIFTLINT_PATH,
