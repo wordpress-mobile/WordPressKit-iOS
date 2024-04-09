@@ -360,7 +360,7 @@ open class WordPressComRestApi: NSObject {
         return configuration
     }
 
-    func perform(
+    public func perform(
         _ method: HTTPRequestBuilder.Method,
         URLString: String,
         parameters: [String: AnyObject]? = nil,
