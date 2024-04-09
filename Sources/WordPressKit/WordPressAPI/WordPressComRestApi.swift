@@ -384,6 +384,7 @@ open class WordPressComRestApi: NSObject {
             fulfilling: progress,
             decoder: { try JSONSerialization.jsonObject(with: $0) as AnyObject },
             session: uploadURLSession,
+            invalidTokenHandler: invalidTokenHandler,
             taskCreated: { taskID in
                 DispatchQueue.main.async {
                     requestEnqueued?(NSNumber(value: taskID))
@@ -440,7 +441,13 @@ open class WordPressComRestApi: NSObject {
             }
         }
 
-        return await perform(request: builder, fulfilling: progress, decoder: decoder, session: urlSession)
+        return await perform(
+            request: builder,
+            fulfilling: progress,
+            decoder: decoder,
+            session: urlSession,
+            invalidTokenHandler: invalidTokenHandler
+        )
     }
 
     private func perform<T>(
@@ -448,6 +455,7 @@ open class WordPressComRestApi: NSObject {
         fulfilling progress: Progress?,
         decoder: @escaping (Data) throws -> T,
         session: URLSession,
+        invalidTokenHandler: (() -> Void)?,
         taskCreated: ((Int) -> Void)? = nil
     ) async -> APIResult<T> {
         await session
