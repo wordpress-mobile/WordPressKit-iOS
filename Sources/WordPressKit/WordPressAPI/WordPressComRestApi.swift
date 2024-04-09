@@ -103,7 +103,7 @@ open class WordPressComRestApi: NSObject {
 
     @objc public let baseURL: URL
 
-    private var invalidTokenHandler: (() -> Void)?
+    public var invalidTokenHandler: (() -> Void)?
 
     /**
      Configure whether or not the user's preferred language locale should be appended. Defaults to true.
@@ -177,9 +177,6 @@ open class WordPressComRestApi: NSObject {
         }
     }
 
-    @objc func setInvalidTokenHandler(_ handler: @escaping () -> Void) {
-        invalidTokenHandler = handler
-    }
 
     // MARK: Network requests
 
@@ -319,7 +316,7 @@ open class WordPressComRestApi: NSObject {
 
     // MARK: - Async
 
-    private lazy var urlSession: URLSession = {
+    public lazy var urlSession: URLSession = {
         URLSession(configuration: sessionConfiguration(background: false))
     }()
 

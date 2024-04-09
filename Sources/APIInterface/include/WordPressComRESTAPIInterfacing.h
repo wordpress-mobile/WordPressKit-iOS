@@ -18,6 +18,10 @@
 /// The value with which to specify locale in the parameters of a request.
 @property (strong, nonatomic, readonly) NSString * _Nonnull localeValue;
 
+@property (strong, nonatomic, readonly) NSURLSession * _Nonnull urlSession;
+
+@property (strong, nonatomic, readonly) void (^ _Nullable invalidTokenHandler)(void);
+
 /// - Note: `parameters` has `id` instead of the more common `NSObject *` as its value type so it will convert to `AnyObject` in Swift.
 ///         In Swift, it's simpler to work with `AnyObject` than with `NSObject`. For example `"abc" as AnyObject` over `"abc" as NSObject`.
 - (NSProgress * _Nullable)get:(NSString * _Nonnull)URLString
