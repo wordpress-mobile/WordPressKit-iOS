@@ -97,6 +97,10 @@ open class WordPressComRestApi: NSObject {
 
     public let localeKey: String
 
+    public var localeValue: String {
+        WordPressComLanguageDatabase().deviceLanguage.slug
+    }
+
     @objc public let baseURL: URL
 
     private var invalidTokenHandler: (() -> Void)?
