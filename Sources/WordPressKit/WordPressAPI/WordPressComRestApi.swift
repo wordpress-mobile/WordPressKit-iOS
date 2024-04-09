@@ -441,6 +441,8 @@ open class WordPressComRestApi: NSObject {
 
 extension WordPressComRESTAPIInterfacing {
 
+    public typealias APIResult<T> = WordPressAPIResult<HTTPAPIResponse<T>, WordPressComRestApiEndpointError>
+
     func perform<T>(
         request: HTTPRequestBuilder,
         fulfilling progress: Progress?,
@@ -448,7 +450,7 @@ extension WordPressComRESTAPIInterfacing {
         session: URLSession,
         invalidTokenHandler: (() -> Void)?,
         taskCreated: ((Int) -> Void)? = nil
-    ) async -> WordPressAPIResult<HTTPAPIResponse<T>, WordPressComRestApiEndpointError> {
+    ) async -> APIResult<T> {
         await session
             .perform(request: request, taskCreated: taskCreated, fulfilling: progress, errorType: WordPressComRestApiEndpointError.self)
             .mapSuccess { response -> HTTPAPIResponse<T> in
