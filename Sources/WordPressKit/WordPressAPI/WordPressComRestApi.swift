@@ -360,6 +360,38 @@ open class WordPressComRestApi: NSObject {
         return configuration
     }
 
+    public func upload(
+        URLString: String,
+        parameters: [String: AnyObject]?,
+        fileParts: [FilePart],
+        requestEnqueued: RequestEnqueuedBlock? = nil,
+        fulfilling progress: Progress? = nil
+    ) async -> APIResult<AnyObject> {
+        let builder: HTTPRequestBuilder
+        do {
+            let form = try fileParts.map {
+                try MultipartFormField(fileAtPath: $0.url.path, name: $0.parameterName, filename: $0.fileName, mimeType: $0.mimeType)
+            }
+            builder = try requestBuilder(URLString: URLString)
+                .method(.post)
+                .body(form: form)
+        } catch {
+            return .failure(.requestEncodingFailure(underlyingError: error))
+        }
+
+        return await perform(
+            request: builder.query(parameters ?? [:]),
+            fulfilling: progress,
+            decoder: { try JSONSerialization.jsonObject(with: $0) as AnyObject },
+            taskCreated: { taskID in
+                DispatchQueue.main.async {
+                    requestEnqueued?(NSNumber(value: taskID))
+                }
+            },
+            session: uploadURLSession
+        )
+    }
+
     public func perform(
         _ method: HTTPRequestBuilder.Method,
         URLString: String,
@@ -443,39 +475,6 @@ open class WordPressComRestApi: NSObject {
                 }
             }
     }
-
-    public func upload(
-        URLString: String,
-        parameters: [String: AnyObject]?,
-        fileParts: [FilePart],
-        requestEnqueued: RequestEnqueuedBlock? = nil,
-        fulfilling progress: Progress? = nil
-    ) async -> APIResult<AnyObject> {
-        let builder: HTTPRequestBuilder
-        do {
-            let form = try fileParts.map {
-                try MultipartFormField(fileAtPath: $0.url.path, name: $0.parameterName, filename: $0.fileName, mimeType: $0.mimeType)
-            }
-            builder = try requestBuilder(URLString: URLString)
-                .method(.post)
-                .body(form: form)
-        } catch {
-            return .failure(.requestEncodingFailure(underlyingError: error))
-        }
-
-        return await perform(
-            request: builder.query(parameters ?? [:]),
-            fulfilling: progress,
-            decoder: { try JSONSerialization.jsonObject(with: $0) as AnyObject },
-            taskCreated: { taskID in
-                DispatchQueue.main.async {
-                    requestEnqueued?(NSNumber(value: taskID))
-                }
-            },
-            session: uploadURLSession
-        )
-    }
-
 }
 
 // MARK: - Error processing
