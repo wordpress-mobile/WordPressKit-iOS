@@ -236,7 +236,7 @@ public struct RemotePostUpdateParametersWordPressComEncoder: Encodable {
         try container.encodeIfPresent(parameters.excerpt, forKey: .excerpt)
         try container.encodeIfPresent(parameters.slug, forKey: .slug)
         if let value = parameters.featuredImageID {
-            if let featuredImageID = value {
+            if value != nil {
                 try container.encode(parameters.featuredImageID, forKey: .featuredImageID)
             } else {
                 // Passing `null` doesn't work.
@@ -340,7 +340,7 @@ public struct RemotePostUpdateParametersXMLRPCEncoder: Encodable {
         try container.encodeIfPresent(parameters.excerpt, forKey: .excerpt)
         try container.encodeIfPresent(parameters.slug, forKey: .slug)
         if let value = parameters.featuredImageID {
-            if let featuredImageID = value {
+            if value != nil {
                 try container.encode(parameters.featuredImageID, forKey: .featuredImageID)
             } else {
                 // Passing `null` doesn't work.
