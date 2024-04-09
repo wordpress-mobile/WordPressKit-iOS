@@ -6,11 +6,17 @@
 
 @property (strong, nonatomic, readonly) NSURL * _Nonnull baseURL;
 
+/// Whether the user's preferred language locale should be appended to the request.
+/// Should default to `true`.
+///
+/// - SeeAlso: `localeKey` and `localeValue` to configure the locale appendend to the request.
+@property (nonatomic, readonly) BOOL appendsPreferredLanguageLocale;
+
 /// The key with which to specify locale in the parameters of a request.
 @property (strong, nonatomic, readonly) NSString * _Nonnull localeKey;
 
-/// Whether the user's preferred language locale should be appended.
-@property (nonatomic, readonly) BOOL appendsPreferredLanguageLocale;
+/// The value with which to specify locale in the parameters of a request.
+@property (strong, nonatomic, readonly) NSString * _Nonnull localeValue;
 
 /// - Note: `parameters` has `id` instead of the more common `NSObject *` as its value type so it will convert to `AnyObject` in Swift.
 ///         In Swift, it's simpler to work with `AnyObject` than with `NSObject`. For example `"abc" as AnyObject` over `"abc" as NSObject`.
