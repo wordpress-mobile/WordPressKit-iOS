@@ -379,17 +379,6 @@ open class WordPressComRestApi: NSObject {
         )
     }
 
-    public func perform(
-        _ method: HTTPRequestBuilder.Method,
-        URLString: String,
-        parameters: [String: AnyObject]? = nil,
-        fulfilling progress: Progress? = nil
-    ) async -> APIResult<AnyObject> {
-        await perform(method, URLString: URLString, parameters: parameters, fulfilling: progress) {
-            try (JSONSerialization.jsonObject(with: $0) as AnyObject)
-        }
-    }
-
     func perform<T: Decodable>(
         _ method: HTTPRequestBuilder.Method,
         URLString: String,
@@ -403,8 +392,25 @@ open class WordPressComRestApi: NSObject {
             return try decoder.decode(type, from: $0)
         }
     }
+}
 
-    private func perform<T>(
+extension WordPressComRESTAPIInterfacing {
+
+    public typealias APIResult<T> = WordPressAPIResult<HTTPAPIResponse<T>, WordPressComRestApiEndpointError>
+
+    public func perform(
+        _ method: HTTPRequestBuilder.Method,
+        URLString: String,
+        parameters: [String: AnyObject]? = nil,
+        fulfilling progress: Progress? = nil
+    ) async -> APIResult<AnyObject> {
+        await perform(method, URLString: URLString, parameters: parameters, fulfilling: progress) {
+            try (JSONSerialization.jsonObject(with: $0) as AnyObject)
+        }
+    }
+
+    // FIXME: This was private. It became public during the extraction. Consider whether to make it privated once done.
+    public func perform<T>(
         _ method: HTTPRequestBuilder.Method,
         URLString: String,
         parameters: [String: AnyObject]?,
@@ -434,13 +440,9 @@ open class WordPressComRestApi: NSObject {
             invalidTokenHandler: invalidTokenHandler
         )
     }
-}
 
-extension WordPressComRESTAPIInterfacing {
-
-    public typealias APIResult<T> = WordPressAPIResult<HTTPAPIResponse<T>, WordPressComRestApiEndpointError>
-
-    func perform<T>(
+    // FIXME: This was private. It became public during the extraction. Consider whether to make it privated once done.
+    public func perform<T>(
         request: HTTPRequestBuilder,
         fulfilling progress: Progress?,
         decoder: @escaping (Data) throws -> T,
