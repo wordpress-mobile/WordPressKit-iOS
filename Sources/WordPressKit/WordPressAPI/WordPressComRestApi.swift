@@ -95,7 +95,7 @@ open class WordPressComRestApi: NSObject {
 
     private let backgroundUploads: Bool
 
-    private let localeKey: String
+    public let localeKey: String
 
     @objc public let baseURL: URL
 
