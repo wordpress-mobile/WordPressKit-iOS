@@ -458,7 +458,7 @@ open class WordPressComRestApi: NSObject {
                 return HTTPAPIResponse(response: response.response, body: object)
             }
             .mapUnacceptableStatusCodeError { response, body in
-                if let error = self.processError(response: response, body: body, additionalUserInfo: nil) {
+                if let error = self.processError(response: response, body: body, additionalUserInfo: nil, invalidTokenHandler: invalidTokenHandler) {
                     return error
                 }
 
@@ -479,9 +479,14 @@ open class WordPressComRestApi: NSObject {
 
 // MARK: - Error processing
 
-extension WordPressComRestApi {
+extension WordPressComRESTAPIInterfacing {
 
-    func processError(response httpResponse: HTTPURLResponse, body data: Data, additionalUserInfo: [String: Any]?) -> WordPressComRestApiEndpointError? {
+    func processError(
+        response httpResponse: HTTPURLResponse,
+        body data: Data,
+        additionalUserInfo: [String: Any]?,
+        invalidTokenHandler: (() -> Void)?
+    ) -> WordPressComRestApiEndpointError? {
         // Not sure if it's intentional to include 500 status code, but the code seems to be there from the very beginning.
         // https://github.com/wordpress-mobile/WordPressKit-iOS/blob/1.0.1/WordPressKit/WordPressComRestApi.swift#L374
         guard (400...500).contains(httpResponse.statusCode) else {
@@ -527,7 +532,7 @@ extension WordPressComRestApi {
         if mappedError == .invalidToken {
             // Call `invalidTokenHandler in the main thread since it's typically used by the apps to present an authentication UI.
             DispatchQueue.main.async {
-                self.invalidTokenHandler?()
+                invalidTokenHandler?()
             }
         }
 
