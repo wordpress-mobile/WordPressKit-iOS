@@ -307,18 +307,14 @@ open class WordPressComRestApi: NSObject {
     }
 
     private func requestBuilder(URLString: String) throws -> HTTPRequestBuilder {
-        guard let url = URL(string: URLString, relativeTo: baseURL) else {
-            throw URLError(.badURL)
-        }
-
-        var builder = HTTPRequestBuilder(url: url)
-
+        let locale: (String, String)?
         if appendsPreferredLanguageLocale {
-            let preferredLanguageIdentifier = WordPressComLanguageDatabase().deviceLanguage.slug
-            builder = builder.query(defaults: [URLQueryItem(name: localeKey, value: preferredLanguageIdentifier)])
+            locale = (localeKey, WordPressComLanguageDatabase().deviceLanguage.slug)
+        } else {
+            locale = nil
         }
 
-        return builder
+        return try HTTPRequestBuilder.with(URLString: URLString, relativeTo: baseURL, appendingLocale: locale)
     }
 
     @objc public func temporaryFileURL(withExtension fileExtension: String) -> URL {
@@ -578,6 +574,28 @@ extension WordPressComRESTAPIInterfacing {
             apiErrorMessage: message
         )
     }
+}
+
+extension HTTPRequestBuilder {
+
+    static func with(
+        URLString: String,
+        relativeTo baseURL: URL,
+        appendingLocale locale: (key: String, value: String)?
+    ) throws -> HTTPRequestBuilder {
+        guard let url = URL(string: URLString, relativeTo: baseURL) else {
+            throw URLError(.badURL)
+        }
+
+        let builder = Self.init(url: url)
+
+        guard let locale else {
+            return builder
+        }
+
+        return builder.query(defaults: [URLQueryItem(name: locale.key, value: locale.value)])
+    }
+
 }
 // MARK: - Anonymous API support
 
