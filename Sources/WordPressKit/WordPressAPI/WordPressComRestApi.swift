@@ -440,7 +440,7 @@ open class WordPressComRestApi: NSObject {
             }
         }
 
-        return await perform(request: builder, fulfilling: progress, decoder: decoder)
+        return await perform(request: builder, fulfilling: progress, decoder: decoder, session: urlSession)
     }
 
     private func perform<T>(
@@ -448,9 +448,9 @@ open class WordPressComRestApi: NSObject {
         fulfilling progress: Progress?,
         decoder: @escaping (Data) throws -> T,
         taskCreated: ((Int) -> Void)? = nil,
-        session: URLSession? = nil
+        session: URLSession
     ) async -> APIResult<T> {
-        await (session ?? self.urlSession)
+        await session
             .perform(request: request, taskCreated: taskCreated, fulfilling: progress, errorType: WordPressComRestApiEndpointError.self)
             .mapSuccess { response -> HTTPAPIResponse<T> in
                 let object = try decoder(response.body)
