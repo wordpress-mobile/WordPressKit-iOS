@@ -22,7 +22,6 @@ public enum WordPressAPIError<EndpointError>: Error where EndpointError: Localiz
     /// Other error occured.
     case unknown(underlyingError: Error)
 
-
     var response: HTTPURLResponse? {
         switch self {
         case .requestEncodingFailure, .connection, .unknown:
