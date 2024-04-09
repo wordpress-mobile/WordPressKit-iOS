@@ -310,17 +310,6 @@ open class WordPressComRestApi: NSObject {
         return "\(String(describing: oAuthToken)),\(String(describing: userAgent))".hashValue
     }
 
-    private func requestBuilder(URLString: String) throws -> HTTPRequestBuilder {
-        let locale: (String, String)?
-        if appendsPreferredLanguageLocale {
-            locale = (localeKey, WordPressComLanguageDatabase().deviceLanguage.slug)
-        } else {
-            locale = nil
-        }
-
-        return try HTTPRequestBuilder.with(URLString: URLString, relativeTo: baseURL, appendingLocale: locale)
-    }
-
     @objc public func temporaryFileURL(withExtension fileExtension: String) -> URL {
         assert(!fileExtension.isEmpty, "file Extension cannot be empty")
         let fileName = "\(ProcessInfo.processInfo.globallyUniqueString)_file.\(fileExtension)"
@@ -427,8 +416,7 @@ open class WordPressComRestApi: NSObject {
     ) async -> APIResult<T> {
         var builder: HTTPRequestBuilder
         do {
-            builder = try requestBuilder(URLString: URLString)
-                .method(method)
+            builder = try requestBuilder(URLString: URLString).method(method)
         } catch {
             return .failure(.requestEncodingFailure(underlyingError: error))
         }
@@ -485,6 +473,17 @@ extension WordPressComRESTAPIInterfacing {
                     return error
                 }
             }
+    }
+
+    func requestBuilder(URLString: String) throws -> HTTPRequestBuilder {
+        let locale: (String, String)?
+        if appendsPreferredLanguageLocale {
+            locale = (localeKey, localeValue)
+        } else {
+            locale = nil
+        }
+
+        return try HTTPRequestBuilder.with(URLString: URLString, relativeTo: baseURL, appendingLocale: locale)
     }
 }
 
