@@ -67,7 +67,7 @@ import Foundation
     }
 
     public class func remoteBlogSettings(fromXMLRPCDictionaryOptions options: NSDictionary) -> RemoteBlogSettings {
-        let remoteSettings = RemoteBlogSettings()
+        let remoteSettings = RemoteBlogSettings(jsonDictionary: [:])
         remoteSettings.name = options.string(forKeyPath: "blog_title.value")?.stringByDecodingXMLCharacters()
         remoteSettings.tagline = options.string(forKeyPath: "blog_tagline.value")?.stringByDecodingXMLCharacters()
         if options["blog_public"] != nil {
