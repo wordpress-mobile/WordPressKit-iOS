@@ -95,11 +95,15 @@ open class WordPressComRestApi: NSObject {
 
     private let backgroundUploads: Bool
 
-    private let localeKey: String
+    public let localeKey: String
+
+    public var localeValue: String {
+        WordPressComLanguageDatabase().deviceLanguage.slug
+    }
 
     @objc public let baseURL: URL
 
-    private var invalidTokenHandler: (() -> Void)?
+    public var invalidTokenHandler: (() -> Void)?
 
     /**
      Configure whether or not the user's preferred language locale should be appended. Defaults to true.
@@ -171,10 +175,6 @@ open class WordPressComRestApi: NSObject {
         for session in [urlSession, uploadURLSession] {
             session.invalidateAndCancel()
         }
-    }
-
-    @objc func setInvalidTokenHandler(_ handler: @escaping () -> Void) {
-        invalidTokenHandler = handler
     }
 
     // MARK: Network requests
@@ -306,21 +306,6 @@ open class WordPressComRestApi: NSObject {
         return "\(String(describing: oAuthToken)),\(String(describing: userAgent))".hashValue
     }
 
-    private func requestBuilder(URLString: String) throws -> HTTPRequestBuilder {
-        guard let url = URL(string: URLString, relativeTo: baseURL) else {
-            throw URLError(.badURL)
-        }
-
-        var builder = HTTPRequestBuilder(url: url)
-
-        if appendsPreferredLanguageLocale {
-            let preferredLanguageIdentifier = WordPressComLanguageDatabase().deviceLanguage.slug
-            builder = builder.query(defaults: [URLQueryItem(name: localeKey, value: preferredLanguageIdentifier)])
-        }
-
-        return builder
-    }
-
     @objc public func temporaryFileURL(withExtension fileExtension: String) -> URL {
         assert(!fileExtension.isEmpty, "file Extension cannot be empty")
         let fileName = "\(ProcessInfo.processInfo.globallyUniqueString)_file.\(fileExtension)"
@@ -330,7 +315,7 @@ open class WordPressComRestApi: NSObject {
 
     // MARK: - Async
 
-    private lazy var urlSession: URLSession = {
+    public lazy var urlSession: URLSession = {
         URLSession(configuration: sessionConfiguration(background: false))
     }()
 
@@ -360,90 +345,6 @@ open class WordPressComRestApi: NSObject {
         return configuration
     }
 
-    func perform(
-        _ method: HTTPRequestBuilder.Method,
-        URLString: String,
-        parameters: [String: AnyObject]? = nil,
-        fulfilling progress: Progress? = nil
-    ) async -> APIResult<AnyObject> {
-        await perform(method, URLString: URLString, parameters: parameters, fulfilling: progress) {
-            try (JSONSerialization.jsonObject(with: $0) as AnyObject)
-        }
-    }
-
-    func perform<T: Decodable>(
-        _ method: HTTPRequestBuilder.Method,
-        URLString: String,
-        parameters: [String: AnyObject]? = nil,
-        fulfilling progress: Progress? = nil,
-        jsonDecoder: JSONDecoder? = nil,
-        type: T.Type = T.self
-    ) async -> APIResult<T> {
-        await perform(method, URLString: URLString, parameters: parameters, fulfilling: progress) {
-            let decoder = jsonDecoder ?? JSONDecoder()
-            return try decoder.decode(type, from: $0)
-        }
-    }
-
-    private func perform<T>(
-        _ method: HTTPRequestBuilder.Method,
-        URLString: String,
-        parameters: [String: AnyObject]?,
-        fulfilling progress: Progress?,
-        decoder: @escaping (Data) throws -> T
-    ) async -> APIResult<T> {
-        var builder: HTTPRequestBuilder
-        do {
-            builder = try requestBuilder(URLString: URLString)
-                .method(method)
-        } catch {
-            return .failure(.requestEncodingFailure(underlyingError: error))
-        }
-
-        if let parameters {
-            if builder.method.allowsHTTPBody {
-                builder = builder.body(json: parameters as Any)
-            } else {
-                builder = builder.query(parameters)
-            }
-        }
-
-        return await perform(request: builder, fulfilling: progress, decoder: decoder)
-    }
-
-    private func perform<T>(
-        request: HTTPRequestBuilder,
-        fulfilling progress: Progress?,
-        decoder: @escaping (Data) throws -> T,
-        taskCreated: ((Int) -> Void)? = nil,
-        session: URLSession? = nil
-    ) async -> APIResult<T> {
-        await (session ?? self.urlSession)
-            .perform(request: request, taskCreated: taskCreated, fulfilling: progress, errorType: WordPressComRestApiEndpointError.self)
-            .mapSuccess { response -> HTTPAPIResponse<T> in
-                let object = try decoder(response.body)
-
-                return HTTPAPIResponse(response: response.response, body: object)
-            }
-            .mapUnacceptableStatusCodeError { response, body in
-                if let error = self.processError(response: response, body: body, additionalUserInfo: nil) {
-                    return error
-                }
-
-                throw URLError(.cannotParseResponse)
-            }
-            .mapError { error -> WordPressAPIError<WordPressComRestApiEndpointError> in
-                switch error {
-                case .requestEncodingFailure:
-                    return .endpointError(.init(code: .requestSerializationFailed))
-                case let .unparsableResponse(response, _, _):
-                    return .endpointError(.init(code: .responseSerializationFailed, response: response))
-                default:
-                    return error
-                }
-            }
-    }
-
     public func upload(
         URLString: String,
         parameters: [String: AnyObject]?,
@@ -467,22 +368,135 @@ open class WordPressComRestApi: NSObject {
             request: builder.query(parameters ?? [:]),
             fulfilling: progress,
             decoder: { try JSONSerialization.jsonObject(with: $0) as AnyObject },
+            session: uploadURLSession,
+            invalidTokenHandler: invalidTokenHandler,
             taskCreated: { taskID in
                 DispatchQueue.main.async {
                     requestEnqueued?(NSNumber(value: taskID))
                 }
-            },
-            session: uploadURLSession
+            }
         )
     }
 
+    func perform<T: Decodable>(
+        _ method: HTTPRequestBuilder.Method,
+        URLString: String,
+        parameters: [String: AnyObject]? = nil,
+        fulfilling progress: Progress? = nil,
+        jsonDecoder: JSONDecoder? = nil,
+        type: T.Type = T.self
+    ) async -> APIResult<T> {
+        await perform(method, URLString: URLString, parameters: parameters, fulfilling: progress) {
+            let decoder = jsonDecoder ?? JSONDecoder()
+            return try decoder.decode(type, from: $0)
+        }
+    }
+}
+
+extension WordPressComRESTAPIInterfacing {
+
+    public typealias APIResult<T> = WordPressAPIResult<HTTPAPIResponse<T>, WordPressComRestApiEndpointError>
+
+    public func perform(
+        _ method: HTTPRequestBuilder.Method,
+        URLString: String,
+        parameters: [String: AnyObject]? = nil,
+        fulfilling progress: Progress? = nil
+    ) async -> APIResult<AnyObject> {
+        await perform(method, URLString: URLString, parameters: parameters, fulfilling: progress) {
+            try (JSONSerialization.jsonObject(with: $0) as AnyObject)
+        }
+    }
+
+    // FIXME: This was private. It became public during the extraction. Consider whether to make it privated once done.
+    public func perform<T>(
+        _ method: HTTPRequestBuilder.Method,
+        URLString: String,
+        parameters: [String: AnyObject]?,
+        fulfilling progress: Progress?,
+        decoder: @escaping (Data) throws -> T
+    ) async -> APIResult<T> {
+        var builder: HTTPRequestBuilder
+        do {
+            builder = try requestBuilder(URLString: URLString).method(method)
+        } catch {
+            return .failure(.requestEncodingFailure(underlyingError: error))
+        }
+
+        if let parameters {
+            if builder.method.allowsHTTPBody {
+                builder = builder.body(json: parameters as Any)
+            } else {
+                builder = builder.query(parameters)
+            }
+        }
+
+        return await perform(
+            request: builder,
+            fulfilling: progress,
+            decoder: decoder,
+            session: urlSession,
+            invalidTokenHandler: invalidTokenHandler
+        )
+    }
+
+    // FIXME: This was private. It became public during the extraction. Consider whether to make it privated once done.
+    public func perform<T>(
+        request: HTTPRequestBuilder,
+        fulfilling progress: Progress?,
+        decoder: @escaping (Data) throws -> T,
+        session: URLSession,
+        invalidTokenHandler: (() -> Void)?,
+        taskCreated: ((Int) -> Void)? = nil
+    ) async -> APIResult<T> {
+        await session
+            .perform(request: request, taskCreated: taskCreated, fulfilling: progress, errorType: WordPressComRestApiEndpointError.self)
+            .mapSuccess { response -> HTTPAPIResponse<T> in
+                let object = try decoder(response.body)
+
+                return HTTPAPIResponse(response: response.response, body: object)
+            }
+            .mapUnacceptableStatusCodeError { response, body in
+                if let error = self.processError(response: response, body: body, additionalUserInfo: nil, invalidTokenHandler: invalidTokenHandler) {
+                    return error
+                }
+
+                throw URLError(.cannotParseResponse)
+            }
+            .mapError { error -> WordPressAPIError<WordPressComRestApiEndpointError> in
+                switch error {
+                case .requestEncodingFailure:
+                    return .endpointError(.init(code: .requestSerializationFailed))
+                case let .unparsableResponse(response, _, _):
+                    return .endpointError(.init(code: .responseSerializationFailed, response: response))
+                default:
+                    return error
+                }
+            }
+    }
+
+    func requestBuilder(URLString: String) throws -> HTTPRequestBuilder {
+        let locale: (String, String)?
+        if appendsPreferredLanguageLocale {
+            locale = (localeKey, localeValue)
+        } else {
+            locale = nil
+        }
+
+        return try HTTPRequestBuilder.with(URLString: URLString, relativeTo: baseURL, appendingLocale: locale)
+    }
 }
 
 // MARK: - Error processing
 
-extension WordPressComRestApi {
+extension WordPressComRESTAPIInterfacing {
 
-    func processError(response httpResponse: HTTPURLResponse, body data: Data, additionalUserInfo: [String: Any]?) -> WordPressComRestApiEndpointError? {
+    func processError(
+        response httpResponse: HTTPURLResponse,
+        body data: Data,
+        additionalUserInfo: [String: Any]?,
+        invalidTokenHandler: (() -> Void)?
+    ) -> WordPressComRestApiEndpointError? {
         // Not sure if it's intentional to include 500 status code, but the code seems to be there from the very beginning.
         // https://github.com/wordpress-mobile/WordPressKit-iOS/blob/1.0.1/WordPressKit/WordPressComRestApi.swift#L374
         guard (400...500).contains(httpResponse.statusCode) else {
@@ -528,7 +542,7 @@ extension WordPressComRestApi {
         if mappedError == .invalidToken {
             // Call `invalidTokenHandler in the main thread since it's typically used by the apps to present an authentication UI.
             DispatchQueue.main.async {
-                self.invalidTokenHandler?()
+                invalidTokenHandler?()
             }
         }
 
@@ -563,6 +577,28 @@ extension WordPressComRestApi {
             apiErrorMessage: message
         )
     }
+}
+
+extension HTTPRequestBuilder {
+
+    static func with(
+        URLString: String,
+        relativeTo baseURL: URL,
+        appendingLocale locale: (key: String, value: String)?
+    ) throws -> HTTPRequestBuilder {
+        guard let url = URL(string: URLString, relativeTo: baseURL) else {
+            throw URLError(.badURL)
+        }
+
+        let builder = Self.init(url: url)
+
+        guard let locale else {
+            return builder
+        }
+
+        return builder.query(defaults: [URLQueryItem(name: locale.key, value: locale.value)])
+    }
+
 }
 // MARK: - Anonymous API support
 

@@ -198,10 +198,14 @@ private enum RemotePostWordPressComCodingKeys: String, CodingKey {
     static let postTags = "post_tag"
 }
 
-struct RemotePostCreateParametersWordPressComEncoder: Encodable {
+public struct RemotePostCreateParametersWordPressComEncoder: Encodable {
     let parameters: RemotePostCreateParameters
 
-    func encode(to encoder: Encoder) throws {
+    public init(parameters: RemotePostCreateParameters) {
+        self.parameters = parameters
+    }
+
+    public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: RemotePostWordPressComCodingKeys.self)
         try container.encodeIfPresent(parameters.type, forKey: .type)
         try container.encodeIfPresent(parameters.status, forKey: .status)
@@ -281,10 +285,14 @@ struct RemotePostUpdateParametersWordPressComMetadata: Encodable {
     }
 }
 
-struct RemotePostUpdateParametersWordPressComEncoder: Encodable {
+public struct RemotePostUpdateParametersWordPressComEncoder: Encodable {
     let parameters: RemotePostUpdateParameters
 
-    func encode(to encoder: Encoder) throws {
+    public init(parameters: RemotePostUpdateParameters) {
+        self.parameters = parameters
+    }
+
+    public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: RemotePostWordPressComCodingKeys.self)
         try container.encodeIfPresent(parameters.ifNotModifiedSince, forKey: .ifNotModifiedSince)
 
@@ -348,10 +356,14 @@ private enum RemotePostXMLRPCCodingKeys: String, CodingKey {
     static let postTags = "post_tag"
 }
 
-struct RemotePostCreateParametersXMLRPCEncoder: Encodable {
+public struct RemotePostCreateParametersXMLRPCEncoder: Encodable {
     let parameters: RemotePostCreateParameters
 
-    func encode(to encoder: Encoder) throws {
+    public init(parameters: RemotePostCreateParameters) {
+        self.parameters = parameters
+    }
+
+    public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: RemotePostXMLRPCCodingKeys.self)
         try container.encode(parameters.type, forKey: .type)
         try container.encodeIfPresent(parameters.status, forKey: .postStatus)
@@ -387,10 +399,14 @@ struct RemotePostCreateParametersXMLRPCEncoder: Encodable {
     }
 }
 
-struct RemotePostUpdateParametersXMLRPCEncoder: Encodable {
+public struct RemotePostUpdateParametersXMLRPCEncoder: Encodable {
     let parameters: RemotePostUpdateParameters
 
-    func encode(to encoder: Encoder) throws {
+    public init(parameters: RemotePostUpdateParameters) {
+        self.parameters = parameters
+    }
+
+    public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: RemotePostXMLRPCCodingKeys.self)
         try container.encodeIfPresent(parameters.ifNotModifiedSince, forKey: .ifNotModifiedSince)
         try container.encodeIfPresent(parameters.status, forKey: .postStatus)
