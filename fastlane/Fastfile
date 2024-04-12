@@ -26,7 +26,8 @@ platform :ios do
   desc 'Builds the project and runs tests'
   lane :test do
     run_tests(
-      scheme: 'WordPressKit',
+      scheme: 'CoreAPI',
+      package_path: '.',
       prelaunch_simulator: true,
       result_bundle: true,
       buildlog_path: File.join(__dir__, '.build', 'logs'),
