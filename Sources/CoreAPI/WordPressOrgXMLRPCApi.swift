@@ -290,7 +290,7 @@ private class SessionDelegate: NSObject, URLSessionDelegate {
 }
 
 /// Error constants for the WordPress XML-RPC API
-@objc public enum WordPressOrgXMLRPCApiError: Int, Error {
+@objc public enum WordPressOrgXMLRPCApiError: Int, Error, CaseIterable {
     /// An error HTTP status code was returned.
     case httpErrorStatusCode
     /// The serialization of the request failed.
@@ -428,5 +428,4 @@ private extension WordPressAPIError where EndpointError == WordPressOrgXMLRPCApi
 
         return WordPressOrgXMLRPCApi.convertError(error, data: data, statusCode: statusCode)
     }
-
 }
