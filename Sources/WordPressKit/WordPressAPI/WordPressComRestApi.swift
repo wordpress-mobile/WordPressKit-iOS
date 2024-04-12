@@ -177,7 +177,6 @@ open class WordPressComRestApi: NSObject {
         }
     }
 
-
     // MARK: Network requests
 
     /**
