@@ -1,3 +1,5 @@
+import Foundation
+
 /// Error domain of `NSError` instances that are converted from `WordPressOrgXMLRPCApiError`
 /// and `WordPressAPIError<WordPressOrgXMLRPCApiError>` instances.
 ///
