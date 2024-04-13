@@ -391,7 +391,7 @@ private extension WordPressAPIError where EndpointError == WordPressOrgXMLRPCApi
     /// Convert to NSError for backwards compatiblity.
     ///
     /// Some Objective-C code in the WordPress app checks domain of the errors returned by `WordPressOrgXMLRPCApi`,
-    /// which can be WordPressOrgXMLRPCApiError or WPXMLRPCFaultErrorDomain.
+    /// which can be `WordPressOrgXMLRPCApiError` or `WPXMLRPCFaultErrorDomain`.
     ///
     /// Swift code should avoid dealing with NSError instances. Instead, they should use the strongly typed
     /// `WordPressAPIError<WordPressOrgXMLRPCApiFault>`.
