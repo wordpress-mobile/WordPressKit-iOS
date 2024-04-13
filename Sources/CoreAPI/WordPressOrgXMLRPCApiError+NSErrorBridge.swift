@@ -1,3 +1,5 @@
+import Foundation
+
 /// See `extension WordPressComRestApiEndpointError: CustomNSError` for documentation and rationale.
 extension WordPressOrgXMLRPCApiError: CustomNSError {
 
