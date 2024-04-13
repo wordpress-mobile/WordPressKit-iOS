@@ -20,5 +20,4 @@ class WordPressComRestApiErrorTests: XCTestCase {
     func testErrorDomain() {
         XCTAssertEqual(WordPressComRestApiErrorDomain, WordPressComRestApiEndpointError.errorDomain)
     }
-
 }
