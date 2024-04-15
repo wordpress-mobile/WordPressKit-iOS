@@ -159,7 +159,7 @@ open class ActivityServiceRemote: ServiceRemoteWordPressComREST {
                                         return
                                     }
 
-                                    failure(endpointError)
+                                    failure(error)
 
                                     return
                                 })
