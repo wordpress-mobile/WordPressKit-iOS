@@ -30,7 +30,7 @@ _None._
 
 -->
 
-## Unreleased
+## 17.0.0
 
 ### Breaking Changes
 
@@ -39,7 +39,8 @@ _None._
 
 ### New Features
 
-_None._
+- Add new delete endpoint [#776]
+- Add support for metadata for `RemotePostParameters` [#783]
 
 ### Bug Fixes
 
@@ -47,7 +48,8 @@ _None._
 
 ### Internal Changes
 
-_None._
+- Make Stats-related entities Equatable [#751]
+- Fix looking up multipart form temporary file [#781]
 
 ## 16.0.0
 
