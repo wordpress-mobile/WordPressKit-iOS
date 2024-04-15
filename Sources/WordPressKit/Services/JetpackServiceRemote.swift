@@ -93,7 +93,7 @@ public class JetpackServiceRemote: ServiceRemoteWordPressComREST {
             let jetpackError = JetpackInstallError(
                 title: endpointError.localizedDescription,
                 code: endpointError.errorCode,
-                key: endpointError.errorUserInfo[WordPressComRestApi.ErrorKeyErrorCode] as? String
+                key: endpointError.apiErrorCode
             )
             completion(false, jetpackError)
         }
