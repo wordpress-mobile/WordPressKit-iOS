@@ -154,7 +154,7 @@ open class ActivityServiceRemote: ServiceRemoteWordPressComREST {
                                 }, failure: { error, _ in
                                     // FIXME: A hack to support free WPCom sites and Rewind.
                                     // Should be obsolete as soon as the backend stops returning 412's for those sites.
-                                    guard let endpointError = error.castToEndpointErrorWitCode(.preconditionFailure) else {
+                                    guard error.castedToEndpointErrorWitCode(.preconditionFailure) != nil else {
                                         success(RewindStatus(state: .unavailable))
                                         return
                                     }
@@ -222,7 +222,7 @@ private extension ActivityServiceRemote {
 
 private extension Error {
 
-    func castToEndpointErrorWitCode(
+    func castedToEndpointErrorWitCode(
         _ code: WordPressComRestApiErrorCode
     ) -> WordPressComRestApiEndpointError? {
         guard let apiError = self as? WordPressAPIError<WordPressComRestApiEndpointError> else {
