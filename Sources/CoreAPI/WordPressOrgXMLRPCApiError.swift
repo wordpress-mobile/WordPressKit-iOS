@@ -1,19 +1,20 @@
 import Foundation
 
-/// Error constants for the WordPress XML-RPC API
-@objc public enum WordPressOrgXMLRPCApiErrorCode: Int, CaseIterable {
-    /// An error HTTP status code was returned.
-    case httpErrorStatusCode
-    /// The serialization of the request failed.
-    case requestSerializationFailed
-    /// The serialization of the response failed.
-    case responseSerializationFailed
-    /// An unknown error occurred.
-    case unknown
-}
-
 public struct WordPressOrgXMLRPCApiError: Error {
-    let code: WordPressOrgXMLRPCApiErrorCode
+
+    /// Error constants for the WordPress XML-RPC API
+    @objc public enum Code: Int, CaseIterable {
+        /// An error HTTP status code was returned.
+        case httpErrorStatusCode
+        /// The serialization of the request failed.
+        case requestSerializationFailed
+        /// The serialization of the response failed.
+        case responseSerializationFailed
+        /// An unknown error occurred.
+        case unknown
+    }
+
+    let code: Code
 }
 
 extension WordPressOrgXMLRPCApiError: LocalizedError {

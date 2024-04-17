@@ -9,7 +9,7 @@ import XCTest
 class WordPressOrgXMLRPCApiErrorTests: XCTestCase {
 
     func testNSErrorBridging() throws {
-        for error in WordPressOrgXMLRPCApiErrorCode.allCases {
+        for error in WordPressOrgXMLRPCApiError.Code.allCases {
             let xmlRPCError = try XCTUnwrap(WordPressOrgXMLRPCApiError(code: error))
             let apiError = WordPressAPIError.endpointError(xmlRPCError)
             let newNSError = apiError as NSError

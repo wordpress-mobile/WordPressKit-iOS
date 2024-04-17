@@ -65,7 +65,7 @@ class WordPressOrgXMLRPCApiTests: XCTestCase {
             failure: { (error, _) in
                 expect.fulfill()
                 XCTAssertEqual(error.domain, WordPressOrgXMLRPCApiErrorDomain)
-                XCTAssertEqual(error.code, WordPressOrgXMLRPCApiErrorCode.httpErrorStatusCode.rawValue)
+                XCTAssertEqual(error.code, WordPressOrgXMLRPCApiError.Code.httpErrorStatusCode.rawValue)
                 XCTAssertEqual(error.localizedFailureReason, "An HTTP error code 404 was returned.")
                 XCTAssertNotNil(error.userInfo[WordPressOrgXMLRPCApi.WordPressOrgXMLRPCApiErrorKeyData as String])
                 XCTAssertNotNil(error.userInfo[WordPressOrgXMLRPCApi.WordPressOrgXMLRPCApiErrorKeyStatusCode as String])
