@@ -8,7 +8,7 @@ extension WordPressOrgXMLRPCApiError: CustomNSError {
 
     public static let errorDomain = WordPressOrgXMLRPCApiErrorDomain
 
-    public var errorCode: Int { self.rawValue }
+    public var errorCode: Int { code.rawValue }
 
     public var errorUserInfo: [String: Any] { [:] }
 }

@@ -65,7 +65,7 @@ class WordPressOrgXMLRPCApiTests: XCTestCase {
             failure: { (error, _) in
                 expect.fulfill()
                 XCTAssertEqual(error.domain, WordPressOrgXMLRPCApiErrorDomain)
-                XCTAssertEqual(error.code, WordPressOrgXMLRPCApiError.httpErrorStatusCode.rawValue)
+                XCTAssertEqual(error.code, WordPressOrgXMLRPCApiErrorCode.httpErrorStatusCode.rawValue)
                 XCTAssertEqual(error.localizedFailureReason, "An HTTP error code 404 was returned.")
                 XCTAssertNotNil(error.userInfo[WordPressOrgXMLRPCApi.WordPressOrgXMLRPCApiErrorKeyData as String])
                 XCTAssertNotNil(error.userInfo[WordPressOrgXMLRPCApi.WordPressOrgXMLRPCApiErrorKeyStatusCode as String])
@@ -119,10 +119,10 @@ class WordPressOrgXMLRPCApiTests: XCTestCase {
             failure: { (error, _) in
                 expect.fulfill()
 
-                XCTAssertTrue(error is WordPressOrgXMLRPCApiError)
                 XCTAssertEqual(error.domain, WordPressOrgXMLRPCApiErrorDomain)
-                XCTAssertEqual(error.code, WordPressOrgXMLRPCApiError.unknown.rawValue)
-                XCTAssertEqual(error.localizedFailureReason, WordPressOrgXMLRPCApiError.unknown.failureReason)
+                let errorUnknonw = WordPressOrgXMLRPCApiError(code: .unknown)
+                XCTAssertEqual(error.code, errorUnknonw.code.rawValue)
+                XCTAssertEqual(error.localizedFailureReason, errorUnknonw.failureReason)
                 XCTAssertNotNil(error.userInfo[WordPressOrgXMLRPCApi.WordPressOrgXMLRPCApiErrorKeyData as String])
                 XCTAssertNil(error.userInfo[WordPressOrgXMLRPCApi.WordPressOrgXMLRPCApiErrorKeyStatusCode as String])
             }
