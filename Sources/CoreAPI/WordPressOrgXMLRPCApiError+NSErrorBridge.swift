@@ -1,4 +1,7 @@
 import Foundation
+#if SWIFT_PACKAGE
+import APIInterface
+#endif
 
 /// See `extension WordPressComRestApiEndpointError: CustomNSError` for documentation and rationale.
 extension WordPressOrgXMLRPCApiError: CustomNSError {

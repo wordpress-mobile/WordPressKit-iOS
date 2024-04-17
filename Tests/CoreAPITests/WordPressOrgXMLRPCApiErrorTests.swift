@@ -1,4 +1,5 @@
 #if SWIFT_PACKAGE
+import APIInterface
 @testable import CoreAPI
 #else
 @testable import WordPressKit

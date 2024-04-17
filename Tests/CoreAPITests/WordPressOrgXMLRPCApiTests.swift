@@ -2,6 +2,7 @@ import XCTest
 import OHHTTPStubs
 import wpxmlrpc
 #if SWIFT_PACKAGE
+import APIInterface
 @testable import CoreAPI
 import OHHTTPStubsSwift
 #else
