@@ -288,38 +288,6 @@ private class SessionDelegate: NSObject, URLSessionDelegate {
         }
     }
 }
-
-/// Error constants for the WordPress XML-RPC API
-@objc public enum WordPressOrgXMLRPCApiError: Int, Error {
-    /// An error HTTP status code was returned.
-    case httpErrorStatusCode
-    /// The serialization of the request failed.
-    case requestSerializationFailed
-    /// The serialization of the response failed.
-    case responseSerializationFailed
-    /// An unknown error occurred.
-    case unknown
-}
-
-extension WordPressOrgXMLRPCApiError: LocalizedError {
-    public var errorDescription: String? {
-        return NSLocalizedString("There was a problem communicating with the site.", comment: "A general error message shown to the user when there was an API communication failure.")
-    }
-
-    public var failureReason: String? {
-        switch self {
-        case .httpErrorStatusCode:
-            return NSLocalizedString("An HTTP error code was returned.", comment: "A failure reason for when an error HTTP status code was returned from the site.")
-        case .requestSerializationFailed:
-            return NSLocalizedString("The serialization of the request failed.", comment: "A failure reason for when the request couldn't be serialized.")
-        case .responseSerializationFailed:
-            return NSLocalizedString("The serialization of the response failed.", comment: "A failure reason for when the response couldn't be serialized.")
-        case .unknown:
-            return NSLocalizedString("An unknown error occurred.", comment: "A failure reason for when the error that occured wasn't able to be determined.")
-        }
-    }
-}
-
 public struct WordPressOrgXMLRPCApiFault: LocalizedError, HTTPURLResponseProviding {
     public var response: HTTPAPIResponse<Data>
     public let code: Int?
@@ -347,7 +315,13 @@ private extension WordPressAPIResult<HTTPAPIResponse<Data>, WordPressOrgXMLRPCAp
         // https://github.com/wordpress-mobile/WordPressKit-iOS/blob/11.0.0/WordPressKit/WordPressOrgXMLRPCApi.swift#L265
         flatMap { response in
             guard let contentType = response.response.allHeaderFields["Content-Type"] as? String else {
-                return .failure(.unparsableResponse(response: response.response, body: response.body, underlyingError: WordPressOrgXMLRPCApiError.unknown))
+                return .failure(
+                    .unparsableResponse(
+                        response: response.response,
+                        body: response.body,
+                        underlyingError: WordPressOrgXMLRPCApiError(code: .unknown)
+                    )
+                )
             }
 
             if (400..<600).contains(response.response.statusCode) {
@@ -361,7 +335,13 @@ private extension WordPressAPIResult<HTTPAPIResponse<Data>, WordPressOrgXMLRPCAp
             }
 
             guard contentType.hasPrefix("application/xml") || contentType.hasPrefix("text/xml") else {
-                return .failure(.unparsableResponse(response: response.response, body: response.body, underlyingError: WordPressOrgXMLRPCApiError.unknown))
+                return .failure(
+                    .unparsableResponse(
+                        response: response.response,
+                        body: response.body,
+                        underlyingError: WordPressOrgXMLRPCApiError(code: .unknown)
+                    )
+                )
             }
 
             guard let decoder = WPXMLRPCDecoder(data: response.body) else {
@@ -391,7 +371,7 @@ private extension WordPressAPIError where EndpointError == WordPressOrgXMLRPCApi
     /// Convert to NSError for backwards compatiblity.
     ///
     /// Some Objective-C code in the WordPress app checks domain of the errors returned by `WordPressOrgXMLRPCApi`,
-    /// which can be WordPressOrgXMLRPCApiError or WPXMLRPCFaultErrorDomain.
+    /// which can be `WordPressOrgXMLRPCApiError` or `WPXMLRPCFaultErrorDomain`.
     ///
     /// Swift code should avoid dealing with NSError instances. Instead, they should use the strongly typed
     /// `WordPressAPIError<WordPressOrgXMLRPCApiFault>`.
@@ -413,7 +393,7 @@ private extension WordPressAPIError where EndpointError == WordPressOrgXMLRPCApi
             data = fault.response.body
             statusCode = nil
         case let .unacceptableStatusCode(response, body):
-            error = WordPressOrgXMLRPCApiError.httpErrorStatusCode as NSError
+            error = WordPressOrgXMLRPCApiError(code: .httpErrorStatusCode) as NSError
             data = body
             statusCode = response.statusCode
         case let .unparsableResponse(_, body, underlyingError):
@@ -428,5 +408,4 @@ private extension WordPressAPIError where EndpointError == WordPressOrgXMLRPCApi
 
         return WordPressOrgXMLRPCApi.convertError(error, data: data, statusCode: statusCode)
     }
-
 }

@@ -30,6 +30,24 @@ _None._
 
 -->
 
+## Unreleased
+
+### Breaking Changes
+
+- The Objective-C-visible `WordPressOrgXMLRPCError` `enum` has been renamed to `WordPressOrgXMLRPCErrorCode`, `WordPressOrgXMLRPCError.Code` in Swift [#790]
+
+### New Features
+
+_None._
+
+### Bug Fixes
+
+_None._
+
+### Internal Changes
+
+_None._
+
 ## 17.0.0
 
 ### Breaking Changes
