@@ -30,6 +30,22 @@ _None._
 
 -->
 
+## Unreleased
+
+### New Features
+
+- Add `getPost(withID)` to `PostServiceRemoteExtended` [#785]
+- Add support for metadata to `PostServiceRemoteExtended` [#783]
+
+### Bug Fixes
+
+- Fix encoding for some fields in the new XMLRPC endpoints [#786]
+
+### Internal Changes
+
+- Update new APIs to create and update posts introduced `PostServiceRemoteExtended` to use `wp.newPost` and `wp.editPost` instead of the older versions of these APIs [#792]
+
+
 ## 17.0.0
 
 ### Breaking Changes
