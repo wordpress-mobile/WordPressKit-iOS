@@ -289,8 +289,13 @@ private class SessionDelegate: NSObject, URLSessionDelegate {
     }
 }
 
+// Hack to avoid the Swift compiler generating a domain constant for us that would then conflict with the one we define in APIInterface.
+// The automatic generation occurs, as far as I can tell, because of @objc and Error, neither of which we can remove.
+// Reminder: We define our own constant for the domain so that we can conform WordPressOrgXMLRPCApiError to CustomNSError.
+typealias WordPressOrgXMLRPCApiError = WordPressOrgXMLRPCAPIError
+
 /// Error constants for the WordPress XML-RPC API
-@objc public enum WordPressOrgXMLRPCApiError: Int, Error, CaseIterable {
+@objc public enum WordPressOrgXMLRPCAPIError: Int, Error, CaseIterable {
     /// An error HTTP status code was returned.
     case httpErrorStatusCode
     /// The serialization of the request failed.
