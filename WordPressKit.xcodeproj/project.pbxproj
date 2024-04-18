@@ -1645,6 +1645,8 @@
 		3FD635022BC3E7A700CEDF5E /* BasicBlogAPIObjc */ = {
 			isa = PBXGroup;
 			children = (
+				93BD27671EE736A8002BB00B /* RemoteUser.h */,
+				93BD27681EE736A8002BB00B /* RemoteUser.m */,
 				93BD276B1EE737A8002BB00B /* ServiceRemoteWordPressComREST.h */,
 				93BD276C1EE737A8002BB00B /* ServiceRemoteWordPressComREST.m */,
 			);
@@ -1772,8 +1774,6 @@
 				9311A67F1F22625A00704AC9 /* RemoteTaxonomyPaging.m */,
 				930999591F16616A00F006A1 /* RemoteTheme.h */,
 				9309995A1F16616A00F006A1 /* RemoteTheme.m */,
-				93BD27671EE736A8002BB00B /* RemoteUser.h */,
-				93BD27681EE736A8002BB00B /* RemoteUser.m */,
 				9856BE952630B5C200C12FEB /* RemoteUser+Likes.swift */,
 				436D563B2118E18D00CEAA33 /* WPState.swift */,
 				E1D6B555200E46F200325669 /* WPTimeZone.swift */,
