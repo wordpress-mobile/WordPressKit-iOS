@@ -152,12 +152,6 @@ open class WordPressComRestApi: NSObject {
         super.init()
     }
 
-    deinit {
-        for session in [urlSession, uploadURLSession] {
-            session.finishTasksAndInvalidate()
-        }
-    }
-
     /// Cancels all outgoing tasks asynchronously without invalidating the session.
     public func cancelTasks() {
         for session in [urlSession, uploadURLSession] {
@@ -321,6 +315,12 @@ open class WordPressComRestApi: NSObject {
             builder = builder.query(defaults: [URLQueryItem(name: localeKey, value: preferredLanguageIdentifier)])
         }
 
+        if let oAuthToken {
+            builder = builder.header(name: "Authorization", value: "Bearer \(oAuthToken)")
+        }
+        if let userAgent {
+            builder = builder.header(name: "User-Agent", value: userAgent)
+        }
         return builder
     }
 
@@ -333,34 +333,28 @@ open class WordPressComRestApi: NSObject {
 
     // MARK: - Async
 
-    private lazy var urlSession: URLSession = {
-        URLSession(configuration: sessionConfiguration(background: false))
-    }()
+    private var urlSession: URLSession { WordPressComRestApi.urlSession }
 
     private lazy var uploadURLSession: URLSession = {
-        let configuration = sessionConfiguration(background: backgroundUploads)
-        configuration.sharedContainerIdentifier = self.sharedContainerIdentifier
-        if configuration.identifier != nil {
-            return URLSession.backgroundSession(configuration: configuration)
-        } else {
-            return URLSession(configuration: configuration)
+        if backgroundUploads {
+            return makeBackgroundSession()
         }
+        return WordPressComRestApi.urlSession
     }()
 
-    private func sessionConfiguration(background: Bool) -> URLSessionConfiguration {
-        let configuration = background ? URLSessionConfiguration.background(withIdentifier: self.backgroundSessionIdentifier) : URLSessionConfiguration.default
+    private static var urlSession = URLSession(configuration: .default)
 
+    private func makeBackgroundSession() -> URLSession {
+        let configuration = URLSessionConfiguration.background(withIdentifier: self.backgroundSessionIdentifier)
         var additionalHeaders: [String: AnyObject] = [:]
-        if let oAuthToken = self.oAuthToken {
+        if let oAuthToken {
             additionalHeaders["Authorization"] = "Bearer \(oAuthToken)" as AnyObject
         }
-        if let userAgent = self.userAgent {
+        if let userAgent {
             additionalHeaders["User-Agent"] = userAgent as AnyObject
         }
-
         configuration.httpAdditionalHeaders = additionalHeaders
-
-        return configuration
+        return URLSession.backgroundSession(configuration: configuration)
     }
 
     func perform(
