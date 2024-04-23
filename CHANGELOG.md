@@ -42,6 +42,7 @@ _None._
 ### Bug Fixes
 
 - Fix encoding for some fields in the new XMLRPC endpoints [#786]
+- Fix an issue with parent page removal in new `PostServiceRemoteExtended` [#796]
 
 ### Internal Changes
 
