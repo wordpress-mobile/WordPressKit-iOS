@@ -36,6 +36,7 @@ _None._
 
 - Add `getPost(withID)` to `PostServiceRemoteExtended` [#785]
 - Add support for metadata to `PostServiceRemoteExtended` [#783]
+- Add fetching of `StatsEmailsSummaryData` to `StatsService` [#794]
 
 ### Bug Fixes
 
