@@ -47,6 +47,7 @@ _None._
 ### Internal Changes
 
 - Update new APIs to create and update posts introduced `PostServiceRemoteExtended` to use `wp.newPost` and `wp.editPost` instead of the older versions of these APIs [#792]
+- Update `StatsFollower` to be `Equatable` [#797]
 
 
 ## 17.0.0
