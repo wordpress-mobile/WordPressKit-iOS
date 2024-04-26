@@ -573,6 +573,9 @@
 		B04D8C0B2BB7895A002717A2 /* stats-insight.json in Resources */ = {isa = PBXBuildFile; fileRef = B04D8C002BB7895A002717A2 /* stats-insight.json */; };
 		B04D8C0C2BB7895A002717A2 /* stats.json in Resources */ = {isa = PBXBuildFile; fileRef = B04D8C012BB7895A002717A2 /* stats.json */; };
 		B04D8C0D2BB7895A002717A2 /* StatsInsightDecodingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B04D8C032BB7895A002717A2 /* StatsInsightDecodingTests.swift */; };
+		B0E02FBA2BD899F600A0A561 /* StatsSubscribersSummaryDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0E02FB62BD8999B00A0A561 /* StatsSubscribersSummaryDataTests.swift */; };
+		B0E02FBB2BD89A0400A0A561 /* stats-subscribers.json in Resources */ = {isa = PBXBuildFile; fileRef = B0E02FB82BD899C500A0A561 /* stats-subscribers.json */; };
+		B0E02FBD2BD89AAB00A0A561 /* StatsSubscribersSummaryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0E02FBC2BD89AAB00A0A561 /* StatsSubscribersSummaryData.swift */; };
 		B5969E1C20A49AC4005E9DF1 /* NSString+MD5.h in Headers */ = {isa = PBXBuildFile; fileRef = B5969E1920A49AC4005E9DF1 /* NSString+MD5.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B5969E1D20A49AC4005E9DF1 /* NSString+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = B5969E1A20A49AC4005E9DF1 /* NSString+MD5.m */; };
 		B5A4822B20AC6C0B009D95F6 /* WPKitLogging.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A4822A20AC6C0B009D95F6 /* WPKitLogging.swift */; };
@@ -1329,6 +1332,9 @@
 		B04D8C002BB7895A002717A2 /* stats-insight.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "stats-insight.json"; sourceTree = "<group>"; };
 		B04D8C012BB7895A002717A2 /* stats.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = stats.json; sourceTree = "<group>"; };
 		B04D8C032BB7895A002717A2 /* StatsInsightDecodingTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatsInsightDecodingTests.swift; sourceTree = "<group>"; };
+		B0E02FB62BD8999B00A0A561 /* StatsSubscribersSummaryDataTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatsSubscribersSummaryDataTests.swift; sourceTree = "<group>"; };
+		B0E02FB82BD899C500A0A561 /* stats-subscribers.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "stats-subscribers.json"; sourceTree = "<group>"; };
+		B0E02FBC2BD89AAB00A0A561 /* StatsSubscribersSummaryData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatsSubscribersSummaryData.swift; sourceTree = "<group>"; };
 		B5969E1920A49AC4005E9DF1 /* NSString+MD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+MD5.h"; sourceTree = "<group>"; };
 		B5969E1A20A49AC4005E9DF1 /* NSString+MD5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+MD5.m"; sourceTree = "<group>"; };
 		B5A4822A20AC6C0B009D95F6 /* WPKitLogging.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WPKitLogging.swift; sourceTree = "<group>"; };
@@ -1683,6 +1689,7 @@
 		3FE2E9362BB10EC7002CA2E1 /* Stats */ = {
 			isa = PBXGroup;
 			children = (
+				B0E02FBC2BD89AAB00A0A561 /* StatsSubscribersSummaryData.swift */,
 				019C5B8A2BD59CE000A69DB0 /* Emails */,
 				404057C3221B30140060250C /* Time Interval */,
 				40414061220F9F2800CF7C5B /* Insights */,
@@ -2267,6 +2274,7 @@
 		93BD27421EE73384002BB00B /* Mock Data */ = {
 			isa = PBXGroup;
 			children = (
+				B0E02FB82BD899C500A0A561 /* stats-subscribers.json */,
 				F4B0F4742ACB4176003ABC61 /* Domains */,
 				937250EB267A15060086075F /* stats-referrer-mark-as-spam.json */,
 				465F8892263B094900F4C950 /* BlockEditorSettings */,
@@ -2628,6 +2636,7 @@
 		F3FF8A1C279C86F600E5C90F /* V2 */ = {
 			isa = PBXGroup;
 			children = (
+				B0E02FB62BD8999B00A0A561 /* StatsSubscribersSummaryDataTests.swift */,
 				019C5B882BD59C7800A69DB0 /* Emails */,
 				01383F7D2BD5542300496B76 /* TimeInterval */,
 				F3FF8A1D279C86FE00E5C90F /* Insights */,
@@ -2866,6 +2875,7 @@
 			files = (
 				01438D392B6A361B0097D60A /* stats-summary.json in Resources */,
 				01438D362B6A31540097D60A /* stats-visits-month-unit-week.json in Resources */,
+				B0E02FBB2BD89A0400A0A561 /* stats-subscribers.json in Resources */,
 				32A29A1F236BE4CC009488C2 /* post-autosave-mapping-success.json in Resources */,
 				CEAD827B25E421DE00758DF2 /* reader-post-comments-subscribe-failure.json in Resources */,
 				7403A2FC1EF06FEB00DED7DC /* me-settings-change-lastname-success.json in Resources */,
@@ -3384,6 +3394,7 @@
 				404057DA221C9D560060250C /* StatsTopReferrersTimeIntervalData.swift in Sources */,
 				826016F11F9FA13A00533B6C /* ActivityServiceRemote.swift in Sources */,
 				74BA04FA1F06DC3900ED5CD8 /* RemoteComment.m in Sources */,
+				B0E02FBD2BD89AAB00A0A561 /* StatsSubscribersSummaryData.swift in Sources */,
 				40F98809221AC88700B7B369 /* StatsPostingStreakInsight.swift in Sources */,
 				465F889E263B0C5500F4C950 /* BlockEditorSettingsServiceRemote.swift in Sources */,
 				32FC1D29255C91ED00CD0A7B /* JetpackScanServiceRemote.swift in Sources */,
@@ -3538,6 +3549,7 @@
 				B04D8C0D2BB7895A002717A2 /* StatsInsightDecodingTests.swift in Sources */,
 				9F3E0BAE20873836009CB5BA /* ReaderTopicServiceRemoteTest+Subscriptions.swift in Sources */,
 				4A05E79E2B30F3C500C25E3B /* URLRequest+HTTPBodyText.swift in Sources */,
+				B0E02FBA2BD899F600A0A561 /* StatsSubscribersSummaryDataTests.swift in Sources */,
 				BA0637ED2492382200AF8419 /* PluginStateTests.swift in Sources */,
 				7328420621CD798A00126755 /* WordPressComServiceRemoteTests+SiteCreation.swift in Sources */,
 				FACBDD3825ECB4480026705B /* ReaderPostServiceRemote+RelatedPostsTests.swift in Sources */,
