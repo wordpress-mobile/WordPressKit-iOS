@@ -32,6 +32,24 @@ _None._
 
 ## Unreleased
 
+### Breaking Changes
+
+_None._
+
+### New Features
+
+_None._
+
+### Bug Fixes
+
+_None._
+
+### Internal Changes
+
+_None._
+
+## 18.0.0
+
 ### New Features
 
 - Add `getPost(withID)` to `PostServiceRemoteExtended` [#785]
@@ -48,7 +66,6 @@ _None._
 
 - Update new APIs to create and update posts introduced `PostServiceRemoteExtended` to use `wp.newPost` and `wp.editPost` instead of the older versions of these APIs [#792]
 - Update `StatsFollower` to be `Equatable` [#797]
-
 
 ## 17.0.0
 
