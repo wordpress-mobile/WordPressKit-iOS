@@ -57,6 +57,7 @@ public class PeopleServiceRemote: ServiceRemoteWordPressComREST {
     }
 
     /// Retrieves the collection of Followers associated to a site.
+    /// This is a legacy endpoint. Prefer using v2/sites/{site_id}/subscribers instead
     ///
     /// - Parameters:
     ///     - siteID: The target site's ID.
@@ -92,6 +93,53 @@ public class PeopleServiceRemote: ServiceRemoteWordPressComREST {
             let hasMore = self.peopleFoundFromResponse(response) > (offset + people.count)
             success(people, hasMore)
 
+        }, failure: { (error, _) in
+            failure(error)
+        })
+    }
+
+    /// Retrieves the collection of Subscribers associated to a site.
+    ///
+    /// - Parameters:
+    ///     - siteID: The target site's ID.
+    ///     - count: The first N followers to be skipped in the returned array.
+    ///     - size: Number of objects to retrieve.
+    ///     - success: Closure to be executed on success
+    ///     - failure: Closure to be executed on error.
+    ///
+    /// - Returns: An array of Subscribers.
+    ///
+    public func getSubscribers(
+        _ siteID: Int,
+        offset: Int = 0,
+        count: Int,
+        success: @escaping ((_ subscribers: [SiteSubscriber], _ hasMore: Bool) -> Void),
+        failure: @escaping (Error) -> Void
+    ) {
+        let endpoint = "sites/\(siteID)/subscribers"
+        let path = self.path(forEndpoint: endpoint, withVersion: ._2_0)
+        let pageNumber = (offset / count + 1)
+        let parameters: [String: AnyObject] = [
+            "per_page": count as AnyObject,
+            "page": pageNumber as AnyObject
+        ]
+
+        wordPressComRESTAPI.get(path, parameters: parameters, success: { (responseObject, _) in
+            guard let response = responseObject as? [String: AnyObject] else {
+                failure(ResponseError.decodingFailure)
+                return
+            }
+
+            do {
+                let jsonData = try JSONSerialization.data(withJSONObject: response, options: [])
+                let decoder = JSONDecoder()
+                let subscribersData = try decoder.decode(SubscribersData.self, from: jsonData)
+                let hasMore = subscribersData.total > (offset + subscribersData.subscribers.count)
+                success(subscribersData.subscribers, hasMore)
+            } catch {
+                failure(ResponseError.decodingFailure)
+                return
+            }
         }, failure: { (error, _) in
             failure(error)
         })

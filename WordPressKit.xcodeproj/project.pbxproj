@@ -13,6 +13,8 @@
 		01438D392B6A361B0097D60A /* stats-summary.json in Resources */ = {isa = PBXBuildFile; fileRef = 01438D372B6A35FB0097D60A /* stats-summary.json */; };
 		01438D3B2B6A36BF0097D60A /* StatsTotalsSummaryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01438D3A2B6A36BF0097D60A /* StatsTotalsSummaryData.swift */; };
 		0152100C28EDA9E400DD6783 /* StatsAnnualAndMostPopularTimeInsightDecodingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0152100B28EDA9E400DD6783 /* StatsAnnualAndMostPopularTimeInsightDecodingTests.swift */; };
+		019A800B2BE365880012DBE0 /* SubscriberTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 019A800A2BE365880012DBE0 /* SubscriberTests.swift */; };
+		019A800D2BE367F70012DBE0 /* Subscriber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 019A800C2BE367F70012DBE0 /* Subscriber.swift */; };
 		019C5B8B2BD59CE000A69DB0 /* StatsEmailsSummaryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 019C5B892BD59CE000A69DB0 /* StatsEmailsSummaryData.swift */; };
 		0847B92C2A4442730044D32F /* IPLocationRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0847B92B2A4442730044D32F /* IPLocationRemote.swift */; };
 		08C7493E2A45EA11000DA0E2 /* IPLocationRemoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08C7493D2A45EA11000DA0E2 /* IPLocationRemoteTests.swift */; };
@@ -766,6 +768,8 @@
 		01438D372B6A35FB0097D60A /* stats-summary.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "stats-summary.json"; sourceTree = "<group>"; };
 		01438D3A2B6A36BF0097D60A /* StatsTotalsSummaryData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatsTotalsSummaryData.swift; sourceTree = "<group>"; };
 		0152100B28EDA9E400DD6783 /* StatsAnnualAndMostPopularTimeInsightDecodingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsAnnualAndMostPopularTimeInsightDecodingTests.swift; sourceTree = "<group>"; };
+		019A800A2BE365880012DBE0 /* SubscriberTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriberTests.swift; sourceTree = "<group>"; };
+		019A800C2BE367F70012DBE0 /* Subscriber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Subscriber.swift; sourceTree = "<group>"; };
 		019C5B892BD59CE000A69DB0 /* StatsEmailsSummaryData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatsEmailsSummaryData.swift; sourceTree = "<group>"; };
 		0847B92B2A4442730044D32F /* IPLocationRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPLocationRemote.swift; sourceTree = "<group>"; };
 		08C7493D2A45EA11000DA0E2 /* IPLocationRemoteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPLocationRemoteTests.swift; sourceTree = "<group>"; };
@@ -1542,6 +1546,14 @@
 			path = TimeInterval;
 			sourceTree = "<group>";
 		};
+		019A80092BE365790012DBE0 /* Subscribers */ = {
+			isa = PBXGroup;
+			children = (
+				019A800A2BE365880012DBE0 /* SubscriberTests.swift */,
+			);
+			path = Subscribers;
+			sourceTree = "<group>";
+		};
 		019C5B882BD59C7800A69DB0 /* Emails */ = {
 			isa = PBXGroup;
 			children = (
@@ -1826,6 +1838,7 @@
 				FE20A6A3282A96C00025E975 /* RemoteBloggingPromptsSettings.swift */,
 				1DAC3D2529AF4F250068FE13 /* RemoteVideoPressVideo.swift */,
 				F41D98E92B48602B004EC050 /* SessionDetails.swift */,
+				019A800C2BE367F70012DBE0 /* Subscriber.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -2618,6 +2631,7 @@
 		F3FF8A1A279C86AF00E5C90F /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				019A80092BE365790012DBE0 /* Subscribers */,
 				F3FF8A1B279C86E000E5C90F /* Stats */,
 				F3FF8A20279C8EE200E5C90F /* RemotePersonTests.swift */,
 				1DC837C129B9F04F009DCD4B /* RemoteVideoPressVideoTests.swift */,
@@ -3469,6 +3483,7 @@
 				82FFBF501F45EFD100F4573F /* RemoteBlogJetpackSettings.swift in Sources */,
 				74650F741F0EA1E200188EDB /* RemoteGravatarProfile.swift in Sources */,
 				40E7FEB4221063480032834E /* StatsTodayInsight.swift in Sources */,
+				019A800D2BE367F70012DBE0 /* Subscriber.swift in Sources */,
 				3FE2E94F2BB29A1B002CA2E1 /* FilePart.m in Sources */,
 				F41D98EA2B48602B004EC050 /* SessionDetails.swift in Sources */,
 				436D563C2118E18D00CEAA33 /* WPState.swift in Sources */,
@@ -3573,6 +3588,7 @@
 				93F50A3A1F226BB600B5BEBA /* WordPressComServiceRemoteRestTests.swift in Sources */,
 				E13EE14C1F332C4400C15787 /* PluginServiceRemoteTests.swift in Sources */,
 				736C971021E80D48007A4200 /* SiteVerticalsPromptResponseDecodingTests.swift in Sources */,
+				019A800B2BE365880012DBE0 /* SubscriberTests.swift in Sources */,
 				74B335D81F06F1CA0053A184 /* MockWordPressComRestApi.swift in Sources */,
 				08C7493E2A45EA11000DA0E2 /* IPLocationRemoteTests.swift in Sources */,
 				32AF21E3236DEB3C001C6502 /* PostServiceRemoteRESTAutosaveTests.swift in Sources */,
