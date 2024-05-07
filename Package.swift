@@ -24,7 +24,12 @@ let package = Package(
             name: "CoreAPI",
             dependencies: [
                 .target(name: "APIInterface"),
-                .product(name: "WordPressShared", package: "WordPress-iOS-Shared"),
+                .product(
+                    name: "WordPressShared",
+                    package: "WordPress-iOS-Shared",
+                    // Constrain to iOS only to avoid having to explicitly set a macOS version because of this library's requirements.
+                    condition: .when(platforms: [.iOS])
+                ),
                 "wpxmlrpc"
             ]
         ),
