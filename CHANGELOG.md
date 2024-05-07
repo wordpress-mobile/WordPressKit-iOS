@@ -48,6 +48,12 @@ _None._
 
 _None._
 
+## 17.1.1
+
+### Bug Fixes
+
+- Fix encoding of empty fields for `RemotePostUpdateParametersWordPressComEncoder` [#801]
+
 ## 17.1.0
 
 ### New Features
@@ -66,7 +72,6 @@ _None._
 
 - Update new APIs to create and update posts introduced `PostServiceRemoteExtended` to use `wp.newPost` and `wp.editPost` instead of the older versions of these APIs [#792]
 - Update `StatsFollower` to be `Equatable` [#797]
-
 
 ## 17.0.0
 
