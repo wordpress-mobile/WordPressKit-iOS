@@ -4,11 +4,7 @@ import PackageDescription
 
 let package = Package(
     name: "WordPressKit",
-    platforms: [
-        .iOS(.v13),
-        // The package(s) are meant for iOS only, but the use of the SwiftLint plugin down the dependency chain requires specifying a compatible macOS version.
-        .macOS(.v12),
-    ],
+    platforms: [.iOS(.v13)],
     products: [
         .library(name: "APIInterface", targets: ["APIInterface"]),
         .library(name: "CoreAPI", targets: ["CoreAPI"]),
@@ -28,7 +24,12 @@ let package = Package(
             name: "CoreAPI",
             dependencies: [
                 .target(name: "APIInterface"),
-                .product(name: "WordPressShared", package: "WordPress-iOS-Shared"),
+                .product(
+                    name: "WordPressShared",
+                    package: "WordPress-iOS-Shared",
+                    // Constrain to iOS only to avoid having to explicitly set a macOS version because of this library's requirements.
+                    condition: .when(platforms: [.iOS])
+                ),
                 "wpxmlrpc"
             ]
         ),
