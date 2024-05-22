@@ -16,6 +16,7 @@
 		019C5B8B2BD59CE000A69DB0 /* StatsEmailsSummaryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 019C5B892BD59CE000A69DB0 /* StatsEmailsSummaryData.swift */; };
 		0847B92C2A4442730044D32F /* IPLocationRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0847B92B2A4442730044D32F /* IPLocationRemote.swift */; };
 		08C7493E2A45EA11000DA0E2 /* IPLocationRemoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08C7493D2A45EA11000DA0E2 /* IPLocationRemoteTests.swift */; };
+		0C0791B22BFE7DE50049C06E /* JetpackAssistantFeatureDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C0791B12BFE7DE50049C06E /* JetpackAssistantFeatureDetails.swift */; };
 		0C1C08412B9CD79900E52F8C /* PostServiceRemoteExtended.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1C08402B9CD79900E52F8C /* PostServiceRemoteExtended.swift */; };
 		0C1C08432B9CD8D200E52F8C /* PostServiceRemoteREST+Extended.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1C08422B9CD8D200E52F8C /* PostServiceRemoteREST+Extended.swift */; };
 		0C1C08452B9CDB0B00E52F8C /* PostServiceRemoteXMLRPC+Extended.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1C08442B9CDB0B00E52F8C /* PostServiceRemoteXMLRPC+Extended.swift */; };
@@ -770,6 +771,7 @@
 		019C5B892BD59CE000A69DB0 /* StatsEmailsSummaryData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatsEmailsSummaryData.swift; sourceTree = "<group>"; };
 		0847B92B2A4442730044D32F /* IPLocationRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPLocationRemote.swift; sourceTree = "<group>"; };
 		08C7493D2A45EA11000DA0E2 /* IPLocationRemoteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPLocationRemoteTests.swift; sourceTree = "<group>"; };
+		0C0791B12BFE7DE50049C06E /* JetpackAssistantFeatureDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JetpackAssistantFeatureDetails.swift; sourceTree = "<group>"; };
 		0C1C08402B9CD79900E52F8C /* PostServiceRemoteExtended.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostServiceRemoteExtended.swift; sourceTree = "<group>"; };
 		0C1C08422B9CD8D200E52F8C /* PostServiceRemoteREST+Extended.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PostServiceRemoteREST+Extended.swift"; sourceTree = "<group>"; };
 		0C1C08442B9CDB0B00E52F8C /* PostServiceRemoteXMLRPC+Extended.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PostServiceRemoteXMLRPC+Extended.swift"; sourceTree = "<group>"; };
@@ -1560,6 +1562,14 @@
 			path = Emails;
 			sourceTree = "<group>";
 		};
+		0C0791B02BFE7DDB0049C06E /* Assistant */ = {
+			isa = PBXGroup;
+			children = (
+				0C0791B12BFE7DE50049C06E /* JetpackAssistantFeatureDetails.swift */,
+			);
+			path = Assistant;
+			sourceTree = "<group>";
+		};
 		3297E1DC2564649D00287D21 /* Scan */ = {
 			isa = PBXGroup;
 			children = (
@@ -1741,6 +1751,7 @@
 		3FE2E93F2BB11038002CA2E1 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				0C0791B02BFE7DDB0049C06E /* Assistant */,
 				3FE2E93D2BB1100F002CA2E1 /* Atomic */,
 				3FE2E93C2BB10FF1002CA2E1 /* Blaze */,
 				3FE2E9392BB10F67002CA2E1 /* Plugins */,
@@ -3355,6 +3366,7 @@
 				4041405E220F9EF500CF7C5B /* StatsDotComFollowersInsight.swift in Sources */,
 				74650F721F0EA1A700188EDB /* GravatarServiceRemote.swift in Sources */,
 				B5969E1D20A49AC4005E9DF1 /* NSString+MD5.m in Sources */,
+				0C0791B22BFE7DE50049C06E /* JetpackAssistantFeatureDetails.swift in Sources */,
 				01438D3B2B6A36BF0097D60A /* StatsTotalsSummaryData.swift in Sources */,
 				4A68E3E1294076C1004AC3DC /* RemoteReaderSiteInfo.swift in Sources */,
 				8236EB4D2024B9F8007C7CF9 /* RemoteBlogJetpackModulesSettings.swift in Sources */,
