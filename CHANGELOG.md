@@ -38,6 +38,24 @@ _None._
 
 ### New Features
 
+_None._
+
+### Bug Fixes
+
+_None._
+
+### Internal Changes
+
+_None._
+
+## 17.1.2
+
+### Breaking Changes
+
+_None._
+
+### New Features
+
 - Add `JetpackAIServiceRemote`
 
 ### Bug Fixes
