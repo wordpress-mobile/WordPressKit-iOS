@@ -22,11 +22,17 @@ public struct StatsFileDownloadsTimeIntervalData {
 public struct StatsFileDownload {
     public let file: String
     public let downloadCount: Int
+    public let relativeURL: String
+    public let downloadURL: URL
 
     public init(file: String,
-                downloadCount: Int) {
+                downloadCount: Int,
+                relativeURL: String,
+                downloadURL: URL) {
         self.file = file
         self.downloadCount = downloadCount
+        self.relativeURL = relativeURL
+        self.downloadURL = downloadURL
     }
 }
 
@@ -49,11 +55,21 @@ extension StatsFileDownloadsTimeIntervalData: StatsTimeIntervalData {
         }
 
         let fileDownloads: [StatsFileDownload] = fileDownloadsDict.compactMap {
-            guard let file = $0["filename"] as? String, let downloads = $0["downloads"] as? Int else {
+            guard let file = $0["filename"] as? String,
+                  let downloads = $0["downloads"] as? Int,
+                  let relativeURLString = $0["relative_url"] as? String,
+                  let downloadURLString = $0["download_url"] as? String,
+                  let downloadURL = URL(string: downloadURLString)
+            else {
                 return nil
             }
 
-            return StatsFileDownload(file: file, downloadCount: downloads)
+            return StatsFileDownload(
+                file: file,
+                downloadCount: downloads,
+                relativeURL: relativeURLString, 
+                downloadURL: downloadURL
+            )
         }
 
         self.periodEndDate = date

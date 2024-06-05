@@ -34,7 +34,7 @@ _None._
 
 ### Breaking Changes
 
-_None._
+- Expanded `StatsFileDownload` entity to contain `relativeURL` and `downloadURL` [#808]
 
 ### New Features
 
