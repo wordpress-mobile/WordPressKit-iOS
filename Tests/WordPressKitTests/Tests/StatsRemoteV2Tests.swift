@@ -393,7 +393,8 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
 
             XCTAssertEqual(fileDownloads?.fileDownloads.count, 2)
 
-            XCTAssertEqual(fileDownloads?.fileDownloads.first!.file, "/2019/07/test.pdf")
+            XCTAssertEqual(fileDownloads?.fileDownloads.first!.file, "test.pdf")
+            XCTAssertEqual(fileDownloads?.fileDownloads.first!.downloadURL, URL(string: "https://testsite.com/2019/07/test.pdf"))
             XCTAssertEqual(fileDownloads?.fileDownloads.first!.downloadCount, 11)
 
             expect.fulfill()

@@ -5,12 +5,16 @@
         "2019-07-01": {
             "files": [
                 {
-                    "filename": "/2019/07/test.pdf",
-                    "downloads": 11
+                    "filename": "test.pdf",
+                    "downloads": 11,
+                    "relative_url": "/2019/07/test.pdf",
+                    "download_url": "https://testsite.com/2019/07/test.pdf"
                 },
                 {
-                    "filename": "/2019/07/sampleaudio.mp3",
-                    "downloads": 4
+                    "filename": "sampleaudio.mp3",
+                    "downloads": 4,
+                    "relative_url": "/2019/07/sampleaudio.mp3",
+                    "download_url": "https://testsite.com/2019/07/sampleaudio.mp3"
                 }
             ],
             "other_downloads": 0,
