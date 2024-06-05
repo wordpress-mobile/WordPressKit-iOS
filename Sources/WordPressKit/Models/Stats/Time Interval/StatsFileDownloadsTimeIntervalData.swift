@@ -67,7 +67,7 @@ extension StatsFileDownloadsTimeIntervalData: StatsTimeIntervalData {
             return StatsFileDownload(
                 file: file,
                 downloadCount: downloads,
-                relativeURL: relativeURLString, 
+                relativeURL: relativeURLString,
                 downloadURL: downloadURL
             )
         }
