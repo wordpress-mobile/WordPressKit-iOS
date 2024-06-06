@@ -202,18 +202,16 @@
     NSParameterAssert([media.mediaID longLongValue] > 0);
 
     NSMutableDictionary *content = [NSMutableDictionary dictionary];
-    if (media.title != nil) 
-    {
+
+    if (media.title != nil) {
         content[@"post_title"] = media.title;
     }
 
-    if (media.caption != nil)
-    {
+    if (media.caption != nil) {
         content[@"post_excerpt"] = media.caption;
     }
 
-    if (media.descriptionText != nil) 
-    {
+    if (media.descriptionText != nil) {
         content[@"post_content"] = media.descriptionText;
     }
 
