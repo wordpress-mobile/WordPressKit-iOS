@@ -38,7 +38,7 @@ _None._
 
 ### New Features
 
-_None._
+- Support updating media metadata via XMLRPC API [#809]
 
 ### Bug Fixes
 
