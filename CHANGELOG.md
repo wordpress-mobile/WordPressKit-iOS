@@ -38,7 +38,7 @@ _None._
 
 ### New Features
 
-_None._
+- Add `PostServiceRemoteREST/createAutosave` that uses new types to represent request parameters
 
 ### Bug Fixes
 
