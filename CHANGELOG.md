@@ -38,7 +38,7 @@ _None._
 
 ### New Features
 
-- Add `PostServiceRemoteREST/createAutosave` that uses new types to represent request parameters
+_None._
 
 ### Bug Fixes
 
@@ -47,6 +47,12 @@ _None._
 ### Internal Changes
 
 _None._
+
+## 17.2.0
+
+### New Features
+
+- Add `PostServiceRemoteREST/createAutosave` that uses new types to represent request parameters
 
 ## 17.1.2
 
