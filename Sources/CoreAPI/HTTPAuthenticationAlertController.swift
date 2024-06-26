@@ -1,4 +1,4 @@
-import Foundation
+#if canImport(UIKit)
 import UIKit
 
 /// URLAuthenticationChallenge Handler: It's up to the Host App to actually use this, whenever `WordPressOrgXMLRPCApi.onChallenge` is hit!
@@ -102,3 +102,4 @@ open class HTTPAuthenticationAlertController {
     }
 
 }
+#endif

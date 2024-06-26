@@ -1,4 +1,4 @@
-import UIKit
+import Foundation
 
 protocol DynamicMockProvider {
     static func randomString(length: Int) -> String
