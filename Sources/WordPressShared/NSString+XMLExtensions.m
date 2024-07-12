@@ -295,7 +295,7 @@ static HTMLEscapeMap gAsciiHTMLEscapeMap[] = {
 };
 
 
-@implementation NSString (XMLExtensions)
+@implementation NSString (WPKitXMLExtensions)
 
 + (NSString *)wpkit_encodeXMLCharactersIn : (NSString *)source {
     if (![source isKindOfClass:[NSString class]] || !source)

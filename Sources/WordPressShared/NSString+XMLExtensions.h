@@ -1,6 +1,6 @@
 #import <UIKit/UIKit.h>
 
-@interface NSString (XMLExtensions)
+@interface NSString (WPKitXMLExtensions)
 
 + (NSString *)wpkit_encodeXMLCharactersIn : (NSString *)source;
 + (NSString *)wpkit_decodeXMLCharactersIn : (NSString *)source;
