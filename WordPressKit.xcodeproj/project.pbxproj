@@ -44,6 +44,7 @@
 		0CB1905E2A2A5E83004D3E80 /* BlazeCampaign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB1905D2A2A5E83004D3E80 /* BlazeCampaign.swift */; };
 		0CB190612A2A6A13004D3E80 /* blaze-campaigns-search.json in Resources */ = {isa = PBXBuildFile; fileRef = 0CB1905F2A2A6943004D3E80 /* blaze-campaigns-search.json */; };
 		0CB190652A2A7569004D3E80 /* BlazeCampaignsSearchResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB190642A2A7569004D3E80 /* BlazeCampaignsSearchResponse.swift */; };
+		0CCD4C5C2C41700B00B53F9A /* UIDevice+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCD4C5B2C41700B00B53F9A /* UIDevice+Extensions.swift */; };
 		0CED1FE82B617CF300E6DD52 /* AtomicSiteServiceRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CED1FE72B617CF300E6DD52 /* AtomicSiteServiceRemote.swift */; };
 		0CED1FEB2B617D7D00E6DD52 /* AtomicLogs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CED1FEA2B617D7D00E6DD52 /* AtomicLogs.swift */; };
 		1769DEAA24729AFF00F42EFC /* HomepageSettingsServiceRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1769DEA924729AFF00F42EFC /* HomepageSettingsServiceRemote.swift */; };
@@ -819,6 +820,7 @@
 		0CB1905D2A2A5E83004D3E80 /* BlazeCampaign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlazeCampaign.swift; sourceTree = "<group>"; };
 		0CB1905F2A2A6943004D3E80 /* blaze-campaigns-search.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "blaze-campaigns-search.json"; sourceTree = "<group>"; };
 		0CB190642A2A7569004D3E80 /* BlazeCampaignsSearchResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlazeCampaignsSearchResponse.swift; sourceTree = "<group>"; };
+		0CCD4C5B2C41700B00B53F9A /* UIDevice+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIDevice+Extensions.swift"; sourceTree = "<group>"; };
 		0CED1FE72B617CF300E6DD52 /* AtomicSiteServiceRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtomicSiteServiceRemote.swift; sourceTree = "<group>"; };
 		0CED1FEA2B617D7D00E6DD52 /* AtomicLogs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtomicLogs.swift; sourceTree = "<group>"; };
 		1769DEA924729AFF00F42EFC /* HomepageSettingsServiceRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomepageSettingsServiceRemote.swift; sourceTree = "<group>"; };
@@ -2037,6 +2039,7 @@
 				465F88A1263B325C00F4C950 /* ChecksumUtil.swift */,
 				3F3195AC266FF94B00397EE7 /* ZendeskMetadata.swift */,
 				4AE278432B2FAF6200E4D9B1 /* HTTPProtocolHelpers.swift */,
+				0CCD4C5B2C41700B00B53F9A /* UIDevice+Extensions.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -3344,7 +3347,6 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-WordPressKitTests/Pods-WordPressKitTests-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/NSObject-SafeExpectations/NSObject_SafeExpectations.framework",
-				"${BUILT_PRODUCTS_DIR}/UIDeviceIdentifier/UIDeviceIdentifier.framework",
 				"${BUILT_PRODUCTS_DIR}/wpxmlrpc/wpxmlrpc.framework",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/OCMock/OCMock.framework",
@@ -3353,7 +3355,6 @@
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NSObject_SafeExpectations.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/UIDeviceIdentifier.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/wpxmlrpc.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OCMock.framework",
@@ -3586,6 +3587,7 @@
 				0C938A282C416D0E009BA7B2 /* NSString+Summary.swift in Sources */,
 				0C938A0A2C4167BC009BA7B2 /* NSString+XMLExtensions.m in Sources */,
 				9FCDD09720A5EF75004F0BF7 /* ReaderTopicServiceError.swift in Sources */,
+				0CCD4C5C2C41700B00B53F9A /* UIDevice+Extensions.swift in Sources */,
 				74A44DD11F13C64B006CD8F4 /* RemoteNotificationSettings.swift in Sources */,
 				FEF7419D28085D89002C4203 /* RemoteBloggingPrompt.swift in Sources */,
 				74DA56331F06EAF000FE9BF4 /* MediaServiceRemoteREST.m in Sources */,

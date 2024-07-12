@@ -25,9 +25,4 @@ Pod::Spec.new do |s|
 
   s.dependency 'NSObject-SafeExpectations', '~> 0.0.4'
   s.dependency 'wpxmlrpc', '~> 0.10'
-  s.dependency 'UIDeviceIdentifier', '~> 2.0'
-
-  # Use a loose restriction that allows both production and beta versions, up to the next major version.
-  # If you want to update which of these is used, specify it in the host app.
-  s.dependency 'WordPressShared', '~> 2.0-beta'
 end

@@ -18,7 +18,6 @@ PODS:
   - OHHTTPStubs/Swift (9.1.0):
     - OHHTTPStubs/Default
   - SwiftLint (0.54.0)
-  - UIDeviceIdentifier (2.3.0)
   - wpxmlrpc (0.10.0)
 
 DEPENDENCIES:
@@ -28,7 +27,6 @@ DEPENDENCIES:
   - OHHTTPStubs (~> 9.0)
   - OHHTTPStubs/Swift (~> 9.0)
   - SwiftLint (= 0.54.0)
-  - UIDeviceIdentifier (~> 2.0)
   - wpxmlrpc (~> 0.10.0)
 
 SPEC REPOS:
@@ -38,7 +36,6 @@ SPEC REPOS:
     - OCMock
     - OHHTTPStubs
     - SwiftLint
-    - UIDeviceIdentifier
     - wpxmlrpc
 
 SPEC CHECKSUMS:
@@ -47,9 +44,8 @@ SPEC CHECKSUMS:
   OCMock: 300b1b1b9155cb6378660b981c2557448830bdc6
   OHHTTPStubs: 90eac6d8f2c18317baeca36698523dc67c513831
   SwiftLint: c1de071d9d08c8aba837545f6254315bc900e211
-  UIDeviceIdentifier: 442b65b4ff1832d4ca9c2a157815cb29ad981b17
   wpxmlrpc: 68db063041e85d186db21f674adf08d9c70627fd
 
-PODFILE CHECKSUM: d7336a949e31a4e569b4a06da5c8eac29f5eca45
+PODFILE CHECKSUM: f25b3b5efc3fdad841c2948c5275472b97b1725e
 
 COCOAPODS: 1.15.2
