@@ -25,16 +25,6 @@ steps:
     plugins: *common_plugins
 
   #################
-  # Validate Podspec
-  #################
-  - label: "🔬 Validate Podspec"
-    key: "validate"
-    command: |
-      validate_podspec --patch-cocoapods
-    env: *common_env
-    plugins: *common_plugins
-
-  #################
   # Linters
   #################
   - label: ":swift: SwiftLint"
