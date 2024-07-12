@@ -15,22 +15,11 @@ def swiftlint_version
   YAML.load_file('.swiftlint.yml')['swiftlint_version']
 end
 
-def wordpresskit_pods
-  pod 'NSObject-SafeExpectations', '~> 0.0.4'
-  pod 'wpxmlrpc', '~> 0.10.0'
-end
-
 ## WordPress Kit
 ## =============
-##
-target 'WordPressKit' do
-  project 'WordPressKit.xcodeproj'
-  wordpresskit_pods
-end
 
 target 'WordPressKitTests' do
   project 'WordPressKit.xcodeproj'
-  wordpresskit_pods
 
   pod 'OHHTTPStubs', '~> 9.0'
   pod 'OHHTTPStubs/Swift', '~> 9.0'

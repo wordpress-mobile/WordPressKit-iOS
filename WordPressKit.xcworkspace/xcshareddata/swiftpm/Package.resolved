@@ -1,6 +1,15 @@
 {
-  "originHash" : "f28a54e288718485642adbe7b780a05abf05f95f0f435b3f87b6d3684b95d268",
+  "originHash" : "eb780b1913f4e443c08925a87813106f18fbb44ec81075f26b522033a6416964",
   "pins" : [
+    {
+      "identity" : "nsobject-safeexpectations",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/wordpress-mobile/NSObject-SafeExpectations",
+      "state" : {
+        "revision" : "eb84d994ab13a153888a19e5b99f536aafa77434",
+        "version" : "0.0.6"
+      }
+    },
     {
       "identity" : "test-collector-swift",
       "kind" : "remoteSourceControl",
@@ -8,6 +17,15 @@
       "state" : {
         "revision" : "6e46839e1a4507ee047acd0896e29b9b278d9e3a",
         "version" : "0.4.0"
+      }
+    },
+    {
+      "identity" : "wpxmlrpc",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/wordpress-mobile/wpxmlrpc",
+      "state" : {
+        "revision" : "bfc413d336bdeaab89e62dc483380baa99b2257e",
+        "version" : "0.10.0"
       }
     }
   ],

@@ -1,6 +1,5 @@
 PODS:
   - Alamofire (5.8.1)
-  - NSObject-SafeExpectations (0.0.6)
   - OCMock (3.9.3)
   - OHHTTPStubs (9.1.0):
     - OHHTTPStubs/Default (= 9.1.0)
@@ -18,34 +17,27 @@ PODS:
   - OHHTTPStubs/Swift (9.1.0):
     - OHHTTPStubs/Default
   - SwiftLint (0.54.0)
-  - wpxmlrpc (0.10.0)
 
 DEPENDENCIES:
   - Alamofire (~> 5.0)
-  - NSObject-SafeExpectations (~> 0.0.4)
   - OCMock (~> 3.4)
   - OHHTTPStubs (~> 9.0)
   - OHHTTPStubs/Swift (~> 9.0)
   - SwiftLint (= 0.54.0)
-  - wpxmlrpc (~> 0.10.0)
 
 SPEC REPOS:
   trunk:
     - Alamofire
-    - NSObject-SafeExpectations
     - OCMock
     - OHHTTPStubs
     - SwiftLint
-    - wpxmlrpc
 
 SPEC CHECKSUMS:
   Alamofire: 3ca42e259043ee0dc5c0cdd76c4bc568b8e42af7
-  NSObject-SafeExpectations: c01c8881cbd97efad6f668286b913cd0b7d62ab5
   OCMock: 300b1b1b9155cb6378660b981c2557448830bdc6
   OHHTTPStubs: 90eac6d8f2c18317baeca36698523dc67c513831
   SwiftLint: c1de071d9d08c8aba837545f6254315bc900e211
-  wpxmlrpc: 68db063041e85d186db21f674adf08d9c70627fd
 
-PODFILE CHECKSUM: f25b3b5efc3fdad841c2948c5275472b97b1725e
+PODFILE CHECKSUM: f2a6a7320f647a36041a34f152598d1549c4a7e1
 
 COCOAPODS: 1.15.2
