@@ -177,7 +177,7 @@ public class AccountSettingsRemote: ServiceRemoteWordPressComREST {
             throw ResponseError.decodingFailure
         }
 
-        let aboutMeText = aboutMe.decodingXMLCharacters()
+        let aboutMeText = aboutMe.wpkit_stringByDecodingXMLCharacters()
 
         return AccountSettings(firstName: firstName,
                                lastName: lastName,

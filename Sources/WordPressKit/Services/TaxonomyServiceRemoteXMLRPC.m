@@ -41,7 +41,7 @@ static NSString * const TaxonomyXMLRPCOffsetParameter = @"offset";
                          success:^(NSString *responseString) {
                              RemotePostCategory *newCategory = [RemotePostCategory new];
                              NSString *categoryID = responseString;
-                             newCategory.categoryID = [categoryID numericValue];
+                             newCategory.categoryID = [categoryID wpkit_numericValue];
                              if (success) {
                                  success(newCategory);
                              }
@@ -96,7 +96,7 @@ static NSString * const TaxonomyXMLRPCOffsetParameter = @"offset";
                          success:^(NSString *responseString) {
                              RemotePostTag *newTag = [RemotePostTag new];
                              NSString *tagID = responseString;
-                             newTag.tagID = [tagID numericValue];
+                             newTag.tagID = [tagID wpkit_numericValue];
                              newTag.name = tag.name;
                              newTag.tagDescription = tag.tagDescription;
                              newTag.slug = tag.slug;
@@ -187,7 +187,7 @@ static NSString * const TaxonomyXMLRPCOffsetParameter = @"offset";
     [self.api callMethod:@"wp.newTerm"
               parameters:xmlrpcParameters
                  success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
-                     if (![responseObject respondsToSelector:@selector(numericValue)]) {
+                     if (![responseObject respondsToSelector:@selector(wpkit_numericValue)]) {
                          NSString *message = [NSString stringWithFormat:@"Invalid response creating taxonomy of type: %@", typeIdentifier];
                          [self handleResponseErrorWithMessage:message method:@"wp.newTerm" failure:failure];
                          return;
@@ -286,7 +286,7 @@ static NSString * const TaxonomyXMLRPCOffsetParameter = @"offset";
 
 - (NSArray <RemotePostCategory *> *)remoteCategoriesFromXMLRPCArray:(NSArray *)xmlrpcArray
 {
-    return [xmlrpcArray wp_map:^id(NSDictionary *xmlrpcCategory) {
+    return [xmlrpcArray wpkit_map:^id(NSDictionary *xmlrpcCategory) {
         return [self remoteCategoryFromXMLRPCDictionary:xmlrpcCategory];
     }];
 }
@@ -302,7 +302,7 @@ static NSString * const TaxonomyXMLRPCOffsetParameter = @"offset";
 
 - (NSArray <RemotePostTag *> *)remoteTagsFromXMLRPCArray:(NSArray *)xmlrpcArray
 {
-    return [xmlrpcArray wp_map:^id(NSDictionary *xmlrpcTag) {
+    return [xmlrpcArray wpkit_map:^id(NSDictionary *xmlrpcTag) {
         return [self remoteTagFromXMLRPCDictionary:xmlrpcTag];
     }];
 }

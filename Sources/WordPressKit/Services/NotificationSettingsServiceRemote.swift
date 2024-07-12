@@ -78,8 +78,8 @@ open class NotificationSettingsServiceRemote: ServiceRemoteWordPressComREST {
             "device_name": device.name,
             "device_model": UIDeviceHardware.platform(),
             "os_version": device.systemVersion,
-            "app_version": Bundle.main.bundleVersion(),
-            "device_uuid": device.wordPressIdentifier()
+            "app_version": Bundle.main.wpkit_bundleVersion(),
+            "device_uuid": device.identifierForVendor?.uuidString
         ]
 
         wordPressComRESTAPI.post(requestUrl,

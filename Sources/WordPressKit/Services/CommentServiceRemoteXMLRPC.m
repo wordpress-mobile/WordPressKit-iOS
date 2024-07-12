@@ -203,7 +203,7 @@
 
 - (NSArray *)remoteCommentsFromXMLRPCArray:(NSArray *)xmlrpcArray
 {
-    return [xmlrpcArray wp_map:^id(NSDictionary *xmlrpcComment) {
+    return [xmlrpcArray wpkit_map:^id(NSDictionary *xmlrpcComment) {
         return [self remoteCommentFromXMLRPCDictionary:xmlrpcComment];
     }];
 }

@@ -282,7 +282,7 @@ static NSUInteger const TaxonomyRESTNumberMaxValue = 1000;
 
 - (NSArray <RemotePostCategory *> *)remoteCategoriesWithJSONArray:(NSArray *)jsonArray
 {
-    return [jsonArray wp_map:^id(NSDictionary *jsonCategory) {
+    return [jsonArray wpkit_map:^id(NSDictionary *jsonCategory) {
         return [self remoteCategoryWithJSONDictionary:jsonCategory];
     }];
 }
@@ -298,7 +298,7 @@ static NSUInteger const TaxonomyRESTNumberMaxValue = 1000;
 
 - (NSArray <RemotePostTag *> *)remoteTagsWithJSONArray:(NSArray *)jsonArray
 {
-    return [jsonArray wp_map:^id(NSDictionary *jsonTag) {
+    return [jsonArray wpkit_map:^id(NSDictionary *jsonTag) {
         return [self remoteTagWithJSONDictionary:jsonTag];
     }];
 }

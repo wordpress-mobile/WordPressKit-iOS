@@ -55,3 +55,11 @@ FOUNDATION_EXPORT const unsigned char WordPressKitVersionString[];
 #import <WordPressKit/NSString+MD5.h>
 
 #import <WordPressKit/WPKitLogging.h>
+
+/// Inline WordPressShared
+#import <WordPressKit/NSString+XMLExtensions.h>
+#import <WordPressKit/NSString+Helpers.h>
+#import <WordPressKit/WPKitDateUtils.h>
+#import <WordPressKit/NSBundle+VersionNumberHelper.h>
+#import <WordPressKit/WPMapFilterReduce.h>
+#import <WordPressKit/DisplayableImageHelper.h>

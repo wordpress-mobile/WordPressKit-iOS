@@ -20,7 +20,7 @@ extension PostServiceRemoteXMLRPC: PostServiceRemoteExtended {
         let dictionary = try makeParameters(from: RemotePostCreateParametersXMLRPCEncoder(parameters: parameters))
         let parameters = xmlrpcArguments(withExtra: dictionary) as [AnyObject]
         let response = try await api.call(method: "wp.newPost", parameters: parameters).get()
-        guard let postID = (response.body as? NSObject)?.numericValue() else {
+        guard let postID = (response.body as? NSObject)?.wpkit_numericValue() else {
             throw URLError(.unknown) // Should never happen
         }
         return try await post(withID: postID.intValue)

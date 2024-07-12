@@ -94,7 +94,7 @@ static const NSUInteger ReaderPostTitleLength = 30;
     self.authorID = [authorDict numberForKey:PostRESTKeyID];
     self.author = [self stringOrEmptyString:[authorDict stringForKey:PostRESTKeyNiceName]]; // typically the author's screen name
     self.authorAvatarURL = [self stringOrEmptyString:[authorDict stringForKey:PostRESTKeyAvatarURL]];
-    self.authorDisplayName = [[self stringOrEmptyString:[authorDict stringForKey:PostRESTKeyName]] stringByDecodingXMLCharacters]; // Typically the author's given name
+    self.authorDisplayName = [[self stringOrEmptyString:[authorDict stringForKey:PostRESTKeyName]] wpkit_stringByDecodingXMLCharacters]; // Typically the author's given name
     self.authorEmail = [self authorEmailFromAuthorDictionary:authorDict];
     self.authorURL = [self stringOrEmptyString:[authorDict stringForKey:PostRESTKeyURL]];
     self.siteIconURL = [self stringOrEmptyString:[dict stringForKeyPath:@"meta.data.site.icon.img"]];
@@ -204,8 +204,8 @@ static const NSUInteger ReaderPostTitleLength = 30;
         } else if ([[obj stringForKey:CrossPostMetaKey] isEqualToString:CrossPostMetaXPostOrigin]) {
             NSString *value = [obj stringForKey:CrossPostMetaValue];
             NSArray *IDS = [value componentsSeparatedByString:@":"];
-            meta.siteID = [[IDS firstObject] numericValue];
-            meta.postID = [[IDS lastObject] numericValue];
+            meta.siteID = [[IDS firstObject] wpkit_numericValue];
+            meta.postID = [[IDS lastObject] wpkit_numericValue];
 
             crossPostMetaFound = YES;
         }
@@ -270,8 +270,8 @@ static const NSUInteger ReaderPostTitleLength = 30;
         primaryTagSlug = editorialSlug;
     }
 
-    primaryTag = [primaryTag stringByDecodingXMLCharacters];
-    secondaryTag = [secondaryTag stringByDecodingXMLCharacters];
+    primaryTag = [primaryTag wpkit_stringByDecodingXMLCharacters];
+    secondaryTag = [secondaryTag wpkit_stringByDecodingXMLCharacters];
 
     return @{
              TagKeyPrimary:primaryTag,
@@ -472,7 +472,7 @@ static const NSUInteger ReaderPostTitleLength = 30;
         sortDate = editorialDate;
     }
 
-    return [DateUtils dateFromISOString:sortDate];
+    return [WPKitDateUtils dateFromISOString:sortDate];
 }
 
 /**
@@ -524,7 +524,7 @@ static const NSUInteger ReaderPostTitleLength = 30;
 
 - (NSString *)suitableImageFromPostContent:(NSDictionary *)dict {
     NSString *content = [dict stringForKey:PostRESTKeyContent];
-    NSString *imageToDisplay = [DisplayableImageHelper searchPostContentForImageToDisplay:content];
+    NSString *imageToDisplay = [WPKitDisplayableImageHelper searchPostContentForImageToDisplay:content];
     return [self stringOrEmptyString:imageToDisplay];
 }
 
@@ -650,7 +650,7 @@ static const NSUInteger ReaderPostTitleLength = 30;
 
 - (NSArray *)slugsFromDiscoverPostTaxonomies:(NSArray *)discoverPostTaxonomies
 {
-    return [discoverPostTaxonomies wp_map:^id(NSDictionary *dict) {
+    return [discoverPostTaxonomies wpkit_map:^id(NSDictionary *dict) {
         return [dict stringForKey:PostRESTKeySlug];
     }];
 }
@@ -688,7 +688,7 @@ static const NSUInteger ReaderPostTitleLength = 30;
  */
 - (NSString *)createSummaryFromContent:(NSString *)string
 {
-    return [string summarized];
+    return [string wpkit_summarized];
 }
 
 /**
@@ -699,7 +699,7 @@ static const NSUInteger ReaderPostTitleLength = 30;
  */
 - (NSString *)makePlainText:(NSString *)string
 {
-    return [string summarized];
+    return [string wpkit_summarized];
 }
 
 /**
@@ -710,7 +710,7 @@ static const NSUInteger ReaderPostTitleLength = 30;
  */
 - (NSString *)titleFromSummary:(NSString *)summary
 {
-    return [summary stringByEllipsizingWithMaxLength:ReaderPostTitleLength preserveWords:YES];
+    return [summary wpkit_stringByEllipsizingWithMaxLength:ReaderPostTitleLength preserveWords:YES];
 }
 
 
