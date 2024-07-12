@@ -1,12 +1,8 @@
 import XCTest
 import OHHTTPStubs
-#if SWIFT_PACKAGE
-import APIInterface
-@testable import CoreAPI
 import OHHTTPStubsSwift
-#else
+
 @testable import WordPressKit
-#endif
 
 class WordPressComRestApiTests: XCTestCase {
 

@@ -1,12 +1,9 @@
 import Foundation
 import XCTest
 import OHHTTPStubs
-#if SWIFT_PACKAGE
-@testable import CoreAPI
 import OHHTTPStubsSwift
-#else
+
 @testable import WordPressKit
-#endif
 
 class NonceRetrievalTests: XCTestCase {
 

@@ -1,11 +1,8 @@
 import XCTest
 import OHHTTPStubs
-#if SWIFT_PACKAGE
-@testable import CoreAPI
 import OHHTTPStubsSwift
-#else
+
 @testable import WordPressKit
-#endif
 
 final class WordPressOrgXMLRPCValidatorTests: XCTestCase {
 
