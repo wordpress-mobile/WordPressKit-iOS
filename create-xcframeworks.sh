@@ -5,7 +5,7 @@ rm -rf $ROOT
 for SDK in iphoneos iphonesimulator
 do
 xcodebuild archive \
-    -workspace WordPressKit.xcworkspace \
+    -project WordPressKit.xcodeproj \
     -scheme WordPressKit \
     -archivePath "$ROOT/WordPressKit-$SDK.xcarchive" \
     -sdk $SDK \
