@@ -1,5 +1,4 @@
 PODS:
-  - Alamofire (5.8.1)
   - OCMock (3.9.3)
   - OHHTTPStubs (9.1.0):
     - OHHTTPStubs/Default (= 9.1.0)
@@ -19,7 +18,6 @@ PODS:
   - SwiftLint (0.54.0)
 
 DEPENDENCIES:
-  - Alamofire (~> 5.0)
   - OCMock (~> 3.4)
   - OHHTTPStubs (~> 9.0)
   - OHHTTPStubs/Swift (~> 9.0)
@@ -27,17 +25,15 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
-    - Alamofire
     - OCMock
     - OHHTTPStubs
     - SwiftLint
 
 SPEC CHECKSUMS:
-  Alamofire: 3ca42e259043ee0dc5c0cdd76c4bc568b8e42af7
   OCMock: 300b1b1b9155cb6378660b981c2557448830bdc6
   OHHTTPStubs: 90eac6d8f2c18317baeca36698523dc67c513831
   SwiftLint: c1de071d9d08c8aba837545f6254315bc900e211
 
-PODFILE CHECKSUM: f2a6a7320f647a36041a34f152598d1549c4a7e1
+PODFILE CHECKSUM: a15d6be1e4b1409ba20fc010b083eb31a737269f
 
 COCOAPODS: 1.15.2

@@ -24,7 +24,6 @@ target 'WordPressKitTests' do
   pod 'OHHTTPStubs', '~> 9.0'
   pod 'OHHTTPStubs/Swift', '~> 9.0'
   pod 'OCMock', '~> 3.4'
-  pod 'Alamofire', '~> 5.0'
 end
 
 abstract_target 'Tools' do
