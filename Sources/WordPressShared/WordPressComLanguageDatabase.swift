@@ -128,8 +128,6 @@ class WordPressComLanguageDatabase: NSObject {
             return (Locale.current as NSLocale).displayName(forKey: NSLocale.Key.identifier, value: slug) ?? name
         }
 
-
-
         /// Designated initializer. Will fail if any of the required properties is missing
         ///
         init?(dict: [String: Any]) {
@@ -146,7 +144,6 @@ class WordPressComLanguageDatabase: NSObject {
             name = unwrappedName
             slug = unwrappedSlug
         }
-
 
         /// Given an array of raw languages, will return a parsed array.
         ///
@@ -169,7 +166,6 @@ class WordPressComLanguageDatabase: NSObject {
         return NSLocale.preferredLanguages.first?.lowercased() ?? "en"
     }()
 
-
     // MARK: - Private Constants
     fileprivate let filename = "Languages"
 
@@ -179,7 +175,6 @@ class WordPressComLanguageDatabase: NSObject {
         "zh-hans": "zh-cn",
         "zh-hant": "zh-tw"
     ]
-
 
     // MARK: - Private Nested Structures
 
