@@ -1,5 +1,5 @@
 import Foundation
-import wpxmlrpc
+@_implementationOnly import wpxmlrpc
 
 /// Class to connect to the XMLRPC API on self hosted sites.
 open class WordPressOrgXMLRPCApi: NSObject {

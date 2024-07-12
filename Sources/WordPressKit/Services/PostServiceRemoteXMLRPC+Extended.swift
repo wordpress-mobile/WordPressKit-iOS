@@ -1,5 +1,5 @@
 import Foundation
-import wpxmlrpc
+@_implementationOnly import wpxmlrpc
 
 extension PostServiceRemoteXMLRPC: PostServiceRemoteExtended {
     public func post(withID postID: Int) async throws -> RemotePost {

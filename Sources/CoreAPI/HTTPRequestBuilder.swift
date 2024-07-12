@@ -1,5 +1,5 @@
 import Foundation
-import wpxmlrpc
+@_implementationOnly import wpxmlrpc
 
 /// A builder type that appends HTTP request data to a URL.
 ///

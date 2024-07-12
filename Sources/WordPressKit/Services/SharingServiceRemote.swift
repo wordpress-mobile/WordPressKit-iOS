@@ -1,5 +1,5 @@
 import Foundation
-import NSObject_SafeExpectations
+@_implementationOnly import NSObject_SafeExpectations
 
 /// SharingServiceRemote is responsible for wrangling the REST API calls related to
 /// publiczice services, publicize connections, and keyring connections.
