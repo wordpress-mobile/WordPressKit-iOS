@@ -1,5 +1,4 @@
 import Foundation
-import WordPressShared
 
 public struct StatsEmailsSummaryData: Decodable, Equatable {
     public let posts: [Post]

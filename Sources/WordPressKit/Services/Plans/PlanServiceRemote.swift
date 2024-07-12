@@ -1,5 +1,4 @@
 import Foundation
-import WordPressShared
 
 public class PlanServiceRemote: ServiceRemoteWordPressComREST {
     public typealias AvailablePlans = (plans: [RemoteWpcomPlan], groups: [RemotePlanGroup], features: [RemotePlanFeature])

@@ -4,7 +4,6 @@
 #import "RemotePostCategory.h"
 #import "WPKit-Swift.h"
 @import NSObject_SafeExpectations;
-@import WordPressShared;
 
 NS_ASSUME_NONNULL_BEGIN
 

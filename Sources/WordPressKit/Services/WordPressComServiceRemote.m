@@ -1,7 +1,6 @@
 #import "WordPressComServiceRemote.h"
 #import "WPKit-Swift.h"
 @import NSObject_SafeExpectations;
-@import WordPressShared;
 
 @implementation WordPressComServiceRemote
 

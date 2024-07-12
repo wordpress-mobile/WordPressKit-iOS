@@ -4,7 +4,6 @@
 #import "NSMutableDictionary+Helpers.h"
 #import "WPKit-Swift.h"
 @import NSObject_SafeExpectations;
-@import WordPressShared;
 
 const NSInteger HTTP404ErrorCode = 404;
 NSString * const WordPressAppErrorDomain = @"org.wordpress.iphone";

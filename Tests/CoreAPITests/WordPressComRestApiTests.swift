@@ -1,6 +1,5 @@
 import XCTest
 import OHHTTPStubs
-import WordPressShared
 #if SWIFT_PACKAGE
 import APIInterface
 @testable import CoreAPI

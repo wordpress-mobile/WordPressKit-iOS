@@ -16,7 +16,6 @@ def swiftlint_version
 end
 
 def wordpresskit_pods
-  pod 'WordPressShared', '~> 2.0.0-beta.2'
   pod 'NSObject-SafeExpectations', '~> 0.0.4'
   pod 'wpxmlrpc', '~> 0.10.0'
   pod 'UIDeviceIdentifier', '~> 2.0'

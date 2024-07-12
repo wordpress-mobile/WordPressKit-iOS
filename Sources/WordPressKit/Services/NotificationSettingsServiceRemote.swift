@@ -1,6 +1,5 @@
 import Foundation
 import UIDeviceIdentifier
-import WordPressShared
 
 /// The purpose of this class is to encapsulate all of the interaction with the Notifications REST endpoints.
 /// Here we'll deal mostly with the Settings / Push Notifications API.

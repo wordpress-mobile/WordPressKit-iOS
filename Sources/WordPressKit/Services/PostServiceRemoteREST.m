@@ -3,7 +3,7 @@
 #import "RemotePostCategory.h"
 #import "RemoteUser.h"
 #import "WPKit-Swift.h"
-@import WordPressShared;
+
 @import NSObject_SafeExpectations;
 
 NSString * const PostRemoteStatusPublish = @"publish";

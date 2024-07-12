@@ -2,7 +2,6 @@
 import APIInterface
 #endif
 import Foundation
-import WordPressShared
 
 // MARK: - WordPressComRestApiError
 

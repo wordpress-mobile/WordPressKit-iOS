@@ -3,7 +3,6 @@
 #import "ReaderPostServiceRemote.h"
 #import "RemoteReaderPost.h"
 #import "WPKit-Swift.h"
-@import WordPressShared;
 
 
 @interface ReaderPostServiceRemoteTests : XCTestCase

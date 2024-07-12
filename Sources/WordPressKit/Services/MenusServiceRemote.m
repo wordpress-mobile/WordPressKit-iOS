@@ -1,6 +1,6 @@
 #import "MenusServiceRemote.h"
 #import "WPKit-Swift.h"
-@import WordPressShared;
+
 @import NSObject_SafeExpectations;
 
 NS_ASSUME_NONNULL_BEGIN

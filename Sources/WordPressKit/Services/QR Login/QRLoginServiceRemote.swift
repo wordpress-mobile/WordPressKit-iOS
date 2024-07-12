@@ -1,5 +1,4 @@
 import Foundation
-import WordPressShared
 
 open class QRLoginServiceRemote: ServiceRemoteWordPressComREST {
     /// Validates the incoming QR Login token and retrieves the requesting browser, and location

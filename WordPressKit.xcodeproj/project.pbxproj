@@ -1570,6 +1570,13 @@
 			path = Assistant;
 			sourceTree = "<group>";
 		};
+		0C938A042C4166AC009BA7B2 /* WordPressShared */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = WordPressShared;
+			sourceTree = "<group>";
+		};
 		3297E1DC2564649D00287D21 /* Scan */ = {
 			isa = PBXGroup;
 			children = (
@@ -2122,6 +2129,7 @@
 				3FE2E93F2BB11038002CA2E1 /* Models */,
 				3FE2E9402BB11075002CA2E1 /* Services */,
 				3FE2E9412BB110B3002CA2E1 /* Utility */,
+				0C938A042C4166AC009BA7B2 /* WordPressShared */,
 				9368C77E1EC5EF1B0092CE8E /* WordPressKit.h */,
 				9368C77F1EC5EF1B0092CE8E /* Info.plist */,
 			);
@@ -3274,7 +3282,6 @@
 				"${PODS_ROOT}/Target Support Files/Pods-WordPressKitTests/Pods-WordPressKitTests-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/NSObject-SafeExpectations/NSObject_SafeExpectations.framework",
 				"${BUILT_PRODUCTS_DIR}/UIDeviceIdentifier/UIDeviceIdentifier.framework",
-				"${BUILT_PRODUCTS_DIR}/WordPressShared/WordPressShared.framework",
 				"${BUILT_PRODUCTS_DIR}/wpxmlrpc/wpxmlrpc.framework",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/OCMock/OCMock.framework",
@@ -3284,7 +3291,6 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NSObject_SafeExpectations.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/UIDeviceIdentifier.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/WordPressShared.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/wpxmlrpc.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OCMock.framework",

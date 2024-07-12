@@ -2,7 +2,7 @@
 
 @import WordPressKit;
 
-@interface CaptureLogs : NSObject<WordPressLoggingDelegate>
+@interface CaptureLogs : NSObject<WordPressKitLoggingDelegate>
 
 @property (nonatomic, strong) NSMutableArray *infoLogs;
 @property (nonatomic, strong) NSMutableArray *errorLogs;

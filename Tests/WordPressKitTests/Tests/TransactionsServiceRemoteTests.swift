@@ -1,5 +1,4 @@
 import XCTest
-import WordPressShared
 @testable import WordPressKit
 
 class TransactionsServiceRemoteTests: RemoteTestCase, RESTTestable {

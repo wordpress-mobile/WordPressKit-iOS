@@ -4,7 +4,6 @@
 #import "RemoteUser.h"
 
 @import NSObject_SafeExpectations;
-@import WordPressShared;
 
 @implementation CommentServiceRemoteREST
 

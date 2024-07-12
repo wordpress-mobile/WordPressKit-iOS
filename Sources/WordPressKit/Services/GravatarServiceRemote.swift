@@ -1,5 +1,4 @@
 import Foundation
-import WordPressShared
 
 /// This ServiceRemote encapsulates all of the interaction with the Gravatar endpoint.
 ///

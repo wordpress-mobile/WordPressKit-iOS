@@ -3,7 +3,6 @@
 #import "WPKit-Swift.h"
 
 @import NSObject_SafeExpectations;
-@import WordPressShared;
 
 // REST Post dictionary keys
 NSString * const PostRESTKeyAttachments = @"attachments";

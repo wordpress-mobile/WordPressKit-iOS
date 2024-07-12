@@ -3,7 +3,6 @@
 #import "RemoteComment.h"
 
 @import wpxmlrpc;
-@import WordPressShared;
 @import NSObject_SafeExpectations;
 
 @implementation CommentServiceRemoteXMLRPC

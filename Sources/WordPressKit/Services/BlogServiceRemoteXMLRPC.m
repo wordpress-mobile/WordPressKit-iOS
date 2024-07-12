@@ -3,7 +3,6 @@
 #import "RemotePostType.h"
 #import "WPKit-Swift.h"
 @import NSObject_SafeExpectations;
-@import WordPressShared;
 
 static NSString * const RemotePostTypeNameKey = @"name";
 static NSString * const RemotePostTypeLabelKey = @"label";
