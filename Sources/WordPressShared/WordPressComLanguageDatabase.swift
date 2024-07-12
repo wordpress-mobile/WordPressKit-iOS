@@ -17,7 +17,6 @@ class WordPressComLanguageDatabase: NSObject {
     ///
     let grouped: [[Language]]
 
-
     // MARK: - Methods
 
     /// Designated Initializer: will load the languages contained within the `Languages.json` file.
@@ -37,7 +36,6 @@ class WordPressComLanguageDatabase: NSObject {
         all = merged.sorted { $0.name < $1.name }
         grouped = [popular] + [all]
     }
-
 
     /// Returns the Human Readable name for a given Language Identifier
     ///

@@ -5,6 +5,8 @@
 #import "RemoteReaderPost.h"
 #import "WPKit-Swift.h"
 
+@import WordPressKit;
+
 @interface RemoteReaderPost ()
 
 - (RemoteReaderPost *)formatPostDictionary:(NSDictionary *)dict;
@@ -218,7 +220,7 @@
     RemoteReaderPost *remoteReaderPost = [RemoteReaderPost alloc];
 
     NSDate *now = [NSDate dateWithTimeIntervalSince1970:0];
-    NSString *dateStr = [DateUtils isoStringFromDate:now];
+    NSString *dateStr = [WPKitDateUtils isoStringFromDate:now];
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     [dict setObject:dateStr forKey:@"date"];
 

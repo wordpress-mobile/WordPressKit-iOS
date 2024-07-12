@@ -1,6 +1,5 @@
 import Foundation
 
-
 /// Encapsulates all of the NSMutableData Helper Methods.
 ///
 extension NSMutableData {
