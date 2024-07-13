@@ -46,7 +46,7 @@ open class QRLoginServiceRemote: ServiceRemoteWordPressComREST {
     }
 }
 
-public enum QRLoginError {
+@frozen public enum QRLoginError {
     case invalidData
     case expired
 

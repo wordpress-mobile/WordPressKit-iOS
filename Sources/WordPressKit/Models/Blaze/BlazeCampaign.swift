@@ -44,7 +44,7 @@ public final class BlazeCampaign: Codable {
         case creativeHTML = "creativeHtml"
     }
 
-    public enum Status: String, Codable {
+    @frozen public enum Status: String, Codable {
         case scheduled
         case created
         case rejected

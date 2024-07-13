@@ -53,7 +53,7 @@ public struct AccountSettings {
     }
 }
 
-public enum AccountSettingsChange {
+@frozen public enum AccountSettingsChange {
     case firstName(String)
     case lastName(String)
     case displayName(String)

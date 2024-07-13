@@ -1,6 +1,6 @@
 import Foundation
 
-public enum WordPressAPIError<EndpointError>: Error where EndpointError: LocalizedError {
+@frozen public enum WordPressAPIError<EndpointError>: Error where EndpointError: LocalizedError {
     static var unknownErrorMessage: String {
         NSLocalizedString(
             "wordpress-api.error.unknown",

@@ -798,6 +798,7 @@
 		0C1C08422B9CD8D200E52F8C /* PostServiceRemoteREST+Extended.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PostServiceRemoteREST+Extended.swift"; sourceTree = "<group>"; };
 		0C1C08442B9CDB0B00E52F8C /* PostServiceRemoteXMLRPC+Extended.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PostServiceRemoteXMLRPC+Extended.swift"; sourceTree = "<group>"; };
 		0C3A2A412A2E7BA500FD91D6 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
+		0C6183C62C420A3700289E73 /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		0C674E2F2BF3A91300F3B3D4 /* JetpackAIServiceRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JetpackAIServiceRemote.swift; sourceTree = "<group>"; };
 		0C938A052C416789009BA7B2 /* Secret.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secret.swift; sourceTree = "<group>"; };
 		0C938A072C4167BB009BA7B2 /* NSString+XMLExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+XMLExtensions.h"; sourceTree = "<group>"; };
@@ -2317,6 +2318,7 @@
 		9368C7711EC5EF1B0092CE8E = {
 			isa = PBXGroup;
 			children = (
+				0C6183C62C420A3700289E73 /* Package.swift */,
 				3FE2E9432BB11413002CA2E1 /* Sources */,
 				3FE2E9442BB11592002CA2E1 /* Tests */,
 				FFE247CD20CB1245002DF3A2 /* LICENSE */,
