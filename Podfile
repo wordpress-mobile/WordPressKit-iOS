@@ -8,6 +8,7 @@ use_frameworks!
 APP_IOS_DEPLOYMENT_TARGET = Gem::Version.new('13.0')
 
 platform :ios, APP_IOS_DEPLOYMENT_TARGET
+workspace './WordPressKit.xcworkspace'
 
 def swiftlint_version
   require 'yaml'
