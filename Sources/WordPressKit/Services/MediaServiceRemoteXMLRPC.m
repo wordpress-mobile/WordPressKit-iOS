@@ -64,7 +64,7 @@
                         pageLoad(pageMedia);
                      }
                      NSUInteger newOffset = offset + pageSize;
-                     [self getMediaLibraryStartOffset:newOffset media:resultMedia pageLoad:pageLoad success: success failure: failure];                     
+                     [self getMediaLibraryStartOffset:newOffset media:resultMedia pageLoad:pageLoad success: success failure: failure];
                  }
                  failure:^(NSError *error, NSHTTPURLResponse *httpResponse) {
                      if (failure) {
@@ -104,7 +104,7 @@
     [[[NSURLCredentialStorage sharedCredentialStorage] allCredentials] enumerateKeysAndObjectsUsingBlock:^(NSURLProtectionSpace *ps, NSDictionary *dict, BOOL *stop) {
         [dict enumerateKeysAndObjectsUsingBlock:^(id key, NSURLCredential *credential, BOOL *stop) {
             if ([[ps host] isEqualToString:host] && [ps port] == port)
-            
+
             {
                 foundCredential = credential;
                 *stop = YES;
@@ -117,9 +117,9 @@
     return foundCredential;
 }
 
-/** 
+/**
  Adds a basic auth header to a request if a credential is stored for that specific host.
- 
+
  The credentials will only be added if a set of credentials for the request host are stored on the shared credential storage
  @param request     The request to where the authentication information will be added.
  */
@@ -174,7 +174,7 @@
               NSError *error = [NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorBadServerResponse userInfo:@{NSLocalizedDescriptionKey: NSLocalizedString(@"The server returned an empty response. This usually means you need to increase the memory limit for your site.", @"")}];
               if (failure) {
                   failure(error);
-              }              
+              }
           } else {
               localProgress.completedUnitCount=localProgress.totalUnitCount;
               RemoteMedia * remoteMedia = [self remoteMediaFromXMLRPCDictionary:response];
@@ -182,13 +182,13 @@
                   success(remoteMedia);
               }
           }
-      } failure:^(NSError *error, NSHTTPURLResponse *httpResponse) {          
+      } failure:^(NSError *error, NSHTTPURLResponse *httpResponse) {
           if (failure) {
               failure(error);
           }
       }];
 
-    
+
     if (progress) {
         *progress = localProgress;
     }
@@ -198,10 +198,44 @@
             success:(void (^)(RemoteMedia *remoteMedia))success
             failure:(void (^)(NSError *error))failure
 {
-    //HACK: Sergio Estevao: 2016-04-06 this option doens't exist on XML-RPC so we will always say that all was good
-    if (success) {
-        success(media);
+    NSParameterAssert([media.mediaID longLongValue] > 0);
+
+    NSMutableDictionary *content = [NSMutableDictionary dictionary];
+
+    if (media.title != nil) {
+        content[@"post_title"] = media.title;
     }
+
+    if (media.caption != nil) {
+        content[@"post_excerpt"] = media.caption;
+    }
+
+    if (media.descriptionText != nil) {
+        content[@"post_content"] = media.descriptionText;
+    }
+
+    NSArray *extraDefaults = @[media.mediaID];
+    NSArray *parameters = [self XMLRPCArgumentsWithExtraDefaults:extraDefaults andExtra:content];
+
+    [self.api callMethod:@"wp.editPost"
+              parameters:parameters
+                 success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
+        BOOL updated = [responseObject boolValue];
+        if (updated) {
+            if (success) {
+                success(media);
+            }
+        } else {
+            if (failure) {
+                NSError *error = [NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorUnknown userInfo:nil];
+                failure(error);
+            }
+        }
+    } failure:^(NSError *error, NSHTTPURLResponse *httpResponse) {
+        if (failure) {
+            failure(error);
+        }
+    }];
 }
 
 - (void)deleteMedia:(RemoteMedia *)media
@@ -285,11 +319,11 @@
         link = [xmlRPC stringForKeyPath:@"link"];
     }
     remoteMedia.file = [link lastPathComponent] ?: [[xmlRPC objectForKeyPath:@"file"] lastPathComponent];
-    
+
     if ([xmlRPC stringForKeyPath:@"metadata.sizes.large.file"] != nil) {
         remoteMedia.largeURL = [NSURL URLWithString: [NSString stringWithFormat:@"%@%@", remoteMedia.url.URLByDeletingLastPathComponent, [xmlRPC stringForKeyPath:@"metadata.sizes.large.file"]]];
     }
-    
+
     if ([xmlRPC stringForKeyPath:@"metadata.sizes.medium.file"] != nil) {
         remoteMedia.mediumURL = [NSURL URLWithString: [NSString stringWithFormat:@"%@%@", remoteMedia.url.URLByDeletingLastPathComponent, [xmlRPC stringForKeyPath:@"metadata.sizes.medium.file"]]];
     }
