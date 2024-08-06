@@ -1,6 +1,6 @@
 import Foundation
 
-public enum SocialServiceName: String {
+@frozen public enum SocialServiceName: String {
     case google
     case apple
 }
