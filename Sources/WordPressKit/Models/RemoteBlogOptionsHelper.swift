@@ -28,6 +28,7 @@ import Foundation
                 "blog_public",
                 "max_upload_size",
                 "is_wpcom_atomic",
+                "is_wpcom_staging_site",
                 "is_wpforteams_site",
                 "show_on_front",
                 "page_on_front",
