@@ -1,7 +1,6 @@
 import Foundation
-import WordPressShared
 
-public class PlanServiceRemote: ServiceRemoteWordPressComREST {
+open class PlanServiceRemote: ServiceRemoteWordPressComREST {
     public typealias AvailablePlans = (plans: [RemoteWpcomPlan], groups: [RemotePlanGroup], features: [RemotePlanFeature])
 
     typealias EndpointResponse = [String: AnyObject]
@@ -192,7 +191,7 @@ public class PlanServiceRemote: ServiceRemoteWordPressComREST {
     }
 
     /// Retrieves Zendesk meta data: plan and Jetpack addons, if available
-    public func getZendeskMetadata(siteID: Int, completion: @escaping (Result<ZendeskMetadata, Error>) -> Void) {
+    open func getZendeskMetadata(siteID: Int, completion: @escaping (Result<ZendeskMetadata, Error>) -> Void) {
         let endpoint = "me/sites"
         let path = self.path(forEndpoint: endpoint, withVersion: ._1_1)
         let parameters = ["fields": "ID, zendesk_site_meta"] as [String: AnyObject]

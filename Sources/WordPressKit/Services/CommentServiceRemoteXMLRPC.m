@@ -3,7 +3,6 @@
 #import "RemoteComment.h"
 
 @import wpxmlrpc;
-@import WordPressShared;
 @import NSObject_SafeExpectations;
 
 @implementation CommentServiceRemoteXMLRPC
@@ -204,7 +203,7 @@
 
 - (NSArray *)remoteCommentsFromXMLRPCArray:(NSArray *)xmlrpcArray
 {
-    return [xmlrpcArray wp_map:^id(NSDictionary *xmlrpcComment) {
+    return [xmlrpcArray wpkit_map:^id(NSDictionary *xmlrpcComment) {
         return [self remoteCommentFromXMLRPCDictionary:xmlrpcComment];
     }];
 }

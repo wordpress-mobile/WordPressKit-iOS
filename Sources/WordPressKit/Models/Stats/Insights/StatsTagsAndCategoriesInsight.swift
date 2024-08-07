@@ -13,7 +13,7 @@ extension StatsTagsAndCategoriesInsight: StatsInsightData {
 }
 
 public struct StatsTagAndCategory: Codable {
-    public enum Kind: String, Codable {
+    @frozen public enum Kind: String, Codable {
         case tag
         case category
         case folder

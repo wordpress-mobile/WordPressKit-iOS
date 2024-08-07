@@ -1,59 +1,16 @@
 PODS:
-  - Alamofire (5.8.1)
-  - NSObject-SafeExpectations (0.0.6)
-  - OCMock (3.9.3)
-  - OHHTTPStubs (9.1.0):
-    - OHHTTPStubs/Default (= 9.1.0)
-  - OHHTTPStubs/Core (9.1.0)
-  - OHHTTPStubs/Default (9.1.0):
-    - OHHTTPStubs/Core
-    - OHHTTPStubs/JSON
-    - OHHTTPStubs/NSURLSession
-    - OHHTTPStubs/OHPathHelpers
-  - OHHTTPStubs/JSON (9.1.0):
-    - OHHTTPStubs/Core
-  - OHHTTPStubs/NSURLSession (9.1.0):
-    - OHHTTPStubs/Core
-  - OHHTTPStubs/OHPathHelpers (9.1.0)
-  - OHHTTPStubs/Swift (9.1.0):
-    - OHHTTPStubs/Default
   - SwiftLint (0.54.0)
-  - UIDeviceIdentifier (2.3.0)
-  - WordPressShared (2.0.1)
-  - wpxmlrpc (0.10.0)
 
 DEPENDENCIES:
-  - Alamofire (~> 5.0)
-  - NSObject-SafeExpectations (~> 0.0.4)
-  - OCMock (~> 3.4)
-  - OHHTTPStubs (~> 9.0)
-  - OHHTTPStubs/Swift (~> 9.0)
   - SwiftLint (= 0.54.0)
-  - UIDeviceIdentifier (~> 2.0)
-  - WordPressShared (~> 2.0.0-beta.2)
-  - wpxmlrpc (~> 0.10.0)
 
 SPEC REPOS:
   trunk:
-    - Alamofire
-    - NSObject-SafeExpectations
-    - OCMock
-    - OHHTTPStubs
     - SwiftLint
-    - UIDeviceIdentifier
-    - WordPressShared
-    - wpxmlrpc
 
 SPEC CHECKSUMS:
-  Alamofire: 3ca42e259043ee0dc5c0cdd76c4bc568b8e42af7
-  NSObject-SafeExpectations: c01c8881cbd97efad6f668286b913cd0b7d62ab5
-  OCMock: 300b1b1b9155cb6378660b981c2557448830bdc6
-  OHHTTPStubs: 90eac6d8f2c18317baeca36698523dc67c513831
   SwiftLint: c1de071d9d08c8aba837545f6254315bc900e211
-  UIDeviceIdentifier: 442b65b4ff1832d4ca9c2a157815cb29ad981b17
-  WordPressShared: f93f99269258b46dad04f4e4dbf540ce2e5c1e66
-  wpxmlrpc: 68db063041e85d186db21f674adf08d9c70627fd
 
-PODFILE CHECKSUM: 64af6d71574c7a92d01a9446aa874e066917ebe5
+PODFILE CHECKSUM: c0da9313733b88a1d938ba6a329dd46b895c7dea
 
 COCOAPODS: 1.15.2

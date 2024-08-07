@@ -79,7 +79,7 @@ public enum SiteSegmentsError: Error {
 /// - success: the site segments request succeeded with the accompanying result.
 /// - failure: the site segments request failed due to the accompanying error.
 ///
-public enum SiteSegmentsResult {
+@frozen public enum SiteSegmentsResult {
     case success([SiteSegment])
     case failure(SiteSegmentsError)
 }

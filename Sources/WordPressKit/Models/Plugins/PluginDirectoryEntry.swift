@@ -77,7 +77,7 @@ extension PluginDirectoryEntry: Codable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         let decodedName = try container.decode(String.self, forKey: .name)
-        name = decodedName.stringByDecodingXMLCharacters()
+        name = decodedName.wpkit_stringByDecodingXMLCharacters()
         slug = try container.decode(String.self, forKey: .slug)
         version = try? container.decode(String.self, forKey: .version)
         lastUpdated = try? container.decode(Date.self, forKey: .lastUpdated)
@@ -115,7 +115,7 @@ extension PluginDirectoryEntry: Codable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(name.stringByEncodingXMLCharacters(), forKey: .name)
+        try container.encode(name.wpkit_stringByEncodingXMLCharacters(), forKey: .name)
         try container.encode(slug, forKey: .slug)
         try container.encodeIfPresent(version, forKey: .version)
         try container.encodeIfPresent(lastUpdated, forKey: .lastUpdated)

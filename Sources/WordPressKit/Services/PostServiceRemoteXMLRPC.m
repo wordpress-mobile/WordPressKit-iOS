@@ -4,7 +4,6 @@
 #import "NSMutableDictionary+Helpers.h"
 #import "WPKit-Swift.h"
 @import NSObject_SafeExpectations;
-@import WordPressShared;
 
 const NSInteger HTTP404ErrorCode = 404;
 NSString * const WordPressAppErrorDomain = @"org.wordpress.iphone";
@@ -90,8 +89,8 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
     [self.api callMethod:@"metaWeblog.newPost"
               parameters:parameters
                  success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
-                     if ([responseObject respondsToSelector:@selector(numericValue)]) {
-                         post.postID = [responseObject numericValue];
+                     if ([responseObject respondsToSelector:@selector(wpkit_numericValue)]) {
+                         post.postID = [responseObject wpkit_numericValue];
 
                          if (!post.date) {
                              // Set the temporary date until we get it from the server so it sorts properly on the list
@@ -288,7 +287,7 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
 #pragma mark - Private methods
 
 - (NSArray <RemotePost *> *)remotePostsFromXMLRPCArray:(NSArray *)xmlrpcArray {
-    return [xmlrpcArray wp_map:^id(NSDictionary *xmlrpcPost) {
+    return [xmlrpcArray wpkit_map:^id(NSDictionary *xmlrpcPost) {
         return [self remotePostFromXMLRPCDictionary:xmlrpcPost];
     }];
 }
@@ -313,7 +312,7 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
     post.authorID = [xmlrpcDictionary numberForKey:@"post_author"];
     post.status = [self statusForPostStatus:xmlrpcDictionary[@"post_status"] andDate:post.date];
     post.password = xmlrpcDictionary[@"post_password"];
-    if ([post.password isEmpty]) {
+    if ([post.password wpkit_isEmpty]) {
         post.password = nil;
     }
     post.parentID = [xmlrpcDictionary numberForKey:@"post_parent"];
@@ -337,7 +336,7 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
         post.pathForDisplayImage = post.postThumbnailPath;
     } else {
         // parse content for a suitable image.
-        post.pathForDisplayImage = [DisplayableImageHelper searchPostContentForImageToDisplay:post.content];
+        post.pathForDisplayImage = [WPKitDisplayableImageHelper searchPostContentForImageToDisplay:post.content];
     }
 
     return post;
@@ -359,9 +358,9 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
 }
 
 + (NSArray *)remoteCategoriesFromXMLRPCTermsArray:(NSArray *)terms {
-    return [[terms wp_filter:^BOOL(NSDictionary *category) {
+    return [[terms wpkit_filter:^BOOL(NSDictionary *category) {
         return [[category stringForKey:@"taxonomy"] isEqualToString:@"category"];
-    }] wp_map:^id(NSDictionary *category) {
+    }] wpkit_map:^id(NSDictionary *category) {
         return [self remoteCategoryFromXMLRPCDictionary:category];
     }];
 }
@@ -411,7 +410,7 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
         postParams[@"date_created_gmt"] = [NSDate date];
     }
     if (post.categories) {
-        NSArray *categoryNames = [post.categories wp_map:^id(RemotePostCategory *category) {
+        NSArray *categoryNames = [post.categories wpkit_map:^id(RemotePostCategory *category) {
             return category.name;
         }];
         

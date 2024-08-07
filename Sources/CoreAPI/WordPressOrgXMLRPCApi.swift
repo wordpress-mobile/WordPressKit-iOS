@@ -1,5 +1,5 @@
 import Foundation
-import wpxmlrpc
+@_implementationOnly import wpxmlrpc
 
 /// Class to connect to the XMLRPC API on self hosted sites.
 open class WordPressOrgXMLRPCApi: NSObject {
@@ -27,6 +27,10 @@ open class WordPressOrgXMLRPCApi: NSObject {
     /// Minimum WordPress.org Supported Version.
     ///
     @objc public static let minimumSupportedVersion = "4.0"
+
+    @objc public static var errorDomain: String {
+        wpxmlrpc.WPXMLRPCFaultErrorDomain
+    }
 
     private lazy var urlSession: URLSession = makeSession(configuration: .default)
     private lazy var uploadURLSession: URLSession = {

@@ -4,7 +4,6 @@
 #import "ReaderTopicServiceRemote.h"
 #import "WPKit-Swift.h"
 @import NSObject_SafeExpectations;
-@import WordPressShared;
 
 NSString * const PostRESTKeyPosts = @"posts";
 
@@ -30,7 +29,7 @@ NSString * const ParamKeyMetaValue = @"site,feed";
     NSNumber *numberToFetch = @(count);
     NSMutableDictionary *params = [@{
                                      ParamKeyNumber:numberToFetch,
-                                     ParamKeyBefore: [DateUtils isoStringFromDate:date],
+                                     ParamKeyBefore: [WPKitDateUtils isoStringFromDate:date],
                                      ParamKeyOrder: ParamKeyDescending,
                                      ParamKeyMeta: ParamKeyMetaValue
                                      } mutableCopy];
@@ -179,7 +178,7 @@ NSString * const ParamKeyMetaValue = @"site,feed";
 {
     NSAssert([phrase length] > 0, @"A search phrase is required.");
 
-    NSString *endpoint = [NSString stringWithFormat:@"read/search?q=%@", [phrase stringByUrlEncoding]];
+    NSString *endpoint = [NSString stringWithFormat:@"read/search?q=%@", [phrase wpkit_stringByUrlEncoding]];
     NSString *absolutePath = [self pathForEndpoint:endpoint withVersion:WordPressComRESTAPIVersion_1_2];
     NSURL *url = [NSURL URLWithString:absolutePath relativeToURL:self.wordPressComRESTAPI.baseURL];
     return [url absoluteString];
@@ -219,7 +218,7 @@ NSString * const ParamKeyMetaValue = @"site,feed";
                       __block CGFloat offset = [[params numberForKey:ParamKeyOffset] floatValue];
                       NSString *algorithm = [responseObject stringForKey:ParamsKeyAlgorithm];
                       NSArray *jsonPosts = [responseObject arrayForKey:PostRESTKeyPosts];
-                      NSArray *posts = [jsonPosts wp_map:^id(NSDictionary *jsonPost) {
+                      NSArray *posts = [jsonPosts wpkit_map:^id(NSDictionary *jsonPost) {
                           if (rankByOffset) {
                               RemoteReaderPost *post = [self formatPostDictionary:jsonPost offset:offset];
                               offset++;

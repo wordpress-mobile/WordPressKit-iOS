@@ -1,11 +1,11 @@
-public enum StatsPeriodUnit: Int {
+@frozen public enum StatsPeriodUnit: Int {
     case day
     case week
     case month
     case year
 }
 
-public enum StatsSummaryType: Int {
+@frozen public enum StatsSummaryType: Int {
     case views
     case visitors
     case likes

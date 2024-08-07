@@ -99,7 +99,7 @@ open class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
     ///    e.g. if you want data spanning 11-17 Feb 2019, you should pass in a period of `.week` and an
     ///    ending date of `Feb 17 2019`.
     ///   - limit: Limit of how many objects you want returned for your query. Default is `10`. `0` means no limit.
-    public func getData<TimeStatsType: StatsTimeIntervalData>(for period: StatsPeriodUnit,
+    open func getData<TimeStatsType: StatsTimeIntervalData>(for period: StatsPeriodUnit,
                                                               unit: StatsPeriodUnit? = nil,
                                                               endingOn: Date,
                                                               limit: Int = 10,

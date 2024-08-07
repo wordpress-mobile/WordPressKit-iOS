@@ -1,9 +1,9 @@
 import Foundation
 
 /// Retrieves feature announcements from the related endpoint
-public class AnnouncementServiceRemote: ServiceRemoteWordPressComREST {
+open class AnnouncementServiceRemote: ServiceRemoteWordPressComREST {
 
-    public func getAnnouncements(appId: String,
+    open func getAnnouncements(appId: String,
                                  appVersion: String,
                                  locale: String,
                                  completion: @escaping (Result<[Announcement], Error>) -> Void) {
@@ -86,6 +86,18 @@ public struct Announcement: Codable {
     public let isLocalized: Bool
     public let responseLocale: String
     public let features: [Feature]
+
+    public init(appVersionName: String, minimumAppVersion: String, maximumAppVersion: String, appVersionTargets: [String], detailsUrl: String, announcementVersion: String, isLocalized: Bool, responseLocale: String, features: [Feature]) {
+        self.appVersionName = appVersionName
+        self.minimumAppVersion = minimumAppVersion
+        self.maximumAppVersion = maximumAppVersion
+        self.appVersionTargets = appVersionTargets
+        self.detailsUrl = detailsUrl
+        self.announcementVersion = announcementVersion
+        self.isLocalized = isLocalized
+        self.responseLocale = responseLocale
+        self.features = features
+    }
 }
 
 public struct Feature: Codable {
@@ -94,6 +106,14 @@ public struct Feature: Codable {
     public let icons: [FeatureIcon]?
     public let iconUrl: String
     public let iconBase64: String?
+
+    public init(title: String, subtitle: String, icons: [FeatureIcon]?, iconUrl: String, iconBase64: String?) {
+        self.title = title
+        self.subtitle = subtitle
+        self.icons = icons
+        self.iconUrl = iconUrl
+        self.iconBase64 = iconBase64
+    }
 }
 
 public struct FeatureIcon: Codable {

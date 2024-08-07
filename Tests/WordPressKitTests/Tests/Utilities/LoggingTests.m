@@ -2,7 +2,7 @@
 
 @import WordPressKit;
 
-@interface CaptureLogs : NSObject<WordPressLoggingDelegate>
+@interface CaptureLogs : NSObject<WordPressKitLoggingDelegate>
 
 @property (nonatomic, strong) NSMutableArray *infoLogs;
 @property (nonatomic, strong) NSMutableArray *errorLogs;
@@ -29,6 +29,19 @@
 {
     [self.errorLogs addObject:str];
 }
+
+- (void)logDebug:(nonnull NSString *)str { 
+
+}
+
+- (void)logVerbose:(nonnull NSString *)str { 
+
+}
+
+- (void)logWarning:(nonnull NSString *)str { 
+
+}
+
 
 @end
 

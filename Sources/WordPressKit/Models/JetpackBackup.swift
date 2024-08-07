@@ -26,4 +26,15 @@ public struct JetpackBackup: Decodable {
         case url
         case validUntil
     }
+
+    public init(backupPoint: Date, downloadID: Int, rewindID: String, startedAt: Date, progress: Int?, downloadCount: Int?, url: String?, validUntil: Date?) {
+        self.backupPoint = backupPoint
+        self.downloadID = downloadID
+        self.rewindID = rewindID
+        self.startedAt = startedAt
+        self.progress = progress
+        self.downloadCount = downloadCount
+        self.url = url
+        self.validUntil = validUntil
+    }
 }

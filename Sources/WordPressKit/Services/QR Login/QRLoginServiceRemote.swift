@@ -1,5 +1,4 @@
 import Foundation
-import WordPressShared
 
 open class QRLoginServiceRemote: ServiceRemoteWordPressComREST {
     /// Validates the incoming QR Login token and retrieves the requesting browser, and location
@@ -47,7 +46,7 @@ open class QRLoginServiceRemote: ServiceRemoteWordPressComREST {
     }
 }
 
-public enum QRLoginError {
+@frozen public enum QRLoginError {
     case invalidData
     case expired
 

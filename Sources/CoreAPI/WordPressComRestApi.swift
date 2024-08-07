@@ -2,7 +2,6 @@
 import APIInterface
 #endif
 import Foundation
-import WordPressShared
 
 // MARK: - WordPressComRestApiError
 
@@ -176,7 +175,7 @@ open class WordPressComRestApi: NSObject {
         }
     }
 
-    @objc func setInvalidTokenHandler(_ handler: @escaping () -> Void) {
+    @objc open func setInvalidTokenHandler(_ handler: @escaping () -> Void) {
         invalidTokenHandler = handler
     }
 
@@ -363,7 +362,7 @@ open class WordPressComRestApi: NSObject {
         return configuration
     }
 
-    func perform(
+    open func perform(
         _ method: HTTPRequestBuilder.Method,
         URLString: String,
         parameters: [String: AnyObject]? = nil,
@@ -374,7 +373,7 @@ open class WordPressComRestApi: NSObject {
         }
     }
 
-    func perform<T: Decodable>(
+    open func perform<T: Decodable>(
         _ method: HTTPRequestBuilder.Method,
         URLString: String,
         parameters: [String: AnyObject]? = nil,

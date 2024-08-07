@@ -1,20 +1,20 @@
 #import "WPKitLogging.h"
 
-static id<WordPressLoggingDelegate> wordPressKitLogger = nil;
+static id<WordPressKitLoggingDelegate> wordPressKitLogger = nil;
 
-id<WordPressLoggingDelegate> _Nullable WPKitGetLoggingDelegate(void)
+id<WordPressKitLoggingDelegate> _Nullable WPKitGetLoggingDelegate(void)
 {
     return wordPressKitLogger;
 }
 
-void WPKitSetLoggingDelegate(id<WordPressLoggingDelegate> _Nullable logger)
+void WPKitSetLoggingDelegate(id<WordPressKitLoggingDelegate> _Nullable logger)
 {
     wordPressKitLogger = logger;
 }
 
 #define WPKitLogv(logFunc) \
     ({ \
-        id<WordPressLoggingDelegate> logger = WPKitGetLoggingDelegate(); \
+        id<WordPressKitLoggingDelegate> logger = WPKitGetLoggingDelegate(); \
         if (logger == NULL) { \
             NSLog(@"[WordPressKit] Warning: please call `WPKitSetLoggingDelegate` to set a error logger."); \
             return; \

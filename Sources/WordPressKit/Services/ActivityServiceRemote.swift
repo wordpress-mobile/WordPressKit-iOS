@@ -1,5 +1,4 @@
 import Foundation
-import WordPressShared
 
 open class ActivityServiceRemote: ServiceRemoteWordPressComREST {
 

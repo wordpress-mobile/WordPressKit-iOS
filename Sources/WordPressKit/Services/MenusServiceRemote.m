@@ -1,6 +1,6 @@
 #import "MenusServiceRemote.h"
 #import "WPKit-Swift.h"
-@import WordPressShared;
+
 @import NSObject_SafeExpectations;
 
 NS_ASSUME_NONNULL_BEGIN
@@ -194,7 +194,7 @@ NSString * const MenusRemoteKeyClasses = @"classes";
 
 - (nullable NSArray *)remoteMenusFromJSONArray:(nullable NSArray<NSDictionary *> *)jsonMenus
 {
-    return [jsonMenus wp_map:^id(NSDictionary *dictionary) {
+    return [jsonMenus wpkit_map:^id(NSDictionary *dictionary) {
         return [self menuFromJSONDictionary:dictionary];
     }];
 }
@@ -202,7 +202,7 @@ NSString * const MenusRemoteKeyClasses = @"classes";
 - (nullable NSArray *)menuItemsFromJSONDictionaries:(nullable NSArray<NSDictionary *> *)dictionaries parent:(nullable RemoteMenuItem *)parent
 {
     NSParameterAssert([dictionaries isKindOfClass:[NSArray class]]);
-    return [dictionaries wp_map:^id(NSDictionary *dictionary) {
+    return [dictionaries wpkit_map:^id(NSDictionary *dictionary) {
         
         RemoteMenuItem *item = [self menuItemFromJSONDictionary:dictionary];
         item.parentItem = parent;
@@ -213,7 +213,7 @@ NSString * const MenusRemoteKeyClasses = @"classes";
 
 - (nullable NSArray *)remoteMenuLocationsFromJSONArray:(nullable NSArray<NSDictionary *> *)jsonLocations
 {
-    return [jsonLocations wp_map:^id(NSDictionary *dictionary) {
+    return [jsonLocations wpkit_map:^id(NSDictionary *dictionary) {
         return [self menuLocationFromJSONDictionary:dictionary];
     }];
 }

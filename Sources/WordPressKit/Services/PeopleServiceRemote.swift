@@ -1,5 +1,4 @@
 import Foundation
-import WordPressShared
 
 /// Encapsulates all of the People Management WordPress.com Methods
 ///
@@ -558,7 +557,7 @@ private extension PeopleServiceRemote {
         let firstName = user["first_name"] as? String
         let lastName = user["last_name"] as? String
         let avatarURL = (user["avatar_URL"] as? NSString)
-            .flatMap { URL(string: $0.byUrlEncoding())}
+            .flatMap { URL(string: $0.wpkit_stringByUrlEncoding())}
 
         let linkedUserID = user["linked_user_ID"] as? Int ?? ID
         let isSuperAdmin = user["is_super_admin"] as? Bool ?? false

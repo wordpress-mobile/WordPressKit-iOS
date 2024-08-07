@@ -1,5 +1,4 @@
 import Foundation
-import WordPressShared
 
 public class AccountSettingsRemote: ServiceRemoteWordPressComREST {
     @objc public static let remotes = NSMapTable<AnyObject, AnyObject>(keyOptions: NSPointerFunctions.Options(), valueOptions: NSPointerFunctions.Options.weakMemory)
@@ -178,7 +177,7 @@ public class AccountSettingsRemote: ServiceRemoteWordPressComREST {
             throw ResponseError.decodingFailure
         }
 
-        let aboutMeText = aboutMe.decodingXMLCharacters()
+        let aboutMeText = aboutMe.wpkit_stringByDecodingXMLCharacters()
 
         return AccountSettings(firstName: firstName,
                                lastName: lastName,

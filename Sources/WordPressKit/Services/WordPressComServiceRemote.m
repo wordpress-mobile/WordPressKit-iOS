@@ -1,7 +1,6 @@
 #import "WordPressComServiceRemote.h"
 #import "WPKit-Swift.h"
 @import NSObject_SafeExpectations;
-@import WordPressShared;
 
 @implementation WordPressComServiceRemote
 
@@ -245,7 +244,7 @@
 - (NSString *)errorMessageForError:(NSError *)error
 {
     NSString *errorCode = [error.userInfo stringForKey:WordPressComRestApi.ErrorKeyErrorCode];
-    NSString *errorMessage = [[error.userInfo stringForKey:NSLocalizedDescriptionKey] stringByStrippingHTML];
+    NSString *errorMessage = [[error.userInfo stringForKey:NSLocalizedDescriptionKey] wpkit_stringByStrippingHTML];
     
     if ([errorCode isEqualToString:@"username_only_lowercase_letters_and_numbers"]) {
         return NSLocalizedString(@"Sorry, usernames can only contain lowercase letters (a-z) and numbers.", nil);
