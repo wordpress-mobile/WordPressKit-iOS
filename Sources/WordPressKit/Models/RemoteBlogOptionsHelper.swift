@@ -8,6 +8,9 @@ import Foundation
         if response.number(forKey: "jetpack")?.boolValue == true {
             options["jetpack_client_id"] = response.number(forKey: "ID")
         }
+        if response.number(forKey: "is_wpcom_staging_site")?.boolValue == true {
+            options["is_wpcom_staging_site"] = true
+        }
         if response["options"] != nil {
             options["post_thumbnail"] = response.value(forKeyPath: "options.featured_images_enabled")
 
