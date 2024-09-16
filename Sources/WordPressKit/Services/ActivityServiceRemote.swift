@@ -152,18 +152,15 @@ open class ActivityServiceRemote: ServiceRemoteWordPressComREST {
                                         failure(ResponseError.decodingFailure)
                                     }
                                 }, failure: { error, _ in
-                                    // FIXME: A hack to support free WPCom sites and Rewind. Should be obsolote as soon as the backend
-                                    // stops returning 412's for those sites.
-                                    let nsError = error as NSError
-
-                                    guard nsError.domain == WordPressComRestApiEndpointError.errorDomain,
-                                       nsError.code == WordPressComRestApiErrorCode.preconditionFailure.rawValue else {
-                                        failure(error)
+                                    // FIXME: A hack to support free WPCom sites and Rewind.
+                                    // Should be obsolete as soon as the backend stops returning 412's for those sites.
+                                    guard error.castedToEndpointErrorWitCode(.preconditionFailure) != nil else {
+                                        success(RewindStatus(state: .unavailable))
                                         return
                                     }
 
-                                    let status = RewindStatus(state: .unavailable)
-                                    success(status)
+                                    failure(error)
+
                                     return
                                 })
     }
@@ -221,4 +218,25 @@ private extension ActivityServiceRemote {
         return groups
     }
 
+}
+
+private extension Error {
+
+    func castedToEndpointErrorWitCode(
+        _ code: WordPressComRestApiErrorCode
+    ) -> WordPressComRestApiEndpointError? {
+        guard let apiError = self as? WordPressAPIError<WordPressComRestApiEndpointError> else {
+            return .none
+        }
+
+        guard case .endpointError(let endpointError) = apiError else {
+            return .none
+        }
+
+        guard endpointError.code == code else {
+            return .none
+        }
+
+        return endpointError
+    }
 }
