@@ -37,7 +37,7 @@ steps:
       - github_commit_status:
           context: "SwiftLint"
     agents:
-      queue: "default"
+      queue: "linter"
 
   - label: "🧹 Lint"
     key: "lint"
