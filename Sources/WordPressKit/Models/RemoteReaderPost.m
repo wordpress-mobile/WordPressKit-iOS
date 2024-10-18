@@ -97,7 +97,10 @@ static const NSUInteger ReaderPostTitleLength = 30;
     self.authorDisplayName = [[self stringOrEmptyString:[authorDict stringForKey:PostRESTKeyName]] wpkit_stringByDecodingXMLCharacters]; // Typically the author's given name
     self.authorEmail = [self authorEmailFromAuthorDictionary:authorDict];
     self.authorURL = [self stringOrEmptyString:[authorDict stringForKey:PostRESTKeyURL]];
-    self.siteIconURL = [self stringOrEmptyString:[dict stringForKeyPath:@"meta.data.site.icon.img"]];
+    self.siteIconURL = [self stringOrEmptyString:[dict stringForKeyPath:@"site_icon.img"]];
+    if (self.siteIconURL.length == 0) {
+        self.siteIconURL = [self stringOrEmptyString:[dict stringForKeyPath:@"meta.data.site.icon.img"]];
+    }
     self.blogName = [self siteNameFromPostDictionary:dict];
     self.blogDescription = [self siteDescriptionFromPostDictionary:dict];
     self.blogURL = [self siteURLFromPostDictionary:dict];
