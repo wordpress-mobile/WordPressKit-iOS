@@ -11,6 +11,11 @@ public enum ReaderSortingOption: String, CaseIterable {
     }
 }
 
+public enum ReaderStream: String {
+    case discover = "discover"
+    case firstPosts = "first-posts"
+}
+
 extension ReaderPostServiceRemote {
     /// Returns a collection of RemoteReaderCard using the tags API
     /// a Reader Card can represent an item for the reader feed, such as
@@ -46,14 +51,14 @@ extension ReaderPostServiceRemote {
     /// - Topics you may like
     /// - Blogs you may like and so on
     ///
-    /// - Parameter stream: The name of the stream. By default, `discover`.
+    /// - Parameter stream: The name of the stream. By default, `.discover`.
     /// - Parameter topics: an array of String representing the topics
     /// - Parameter page: a String that represents a page handle
     /// - Parameter sortingOption: a ReaderSortingOption that represents a sorting option
     /// - Parameter count: the number of cards to fetch. Warning: This also changes the number of objects returned for recommended sites/tags.
     /// - Parameter success: Called when the request succeeds and the data returned is valid
     /// - Parameter failure: Called if the request fails for any reason, or the response data is invalid
-    public func fetchStreamCards(stream: String = "discover",
+    public func fetchStreamCards(stream: ReaderStream = .discover,
                                  for topics: [String],
                                  page: String? = nil,
                                  sortingOption: ReaderSortingOption = .noSorting,
@@ -61,7 +66,7 @@ extension ReaderPostServiceRemote {
                                  count: Int? = nil,
                                  success: @escaping ([RemoteReaderCard], String?) -> Void,
                                  failure: @escaping (Error) -> Void) {
-        let path = "read/streams/\(stream)"
+        let path = "read/streams/\(stream.rawValue)"
         guard let requestUrl = cardsEndpoint(with: path,
                                              topics: topics,
                                              page: page,
