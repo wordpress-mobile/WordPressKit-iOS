@@ -46,20 +46,22 @@ extension ReaderPostServiceRemote {
     /// - Topics you may like
     /// - Blogs you may like and so on
     ///
+    /// - Parameter stream: The name of the stream. By default, `discover`.
     /// - Parameter topics: an array of String representing the topics
     /// - Parameter page: a String that represents a page handle
     /// - Parameter sortingOption: a ReaderSortingOption that represents a sorting option
     /// - Parameter count: the number of cards to fetch. Warning: This also changes the number of objects returned for recommended sites/tags.
     /// - Parameter success: Called when the request succeeds and the data returned is valid
     /// - Parameter failure: Called if the request fails for any reason, or the response data is invalid
-    public func fetchStreamCards(for topics: [String],
+    public func fetchStreamCards(stream: String = "discover",
+                                 for topics: [String],
                                  page: String? = nil,
                                  sortingOption: ReaderSortingOption = .noSorting,
                                  refreshCount: Int? = nil,
                                  count: Int? = nil,
                                  success: @escaping ([RemoteReaderCard], String?) -> Void,
                                  failure: @escaping (Error) -> Void) {
-        let path = "read/streams/discover"
+        let path = "read/streams/\(stream)"
         guard let requestUrl = cardsEndpoint(with: path,
                                              topics: topics,
                                              page: page,
