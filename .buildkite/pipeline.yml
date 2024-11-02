@@ -33,12 +33,12 @@ steps:
   - label: ":swift: SwiftLint"
     command: swiftlint
     env:
-      SWIFTLINT_OPTION_STRICT: "true"
+      SWIFTLINT_OPTION_STRICT: true
     notify:
       - github_commit_status:
-          context: "SwiftLint"
+          context: SwiftLint
     agents:
-      queue: "linter"
+      queue: linter
 
   - label: "🧹 Lint"
     key: "lint"
