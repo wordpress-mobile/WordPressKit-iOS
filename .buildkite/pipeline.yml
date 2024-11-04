@@ -38,13 +38,14 @@ steps:
   # Linters
   #################
   - label: ":swift: SwiftLint"
-    command: run_swiftlint --strict
-    plugins: *common_plugins
+    command: swiftlint
+    env:
+      SWIFTLINT_OPTION_STRICT: true
     notify:
       - github_commit_status:
-          context: "SwiftLint"
+          context: SwiftLint
     agents:
-      queue: "default"
+      queue: linter
 
   - label: "🧹 Lint"
     key: "lint"
