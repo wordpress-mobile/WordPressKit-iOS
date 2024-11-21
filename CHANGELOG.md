@@ -51,8 +51,9 @@ _None._
 ## 17.3.0
 
 ### New Features
-- Add upgradeURL to JetpackAssistantFeatureDetails
-- Add support for sending magic links to inexistent accounts
+
+- Add `upgradeURL` to `JetpackAssistantFeatureDetails` (#822)
+- Add support for sending magic links to nonexistent accounts (#812)
 
 ### Internal Changes
 - Bump rexml from 3.2.6 to 3.3.9
