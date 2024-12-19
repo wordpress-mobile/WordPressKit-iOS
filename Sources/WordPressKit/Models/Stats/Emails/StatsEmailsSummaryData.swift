@@ -84,6 +84,7 @@ extension StatsEmailsSummaryData {
     public enum SortField: String {
         case opens = "opens"
         case postId = "post_id"
+        case postDate = "post_date"
     }
 
     public enum SortOrder: String {
