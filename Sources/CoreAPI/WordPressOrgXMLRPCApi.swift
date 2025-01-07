@@ -185,6 +185,7 @@ open class WordPressOrgXMLRPCApi: NSObject {
     ///   - streaming: set to `true` if there are large data (i.e. uploading files) in given `parameters`. `false` by default.
     /// - Returns: A `Result` type that contains the XMLRPC success or failure result.
     func call(method: String, parameters: [AnyObject]?, fulfilling progress: Progress? = nil, streaming: Bool = false) async -> WordPressAPIResult<HTTPAPIResponse<AnyObject>, WordPressOrgXMLRPCApiFault> {
+        WPKitLogDebug("Calling XMLRPC method \(method)")
         let session = streaming ? uploadURLSession : urlSession
         let builder = HTTPRequestBuilder(url: endpoint)
             .method(.post)
