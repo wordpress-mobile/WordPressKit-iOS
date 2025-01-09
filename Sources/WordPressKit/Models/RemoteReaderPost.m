@@ -494,16 +494,6 @@ static const NSUInteger ReaderPostTitleLength = 30;
         featuredImage = [self userSpecifiedFeaturedImageFromPostDictionary:dict];
     }
 
-    // If that's not present look for an image in featured media
-    if ([featuredImage length] == 0) {
-        featuredImage = [self featuredMediaImageFromPostDictionary:dict];
-    }
-
-    // As a last resource lets look for a suitable image in the post content
-    if ([featuredImage length] == 0) {
-        featuredImage = [self suitableImageFromPostContent:dict];
-    }
-
     featuredImage = [self sanitizeFeaturedImageString:featuredImage];
 
     return featuredImage;
