@@ -8,6 +8,7 @@ import Foundation
     public var path: String?
     public var slug: String?
     public var title: String?
+    public var displayName: String?
     public var topicDescription: String?
     public var topicID: NSNumber
     public var type: String?
@@ -25,7 +26,8 @@ import Foundation
         owner = topicDict.string(forKey: topicDictionaryOwnerKey)
         path = topicDict.string(forKey: topicDictionaryURLKey)?.lowercased()
         slug = topicDict.string(forKey: topicDictionarySlugKey)
-        title = topicDict.string(forKey: topicDictionaryDisplayNameKey) ?? topicDict.string(forKey: topicDictionaryTitleKey)
+        title = topicDict.string(forKey: topicDictionaryTitleKey)
+        displayName = topicDict.string(forKey: topicDictionaryDisplayNameKey)
         type = topicDict.string(forKey: topicDictionaryTypeKey)
         organizationID = topicDict.number(forKeyPath: topicDictionaryOrganizationIDKey) ?? 0
         isSubscribed = subscribed
