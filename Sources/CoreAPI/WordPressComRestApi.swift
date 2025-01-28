@@ -103,6 +103,8 @@ open class WordPressComRestApi: NSObject {
 
     private var invalidTokenHandler: (() -> Void)?
 
+    private var useEphemeralSession: Bool
+
     /**
      Configure whether or not the user's preferred language locale should be appended. Defaults to true.
      */
@@ -139,7 +141,8 @@ open class WordPressComRestApi: NSObject {
                 backgroundSessionIdentifier: String = WordPressComRestApi.defaultBackgroundSessionIdentifier,
                 sharedContainerIdentifier: String? = nil,
                 localeKey: String = WordPressComRestApi.LocaleKeyDefault,
-                baseURL: URL = WordPressComRestApi.apiBaseURL) {
+                baseURL: URL = WordPressComRestApi.apiBaseURL,
+                useEphemeralSession: Bool = false) {
         self.oAuthToken = oAuthToken
         self.userAgent = userAgent
         self.backgroundUploads = backgroundUploads
@@ -147,6 +150,7 @@ open class WordPressComRestApi: NSObject {
         self.sharedContainerIdentifier = sharedContainerIdentifier
         self.localeKey = localeKey
         self.baseURL = baseURL
+        self.useEphemeralSession = useEphemeralSession
 
         super.init()
     }
@@ -347,7 +351,14 @@ open class WordPressComRestApi: NSObject {
     }()
 
     private func sessionConfiguration(background: Bool) -> URLSessionConfiguration {
-        let configuration = background ? URLSessionConfiguration.background(withIdentifier: self.backgroundSessionIdentifier) : URLSessionConfiguration.default
+        let configuration: URLSessionConfiguration
+        if background {
+            configuration = .background(withIdentifier: self.backgroundSessionIdentifier)
+        } else if useEphemeralSession {
+            configuration = .ephemeral
+        } else {
+            configuration = .default
+        }
 
         var additionalHeaders: [String: AnyObject] = [:]
         if let oAuthToken = self.oAuthToken {
