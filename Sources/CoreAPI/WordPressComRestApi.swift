@@ -208,6 +208,7 @@ open class WordPressComRestApi: NSObject {
                      success: @escaping SuccessResponseBlock,
                      failure: @escaping FailureReponseBlock) -> Progress? {
         let progress = Progress.discreteProgress(totalUnitCount: 100)
+        print("GET:", Thread.callStackSymbols)
 
         Task { @MainActor in
             let result = await self.perform(.get, URLString: URLString, parameters: parameters, fulfilling: progress)
@@ -253,6 +254,8 @@ open class WordPressComRestApi: NSObject {
                      parameters: [String: AnyObject]?,
                      success: @escaping SuccessResponseBlock,
                      failure: @escaping FailureReponseBlock) -> Progress? {
+        print("POST:", Thread.callStackSymbols)
+
         let progress = Progress.discreteProgress(totalUnitCount: 100)
 
         Task { @MainActor in
