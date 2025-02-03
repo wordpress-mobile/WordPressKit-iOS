@@ -105,6 +105,8 @@ open class WordPressComRestApi: NSObject {
 
     private var useEphemeralSession: Bool
 
+    private var isInvalidated = false
+
     /**
      Configure whether or not the user's preferred language locale should be appended. Defaults to true.
      */
@@ -174,6 +176,10 @@ open class WordPressComRestApi: NSObject {
      Cancels all ongoing taks and makes the session invalid so the object will not fullfil any more request
      */
     @objc open func invalidateAndCancelTasks() {
+        guard !isInvalidated else {
+            return
+        }
+        isInvalidated = true
         for session in [urlSession, uploadURLSession] {
             session.invalidateAndCancel()
         }
@@ -431,7 +437,11 @@ open class WordPressComRestApi: NSObject {
         taskCreated: ((Int) -> Void)? = nil,
         session: URLSession? = nil
     ) async -> APIResult<T> {
-        await (session ?? self.urlSession)
+        guard !isInvalidated else {
+            print("Session Invalidated: ", Thread.callStackSymbols)
+            return APIResult.failure(.sessionInvalidated)
+        }
+        return await (session ?? self.urlSession)
             .perform(request: request, taskCreated: taskCreated, fulfilling: progress, errorType: WordPressComRestApiEndpointError.self)
             .mapSuccess { response -> HTTPAPIResponse<T> in
                 let object = try decoder(response.body)

@@ -33,6 +33,8 @@ extension WordPressAPIError: CustomNSError {
             return -100003
         case .unknown:
             return -100004
+        case .sessionInvalidated:
+            return -100005
         }
     }
 
@@ -42,8 +44,7 @@ extension WordPressAPIError: CustomNSError {
             return (endpointError as NSError).userInfo
         case .connection(let error):
             return [NSUnderlyingErrorKey: error]
-        case .requestEncodingFailure, .unacceptableStatusCode, .unparsableResponse,
-                .unknown:
+        case .requestEncodingFailure, .unacceptableStatusCode, .unparsableResponse, .sessionInvalidated, .unknown:
             return [:]
         }
     }

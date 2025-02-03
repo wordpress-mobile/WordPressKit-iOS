@@ -424,6 +424,10 @@ private extension WordPressAPIError where EndpointError == WordPressOrgXMLRPCApi
             error = underlyingError as NSError
             data = body
             statusCode = nil
+        case .sessionInvalidated:
+            error = NSError(domain: WPXMLRPCFaultErrorDomain, code: -1)
+            data = nil
+            statusCode = nil
         case let .unknown(underlyingError):
             error = underlyingError as NSError
             data = nil

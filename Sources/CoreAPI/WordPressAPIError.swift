@@ -19,6 +19,8 @@ import Foundation
     case unacceptableStatusCode(response: HTTPURLResponse, body: Data)
     /// The API call returned an HTTP response that WordPressKit can't parse. Receiving this error could be an indicator that there is an error response that's not handled properly by WordPressKit.
     case unparsableResponse(response: HTTPURLResponse?, body: Data?, underlyingError: Error)
+    /// Attempting to start a request on an invalidated session.
+    case sessionInvalidated
     /// Other error occured.
     case unknown(underlyingError: Error)
 
@@ -28,7 +30,7 @@ import Foundation
 
     var response: HTTPURLResponse? {
         switch self {
-        case .requestEncodingFailure, .connection, .unknown:
+        case .requestEncodingFailure, .connection, .unknown, .sessionInvalidated:
             return nil
         case let .endpointError(error):
             return (error as? HTTPURLResponseProviding)?.httpResponse
@@ -49,7 +51,7 @@ extension WordPressAPIError: LocalizedError {
         // always returns a non-nil value.
         let localizedErrorMessage: String
         switch self {
-        case .requestEncodingFailure, .unparsableResponse, .unacceptableStatusCode:
+        case .requestEncodingFailure, .unparsableResponse, .unacceptableStatusCode, .sessionInvalidated:
             // These are usually programming errors.
             localizedErrorMessage = Self.unknownErrorMessage
         case let .endpointError(error):
