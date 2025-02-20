@@ -30,7 +30,7 @@
  */
 - (void)updateCommentWithID:(NSNumber * _Nonnull)commentID
                     content:(NSString * _Nonnull)content
-                    success:(void (^ _Nullable)(void))success
+                    success:(void (^ _Nullable)(RemoteComment * _Nullable comment))success
                     failure:(void (^ _Nullable)(NSError * _Nullable error))failure;
 
 /**
