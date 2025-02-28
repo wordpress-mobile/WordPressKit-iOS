@@ -109,6 +109,7 @@ static const NSUInteger ReaderPostTitleLength = 30;
     self.content = [self postContentFromPostDictionary:dict];
     self.date_created_gmt = [self stringOrEmptyString:[dict stringForKey:PostRESTKeyDate]];
     self.featuredImage = [self featuredImageFromPostDictionary:dict];
+    self.autoSuggestedFeaturedImage = [self featuredMediaImageFromPostDictionary:dict];
     self.feedID = [dict numberForKey:PostRESTKeyFeedID];
     self.feedItemID = [dict numberForKey:PostRESTKeyFeedItemID];
     self.globalID = [self stringOrEmptyString:[dict stringForKey:PostRESTKeyGlobalID]];
