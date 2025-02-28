@@ -11,8 +11,8 @@ let package = Package(
     targets: [
         .binaryTarget(
             name: "WordPressKit",
-            url: "https://github.com/user-attachments/files/19034102/WordPressKit.zip",
-            checksum: "1d845ec9b6b22ae82f309dc7909333b952ca28a523b8e483230f4d3884ef0a0f"
+            url: "https://github.com/user-attachments/files/19034191/WordPressKit.zip",
+            checksum: "34f108cba86b5e4334d1c9af79946dbb8b665e270bdd14bc8f7bc0ba7a898583"
         ),
     ]
 )
