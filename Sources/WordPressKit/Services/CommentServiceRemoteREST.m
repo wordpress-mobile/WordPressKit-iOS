@@ -246,7 +246,7 @@
 
 - (void)updateCommentWithID:(NSNumber *)commentID
                     content:(NSString *)content
-                    success:(void (^)(void))success
+                    success:(void (^)(RemoteComment *comment))success
                     failure:(void (^)(NSError *error))failure
 {
     NSString *path = [NSString stringWithFormat:@"sites/%@/comments/%@", self.siteID, commentID];
@@ -260,14 +260,15 @@
     [self.wordPressComRESTAPI post:requestUrl
                         parameters:parameters
                            success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
-                               if (success) {
-                                   success();
-                               }
-                           } failure:^(NSError *error, NSHTTPURLResponse *httpResponse) {
-                               if (failure) {
-                                   failure(error);
-                               }
-                           }];
+        RemoteComment *comment = [self remoteCommentFromJSONDictionary:responseObject];
+        if (success) {
+            success(comment);
+        }
+    } failure:^(NSError *error, NSHTTPURLResponse *httpResponse) {
+        if (failure) {
+            failure(error);
+        }
+    }];
 }
 
 - (void)replyToPostWithID:(NSNumber *)postID

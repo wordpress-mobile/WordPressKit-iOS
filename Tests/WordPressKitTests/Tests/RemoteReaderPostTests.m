@@ -209,7 +209,7 @@
                           uri, uri, uri]
              };
     imagePath = [remoteReaderPost featuredImageFromPostDictionary:dict];
-    XCTAssertTrue([uri isEqualToString:imagePath], @"Failed to retrieve the image uri from the post content.");
+    XCTAssertTrue(imagePath.length == 0, @"No image should be retrieved from the content");
 
     dict = [self editorialDictionaryWithKey:@"image" value:uri];
     imagePath = [remoteReaderPost featuredImageFromPostDictionary:dict];
