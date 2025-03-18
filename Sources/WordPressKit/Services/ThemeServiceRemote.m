@@ -14,7 +14,6 @@ static NSString* const ThemeRequestNumberKey = @"number";
 static NSInteger const ThemeRequestNumberValue = 50;
 static NSString* const ThemeRequestPageKey = @"page";
 static NSString* const ThemeRequestSearchKey = @"search";
-static NSString* const ThemeRequestFilterKey = @"filter";
 
 @implementation ThemeServiceRemote
 
@@ -148,20 +147,17 @@ static NSString* const ThemeRequestFilterKey = @"filter";
 }
 
 - (NSProgress *)getThemesForBlogId:(NSNumber *)blogId
-                            search:(NSString *)search
                               page:(NSInteger)page
                            success:(ThemeServiceRemoteThemesRequestSuccessBlock)success
                            failure:(ThemeServiceRemoteFailureBlock)failure
 {
     NSParameterAssert([blogId isKindOfClass:[NSNumber class]]);
-    NSParameterAssert([search isKindOfClass:[NSString class]]);
     NSParameterAssert(page > 0);
 
     NSProgress *progress = [self getThemesForBlogId:blogId
                                                page:page
                                          apiVersion:WordPressComRESTAPIVersion_1_2
-                                             params:@{ThemeRequestTierKey: ThemeRequestTierAllValue,
-                                                      ThemeRequestFilterKey: [NSString stringWithFormat:@"subject:%@", search]}
+                                             params:@{ThemeRequestTierKey: ThemeRequestTierAllValue}
                                             success:success
                                             failure:failure];
 
