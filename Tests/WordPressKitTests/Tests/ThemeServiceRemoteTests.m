@@ -224,6 +224,7 @@ static NSString* const ThemeServiceRemoteTestGetSingleThemeJson = @"get-single-t
     }];
 
     XCTAssertNoThrow([service getWPThemesPage:1
+                                       search:@""
                                      freeOnly:NO
                                       success:successBlock
                                       failure:nil]);
@@ -268,9 +269,10 @@ static NSString* const ThemeServiceRemoteTestGetSingleThemeJson = @"get-single-t
     }];
 
     XCTAssertNoThrow([service getThemesForBlogId:blogId
-                                            page:1
-                                         success:successBlock
-                                         failure:nil]);
+                                          search:@""
+                                           page:1
+                                        success:successBlock
+                                        failure:nil]);
 }
 
 - (void)testThatGetThemesForBlogIdThrowsExceptionWithoutBlogId

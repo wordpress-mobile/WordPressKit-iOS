@@ -13,6 +13,8 @@ static NSString* const ThemeRequestTierFreeValue = @"free";
 static NSString* const ThemeRequestNumberKey = @"number";
 static NSInteger const ThemeRequestNumberValue = 50;
 static NSString* const ThemeRequestPageKey = @"page";
+static NSString* const ThemeRequestSearchKey = @"search";
+static NSString* const ThemeRequestFilterKey = @"filter";
 
 @implementation ThemeServiceRemote
 
@@ -98,11 +100,13 @@ static NSString* const ThemeRequestPageKey = @"page";
 }
 
 - (NSProgress *)getWPThemesPage:(NSInteger)page
+                         search:(NSString *)search
                        freeOnly:(BOOL)freeOnly
                         success:(ThemeServiceRemoteThemesRequestSuccessBlock)success
                         failure:(ThemeServiceRemoteFailureBlock)failure
 {
     NSParameterAssert(page > 0);
+    NSParameterAssert([search isKindOfClass:[NSString class]]);
 
     NSString *requestUrl = [self pathForEndpoint:@"themes"
                                      withVersion:WordPressComRESTAPIVersion_1_2];
@@ -110,7 +114,8 @@ static NSString* const ThemeRequestPageKey = @"page";
     NSDictionary *parameters = @{ThemeRequestTierKey: freeOnly ? ThemeRequestTierFreeValue : ThemeRequestTierAllValue,
                                  ThemeRequestNumberKey: @(ThemeRequestNumberValue),
                                  ThemeRequestPageKey: @(page),
-                                 };
+                                 ThemeRequestSearchKey: search
+                                };
 
     return [self getThemesWithRequestUrl:requestUrl
                                     page:page
@@ -143,17 +148,20 @@ static NSString* const ThemeRequestPageKey = @"page";
 }
 
 - (NSProgress *)getThemesForBlogId:(NSNumber *)blogId
-                               page:(NSInteger)page
-                            success:(ThemeServiceRemoteThemesRequestSuccessBlock)success
-                            failure:(ThemeServiceRemoteFailureBlock)failure
+                            search:(NSString *)search
+                              page:(NSInteger)page
+                           success:(ThemeServiceRemoteThemesRequestSuccessBlock)success
+                           failure:(ThemeServiceRemoteFailureBlock)failure
 {
     NSParameterAssert([blogId isKindOfClass:[NSNumber class]]);
+    NSParameterAssert([search isKindOfClass:[NSString class]]);
     NSParameterAssert(page > 0);
 
     NSProgress *progress = [self getThemesForBlogId:blogId
                                                page:page
                                          apiVersion:WordPressComRESTAPIVersion_1_2
-                                             params:@{ThemeRequestTierKey: ThemeRequestTierAllValue}
+                                             params:@{ThemeRequestTierKey: ThemeRequestTierAllValue,
+                                                      ThemeRequestFilterKey: [NSString stringWithFormat:@"subject:%@", search]}
                                             success:success
                                             failure:failure];
 
