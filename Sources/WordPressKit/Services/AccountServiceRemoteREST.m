@@ -354,6 +354,11 @@ MagicLinkFlow const MagicLinkFlowSignup = @"signup";
 {
     NSString *requestUrl = [self pathForEndpoint:@"me/sites"
                                      withVersion:WordPressComRESTAPIVersion_1_2];
+    if (parameters[@"site_visibility"] == nil) {
+        NSMutableDictionary *another = [parameters mutableCopy];
+        another[@"site_visibility"] = @"visible";
+        parameters = another;
+    }
     [self.wordPressComRESTAPI get:requestUrl
                        parameters:parameters
                           success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
