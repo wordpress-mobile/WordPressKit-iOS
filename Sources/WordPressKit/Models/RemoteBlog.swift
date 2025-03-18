@@ -58,6 +58,8 @@ import Foundation
     /// Blog's total disk quota space used.
     public var quotaSpaceUsed: NSNumber?
 
+    public var isDeleted: Bool
+
     /// Parses details from a JSON dictionary, as returned by the WordPress.com REST API.
     @objc(initWithJSONDictionary:)
     public init(jsonDictionary json: NSDictionary) {
@@ -79,6 +81,7 @@ import Foundation
         self.planActiveFeatures = (json.array(forKeyPath: "plan.features.active") as? [String]) ?? []
         self.quotaSpaceAllowed = json.number(forKeyPath: "quota.space_allowed")
         self.quotaSpaceUsed = json.number(forKeyPath: "quota.space_used")
+        self.isDeleted = json.number(forKey: "is_deleted")?.boolValue == true
     }
 
 }
