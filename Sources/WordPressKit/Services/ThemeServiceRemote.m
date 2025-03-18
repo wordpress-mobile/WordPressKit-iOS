@@ -108,7 +108,7 @@ static NSString* const ThemeRequestSearchKey = @"search";
     NSParameterAssert([search isKindOfClass:[NSString class]]);
 
     NSString *requestUrl = [self pathForEndpoint:@"themes"
-                                     withVersion:WordPressComRESTAPIVersion_1_2];
+                                     withVersion:WordPressComRESTAPIVersion_2_0];
 
     NSDictionary *parameters = @{ThemeRequestTierKey: freeOnly ? ThemeRequestTierFreeValue : ThemeRequestTierAllValue,
                                  ThemeRequestNumberKey: @(ThemeRequestNumberValue),
