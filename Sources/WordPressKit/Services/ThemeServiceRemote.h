@@ -60,6 +60,7 @@ typedef void(^ThemeServiceRemoteFailureBlock)(NSError *error);
  *
  *  @param      freeOnly    Only fetch free themes, if false all WP themes will be returned
  *  @param      page        Results page to return.
+ *  @param      search      Search term to filter themes. Can be nil or empty string.
  *  @param      success     The success handler.  Can be nil.
  *  @param      failure     The failure handler.  Can be nil.
  *
@@ -67,6 +68,7 @@ typedef void(^ThemeServiceRemoteFailureBlock)(NSError *error);
  */
 - (NSProgress *)getWPThemesPage:(NSInteger)page
                        freeOnly:(BOOL)freeOnly
+                        search:(NSString *)search
                         success:(ThemeServiceRemoteThemesRequestSuccessBlock)success
                         failure:(ThemeServiceRemoteFailureBlock)failure;
 

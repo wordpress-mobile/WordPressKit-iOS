@@ -99,6 +99,7 @@ static NSString* const ThemeRequestPageKey = @"page";
 
 - (NSProgress *)getWPThemesPage:(NSInteger)page
                        freeOnly:(BOOL)freeOnly
+                        search:(NSString *)search
                         success:(ThemeServiceRemoteThemesRequestSuccessBlock)success
                         failure:(ThemeServiceRemoteFailureBlock)failure
 {
@@ -107,10 +108,15 @@ static NSString* const ThemeRequestPageKey = @"page";
     NSString *requestUrl = [self pathForEndpoint:@"themes"
                                      withVersion:WordPressComRESTAPIVersion_1_2];
 
-    NSDictionary *parameters = @{ThemeRequestTierKey: freeOnly ? ThemeRequestTierFreeValue : ThemeRequestTierAllValue,
-                                 ThemeRequestNumberKey: @(ThemeRequestNumberValue),
-                                 ThemeRequestPageKey: @(page),
-                                 };
+    NSMutableDictionary *parameters = [@{
+        ThemeRequestTierKey: freeOnly ? ThemeRequestTierFreeValue : ThemeRequestTierAllValue,
+        ThemeRequestNumberKey: @(ThemeRequestNumberValue),
+        ThemeRequestPageKey: @(page)
+    } mutableCopy];
+    
+    if (search && search.length > 0) {
+        parameters[@"search"] = search;
+    }
 
     return [self getThemesWithRequestUrl:requestUrl
                                     page:page
