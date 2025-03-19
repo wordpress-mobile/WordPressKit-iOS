@@ -269,7 +269,6 @@ static NSString* const ThemeServiceRemoteTestGetSingleThemeJson = @"get-single-t
     }];
 
     XCTAssertNoThrow([service getThemesForBlogId:blogId
-                                          search:@""
                                            page:1
                                         success:successBlock
                                         failure:nil]);
