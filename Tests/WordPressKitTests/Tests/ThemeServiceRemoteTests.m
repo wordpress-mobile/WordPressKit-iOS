@@ -224,10 +224,10 @@ static NSString* const ThemeServiceRemoteTestGetSingleThemeJson = @"get-single-t
     }];
 
     XCTAssertNoThrow([service getWPThemesPage:1
-                                       search:@""
-                                     freeOnly:NO
-                                      success:successBlock
-                                      failure:nil]);
+                                      search:nil
+                                    freeOnly:NO
+                                     success:successBlock
+                                     failure:nil]);
 }
 
 - (void)testThatGetThemesForBlogIdWorks

@@ -105,17 +105,20 @@ static NSString* const ThemeRequestSearchKey = @"search";
                         failure:(ThemeServiceRemoteFailureBlock)failure
 {
     NSParameterAssert(page > 0);
-    NSParameterAssert([search isKindOfClass:[NSString class]]);
-
+    
     NSString *requestUrl = [self pathForEndpoint:@"themes"
                                      withVersion:WordPressComRESTAPIVersion_2_0];
-
-    NSDictionary *parameters = @{ThemeRequestTierKey: freeOnly ? ThemeRequestTierFreeValue : ThemeRequestTierAllValue,
-                                 ThemeRequestNumberKey: @(ThemeRequestNumberValue),
-                                 ThemeRequestPageKey: @(page),
-                                 ThemeRequestSearchKey: search
-                                };
-
+    
+    NSMutableDictionary *parameters = [@{
+        ThemeRequestTierKey: freeOnly ? ThemeRequestTierFreeValue : ThemeRequestTierAllValue,
+        ThemeRequestNumberKey: @(ThemeRequestNumberValue),
+        ThemeRequestPageKey: @(page)
+    } mutableCopy];
+    
+    if (search) {
+        parameters[ThemeRequestSearchKey] = search;
+    }
+    
     return [self getThemesWithRequestUrl:requestUrl
                                     page:page
                               parameters:parameters
