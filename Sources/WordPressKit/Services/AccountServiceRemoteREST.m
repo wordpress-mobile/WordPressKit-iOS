@@ -385,10 +385,14 @@ MagicLinkFlow const MagicLinkFlowSignup = @"signup";
 - (NSArray *)remoteBlogsFromJSONArray:(NSArray *)jsonBlogs
 {
     NSArray *blogs = jsonBlogs;
-    return [blogs wpkit_map:^id(NSDictionary *jsonBlog) {
+    return [[blogs wpkit_map:^id(NSDictionary *jsonBlog) {
         return [[RemoteBlog alloc] initWithJSONDictionary:jsonBlog];
+    }] wpkit_filter:^BOOL(RemoteBlog *blog) {
+        // Exclude deleted sites from query result, since the app does not handle deleted sites properly.
+        // I tried to use query arguments `site_visibility=visible` and `site_activity=active`, but neither excludes
+        // deleted sites.
+        return !blog.isDeleted;
     }];
-    return blogs;
 }
 
 @end
