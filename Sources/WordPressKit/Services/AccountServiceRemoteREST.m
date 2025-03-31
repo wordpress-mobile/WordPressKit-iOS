@@ -391,7 +391,16 @@ MagicLinkFlow const MagicLinkFlowSignup = @"signup";
         // Exclude deleted sites from query result, since the app does not handle deleted sites properly.
         // I tried to use query arguments `site_visibility=visible` and `site_activity=active`, but neither excludes
         // deleted sites.
-        return !blog.isDeleted;
+        if (blog.isDeleted) {
+            return false;
+        }
+
+        // Exclude sites that are connected via Jetpack, but without an active Jetpack connection.
+        if (blog.jetpackConnection && !blog.jetpack) {
+            return false;
+        }
+
+        return true;
     }];
 }
 
