@@ -37,10 +37,10 @@ import Foundation
     /// Features available for the current blog's plan.
     public var planActiveFeatures = [String]()
 
-    /// Indicates whether the jetpack connection is active.
+    /// Indicates whether the site is a Jetpack site or not.
     public var jetpack: Bool = false
 
-    /// Indicates whether it's a Jetpack connected site.
+    /// Indicates whether the site is connected to WP.com via `jetpack-connection`.
     public var jetpackConnection: Bool = false
 
     /// Boolean indicating whether the current user has Admin privileges, or not.
