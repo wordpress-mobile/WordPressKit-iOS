@@ -471,6 +471,7 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
     post.postThumbnailPath = [postThumbnail stringForKeyPath:@"URL"];
     post.type = jsonPost[@"type"];
     post.format = jsonPost[@"format"];
+    post.order = [jsonPost numberForKey:@"menu_order"].integerValue;
 
     post.commentCount = [jsonPost numberForKeyPath:@"discussion.comment_count"] ?: @0;
     post.likeCount = [jsonPost numberForKeyPath:@"like_count"] ?: @0;

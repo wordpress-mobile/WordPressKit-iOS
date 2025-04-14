@@ -322,6 +322,7 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
     post.postThumbnailPath = [thumbnailDict stringForKey:@"link"];
     post.type = xmlrpcDictionary[@"post_type"];
     post.format = xmlrpcDictionary[@"post_format"];
+    post.order = [xmlrpcDictionary numberForKey:@"menu_order"].integerValue;
 
     post.metadata = xmlrpcDictionary[@"custom_fields"];
 
