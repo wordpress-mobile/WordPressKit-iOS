@@ -12,7 +12,7 @@ import Foundation
     */
     @objc open func loadFile(_ name: String, type: String) -> JSONDictionary? {
 
-        let path = Bundle(for: Swift.type(of: self)).path(forResource: name, ofType: type)
+        let path = JSONLoader.bundle.path(forResource: name, ofType: type)
 
         if let unwrappedPath = path {
             return loadFile(unwrappedPath)
@@ -46,5 +46,16 @@ import Foundation
         } catch {
             return nil
         }
+    }
+
+    public static func data(named name: String, ext: String = "json") throws -> Data {
+        guard let url = Bundle(for: JSONLoader.self).url(forResource: name, withExtension: ext) else {
+            throw URLError(.badURL)
+        }
+        return try Data(contentsOf: url)
+    }
+
+    private static var bundle: Bundle {
+        Bundle(for: JSONLoader.self)
     }
 }

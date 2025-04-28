@@ -220,16 +220,7 @@ public class PeopleServiceRemote: ServiceRemoteWordPressComREST {
         public var total: Int
         public var pages: Int
         public var page: Int
-        public var perPage: Int
         public var subscribers: [RemoteSubscriber]
-
-        private enum CodingKeys: String, CodingKey {
-            case total = "total"
-            case pages = "pages"
-            case page = "page"
-            case perPage = "per_page"
-            case subscribers = "subscribers"
-        }
     }
 
     public func getSubscribers(
@@ -255,10 +246,14 @@ public class PeopleServiceRemote: ServiceRemoteWordPressComREST {
         if !parameters.filters.isEmpty {
             query["filters"] = parameters.filters.map { $0.description }
         }
+
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = JSONDecoder.DateDecodingStrategy.supportMultipleDateFormats
+
         return try await wordPressComRestApi.perform(
             .get,
             URLString: url,
-            jsonDecoder: JSONDecoder.apiDecoder,
+            jsonDecoder: decoder,
             type: SubscribersResponse.self
         ).get().body
     }

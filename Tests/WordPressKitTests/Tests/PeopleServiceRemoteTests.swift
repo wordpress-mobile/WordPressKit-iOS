@@ -795,4 +795,17 @@ class PeopleServiceRemoteTests: RemoteTestCase, RESTTestable {
         waitForExpectations(timeout: timeout, handler: nil)
     }
 
+    func testDecodeSubscribersResponse() throws {
+        let data = try JSONLoader.data(named: "site-subscribers-response")
+
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = JSONDecoder.DateDecodingStrategy.supportMultipleDateFormats
+
+        let response = try decoder.decode(PeopleServiceRemote.SubscribersResponse.self, from: data)
+
+        XCTAssertEqual(response.total, 1)
+
+        let subscriber = try XCTUnwrap(response.subscribers.first)
+        XCTAssertEqual(subscriber.userID, 1)
+    }
 }
