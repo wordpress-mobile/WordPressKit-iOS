@@ -376,7 +376,7 @@ open class WordPressComRestApi: NSObject {
     open func perform(
         _ method: HTTPRequestBuilder.Method,
         URLString: String,
-        parameters: [String: AnyObject]? = nil,
+        parameters: [String: Any]? = nil,
         fulfilling progress: Progress? = nil
     ) async -> APIResult<AnyObject> {
         await perform(method, URLString: URLString, parameters: parameters, fulfilling: progress) {
@@ -387,7 +387,7 @@ open class WordPressComRestApi: NSObject {
     open func perform<T: Decodable>(
         _ method: HTTPRequestBuilder.Method,
         URLString: String,
-        parameters: [String: AnyObject]? = nil,
+        parameters: [String: Any]? = nil,
         fulfilling progress: Progress? = nil,
         jsonDecoder: JSONDecoder? = nil,
         type: T.Type = T.self
@@ -401,7 +401,7 @@ open class WordPressComRestApi: NSObject {
     private func perform<T>(
         _ method: HTTPRequestBuilder.Method,
         URLString: String,
-        parameters: [String: AnyObject]?,
+        parameters: [String: Any]?,
         fulfilling progress: Progress?,
         decoder: @escaping (Data) throws -> T
     ) async -> APIResult<T> {
