@@ -173,6 +173,91 @@ public class PeopleServiceRemote: ServiceRemoteWordPressComREST {
         })
     }
 
+    public struct SubscribersParameters {
+        public var sortField: SortField?
+        public var sortOrder: SortOrder?
+        public var filters: [Filter]
+
+        public enum SortField: String {
+            case dateSubscribed = "date_subscribed"
+            case email = "email"
+            case name = "name"
+            case plan = "plan"
+            case subscriptionStatus = "subscription_status"
+        }
+
+        public enum SortOrder: String {
+            case ascending = "asc"
+            case descending = "dsc"
+        }
+
+        public protocol Filter: CustomStringConvertible {}
+
+        public enum FilterSubscriptionType: String, Filter {
+            case email = "email_subscriber"
+            case reader = "reader_subscriber"
+            case unconfirmed = "unconfirmed_subscriber"
+            case blocked = "blocked_subscriber"
+
+            public var description: String { rawValue }
+        }
+
+        public enum FilterPaymentType: String, Filter {
+            case free
+            case paid
+
+            public var description: String { rawValue }
+        }
+
+        public init(sortField: SortField? = nil, sortOrder: SortOrder? = nil, filters: [Filter] = []) {
+            self.sortField = sortField
+            self.sortOrder = sortOrder
+            self.filters = filters
+        }
+    }
+
+    public struct SubscribersResponse: Decodable {
+        public var total: Int
+        public var pages: Int
+        public var page: Int
+        public var subscribers: [RemoteSubscriber]
+    }
+
+    public func getSubscribers(
+        siteID: Int,
+        page: Int? = nil,
+        perPage: Int? = 25,
+        parameters: SubscribersParameters = .init()
+    ) async throws -> SubscribersResponse {
+        let url = self.path(forEndpoint: "sites/\(siteID)/subscribers", withVersion: ._2_0)
+        var query: [String: Any] = [:]
+        if let page {
+            query["page"] = page
+        }
+        if let perPage {
+            query["per_page"] = perPage
+        }
+        if let sortField = parameters.sortField {
+            query["sort"] = sortField.rawValue
+        }
+        if let sortOrder = parameters.sortOrder {
+            query["sort_order"] = sortOrder.rawValue
+        }
+        if !parameters.filters.isEmpty {
+            query["filters"] = parameters.filters.map { $0.description }
+        }
+
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = JSONDecoder.DateDecodingStrategy.supportMultipleDateFormats
+
+        return try await wordPressComRestApi.perform(
+            .get,
+            URLString: url,
+            jsonDecoder: decoder,
+            type: SubscribersResponse.self
+        ).get().body
+    }
+
     /// Updates a specified User's Role
     ///
     /// - Parameters:
