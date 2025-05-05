@@ -264,6 +264,7 @@ public class PeopleServiceRemote: ServiceRemoteWordPressComREST {
         return try await wordPressComRestApi.perform(
             .get,
             URLString: url,
+            parameters: query,
             jsonDecoder: decoder,
             type: SubscribersResponse.self
         ).get().body
