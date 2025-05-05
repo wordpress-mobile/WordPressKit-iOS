@@ -216,10 +216,11 @@ public class PeopleServiceRemote: ServiceRemoteWordPressComREST {
             case paid
         }
 
-        public init(sortField: SortField? = nil, sortOrder: SortOrder? = nil, filters: Set<Filter> = []) {
+        public init(sortField: SortField? = nil, sortOrder: SortOrder? = nil, filters: Set<Filter> = [], search: String? = nil) {
             self.sortField = sortField
             self.sortOrder = sortOrder
             self.filters = filters
+            self.search = search
         }
     }
 
