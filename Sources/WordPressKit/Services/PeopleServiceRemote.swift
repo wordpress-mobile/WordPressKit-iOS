@@ -173,10 +173,11 @@ public class PeopleServiceRemote: ServiceRemoteWordPressComREST {
         })
     }
 
-    public struct SubscribersParameters {
+    public struct SubscribersParameters: Hashable {
         public var sortField: SortField?
         public var sortOrder: SortOrder?
-        public var filters: [Filter]
+        public var filters: Set<Filter>
+        public var search: String?
 
         public enum SortField: String {
             case dateSubscribed = "date_subscribed"
@@ -191,25 +192,31 @@ public class PeopleServiceRemote: ServiceRemoteWordPressComREST {
             case descending = "dsc"
         }
 
-        public protocol Filter: CustomStringConvertible {}
+        public enum Filter: Hashable {
+            case subscription(FilterSubscriptionType)
+            case payment(FilterPaymentType)
 
-        public enum FilterSubscriptionType: String, Filter {
+            var rawValue: String {
+                switch self {
+                case .subscription(let filter): filter.rawValue
+                case .payment(let filter): filter.rawValue
+                }
+            }
+        }
+
+        public enum FilterSubscriptionType: String {
             case email = "email_subscriber"
             case reader = "reader_subscriber"
             case unconfirmed = "unconfirmed_subscriber"
             case blocked = "blocked_subscriber"
-
-            public var description: String { rawValue }
         }
 
-        public enum FilterPaymentType: String, Filter {
+        public enum FilterPaymentType: String {
             case free
             case paid
-
-            public var description: String { rawValue }
         }
 
-        public init(sortField: SortField? = nil, sortOrder: SortOrder? = nil, filters: [Filter] = []) {
+        public init(sortField: SortField? = nil, sortOrder: SortOrder? = nil, filters: Set<Filter> = []) {
             self.sortField = sortField
             self.sortOrder = sortOrder
             self.filters = filters
@@ -244,7 +251,10 @@ public class PeopleServiceRemote: ServiceRemoteWordPressComREST {
             query["sort_order"] = sortOrder.rawValue
         }
         if !parameters.filters.isEmpty {
-            query["filters"] = parameters.filters.map { $0.description }
+            query["filters"] = parameters.filters.map(\.rawValue)
+        }
+        if let search = parameters.search, !search.isEmpty {
+            query["search"] = search
         }
 
         let decoder = JSONDecoder()
