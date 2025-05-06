@@ -176,8 +176,8 @@ public class PeopleServiceRemote: ServiceRemoteWordPressComREST {
     public struct SubscribersParameters: Hashable {
         public var sortField: SortField?
         public var sortOrder: SortOrder?
-        public var filters: Set<Filter>
-        public var search: String?
+        public var subscriptionTypeFilter: FilterSubscriptionType?
+        public var paymentTypeFilter: FilterPaymentType?
 
         public enum SortField: String {
             case dateSubscribed = "date_subscribed"
@@ -192,18 +192,6 @@ public class PeopleServiceRemote: ServiceRemoteWordPressComREST {
             case descending = "dsc"
         }
 
-        public enum Filter: Hashable {
-            case subscription(FilterSubscriptionType)
-            case payment(FilterPaymentType)
-
-            var rawValue: String {
-                switch self {
-                case .subscription(let filter): filter.rawValue
-                case .payment(let filter): filter.rawValue
-                }
-            }
-        }
-
         public enum FilterSubscriptionType: String {
             case email = "email_subscriber"
             case reader = "reader_subscriber"
@@ -216,11 +204,15 @@ public class PeopleServiceRemote: ServiceRemoteWordPressComREST {
             case paid
         }
 
-        public init(sortField: SortField? = nil, sortOrder: SortOrder? = nil, filters: Set<Filter> = [], search: String? = nil) {
+        var filters: [String] {
+            [subscriptionTypeFilter?.rawValue, paymentTypeFilter?.rawValue].compactMap { $0 }
+        }
+
+        public init(sortField: SortField? = nil, sortOrder: SortOrder? = nil, subscriptionTypeFilter: FilterSubscriptionType? = nil, paymentTypeFilter: FilterPaymentType? = nil) {
             self.sortField = sortField
             self.sortOrder = sortOrder
-            self.filters = filters
-            self.search = search
+            self.subscriptionTypeFilter = subscriptionTypeFilter
+            self.paymentTypeFilter = paymentTypeFilter
         }
     }
 
@@ -235,7 +227,8 @@ public class PeopleServiceRemote: ServiceRemoteWordPressComREST {
         siteID: Int,
         page: Int? = nil,
         perPage: Int? = 25,
-        parameters: SubscribersParameters = .init()
+        parameters: SubscribersParameters = .init(),
+        search: String? = nil,
     ) async throws -> SubscribersResponse {
         let url = self.path(forEndpoint: "sites/\(siteID)/subscribers", withVersion: ._2_0)
         var query: [String: Any] = [:]
@@ -252,9 +245,9 @@ public class PeopleServiceRemote: ServiceRemoteWordPressComREST {
             query["sort_order"] = sortOrder.rawValue
         }
         if !parameters.filters.isEmpty {
-            query["filters"] = parameters.filters.map(\.rawValue)
+            query["filters"] = parameters.filters
         }
-        if let search = parameters.search, !search.isEmpty {
+        if let search, !search.isEmpty {
             query["search"] = search
         }
 
