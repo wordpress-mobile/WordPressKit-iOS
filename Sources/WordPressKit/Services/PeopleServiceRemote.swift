@@ -179,7 +179,7 @@ public class PeopleServiceRemote: ServiceRemoteWordPressComREST {
         public var subscriptionTypeFilter: FilterSubscriptionType?
         public var paymentTypeFilter: FilterPaymentType?
 
-        public enum SortField: String, CaseIterable {
+        @frozen public enum SortField: String, CaseIterable {
             case dateSubscribed = "date_subscribed"
             case email = "email"
             case name = "name"
@@ -187,19 +187,19 @@ public class PeopleServiceRemote: ServiceRemoteWordPressComREST {
             case subscriptionStatus = "subscription_status"
         }
 
-        public enum SortOrder: String, CaseIterable {
+        @frozen public enum SortOrder: String, CaseIterable {
             case ascending = "asc"
             case descending = "dsc"
         }
 
-        public enum FilterSubscriptionType: String, CaseIterable {
+        @frozen public enum FilterSubscriptionType: String, CaseIterable {
             case email = "email_subscriber"
             case reader = "reader_subscriber"
             case unconfirmed = "unconfirmed_subscriber"
             case blocked = "blocked_subscriber"
         }
 
-        public enum FilterPaymentType: String, CaseIterable {
+        @frozen public enum FilterPaymentType: String, CaseIterable {
             case free
             case paid
         }
