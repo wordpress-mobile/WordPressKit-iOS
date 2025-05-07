@@ -54,6 +54,8 @@ public class SubscribersServiceRemote: ServiceRemoteWordPressComREST {
         public var subscribers: [RemoteSubscriber]
     }
 
+    /// Gets the list of the site subscribers, including WordPress.com users and
+    /// email subscribers.
     public func getSubscribers(
         siteID: Int,
         page: Int? = nil,
@@ -91,6 +93,32 @@ public class SubscribersServiceRemote: ServiceRemoteWordPressComREST {
             parameters: query,
             jsonDecoder: decoder,
             type: GetSubscribersResponse.self
+        ).get().body
+    }
+
+    public struct GetSubscriberStatsResponse: Decodable {
+        public var emailsSent: Int
+        public var uniqueOpens: Int
+        public var uniqueClicks: Int
+    }
+
+    /// Gets stats for the given subscriber.
+    ///
+    /// Example: https://public-api.wordpress.com/wpcom/v2/sites/239619264/individual-subscriber-stats?subscription_id=907116368
+    public func getSubsciberStats(
+        siteID: Int,
+        subscriberID: Int
+    ) async throws -> GetSubscriberStatsResponse {
+        let url = self.path(forEndpoint: "sites/\(siteID)/individual-subscriber-stats", withVersion: ._2_0)
+        let query: [String: Any] = [
+            "subscription_id": 907116368
+        ]
+        return try await wordPressComRestApi.perform(
+            .get,
+            URLString: url,
+            parameters: query,
+            jsonDecoder: JSONDecoder.apiDecoder,
+            type: GetSubscriberStatsResponse.self
         ).get().body
     }
 }
