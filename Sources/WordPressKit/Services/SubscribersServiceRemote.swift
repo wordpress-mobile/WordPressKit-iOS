@@ -2,7 +2,7 @@ import Foundation
 
 public class SubscribersServiceRemote: ServiceRemoteWordPressComREST {
 
-    // MARK: GET
+    // MARK: GET Subscribers (Paginated List)
 
     public struct GetSubscribersParameters: Hashable {
         public var sortField: SortField?
@@ -51,7 +51,29 @@ public class SubscribersServiceRemote: ServiceRemoteWordPressComREST {
         public var total: Int
         public var pages: Int
         public var page: Int
-        public var subscribers: [RemoteSubscriber]
+        public var subscribers: [Subscriber]
+
+        public struct Subscriber: Decodable {
+            public let subscriberID: Int
+            public let dotComUserID: Int
+            public let displayName: String?
+            public let avatar: String?
+            public let emailAddress: String?
+            public let dateSubscribed: Date
+            public let isEmailSubscriptionEnabled: Bool
+            public let subscriptionStatus: String?
+
+            private enum CodingKeys: String, CodingKey {
+                case subscriberID = "subscription_id"
+                case dotComUserID = "user_id"
+                case displayName = "display_name"
+                case emailAddress = "email_address"
+                case avatar
+                case dateSubscribed = "date_subscribed"
+                case isEmailSubscriptionEnabled = "is_email_subscriber"
+                case subscriptionStatus = "subscription_status"
+            }
+        }
     }
 
     /// Gets the list of the site subscribers, including WordPress.com users and
@@ -96,6 +118,61 @@ public class SubscribersServiceRemote: ServiceRemoteWordPressComREST {
         ).get().body
     }
 
+    // MARK: GET Subscriber (Individual Details)
+
+    public struct GetSubscriberDetailsResponse: Decodable {
+        public let subscriberID: Int
+        public let dotComUserID: Int
+        public let displayName: String?
+        public let avatar: String?
+        public let emailAddress: String?
+        public let dateSubscribed: Date
+        public let isEmailSubscriptionEnabled: Bool
+        public let subscriptionStatus: String?
+        public let country: Country?
+
+        public struct Country: Decodable {
+            public var code: String?
+            public var name: String?
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case subscriberID = "subscription_id"
+            case dotComUserID = "user_id"
+            case displayName = "display_name"
+            case emailAddress = "email_address"
+            case avatar
+            case dateSubscribed = "date_subscribed"
+            case isEmailSubscriptionEnabled = "is_email_subscriber"
+            case subscriptionStatus = "subscription_status"
+            case country
+        }
+    }
+
+    /// Gets stats for the given subscriber.
+    ///
+    /// Example: https://public-api.wordpress.com/wpcom/v2/sites/239619264/subscribers/individual?subscription_id=907116368
+    public func getSubsciberDetails(
+        siteID: Int,
+        subscriberID: Int
+    ) async throws -> GetSubscriberDetailsResponse {
+        let url = self.path(forEndpoint: "sites/\(siteID)/subscribers/individual", withVersion: ._2_0)
+        let query: [String: Any] = [
+            "subscription_id": subscriberID
+        ]
+
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = JSONDecoder.DateDecodingStrategy.supportMultipleDateFormats
+
+        return try await wordPressComRestApi.perform(
+            .get,
+            URLString: url,
+            parameters: query,
+            jsonDecoder: decoder,
+            type: GetSubscriberDetailsResponse.self
+        ).get().body
+    }
+
     public struct GetSubscriberStatsResponse: Decodable {
         public var emailsSent: Int
         public var uniqueOpens: Int
@@ -111,7 +188,7 @@ public class SubscribersServiceRemote: ServiceRemoteWordPressComREST {
     ) async throws -> GetSubscriberStatsResponse {
         let url = self.path(forEndpoint: "sites/\(siteID)/individual-subscriber-stats", withVersion: ._2_0)
         let query: [String: Any] = [
-            "subscription_id": 907116368
+            "subscription_id": subscriberID
         ]
         return try await wordPressComRestApi.perform(
             .get,

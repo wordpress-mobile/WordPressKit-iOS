@@ -17,6 +17,18 @@ class SubscribersServiceRemoteTests: RemoteTestCase, RESTTestable {
         XCTAssertEqual(subscriber.dotComUserID, 1)
     }
 
+    func testDecoderSubscriberDetailsResponse() throws {
+        let data = try JSONLoader.data(named: "site-subscriber-get-details-response")
+
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = JSONDecoder.DateDecodingStrategy.supportMultipleDateFormats
+
+        let response = try decoder.decode(SubscribersServiceRemote.GetSubscriberDetailsResponse.self, from: data)
+
+        XCTAssertEqual(response.country?.code, "US")
+        XCTAssertEqual(response.country?.name, "United States")
+    }
+
     func testDecoderSubscriberStatsResponse() throws {
         let data = try JSONLoader.data(named: "site-subscriber-stats-response")
 
