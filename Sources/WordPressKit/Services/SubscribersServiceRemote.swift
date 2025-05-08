@@ -53,7 +53,7 @@ public class SubscribersServiceRemote: ServiceRemoteWordPressComREST {
         public var page: Int
         public var subscribers: [Subscriber]
 
-        public struct Subscriber: Decodable {
+        public struct Subscriber: Decodable, SubsciberBasicInfoResponse {
             public let subscriberID: Int
             public let dotComUserID: Int
             public let displayName: String?
@@ -120,7 +120,16 @@ public class SubscribersServiceRemote: ServiceRemoteWordPressComREST {
 
     // MARK: GET Subscriber (Individual Details)
 
-    public struct GetSubscriberDetailsResponse: Decodable {
+    public protocol SubsciberBasicInfoResponse {
+        var dotComUserID: Int { get }
+        var subscriberID: Int { get }
+        var displayName: String? { get }
+        var emailAddress: String? { get }
+        var avatar: String? { get }
+        var dateSubscribed: Date { get }
+    }
+
+    public struct GetSubscriberDetailsResponse: Decodable, SubsciberBasicInfoResponse {
         public let subscriberID: Int
         public let dotComUserID: Int
         public let displayName: String?
@@ -229,5 +238,15 @@ public class SubscribersServiceRemote: ServiceRemoteWordPressComREST {
             jsonDecoder: JSONDecoder.apiDecoder,
             type: GetSubscriberStatsResponse.self
         ).get().body
+    }
+}
+
+extension SubscribersServiceRemote.SubsciberBasicInfoResponse {
+    public var avatarURL: URL? {
+        avatar.flatMap(URL.init)
+    }
+
+    public var isDotComUser: Bool {
+        dotComUserID > 0
     }
 }
