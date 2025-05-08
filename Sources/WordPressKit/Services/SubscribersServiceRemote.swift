@@ -126,14 +126,44 @@ public class SubscribersServiceRemote: ServiceRemoteWordPressComREST {
         public let displayName: String?
         public let avatar: String?
         public let emailAddress: String?
+        public let siteURL: String?
         public let dateSubscribed: Date
         public let isEmailSubscriptionEnabled: Bool
         public let subscriptionStatus: String?
         public let country: Country?
+        public var plans: [Plan]?
 
         public struct Country: Decodable {
             public var code: String?
             public var name: String?
+        }
+
+        public struct Plan: Decodable {
+            public let isGift: Bool
+            public let giftId: Int?
+            public let paidSubscriptionId: String?
+            public let status: String
+            public let title: String
+            public let currency: String?
+            public let renewInterval: String?
+            public let inactiveRenewInterval: String?
+            public let renewalPrice: Decimal
+            public let startDate: Date
+            public let endDate: Date
+
+            enum CodingKeys: String, CodingKey {
+                case isGift = "is_gift"
+                case giftId = "gift_id"
+                case paidSubscriptionId = "paid_subscription_id"
+                case status
+                case title
+                case currency
+                case renewInterval = "renew_interval"
+                case inactiveRenewInterval = "inactive_renew_interval"
+                case renewalPrice = "renewal_price"
+                case startDate = "start_date"
+                case endDate = "end_date"
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -142,10 +172,12 @@ public class SubscribersServiceRemote: ServiceRemoteWordPressComREST {
             case displayName = "display_name"
             case emailAddress = "email_address"
             case avatar
+            case siteURL = "url"
             case dateSubscribed = "date_subscribed"
             case isEmailSubscriptionEnabled = "is_email_subscriber"
             case subscriptionStatus = "subscription_status"
             case country
+            case plans
         }
     }
 

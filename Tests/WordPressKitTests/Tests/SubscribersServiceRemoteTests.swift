@@ -27,6 +27,11 @@ class SubscribersServiceRemoteTests: RemoteTestCase, RESTTestable {
 
         XCTAssertEqual(response.country?.code, "US")
         XCTAssertEqual(response.country?.name, "United States")
+
+        let plan = try XCTUnwrap(response.plans?.first)
+        XCTAssertFalse(plan.isGift)
+        XCTAssertEqual(plan.status, "active")
+        XCTAssertEqual(plan.paidSubscriptionId, "12422686")
     }
 
     func testDecoderSubscriberStatsResponse() throws {
