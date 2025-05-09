@@ -35,7 +35,7 @@ public class SubscribersServiceRemote: ServiceRemoteWordPressComREST {
             case paid
         }
 
-        var filters: [String] {
+        public var filters: [String] {
             [subscriptionTypeFilter?.rawValue, paymentTypeFilter?.rawValue].compactMap { $0 }
         }
 
