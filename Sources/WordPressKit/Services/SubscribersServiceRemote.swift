@@ -195,11 +195,13 @@ public class SubscribersServiceRemote: ServiceRemoteWordPressComREST {
     /// Example: https://public-api.wordpress.com/wpcom/v2/sites/239619264/subscribers/individual?subscription_id=907116368
     public func getSubsciberDetails(
         siteID: Int,
-        subscriberID: Int
+        subscriberID: Int,
+        type: String = "email"
     ) async throws -> GetSubscriberDetailsResponse {
         let url = self.path(forEndpoint: "sites/\(siteID)/subscribers/individual", withVersion: ._2_0)
         let query: [String: Any] = [
-            "subscription_id": subscriberID
+            "subscription_id": subscriberID,
+            "type": type
         ]
 
         let decoder = JSONDecoder()
@@ -238,6 +240,12 @@ public class SubscribersServiceRemote: ServiceRemoteWordPressComREST {
             jsonDecoder: JSONDecoder.apiDecoder,
             type: GetSubscriberStatsResponse.self
         ).get().body
+    }
+
+    // MARK: POST Delete Subscriber
+
+    public func deleteSubscriber() {
+        
     }
 }
 
