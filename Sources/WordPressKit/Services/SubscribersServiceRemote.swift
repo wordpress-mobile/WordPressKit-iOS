@@ -63,15 +63,16 @@ public class SubscribersServiceRemote: ServiceRemoteWordPressComREST {
             public let isEmailSubscriptionEnabled: Bool
             public let subscriptionStatus: String?
 
-            private enum CodingKeys: String, CodingKey {
-                case subscriberID = "subscription_id"
-                case dotComUserID = "user_id"
-                case displayName = "display_name"
-                case emailAddress = "email_address"
-                case avatar
-                case dateSubscribed = "date_subscribed"
-                case isEmailSubscriptionEnabled = "is_email_subscriber"
-                case subscriptionStatus = "subscription_status"
+            public init(from decoder: any Decoder) throws {
+                let container = try decoder.container(keyedBy: StringCodingKey.self)
+                subscriberID = try container.decode(Int.self, forKey: "subscription_id")
+                dotComUserID = try container.decode(Int.self, forKey: "user_id")
+                displayName = try? container.decodeIfPresent(String.self, forKey: "display_name")
+                avatar = try? container.decodeIfPresent(String.self, forKey: "avatar")
+                emailAddress = try? container.decodeIfPresent(String.self, forKey: "email_address")
+                dateSubscribed = try container.decode(Date.self, forKey: "date_subscribed")
+                isEmailSubscriptionEnabled = try container.decode(Bool.self, forKey: "is_email_subscriber")
+                subscriptionStatus = try? container.decodeIfPresent(String.self, forKey: "subscription_status")
             }
         }
     }
@@ -129,7 +130,7 @@ public class SubscribersServiceRemote: ServiceRemoteWordPressComREST {
         var dateSubscribed: Date { get }
     }
 
-    public struct GetSubscriberDetailsResponse: Decodable, SubsciberBasicInfoResponse {
+    public final class GetSubscriberDetailsResponse: Decodable, SubsciberBasicInfoResponse {
         public let subscriberID: Int
         public let dotComUserID: Int
         public let displayName: String?
@@ -140,7 +141,7 @@ public class SubscribersServiceRemote: ServiceRemoteWordPressComREST {
         public let isEmailSubscriptionEnabled: Bool
         public let subscriptionStatus: String?
         public let country: Country?
-        public var plans: [Plan]?
+        public let plans: [Plan]?
 
         public struct Country: Decodable {
             public var code: String?
@@ -160,33 +161,35 @@ public class SubscribersServiceRemote: ServiceRemoteWordPressComREST {
             public let startDate: Date
             public let endDate: Date
 
-            enum CodingKeys: String, CodingKey {
-                case isGift = "is_gift"
-                case giftId = "gift_id"
-                case paidSubscriptionId = "paid_subscription_id"
-                case status
-                case title
-                case currency
-                case renewInterval = "renew_interval"
-                case inactiveRenewInterval = "inactive_renew_interval"
-                case renewalPrice = "renewal_price"
-                case startDate = "start_date"
-                case endDate = "end_date"
+            public init(from decoder: Decoder) throws {
+                let container = try decoder.container(keyedBy: StringCodingKey.self)
+                isGift = try container.decode(Bool.self, forKey: "is_gift")
+                giftId = try container.decodeIfPresent(Int.self, forKey: "gift_id")
+                paidSubscriptionId = try container.decodeIfPresent(String.self, forKey: "paid_subscription_id")
+                status = try container.decode(String.self, forKey: "status")
+                title = try container.decode(String.self, forKey: "title")
+                currency = try container.decodeIfPresent(String.self, forKey: "currency")
+                renewInterval = try? container.decodeIfPresent(String.self, forKey: "renew_interval")
+                inactiveRenewInterval = try? container.decodeIfPresent(String.self, forKey: "inactive_renew_interval")
+                renewalPrice = try container.decode(Decimal.self, forKey: "renewal_price")
+                startDate = try container.decode(Date.self, forKey: "start_date")
+                endDate = try container.decode(Date.self, forKey: "end_date")
             }
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case subscriberID = "subscription_id"
-            case dotComUserID = "user_id"
-            case displayName = "display_name"
-            case emailAddress = "email_address"
-            case avatar
-            case siteURL = "url"
-            case dateSubscribed = "date_subscribed"
-            case isEmailSubscriptionEnabled = "is_email_subscriber"
-            case subscriptionStatus = "subscription_status"
-            case country
-            case plans
+        public init(from decoder: any Decoder) throws {
+            let container = try decoder.container(keyedBy: StringCodingKey.self)
+            subscriberID = try container.decode(Int.self, forKey: "subscription_id")
+            dotComUserID = try container.decode(Int.self, forKey: "user_id")
+            displayName = try? container.decodeIfPresent(String.self, forKey: "display_name")
+            avatar = try? container.decodeIfPresent(String.self, forKey: "avatar")
+            emailAddress = try? container.decodeIfPresent(String.self, forKey: "email_address")
+            siteURL = try? container.decodeIfPresent(String.self, forKey: "url")
+            dateSubscribed = try container.decode(Date.self, forKey: "date_subscribed")
+            isEmailSubscriptionEnabled = try container.decode(Bool.self, forKey: "is_email_subscriber")
+            subscriptionStatus = try? container.decodeIfPresent(String.self, forKey: "subscription_status")
+            country = try? container.decodeIfPresent(Country.self, forKey: "country")
+            plans = try container.decodeIfPresent([Plan].self, forKey: "plans")
         }
     }
 
@@ -240,12 +243,6 @@ public class SubscribersServiceRemote: ServiceRemoteWordPressComREST {
             jsonDecoder: JSONDecoder.apiDecoder,
             type: GetSubscriberStatsResponse.self
         ).get().body
-    }
-
-    // MARK: POST Delete Subscriber
-
-    public func deleteSubscriber() {
-        
     }
 }
 

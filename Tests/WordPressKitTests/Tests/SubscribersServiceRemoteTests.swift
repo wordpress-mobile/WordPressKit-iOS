@@ -34,6 +34,17 @@ class SubscribersServiceRemoteTests: RemoteTestCase, RESTTestable {
         XCTAssertEqual(plan.paidSubscriptionId, "12422686")
     }
 
+    func testDecoderSubscriberDetailsInvalidCountry() throws {
+        let data = try JSONLoader.data(named: "site-subscriber-get-details-response-invalid-country")
+
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = JSONDecoder.DateDecodingStrategy.supportMultipleDateFormats
+
+        let response = try decoder.decode(SubscribersServiceRemote.GetSubscriberDetailsResponse.self, from: data)
+
+        XCTAssertNil(response.country)
+    }
+
     func testDecoderSubscriberStatsResponse() throws {
         let data = try JSONLoader.data(named: "site-subscriber-stats-response")
 
