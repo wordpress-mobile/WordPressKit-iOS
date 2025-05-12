@@ -244,6 +244,35 @@ public class SubscribersServiceRemote: ServiceRemoteWordPressComREST {
             type: GetSubscriberStatsResponse.self
         ).get().body
     }
+
+    // MARK: POST Import Subscribers
+
+    /// Example: URL: https://public-api.wordpress.com/wpcom/v2/sites/216878809/subscribers/import?_envelope=1
+    @discardableResult
+    public func importSubscribers(
+        siteID: Int,
+        emails: [String]
+    ) async throws -> ImportSubscribersResponse {
+        let url = self.path(forEndpoint: "sites/\(siteID)/subscribers/import", withVersion: ._2_0)
+        let parameters: [String: Any] = [
+            "emails": emails,
+            "parse_only": false
+        ]
+        return try await wordPressComRestApi.perform(
+            .post,
+            URLString: url,
+            parameters: parameters,
+            type: ImportSubscribersResponse.self
+        ).get().body
+    }
+
+    public struct ImportSubscribersResponse: Decodable {
+        public let uploadID: Int
+
+        enum CodingKeys: String, CodingKey {
+            case uploadID = "upload_id"
+        }
+    }
 }
 
 extension SubscribersServiceRemote.SubsciberBasicInfoResponse {
