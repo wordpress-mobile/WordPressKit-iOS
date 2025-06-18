@@ -33,6 +33,7 @@ open class ActivityServiceRemote: ServiceRemoteWordPressComREST {
                                  after: Date? = nil,
                                  before: Date? = nil,
                                  group: [String] = [],
+                                 searchText: String? = nil,
                                  success: @escaping (_ activities: [Activity], _ hasMore: Bool) -> Void,
                                  failure: @escaping (Error) -> Void) {
 
@@ -50,6 +51,9 @@ open class ActivityServiceRemote: ServiceRemoteWordPressComREST {
             path?.queryItems?.append(URLQueryItem(name: "before", value: formatter.string(from: lastSecondOfBeforeDay)))
         } else if let on = after ?? before {
             path?.queryItems?.append(URLQueryItem(name: "on", value: formatter.string(from: on)))
+        }
+        if let searchText, !searchText.isEmpty {
+            path?.queryItems?.append(URLQueryItem(name: "text_search", value: searchText))
         }
 
         guard let endpoint = path?.string else {
