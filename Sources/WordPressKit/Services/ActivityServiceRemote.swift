@@ -27,17 +27,22 @@ open class ActivityServiceRemote: ServiceRemoteWordPressComREST {
     ///
     /// - Returns: An array of activities and a boolean indicating if there's more activities to fetch.
     ///
-    open func getActivityForSite(_ siteID: Int,
-                                 offset: Int = 0,
-                                 count: Int,
-                                 after: Date? = nil,
-                                 before: Date? = nil,
-                                 group: [String] = [],
-                                 searchText: String? = nil,
-                                 success: @escaping (_ activities: [Activity], _ hasMore: Bool) -> Void,
-                                 failure: @escaping (Error) -> Void) {
-
+    open func getActivityForSite(
+        _ siteID: Int,
+        offset: Int = 0,
+        count: Int,
+        after: Date? = nil,
+        before: Date? = nil,
+        group: [String] = [],
+        rewindable: Bool? = nil,
+        searchText: String? = nil,
+        success: @escaping (_ activities: [Activity], _ hasMore: Bool) -> Void,
+        failure: @escaping (Error) -> Void
+    ) {
         var path = URLComponents(string: "sites/\(siteID)/activity")
+        if rewindable == true, let currentPath = path?.path {
+            path?.path = currentPath.appending("/rewindable")
+        }
 
         path?.queryItems = group.map { URLQueryItem(name: "group[]", value: $0) }
 
