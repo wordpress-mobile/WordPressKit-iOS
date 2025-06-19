@@ -39,22 +39,3 @@ steps:
           context: SwiftLint
     agents:
       queue: linter
-
-  - label: "🧹 Lint"
-    key: "lint"
-    command: |
-      lint_pod
-    plugins: *common_plugins
-
-  #################
-  # Publish the Podspec (if we're building a tag)
-  #################
-  - label: "⬆️ Publish Podspec"
-    key: "publish"
-    command: .buildkite/publish-pod.sh
-    plugins: *common_plugins
-    depends_on:
-      - "test"
-      - "validate"
-      - "lint"
-    if: build.tag != null
