@@ -48,6 +48,17 @@ _None._
 
 _None._
 
+## 17.3.0
+
+### New Features
+
+- Add `upgradeURL` to `JetpackAssistantFeatureDetails` (#822)
+- Add support for sending magic links to nonexistent accounts (#812)
+
+### Internal Changes
+- Bump rexml from 3.2.6 to 3.3.9
+- [Tooling] SwiftLint: Use `linter` agent instead of `default` agent
+
 ## 17.2.0
 
 ### New Features
