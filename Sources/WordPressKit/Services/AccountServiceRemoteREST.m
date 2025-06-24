@@ -1,7 +1,6 @@
 #import "AccountServiceRemoteREST.h"
 #import "WPKit-Swift.h"
 @import NSObject_SafeExpectations;
-@import WordPressShared;
 
 static NSString * const UserDictionaryIDKey = @"ID";
 static NSString * const UserDictionaryUsernameKey = @"username";
@@ -397,7 +396,7 @@ MagicLinkFlow const MagicLinkFlowSignup = @"signup";
     remoteUser.displayName = [dictionary stringForKey:UserDictionaryDisplaynameKey];
     remoteUser.primaryBlogID = [dictionary numberForKey:UserDictionaryPrimaryBlogKey];
     remoteUser.avatarURL = [dictionary stringForKey:UserDictionaryAvatarURLKey];
-    remoteUser.dateCreated = [NSDate dateWithISO8601String:[dictionary stringForKey:UserDictionaryDateKey]];
+    remoteUser.dateCreated = [NSDate wpkit_dateWithISO8601String:[dictionary stringForKey:UserDictionaryDateKey]];
     remoteUser.emailVerified = [[dictionary numberForKey:UserDictionaryEmailVerifiedKey] boolValue];
     
     return remoteUser;
@@ -406,10 +405,23 @@ MagicLinkFlow const MagicLinkFlowSignup = @"signup";
 - (NSArray *)remoteBlogsFromJSONArray:(NSArray *)jsonBlogs
 {
     NSArray *blogs = jsonBlogs;
-    return [blogs wp_map:^id(NSDictionary *jsonBlog) {
+    return [[blogs wpkit_map:^id(NSDictionary *jsonBlog) {
         return [[RemoteBlog alloc] initWithJSONDictionary:jsonBlog];
+    }] wpkit_filter:^BOOL(RemoteBlog *blog) {
+        // Exclude deleted sites from query result, since the app does not handle deleted sites properly.
+        // I tried to use query arguments `site_visibility=visible` and `site_activity=active`, but neither excludes
+        // deleted sites.
+        if (blog.isDeleted) {
+            return false;
+        }
+
+        // Exclude sites that are connected via Jetpack, but without an active Jetpack connection.
+        if (blog.jetpackConnection && !blog.jetpack) {
+            return false;
+        }
+
+        return true;
     }];
-    return blogs;
 }
 
 @end

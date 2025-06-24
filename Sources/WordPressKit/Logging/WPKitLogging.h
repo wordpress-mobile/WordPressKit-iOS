@@ -1,11 +1,19 @@
 #import <Foundation/Foundation.h>
 
-@import WordPressShared;
-
 NS_ASSUME_NONNULL_BEGIN
 
-FOUNDATION_EXTERN id<WordPressLoggingDelegate> _Nullable WPKitGetLoggingDelegate(void);
-FOUNDATION_EXTERN void WPKitSetLoggingDelegate(id<WordPressLoggingDelegate> _Nullable logger);
+@protocol WordPressKitLoggingDelegate <NSObject>
+
+- (void)logError:(NSString *)str;
+- (void)logWarning:(NSString *)str;
+- (void)logInfo:(NSString *)str;
+- (void)logDebug:(NSString *)str;
+- (void)logVerbose:(NSString *)str;
+
+@end
+
+FOUNDATION_EXTERN id<WordPressKitLoggingDelegate> _Nullable WPKitGetLoggingDelegate(void);
+FOUNDATION_EXTERN void WPKitSetLoggingDelegate(id<WordPressKitLoggingDelegate> _Nullable logger);
 
 FOUNDATION_EXTERN void WPKitLogError(NSString *str, ...)     NS_FORMAT_FUNCTION(1, 2);
 FOUNDATION_EXTERN void WPKitLogWarning(NSString *str, ...)   NS_FORMAT_FUNCTION(1, 2);

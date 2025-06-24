@@ -1,5 +1,5 @@
 import Foundation
-import NSObject_SafeExpectations
+@_implementationOnly import NSObject_SafeExpectations
 
 /// This class encapsulates all of the *remote* Blog properties
 @objcMembers public class RemoteBlog: NSObject {
@@ -37,8 +37,11 @@ import NSObject_SafeExpectations
     /// Features available for the current blog's plan.
     public var planActiveFeatures = [String]()
 
-    /// Indicates whether it's a jetpack site, or not.
+    /// Indicates whether the site is a Jetpack site or not.
     public var jetpack: Bool = false
+
+    /// Indicates whether the site is connected to WP.com via `jetpack-connection`.
+    public var jetpackConnection: Bool = false
 
     /// Boolean indicating whether the current user has Admin privileges, or not.
     public var isAdmin: Bool = false
@@ -58,6 +61,8 @@ import NSObject_SafeExpectations
     /// Blog's total disk quota space used.
     public var quotaSpaceUsed: NSNumber?
 
+    public var isDeleted: Bool
+
     /// Parses details from a JSON dictionary, as returned by the WordPress.com REST API.
     @objc(initWithJSONDictionary:)
     public init(jsonDictionary json: NSDictionary) {
@@ -68,6 +73,7 @@ import NSObject_SafeExpectations
         self.url = json.string(forKey: "URL") ?? ""
         self.xmlrpc = json.string(forKeyPath: "meta.links.xmlrpc")
         self.jetpack = json.number(forKey: "jetpack")?.boolValue ?? false
+        self.jetpackConnection = json.number(forKey: "jetpack_connection")?.boolValue ?? false
         self.icon = json.string(forKeyPath: "icon.img")
         self.capabilities = json.object(forKey: "capabilities") as? [String: Bool] ?? [:]
         self.isAdmin = json.number(forKeyPath: "capabilities.manage_options")?.boolValue ?? false
@@ -79,6 +85,7 @@ import NSObject_SafeExpectations
         self.planActiveFeatures = (json.array(forKeyPath: "plan.features.active") as? [String]) ?? []
         self.quotaSpaceAllowed = json.number(forKeyPath: "quota.space_allowed")
         self.quotaSpaceUsed = json.number(forKeyPath: "quota.space_used")
+        self.isDeleted = json.number(forKey: "is_deleted")?.boolValue == true
     }
 
 }

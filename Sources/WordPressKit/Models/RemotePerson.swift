@@ -1,5 +1,4 @@
 import Foundation
-import WordPressShared
 
 // MARK: - Defines all of the peroperties a Person may have
 //

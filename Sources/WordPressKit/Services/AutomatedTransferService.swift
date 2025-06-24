@@ -3,11 +3,11 @@ import Foundation
 /// Class encapsualting all requests related to performing Automated Transfer operations.
 public class AutomatedTransferService: ServiceRemoteWordPressComREST {
 
-    public enum ResponseError: Error {
+    @frozen public enum ResponseError: Error {
         case decodingFailure
     }
 
-    public enum AutomatedTransferEligibilityError: Error {
+    @frozen public enum AutomatedTransferEligibilityError: Error {
         case unverifiedEmail
         case excessiveDiskSpaceUsage
         case noBusinessPlan

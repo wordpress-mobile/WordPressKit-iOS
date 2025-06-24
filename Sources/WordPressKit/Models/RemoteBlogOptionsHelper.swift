@@ -8,6 +8,9 @@ import Foundation
         if response.number(forKey: "jetpack")?.boolValue == true {
             options["jetpack_client_id"] = response.number(forKey: "ID")
         }
+        if response.number(forKey: "is_wpcom_staging_site")?.boolValue == true {
+            options["is_wpcom_staging_site"] = true
+        }
         if response["options"] != nil {
             options["post_thumbnail"] = response.value(forKeyPath: "options.featured_images_enabled")
 
@@ -28,6 +31,7 @@ import Foundation
                 "blog_public",
                 "max_upload_size",
                 "is_wpcom_atomic",
+                "is_wpcom_staging_site",
                 "is_wpforteams_site",
                 "show_on_front",
                 "page_on_front",
@@ -68,8 +72,8 @@ import Foundation
 
     public class func remoteBlogSettings(fromXMLRPCDictionaryOptions options: NSDictionary) -> RemoteBlogSettings {
         let remoteSettings = RemoteBlogSettings()
-        remoteSettings.name = options.string(forKeyPath: "blog_title.value")?.stringByDecodingXMLCharacters()
-        remoteSettings.tagline = options.string(forKeyPath: "blog_tagline.value")?.stringByDecodingXMLCharacters()
+        remoteSettings.name = options.string(forKeyPath: "blog_title.value")?.wpkit_stringByDecodingXMLCharacters()
+        remoteSettings.tagline = options.string(forKeyPath: "blog_tagline.value")?.wpkit_stringByDecodingXMLCharacters()
         if options["blog_public"] != nil {
             remoteSettings.privacy = options.number(forKeyPath: "blog_public.value")
         }

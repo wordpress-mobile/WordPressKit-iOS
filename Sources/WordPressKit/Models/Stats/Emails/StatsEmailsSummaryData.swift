@@ -1,5 +1,4 @@
 import Foundation
-import WordPressShared
 
 public struct StatsEmailsSummaryData: Decodable, Equatable {
     public let posts: [Post]
@@ -85,6 +84,7 @@ extension StatsEmailsSummaryData {
     public enum SortField: String {
         case opens = "opens"
         case postId = "post_id"
+        case postDate = "post_date"
     }
 
     public enum SortOrder: String {

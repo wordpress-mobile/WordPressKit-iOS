@@ -4,7 +4,6 @@
 #import "RemotePostType.h"
 #import "WPKit-Swift.h"
 @import NSObject_SafeExpectations;
-@import WordPressShared;
 
 #pragma mark - Parsing Keys
 static NSString * const RemoteBlogNameKey                                   = @"name";
@@ -143,7 +142,7 @@ static NSInteger const RemoteBlogUncategorizedCategory                      = 1;
           success:^(NSDictionary *responseObject, NSHTTPURLResponse *httpResponse) {
              
               NSAssert([responseObject isKindOfClass:[NSDictionary class]], @"Response should be a dictionary.");
-              NSArray <RemotePostType *> *postTypes = [[responseObject arrayForKey:RemotePostTypesKey] wp_map:^id(NSDictionary *json) {
+              NSArray <RemotePostType *> *postTypes = [[responseObject arrayForKey:RemotePostTypesKey] wpkit_map:^id(NSDictionary *json) {
                   return [self remotePostTypeWithDictionary:json];
               }];
               if (!postTypes.count) {
@@ -338,7 +337,7 @@ static NSInteger const RemoteBlogUncategorizedCategory                      = 1;
 
 - (NSArray *)usersFromJSONArray:(NSArray *)jsonUsers
 {
-    return [jsonUsers wp_map:^RemoteUser *(NSDictionary *jsonUser) {
+    return [jsonUsers wpkit_map:^RemoteUser *(NSDictionary *jsonUser) {
         return [self userFromJSONDictionary:jsonUser];
     }];
 }

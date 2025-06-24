@@ -1,5 +1,4 @@
 import Foundation
-import WordPressShared
 
 public class EditorServiceRemote: ServiceRemoteWordPressComREST {
     public func postDesignateMobileEditor(_ siteID: Int, editor: EditorSettings.Mobile, success: @escaping (EditorSettings) -> Void, failure: @escaping (Error) -> Void) {

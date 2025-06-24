@@ -1,3 +1,5 @@
+import Foundation
+
 public struct StatsLastPostInsight: Equatable, Decodable {
     public let title: String
     public let url: URL
@@ -79,7 +81,7 @@ extension StatsLastPostInsight {
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        title = try container.decode(String.self, forKey: .title).trimmingCharacters(in: .whitespaces).stringByDecodingXMLCharacters()
+        title = try container.decode(String.self, forKey: .title).trimmingCharacters(in: .whitespaces).wpkit_stringByDecodingXMLCharacters()
         url = try container.decode(URL.self, forKey: .url)
         let dateString = try container.decode(String.self, forKey: .publishedDate)
         guard let date = StatsLastPostInsight.dateFormatter.date(from: dateString) else {

@@ -2,7 +2,6 @@
 import APIInterface
 #endif
 import Foundation
-import WordPressShared
 
 // MARK: - WordPressComRestApiError
 
@@ -104,6 +103,8 @@ open class WordPressComRestApi: NSObject {
 
     private var invalidTokenHandler: (() -> Void)?
 
+    private var useEphemeralSession: Bool
+
     /**
      Configure whether or not the user's preferred language locale should be appended. Defaults to true.
      */
@@ -140,7 +141,8 @@ open class WordPressComRestApi: NSObject {
                 backgroundSessionIdentifier: String = WordPressComRestApi.defaultBackgroundSessionIdentifier,
                 sharedContainerIdentifier: String? = nil,
                 localeKey: String = WordPressComRestApi.LocaleKeyDefault,
-                baseURL: URL = WordPressComRestApi.apiBaseURL) {
+                baseURL: URL = WordPressComRestApi.apiBaseURL,
+                useEphemeralSession: Bool = false) {
         self.oAuthToken = oAuthToken
         self.userAgent = userAgent
         self.backgroundUploads = backgroundUploads
@@ -148,6 +150,7 @@ open class WordPressComRestApi: NSObject {
         self.sharedContainerIdentifier = sharedContainerIdentifier
         self.localeKey = localeKey
         self.baseURL = baseURL
+        self.useEphemeralSession = useEphemeralSession
 
         super.init()
     }
@@ -176,7 +179,7 @@ open class WordPressComRestApi: NSObject {
         }
     }
 
-    @objc func setInvalidTokenHandler(_ handler: @escaping () -> Void) {
+    @objc open func setInvalidTokenHandler(_ handler: @escaping () -> Void) {
         invalidTokenHandler = handler
     }
 
@@ -348,7 +351,14 @@ open class WordPressComRestApi: NSObject {
     }()
 
     private func sessionConfiguration(background: Bool) -> URLSessionConfiguration {
-        let configuration = background ? URLSessionConfiguration.background(withIdentifier: self.backgroundSessionIdentifier) : URLSessionConfiguration.default
+        let configuration: URLSessionConfiguration
+        if background {
+            configuration = .background(withIdentifier: self.backgroundSessionIdentifier)
+        } else if useEphemeralSession {
+            configuration = .ephemeral
+        } else {
+            configuration = .default
+        }
 
         var additionalHeaders: [String: AnyObject] = [:]
         if let oAuthToken = self.oAuthToken {
@@ -363,10 +373,10 @@ open class WordPressComRestApi: NSObject {
         return configuration
     }
 
-    func perform(
+    open func perform(
         _ method: HTTPRequestBuilder.Method,
         URLString: String,
-        parameters: [String: AnyObject]? = nil,
+        parameters: [String: Any]? = nil,
         fulfilling progress: Progress? = nil
     ) async -> APIResult<AnyObject> {
         await perform(method, URLString: URLString, parameters: parameters, fulfilling: progress) {
@@ -374,10 +384,10 @@ open class WordPressComRestApi: NSObject {
         }
     }
 
-    func perform<T: Decodable>(
+    open func perform<T: Decodable>(
         _ method: HTTPRequestBuilder.Method,
         URLString: String,
-        parameters: [String: AnyObject]? = nil,
+        parameters: [String: Any]? = nil,
         fulfilling progress: Progress? = nil,
         jsonDecoder: JSONDecoder? = nil,
         type: T.Type = T.self
@@ -391,7 +401,7 @@ open class WordPressComRestApi: NSObject {
     private func perform<T>(
         _ method: HTTPRequestBuilder.Method,
         URLString: String,
-        parameters: [String: AnyObject]?,
+        parameters: [String: Any]?,
         fulfilling progress: Progress?,
         decoder: @escaping (Data) throws -> T
     ) async -> APIResult<T> {

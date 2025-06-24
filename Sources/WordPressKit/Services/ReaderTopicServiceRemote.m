@@ -1,7 +1,6 @@
 #import "ReaderTopicServiceRemote.h"
 #import "WPKit-Swift.h"
 @import NSObject_SafeExpectations;
-@import WordPressShared;
 
 static NSString * const TopicMenuSectionDefaultKey = @"default";
 static NSString * const TopicMenuSectionSubscribedKey = @"subscribed";
@@ -268,7 +267,7 @@ static NSString * const TopicNotFoundMarker = @"-notfound-";
         regexNonAlphaNumNonDash = [NSRegularExpression regularExpressionWithPattern:@"[^\\p{L}\\p{Nd}\\-]+" options:NSRegularExpressionCaseInsensitive error:&error];
     });
 
-    topicName = [[topicName lowercaseString] trim];
+    topicName = [[topicName lowercaseString] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 
     // remove html entities
     topicName = [regexHtmlEntities stringByReplacingMatchesInString:topicName
@@ -300,9 +299,9 @@ static NSString * const TopicNotFoundMarker = @"-notfound-";
 
 - (NSArray *)normalizeMenuTopicsList:(NSArray *)rawTopics subscribed:(BOOL)subscribed recommended:(BOOL)recommended
 {
-    return [[rawTopics wp_filter:^BOOL(id obj) {
+    return [[rawTopics wpkit_filter:^BOOL(id obj) {
         return [obj isKindOfClass:[NSDictionary class]];
-    }] wp_map:^id(NSDictionary *topic) {
+    }] wpkit_map:^id(NSDictionary *topic) {
         return [self normalizeMenuTopicDictionary:topic subscribed:subscribed recommended:recommended];
     }];
 }

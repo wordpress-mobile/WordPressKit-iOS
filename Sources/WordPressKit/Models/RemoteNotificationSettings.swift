@@ -21,7 +21,7 @@ open class RemoteNotificationSettings {
 
     /// Represents a communication channel that may post notifications to the user.
     ///
-    public enum Channel: Equatable {
+    @frozen public enum Channel: Equatable {
         case blog(blogId: Int)
         case other
         case wordPressCom

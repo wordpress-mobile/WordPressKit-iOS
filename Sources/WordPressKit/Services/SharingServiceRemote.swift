@@ -1,6 +1,5 @@
 import Foundation
-import NSObject_SafeExpectations
-import WordPressShared
+@_implementationOnly import NSObject_SafeExpectations
 
 /// SharingServiceRemote is responsible for wrangling the REST API calls related to
 /// publiczice services, publicize connections, and keyring connections.
@@ -114,8 +113,8 @@ open class SharingServiceRemote: ServiceRemoteWordPressComREST {
                     let dict = dict as AnyObject
                     let externalUsers = dict.array(forKey: ConnectionDictionaryKeys.additionalExternalUsers) ?? []
                     conn.additionalExternalUsers = self.externalUsersForKeyringConnection(externalUsers as NSArray)
-                    conn.dateExpires = DateUtils.date(fromISOString: dict.string(forKey: ConnectionDictionaryKeys.expires))
-                    conn.dateIssued = DateUtils.date(fromISOString: dict.string(forKey: ConnectionDictionaryKeys.issued))
+                    conn.dateExpires = WPKitDateUtils.date(fromISOString: dict.string(forKey: ConnectionDictionaryKeys.expires))
+                    conn.dateIssued = WPKitDateUtils.date(fromISOString: dict.string(forKey: ConnectionDictionaryKeys.issued))
                     conn.externalDisplay = dict.string(forKey: ConnectionDictionaryKeys.externalDisplay) ?? conn.externalDisplay
                     conn.externalID = dict.string(forKey: ConnectionDictionaryKeys.externalID) ?? conn.externalID
                     conn.externalName = dict.string(forKey: ConnectionDictionaryKeys.externalName) ?? conn.externalName
@@ -370,11 +369,11 @@ open class SharingServiceRemote: ServiceRemoteWordPressComREST {
         conn.service = dict.string(forKey: ConnectionDictionaryKeys.service) ?? conn.service
 
         if let expirationDateAsString = dict.string(forKey: ConnectionDictionaryKeys.expires) {
-            conn.dateExpires = DateUtils.date(fromISOString: expirationDateAsString)
+            conn.dateExpires = WPKitDateUtils.date(fromISOString: expirationDateAsString)
         }
 
         if let issueDateAsString = dict.string(forKey: ConnectionDictionaryKeys.issued) {
-            conn.dateIssued = DateUtils.date(fromISOString: issueDateAsString)
+            conn.dateIssued = WPKitDateUtils.date(fromISOString: issueDateAsString)
         }
 
         if let sharedDictNumber = dict.number(forKey: ConnectionDictionaryKeys.shared) {

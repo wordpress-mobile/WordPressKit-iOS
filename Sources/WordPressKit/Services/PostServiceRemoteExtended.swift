@@ -23,7 +23,7 @@ public protocol PostServiceRemoteExtended: PostServiceRemote {
     func deletePost(withID postID: Int) async throws
 }
 
-public enum PostServiceRemoteError: Error {
+@frozen public enum PostServiceRemoteError: Error {
     /// 409 (Conflict)
     case conflict
     /// 404 (Not Found)

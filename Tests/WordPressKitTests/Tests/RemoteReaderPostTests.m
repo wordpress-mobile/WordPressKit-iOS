@@ -4,7 +4,8 @@
 #import "ReaderPostServiceRemote.h"
 #import "RemoteReaderPost.h"
 #import "WPKit-Swift.h"
-@import WordPressShared;
+
+@import WordPressKit;
 
 @interface RemoteReaderPost ()
 
@@ -208,7 +209,7 @@
                           uri, uri, uri]
              };
     imagePath = [remoteReaderPost featuredImageFromPostDictionary:dict];
-    XCTAssertTrue([uri isEqualToString:imagePath], @"Failed to retrieve the image uri from the post content.");
+    XCTAssertTrue(imagePath.length == 0, @"No image should be retrieved from the content");
 
     dict = [self editorialDictionaryWithKey:@"image" value:uri];
     imagePath = [remoteReaderPost featuredImageFromPostDictionary:dict];
@@ -219,7 +220,7 @@
     RemoteReaderPost *remoteReaderPost = [RemoteReaderPost alloc];
 
     NSDate *now = [NSDate dateWithTimeIntervalSince1970:0];
-    NSString *dateStr = [DateUtils isoStringFromDate:now];
+    NSString *dateStr = [WPKitDateUtils isoStringFromDate:now];
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     [dict setObject:dateStr forKey:@"date"];
 

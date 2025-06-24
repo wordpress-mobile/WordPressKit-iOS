@@ -2,6 +2,8 @@ import BuildkiteTestCollector
 import Foundation
 import XCTest
 import OHHTTPStubs
+import OHHTTPStubsSwift
+
 @testable import WordPressKit
 
 /// Base class for all remote unit tests.
@@ -67,7 +69,7 @@ extension RemoteTestCase {
             if contentType != .NoContentType {
                 headers = ["Content-Type" as NSObject: contentType.rawValue as AnyObject]
             }
-            return OHHTTPStubs.fixture(filePath: stubPath, status: status, headers: headers)
+            return OHHTTPStubsSwift.fixture(filePath: stubPath, status: status, headers: headers)
         }
     }
 

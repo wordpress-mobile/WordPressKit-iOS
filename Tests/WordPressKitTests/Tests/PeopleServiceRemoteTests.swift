@@ -794,5 +794,4 @@ class PeopleServiceRemoteTests: RemoteTestCase, RESTTestable {
 
         waitForExpectations(timeout: timeout, handler: nil)
     }
-
 }

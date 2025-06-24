@@ -1,5 +1,4 @@
 import Foundation
-import WordPressShared
 
 public struct SiteDesignRequest {
     public enum TemplateGroup: String {

@@ -196,7 +196,7 @@ static NSString* const ThemeServiceRemoteTestGetSingleThemeJson = @"get-single-t
     XCTAssertNoThrow(service = [[ThemeServiceRemote alloc] initWithWordPressComRestApi:api]);
 
     NSString *url = [service pathForEndpoint:@"themes"
-                                 withVersion:WordPressComRESTAPIVersion_1_2];
+                                 withVersion:WordPressComRESTAPIVersion_2_0];
 
     ThemeServiceRemoteThemesRequestSuccessBlock successBlock = ^void (NSArray<RemoteTheme *> *themes, BOOL hasMore, NSInteger totalThemeCount) {
         NSCAssert([themes count] == expectedThemes, @"Expected %ld themes to be returned", expectedThemes);
@@ -224,9 +224,10 @@ static NSString* const ThemeServiceRemoteTestGetSingleThemeJson = @"get-single-t
     }];
 
     XCTAssertNoThrow([service getWPThemesPage:1
-                                     freeOnly:NO
-                                      success:successBlock
-                                      failure:nil]);
+                                      search:nil
+                                    freeOnly:NO
+                                     success:successBlock
+                                     failure:nil]);
 }
 
 - (void)testThatGetThemesForBlogIdWorks
@@ -268,9 +269,9 @@ static NSString* const ThemeServiceRemoteTestGetSingleThemeJson = @"get-single-t
     }];
 
     XCTAssertNoThrow([service getThemesForBlogId:blogId
-                                            page:1
-                                         success:successBlock
-                                         failure:nil]);
+                                           page:1
+                                        success:successBlock
+                                        failure:nil]);
 }
 
 - (void)testThatGetThemesForBlogIdThrowsExceptionWithoutBlogId

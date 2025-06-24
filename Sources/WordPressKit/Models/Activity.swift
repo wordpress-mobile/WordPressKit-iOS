@@ -182,7 +182,7 @@ public class ActivityGroup {
     public let name: String
     public let count: Int
 
-    init(_ groupKey: String, dictionary: [String: AnyObject]) throws {
+    public init(_ groupKey: String, dictionary: [String: AnyObject]) throws {
         guard let groupName = dictionary["name"] as? String else {
             throw Error.missingName
         }
@@ -293,7 +293,7 @@ public class RestoreStatus {
 }
 
 public extension RestoreStatus {
-    enum Status: String {
+    @frozen enum Status: String {
         case queued
         case finished
         case running

@@ -1,7 +1,7 @@
 #import "MediaServiceRemoteREST.h"
 #import "RemoteMedia.h"
 #import "WPKit-Swift.h"
-@import WordPressShared;
+
 @import NSObject_SafeExpectations;
 
 const NSInteger WPRestErrorCodeMediaNew = 10;
@@ -386,7 +386,7 @@ const NSInteger WPRestErrorCodeMediaNew = 10;
 
 + (NSArray *)remoteMediaFromJSONArray:(NSArray *)jsonMedia
 {
-    return [jsonMedia wp_map:^id(NSDictionary *json) {
+    return [jsonMedia wpkit_map:^id(NSDictionary *json) {
         return [self remoteMediaFromJSONDictionary:json];
     }];
 }

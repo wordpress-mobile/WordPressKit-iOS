@@ -9,7 +9,7 @@ public final class AtomicErrorLogEntry: Decodable {
     public let line: Int?
     public let timestamp: Date?
 
-    public enum Severity: String {
+    @frozen public enum Severity: String {
         case user = "User"
         case warning = "Warning"
         case deprecated = "Deprecated"

@@ -2,7 +2,7 @@ import XCTest
 
 @testable import WordPressKit
 
-private class CaptureLogs: NSObject, WordPressLoggingDelegate {
+private class CaptureLogs: NSObject, WordPressKitLoggingDelegate {
     private(set) var verboseLogs = [String]()
     private(set) var debugLogs = [String]()
     private(set) var infoLogs = [String]()

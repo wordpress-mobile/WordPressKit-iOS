@@ -169,7 +169,7 @@ public enum SiteCreationError: Error {
 /// - success: the site creation request succeeded with the accompanying result.
 /// - failure: the site creation request failed due to the accompanying error.
 ///
-public enum SiteCreationResult {
+@frozen public enum SiteCreationResult {
     case success(SiteCreationResponse)
     case failure(SiteCreationError)
 }

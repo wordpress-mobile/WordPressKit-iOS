@@ -1,5 +1,4 @@
 import Foundation
-import WordPressShared
 
 public struct StatsSubscribersSummaryData: Equatable {
     public let history: [SubscriberData]

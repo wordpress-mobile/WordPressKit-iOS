@@ -3,7 +3,6 @@
 #import "WPKit-Swift.h"
 
 @import NSObject_SafeExpectations;
-@import WordPressShared;
 
 // REST Post dictionary keys
 NSString * const PostRESTKeyAttachments = @"attachments";
@@ -95,10 +94,13 @@ static const NSUInteger ReaderPostTitleLength = 30;
     self.authorID = [authorDict numberForKey:PostRESTKeyID];
     self.author = [self stringOrEmptyString:[authorDict stringForKey:PostRESTKeyNiceName]]; // typically the author's screen name
     self.authorAvatarURL = [self stringOrEmptyString:[authorDict stringForKey:PostRESTKeyAvatarURL]];
-    self.authorDisplayName = [[self stringOrEmptyString:[authorDict stringForKey:PostRESTKeyName]] stringByDecodingXMLCharacters]; // Typically the author's given name
+    self.authorDisplayName = [[self stringOrEmptyString:[authorDict stringForKey:PostRESTKeyName]] wpkit_stringByDecodingXMLCharacters]; // Typically the author's given name
     self.authorEmail = [self authorEmailFromAuthorDictionary:authorDict];
     self.authorURL = [self stringOrEmptyString:[authorDict stringForKey:PostRESTKeyURL]];
-    self.siteIconURL = [self stringOrEmptyString:[dict stringForKeyPath:@"meta.data.site.icon.img"]];
+    self.siteIconURL = [self stringOrEmptyString:[dict stringForKeyPath:@"site_icon.img"]];
+    if (self.siteIconURL.length == 0) {
+        self.siteIconURL = [self stringOrEmptyString:[dict stringForKeyPath:@"meta.data.site.icon.img"]];
+    }
     self.blogName = [self siteNameFromPostDictionary:dict];
     self.blogDescription = [self siteDescriptionFromPostDictionary:dict];
     self.blogURL = [self siteURLFromPostDictionary:dict];
@@ -107,6 +109,8 @@ static const NSUInteger ReaderPostTitleLength = 30;
     self.content = [self postContentFromPostDictionary:dict];
     self.date_created_gmt = [self stringOrEmptyString:[dict stringForKey:PostRESTKeyDate]];
     self.featuredImage = [self featuredImageFromPostDictionary:dict];
+    self.autoSuggestedFeaturedImage = [self sanitizeFeaturedImageString:[self featuredMediaImageFromPostDictionary:dict]];
+    self.suitableImageFromPostContent = [self sanitizeFeaturedImageString:[self suitableImageFromPostContent:dict]];
     self.feedID = [dict numberForKey:PostRESTKeyFeedID];
     self.feedItemID = [dict numberForKey:PostRESTKeyFeedItemID];
     self.globalID = [self stringOrEmptyString:[dict stringForKey:PostRESTKeyGlobalID]];
@@ -205,8 +209,8 @@ static const NSUInteger ReaderPostTitleLength = 30;
         } else if ([[obj stringForKey:CrossPostMetaKey] isEqualToString:CrossPostMetaXPostOrigin]) {
             NSString *value = [obj stringForKey:CrossPostMetaValue];
             NSArray *IDS = [value componentsSeparatedByString:@":"];
-            meta.siteID = [[IDS firstObject] numericValue];
-            meta.postID = [[IDS lastObject] numericValue];
+            meta.siteID = [[IDS firstObject] wpkit_numericValue];
+            meta.postID = [[IDS lastObject] wpkit_numericValue];
 
             crossPostMetaFound = YES;
         }
@@ -271,8 +275,8 @@ static const NSUInteger ReaderPostTitleLength = 30;
         primaryTagSlug = editorialSlug;
     }
 
-    primaryTag = [primaryTag stringByDecodingXMLCharacters];
-    secondaryTag = [secondaryTag stringByDecodingXMLCharacters];
+    primaryTag = [primaryTag wpkit_stringByDecodingXMLCharacters];
+    secondaryTag = [secondaryTag wpkit_stringByDecodingXMLCharacters];
 
     return @{
              TagKeyPrimary:primaryTag,
@@ -473,7 +477,7 @@ static const NSUInteger ReaderPostTitleLength = 30;
         sortDate = editorialDate;
     }
 
-    return [DateUtils dateFromISOString:sortDate];
+    return [WPKitDateUtils dateFromISOString:sortDate];
 }
 
 /**
@@ -490,16 +494,6 @@ static const NSUInteger ReaderPostTitleLength = 30;
     // Second option is the user specified featured image
     if ([featuredImage length] == 0) {
         featuredImage = [self userSpecifiedFeaturedImageFromPostDictionary:dict];
-    }
-
-    // If that's not present look for an image in featured media
-    if ([featuredImage length] == 0) {
-        featuredImage = [self featuredMediaImageFromPostDictionary:dict];
-    }
-
-    // As a last resource lets look for a suitable image in the post content
-    if ([featuredImage length] == 0) {
-        featuredImage = [self suitableImageFromPostContent:dict];
     }
 
     featuredImage = [self sanitizeFeaturedImageString:featuredImage];
@@ -525,7 +519,7 @@ static const NSUInteger ReaderPostTitleLength = 30;
 
 - (NSString *)suitableImageFromPostContent:(NSDictionary *)dict {
     NSString *content = [dict stringForKey:PostRESTKeyContent];
-    NSString *imageToDisplay = [DisplayableImageHelper searchPostContentForImageToDisplay:content];
+    NSString *imageToDisplay = [WPKitDisplayableImageHelper searchPostContentForImageToDisplay:content];
     return [self stringOrEmptyString:imageToDisplay];
 }
 
@@ -651,7 +645,7 @@ static const NSUInteger ReaderPostTitleLength = 30;
 
 - (NSArray *)slugsFromDiscoverPostTaxonomies:(NSArray *)discoverPostTaxonomies
 {
-    return [discoverPostTaxonomies wp_map:^id(NSDictionary *dict) {
+    return [discoverPostTaxonomies wpkit_map:^id(NSDictionary *dict) {
         return [dict stringForKey:PostRESTKeySlug];
     }];
 }
@@ -689,7 +683,7 @@ static const NSUInteger ReaderPostTitleLength = 30;
  */
 - (NSString *)createSummaryFromContent:(NSString *)string
 {
-    return [string summarized];
+    return [string wpkit_summarized];
 }
 
 /**
@@ -700,7 +694,7 @@ static const NSUInteger ReaderPostTitleLength = 30;
  */
 - (NSString *)makePlainText:(NSString *)string
 {
-    return [string summarized];
+    return [string wpkit_summarized];
 }
 
 /**
@@ -711,7 +705,7 @@ static const NSUInteger ReaderPostTitleLength = 30;
  */
 - (NSString *)titleFromSummary:(NSString *)summary
 {
-    return [summary stringByEllipsizingWithMaxLength:ReaderPostTitleLength preserveWords:YES];
+    return [summary wpkit_stringByEllipsizingWithMaxLength:ReaderPostTitleLength preserveWords:YES];
 }
 
 

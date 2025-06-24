@@ -1,5 +1,4 @@
 import Foundation
-import WordPressShared
 
 @objc public class PlanServiceRemote_ApiVersion1_3: ServiceRemoteWordPressComREST {
 

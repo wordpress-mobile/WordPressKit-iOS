@@ -1,5 +1,4 @@
 import Foundation
-import WordPressShared
 
 public class TimeZoneServiceRemote: ServiceRemoteWordPressComREST {
     public enum ResponseError: Error {

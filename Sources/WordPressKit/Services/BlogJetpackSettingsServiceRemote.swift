@@ -1,5 +1,4 @@
 import Foundation
-import WordPressShared
 
 public class BlogJetpackSettingsServiceRemote: ServiceRemoteWordPressComREST {
 
@@ -201,13 +200,11 @@ private extension BlogJetpackSettingsServiceRemote {
             $0[key] = $1
         }
 
-        guard let lazyLoadImagesValue = dictionary[Keys.lazyLoadImages]?[ModuleOptionKeys.active] as? Bool,
-            let serveImagesFromOurServersValue = dictionary[Keys.serveImagesFromOurServers]?[ModuleOptionKeys.active] as? Bool else {
+        guard let serveImagesFromOurServersValue = dictionary[Keys.serveImagesFromOurServers]?[ModuleOptionKeys.active] as? Bool else {
             throw ResponseError.decodingFailure
         }
 
-        return RemoteBlogJetpackModulesSettings(lazyLoadImages: lazyLoadImagesValue,
-                                                serveImagesFromOurServers: serveImagesFromOurServersValue)
+        return RemoteBlogJetpackModulesSettings(serveImagesFromOurServers: serveImagesFromOurServersValue)
     }
 
     func dictionaryFromJetpackSettings(_ settings: RemoteBlogJetpackSettings) -> [String: Any] {
@@ -249,7 +246,6 @@ public extension BlogJetpackSettingsServiceRemote {
         static let monitorPushNotifications = "wp_note_notifications"
 
         // RemoteBlogJetpackModuleSettings keys
-        public static let lazyLoadImages = "lazy-images"
         public static let serveImagesFromOurServers  = "photon"
 
     }

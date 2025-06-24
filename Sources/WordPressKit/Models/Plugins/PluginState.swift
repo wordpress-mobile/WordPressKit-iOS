@@ -1,7 +1,7 @@
 import Foundation
 
 public struct PluginState: Equatable, Codable {
-    public enum UpdateState: Equatable, Codable {
+    @frozen public enum UpdateState: Equatable, Codable {
         public static func ==(lhs: PluginState.UpdateState, rhs: PluginState.UpdateState) -> Bool {
             switch (lhs, rhs) {
             case (.updated, .updated):

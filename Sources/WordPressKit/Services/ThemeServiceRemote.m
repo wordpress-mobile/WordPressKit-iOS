@@ -13,6 +13,7 @@ static NSString* const ThemeRequestTierFreeValue = @"free";
 static NSString* const ThemeRequestNumberKey = @"number";
 static NSInteger const ThemeRequestNumberValue = 50;
 static NSString* const ThemeRequestPageKey = @"page";
+static NSString* const ThemeRequestSearchKey = @"search";
 
 @implementation ThemeServiceRemote
 
@@ -98,20 +99,26 @@ static NSString* const ThemeRequestPageKey = @"page";
 }
 
 - (NSProgress *)getWPThemesPage:(NSInteger)page
+                         search:(NSString *)search
                        freeOnly:(BOOL)freeOnly
                         success:(ThemeServiceRemoteThemesRequestSuccessBlock)success
                         failure:(ThemeServiceRemoteFailureBlock)failure
 {
     NSParameterAssert(page > 0);
-
+    
     NSString *requestUrl = [self pathForEndpoint:@"themes"
-                                     withVersion:WordPressComRESTAPIVersion_1_2];
-
-    NSDictionary *parameters = @{ThemeRequestTierKey: freeOnly ? ThemeRequestTierFreeValue : ThemeRequestTierAllValue,
-                                 ThemeRequestNumberKey: @(ThemeRequestNumberValue),
-                                 ThemeRequestPageKey: @(page),
-                                 };
-
+                                     withVersion:WordPressComRESTAPIVersion_2_0];
+    
+    NSMutableDictionary *parameters = [@{
+        ThemeRequestTierKey: freeOnly ? ThemeRequestTierFreeValue : ThemeRequestTierAllValue,
+        ThemeRequestNumberKey: @(ThemeRequestNumberValue),
+        ThemeRequestPageKey: @(page)
+    } mutableCopy];
+    
+    if (search) {
+        parameters[ThemeRequestSearchKey] = search;
+    }
+    
     return [self getThemesWithRequestUrl:requestUrl
                                     page:page
                               parameters:parameters
@@ -143,9 +150,9 @@ static NSString* const ThemeRequestPageKey = @"page";
 }
 
 - (NSProgress *)getThemesForBlogId:(NSNumber *)blogId
-                               page:(NSInteger)page
-                            success:(ThemeServiceRemoteThemesRequestSuccessBlock)success
-                            failure:(ThemeServiceRemoteFailureBlock)failure
+                              page:(NSInteger)page
+                           success:(ThemeServiceRemoteThemesRequestSuccessBlock)success
+                           failure:(ThemeServiceRemoteFailureBlock)failure
 {
     NSParameterAssert([blogId isKindOfClass:[NSNumber class]]);
     NSParameterAssert(page > 0);

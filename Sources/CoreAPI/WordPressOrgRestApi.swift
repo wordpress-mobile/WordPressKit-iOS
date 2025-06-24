@@ -1,5 +1,4 @@
 import Foundation
-import WordPressShared
 
 public struct WordPressOrgRestApiError: LocalizedError, Decodable, HTTPURLResponseProviding {
     public enum CodingKeys: String, CodingKey {

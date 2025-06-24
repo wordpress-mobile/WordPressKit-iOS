@@ -32,7 +32,7 @@ public struct StatsTopAuthor {
 
 public struct StatsTopPost {
 
-    public enum Kind {
+    @frozen public enum Kind {
         case unknown
         case post
         case page
