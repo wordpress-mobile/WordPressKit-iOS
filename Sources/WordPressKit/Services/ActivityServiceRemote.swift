@@ -27,16 +27,22 @@ open class ActivityServiceRemote: ServiceRemoteWordPressComREST {
     ///
     /// - Returns: An array of activities and a boolean indicating if there's more activities to fetch.
     ///
-    open func getActivityForSite(_ siteID: Int,
-                                 offset: Int = 0,
-                                 count: Int,
-                                 after: Date? = nil,
-                                 before: Date? = nil,
-                                 group: [String] = [],
-                                 success: @escaping (_ activities: [Activity], _ hasMore: Bool) -> Void,
-                                 failure: @escaping (Error) -> Void) {
-
+    open func getActivityForSite(
+        _ siteID: Int,
+        offset: Int = 0,
+        count: Int,
+        after: Date? = nil,
+        before: Date? = nil,
+        group: [String] = [],
+        rewindable: Bool? = nil,
+        searchText: String? = nil,
+        success: @escaping (_ activities: [Activity], _ hasMore: Bool) -> Void,
+        failure: @escaping (Error) -> Void
+    ) {
         var path = URLComponents(string: "sites/\(siteID)/activity")
+        if rewindable == true, let currentPath = path?.path {
+            path?.path = currentPath.appending("/rewindable")
+        }
 
         path?.queryItems = group.map { URLQueryItem(name: "group[]", value: $0) }
 
@@ -50,6 +56,9 @@ open class ActivityServiceRemote: ServiceRemoteWordPressComREST {
             path?.queryItems?.append(URLQueryItem(name: "before", value: formatter.string(from: lastSecondOfBeforeDay)))
         } else if let on = after ?? before {
             path?.queryItems?.append(URLQueryItem(name: "on", value: formatter.string(from: on)))
+        }
+        if let searchText, !searchText.isEmpty {
+            path?.queryItems?.append(URLQueryItem(name: "text_search", value: searchText))
         }
 
         guard let endpoint = path?.string else {
