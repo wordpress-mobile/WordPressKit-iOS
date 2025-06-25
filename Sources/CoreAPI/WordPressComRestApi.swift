@@ -30,6 +30,7 @@ public typealias WordPressComRestApiError = WordPressComRestApiErrorCode
     case preconditionFailure
     case malformedURL
     case invalidQuery
+    case reauthorizationRequired
 }
 
 public struct WordPressComRestApiEndpointError: Error {
@@ -536,11 +537,12 @@ extension WordPressComRestApi {
             "authorization_required": .authorizationRequired,
             "upload_error": .uploadFailed,
             "unauthorized": .authorizationRequired,
-            "invalid_query": .invalidQuery
+            "invalid_query": .invalidQuery,
+            "reauthorization_required": .reauthorizationRequired,
         ]
 
         let mappedError = errorsMap[errorCode] ?? .unknown
-        if mappedError == .invalidToken {
+        if mappedError == .invalidToken || mappedError == .reauthorizationRequired {
             // Call `invalidTokenHandler in the main thread since it's typically used by the apps to present an authentication UI.
             DispatchQueue.main.async {
                 self.invalidTokenHandler?()
