@@ -189,6 +189,31 @@ class WordPressComRestApiTests: XCTestCase {
         self.waitForExpectations(timeout: 2, handler: nil)
     }
 
+    func testInvalidTokenFailedCallWithReauthenticationRequiredError() throws {
+        let stubPath = try XCTUnwrap(
+            OHPathForFileInBundle("WordPressComRestApiFailReauthenticationRequired.json", Bundle.coreAPITestsBundle)
+        )
+        stub(condition: isRestAPIRequest()) { _ in
+            return fixture(filePath: stubPath, status: 401, headers: ["Content-Type" as NSObject: "application/json" as AnyObject])
+        }
+
+        let expect = self.expectation(description: "One callback should be invoked")
+        let handlerCalled = self.expectation(description: "Handler should be called")
+        let api = WordPressComRestApi(oAuthToken: "fakeToken")
+        api.setInvalidTokenHandler {
+            handlerCalled.fulfill()
+        }
+        api.GET(wordPressMediaRoutePath, parameters: nil, success: { (_: AnyObject, _: HTTPURLResponse?) in
+            expect.fulfill()
+            XCTFail("This call should fail")
+            }, failure: { (error, _) in
+                expect.fulfill()
+                XCTAssert(error.domain == "WordPressKit.WordPressComRestApiError", "The error should a WordPressComRestApiError")
+                XCTAssert(error.code == Int(WordPressComRestApiErrorCode.reauthorizationRequired.rawValue), "The error code should be invalid token")
+        })
+        self.wait(for: [expect, handlerCalled], timeout: 2)
+    }
+
     func testInvalidJSONReceivedFailedCall() throws {
         let stubPath = try XCTUnwrap(
             OHPathForFileInBundle("WordPressComRestApiFailInvalidJSON.json", Bundle.coreAPITestsBundle)
