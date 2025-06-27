@@ -84,7 +84,7 @@ public class SubscribersServiceRemote: ServiceRemoteWordPressComREST {
         page: Int? = nil,
         perPage: Int? = 25,
         parameters: GetSubscribersParameters = .init(),
-        search: String? = nil,
+        search: String? = nil
     ) async throws -> GetSubscribersResponse {
         let url = self.path(forEndpoint: "sites/\(siteID)/subscribers", withVersion: ._2_0)
         var query: [String: Any] = [:]
