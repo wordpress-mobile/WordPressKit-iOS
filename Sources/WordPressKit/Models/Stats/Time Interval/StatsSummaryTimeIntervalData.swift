@@ -59,7 +59,7 @@ extension StatsSummaryTimeIntervalData: StatsTimeIntervalData {
         return "stats/visits"
     }
 
-    public static func queryProperties(with date: Date, period: StatsPeriodUnit, maxCount: Int) -> [String: String] {
+    public static func queryProperties(period: StatsPeriodUnit, maxCount: Int) -> [String: String] {
         return ["unit": period.stringValue,
                 "quantity": String(maxCount),
                 "stat_fields": "views,visitors,comments,likes"]
@@ -234,7 +234,7 @@ extension StatsLikesSummaryTimeIntervalData: StatsTimeIntervalData {
         return "stats/visits"
     }
 
-    public static func queryProperties(with date: Date, period: StatsPeriodUnit, maxCount: Int) -> [String: String] {
+    public static func queryProperties(period: StatsPeriodUnit, maxCount: Int) -> [String: String] {
         return ["unit": period.stringValue,
                 "quantity": String(maxCount),
                 "stat_fields": "likes"]

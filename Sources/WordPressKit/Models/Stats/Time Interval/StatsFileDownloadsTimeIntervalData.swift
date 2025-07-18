@@ -35,7 +35,7 @@ extension StatsFileDownloadsTimeIntervalData: StatsTimeIntervalData {
         return "stats/file-downloads"
     }
 
-    public static func queryProperties(with date: Date, period: StatsPeriodUnit, maxCount: Int) -> [String: String] {
+    public static func queryProperties(period: StatsPeriodUnit, maxCount: Int) -> [String: String] {
         // num = number of periods to include in the query. default: 1.
         return ["num": String(maxCount)]
     }

@@ -78,7 +78,7 @@ extension StatsSubscribersSummaryData: StatsTimeIntervalData {
         }
     }
 
-    public static func queryProperties(with date: Date, period: StatsPeriodUnit, maxCount: Int) -> [String: String] {
+    public static func queryProperties(period: StatsPeriodUnit, maxCount: Int) -> [String: String] {
         return ["quantity": String(maxCount), "unit": period.stringValue]
     }
 }

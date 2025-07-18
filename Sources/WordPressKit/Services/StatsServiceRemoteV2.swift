@@ -95,26 +95,53 @@ open class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
     /// - parameters:
     ///   - period: An enum representing whether either a day, a week, a month or a year worth's of data.
     ///   - unit: An enum representing whether the data is retuned in a day, a week, a month or a year granularity. Default is `period`.
-    ///   - endingOn: Date on which the `period` for which data you're interested in **is ending**.
+    ///   - endDate: Date on which the `period` for which data you're interested in **is ending**.
     ///    e.g. if you want data spanning 11-17 Feb 2019, you should pass in a period of `.week` and an
     ///    ending date of `Feb 17 2019`.
+    ///   - timeZone: The time zone in which the dates are represented.
     ///   - limit: Limit of how many objects you want returned for your query. Default is `10`. `0` means no limit.
-    open func getData<TimeStatsType: StatsTimeIntervalData>(for period: StatsPeriodUnit,
-                                                              unit: StatsPeriodUnit? = nil,
-                                                              endingOn: Date,
-                                                              limit: Int = 10,
-                                                              completion: @escaping ((TimeStatsType?, Error?) -> Void)) {
+    open func getData<TimeStatsType: StatsTimeIntervalData>(
+        period: StatsPeriodUnit,
+        unit: StatsPeriodUnit? = nil,
+        startDate: Date? = nil,
+        endDate: Date,
+        timeZone: TimeZone? = nil,
+        limit: Int = 10,
+        fields: [String]? = nil,
+        completion: @escaping ((TimeStatsType?, Error?) -> Void)
+    ) {
         let pathComponent = TimeStatsType.pathComponent
         let path = self.path(forEndpoint: "sites/\(siteID)/\(pathComponent)/", withVersion: ._1_1)
 
-        let staticProperties = ["period": period.stringValue,
-                                "unit": unit?.stringValue ?? period.stringValue,
-                                "date": periodDataQueryDateFormatter.string(from: endingOn)] as [String: AnyObject]
+        func formattedDate(_ date: Date) -> String {
+            guard let timeZone else {
+                // For backward-compatibility, use the existing periodDataQueryDateFormatter
+                // with the current time zone.
+                return periodDataQueryDateFormatter.string(from: date)
+            }
+            let formatter = DateFormatter()
+            formatter.locale = Locale(identifier: "en_US_POSIX")
+            formatter.dateFormat = "yyyy-MM-dd"
+            formatter.timeZone = timeZone
+            return formatter.string(from: date)
+        }
 
-        let classProperties = TimeStatsType.queryProperties(with: endingOn, period: unit ?? period, maxCount: limit) as [String: AnyObject]
+        var properties = [
+            "period": period.stringValue,
+            "unit": unit?.stringValue ?? period.stringValue,
+            "date": formattedDate(endDate)
+        ] as [String: Any]
 
-        let properties = staticProperties.merging(classProperties) { val1, _ in
-            return val1
+        for (key, value) in TimeStatsType.queryProperties(period: unit ?? period, maxCount: limit) {
+            properties[key] = value
+        }
+
+        if let startDate {
+            properties["period"] = nil
+            properties["start_date"] = formattedDate(startDate)
+        }
+        if let fields {
+            properties["stat_fields"] = fields.joined(separator: ",")
         }
 
         wordPressComRESTAPI.get(path, parameters: properties, success: { [weak self] (response, _) in
@@ -361,7 +388,7 @@ public protocol StatsTimeIntervalData {
     init?(date: Date, period: StatsPeriodUnit, jsonDictionary: [String: AnyObject])
     init?(date: Date, period: StatsPeriodUnit, unit: StatsPeriodUnit?, jsonDictionary: [String: AnyObject])
 
-    static func queryProperties(with date: Date, period: StatsPeriodUnit, maxCount: Int) -> [String: String]
+    static func queryProperties(period: StatsPeriodUnit, maxCount: Int) -> [String: String]
 }
 
 extension StatsTimeIntervalData {
@@ -370,7 +397,7 @@ extension StatsTimeIntervalData {
         return nil
     }
 
-    public static func queryProperties(with date: Date, period: StatsPeriodUnit, maxCount: Int) -> [String: String] {
+    public static func queryProperties(period: StatsPeriodUnit, maxCount: Int) -> [String: String] {
         return ["max": String(maxCount)]
     }
 
