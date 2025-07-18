@@ -98,14 +98,12 @@ open class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
     ///   - endDate: Date on which the `period` for which data you're interested in **is ending**.
     ///    e.g. if you want data spanning 11-17 Feb 2019, you should pass in a period of `.week` and an
     ///    ending date of `Feb 17 2019`.
-    ///   - timeZone: The time zone in which the dates are represented.
     ///   - limit: Limit of how many objects you want returned for your query. Default is `10`. `0` means no limit.
     open func getData<TimeStatsType: StatsTimeIntervalData>(
         period: StatsPeriodUnit,
         unit: StatsPeriodUnit? = nil,
         startDate: Date? = nil,
         endDate: Date,
-        timeZone: TimeZone? = nil,
         limit: Int = 10,
         fields: [String]? = nil,
         completion: @escaping ((TimeStatsType?, Error?) -> Void)
@@ -113,23 +111,10 @@ open class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
         let pathComponent = TimeStatsType.pathComponent
         let path = self.path(forEndpoint: "sites/\(siteID)/\(pathComponent)/", withVersion: ._1_1)
 
-        func formattedDate(_ date: Date) -> String {
-            guard let timeZone else {
-                // For backward-compatibility, use the existing periodDataQueryDateFormatter
-                // with the current time zone.
-                return periodDataQueryDateFormatter.string(from: date)
-            }
-            let formatter = DateFormatter()
-            formatter.locale = Locale(identifier: "en_US_POSIX")
-            formatter.dateFormat = "yyyy-MM-dd"
-            formatter.timeZone = timeZone
-            return formatter.string(from: date)
-        }
-
         var properties = [
             "period": period.stringValue,
             "unit": unit?.stringValue ?? period.stringValue,
-            "date": formattedDate(endDate)
+            "date": periodDataQueryDateFormatter.string(from: endDate)
         ] as [String: Any]
 
         for (key, value) in TimeStatsType.queryProperties(period: unit ?? period, maxCount: limit) {
@@ -138,7 +123,7 @@ open class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
 
         if let startDate {
             properties["period"] = nil
-            properties["start_date"] = formattedDate(startDate)
+            properties["start_date"] = periodDataQueryDateFormatter.string(from: startDate)
         }
         if let fields {
             properties["stat_fields"] = fields.joined(separator: ",")
@@ -304,6 +289,9 @@ extension StatsServiceRemoteV2 {
 
     private func startDate(for period: StatsPeriodUnit, endDate: Date) -> Date {
         switch  period {
+        case .hour:
+            assertionFailure("unsupported period: \(period)")
+            return calendarForSite.startOfDay(for: endDate)
         case .day:
             return calendarForSite.startOfDay(for: endDate)
         case .week:
@@ -425,6 +413,8 @@ extension StatsTimeIntervalData {
 public extension StatsPeriodUnit {
     var stringValue: String {
         switch self {
+        case .hour:
+            return "hour"
         case .day:
             return "day"
         case .week:
@@ -438,6 +428,8 @@ public extension StatsPeriodUnit {
 
     init?(string: String) {
         switch string {
+        case "hour":
+            self = .hour
         case "day":
             self = .day
         case "week":

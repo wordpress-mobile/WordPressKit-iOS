@@ -1,4 +1,5 @@
 @frozen public enum StatsPeriodUnit: Int {
+    case hour
     case day
     case week
     case month
@@ -177,11 +178,21 @@ private extension StatsSummaryData {
 
     static func parsedDate(from dateString: String, for period: StatsPeriodUnit) -> Date? {
         switch period {
+        case .hour:
+            // Example: "2025-07-17 09:00:00" (in a site timezone)
+            return self.hourlyDateFormatter.date(from: dateString)
         case .week:
             return self.weeksDateFormatter.date(from: dateString)
         case .day, .month, .year:
             return self.regularDateFormatter.date(from: dateString)
         }
+    }
+
+    static var hourlyDateFormatter: DateFormatter {
+        let df = DateFormatter()
+        df.locale = Locale(identifier: "en_US_POS")
+        df.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        return df
     }
 
     static var regularDateFormatter: DateFormatter {
