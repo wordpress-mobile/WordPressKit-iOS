@@ -95,15 +95,15 @@ open class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
     /// - parameters:
     ///   - period: An enum representing whether either a day, a week, a month or a year worth's of data.
     ///   - unit: An enum representing whether the data is retuned in a day, a week, a month or a year granularity. Default is `period`.
-    ///   - endDate: Date on which the `period` for which data you're interested in **is ending**.
+    ///   - endingOn: Date on which the `period` for which data you're interested in **is ending**.
     ///    e.g. if you want data spanning 11-17 Feb 2019, you should pass in a period of `.week` and an
     ///    ending date of `Feb 17 2019`.
     ///   - limit: Limit of how many objects you want returned for your query. Default is `10`. `0` means no limit.
     open func getData<TimeStatsType: StatsTimeIntervalData>(
-        period: StatsPeriodUnit,
+        for period: StatsPeriodUnit,
         unit: StatsPeriodUnit? = nil,
         startDate: Date? = nil,
-        endDate: Date,
+        endingOn: Date,
         limit: Int = 10,
         fields: [String]? = nil,
         completion: @escaping ((TimeStatsType?, Error?) -> Void)
@@ -114,7 +114,7 @@ open class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
         var properties = [
             "period": period.stringValue,
             "unit": unit?.stringValue ?? period.stringValue,
-            "date": periodDataQueryDateFormatter.string(from: endDate)
+            "date": periodDataQueryDateFormatter.string(from: endingOn)
         ] as [String: Any]
 
         for (key, value) in TimeStatsType.queryProperties(period: unit ?? period, maxCount: limit) {
