@@ -45,6 +45,8 @@
 		0C938A2B2C416DE0009BA7B2 /* DisplayableImageHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C938A292C416DE0009BA7B2 /* DisplayableImageHelper.m */; };
 		0C938A2C2C416DE0009BA7B2 /* DisplayableImageHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 0C938A2A2C416DE0009BA7B2 /* DisplayableImageHelper.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0C9CD7992B9A107E0045BE03 /* RemotePostParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C9CD7982B9A107E0045BE03 /* RemotePostParameters.swift */; };
+		0CAD70302E2C017500EFD4BC /* StatsSiteStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CAD702F2E2C017500EFD4BC /* StatsSiteStats.swift */; };
+		0CAD70322E2C0AAF00EFD4BC /* stats-visits-hourly.json in Resources */ = {isa = PBXBuildFile; fileRef = 0CAD70312E2C0AAF00EFD4BC /* stats-visits-hourly.json */; };
 		0CB1905E2A2A5E83004D3E80 /* BlazeCampaign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB1905D2A2A5E83004D3E80 /* BlazeCampaign.swift */; };
 		0CB190612A2A6A13004D3E80 /* blaze-campaigns-search.json in Resources */ = {isa = PBXBuildFile; fileRef = 0CB1905F2A2A6943004D3E80 /* blaze-campaigns-search.json */; };
 		0CB190652A2A7569004D3E80 /* BlazeCampaignsSearchResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB190642A2A7569004D3E80 /* BlazeCampaignsSearchResponse.swift */; };
@@ -829,6 +831,8 @@
 		0C938A292C416DE0009BA7B2 /* DisplayableImageHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DisplayableImageHelper.m; sourceTree = "<group>"; };
 		0C938A2A2C416DE0009BA7B2 /* DisplayableImageHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DisplayableImageHelper.h; sourceTree = "<group>"; };
 		0C9CD7982B9A107E0045BE03 /* RemotePostParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemotePostParameters.swift; sourceTree = "<group>"; };
+		0CAD702F2E2C017500EFD4BC /* StatsSiteStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsSiteStats.swift; sourceTree = "<group>"; };
+		0CAD70312E2C0AAF00EFD4BC /* stats-visits-hourly.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "stats-visits-hourly.json"; sourceTree = "<group>"; };
 		0CB1905D2A2A5E83004D3E80 /* BlazeCampaign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlazeCampaign.swift; sourceTree = "<group>"; };
 		0CB1905F2A2A6943004D3E80 /* blaze-campaigns-search.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "blaze-campaigns-search.json"; sourceTree = "<group>"; };
 		0CB190642A2A7569004D3E80 /* BlazeCampaignsSearchResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlazeCampaignsSearchResponse.swift; sourceTree = "<group>"; };
@@ -2274,6 +2278,7 @@
 				40819772221E10C900A298E4 /* StatsPublishedPostsTimeIntervalData.swift */,
 				404057C4221B30400060250C /* StatsSearchTermTimeIntervalData.swift */,
 				40819777221F00E600A298E4 /* StatsSummaryTimeIntervalData.swift */,
+				0CAD702F2E2C017500EFD4BC /* StatsSiteStats.swift */,
 				404057C8221B789B0060250C /* StatsTopAuthorsTimeIntervalData.swift */,
 				404057D5221C92660060250C /* StatsTopClicksTimeIntervalData.swift */,
 				404057D1221C56AB0060250C /* StatsTopCountryTimeIntervalData.swift */,
@@ -2604,6 +2609,7 @@
 				404057CA221B80BC0060250C /* stats-top-authors.json */,
 				404057CF221C46780060250C /* stats-videos-data.json */,
 				4081977A221F153A00A298E4 /* stats-visits-day.json */,
+				0CAD70312E2C0AAF00EFD4BC /* stats-visits-hourly.json */,
 				01438D372B6A35FB0097D60A /* stats-summary.json */,
 				4081977D221F269A00A298E4 /* stats-visits-month.json */,
 				01438D342B6A2B2C0097D60A /* stats-visits-month-unit-week.json */,
@@ -3208,6 +3214,7 @@
 				7403A3001EF06FEB00DED7DC /* me-settings-success.json in Resources */,
 				F4B0F47C2ACB4B74003ABC61 /* get-all-domains-response.json in Resources */,
 				FEE48EF82A4B3E43008A48E0 /* sites-site-active-features.json in Resources */,
+				0CAD70322E2C0AAF00EFD4BC /* stats-visits-hourly.json in Resources */,
 				439A44DE2107CF6F00795ED7 /* site-plans-v3-bad-json-failure.json in Resources */,
 				74B335EA1F06F76B0053A184 /* xmlrpc-response-getpost.xml in Resources */,
 				FEE4EF6127303361003CDA3C /* comments-v2-edit-context-success.json in Resources */,
@@ -3535,6 +3542,7 @@
 				0CCD4C5C2C41700B00B53F9A /* UIDevice+Extensions.swift in Sources */,
 				74A44DD11F13C64B006CD8F4 /* RemoteNotificationSettings.swift in Sources */,
 				FEF7419D28085D89002C4203 /* RemoteBloggingPrompt.swift in Sources */,
+				0CAD70302E2C017500EFD4BC /* StatsSiteStats.swift in Sources */,
 				74DA56331F06EAF000FE9BF4 /* MediaServiceRemoteREST.m in Sources */,
 				17CD0CC320C58A0D000D9620 /* ReaderSiteSearchServiceRemote.swift in Sources */,
 				74DA563B1F06EB3000FE9BF4 /* RemoteMedia.m in Sources */,

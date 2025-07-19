@@ -16,6 +16,7 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
     let getClicksMockFilename = "stats-clicks-data.json"
     let getReferrersMockFilename = "stats-referrer-data.json"
     let getVisitsDayMockFilename = "stats-visits-day.json"
+    let getVisitsHourlyMockFilename = "stats-visits-hourly.json"
     let getVisitsWeekMockFilename = "stats-visits-week.json"
     let getVisitsMonthMockFilename = "stats-visits-month.json"
     let getVisitsMonthWithWeekUnitMockFilename = "stats-visits-month-unit-week.json"
@@ -436,6 +437,40 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
         waitForExpectations(timeout: timeout, handler: nil)
     }
 
+    func testFetchHourlyData() {
+        let expect = expectation(description: "It should return only views as other fields are not available")
+
+        stubRemoteResponse(siteVisitsDataEndpoint, filename: getVisitsHourlyMockFilename, contentType: .ApplicationJSON)
+
+        let feb21 = DateComponents(year: 2019, month: 2, day: 21)
+        let date = Calendar.autoupdatingCurrent.date(from: feb21)!
+
+        remote.getData(for: .day, endingOn: date) { (summary: StatsSummaryTimeIntervalData?, error: Error?) in
+            XCTAssertNil(error)
+            XCTAssertNotNil(summary)
+
+            XCTAssertEqual(summary?.summaryData.count, 10)
+
+            XCTAssertEqual(summary?.summaryData[0].viewsCount, 5140)
+            XCTAssertEqual(summary?.summaryData[0].visitorsCount, 3560)
+            XCTAssertEqual(summary?.summaryData[0].likesCount, 70)
+            XCTAssertEqual(summary?.summaryData[0].commentsCount, 1)
+
+            let nineDaysAgo = Calendar.autoupdatingCurrent.date(byAdding: .day, value: -9, to: date)!
+            XCTAssertEqual(summary?.summaryData[0].periodStartDate, nineDaysAgo)
+
+            XCTAssertEqual(summary?.summaryData[9].viewsCount, 3244)
+            XCTAssertEqual(summary?.summaryData[9].visitorsCount, 2127)
+            XCTAssertEqual(summary?.summaryData[9].likesCount, 25)
+            XCTAssertEqual(summary?.summaryData[9].commentsCount, 0)
+            XCTAssertEqual(summary?.summaryData[9].periodStartDate, date)
+
+            expect.fulfill()
+        }
+
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+
     func testFetchPostDetail() {
         let expect = expectation(description: "It should return post detail")
 
@@ -626,34 +661,23 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
     func testLikesForMonth() {
         let expect = expectation(description: "It should return likes data for a month")
 
-        stubRemoteResponse(siteVisitsDataEndpoint, filename: getVisitsMonthMockFilename, contentType: .ApplicationJSON)
+        stubRemoteResponse(siteVisitsDataEndpoint, filename: getVisitsHourlyMockFilename, contentType: .ApplicationJSON)
 
-        let feb21 = DateComponents(year: 2019, month: 2, day: 21)
-        let date = Calendar.autoupdatingCurrent.date(from: feb21)!
+        let date = Calendar.current.date(from: DateComponents(year: 2025, month: 7, day: 18))!
 
-        remote.getData(for: .month, endingOn: date) { (summary: StatsLikesSummaryTimeIntervalData?, error: Error?) in
+        remote.getData(for: .hour, unit: .hour, startDate: date, endingOn: date) { (stats: StatsSiteStats?, error: Error?) in
             XCTAssertNil(error)
-            XCTAssertNotNil(summary)
+            XCTAssertNotNil(stats)
 
-            XCTAssertEqual(summary?.summaryData.count, 10)
+            if let data = stats?.data, data.count == 24 {
 
-            XCTAssertNil(summary?.summaryData[0].viewsCount)
-            XCTAssertNil(summary?.summaryData[0].visitorsCount)
-            XCTAssertEqual(summary?.summaryData[0].likesCount, 72)
-            XCTAssertNil(summary?.summaryData[0].commentsCount)
-
-            let may1 = DateComponents(year: 2018, month: 5, day: 1)
-            let may1Date = Calendar.autoupdatingCurrent.date(from: may1)!
-            XCTAssertEqual(summary?.summaryData[0].periodStartDate, may1Date)
-
-            XCTAssertNil(summary?.summaryData[9].viewsCount)
-            XCTAssertNil(summary?.summaryData[9].visitorsCount)
-            XCTAssertEqual(summary?.summaryData[9].likesCount, 116)
-            XCTAssertNil(summary?.summaryData[9].commentsCount)
-
-            let nineMonthsFromMay1 = Calendar.autoupdatingCurrent.date(byAdding: .month, value: 9, to: may1Date)!
-
-            XCTAssertEqual(summary?.summaryData[9].periodStartDate, nineMonthsFromMay1)
+                XCTAssertEqual(data[0].views, 0)
+                XCTAssertNil(data[0].comments)
+                XCTAssertEqual(data[1].views, 2)
+                XCTAssertNil(data[1].comments)
+            } else {
+                XCTFail("unexpected count")
+            }
 
             expect.fulfill()
         }
