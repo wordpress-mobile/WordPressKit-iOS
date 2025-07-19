@@ -39,19 +39,22 @@ public struct StatsSummaryData {
     public let visitorsCount: Int
     public let likesCount: Int
     public let commentsCount: Int
+    public let postsCount: Int?
 
     public init(period: StatsPeriodUnit,
                 periodStartDate: Date,
                 viewsCount: Int,
                 visitorsCount: Int,
                 likesCount: Int,
-                commentsCount: Int) {
+                commentsCount: Int,
+                postsCount: Int?) {
         self.period = period
         self.periodStartDate = periodStartDate
         self.viewsCount = viewsCount
         self.visitorsCount = visitorsCount
         self.likesCount = likesCount
         self.commentsCount = commentsCount
+        self.postsCount = postsCount
     }
 }
 
@@ -101,13 +104,18 @@ extension StatsSummaryTimeIntervalData: StatsTimeIntervalData {
         self.period = period
         self.unit = unit
         self.periodEndDate = date
-        self.summaryData = data.compactMap { StatsSummaryData(dataArray: $0,
-                                                              period: unit ?? period,
-                                                              periodIndex: periodIndex,
-                                                              viewsIndex: viewsIndex,
-                                                              visitorsIndex: visitorsIndex,
-                                                              likesIndex: likesIndex,
-                                                              commentsIndex: commentsIndex) }
+        self.summaryData = data.compactMap {
+            StatsSummaryData(
+                dataArray: $0,
+                period: unit ?? period,
+                periodIndex: periodIndex,
+                viewsIndex: viewsIndex,
+                visitorsIndex: visitorsIndex,
+                likesIndex: likesIndex,
+                commentsIndex: commentsIndex,
+                postsIndex: fieldsArray.firstIndex(of: "posts")
+            )
+        }
     }
 }
 
@@ -118,7 +126,8 @@ private extension StatsSummaryData {
           viewsIndex: Int?,
           visitorsIndex: Int?,
           likesIndex: Int?,
-          commentsIndex: Int?) {
+          commentsIndex: Int?,
+          postsIndex: Int?) {
 
         guard
             let periodString = dataArray[periodIndex] as? String,
@@ -130,6 +139,7 @@ private extension StatsSummaryData {
         let visitorsCount: Int
         let likesCount: Int
         let commentsCount: Int
+        var postsCount: Int?
 
         if let viewsIndex = viewsIndex {
             guard let count = dataArray[viewsIndex] as? Int else {
@@ -167,6 +177,10 @@ private extension StatsSummaryData {
             commentsCount = 0
         }
 
+        if let postsIndex {
+            postsCount = dataArray[postsIndex] as? Int
+        }
+
         self.period = period
         self.periodStartDate = periodStart
 
@@ -174,6 +188,7 @@ private extension StatsSummaryData {
         self.visitorsCount = visitorsCount
         self.likesCount = likesCount
         self.commentsCount = commentsCount
+        self.postsCount = postsCount
     }
 
     static func parsedDate(from dateString: String, for period: StatsPeriodUnit) -> Date? {
@@ -271,12 +286,16 @@ extension StatsLikesSummaryTimeIntervalData: StatsTimeIntervalData {
 
         self.period = period
         self.periodEndDate = date
-        self.summaryData = data.compactMap { StatsSummaryData(dataArray: $0,
-                                                              period: unit ?? period,
-                                                              periodIndex: periodIndex,
-                                                              viewsIndex: nil,
-                                                              visitorsIndex: nil,
-                                                              likesIndex: likesIndex,
-                                                              commentsIndex: nil) }
+        self.summaryData = data.compactMap {
+            StatsSummaryData(
+                dataArray: $0,
+                period: unit ?? period,
+                periodIndex: periodIndex,
+                viewsIndex: nil,
+                visitorsIndex: nil,
+                likesIndex: likesIndex,
+                commentsIndex: nil, postsIndex: nil
+            )
+        }
     }
 }
