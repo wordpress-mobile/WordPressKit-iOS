@@ -35,18 +35,18 @@ public struct StatsSummaryData {
     public let period: StatsPeriodUnit
     public let periodStartDate: Date
 
-    public let viewsCount: Int
-    public let visitorsCount: Int
-    public let likesCount: Int
-    public let commentsCount: Int
+    public let viewsCount: Int?
+    public let visitorsCount: Int?
+    public let likesCount: Int?
+    public let commentsCount: Int?
     public let postsCount: Int?
 
     public init(period: StatsPeriodUnit,
                 periodStartDate: Date,
-                viewsCount: Int,
-                visitorsCount: Int,
-                likesCount: Int,
-                commentsCount: Int,
+                viewsCount: Int?,
+                visitorsCount: Int?,
+                likesCount: Int?,
+                commentsCount: Int?,
                 postsCount: Int?) {
         self.period = period
         self.periodStartDate = periodStartDate
@@ -91,14 +91,8 @@ extension StatsSummaryTimeIntervalData: StatsTimeIntervalData {
         // [["2019-01-01", 9001, 1234], ["2019-02-01", 1234, 1234]], where the first object in the "inner" array
         // is the `period`, second is `views`, etc.
 
-        guard
-            let periodIndex = fieldsArray.firstIndex(of: "period"),
-            let viewsIndex = fieldsArray.firstIndex(of: "views"),
-            let visitorsIndex = fieldsArray.firstIndex(of: "visitors"),
-            let commentsIndex = fieldsArray.firstIndex(of: "comments"),
-            let likesIndex = fieldsArray.firstIndex(of: "likes")
-            else {
-                return nil
+        guard let periodIndex = fieldsArray.firstIndex(of: "period") else {
+            return nil
         }
 
         self.period = period
@@ -109,10 +103,10 @@ extension StatsSummaryTimeIntervalData: StatsTimeIntervalData {
                 dataArray: $0,
                 period: unit ?? period,
                 periodIndex: periodIndex,
-                viewsIndex: viewsIndex,
-                visitorsIndex: visitorsIndex,
-                likesIndex: likesIndex,
-                commentsIndex: commentsIndex,
+                viewsIndex: fieldsArray.firstIndex(of: "views"),
+                visitorsIndex: fieldsArray.firstIndex(of: "visitors"),
+                likesIndex: fieldsArray.firstIndex(of: "likes"),
+                commentsIndex: fieldsArray.firstIndex(of: "comments"),
                 postsIndex: fieldsArray.firstIndex(of: "posts")
             )
         }
@@ -120,75 +114,35 @@ extension StatsSummaryTimeIntervalData: StatsTimeIntervalData {
 }
 
 private extension StatsSummaryData {
-    init?(dataArray: [Any],
-          period: StatsPeriodUnit,
-          periodIndex: Int,
-          viewsIndex: Int?,
-          visitorsIndex: Int?,
-          likesIndex: Int?,
-          commentsIndex: Int?,
-          postsIndex: Int?) {
-
+    init?(
+        dataArray: [Any],
+        period: StatsPeriodUnit,
+        periodIndex: Int,
+        viewsIndex: Int?,
+        visitorsIndex: Int?,
+        likesIndex: Int?,
+        commentsIndex: Int?,
+        postsIndex: Int?
+    ) {
         guard
             let periodString = dataArray[periodIndex] as? String,
             let periodStart = type(of: self).parsedDate(from: periodString, for: period) else {
                 return nil
         }
 
-        let viewsCount: Int
-        let visitorsCount: Int
-        let likesCount: Int
-        let commentsCount: Int
-        var postsCount: Int?
-
-        if let viewsIndex = viewsIndex {
-            guard let count = dataArray[viewsIndex] as? Int else {
-                return nil
-            }
-            viewsCount = count
-        } else {
-            viewsCount = 0
-        }
-
-        if let visitorsIndex = visitorsIndex {
-            guard let count = dataArray[visitorsIndex] as? Int else {
-                return nil
-            }
-            visitorsCount = count
-        } else {
-            visitorsCount = 0
-        }
-
-        if let likesIndex = likesIndex {
-            guard let count = dataArray[likesIndex] as? Int else {
-                return nil
-            }
-            likesCount = count
-        } else {
-            likesCount = 0
-        }
-
-        if let commentsIndex = commentsIndex {
-            guard let count = dataArray[commentsIndex] as? Int else {
-                return nil
-            }
-            commentsCount = count
-        } else {
-            commentsCount = 0
-        }
-
-        if let postsIndex {
-            postsCount = dataArray[postsIndex] as? Int
+        func getValue(at index: Int?) -> Int? {
+            guard let index else { return nil }
+            return dataArray[index] as? Int
         }
 
         self.period = period
         self.periodStartDate = periodStart
 
-        self.viewsCount = viewsCount
-        self.visitorsCount = visitorsCount
-        self.likesCount = likesCount
-        self.commentsCount = commentsCount
-        self.postsCount = postsCount
+        self.viewsCount = getValue(at: viewsIndex)
+        self.visitorsCount = getValue(at: visitorsIndex)
+        self.likesCount = getValue(at: likesIndex)
+        self.commentsCount = getValue(at: commentsIndex)
+        self.postsCount = getValue(at: postsIndex)
     }
 
     static func parsedDate(from dateString: String, for period: StatsPeriodUnit) -> Date? {
