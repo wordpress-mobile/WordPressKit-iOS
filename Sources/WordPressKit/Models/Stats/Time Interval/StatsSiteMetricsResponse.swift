@@ -1,11 +1,11 @@
 import Foundation
 
-public struct StatsSiteStats {
+public struct StatsSiteMetricsResponse {
     public var period: StatsPeriodUnit
     public var periodEndDate: Date
     public let data: [PeriodData]
 
-    enum Metric: String, CaseIterable {
+    public enum Metric: String, CaseIterable {
         case views
         case visitors
         case likes
@@ -15,14 +15,14 @@ public struct StatsSiteStats {
 
     public struct PeriodData {
         /// Periods date in the site timezone.
-        var date: Date
-        var views: Int?
-        var visitors: Int?
-        var likes: Int?
-        var comments: Int?
-        var posts: Int?
+        public var date: Date
+        public var views: Int?
+        public var visitors: Int?
+        public var likes: Int?
+        public var comments: Int?
+        public var posts: Int?
 
-        subscript(metric: Metric) -> Int? {
+        public subscript(metric: Metric) -> Int? {
             switch metric {
             case .views: views
             case .visitors: visitors
@@ -34,7 +34,7 @@ public struct StatsSiteStats {
     }
 }
 
-extension StatsSiteStats: StatsTimeIntervalData {
+extension StatsSiteMetricsResponse: StatsTimeIntervalData {
     public static var pathComponent: String {
         "stats/visits"
     }

@@ -115,13 +115,15 @@ open class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
         let pathComponent = TimeStatsType.pathComponent
         let path = self.path(forEndpoint: "sites/\(siteID)/\(pathComponent)/", withVersion: ._1_1)
 
+        let dateFormatter = period == .hour ? hourlyDateFormatter : periodDataQueryDateFormatter
+
         var staticProperties = ["period": period.stringValue,
                                 "unit": unit?.stringValue ?? period.stringValue,
-                                "date": periodDataQueryDateFormatter.string(from: endingOn)] as [String: AnyObject]
+                                "date": dateFormatter.string(from: endingOn)] as [String: AnyObject]
 
         if let startDate {
             staticProperties["period"] = nil
-            staticProperties["start_date"] = periodDataQueryDateFormatter.string(from: startDate) as AnyObject
+            staticProperties["start_date"] = dateFormatter.string(from: startDate) as AnyObject
         }
 
         let classProperties = TimeStatsType.queryProperties(with: endingOn, period: unit ?? period, maxCount: limit) as [String: AnyObject]
@@ -130,7 +132,6 @@ open class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
             return val1
         }
 
-        let dateFormatter = period == .hour ? hourlyDateFormatter : periodDataQueryDateFormatter
         wordPressComRESTAPI.get(path, parameters: properties, success: { (response, _) in
             guard
                 let jsonResponse = response as? [String: AnyObject],

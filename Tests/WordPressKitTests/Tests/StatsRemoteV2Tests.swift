@@ -665,7 +665,7 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
 
         let date = Calendar.current.date(from: DateComponents(year: 2025, month: 7, day: 18))!
 
-        remote.getData(for: .hour, unit: .hour, startDate: date, endingOn: date) { (stats: StatsSiteStats?, error: Error?) in
+        remote.getData(for: .hour, unit: .hour, startDate: date, endingOn: date) { (stats: StatsSiteMetricsResponse?, error: Error?) in
             XCTAssertNil(error)
             XCTAssertNotNil(stats)
 
