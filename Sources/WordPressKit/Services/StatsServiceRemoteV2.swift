@@ -24,6 +24,13 @@ open class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
         return df
     }
 
+    private var hourlyDateFormatter: DateFormatter {
+        let df = DateFormatter()
+        df.locale = Locale(identifier: "en_US_POSIX")
+        df.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        return df
+    }
+
     private lazy var calendarForSite: Calendar = {
         var cal = Calendar(identifier: .iso8601)
         cal.timeZone = siteTimezone
@@ -129,12 +136,12 @@ open class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
             properties["stat_fields"] = fields.joined(separator: ",")
         }
 
-        wordPressComRESTAPI.get(path, parameters: properties, success: { [weak self] (response, _) in
+        let dateFormatter = period == .hour ? hourlyDateFormatter : periodDataQueryDateFormatter
+        wordPressComRESTAPI.get(path, parameters: properties, success: { (response, _) in
             guard
-                let self,
                 let jsonResponse = response as? [String: AnyObject],
                 let dateString = jsonResponse["date"] as? String,
-                let date = self.periodDataQueryDateFormatter.date(from: dateString)
+                let date = dateFormatter.date(from: dateString)
                 else {
                     completion(nil, ResponseError.decodingFailure)
                     return
