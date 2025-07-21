@@ -122,7 +122,6 @@ open class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
                                 "date": dateFormatter.string(from: endingOn)] as [String: AnyObject]
 
         if let startDate {
-            staticProperties["period"] = nil
             staticProperties["start_date"] = dateFormatter.string(from: startDate) as AnyObject
         }
 
