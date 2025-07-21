@@ -59,6 +59,7 @@ private extension StatsTopPost {
         }
 
         self.title = title
+        self.date = jsonDictionary["date"] as? String
         self.postID = postID
         self.postURL = URL(string: url)
         self.viewsCount = viewsCount

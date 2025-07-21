@@ -8,6 +8,7 @@ open class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
 
     public enum ResponseError: Error {
         case decodingFailure
+        case emptySummary
     }
 
     public enum MarkAsSpamResponseError: Error {
@@ -106,12 +107,16 @@ open class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
     ///    e.g. if you want data spanning 11-17 Feb 2019, you should pass in a period of `.week` and an
     ///    ending date of `Feb 17 2019`.
     ///   - limit: Limit of how many objects you want returned for your query. Default is `10`. `0` means no limit.
-    open func getData<TimeStatsType: StatsTimeIntervalData>(for period: StatsPeriodUnit,
-                                                              unit: StatsPeriodUnit? = nil,
-                                                              startDate: Date? = nil,
-                                                              endingOn: Date,
-                                                              limit: Int = 10,
-                                                              completion: @escaping ((TimeStatsType?, Error?) -> Void)) {
+    open func getData<TimeStatsType: StatsTimeIntervalData>(
+        for period: StatsPeriodUnit,
+        unit: StatsPeriodUnit? = nil,
+        startDate: Date? = nil,
+        endingOn: Date,
+        limit: Int = 10,
+        summarize: Bool? = nil,
+        parameters: [String: String]? = nil,
+        completion: @escaping ((TimeStatsType?, Error?) -> Void)
+    ) {
         let pathComponent = TimeStatsType.pathComponent
         let path = self.path(forEndpoint: "sites/\(siteID)/\(pathComponent)/", withVersion: ._1_1)
 
@@ -123,6 +128,14 @@ open class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
 
         if let startDate {
             staticProperties["start_date"] = dateFormatter.string(from: startDate) as AnyObject
+        }
+        if let summarize {
+            staticProperties["summarize"] = summarize.description as NSString
+        }
+        if let parameters {
+            for (key, value) in parameters {
+                staticProperties[key] = value as NSString
+            }
         }
 
         let classProperties = TimeStatsType.queryProperties(with: endingOn, period: unit ?? period, maxCount: limit) as [String: AnyObject]
@@ -147,14 +160,15 @@ open class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
             let parsedUnit = unitString.flatMap { StatsPeriodUnit(string: $0) } ?? unit ?? period
             // some responses omit this field!  not a reason to fail a whole request parsing though.
 
-            guard
-                let timestats = TimeStatsType(date: date,
-                                              period: parsedPeriod,
-                                              unit: parsedUnit,
-                                              jsonDictionary: jsonResponse)
-                else {
+            guard let timestats = TimeStatsType(date: date, period: parsedPeriod, unit: parsedUnit, jsonDictionary: jsonResponse) else {
+                if summarize == true {
+                    // Some responses return `"summary": null` with no good way to
+                    // process it without refactoring every response, hence this workaround.
+                    completion(nil, ResponseError.emptySummary)
+                } else {
                     completion(nil, ResponseError.decodingFailure)
-                    return
+                }
+                return
             }
 
             completion(timestats, nil)
@@ -397,14 +411,15 @@ extension StatsTimeIntervalData {
     // Most of the responses for time data come in a unwieldy format, that requires awkwkard unwrapping
     // at the call-site — unfortunately not _all of them_, which means we can't just do it at the request level.
     static func unwrapDaysDictionary(jsonDictionary: [String: AnyObject]) -> [String: AnyObject]? {
-        guard
-            let days = jsonDictionary["days"] as? [String: AnyObject],
-            let firstKey = days.keys.first,
-            let firstDay = days[firstKey] as? [String: AnyObject]
-            else {
-                return nil
+        if let summary = jsonDictionary["summary"] as? [String: AnyObject] {
+            return summary
         }
-        return firstDay
+        if let days = jsonDictionary["days"] as? [String: AnyObject],
+           let firstKey = days.keys.first,
+           let firstDay = days[firstKey] as? [String: AnyObject] {
+            return firstDay
+        }
+        return nil
     }
 
 }

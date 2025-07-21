@@ -40,17 +40,20 @@ public struct StatsTopPost {
     }
 
     public let title: String
+    public var date: String?
     public let postID: Int
     public let postURL: URL?
     public let viewsCount: Int
     public let kind: Kind
 
     public init(title: String,
+                date: String?,
                 postID: Int,
                 postURL: URL?,
                 viewsCount: Int,
                 kind: Kind) {
         self.title = title
+        self.date = date
         self.postID = postID
         self.postURL = postURL
         self.viewsCount = viewsCount
