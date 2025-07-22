@@ -39,7 +39,7 @@ public struct StatsPostDetails: Equatable {
         public let mimeType: String?
         public let commentCount: String?
         public let permalink: String?
-
+        
         init?(jsonDictionary: [String: AnyObject]) {
             guard
                 let postID = jsonDictionary["ID"] as? Int,
@@ -47,21 +47,21 @@ public struct StatsPostDetails: Equatable {
             else {
                 return nil
             }
-
+            
             let dateFormatter = DateFormatter()
             dateFormatter.locale = Locale(identifier: "en_US_POSIX")
             dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-
+            
             var dateGMT: Date?
             var modifiedGMT: Date?
-
+            
             if let postDateGMTString = jsonDictionary["post_date_gmt"] as? String {
                 dateGMT = dateFormatter.date(from: postDateGMTString)
             }
             if let postModifiedGMTString = jsonDictionary["post_modified_gmt"] as? String {
                 modifiedGMT = dateFormatter.date(from: postModifiedGMTString)
             }
-
+            
             self.postID = postID
             self.title = title
             self.authorID = jsonDictionary["post_author"] as? String
