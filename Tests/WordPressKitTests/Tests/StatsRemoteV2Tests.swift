@@ -26,6 +26,7 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
     let getPostsDetailsFilename = "stats-post-details.json"
     let toggleSpamStateResponseFilename = "stats-referrer-mark-as-spam.json"
     let getStatsSummaryFilename = "stats-summary.json"
+    let getArchivesDataFilename = "stats-archives-data.json"
 
     // MARK: - Properties
 
@@ -42,6 +43,7 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
     var siteDownloadsDataEndpoint: String { return "sites/\(siteID)/stats/file-downloads/" }
     var sitePostDetailsEndpoint: String { return "sites/\(siteID)/stats/post/9001" }
     var siteStatsSummaryEndpoint: String { return "sites/\(siteID)/stats/summary/" }
+    var siteArchivesDataEndpoint: String { return "sites/\(siteID)/stats/archives" }
 
     func toggleSpamStateEndpoint(for referrerDomain: String, markAsSpam: Bool) -> String {
         let action = markAsSpam ? "new" : "delete"
@@ -737,5 +739,56 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
 
         waitForExpectations(timeout: timeout, handler: nil)
 
+    }
+
+    func testArchives() {
+        let expect = expectation(description: "It should return archives data for a day")
+
+        stubRemoteResponse(siteArchivesDataEndpoint, filename: getArchivesDataFilename, contentType: .ApplicationJSON)
+
+        let july21 = DateComponents(year: 2025, month: 7, day: 21)
+        let date = Calendar.autoupdatingCurrent.date(from: july21)!
+
+        remote.getData(for: .day, endingOn: date) { (archives: StatsArchiveTimeIntervalData?, error: Error?) in
+            XCTAssertNil(error)
+            XCTAssertNotNil(archives)
+
+            XCTAssertEqual(archives?.period, .day)
+            XCTAssertEqual(archives?.periodEndDate, date)
+
+            // Test other items
+            XCTAssertEqual(archives?.summary.other.count, 8)
+
+            XCTAssertEqual(archives?.summary.other.first?.href, "http://example.com/wp-admin/admin.php?page=stats")
+            XCTAssertEqual(archives?.summary.other.first?.value, "/wp-admin/admin.php?page=stats")
+            XCTAssertEqual(archives?.summary.other.first?.views, 10)
+
+            XCTAssertEqual(archives?.summary.other[1].href, "http://example.com/wp-admin/")
+            XCTAssertEqual(archives?.summary.other[1].value, "/wp-admin/")
+            XCTAssertEqual(archives?.summary.other[1].views, 4)
+
+            XCTAssertEqual(archives?.summary.other.last?.href, "http://example.com/wp-admin/profile.php")
+            XCTAssertEqual(archives?.summary.other.last?.value, "/wp-admin/profile.php")
+            XCTAssertEqual(archives?.summary.other.last?.views, 1)
+
+            // Test author items
+            XCTAssertEqual(archives?.summary.author.count, 4)
+
+            XCTAssertEqual(archives?.summary.author.first?.href, "http://example.com/author/johndoe/")
+            XCTAssertEqual(archives?.summary.author.first?.value, "johndoe")
+            XCTAssertEqual(archives?.summary.author.first?.views, 31)
+
+            XCTAssertEqual(archives?.summary.author[1].href, "http://example.com/author/janedoe/")
+            XCTAssertEqual(archives?.summary.author[1].value, "janedoe")
+            XCTAssertEqual(archives?.summary.author[1].views, 5)
+
+            XCTAssertEqual(archives?.summary.author.last?.href, "http://example.com/author//")
+            XCTAssertEqual(archives?.summary.author.last?.value, "")
+            XCTAssertEqual(archives?.summary.author.last?.views, 2)
+
+            expect.fulfill()
+        }
+
+        waitForExpectations(timeout: timeout, handler: nil)
     }
 }
