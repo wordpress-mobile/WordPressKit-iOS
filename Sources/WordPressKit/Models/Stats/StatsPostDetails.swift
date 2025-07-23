@@ -3,23 +3,24 @@ import Foundation
 public struct StatsPostDetails: Equatable {
     public let fetchedDate: Date
     public let totalViewsCount: Int
-    
+
     public let recentWeeks: [StatsWeeklyBreakdown]
     public let dailyAveragesPerMonth: [StatsPostViews]
     public let monthlyBreakdown: [StatsPostViews]
     public let lastTwoWeeks: [StatsPostViews]
-    
+    public let data: [StatsPostViews]
+
     public let highestMonth: Int?
     public let highestDayAverage: Int?
     public let highestWeekAverage: Int?
-    
+
     public let yearlyTotals: [Int: Int]
     public let overallAverages: [Int: Int]
-    
+
     public let fields: [String]?
-    
+
     public let post: Post?
-    
+
     public struct Post: Equatable {
         public let postID: Int
         public let title: String
@@ -39,7 +40,7 @@ public struct StatsPostDetails: Equatable {
         public let mimeType: String?
         public let commentCount: String?
         public let permalink: String?
-        
+
         init?(jsonDictionary: [String: AnyObject]) {
             guard
                 let postID = jsonDictionary["ID"] as? Int,
@@ -47,21 +48,21 @@ public struct StatsPostDetails: Equatable {
             else {
                 return nil
             }
-            
+
             let dateFormatter = DateFormatter()
             dateFormatter.locale = Locale(identifier: "en_US_POSIX")
             dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-            
+
             var dateGMT: Date?
             var modifiedGMT: Date?
-            
+
             if let postDateGMTString = jsonDictionary["post_date_gmt"] as? String {
                 dateGMT = dateFormatter.date(from: postDateGMTString)
             }
             if let postModifiedGMTString = jsonDictionary["post_modified_gmt"] as? String {
                 modifiedGMT = dateFormatter.date(from: postModifiedGMTString)
             }
-            
+
             self.postID = postID
             self.title = title
             self.authorID = jsonDictionary["post_author"] as? String
@@ -118,6 +119,8 @@ extension StatsPostDetails {
 
         self.fetchedDate = date
         self.totalViewsCount = totalViewsCount
+
+        self.data = StatsPostViews.mapDailyData(data: data)
 
         // It's very hard to describe the format of this response. I tried to make the parsing
         // as nice and readable as possible, but in all honestly it's still pretty nasty.
