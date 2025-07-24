@@ -4,26 +4,16 @@ public struct StatsArchiveTimeIntervalData {
     public let period: StatsPeriodUnit
     public let unit: StatsPeriodUnit?
     public let periodEndDate: Date
-    public let summary: StatsArchiveSummary
+    public let summary: [String: [StatsArchiveItem]]
 
     public init(period: StatsPeriodUnit,
                 unit: StatsPeriodUnit? = nil,
                 periodEndDate: Date,
-                summary: StatsArchiveSummary) {
+                summary: [String: [StatsArchiveItem]]) {
         self.period = period
         self.unit = unit
         self.periodEndDate = periodEndDate
         self.summary = summary
-    }
-}
-
-public struct StatsArchiveSummary {
-    public let other: [StatsArchiveItem]
-    public let author: [StatsArchiveItem]
-
-    public init(other: [StatsArchiveItem], author: [StatsArchiveItem]) {
-        self.other = other
-        self.author = author
     }
 }
 
@@ -57,15 +47,21 @@ extension StatsArchiveTimeIntervalData: StatsTimeIntervalData {
             return nil
         }
 
-        let otherItems = (summary["other"] as? [[String: AnyObject]] ?? []).compactMap { StatsArchiveItem(jsonDictionary: $0) }
-        let authorItems = (summary["author"] as? [[String: AnyObject]] ?? []).compactMap { StatsArchiveItem(jsonDictionary: $0) }
-
-        let archiveSummary = StatsArchiveSummary(other: otherItems, author: authorItems)
-
         self.period = period
         self.unit = unit
         self.periodEndDate = date
-        self.summary = archiveSummary
+        self.summary = {
+            var map: [String: [StatsArchiveItem]] = [:]
+            for (key, value) in summary {
+                let items = (value as? [[String: AnyObject]])?.compactMap {
+                    StatsArchiveItem(jsonDictionary: $0)
+                } ?? []
+                if !items.isEmpty {
+                    map[key] = items
+                }
+            }
+            return map
+        }()
     }
 }
 
