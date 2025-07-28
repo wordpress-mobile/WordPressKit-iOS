@@ -1,9 +1,11 @@
+import Foundation
+
 @frozen public enum StatsPeriodUnit: Int {
-    case hour
     case day
     case week
     case month
     case year
+    case hour
 }
 
 @frozen public enum StatsSummaryType: Int {
