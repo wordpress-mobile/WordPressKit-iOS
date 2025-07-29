@@ -372,6 +372,28 @@ public extension StatsServiceRemoteV2 {
     }
 }
 
+// MARK: - Email Opens
+
+public extension StatsServiceRemoteV2 {
+    func getEmailOpens(for postID: Int, completion: @escaping ((StatsEmailOpensData?, Error?) -> Void)) {
+        let path = self.path(forEndpoint: "sites/\(siteID)/stats/opens/emails/\(postID)/rate", withVersion: ._1_1)
+
+        wordPressComRESTAPI.get(path, parameters: [:], success: { (response, _) in
+            guard
+                let jsonResponse = response as? [String: AnyObject],
+                let emailOpensData = StatsEmailOpensData(jsonDictionary: jsonResponse)
+            else {
+                completion(nil, ResponseError.decodingFailure)
+                return
+            }
+
+            completion(emailOpensData, nil)
+        }, failure: { (error, _) in
+            completion(nil, error)
+        })
+    }
+}
+
 // This serves both as a way to get the query properties in a "nice" way,
 // but also as a way to narrow down the generic type in `getInsight(completion:)` method.
 public protocol StatsInsightData {

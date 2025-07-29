@@ -27,6 +27,7 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
     let toggleSpamStateResponseFilename = "stats-referrer-mark-as-spam.json"
     let getStatsSummaryFilename = "stats-summary.json"
     let getArchivesDataFilename = "stats-archives-data.json"
+    let getEmailOpensFilename = "stats-email-opens.json"
 
     // MARK: - Properties
 
@@ -44,6 +45,7 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
     var sitePostDetailsEndpoint: String { return "sites/\(siteID)/stats/post/9001" }
     var siteStatsSummaryEndpoint: String { return "sites/\(siteID)/stats/summary/" }
     var siteArchivesDataEndpoint: String { return "sites/\(siteID)/stats/archives" }
+    var siteEmailOpensEndpoint: String { return "sites/\(siteID)/stats/opens/emails/231/rate" }
 
     func toggleSpamStateEndpoint(for referrerDomain: String, markAsSpam: Bool) -> String {
         let action = markAsSpam ? "new" : "delete"
@@ -831,5 +833,25 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
         XCTAssertEqual(author.last?.href, "http://example.com/author//")
         XCTAssertEqual(author.last?.value, "")
         XCTAssertEqual(author.last?.views, 2)
+    }
+
+    func testEmailOpens() {
+        let expect = expectation(description: "It should return email opens data")
+
+        stubRemoteResponse(siteEmailOpensEndpoint, filename: getEmailOpensFilename, contentType: .ApplicationJSON)
+
+        remote.getEmailOpens(for: 231) { (emailOpens, error) in
+            XCTAssertNil(error)
+            XCTAssertNotNil(emailOpens)
+
+            XCTAssertEqual(emailOpens?.totalSends, 1)
+            XCTAssertEqual(emailOpens?.uniqueOpens, 1)
+            XCTAssertEqual(emailOpens?.totalOpens, 4)
+            XCTAssertEqual(emailOpens?.opensRate, 1)
+
+            expect.fulfill()
+        }
+
+        waitForExpectations(timeout: timeout, handler: nil)
     }
 }
