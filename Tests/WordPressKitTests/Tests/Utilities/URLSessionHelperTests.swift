@@ -172,6 +172,31 @@ class URLSessionHelperTests: XCTestCase {
         }
     }
 
+    func testTaskCancellation() async throws {
+        // Give a slow HTTP request that takes 0.5 second to complete
+        stub(condition: isPath("/hello")) { _ in
+            let response = HTTPStubsResponse(data: "success".data(using: .utf8)!, statusCode: 200, headers: nil)
+            response.responseTime = 0.5
+            return response
+        }
+
+        let task = Task {
+            await session.perform(request: .init(url: URL(string: "https://wordpress.org/hello")!), errorType: TestError.self)
+        }
+
+        // and cancelling it (in 0.1 second) before it completes
+        try await Task.sleep(nanoseconds: 100_000_000)
+        task.cancel()
+
+        // The result should be an cancellation result
+        let result = await task.value
+        if case let .failure(.connection(urlError)) = result, urlError.code == .cancelled {
+            // Do nothing
+        } else {
+            XCTFail("Unexpected result: \(result)")
+        }
+    }
+
     func testEncodingError() async {
         let underlyingError = NSError(domain: "test", code: 123)
         let builder = HTTPRequestBuilder(url: URL(string: "https://wordpress.org")!)
