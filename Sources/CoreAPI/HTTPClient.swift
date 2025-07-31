@@ -70,40 +70,46 @@ extension URLSession {
             assert(parentProgress.cancellationHandler == nil, "The progress instance's cancellationHandler property must be nil")
         }
 
-        return await withCheckedContinuation { continuation in
-            let completion: @Sendable (Data?, URLResponse?, Error?) -> Void = { data, response, error in
-                let result: WordPressAPIResult<HTTPAPIResponse<Data>, E> = Self.parseResponse(
-                    data: data,
-                    response: response,
-                    error: error,
-                    acceptableStatusCodes: acceptableStatusCodes
-                )
+        let taskHolder = TaskHolder()
+        return await withTaskCancellationHandler {
+            await withCheckedContinuation { continuation in
+                let completion: @Sendable (Data?, URLResponse?, Error?) -> Void = { data, response, error in
+                    let result: WordPressAPIResult<HTTPAPIResponse<Data>, E> = Self.parseResponse(
+                        data: data,
+                        response: response,
+                        error: error,
+                        acceptableStatusCodes: acceptableStatusCodes
+                    )
 
-                continuation.resume(returning: result)
-            }
+                    continuation.resume(returning: result)
+                }
 
-            let task: URLSessionTask
+                let task: URLSessionTask
 
-            do {
-                task = try self.task(for: builder, completion: completion)
-            } catch {
-                continuation.resume(returning: .failure(.requestEncodingFailure(underlyingError: error)))
-                return
-            }
+                do {
+                    task = try self.task(for: builder, completion: completion)
+                } catch {
+                    continuation.resume(returning: .failure(.requestEncodingFailure(underlyingError: error)))
+                    return
+                }
 
-            task.resume()
-            taskCreated?(task.taskIdentifier)
+                task.resume()
+                taskCreated?(task.taskIdentifier)
+                Task { await taskHolder.assign(task) }
 
-            if let parentProgress, parentProgress.totalUnitCount > parentProgress.completedUnitCount {
-                let pending = parentProgress.totalUnitCount - parentProgress.completedUnitCount
-                // The Jetpack/WordPress app requires task progress updates to be delievered on the main queue.
-                let progressUpdator = parentProgress.update(totalUnit: pending, with: task.progress, queue: .main)
+                if let parentProgress, parentProgress.totalUnitCount > parentProgress.completedUnitCount {
+                    let pending = parentProgress.totalUnitCount - parentProgress.completedUnitCount
+                    // The Jetpack/WordPress app requires task progress updates to be delievered on the main queue.
+                    let progressUpdator = parentProgress.update(totalUnit: pending, with: task.progress, queue: .main)
 
-                parentProgress.cancellationHandler = { [weak task] in
-                    task?.cancel()
-                    progressUpdator.cancel()
+                    parentProgress.cancellationHandler = { [weak task] in
+                        task?.cancel()
+                        progressUpdator.cancel()
+                    }
                 }
             }
+        } onCancel: {
+            Task { await taskHolder.cancel() }
         }
     }
 
@@ -332,5 +338,17 @@ private extension URLSession {
 extension URLSession {
     var debugNumberOfTaskData: Int {
         self.taskData.count
+    }
+}
+
+private actor TaskHolder {
+    weak var task: URLSessionTask?
+
+    func assign(_ task: URLSessionTask) {
+        self.task = task
+    }
+
+    func cancel() {
+        task?.cancel()
     }
 }
