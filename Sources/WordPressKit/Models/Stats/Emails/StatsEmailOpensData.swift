@@ -19,14 +19,6 @@ public struct StatsEmailOpensData: Decodable, Equatable {
         case totalOpens = "total_opens"
         case opensRate = "opens_rate"
     }
-
-    public init(from decoder: any Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        totalSends = try container.decodeIfPresent(Int.self, forKey: .totalSends)
-        uniqueOpens = try container.decodeIfPresent(Int.self, forKey: .uniqueOpens)
-        totalOpens = try container.decodeIfPresent(Int.self, forKey: .totalOpens)
-        opensRate = try container.decodeIfPresent(Double.self, forKey: .opensRate)
-    }
 }
 
 extension StatsEmailOpensData {

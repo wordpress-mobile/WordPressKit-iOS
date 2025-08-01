@@ -713,7 +713,7 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
 
             if let data = stats?.data, data.count == 24 {
 
-                XCTAssertEqual(data[0].views, 0)
+                XCTAssertEqual(data[0].views, 5140)
                 XCTAssertNil(data[0].comments)
                 XCTAssertEqual(data[1].views, 2)
                 XCTAssertNil(data[1].comments)
