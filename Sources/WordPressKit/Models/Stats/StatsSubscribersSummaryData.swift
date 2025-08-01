@@ -19,7 +19,7 @@ extension StatsSubscribersSummaryData: StatsTimeIntervalData {
 
     static var hourlyDateFormatter: DateFormatter {
         let df = DateFormatter()
-        df.locale = Locale(identifier: "en_US_POS")
+        df.locale = Locale(identifier: "en_US_POSIX")
         df.dateFormat = "yyyy-MM-dd HH:mm:ss"
         return df
     }

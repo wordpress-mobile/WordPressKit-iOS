@@ -75,7 +75,7 @@ extension StatsSiteMetricsResponse: StatsTimeIntervalData {
         let dateFormatter = makeDateFormatter(for: period)
 
         self.data = data.compactMap { data in
-            guard let periodDate = dateFormatter.date(from: data[periodIndex] as? String ?? "") else {
+            guard let date = dateFormatter.date(from: data[periodIndex] as? String ?? "") else {
                 return nil
             }
             func getValue(at index: Int?) -> Int? {
@@ -83,7 +83,7 @@ extension StatsSiteMetricsResponse: StatsTimeIntervalData {
                 return data[index] as? Int
             }
             return PeriodData(
-                date: periodDate,
+                date: date,
                 views: getValue(at: indices.views),
                 visitors: getValue(at: indices.visitors),
                 likes: getValue(at: indices.likes),
