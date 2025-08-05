@@ -5424,5 +5424,31 @@
 	"highest_month": 8800,
 	"highest_day_average": 283,
 	"highest_week_average": 334,
-	"post": null
+    "post": {
+        "ID": 12345,
+        "post_author": "1234567",
+        "post_date": "2019-01-15 12:30:00",
+        "post_date_gmt": "2019-01-15 12:30:00",
+        "post_content": "<!-- wp:paragraph -->\n<p>This is a sample blog post content.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:heading -->\n<h2>Sample Heading</h2>\n<!-- /wp:heading -->\n\n<!-- wp:paragraph -->\n<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>\n<!-- /wp:paragraph -->",
+        "post_title": "Sample Blog Post Title",
+        "post_excerpt": "This is a sample excerpt.",
+        "post_status": "publish",
+        "comment_status": "open",
+        "ping_status": "open",
+        "post_password": "",
+        "post_name": "sample-blog-post-title",
+        "to_ping": "",
+        "pinged": "",
+        "post_modified": "2019-01-15 14:45:00",
+        "post_modified_gmt": "2019-01-15 14:45:00",
+        "post_content_filtered": "",
+        "post_parent": 0,
+        "guid": "https://example.wordpress.com/?p=12345",
+        "menu_order": 0,
+        "post_type": "post",
+        "post_mime_type": "",
+        "comment_count": "3",
+        "filter": "raw",
+        "permalink": "http://example.wordpress.com/2019/01/15/sample-blog-post-title/"
+    }
 }

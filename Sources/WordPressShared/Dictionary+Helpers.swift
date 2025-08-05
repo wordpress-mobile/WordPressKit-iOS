@@ -12,13 +12,14 @@ extension Dictionary {
     /// - Returns: Value as a String (when possible!)
     ///
     func valueAsString(forKey key: Key) -> String? {
-        let value = self[key]
-        switch value {
-        case let string as String:
+        guard let value = self[key] else {
+            return nil
+        }
+        if let string = value as? String {
             return string
-        case let number as NSNumber:
+        } else if let number = value as? NSNumber {
             return number.description
-        default:
+        } else {
             return nil
         }
     }

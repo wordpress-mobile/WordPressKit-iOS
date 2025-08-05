@@ -8,6 +8,7 @@ open class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
 
     public enum ResponseError: Error {
         case decodingFailure
+        case emptySummary
     }
 
     public enum MarkAsSpamResponseError: Error {
@@ -21,6 +22,13 @@ open class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
         let df = DateFormatter()
         df.locale = Locale(identifier: "en_US_POSIX")
         df.dateFormat = "yyyy-MM-dd"
+        return df
+    }
+
+    private var hourlyDateFormatter: DateFormatter {
+        let df = DateFormatter()
+        df.locale = Locale(identifier: "en_US_POSIX")
+        df.dateFormat = "yyyy-MM-dd HH:mm:ss"
         return df
     }
 
@@ -99,17 +107,36 @@ open class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
     ///    e.g. if you want data spanning 11-17 Feb 2019, you should pass in a period of `.week` and an
     ///    ending date of `Feb 17 2019`.
     ///   - limit: Limit of how many objects you want returned for your query. Default is `10`. `0` means no limit.
-    open func getData<TimeStatsType: StatsTimeIntervalData>(for period: StatsPeriodUnit,
-                                                              unit: StatsPeriodUnit? = nil,
-                                                              endingOn: Date,
-                                                              limit: Int = 10,
-                                                              completion: @escaping ((TimeStatsType?, Error?) -> Void)) {
+    open func getData<TimeStatsType: StatsTimeIntervalData>(
+        for period: StatsPeriodUnit,
+        unit: StatsPeriodUnit? = nil,
+        startDate: Date? = nil,
+        endingOn: Date,
+        limit: Int = 10,
+        summarize: Bool? = nil,
+        parameters: [String: String]? = nil,
+        completion: @escaping ((TimeStatsType?, Error?) -> Void)
+    ) {
         let pathComponent = TimeStatsType.pathComponent
         let path = self.path(forEndpoint: "sites/\(siteID)/\(pathComponent)/", withVersion: ._1_1)
 
-        let staticProperties = ["period": period.stringValue,
+        let dateFormatter = period == .hour ? hourlyDateFormatter : periodDataQueryDateFormatter
+
+        var staticProperties = ["period": period.stringValue,
                                 "unit": unit?.stringValue ?? period.stringValue,
-                                "date": periodDataQueryDateFormatter.string(from: endingOn)] as [String: AnyObject]
+                                "date": dateFormatter.string(from: endingOn)] as [String: AnyObject]
+
+        if let startDate {
+            staticProperties["start_date"] = dateFormatter.string(from: startDate) as AnyObject
+        }
+        if let summarize {
+            staticProperties["summarize"] = summarize.description as NSString
+        }
+        if let parameters {
+            for (key, value) in parameters {
+                staticProperties[key] = value as NSString
+            }
+        }
 
         let classProperties = TimeStatsType.queryProperties(with: endingOn, period: unit ?? period, maxCount: limit) as [String: AnyObject]
 
@@ -117,12 +144,11 @@ open class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
             return val1
         }
 
-        wordPressComRESTAPI.get(path, parameters: properties, success: { [weak self] (response, _) in
+        wordPressComRESTAPI.get(path, parameters: properties, success: { (response, _) in
             guard
-                let self,
                 let jsonResponse = response as? [String: AnyObject],
                 let dateString = jsonResponse["date"] as? String,
-                let date = self.periodDataQueryDateFormatter.date(from: dateString)
+                let date = dateFormatter.date(from: dateString)
                 else {
                     completion(nil, ResponseError.decodingFailure)
                     return
@@ -134,14 +160,15 @@ open class StatsServiceRemoteV2: ServiceRemoteWordPressComREST {
             let parsedUnit = unitString.flatMap { StatsPeriodUnit(string: $0) } ?? unit ?? period
             // some responses omit this field!  not a reason to fail a whole request parsing though.
 
-            guard
-                let timestats = TimeStatsType(date: date,
-                                              period: parsedPeriod,
-                                              unit: parsedUnit,
-                                              jsonDictionary: jsonResponse)
-                else {
+            guard let timestats = TimeStatsType(date: date, period: parsedPeriod, unit: parsedUnit, jsonDictionary: jsonResponse) else {
+                if summarize == true {
+                    // Some responses return `"summary": null` with no good way to
+                    // process it without refactoring every response, hence this workaround.
+                    completion(nil, ResponseError.emptySummary)
+                } else {
                     completion(nil, ResponseError.decodingFailure)
-                    return
+                }
+                return
             }
 
             completion(timestats, nil)
@@ -277,6 +304,9 @@ extension StatsServiceRemoteV2 {
 
     private func startDate(for period: StatsPeriodUnit, endDate: Date) -> Date {
         switch  period {
+        case .hour:
+            assertionFailure("unsupported period: \(period)")
+            return calendarForSite.startOfDay(for: endDate)
         case .day:
             return calendarForSite.startOfDay(for: endDate)
         case .week:
@@ -342,6 +372,28 @@ public extension StatsServiceRemoteV2 {
     }
 }
 
+// MARK: - Email Opens
+
+public extension StatsServiceRemoteV2 {
+    func getEmailOpens(for postID: Int, completion: @escaping ((StatsEmailOpensData?, Error?) -> Void)) {
+        let path = self.path(forEndpoint: "sites/\(siteID)/stats/opens/emails/\(postID)/rate", withVersion: ._1_1)
+
+        wordPressComRESTAPI.get(path, parameters: [:], success: { (response, _) in
+            guard
+                let jsonResponse = response as? [String: AnyObject],
+                let emailOpensData = StatsEmailOpensData(jsonDictionary: jsonResponse)
+            else {
+                completion(nil, ResponseError.decodingFailure)
+                return
+            }
+
+            completion(emailOpensData, nil)
+        }, failure: { (error, _) in
+            completion(nil, error)
+        })
+    }
+}
+
 // This serves both as a way to get the query properties in a "nice" way,
 // but also as a way to narrow down the generic type in `getInsight(completion:)` method.
 public protocol StatsInsightData {
@@ -381,14 +433,15 @@ extension StatsTimeIntervalData {
     // Most of the responses for time data come in a unwieldy format, that requires awkwkard unwrapping
     // at the call-site — unfortunately not _all of them_, which means we can't just do it at the request level.
     static func unwrapDaysDictionary(jsonDictionary: [String: AnyObject]) -> [String: AnyObject]? {
-        guard
-            let days = jsonDictionary["days"] as? [String: AnyObject],
-            let firstKey = days.keys.first,
-            let firstDay = days[firstKey] as? [String: AnyObject]
-            else {
-                return nil
+        if let summary = jsonDictionary["summary"] as? [String: AnyObject] {
+            return summary
         }
-        return firstDay
+        if let days = jsonDictionary["days"] as? [String: AnyObject],
+           let firstKey = days.keys.first,
+           let firstDay = days[firstKey] as? [String: AnyObject] {
+            return firstDay
+        }
+        return nil
     }
 
 }
@@ -398,6 +451,8 @@ extension StatsTimeIntervalData {
 public extension StatsPeriodUnit {
     var stringValue: String {
         switch self {
+        case .hour:
+            return "hour"
         case .day:
             return "day"
         case .week:
@@ -411,6 +466,8 @@ public extension StatsPeriodUnit {
 
     init?(string: String) {
         switch string {
+        case "hour":
+            self = .hour
         case "day":
             self = .day
         case "week":

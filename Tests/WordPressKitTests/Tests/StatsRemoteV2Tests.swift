@@ -16,6 +16,7 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
     let getClicksMockFilename = "stats-clicks-data.json"
     let getReferrersMockFilename = "stats-referrer-data.json"
     let getVisitsDayMockFilename = "stats-visits-day.json"
+    let getVisitsHourlyMockFilename = "stats-visits-hourly.json"
     let getVisitsWeekMockFilename = "stats-visits-week.json"
     let getVisitsMonthMockFilename = "stats-visits-month.json"
     let getVisitsMonthWithWeekUnitMockFilename = "stats-visits-month-unit-week.json"
@@ -25,6 +26,8 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
     let getPostsDetailsFilename = "stats-post-details.json"
     let toggleSpamStateResponseFilename = "stats-referrer-mark-as-spam.json"
     let getStatsSummaryFilename = "stats-summary.json"
+    let getArchivesDataFilename = "stats-archives-data.json"
+    let getEmailOpensFilename = "stats-email-opens.json"
 
     // MARK: - Properties
 
@@ -41,6 +44,8 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
     var siteDownloadsDataEndpoint: String { return "sites/\(siteID)/stats/file-downloads/" }
     var sitePostDetailsEndpoint: String { return "sites/\(siteID)/stats/post/9001" }
     var siteStatsSummaryEndpoint: String { return "sites/\(siteID)/stats/summary/" }
+    var siteArchivesDataEndpoint: String { return "sites/\(siteID)/stats/archives" }
+    var siteEmailOpensEndpoint: String { return "sites/\(siteID)/stats/opens/emails/231/rate" }
 
     func toggleSpamStateEndpoint(for referrerDomain: String, markAsSpam: Bool) -> String {
         let action = markAsSpam ? "new" : "delete"
@@ -436,6 +441,35 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
         waitForExpectations(timeout: timeout, handler: nil)
     }
 
+    func testFetchHourlyData() {
+        let expect = expectation(description: "It should return only views as other fields are not available")
+
+        stubRemoteResponse(siteVisitsDataEndpoint, filename: getVisitsHourlyMockFilename, contentType: .ApplicationJSON)
+
+        let feb21 = DateComponents(year: 2019, month: 2, day: 21)
+        let date = Calendar.autoupdatingCurrent.date(from: feb21)!
+
+        remote.getData(for: .hour, endingOn: date) { (summary: StatsSiteMetricsResponse?, error: Error?) in
+            XCTAssertNil(error)
+            XCTAssertNotNil(summary)
+
+            XCTAssertEqual(summary?.data.count, 24)
+
+            XCTAssertEqual(summary?.data[0].views, 5140)
+            XCTAssertNil(summary?.data[0].visitors)
+            XCTAssertNil(summary?.data[0].likes)
+            XCTAssertNil(summary?.data[0].comments)
+
+            XCTAssertEqual(summary?.data[9].views, 3244)
+            XCTAssertNil(summary?.data[9].likes)
+            XCTAssertNil(summary?.data[9].comments)
+
+            expect.fulfill()
+        }
+
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+
     func testFetchPostDetail() {
         let expect = expectation(description: "It should return post detail")
 
@@ -486,6 +520,7 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
             XCTAssertEqual(leastRecentWeek?.totalViewsCount, 688)
             XCTAssertEqual(leastRecentWeek?.averageViewsCount, 98)
             XCTAssertEqual(leastRecentWeek!.changePercentage, 0.0, accuracy: 0.0000000001)
+            XCTAssertFalse(leastRecentWeek!.isChangeInfinity)
             XCTAssertEqual(leastRecentWeek?.startDay, DateComponents(year: 2019, month: 01, day: 14))
             XCTAssertEqual(leastRecentWeek?.endDay, DateComponents(year: 2019, month: 01, day: 20))
             XCTAssertEqual(leastRecentWeek?.days.count, 7)
@@ -497,6 +532,7 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
             XCTAssertEqual(mostRecentWeek?.totalViewsCount, 867)
             XCTAssertEqual(mostRecentWeek?.averageViewsCount, 181)
             XCTAssertEqual(mostRecentWeek!.changePercentage, 38.7732, accuracy: 0.001)
+            XCTAssertFalse(mostRecentWeek!.isChangeInfinity)
             XCTAssertEqual(mostRecentWeek?.startDay, DateComponents(year: 2019, month: 02, day: 18))
             XCTAssertEqual(mostRecentWeek?.endDay, DateComponents(year: 2019, month: 02, day: 21))
             XCTAssertEqual(mostRecentWeek?.days.count, 4)
@@ -504,6 +540,45 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
             XCTAssertEqual(mostRecentWeek?.days.last?.date, mostRecentWeek?.endDay)
             XCTAssertEqual(mostRecentWeek?.days.first?.viewsCount, 157)
             XCTAssertEqual(mostRecentWeek?.days.last?.viewsCount, 324)
+
+            // Test newly added fields
+            XCTAssertEqual(postDetails?.highestMonth, 8800)
+            XCTAssertEqual(postDetails?.highestDayAverage, 283)
+            XCTAssertEqual(postDetails?.highestWeekAverage, 334)
+
+            // Test yearly totals
+            XCTAssertEqual(postDetails?.yearlyTotals[2015], 37861)
+            XCTAssertEqual(postDetails?.yearlyTotals[2016], 36447)
+            XCTAssertEqual(postDetails?.yearlyTotals[2017], 37529)
+            XCTAssertEqual(postDetails?.yearlyTotals[2018], 45429)
+            XCTAssertEqual(postDetails?.yearlyTotals[2019], 6077)
+
+            // Test overall averages
+            XCTAssertEqual(postDetails?.overallAverages[2015], 130)
+            XCTAssertEqual(postDetails?.overallAverages[2016], 99)
+            XCTAssertEqual(postDetails?.overallAverages[2017], 102)
+            XCTAssertEqual(postDetails?.overallAverages[2018], 124)
+            XCTAssertEqual(postDetails?.overallAverages[2019], 112)
+
+            // Test fields array
+            XCTAssertEqual(postDetails?.fields, ["period", "views"])
+
+            // Test post object
+            XCTAssertNotNil(postDetails?.post)
+            XCTAssertEqual(postDetails?.post?.postID, 12345)
+            XCTAssertEqual(postDetails?.post?.title, "Sample Blog Post Title")
+            XCTAssertEqual(postDetails?.post?.authorID, "1234567")
+            XCTAssertEqual(postDetails?.post?.status, "publish")
+            XCTAssertEqual(postDetails?.post?.type, "post")
+            XCTAssertEqual(postDetails?.post?.excerpt, "This is a sample excerpt.")
+            XCTAssertEqual(postDetails?.post?.name, "sample-blog-post-title")
+            XCTAssertEqual(postDetails?.post?.commentStatus, "open")
+            XCTAssertEqual(postDetails?.post?.password, "")
+            XCTAssertEqual(postDetails?.post?.parent, 0)
+            XCTAssertEqual(postDetails?.post?.guid, "https://example.wordpress.com/?p=12345")
+            XCTAssertEqual(postDetails?.post?.mimeType, "")
+            XCTAssertEqual(postDetails?.post?.commentCount, "3")
+            XCTAssertEqual(postDetails?.post?.permalink, "http://example.wordpress.com/2019/01/15/sample-blog-post-title/")
 
             expect.fulfill()
         }
@@ -539,9 +614,11 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
             XCTAssertEqual(summary?.summaryData[9].likesCount, 126)
             XCTAssertEqual(summary?.summaryData[9].commentsCount, 0)
 
-            XCTAssertEqual(summary?.summaryData[9].periodStartDate, Calendar.autoupdatingCurrent.date(byAdding: .day,
-                                                                                                      value: 7 * 9, // 7 days * nine objects
-                                                                                                      to: dec17Date))
+            XCTAssertEqual(summary?.summaryData[9].periodStartDate, Calendar.autoupdatingCurrent.date(
+                byAdding: .day,
+                value: 7 * 9, // 7 days * nine objects
+                to: dec17Date
+            ))
 
             expect.fulfill()
         }
@@ -626,34 +703,23 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
     func testLikesForMonth() {
         let expect = expectation(description: "It should return likes data for a month")
 
-        stubRemoteResponse(siteVisitsDataEndpoint, filename: getVisitsMonthMockFilename, contentType: .ApplicationJSON)
+        stubRemoteResponse(siteVisitsDataEndpoint, filename: getVisitsHourlyMockFilename, contentType: .ApplicationJSON)
 
-        let feb21 = DateComponents(year: 2019, month: 2, day: 21)
-        let date = Calendar.autoupdatingCurrent.date(from: feb21)!
+        let date = Calendar.current.date(from: DateComponents(year: 2025, month: 7, day: 18))!
 
-        remote.getData(for: .month, endingOn: date) { (summary: StatsLikesSummaryTimeIntervalData?, error: Error?) in
+        remote.getData(for: .hour, unit: .hour, startDate: date, endingOn: date) { (stats: StatsSiteMetricsResponse?, error: Error?) in
             XCTAssertNil(error)
-            XCTAssertNotNil(summary)
+            XCTAssertNotNil(stats)
 
-            XCTAssertEqual(summary?.summaryData.count, 10)
+            if let data = stats?.data, data.count == 24 {
 
-            XCTAssertEqual(summary?.summaryData[0].viewsCount, 0)
-            XCTAssertEqual(summary?.summaryData[0].visitorsCount, 0)
-            XCTAssertEqual(summary?.summaryData[0].likesCount, 72)
-            XCTAssertEqual(summary?.summaryData[0].commentsCount, 0)
-
-            let may1 = DateComponents(year: 2018, month: 5, day: 1)
-            let may1Date = Calendar.autoupdatingCurrent.date(from: may1)!
-            XCTAssertEqual(summary?.summaryData[0].periodStartDate, may1Date)
-
-            XCTAssertEqual(summary?.summaryData[9].viewsCount, 0)
-            XCTAssertEqual(summary?.summaryData[9].visitorsCount, 0)
-            XCTAssertEqual(summary?.summaryData[9].likesCount, 116)
-            XCTAssertEqual(summary?.summaryData[9].commentsCount, 0)
-
-            let nineMonthsFromMay1 = Calendar.autoupdatingCurrent.date(byAdding: .month, value: 9, to: may1Date)!
-
-            XCTAssertEqual(summary?.summaryData[9].periodStartDate, nineMonthsFromMay1)
+                XCTAssertEqual(data[0].views, 5140)
+                XCTAssertNil(data[0].comments)
+                XCTAssertEqual(data[1].views, 2)
+                XCTAssertNil(data[1].comments)
+            } else {
+                XCTFail("unexpected count")
+            }
 
             expect.fulfill()
         }
@@ -713,5 +779,79 @@ class StatsRemoteV2Tests: RemoteTestCase, RESTTestable {
 
         waitForExpectations(timeout: timeout, handler: nil)
 
+    }
+
+    func testArchives() throws {
+        let expect = expectation(description: "It should return archives data for a day")
+
+        stubRemoteResponse(siteArchivesDataEndpoint, filename: getArchivesDataFilename, contentType: .ApplicationJSON)
+
+        let july21 = DateComponents(year: 2025, month: 7, day: 21)
+        let date = Calendar.autoupdatingCurrent.date(from: july21)!
+
+        var returnValue: StatsArchiveTimeIntervalData?
+        remote.getData(for: .day, endingOn: date) { (value: StatsArchiveTimeIntervalData?, error: Error?) in
+            XCTAssertNil(error)
+            returnValue = value
+            expect.fulfill()
+        }
+        waitForExpectations(timeout: timeout, handler: nil)
+
+        let archives = try XCTUnwrap(returnValue)
+
+        XCTAssertEqual(archives.period, .day)
+        XCTAssertEqual(archives.periodEndDate, date)
+
+        // Test other items
+        let other = try XCTUnwrap(archives.summary["other"])
+        XCTAssertEqual(other.count, 8)
+
+        XCTAssertEqual(other.first?.href, "http://example.com/wp-admin/admin.php?page=stats")
+        XCTAssertEqual(other.first?.value, "/wp-admin/admin.php?page=stats")
+        XCTAssertEqual(other.first?.views, 10)
+
+        XCTAssertEqual(other[1].href, "http://example.com/wp-admin/")
+        XCTAssertEqual(other[1].value, "/wp-admin/")
+        XCTAssertEqual(other[1].views, 4)
+
+        XCTAssertEqual(other.last?.href, "http://example.com/wp-admin/profile.php")
+        XCTAssertEqual(other.last?.value, "/wp-admin/profile.php")
+        XCTAssertEqual(other.last?.views, 1)
+
+        // Test author items
+        let author = try XCTUnwrap(archives.summary["author"])
+        XCTAssertEqual(author.count, 4)
+
+        XCTAssertEqual(author.first?.href, "http://example.com/author/johndoe/")
+        XCTAssertEqual(author.first?.value, "johndoe")
+        XCTAssertEqual(author.first?.views, 31)
+
+        XCTAssertEqual(author[1].href, "http://example.com/author/janedoe/")
+        XCTAssertEqual(author[1].value, "janedoe")
+        XCTAssertEqual(author[1].views, 5)
+
+        XCTAssertEqual(author.last?.href, "http://example.com/author//")
+        XCTAssertEqual(author.last?.value, "")
+        XCTAssertEqual(author.last?.views, 2)
+    }
+
+    func testEmailOpens() {
+        let expect = expectation(description: "It should return email opens data")
+
+        stubRemoteResponse(siteEmailOpensEndpoint, filename: getEmailOpensFilename, contentType: .ApplicationJSON)
+
+        remote.getEmailOpens(for: 231) { (emailOpens, error) in
+            XCTAssertNil(error)
+            XCTAssertNotNil(emailOpens)
+
+            XCTAssertEqual(emailOpens?.totalSends, 1)
+            XCTAssertEqual(emailOpens?.uniqueOpens, 1)
+            XCTAssertEqual(emailOpens?.totalOpens, 4)
+            XCTAssertEqual(emailOpens?.opensRate, 1)
+
+            expect.fulfill()
+        }
+
+        waitForExpectations(timeout: timeout, handler: nil)
     }
 }

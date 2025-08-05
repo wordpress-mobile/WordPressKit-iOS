@@ -9,17 +9,21 @@
 /* Begin PBXBuildFile section */
 		01383F7F2BD5545B00496B76 /* StatsEmailsSummaryDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01383F7E2BD5545B00496B76 /* StatsEmailsSummaryDataTests.swift */; };
 		01383F822BD556B100496B76 /* stats-emails-summary.json in Resources */ = {isa = PBXBuildFile; fileRef = 01383F802BD5549E00496B76 /* stats-emails-summary.json */; };
+		7B859118F037432BB78618D6 /* stats-email-opens.json in Resources */ = {isa = PBXBuildFile; fileRef = 7B859117F037432BB78618D6 /* stats-email-opens.json */; };
 		01438D362B6A31540097D60A /* stats-visits-month-unit-week.json in Resources */ = {isa = PBXBuildFile; fileRef = 01438D342B6A2B2C0097D60A /* stats-visits-month-unit-week.json */; };
 		01438D392B6A361B0097D60A /* stats-summary.json in Resources */ = {isa = PBXBuildFile; fileRef = 01438D372B6A35FB0097D60A /* stats-summary.json */; };
 		01438D3B2B6A36BF0097D60A /* StatsTotalsSummaryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01438D3A2B6A36BF0097D60A /* StatsTotalsSummaryData.swift */; };
 		0152100C28EDA9E400DD6783 /* StatsAnnualAndMostPopularTimeInsightDecodingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0152100B28EDA9E400DD6783 /* StatsAnnualAndMostPopularTimeInsightDecodingTests.swift */; };
 		019C5B8B2BD59CE000A69DB0 /* StatsEmailsSummaryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 019C5B892BD59CE000A69DB0 /* StatsEmailsSummaryData.swift */; };
+		11B3582786AD49E591C8615E /* StatsEmailOpensData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B3582686AD49E591C8615E /* StatsEmailOpensData.swift */; };
 		0847B92C2A4442730044D32F /* IPLocationRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0847B92B2A4442730044D32F /* IPLocationRemote.swift */; };
 		08C7493E2A45EA11000DA0E2 /* IPLocationRemoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08C7493D2A45EA11000DA0E2 /* IPLocationRemoteTests.swift */; };
 		0C0791B22BFE7DE50049C06E /* JetpackAssistantFeatureDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C0791B12BFE7DE50049C06E /* JetpackAssistantFeatureDetails.swift */; };
 		0C1C08412B9CD79900E52F8C /* PostServiceRemoteExtended.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1C08402B9CD79900E52F8C /* PostServiceRemoteExtended.swift */; };
 		0C1C08432B9CD8D200E52F8C /* PostServiceRemoteREST+Extended.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1C08422B9CD8D200E52F8C /* PostServiceRemoteREST+Extended.swift */; };
 		0C1C08452B9CDB0B00E52F8C /* PostServiceRemoteXMLRPC+Extended.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1C08442B9CDB0B00E52F8C /* PostServiceRemoteXMLRPC+Extended.swift */; };
+		0C31499B2E2FFBA100AAF9DF /* StatsArchiveTimeIntervalData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C31499A2E2FFBA100AAF9DF /* StatsArchiveTimeIntervalData.swift */; };
+		0C31499D2E2FFBF000AAF9DF /* stats-archives-data.json in Resources */ = {isa = PBXBuildFile; fileRef = 0C31499C2E2FFBF000AAF9DF /* stats-archives-data.json */; };
 		0C363D422C41B455004E241D /* OCMock in Frameworks */ = {isa = PBXBuildFile; productRef = 0C363D412C41B455004E241D /* OCMock */; };
 		0C363D452C41B468004E241D /* OHHTTPStubs in Frameworks */ = {isa = PBXBuildFile; productRef = 0C363D442C41B468004E241D /* OHHTTPStubs */; };
 		0C363D472C41B468004E241D /* OHHTTPStubsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 0C363D462C41B468004E241D /* OHHTTPStubsSwift */; };
@@ -45,6 +49,8 @@
 		0C938A2B2C416DE0009BA7B2 /* DisplayableImageHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C938A292C416DE0009BA7B2 /* DisplayableImageHelper.m */; };
 		0C938A2C2C416DE0009BA7B2 /* DisplayableImageHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 0C938A2A2C416DE0009BA7B2 /* DisplayableImageHelper.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0C9CD7992B9A107E0045BE03 /* RemotePostParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C9CD7982B9A107E0045BE03 /* RemotePostParameters.swift */; };
+		0CAD70302E2C017500EFD4BC /* StatsSiteMetricsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CAD702F2E2C017500EFD4BC /* StatsSiteMetricsResponse.swift */; };
+		0CAD70322E2C0AAF00EFD4BC /* stats-visits-hourly.json in Resources */ = {isa = PBXBuildFile; fileRef = 0CAD70312E2C0AAF00EFD4BC /* stats-visits-hourly.json */; };
 		0CB1905E2A2A5E83004D3E80 /* BlazeCampaign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB1905D2A2A5E83004D3E80 /* BlazeCampaign.swift */; };
 		0CB190612A2A6A13004D3E80 /* blaze-campaigns-search.json in Resources */ = {isa = PBXBuildFile; fileRef = 0CB1905F2A2A6943004D3E80 /* blaze-campaigns-search.json */; };
 		0CB190652A2A7569004D3E80 /* BlazeCampaignsSearchResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB190642A2A7569004D3E80 /* BlazeCampaignsSearchResponse.swift */; };
@@ -794,17 +800,21 @@
 /* Begin PBXFileReference section */
 		01383F7E2BD5545B00496B76 /* StatsEmailsSummaryDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsEmailsSummaryDataTests.swift; sourceTree = "<group>"; };
 		01383F802BD5549E00496B76 /* stats-emails-summary.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "stats-emails-summary.json"; sourceTree = "<group>"; };
+		7B859117F037432BB78618D6 /* stats-email-opens.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "stats-email-opens.json"; sourceTree = "<group>"; };
 		01438D342B6A2B2C0097D60A /* stats-visits-month-unit-week.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "stats-visits-month-unit-week.json"; sourceTree = "<group>"; };
 		01438D372B6A35FB0097D60A /* stats-summary.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "stats-summary.json"; sourceTree = "<group>"; };
 		01438D3A2B6A36BF0097D60A /* StatsTotalsSummaryData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatsTotalsSummaryData.swift; sourceTree = "<group>"; };
 		0152100B28EDA9E400DD6783 /* StatsAnnualAndMostPopularTimeInsightDecodingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsAnnualAndMostPopularTimeInsightDecodingTests.swift; sourceTree = "<group>"; };
 		019C5B892BD59CE000A69DB0 /* StatsEmailsSummaryData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatsEmailsSummaryData.swift; sourceTree = "<group>"; };
+		11B3582686AD49E591C8615E /* StatsEmailOpensData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatsEmailOpensData.swift; sourceTree = "<group>"; };
 		0847B92B2A4442730044D32F /* IPLocationRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPLocationRemote.swift; sourceTree = "<group>"; };
 		08C7493D2A45EA11000DA0E2 /* IPLocationRemoteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPLocationRemoteTests.swift; sourceTree = "<group>"; };
 		0C0791B12BFE7DE50049C06E /* JetpackAssistantFeatureDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JetpackAssistantFeatureDetails.swift; sourceTree = "<group>"; };
 		0C1C08402B9CD79900E52F8C /* PostServiceRemoteExtended.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostServiceRemoteExtended.swift; sourceTree = "<group>"; };
 		0C1C08422B9CD8D200E52F8C /* PostServiceRemoteREST+Extended.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PostServiceRemoteREST+Extended.swift"; sourceTree = "<group>"; };
 		0C1C08442B9CDB0B00E52F8C /* PostServiceRemoteXMLRPC+Extended.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PostServiceRemoteXMLRPC+Extended.swift"; sourceTree = "<group>"; };
+		0C31499A2E2FFBA100AAF9DF /* StatsArchiveTimeIntervalData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsArchiveTimeIntervalData.swift; sourceTree = "<group>"; };
+		0C31499C2E2FFBF000AAF9DF /* stats-archives-data.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "stats-archives-data.json"; sourceTree = "<group>"; };
 		0C3A2A412A2E7BA500FD91D6 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		0C6183C62C420A3700289E73 /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		0C674E2F2BF3A91300F3B3D4 /* JetpackAIServiceRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JetpackAIServiceRemote.swift; sourceTree = "<group>"; };
@@ -829,6 +839,8 @@
 		0C938A292C416DE0009BA7B2 /* DisplayableImageHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DisplayableImageHelper.m; sourceTree = "<group>"; };
 		0C938A2A2C416DE0009BA7B2 /* DisplayableImageHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DisplayableImageHelper.h; sourceTree = "<group>"; };
 		0C9CD7982B9A107E0045BE03 /* RemotePostParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemotePostParameters.swift; sourceTree = "<group>"; };
+		0CAD702F2E2C017500EFD4BC /* StatsSiteMetricsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsSiteMetricsResponse.swift; sourceTree = "<group>"; };
+		0CAD70312E2C0AAF00EFD4BC /* stats-visits-hourly.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "stats-visits-hourly.json"; sourceTree = "<group>"; };
 		0CB1905D2A2A5E83004D3E80 /* BlazeCampaign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlazeCampaign.swift; sourceTree = "<group>"; };
 		0CB1905F2A2A6943004D3E80 /* blaze-campaigns-search.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "blaze-campaigns-search.json"; sourceTree = "<group>"; };
 		0CB190642A2A7569004D3E80 /* BlazeCampaignsSearchResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlazeCampaignsSearchResponse.swift; sourceTree = "<group>"; };
@@ -1609,6 +1621,7 @@
 			isa = PBXGroup;
 			children = (
 				019C5B892BD59CE000A69DB0 /* StatsEmailsSummaryData.swift */,
+				11B3582686AD49E591C8615E /* StatsEmailOpensData.swift */,
 			);
 			path = Emails;
 			sourceTree = "<group>";
@@ -2274,11 +2287,13 @@
 				40819772221E10C900A298E4 /* StatsPublishedPostsTimeIntervalData.swift */,
 				404057C4221B30400060250C /* StatsSearchTermTimeIntervalData.swift */,
 				40819777221F00E600A298E4 /* StatsSummaryTimeIntervalData.swift */,
+				0CAD702F2E2C017500EFD4BC /* StatsSiteMetricsResponse.swift */,
 				404057C8221B789B0060250C /* StatsTopAuthorsTimeIntervalData.swift */,
 				404057D5221C92660060250C /* StatsTopClicksTimeIntervalData.swift */,
 				404057D1221C56AB0060250C /* StatsTopCountryTimeIntervalData.swift */,
 				4081976E221DDE9B00A298E4 /* StatsTopPostsTimeIntervalData.swift */,
 				404057D9221C9D560060250C /* StatsTopReferrersTimeIntervalData.swift */,
+				0C31499A2E2FFBA100AAF9DF /* StatsArchiveTimeIntervalData.swift */,
 				404057CD221C38130060250C /* StatsTopVideosTimeIntervalData.swift */,
 			);
 			path = "Time Interval";
@@ -2604,11 +2619,14 @@
 				404057CA221B80BC0060250C /* stats-top-authors.json */,
 				404057CF221C46780060250C /* stats-videos-data.json */,
 				4081977A221F153A00A298E4 /* stats-visits-day.json */,
+				0C31499C2E2FFBF000AAF9DF /* stats-archives-data.json */,
+				0CAD70312E2C0AAF00EFD4BC /* stats-visits-hourly.json */,
 				01438D372B6A35FB0097D60A /* stats-summary.json */,
 				4081977D221F269A00A298E4 /* stats-visits-month.json */,
 				01438D342B6A2B2C0097D60A /* stats-visits-month-unit-week.json */,
 				40819779221F153A00A298E4 /* stats-visits-week.json */,
 				01383F802BD5549E00496B76 /* stats-emails-summary.json */,
+				7B859117F037432BB78618D6 /* stats-email-opens.json */,
 				436D56392118DE3B00CEAA33 /* supported-countries-success.json */,
 				436D56522121F60400CEAA33 /* supported-states-empty.json */,
 				436D563D2118E34D00CEAA33 /* supported-states-success.json */,
@@ -3073,6 +3091,7 @@
 				B04D8C082BB7895A002717A2 /* stats-insight-streak.json in Resources */,
 				74C473B71EF3229B009918F2 /* site-delete-unexpected-json-failure.json in Resources */,
 				3297E2852564746800287D21 /* jetpack-scan-unavailable.json in Resources */,
+				0C31499D2E2FFBF000AAF9DF /* stats-archives-data.json in Resources */,
 				B04D8C072BB7895A002717A2 /* stats-insight-publicize.json in Resources */,
 				AB49D0B325D1B4D80084905B /* post-likes-failure.json in Resources */,
 				9A2D0B30225E1245009E585F /* jetpack-service-check-site-success-no-jetpack.json in Resources */,
@@ -3208,6 +3227,7 @@
 				7403A3001EF06FEB00DED7DC /* me-settings-success.json in Resources */,
 				F4B0F47C2ACB4B74003ABC61 /* get-all-domains-response.json in Resources */,
 				FEE48EF82A4B3E43008A48E0 /* sites-site-active-features.json in Resources */,
+				0CAD70322E2C0AAF00EFD4BC /* stats-visits-hourly.json in Resources */,
 				439A44DE2107CF6F00795ED7 /* site-plans-v3-bad-json-failure.json in Resources */,
 				74B335EA1F06F76B0053A184 /* xmlrpc-response-getpost.xml in Resources */,
 				FEE4EF6127303361003CDA3C /* comments-v2-edit-context-success.json in Resources */,
@@ -3283,6 +3303,7 @@
 				7434E1DE1F17C3C900C40DDB /* site-users-update-role-unknown-user-failure.json in Resources */,
 				4081977B221F153B00A298E4 /* stats-visits-week.json in Resources */,
 				01383F822BD556B100496B76 /* stats-emails-summary.json in Resources */,
+				7B859118F037432BB78618D6 /* stats-email-opens.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3369,7 +3390,9 @@
 				8BB66DB02523C181000B29DA /* ReaderPostServiceRemote+V2.swift in Sources */,
 				74E229501F1E741B0085F7F2 /* RemotePublicizeConnection.swift in Sources */,
 				40E7FEB722106A8D0032834E /* StatsCommentsInsight.swift in Sources */,
+				0C31499B2E2FFBA100AAF9DF /* StatsArchiveTimeIntervalData.swift in Sources */,
 				019C5B8B2BD59CE000A69DB0 /* StatsEmailsSummaryData.swift in Sources */,
+				11B3582786AD49E591C8615E /* StatsEmailOpensData.swift in Sources */,
 				9856BE962630B5C200C12FEB /* RemoteUser+Likes.swift in Sources */,
 				3FD634E52BC3A55F00CEDF5E /* WordPressOrgXMLRPCValidator.swift in Sources */,
 				3FE2E97B2BC3A332002CA2E1 /* WordPressAPIError+NSErrorBridge.swift in Sources */,
@@ -3535,6 +3558,7 @@
 				0CCD4C5C2C41700B00B53F9A /* UIDevice+Extensions.swift in Sources */,
 				74A44DD11F13C64B006CD8F4 /* RemoteNotificationSettings.swift in Sources */,
 				FEF7419D28085D89002C4203 /* RemoteBloggingPrompt.swift in Sources */,
+				0CAD70302E2C017500EFD4BC /* StatsSiteMetricsResponse.swift in Sources */,
 				74DA56331F06EAF000FE9BF4 /* MediaServiceRemoteREST.m in Sources */,
 				17CD0CC320C58A0D000D9620 /* ReaderSiteSearchServiceRemote.swift in Sources */,
 				74DA563B1F06EB3000FE9BF4 /* RemoteMedia.m in Sources */,

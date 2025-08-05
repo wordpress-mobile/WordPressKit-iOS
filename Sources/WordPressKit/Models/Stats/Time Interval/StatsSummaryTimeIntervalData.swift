@@ -1,8 +1,11 @@
+import Foundation
+
 @frozen public enum StatsPeriodUnit: Int {
     case day
     case week
     case month
     case year
+    case hour
 }
 
 @frozen public enum StatsSummaryType: Int {
@@ -177,6 +180,9 @@ private extension StatsSummaryData {
 
     static func parsedDate(from dateString: String, for period: StatsPeriodUnit) -> Date? {
         switch period {
+        case .hour:
+            assertionFailure("Unsupported time period")
+            return nil
         case .week:
             return self.weeksDateFormatter.date(from: dateString)
         case .day, .month, .year:
