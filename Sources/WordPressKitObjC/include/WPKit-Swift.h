@@ -4,5 +4,5 @@
 #if __has_include("WordPressKit-Swift.h")
     #import "WordPressKit-Swift.h"
 #else
-    #import <WordPressKit/WordPressKit-Swift.h>
+    #import "WordPressKit-Swift.h"
 #endif

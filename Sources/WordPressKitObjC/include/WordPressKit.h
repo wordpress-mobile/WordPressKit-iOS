@@ -6,60 +6,60 @@ FOUNDATION_EXPORT double WordPressKitVersionNumber;
 //! Project version string for WordPressKit.
 FOUNDATION_EXPORT const unsigned char WordPressKitVersionString[];
 
-#import <WordPressKit/FilePart.h>
-#import <WordPressKit/WordPressComRESTAPIInterfacing.h>
-#import <WordPressKit/WordPressComRESTAPIVersion.h>
-#import <WordPressKit/WordPressComRESTAPIVersionedPathBuilder.h>
-#import <WordPressKit/WordPressComRestApiErrorDomain.h>
+#import "FilePart.h"
+#import "WordPressComRESTAPIInterfacing.h"
+#import "WordPressComRESTAPIVersion.h"
+#import "WordPressComRESTAPIVersionedPathBuilder.h"
+#import "WordPressComRestApiErrorDomain.h"
 
-#import <WordPressKit/ServiceRemoteWordPressComREST.h>
-#import <WordPressKit/ServiceRemoteWordPressXMLRPC.h>
-#import <WordPressKit/SiteServiceRemoteWordPressComREST.h>
+#import "ServiceRemoteWordPressComREST.h"
+#import "ServiceRemoteWordPressXMLRPC.h"
+#import "SiteServiceRemoteWordPressComREST.h"
 
-#import <WordPressKit/AccountServiceRemoteREST.h>
-#import <WordPressKit/BlogServiceRemote.h>
-#import <WordPressKit/BlogServiceRemoteREST.h>
-#import <WordPressKit/BlogServiceRemoteXMLRPC.h>
-#import <WordPressKit/CommentServiceRemote.h>
-#import <WordPressKit/CommentServiceRemoteREST.h>
-#import <WordPressKit/CommentServiceRemoteXMLRPC.h>
-#import <WordPressKit/MediaServiceRemote.h>
-#import <WordPressKit/MediaServiceRemoteREST.h>
-#import <WordPressKit/MediaServiceRemoteXMLRPC.h>
-#import <WordPressKit/MenusServiceRemote.h>
-#import <WordPressKit/PostServiceRemote.h>
-#import <WordPressKit/PostServiceRemoteOptions.h>
-#import <WordPressKit/PostServiceRemoteREST.h>
-#import <WordPressKit/PostServiceRemoteXMLRPC.h>
-#import <WordPressKit/ReaderPostServiceRemote.h>
-#import <WordPressKit/ReaderSiteServiceRemote.h>
-#import <WordPressKit/ReaderTopicServiceRemote.h>
-#import <WordPressKit/TaxonomyServiceRemote.h>
-#import <WordPressKit/TaxonomyServiceRemoteREST.h>
-#import <WordPressKit/TaxonomyServiceRemoteXMLRPC.h>
-#import <WordPressKit/ThemeServiceRemote.h>
-#import <WordPressKit/WordPressComServiceRemote.h>
+#import "AccountServiceRemoteREST.h"
+#import "BlogServiceRemote.h"
+#import "BlogServiceRemoteREST.h"
+#import "BlogServiceRemoteXMLRPC.h"
+#import "CommentServiceRemote.h"
+#import "CommentServiceRemoteREST.h"
+#import "CommentServiceRemoteXMLRPC.h"
+#import "MediaServiceRemote.h"
+#import "MediaServiceRemoteREST.h"
+#import "MediaServiceRemoteXMLRPC.h"
+#import "MenusServiceRemote.h"
+#import "PostServiceRemote.h"
+#import "PostServiceRemoteOptions.h"
+#import "PostServiceRemoteREST.h"
+#import "PostServiceRemoteXMLRPC.h"
+#import "ReaderPostServiceRemote.h"
+#import "ReaderSiteServiceRemote.h"
+#import "ReaderTopicServiceRemote.h"
+#import "TaxonomyServiceRemote.h"
+#import "TaxonomyServiceRemoteREST.h"
+#import "TaxonomyServiceRemoteXMLRPC.h"
+#import "ThemeServiceRemote.h"
+#import "WordPressComServiceRemote.h"
 
-#import <WordPressKit/RemoteComment.h>
-#import <WordPressKit/RemoteMedia.h>
-#import <WordPressKit/RemotePost.h>
-#import <WordPressKit/RemotePostCategory.h>
-#import <WordPressKit/RemotePostTag.h>
-#import <WordPressKit/RemotePostType.h>
-#import <WordPressKit/RemoteReaderPost.h>
-#import <WordPressKit/RemoteSourcePostAttribution.h>
-#import <WordPressKit/RemoteTaxonomyPaging.h>
-#import <WordPressKit/RemoteTheme.h>
-#import <WordPressKit/RemoteUser.h>
+#import "RemoteComment.h"
+#import "RemoteMedia.h"
+#import "RemotePost.h"
+#import "RemotePostCategory.h"
+#import "RemotePostTag.h"
+#import "RemotePostType.h"
+#import "RemoteReaderPost.h"
+#import "RemoteSourcePostAttribution.h"
+#import "RemoteTaxonomyPaging.h"
+#import "RemoteTheme.h"
+#import "RemoteUser.h"
 
-#import <WordPressKit/NSString+MD5.h>
+#import "NSString+MD5.h"
 
-#import <WordPressKit/WPKitLogging.h>
+#import "WPKitLogging.h"
 
 /// Inline WordPressShared
-#import <WordPressKit/NSString+XMLExtensions.h>
-#import <WordPressKit/NSString+Helpers.h>
-#import <WordPressKit/WPKitDateUtils.h>
-#import <WordPressKit/NSBundle+VersionNumberHelper.h>
-#import <WordPressKit/WPMapFilterReduce.h>
-#import <WordPressKit/DisplayableImageHelper.h>
+#import "NSString+XMLExtensions.h"
+#import "NSString+Helpers.h"
+#import "WPKitDateUtils.h"
+#import "NSBundle+VersionNumberHelper.h"
+#import "WPMapFilterReduce.h"
+#import "DisplayableImageHelper.h"
