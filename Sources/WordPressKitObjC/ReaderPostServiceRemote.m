@@ -2,7 +2,6 @@
 #import "RemoteReaderPost.h"
 #import "RemoteSourcePostAttribution.h"
 #import "ReaderTopicServiceRemote.h"
-#import "WPKit-Swift.h"
 @import NSObject_SafeExpectations;
 
 NSString * const PostRESTKeyPosts = @"posts";
@@ -70,7 +69,7 @@ NSString * const ParamKeyMetaValue = @"site,feed";
 
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:WordPressComRESTAPIVersion_1_2];
-    
+
     [self.wordPressComRESTAPI get:requestUrl
            parameters:nil
               success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
@@ -142,7 +141,7 @@ NSString * const ParamKeyMetaValue = @"site,feed";
     NSString *path = [NSString stringWithFormat:@"sites/%lu/posts/%lu/likes/new", (unsigned long)siteID, (unsigned long)postID];
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:WordPressComRESTAPIVersion_1_1];
-    
+
     [self.wordPressComRESTAPI post:requestUrl parameters:nil success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
         if (success) {
             success();
@@ -162,7 +161,7 @@ NSString * const ParamKeyMetaValue = @"site,feed";
     NSString *path = [NSString stringWithFormat:@"sites/%lu/posts/%lu/likes/mine/delete", (unsigned long)siteID, (unsigned long)postID];
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:WordPressComRESTAPIVersion_1_1];
-    
+
     [self.wordPressComRESTAPI post:requestUrl parameters:nil success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
         if (success) {
             success();

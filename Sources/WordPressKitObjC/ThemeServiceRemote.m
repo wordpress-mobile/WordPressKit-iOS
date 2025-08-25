@@ -1,7 +1,6 @@
 #import "ThemeServiceRemote.h"
 
 #import "RemoteTheme.h"
-#import "WPKit-Swift.h"
 @import NSObject_SafeExpectations;
 
 // Service dictionary keys
@@ -28,7 +27,7 @@ static NSString* const ThemeRequestSearchKey = @"search";
     NSString *path = [NSString stringWithFormat:@"sites/%@/themes/mine", blogId];
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:WordPressComRESTAPIVersion_1_1];
-    
+
     NSProgress *progress = [self.wordPressComRESTAPI get:requestUrl
                                               parameters:nil
                                                  success:^(NSDictionary *themeDictionary, NSHTTPURLResponse *httpResponse) {
@@ -51,11 +50,11 @@ static NSString* const ThemeRequestSearchKey = @"search";
                                      failure:(ThemeServiceRemoteFailureBlock)failure
 {
     NSParameterAssert([blogId isKindOfClass:[NSNumber class]]);
-    
+
     NSString *path = [NSString stringWithFormat:@"sites/%@/themes/purchased", blogId];
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:WordPressComRESTAPIVersion_1_1];
-    
+
     NSProgress *progress = [self.wordPressComRESTAPI get:requestUrl
                                 parameters:nil
                                    success:^(NSDictionary *response, NSHTTPURLResponse *httpResponse) {
@@ -68,7 +67,7 @@ static NSString* const ThemeRequestSearchKey = @"search";
                                            failure(error);
                                        }
                                    }];
-    
+
     return progress;
 }
 
@@ -77,11 +76,11 @@ static NSString* const ThemeRequestSearchKey = @"search";
                     failure:(ThemeServiceRemoteFailureBlock)failure
 {
     NSParameterAssert([themeId isKindOfClass:[NSString class]]);
-    
+
     NSString *path = [NSString stringWithFormat:@"themes/%@", themeId];
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:WordPressComRESTAPIVersion_1_1];
-    
+
     NSProgress *progress = [self.wordPressComRESTAPI get:requestUrl
                                 parameters:nil
                                    success:^(NSDictionary *themeDictionary, NSHTTPURLResponse *httpResponse) {
@@ -94,7 +93,7 @@ static NSString* const ThemeRequestSearchKey = @"search";
                                            failure(error);
                                        }
                                    }];
-    
+
     return progress;
 }
 
@@ -105,20 +104,20 @@ static NSString* const ThemeRequestSearchKey = @"search";
                         failure:(ThemeServiceRemoteFailureBlock)failure
 {
     NSParameterAssert(page > 0);
-    
+
     NSString *requestUrl = [self pathForEndpoint:@"themes"
                                      withVersion:WordPressComRESTAPIVersion_2_0];
-    
+
     NSMutableDictionary *parameters = [@{
         ThemeRequestTierKey: freeOnly ? ThemeRequestTierFreeValue : ThemeRequestTierAllValue,
         ThemeRequestNumberKey: @(ThemeRequestNumberValue),
         ThemeRequestPageKey: @(page)
     } mutableCopy];
-    
+
     if (search) {
         parameters[ThemeRequestSearchKey] = search;
     }
-    
+
     return [self getThemesWithRequestUrl:requestUrl
                                     page:page
                               parameters:parameters
@@ -220,12 +219,12 @@ static NSString* const ThemeRequestSearchKey = @"search";
     NSString *path = [NSString stringWithFormat:@"themes/?filter=starting-%@", category];
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:WordPressComRESTAPIVersion_1_2];
-    
+
     NSDictionary *parameters = @{
                                  ThemeRequestNumberKey: @(ThemeRequestNumberValue),
                                  ThemeRequestPageKey: @(page),
                                  };
-    
+
     [self getThemesWithRequestUrl:requestUrl
                              page:page
                        parameters:parameters
@@ -270,13 +269,13 @@ static NSString* const ThemeRequestSearchKey = @"search";
 {
     NSParameterAssert([themeId isKindOfClass:[NSString class]]);
     NSParameterAssert([blogId isKindOfClass:[NSNumber class]]);
-    
+
     NSString* const path = [NSString stringWithFormat:@"sites/%@/themes/mine", blogId];
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:WordPressComRESTAPIVersion_1_1];
-    
+
     NSDictionary* parameters = @{@"theme": themeId};
-    
+
     NSProgress *progress = [self.wordPressComRESTAPI post:requestUrl
                                  parameters:parameters
                                     success:^(NSDictionary *themeDictionary, NSHTTPURLResponse *httpResponse) {
@@ -290,7 +289,7 @@ static NSString* const ThemeRequestSearchKey = @"search";
                                             failure(error);
                                         }
                                     }];
-    
+
     return progress;
 }
 
@@ -331,9 +330,9 @@ static NSString* const ThemeRequestSearchKey = @"search";
 - (NSArray *)themeIdentifiersFromPurchasedThemesRequestResponse:(id)response
 {
     NSParameterAssert(response != nil);
-    
+
     NSArray *themeIdentifiers = [response arrayForKey:ThemeServiceRemoteThemesKey];
-    
+
     return themeIdentifiers;
 }
 
@@ -345,10 +344,10 @@ static NSString* const ThemeRequestSearchKey = @"search";
 - (NSArray<RemoteTheme *> *)themesFromMultipleThemesRequestResponse:(id)response
 {
     NSParameterAssert(response != nil);
-    
+
     NSArray *themeDictionaries = [response arrayForKey:ThemeServiceRemoteThemesKey];
     NSArray<RemoteTheme *> *themes = [self themesFromDictionaries:themeDictionaries];
-    
+
     return themes;
 }
 
@@ -364,7 +363,7 @@ static NSString* const ThemeRequestSearchKey = @"search";
 - (RemoteTheme *)themeFromDictionary:(NSDictionary *)dictionary
 {
     NSParameterAssert([dictionary isKindOfClass:[NSDictionary class]]);
-    
+
     static NSString* const ThemeActiveKey = @"active";
     static NSString* const ThemeTypeKey = @"theme_type";
     static NSString* const ThemeAuthorKey = @"author";
@@ -386,9 +385,9 @@ static NSString* const ThemeRequestSearchKey = @"search";
     static NSString* const ThemeVersionKey = @"version";
     static NSString* const ThemeDomainPublic = @"pub";
     static NSString* const ThemeDomainPremium = @"premium";
-    
+
     RemoteTheme *theme = [RemoteTheme new];
-    
+
     [self loadLaunchDateForTheme:theme fromDictionary:dictionary];
 
     theme.active = [[dictionary numberForKey:ThemeActiveKey] boolValue];
@@ -429,18 +428,18 @@ static NSString* const ThemeRequestSearchKey = @"search";
 - (NSArray<RemoteTheme *> *)themesFromDictionaries:(NSArray *)dictionaries
 {
     NSParameterAssert([dictionaries isKindOfClass:[NSArray class]]);
-    
+
     NSMutableArray *themes = [[NSMutableArray alloc] initWithCapacity:dictionaries.count];
-    
+
     for (NSDictionary *dictionary in dictionaries) {
         NSAssert([dictionary isKindOfClass:[NSDictionary class]],
                  @"Expected a dictionary.");
-        
+
         RemoteTheme *theme = [self themeFromDictionary:dictionary];
-        
+
         [themes addObject:theme];
     }
-    
+
     return [NSArray arrayWithArray:themes];
 }
 
@@ -458,14 +457,14 @@ static NSString* const ThemeRequestSearchKey = @"search";
 {
     NSParameterAssert([theme isKindOfClass:[RemoteTheme class]]);
     NSParameterAssert([dictionary isKindOfClass:[NSDictionary class]]);
-    
+
     static NSString* const ThemeLaunchDateKey = @"date_launched";
-    
+
     NSString *launchDateString = [dictionary stringForKey:ThemeLaunchDateKey];
-    
+
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"yyyy-mm-dd"];
-    
+
     theme.launchDate = [formatter dateFromString:launchDateString];
 }
 

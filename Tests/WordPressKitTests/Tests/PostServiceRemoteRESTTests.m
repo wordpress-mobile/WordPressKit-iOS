@@ -3,7 +3,6 @@
 #import <XCTest/XCTest.h>
 #import "PostServiceRemoteREST.h"
 #import "RemotePost.h"
-#import "WPKit-Swift.h"
 
 @interface PostServiceRemoteRESTTests : XCTestCase
 @end
@@ -53,7 +52,7 @@
 - (void)testThatGetPostWithIDThrowsExceptionWithoutPostID
 {
     PostServiceRemoteREST *service = nil;
-    
+
     XCTAssertNoThrow(service = [self service]);
     XCTAssertThrows([service getPostWithID:nil
                                    success:^(RemotePost *post) {}
@@ -77,16 +76,16 @@
                                  withVersion:WordPressComRESTAPIVersion_1_2];
 
     BOOL (^parametersCheckBlock)(id obj) = ^BOOL(NSDictionary *parameters) {
-        
+
         return ([parameters isKindOfClass:[NSDictionary class]]
                 && [[parameters objectForKey:@"type"] isEqualToString:postType]);
     };
-    
+
     OCMStub([api get:[OCMArg isEqual:url]
           parameters:[OCMArg checkWithBlock:parametersCheckBlock]
              success:[OCMArg isNotNil]
              failure:[OCMArg isNotNil]]);
-    
+
 
     [service getPostsOfType:postType
                     success:^(NSArray<RemotePost *> *remotePosts) {}
@@ -110,14 +109,14 @@
     NSString *testOptionKey = @"SomeKey";
     NSString *testOptionValue = @"SomeValue";
     NSDictionary *options = @{testOptionKey: testOptionValue};
-    
+
     BOOL (^parametersCheckBlock)(id obj) = ^BOOL(NSDictionary *parameters) {
-        
+
         return ([parameters isKindOfClass:[NSDictionary class]]
                 && [[parameters objectForKey:@"type"] isEqualToString:postType]
                 && [parameters objectForKey:testOptionKey] == testOptionValue);
     };
-    
+
     OCMStub([api get:[OCMArg isEqual:url]
           parameters:[OCMArg checkWithBlock:parametersCheckBlock]
              success:[OCMArg isNotNil]
@@ -136,7 +135,7 @@
     NSNumber *dotComID = @10;
     WordPressComRestApi *api = OCMStrictClassMock([WordPressComRestApi class]);
     PostServiceRemoteREST *service = nil;
-    
+
     RemotePost *post = OCMClassMock([RemotePost class]);
     OCMStub([post title]).andReturn(@"Title");
     OCMStub([post content]).andReturn(@"Content");
@@ -166,7 +165,7 @@
 - (void)testThatCreatePostThrowsExceptionWithoutPost
 {
     PostServiceRemoteREST *service = nil;
-    
+
     XCTAssertNoThrow(service = [self service]);
     XCTAssertThrows([service createPost:nil
                                 success:^(RemotePost *posts) {}
@@ -180,7 +179,7 @@
     NSNumber *dotComID = @10;
     WordPressComRestApi *api = OCMStrictClassMock([WordPressComRestApi class]);
     PostServiceRemoteREST *service = nil;
-    
+
     RemotePost *post = OCMClassMock([RemotePost class]);
     OCMStub([post postID]).andReturn(@1);
     OCMStub([post title]).andReturn(@"Title");
@@ -211,7 +210,7 @@
 - (void)testThatUpdatePostThrowsExceptionWithoutPost
 {
     PostServiceRemoteREST *service = nil;
-    
+
     XCTAssertNoThrow(service = [self service]);
     XCTAssertThrows([service updatePost:nil
                                 success:^(RemotePost *posts) {}
@@ -225,7 +224,7 @@
     NSNumber *dotComID = @10;
     WordPressComRestApi *api = OCMStrictClassMock([WordPressComRestApi class]);
     PostServiceRemoteREST *service = nil;
-    
+
     RemotePost *post = OCMClassMock([RemotePost class]);
     OCMStub([post postID]).andReturn(@1);
     OCMStub([post title]).andReturn(@"Title");
@@ -236,18 +235,18 @@
     OCMStub([post metadata]).andReturn(@[]);
     OCMStub([post isStickyPost]).andReturn(@0);
     OCMStub([post parentID]).andReturn(nil);
-    
+
     XCTAssertNoThrow(service = [[PostServiceRemoteREST alloc] initWithWordPressComRestApi:api siteID:dotComID]);
-    
+
     NSString *endpoint = [NSString stringWithFormat:@"sites/%@/posts/%@/autosave", dotComID, post.postID];
     NSString *url = [service pathForEndpoint:endpoint
                                  withVersion:WordPressComRESTAPIVersion_1_1];
-    
+
     OCMStub([api post:[OCMArg isEqual:url]
            parameters:[OCMArg isKindOfClass:[NSDictionary class]]
               success:[OCMArg isNotNil]
               failure:[OCMArg isNotNil]]);
-    
+
     [service autoSave:post
                 success:^(RemotePost *post, NSString *previewURL) {}
                 failure:^(NSError *error) {}];
@@ -258,9 +257,9 @@
     NSNumber *dotComID = @10;
     WordPressComRestApi *api = OCMStrictClassMock([WordPressComRestApi class]);
     PostServiceRemoteREST *service = nil;
-    
+
     XCTAssertNoThrow(service = [[PostServiceRemoteREST alloc] initWithWordPressComRestApi:api siteID:dotComID]);
-    
+
     RemotePost *post = OCMClassMock([RemotePost class]);
     OCMStub([post postID]).andReturn(@1);
     OCMStub([post title]).andReturn(@"Title");
@@ -271,16 +270,16 @@
     OCMStub([post metadata]).andReturn(@[]);
     OCMStub([post isStickyPost]).andReturn(@1);
     OCMStub([post parentID]).andReturn(nil);
-    
+
     NSString *endpoint = [NSString stringWithFormat:@"sites/%@/posts/%@/autosave", dotComID, post.postID];
     NSString *url = [service pathForEndpoint:endpoint
                                  withVersion:WordPressComRESTAPIVersion_1_1];
-    
+
     OCMStub([api get:[OCMArg isEqual:url]
           parameters:[OCMArg isNotNil]
              success:[OCMArg isNotNil]
              failure:[OCMArg isNotNil]]);
-    
+
     [service getAutoSaveForPost:post
                         success:^(RemotePost *post) {}
                         failure:^(NSError *error) {}];
@@ -294,7 +293,7 @@
     NSNumber *dotComID = @10;
     WordPressComRestApi *api = OCMStrictClassMock([WordPressComRestApi class]);
     PostServiceRemoteREST *service = nil;
-    
+
     RemotePost *post = OCMClassMock([RemotePost class]);
     OCMStub([post postID]).andReturn(@1);
 
@@ -303,7 +302,7 @@
     NSString *endpoint = [NSString stringWithFormat:@"sites/%@/posts/%@/delete", dotComID, post.postID];
     NSString *url = [service pathForEndpoint:endpoint
                                  withVersion:WordPressComRESTAPIVersion_1_1];
-    
+
     OCMStub([api post:[OCMArg isEqual:url]
            parameters:[OCMArg isNil]
               success:[OCMArg isNotNil]
@@ -317,7 +316,7 @@
 - (void)testThatDeletePostThrowsExceptionWithoutPost
 {
     PostServiceRemoteREST *service = nil;
-    
+
     XCTAssertNoThrow(service = [self service]);
     XCTAssertThrows([service deletePost:nil
                                 success:^() {}
@@ -331,7 +330,7 @@
     NSNumber *dotComID = @10;
     WordPressComRestApi *api = OCMStrictClassMock([WordPressComRestApi class]);
     PostServiceRemoteREST *service = nil;
-    
+
     RemotePost *post = OCMClassMock([RemotePost class]);
     OCMStub([post postID]).andReturn(@1);
 
@@ -354,7 +353,7 @@
 - (void)testThatTashPostThrowsExceptionWithoutPost
 {
     PostServiceRemoteREST *service = nil;
-    
+
     XCTAssertNoThrow(service = [self service]);
     XCTAssertThrows([service trashPost:nil
                                success:^(RemotePost *posts) {}
@@ -368,7 +367,7 @@
     NSNumber *dotComID = @10;
     WordPressComRestApi *api = OCMStrictClassMock([WordPressComRestApi class]);
     PostServiceRemoteREST *service = nil;
-    
+
     RemotePost *post = OCMClassMock([RemotePost class]);
     OCMStub([post postID]).andReturn(@1);
 
@@ -391,7 +390,7 @@
 - (void)testThatRestorePostThrowsExceptionWithoutPost
 {
     PostServiceRemoteREST *service = nil;
-    
+
     XCTAssertNoThrow(service = [self service]);
     XCTAssertThrows([service restorePost:nil
                                  success:^(RemotePost *posts) {}

@@ -1,5 +1,4 @@
 #import "MenusServiceRemote.h"
-#import "WPKit-Swift.h"
 
 @import NSObject_SafeExpectations;
 
@@ -34,11 +33,11 @@ NSString * const MenusRemoteKeyClasses = @"classes";
 {
     NSParameterAssert([siteID isKindOfClass:[NSNumber class]]);
     NSParameterAssert([menuName isKindOfClass:[NSString class]]);
-    
+
     NSString *path = [NSString stringWithFormat:@"sites/%@/menus/new", siteID];
     NSString *requestURL = [self pathForEndpoint:path
                                      withVersion:WordPressComRESTAPIVersion_1_1];
-    
+
     [self.wordPressComRESTAPI post:requestURL
         parameters:@{MenusRemoteKeyName: menuName}
            success:^(id  _Nonnull responseObject, NSHTTPURLResponse *httpResponse) {
@@ -74,11 +73,11 @@ NSString * const MenusRemoteKeyClasses = @"classes";
 {
     NSParameterAssert([siteID isKindOfClass:[NSNumber class]]);
     NSParameterAssert([menuID isKindOfClass:[NSNumber class]]);
-    
+
     NSString *path = [NSString stringWithFormat:@"sites/%@/menus/%@", siteID, menuID];
     NSString *requestURL = [self pathForEndpoint:path
                                      withVersion:WordPressComRESTAPIVersion_1_1];
-    
+
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:2];
     if (updatedName.length) {
         [params setObject:updatedName forKey:MenusRemoteKeyName];
@@ -89,11 +88,11 @@ NSString * const MenusRemoteKeyClasses = @"classes";
     if (locationNames.count) {
         [params setObject:locationNames forKey:MenusRemoteKeyLocations];
     }
-    
+
     // temporarily need to force the id for the menu update to work until fixed in Jetpack endpoints
     // Brent Coursey - 10/1/2015
     [params setObject:menuID forKey:MenusRemoteKeyID];
-    
+
     [self.wordPressComRESTAPI post:requestURL
         parameters:params
            success:^(id  _Nonnull responseObject, NSHTTPURLResponse *httpResponse) {
@@ -127,7 +126,7 @@ NSString * const MenusRemoteKeyClasses = @"classes";
 {
     NSParameterAssert([siteID isKindOfClass:[NSNumber class]]);
     NSParameterAssert([menuID isKindOfClass:[NSNumber class]]);
-    
+
     NSString *path = [NSString stringWithFormat:@"sites/%@/menus/%@/delete", siteID, menuID];
     NSString *requestURL = [self pathForEndpoint:path
                                      withVersion:WordPressComRESTAPIVersion_1_1];
@@ -164,11 +163,11 @@ NSString * const MenusRemoteKeyClasses = @"classes";
                 failure:(nullable MenusServiceRemoteFailureBlock)failure
 {
     NSParameterAssert([siteID isKindOfClass:[NSNumber class]]);
-    
+
     NSString *path = [NSString stringWithFormat:@"sites/%@/menus", siteID];
     NSString *requestURL = [self pathForEndpoint:path
                                      withVersion:WordPressComRESTAPIVersion_1_1];
-    
+
     [self.wordPressComRESTAPI get:requestURL
        parameters:nil
           success:^(id  _Nonnull responseObject, NSHTTPURLResponse *httpResponse) {
@@ -182,7 +181,7 @@ NSString * const MenusRemoteKeyClasses = @"classes";
                   NSArray *locations = [self remoteMenuLocationsFromJSONArray:[responseObject arrayForKey:MenusRemoteKeyLocations]];
                   success(menus, locations);
               }
-              
+
           } failure:^(NSError * _Nonnull error, NSHTTPURLResponse *httpResponse) {
               if (failure) {
                   failure(error);
@@ -203,10 +202,10 @@ NSString * const MenusRemoteKeyClasses = @"classes";
 {
     NSParameterAssert([dictionaries isKindOfClass:[NSArray class]]);
     return [dictionaries wpkit_map:^id(NSDictionary *dictionary) {
-        
+
         RemoteMenuItem *item = [self menuItemFromJSONDictionary:dictionary];
         item.parentItem = parent;
-        
+
         return item;
     }];
 }
@@ -231,24 +230,24 @@ NSString * const MenusRemoteKeyClasses = @"classes";
     if (![dictionary isKindOfClass:[NSDictionary class]]) {
         return nil;
     }
-    
+
     NSNumber *menuID = [dictionary numberForKey:MenusRemoteKeyID];
     if (!menuID.integerValue) {
         // empty menu dictionary
         return nil;
     }
-    
+
     RemoteMenu *menu = [RemoteMenu new];
     menu.menuID = menuID;
     menu.details = [dictionary stringForKey:MenusRemoteKeyDescription];
     menu.name = [dictionary stringForKey:MenusRemoteKeyName];
     menu.locationNames = [dictionary arrayForKey:MenusRemoteKeyLocations];
-    
+
     NSArray *itemDicts = [dictionary arrayForKey:MenusRemoteKeyItems];
     if (itemDicts.count) {
         menu.items = [self menuItemsFromJSONDictionaries:itemDicts parent:nil];
     }
-    
+
     return menu;
 }
 
@@ -265,7 +264,7 @@ NSString * const MenusRemoteKeyClasses = @"classes";
     if (![dictionary isKindOfClass:[NSDictionary class]] || !dictionary.count) {
         return nil;
     }
-    
+
     RemoteMenuItem *item = [RemoteMenuItem new];
     item.itemID = [dictionary numberForKey:MenusRemoteKeyID];
     item.contentID = [dictionary numberForKey:MenusRemoteKeyContentID];
@@ -278,12 +277,12 @@ NSString * const MenusRemoteKeyClasses = @"classes";
     item.typeLabel = [dictionary stringForKey:MenusRemoteKeyTypeLabel];
     item.urlStr = [dictionary stringForKey:MenusRemoteKeyURL];
     item.classes = [dictionary arrayForKey:MenusRemoteKeyClasses];
-    
+
     NSArray *itemDicts = [dictionary arrayForKey:MenusRemoteKeyItems];
     if (itemDicts.count) {
         item.children = [self menuItemsFromJSONDictionaries:itemDicts parent:item];
     }
-    
+
     return item;
 }
 
@@ -300,12 +299,12 @@ NSString * const MenusRemoteKeyClasses = @"classes";
     if (![dictionary isKindOfClass:[NSDictionary class]] || !dictionary.count) {
         return nil;
     }
-    
+
     RemoteMenuLocation *location = [RemoteMenuLocation new];
     location.defaultState = [dictionary stringForKey:MenusRemoteKeyLocationDefaultState];
     location.details = [dictionary stringForKey:MenusRemoteKeyDescription];
     location.name = [dictionary stringForKey:MenusRemoteKeyName];
-    
+
     return location;
 }
 
@@ -324,7 +323,7 @@ NSString * const MenusRemoteKeyClasses = @"classes";
     for (RemoteMenuItem *item in menuItems) {
         [dictionaries addObject:[self menuItemJSONDictionaryFromItem:item]];
     }
-    
+
     return [NSArray arrayWithArray:dictionaries];
 }
 
@@ -338,43 +337,43 @@ NSString * const MenusRemoteKeyClasses = @"classes";
 - (NSDictionary *)menuItemJSONDictionaryFromItem:(RemoteMenuItem *)item
 {
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
-    
+
     if (item.itemID.integerValue) {
         dictionary[MenusRemoteKeyID] = item.itemID;
     }
-    
+
     if (item.contentID.integerValue) {
         dictionary[MenusRemoteKeyContentID] = item.contentID;
     }
-    
+
     if (item.details.length) {
         dictionary[MenusRemoteKeyDescription] = item.details;
     }
-    
+
     if (item.linkTarget.length) {
         dictionary[MenusRemoteKeyLinkTarget] = item.linkTarget;
     }
-    
+
     if (item.linkTitle.length) {
         dictionary[MenusRemoteKeyLinkTitle] = item.linkTitle;
     }
-    
+
     if (item.name.length) {
         dictionary[MenusRemoteKeyName] = item.name;
     }
-    
+
     if (item.type.length) {
         dictionary[MenusRemoteKeyType] = item.type;
     }
-    
+
     if (item.typeFamily.length) {
         dictionary[MenusRemoteKeyTypeFamily] = item.typeFamily;
     }
-    
+
     if (item.typeLabel.length) {
         dictionary[MenusRemoteKeyTypeLabel] = item.typeLabel;
     }
-    
+
     if (item.urlStr.length) {
         dictionary[MenusRemoteKeyURL] = item.urlStr;
     }
@@ -382,17 +381,17 @@ NSString * const MenusRemoteKeyClasses = @"classes";
     if (item.classes.count) {
         dictionary[MenusRemoteKeyClasses] = item.classes;
     }
-    
+
     if (item.children.count) {
-        
+
         NSMutableArray *dictionaryItems = [NSMutableArray arrayWithCapacity:item.children.count];
         for (RemoteMenuItem *remoteItem in item.children) {
             [dictionaryItems addObject:[self menuItemJSONDictionaryFromItem:remoteItem]];
         }
-        
+
         dictionary[MenusRemoteKeyItems] = [NSArray arrayWithArray:dictionaryItems];
     }
-    
+
     return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
@@ -400,7 +399,7 @@ NSString * const MenusRemoteKeyClasses = @"classes";
 {
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
     [dictionary setObject:MenusRemoteKeyName forKey:location.name];
-    
+
     return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 

@@ -1,7 +1,6 @@
 #import "TaxonomyServiceRemoteXMLRPC.h"
 #import "RemotePostTag.h"
 #import "RemoteTaxonomyPaging.h"
-#import "WPKit-Swift.h"
 
 @import NSObject_SafeExpectations;
 
@@ -35,7 +34,7 @@ static NSString * const TaxonomyXMLRPCOffsetParameter = @"offset";
     if ([category.parentID integerValue] > 0) {
         [extraParameters setObject:category.parentID forKey:TaxonomyXMLRPCParentParameter];
     }
-    
+
     [self createTaxonomyWithType:TaxonomyXMLRPCCategoryIdentifier
                       parameters:extraParameters
                          success:^(NSString *responseString) {
@@ -90,7 +89,7 @@ static NSString * const TaxonomyXMLRPCOffsetParameter = @"offset";
     NSMutableDictionary *extraParameters = [NSMutableDictionary dictionary];
     [extraParameters setObject:tag.name ?: [NSNull null] forKey:TaxonomyXMLRPCNameParameter];
     [extraParameters setObject:tag.tagDescription ?: [NSNull null] forKey:TaxonomyXMLRPCDescriptionParameter];
-    
+
     [self createTaxonomyWithType:TaxonomyXMLRPCTagIdentifier
                       parameters:extraParameters
                          success:^(NSString *responseString) {
@@ -181,9 +180,9 @@ static NSString * const TaxonomyXMLRPCOffsetParameter = @"offset";
     if (parameters.count) {
         [mutableParametersDict addEntriesFromDictionary:parameters];
     }
-    
+
     xmlrpcParameters = [self XMLRPCArgumentsWithExtra:mutableParametersDict];
-    
+
     [self.api callMethod:@"wp.newTerm"
               parameters:xmlrpcParameters
                  success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
@@ -235,7 +234,7 @@ static NSString * const TaxonomyXMLRPCOffsetParameter = @"offset";
 {
     NSArray *xmlrpcParameters = [self XMLRPCArgumentsWithExtraDefaults:@[typeIdentifier, termId]
                                                               andExtra:nil];
-    
+
     [self.api callMethod:@"wp.deleteTerm"
               parameters:xmlrpcParameters
                  success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
@@ -265,7 +264,7 @@ static NSString * const TaxonomyXMLRPCOffsetParameter = @"offset";
     }
 
     xmlrpcParameters = [self XMLRPCArgumentsWithExtraDefaults:@[termId] andExtra:mutableParametersDict];
-    
+
     [self.api callMethod:@"wp.editTerm"
               parameters:xmlrpcParameters
                  success:^(id responseObject, NSHTTPURLResponse *httpResponse) {

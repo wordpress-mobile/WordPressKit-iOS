@@ -1,6 +1,5 @@
 #import "RemoteReaderPost.h"
 #import "RemoteSourcePostAttribution.h"
-#import "WPKit-Swift.h"
 
 @import NSObject_SafeExpectations;
 

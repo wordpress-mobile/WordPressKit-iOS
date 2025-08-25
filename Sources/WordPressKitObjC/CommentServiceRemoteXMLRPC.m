@@ -1,5 +1,4 @@
 #import "CommentServiceRemoteXMLRPC.h"
-#import "WPKit-Swift.h"
 #import "RemoteComment.h"
 
 @import wpxmlrpc;
@@ -24,13 +23,13 @@
     if (options) {
         [extraParameters addEntriesFromDictionary:options];
     }
-    
+
     NSNumber *statusFilter = [extraParameters numberForKey:@"status"];
     [extraParameters removeObjectForKey:@"status"];
     extraParameters[@"status"] = [self parameterForCommentStatus:statusFilter];
 
     NSArray *parameters = [self XMLRPCArgumentsWithExtra:extraParameters];
-    
+
     [self.api callMethod:@"wp.getComments"
               parameters:parameters
                  success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
@@ -118,14 +117,14 @@
 {
     NSParameterAssert(comment.commentID != nil);
     NSNumber *commentID = comment.commentID;
-    
+
     NSDictionary *commentDictionary = @{
         @"content": comment.content,
         @"author": comment.author,
         @"author_email": comment.authorEmail,
         @"author_url": comment.authorUrl,
     };
-    
+
     NSArray *extraParameters = @[
                                  comment.commentID,
                                  commentDictionary,

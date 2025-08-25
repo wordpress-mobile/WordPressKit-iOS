@@ -1,5 +1,4 @@
 #import "ReaderSiteServiceRemote.h"
-#import "WPKit-Swift.h"
 @import NSObject_SafeExpectations;
 
 static NSString* const ReaderSiteServiceRemoteURLKey = @"url";
@@ -59,7 +58,7 @@ NSString * const ReaderSiteServiceRemoteErrorDomain = @"ReaderSiteServiceRemoteE
     NSString *path = [NSString stringWithFormat:@"sites/%lu/follows/mine/delete", (unsigned long)siteID];
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:WordPressComRESTAPIVersion_1_1];
-    
+
     [self.wordPressComRESTAPI post:requestUrl parameters:nil success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
         if (success) {
             success();
@@ -76,7 +75,7 @@ NSString * const ReaderSiteServiceRemoteErrorDomain = @"ReaderSiteServiceRemoteE
     NSString *path = @"read/following/mine/new";
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:WordPressComRESTAPIVersion_1_1];
-    
+
     NSDictionary *params = @{ReaderSiteServiceRemoteURLKey: siteURL,
                              ReaderSiteServiceRemoteSourceKey: ReaderSiteServiceRemoteSourceValue};
     [self.wordPressComRESTAPI post:requestUrl parameters:params success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
@@ -105,9 +104,9 @@ NSString * const ReaderSiteServiceRemoteErrorDomain = @"ReaderSiteServiceRemoteE
     NSString *path = @"read/following/mine/delete";
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:WordPressComRESTAPIVersion_1_1];
-    
+
     NSDictionary *params = @{ReaderSiteServiceRemoteURLKey: siteURL};
-    
+
     [self.wordPressComRESTAPI post:requestUrl parameters:params success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
         NSDictionary *dict = (NSDictionary *)responseObject;
         BOOL subscribed = [[dict numberForKey:@"subscribed"] boolValue];
@@ -161,7 +160,7 @@ NSString * const ReaderSiteServiceRemoteErrorDomain = @"ReaderSiteServiceRemoteE
     NSString *path = [NSString stringWithFormat:@"sites/%@", host];
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:WordPressComRESTAPIVersion_1_1];
-    
+
     [self.wordPressComRESTAPI get:requestUrl parameters:nil success:successBlock failure:^(NSError *error, NSHTTPURLResponse *httpResponse) {
         NSString *newHost;
         if ([host hasPrefix:@"www."]) {
@@ -176,7 +175,7 @@ NSString * const ReaderSiteServiceRemoteErrorDomain = @"ReaderSiteServiceRemoteE
         NSString *newPath = [NSString stringWithFormat:@"sites/%@", newHost];
         NSString *newPathRequestUrl = [self pathForEndpoint:newPath
                                                 withVersion:WordPressComRESTAPIVersion_1_1];
-        
+
         [self.wordPressComRESTAPI get:newPathRequestUrl parameters:nil success:successBlock failure:failureBlock];
     }];
 }
@@ -216,7 +215,7 @@ NSString * const ReaderSiteServiceRemoteErrorDomain = @"ReaderSiteServiceRemoteE
     NSString *path = [NSString stringWithFormat:@"sites/%lu/follows/mine", (unsigned long)siteID];
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:WordPressComRESTAPIVersion_1_1];
-    
+
     [self.wordPressComRESTAPI get:requestUrl parameters:nil success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
         if (!success) {
             return;
@@ -237,7 +236,7 @@ NSString * const ReaderSiteServiceRemoteErrorDomain = @"ReaderSiteServiceRemoteE
     NSString *path = @"read/following/mine";
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:WordPressComRESTAPIVersion_1_1];
-    
+
     [self.wordPressComRESTAPI get:requestUrl parameters:nil success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
         if (!success) {
             return;
@@ -265,7 +264,7 @@ NSString * const ReaderSiteServiceRemoteErrorDomain = @"ReaderSiteServiceRemoteE
     } else {
         path = [NSString stringWithFormat:@"me/block/sites/%lu/delete", (unsigned long)siteID];
     }
-    
+
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:WordPressComRESTAPIVersion_1_1];
 

@@ -1,5 +1,4 @@
 #import "ServiceRemoteWordPressComREST.h"
-#import "WPKit-Swift.h"
 
 @implementation ServiceRemoteWordPressComREST
 

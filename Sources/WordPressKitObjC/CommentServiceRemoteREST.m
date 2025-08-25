@@ -1,5 +1,4 @@
 #import "CommentServiceRemoteREST.h"
-#import "WPKit-Swift.h"
 #import "RemoteComment.h"
 #import "RemoteUser.h"
 
@@ -26,7 +25,7 @@
     NSString *path = [NSString stringWithFormat:@"sites/%@/comments", self.siteID];
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:WordPressComRESTAPIVersion_1_1];
-    
+
     NSMutableDictionary *parameters = [NSMutableDictionary dictionaryWithDictionary:@{
                                  @"force": @"wpcom", // Force fetching data from shadow site on Jetpack sites
                                  @"number": @(maximumComments)
@@ -35,7 +34,7 @@
     if (options) {
         [parameters addEntriesFromDictionary:options];
     }
-    
+
     NSNumber *statusFilter = [parameters numberForKey:@"status"];
     [parameters removeObjectForKey:@"status"];
     parameters[@"status"] = [self parameterForCommentStatus:statusFilter];
@@ -82,7 +81,7 @@
     NSString *path = [NSString stringWithFormat:@"sites/%@/comments/%@", self.siteID, commentID];
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:WordPressComRESTAPIVersion_1_1];
-    
+
     [self.wordPressComRESTAPI get:requestUrl
                        parameters:nil
                           success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
@@ -107,10 +106,10 @@
     } else {
         path = [NSString stringWithFormat:@"sites/%@/posts/%@/replies/new", self.siteID, comment.postID];
     }
-    
+
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:WordPressComRESTAPIVersion_1_1];
-    
+
     NSDictionary *parameters = @{
                                  @"content": comment.content,
                                  @"context": @"edit",
@@ -137,7 +136,7 @@
     NSString *path = [NSString stringWithFormat:@"sites/%@/comments/%@", self.siteID, comment.commentID];
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:WordPressComRESTAPIVersion_1_1];
-    
+
     NSDictionary *parameters = @{
         @"content": comment.content,
         @"author": comment.author,
@@ -168,7 +167,7 @@
     NSString *path = [NSString stringWithFormat:@"sites/%@/comments/%@", self.siteID, comment.commentID];
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:WordPressComRESTAPIVersion_1_1];
-    
+
     NSDictionary *parameters = @{
                                  @"status": [self remoteStatusWithStatus:comment.status],
                                  @"context": @"edit",
@@ -195,7 +194,7 @@
     NSString *path = [NSString stringWithFormat:@"sites/%@/comments/%@/delete", self.siteID, comment.commentID];
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:WordPressComRESTAPIVersion_1_1];
-    
+
     [self.wordPressComRESTAPI post:requestUrl
                         parameters:nil
                            success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
@@ -252,7 +251,7 @@
     NSString *path = [NSString stringWithFormat:@"sites/%@/comments/%@", self.siteID, commentID];
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:WordPressComRESTAPIVersion_1_1];
-    
+
     NSDictionary *parameters = @{
         @"content": content,
         @"context": @"edit",
@@ -279,9 +278,9 @@
     NSString *path = [NSString stringWithFormat:@"sites/%@/posts/%@/replies/new", self.siteID, postID];
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:WordPressComRESTAPIVersion_1_1];
-    
+
     NSDictionary *parameters = @{@"content": content};
-    
+
     [self.wordPressComRESTAPI post:requestUrl
         parameters:parameters
            success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
@@ -305,7 +304,7 @@
     NSString *path = [NSString stringWithFormat:@"sites/%@/comments/%@/replies/new", self.siteID, commentID];
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:WordPressComRESTAPIVersion_1_1];
-    
+
     NSDictionary *parameters = @{
         @"content": content,
         @"context": @"edit",
@@ -333,12 +332,12 @@
     NSString *path = [NSString stringWithFormat:@"sites/%@/comments/%@", self.siteID, commentID];
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:WordPressComRESTAPIVersion_1_1];
-    
+
     NSDictionary *parameters = @{
         @"status"   : status,
         @"context"  : @"edit",
     };
-    
+
     [self.wordPressComRESTAPI post:requestUrl
                         parameters:parameters
                            success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
@@ -359,7 +358,7 @@
     NSString *path = [NSString stringWithFormat:@"sites/%@/comments/%@/delete", self.siteID, commentID];
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:WordPressComRESTAPIVersion_1_1];
-    
+
     [self.wordPressComRESTAPI post:requestUrl
                         parameters:nil
                            success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
@@ -380,7 +379,7 @@
     NSString *path = [NSString stringWithFormat:@"sites/%@/comments/%@/likes/new", self.siteID, commentID];
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:WordPressComRESTAPIVersion_1_1];
-    
+
     [self.wordPressComRESTAPI post:requestUrl
                         parameters:nil
                            success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
@@ -401,7 +400,7 @@
     NSString *path = [NSString stringWithFormat:@"sites/%@/comments/%@/likes/mine/delete", self.siteID, commentID];
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:WordPressComRESTAPIVersion_1_1];
-    
+
     [self.wordPressComRESTAPI post:requestUrl
                         parameters:nil
                            success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
@@ -433,13 +432,13 @@
     if (count == 0) {
         count = @90;
     }
-    
+
     NSMutableDictionary *parameters = [NSMutableDictionary dictionaryWithDictionary:@{ @"number": count }];
-    
+
     if (before) {
         parameters[@"before"] = before;
     }
-    
+
     if (excludeUserIDs) {
         parameters[@"exclude"] = excludeUserIDs;
     }
@@ -521,7 +520,7 @@
 
 /**
  Returns an array of RemoteLikeUser based on provided JSON representation of users.
- 
+
  @param jsonUsers An array containing JSON representations of users.
  @param commentID ID of the Comment the users liked.
  @param siteID    ID of the Comment's site.

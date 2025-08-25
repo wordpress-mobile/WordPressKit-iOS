@@ -1,5 +1,4 @@
 #import "AccountServiceRemoteREST.h"
-#import "WPKit-Swift.h"
 @import NSObject_SafeExpectations;
 
 static NSString * const UserDictionaryIDKey = @"ID";
@@ -54,7 +53,7 @@ MagicLinkFlow const MagicLinkFlowSignup = @"signup";
 {
     NSString *requestUrl = [self pathForEndpoint:@"me"
                                      withVersion:WordPressComRESTAPIVersion_1_1];
-    
+
     [self.wordPressComRESTAPI get:requestUrl
        parameters:nil
           success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
@@ -135,7 +134,7 @@ MagicLinkFlow const MagicLinkFlowSignup = @"signup";
                               NSDictionary *dict = (NSDictionary *)responseObject;
                               BOOL passwordless = [[dict numberForKey:@"passwordless"] boolValue];
                               success(passwordless);
-                              
+
                           } failure:^(NSError *error, NSHTTPURLResponse *httpResponse) {
                               if (failure) {
                                   failure(error);
@@ -147,14 +146,14 @@ MagicLinkFlow const MagicLinkFlowSignup = @"signup";
 {
     static NSString * const errorEmailAddressInvalid = @"invalid";
     static NSString * const errorEmailAddressTaken = @"taken";
-    
+
     [self.wordPressComRESTAPI get:@"is-available/email"
                        parameters:@{ @"q": email, @"format": @"json"}
                           success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
         if ([responseObject isKindOfClass:[NSDictionary class]]) {
             NSString *error = [responseObject objectForKey:@"error"];
             NSString *message = [responseObject objectForKey:@"message"];
-            
+
             if (error != NULL) {
                 if ([error isEqualToString:errorEmailAddressTaken]) {
                     // While this is informed as an error by the endpoint, for the purpose of this method
@@ -182,10 +181,10 @@ MagicLinkFlow const MagicLinkFlowSignup = @"signup";
                         failure(error);
                     }
                 }
-                
+
                 return;
             }
-            
+
             if (success) {
                 BOOL available = [[responseObject numberForKey:@"available"] boolValue];
                 success(available);
@@ -292,10 +291,10 @@ MagicLinkFlow const MagicLinkFlowSignup = @"signup";
                                success:(void (^)(void))success
                                failure:(void (^)(NSError *error))failure
 {
-    
+
     NSString *path = [self pathForEndpoint:@"auth/send-signup-email"
                                withVersion:WordPressComRESTAPIVersion_1_1];
-    
+
     NSDictionary *extraParams = @{
         @"signup_flow_name": @"mobile-ios",
         MagicLinkParameterFlow: MagicLinkFlowSignup
@@ -321,7 +320,7 @@ MagicLinkFlow const MagicLinkFlowSignup = @"signup";
                               failure:(void (^)(NSError *error))failure
 {
     NSAssert([email length] > 0, @"Needs an email address.");
-    
+
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary:@{
                                                                                   @"email": email,
                                                                                   @"client_id": clientID,
@@ -331,7 +330,7 @@ MagicLinkFlow const MagicLinkFlowSignup = @"signup";
     if (![@"wordpress" isEqualToString:scheme]) {
         [params setObject:scheme forKey:@"scheme"];
     }
-    
+
     if (extraParams != nil) {
         [params addEntriesFromDictionary:extraParams];
     }
@@ -398,7 +397,7 @@ MagicLinkFlow const MagicLinkFlowSignup = @"signup";
     remoteUser.avatarURL = [dictionary stringForKey:UserDictionaryAvatarURLKey];
     remoteUser.dateCreated = [NSDate wpkit_dateWithISO8601String:[dictionary stringForKey:UserDictionaryDateKey]];
     remoteUser.emailVerified = [[dictionary numberForKey:UserDictionaryEmailVerifiedKey] boolValue];
-    
+
     return remoteUser;
 }
 

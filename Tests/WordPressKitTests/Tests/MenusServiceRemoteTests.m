@@ -1,7 +1,6 @@
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
 #import "MenusServiceRemote.h"
-#import "WPKit-Swift.h"
 
 @interface MenusServicRemoteTests : XCTestCase
 
@@ -14,7 +13,7 @@
     NSNumber *dotComID = @10;
     WordPressComRestApi *api = OCMStrictClassMock([WordPressComRestApi class]);
     MenusServiceRemote *service = nil;
-    
+
     RemoteMenu *menu = OCMClassMock([RemoteMenu class]);
     OCMStub([menu menuID]).andReturn(@(1));
     OCMStub([menu name]).andReturn(@"Name");
@@ -25,13 +24,13 @@
     NSString *url = [service pathForEndpoint:endpoint
                                  withVersion:WordPressComRESTAPIVersion_1_1];
     NSString *name = @"SomeName";
-    
+
     BOOL (^parametersCheckBlock)(id obj) = ^BOOL(NSDictionary *parameters) {
-        
+
         return ([parameters isKindOfClass:[NSDictionary class]]
                 && [[parameters objectForKey:@"name"] isEqualToString:name]);
     };
-    
+
     OCMStub([api post:[OCMArg isEqual:url]
            parameters:[OCMArg checkWithBlock:parametersCheckBlock]
               success:[OCMArg isNotNil]
@@ -48,7 +47,7 @@
     NSNumber *dotComID = @10;
     WordPressComRestApi *api = OCMStrictClassMock([WordPressComRestApi class]);
     MenusServiceRemote *service = nil;
-    
+
     RemoteMenu *menu = OCMClassMock([RemoteMenu class]);
     OCMStub([menu menuID]).andReturn(@(1));
     OCMStub([menu name]).andReturn(@"Name");
@@ -78,7 +77,7 @@
     NSNumber *dotComID = @10;
     WordPressComRestApi *api = OCMStrictClassMock([WordPressComRestApi class]);
     MenusServiceRemote *service = nil;
-    
+
     RemoteMenu *menu = OCMClassMock([RemoteMenu class]);
     OCMStub([menu menuID]).andReturn(@(1));
     OCMStub([menu name]).andReturn(@"Name");
@@ -116,7 +115,7 @@
           parameters:[OCMArg isNil]
              success:[OCMArg isNotNil]
              failure:[OCMArg isNotNil]]);
-    
+
 
     [service getMenusForSiteID:dotComID
                        success:^(NSArray<RemoteMenu *> *menus, NSArray<RemoteMenuLocation *> *locations) {}

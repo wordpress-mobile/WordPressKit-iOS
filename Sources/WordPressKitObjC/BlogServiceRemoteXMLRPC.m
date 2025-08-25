@@ -1,7 +1,6 @@
 #import "BlogServiceRemoteXMLRPC.h"
 #import "NSMutableDictionary+Helpers.h"
 #import "RemotePostType.h"
-#import "WPKit-Swift.h"
 @import NSObject_SafeExpectations;
 
 static NSString * const RemotePostTypeNameKey = @"name";
@@ -37,11 +36,11 @@ static NSString * const RemotePostTypePublicKey = @"public";
     NSMutableDictionary *filter = [@{ @"who":@"authors",
                                       @"number": @(100)
                                     } mutableCopy];
-    
+
     if ([offset wp_isValidObject]) {
         filter[@"offset"] = offset.stringValue;
     }
-    
+
     NSArray *parameters = [self XMLRPCArgumentsWithExtra:filter];
     [self.api callMethod:@"wp.getUsers"
               parameters:parameters
@@ -49,9 +48,9 @@ static NSString * const RemotePostTypePublicKey = @"public";
                      NSArray <RemoteUser *> *responseUsers = [[responseObject allObjects] wpkit_map:^id(NSDictionary *xmlrpcUser) {
                          return [self remoteUserFromXMLRPCDictionary:xmlrpcUser];
                      }];
-                     
+
                      NSMutableArray *users = [remoteUsers wp_isValidObject] ? [remoteUsers mutableCopy] : [NSMutableArray array];
-                     
+
                      if (success) {
                          if (![responseUsers wp_isValidObject] || responseUsers.count == 0) {
                              success([users copy]);
@@ -63,7 +62,7 @@ static NSString * const RemotePostTypePublicKey = @"public";
                                                         failure:failure];
                          }
                      }
-                     
+
                  } failure:^(NSError *error, NSHTTPURLResponse *response) {
                      if (failure) {
                          failure(error);
@@ -92,7 +91,7 @@ static NSString * const RemotePostTypePublicKey = @"public";
                      }
                  } failure:^(NSError *error, NSHTTPURLResponse *response) {
                      WPKitLogError(@"Error syncing post types (%@): %@", response.URL, error);
-                     
+
                      if (failure) {
                          failure(error);
                      }
@@ -131,13 +130,13 @@ static NSString * const RemotePostTypePublicKey = @"public";
                          }
                          respDict = [NSDictionary dictionaryWithObjects:supportedValues forKeys:supportedKeys];
                      }
-                     
+
                      if (success) {
                          success(respDict);
                      }
                  } failure:^(NSError *error, NSHTTPURLResponse *response) {
                      WPKitLogError(@"Error syncing post formats (%@): %@", response.URL, error);
-                     
+
                      if (failure) {
                          failure(error);
                      }

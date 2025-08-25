@@ -1,6 +1,5 @@
 #import "MediaServiceRemoteREST.h"
 #import "RemoteMedia.h"
-#import "WPKit-Swift.h"
 
 @import NSObject_SafeExpectations;
 
@@ -15,9 +14,9 @@ const NSInteger WPRestErrorCodeMediaNew = 10;
     NSString *apiPath = [NSString stringWithFormat:@"sites/%@/media/%@", self.siteID, mediaID];
     NSString *requestUrl = [self pathForEndpoint:apiPath
                                      withVersion:WordPressComRESTAPIVersion_1_1];
-    
+
     NSDictionary * parameters = @{};
-    
+
     [self.wordPressComRESTAPI get:requestUrl parameters:parameters success:^(id responseObject, NSHTTPURLResponse *response) {
         if (success) {
             NSDictionary *response = (NSDictionary *)responseObject;
@@ -56,10 +55,10 @@ const NSInteger WPRestErrorCodeMediaNew = 10;
     if ([pageHandle length]) {
         parameters[@"page_handle"] = pageHandle;
     }
-    
+
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:WordPressComRESTAPIVersion_1_1];
-    
+
     [self.wordPressComRESTAPI get:requestUrl
        parameters:[NSDictionary dictionaryWithDictionary:parameters]
           success:^(id responseObject, NSHTTPURLResponse *response) {
@@ -98,12 +97,12 @@ const NSInteger WPRestErrorCodeMediaNew = 10;
     NSString *path = [NSString stringWithFormat:@"sites/%@/media", self.siteID];
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:WordPressComRESTAPIVersion_1_1];
-    
+
     NSMutableDictionary *parameters = [NSMutableDictionary dictionaryWithDictionary:@{ @"number" : @1 }];
     if (mediaType) {
         parameters[@"mime_type"] = mediaType;
     }
-    
+
     [self.wordPressComRESTAPI get:requestUrl
        parameters:[NSDictionary dictionaryWithDictionary:parameters]
           success:^(id responseObject, NSHTTPURLResponse *response) {
@@ -319,7 +318,7 @@ const NSInteger WPRestErrorCodeMediaNew = 10;
     NSString *path = [NSString stringWithFormat:@"videos/%@", videoPressID];
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:WordPressComRESTAPIVersion_1_1];
-    
+
     [self.wordPressComRESTAPI get:requestUrl
                        parameters:nil
                           success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
@@ -355,7 +354,7 @@ const NSInteger WPRestErrorCodeMediaNew = 10;
                            success:(void (^)(NSString *token))success
                            failure:(void (^)(NSError *))failure
 {
-    
+
     NSString *path = [NSString stringWithFormat:@"sites/%@/media/videopress-playback-jwt/%@", self.siteID, videoPressID];
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:WordPressComRESTAPIVersion_2_0];
@@ -435,7 +434,7 @@ const NSInteger WPRestErrorCodeMediaNew = 10;
     if (remoteMedia.descriptionText != nil) {
         parameters[@"description"] = remoteMedia.descriptionText;
     }
-    
+
     if (remoteMedia.alt != nil) {
         parameters[@"alt"] = remoteMedia.alt;
     }

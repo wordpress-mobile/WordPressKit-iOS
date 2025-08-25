@@ -2,7 +2,6 @@
 #import "RemotePostTag.h"
 #import "RemoteTaxonomyPaging.h"
 #import "RemotePostCategory.h"
-#import "WPKit-Swift.h"
 @import NSObject_SafeExpectations;
 
 NS_ASSUME_NONNULL_BEGIN
@@ -34,13 +33,13 @@ static NSUInteger const TaxonomyRESTNumberMaxValue = 1000;
                failure:(nullable void (^)(NSError *))failure
 {
     NSParameterAssert(category.name.length > 0);
-    
+
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
     parameters[TaxonomyRESTNameParameter] = category.name;
     if (category.parentID) {
         parameters[TaxonomyRESTParentParameter] = category.parentID;
     }
-    
+
     [self createTaxonomyWithType:TaxonomyRESTCategoryIdentifier
                       parameters:parameters
                          success:^(NSDictionary *taxonomyDictionary) {
@@ -91,11 +90,11 @@ static NSUInteger const TaxonomyRESTNumberMaxValue = 1000;
           failure:(nullable void (^)(NSError *error))failure
 {
     NSParameterAssert(tag.name.length > 0);
-    
+
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
     parameters[TaxonomyRESTNameParameter] = tag.name;
     parameters[TaxonomyRESTDescriptionParameter] = tag.tagDescription;
-    
+
     [self createTaxonomyWithType:TaxonomyRESTTagIdentifier
                       parameters:parameters
                          success:^(NSDictionary *taxonomyDictionary) {
@@ -111,12 +110,12 @@ static NSUInteger const TaxonomyRESTNumberMaxValue = 1000;
           failure:(nullable void (^)(NSError *error))failure
 {
     NSParameterAssert(tag.name.length > 0);
-    
+
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
     parameters[TaxonomyRESTSlugParameter] = tag.slug;
     parameters[TaxonomyRESTNameParameter] = tag.name;
     parameters[TaxonomyRESTDescriptionParameter] = tag.tagDescription;
-    
+
     [self updateTaxonomyWithType:TaxonomyRESTTagIdentifier
                       parameters:parameters success:^(NSDictionary * _Nonnull responseObject) {
                           if (success) {
@@ -131,10 +130,10 @@ static NSUInteger const TaxonomyRESTNumberMaxValue = 1000;
           failure:(nullable void (^)(NSError *error))failure
 {
     NSParameterAssert(tag.name.length > 0);
-    
+
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
     parameters[TaxonomyRESTSlugParameter] = tag.slug;
-    
+
     [self deleteTaxonomyWithType:TaxonomyRESTTagIdentifier parameters:parameters success:^(NSDictionary * _Nonnull responseObject) {
         if (success) {
             success();
@@ -184,7 +183,7 @@ static NSUInteger const TaxonomyRESTNumberMaxValue = 1000;
 {
     NSString *path = [NSString stringWithFormat:@"sites/%@/%@/new?context=edit", self.siteID, typeIdentifier];
     NSString *requestUrl = [self pathForEndpoint:path withVersion:WordPressComRESTAPIVersion_1_1];
-    
+
     [self.wordPressComRESTAPI post:requestUrl
                         parameters:parameters
                            success:^(id  _Nonnull responseObject, NSHTTPURLResponse *httpResponse) {
@@ -209,7 +208,7 @@ static NSUInteger const TaxonomyRESTNumberMaxValue = 1000;
     NSString *path = [NSString stringWithFormat:@"sites/%@/%@?context=edit", self.siteID, typeIdentifier];
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:WordPressComRESTAPIVersion_1_1];
-    
+
     [self.wordPressComRESTAPI get:requestUrl
                        parameters:parameters
                           success:^(id  _Nonnull responseObject, NSHTTPURLResponse *httpResponse) {
@@ -234,7 +233,7 @@ static NSUInteger const TaxonomyRESTNumberMaxValue = 1000;
     NSString *path = [NSString stringWithFormat:@"sites/%@/%@/slug:%@/delete?context=edit", self.siteID, typeIdentifier, parameters[TaxonomyRESTSlugParameter]];
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:WordPressComRESTAPIVersion_1_1];
-    
+
     [self.wordPressComRESTAPI post:requestUrl
                         parameters:nil
                            success:^(id _Nonnull responseObject, NSHTTPURLResponse *httpResponse) {
@@ -259,7 +258,7 @@ static NSUInteger const TaxonomyRESTNumberMaxValue = 1000;
     NSString *path = [NSString stringWithFormat:@"sites/%@/%@/slug:%@?context=edit", self.siteID, typeIdentifier, parameters[TaxonomyRESTSlugParameter]];
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:WordPressComRESTAPIVersion_1_1];
-    
+
     [self.wordPressComRESTAPI post:requestUrl
                         parameters:parameters
                            success:^(id _Nonnull responseObject, NSHTTPURLResponse *httpResponse) {

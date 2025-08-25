@@ -2,7 +2,6 @@
 #import "BlogServiceRemoteREST.h"
 #import "NSMutableDictionary+Helpers.h"
 #import "RemotePostType.h"
-#import "WPKit-Swift.h"
 @import NSObject_SafeExpectations;
 
 #pragma mark - Parsing Keys
@@ -82,7 +81,7 @@ static NSInteger const RemoteBlogUncategorizedCategory                      = 1;
 /**
  This method is called recursively to fetch all authors.
  The success block is called whenever the response users array is nil or empty.
- 
+
  @param remoteUsers The loaded remote users
  @param offset The first n users to be skipped in the returned array
  @param success The block that will be executed on success
@@ -96,11 +95,11 @@ static NSInteger const RemoteBlogUncategorizedCategory                      = 1;
     NSMutableDictionary *parameters = [@{ @"authors_only":@(YES),
                                           @"number": @(100)
                                         } mutableCopy];
-    
+
     if ([offset wp_isValidObject]) {
         parameters[@"offset"] = offset.stringValue;
     }
-    
+
     NSString *path = [self pathForUsers];
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:WordPressComRESTAPIVersion_1_1];
@@ -110,9 +109,9 @@ static NSInteger const RemoteBlogUncategorizedCategory                      = 1;
                           success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
                               if (success) {
                                   NSArray *responseUsers = responseObject[@"users"];
-                                  
+
                                   NSMutableArray *users = [remoteUsers wp_isValidObject] ? [remoteUsers mutableCopy] : [NSMutableArray array];
-                                  
+
                                   if (![responseUsers wp_isValidObject] || responseUsers.count == 0) {
                                       success([users copy]);
                                   } else {
@@ -140,7 +139,7 @@ static NSInteger const RemoteBlogUncategorizedCategory                      = 1;
     [self.wordPressComRESTAPI get:requestUrl
        parameters:parameters
           success:^(NSDictionary *responseObject, NSHTTPURLResponse *httpResponse) {
-             
+
               NSAssert([responseObject isKindOfClass:[NSDictionary class]], @"Response should be a dictionary.");
               NSArray <RemotePostType *> *postTypes = [[responseObject arrayForKey:RemotePostTypesKey] wpkit_map:^id(NSDictionary *json) {
                   return [self remotePostTypeWithDictionary:json];
@@ -166,7 +165,7 @@ static NSInteger const RemoteBlogUncategorizedCategory                      = 1;
     NSString *path = [self pathForPostFormats];
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:WordPressComRESTAPIVersion_1_1];
-    
+
     [self.wordPressComRESTAPI get:requestUrl
        parameters:nil
           success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
@@ -208,7 +207,7 @@ static NSInteger const RemoteBlogUncategorizedCategory                      = 1;
 {
     NSString *path = [self pathForSettings];
     NSString *requestUrl = [self pathForEndpoint:path withVersion:WordPressComRESTAPIVersion_1_1];
-    
+
     [self.wordPressComRESTAPI get:requestUrl
        parameters:nil
           success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
@@ -238,7 +237,7 @@ static NSInteger const RemoteBlogUncategorizedCategory                      = 1;
     NSDictionary *parameters = [self remoteSettingsToDictionary:settings];
     NSString *path = [NSString stringWithFormat:@"sites/%@/settings?context=edit", self.siteID];
     NSString *requestUrl = [self pathForEndpoint:path withVersion:WordPressComRESTAPIVersion_1_1];
-    
+
     [self.wordPressComRESTAPI post:requestUrl
         parameters:parameters
            success:^(NSDictionary *responseDict, NSHTTPURLResponse *httpResponse) {
@@ -376,10 +375,10 @@ static NSInteger const RemoteBlogUncategorizedCategory                      = 1;
 - (RemoteBlogSettings *)remoteBlogSettingFromJSONDictionary:(NSDictionary *)json
 {
     NSAssert([json isKindOfClass:[NSDictionary class]], @"Invalid Settings Kind");
-    
+
     RemoteBlogSettings *settings = [RemoteBlogSettings new];
     NSDictionary *rawSettings = [json dictionaryForKey:RemoteBlogSettingsKey];
-    
+
     // General
     settings.name = [json stringForKey:RemoteBlogNameKey];
     settings.tagline = [json stringForKey:RemoteBlogTaglineKey];
@@ -480,10 +479,10 @@ static NSInteger const RemoteBlogUncategorizedCategory                      = 1;
     [parameters setValueIfNotNil:settings.commentsSortOrder forKey:RemoteBlogCommentsSortOrderKey];
     [parameters setValueIfNotNil:settings.commentsThreadingEnabled forKey:RemoteBlogCommentsThreadingEnabledKey];
     [parameters setValueIfNotNil:settings.commentsThreadingDepth forKey:RemoteBlogCommentsThreadingDepthKey];
-    
+
     [parameters setValueIfNotNil:settings.pingbackOutboundEnabled forKey:RemoteBlogCommentsPingbackOutboundKey];
     [parameters setValueIfNotNil:settings.pingbackInboundEnabled forKey:RemoteBlogCommentsPingbackInboundKey];
-    
+
     [parameters setValueIfNotNil:settings.relatedPostsEnabled forKey:RemoteBlogRelatedPostsEnabledKey];
     [parameters setValueIfNotNil:settings.relatedPostsShowHeadline forKey:RemoteBlogRelatedPostsShowHeadlineKey];
     [parameters setValueIfNotNil:settings.relatedPostsShowThumbnails forKey:RemoteBlogRelatedPostsShowThumbnailsKey];
@@ -497,7 +496,7 @@ static NSInteger const RemoteBlogUncategorizedCategory                      = 1;
     [parameters setValueIfNotNil:settings.sharingCommentLikesEnabled forKey:RemoteBlogSharingCommentLikesEnabled];
     [parameters setValueIfNotNil:settings.sharingDisabledLikes forKey:RemoteBlogSharingDisabledLikes];
     [parameters setValueIfNotNil:settings.sharingDisabledReblogs forKey:RemoteBlogSharingDisabledReblogs];
-    
+
     return parameters;
 }
 

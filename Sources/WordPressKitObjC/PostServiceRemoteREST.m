@@ -2,7 +2,6 @@
 #import "RemotePost.h"
 #import "RemotePostCategory.h"
 #import "RemoteUser.h"
-#import "WPKit-Swift.h"
 
 @import NSObject_SafeExpectations;
 
@@ -38,9 +37,9 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
     NSString *path = [NSString stringWithFormat:@"sites/%@/posts/%@", self.siteID, postID];
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:WordPressComRESTAPIVersion_1_1];
-    
+
     NSDictionary *parameters = @{ @"context": @"edit" };
-    
+
     [self.wordPressComRESTAPI get:requestUrl
        parameters:parameters
           success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
@@ -71,7 +70,7 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
     NSString *path = [NSString stringWithFormat:@"sites/%@/posts", self.siteID];
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:WordPressComRESTAPIVersion_1_2];
-    
+
     NSDictionary *parameters = @{
                                  @"status": @"any,trash",
                                  @"context": @"edit",
@@ -103,9 +102,9 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
     NSString *path = [NSString stringWithFormat:@"sites/%@/posts/%@/autosave", self.siteID, post.postID];
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:WordPressComRESTAPIVersion_1_1];
-    
+
     NSDictionary *parameters = [self parametersWithRemotePost:post];
-    
+
     [self.wordPressComRESTAPI get:requestUrl
                        parameters:parameters
                           success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
@@ -129,7 +128,7 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
     NSString *path = [NSString stringWithFormat:@"sites/%@/posts/new?context=edit", self.siteID];
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:WordPressComRESTAPIVersion_1_2];
-    
+
     NSDictionary *parameters = [self parametersWithRemotePost:post];
 
     [self.wordPressComRESTAPI post:requestUrl
@@ -193,7 +192,7 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
     NSString *path = [NSString stringWithFormat:@"sites/%@/posts/%@?context=edit", self.siteID, post.postID];
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:WordPressComRESTAPIVersion_1_2];
-    
+
     NSDictionary *parameters = [self parametersWithRemotePost:post];
 
     [self.wordPressComRESTAPI post:requestUrl
@@ -215,13 +214,13 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
          failure:(void (^)(NSError *))failure
 {
     NSParameterAssert([post isKindOfClass:[RemotePost class]]);
-    
+
     NSString *path = [NSString stringWithFormat:@"sites/%@/posts/%@/autosave", self.siteID, post.postID];
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:WordPressComRESTAPIVersion_1_1];
-    
+
     NSDictionary *parameters = [self parametersWithRemotePost:post];
-    
+
     [self.wordPressComRESTAPI post:requestUrl
                         parameters:parameters
                            success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
@@ -246,7 +245,7 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
     NSString *path = [NSString stringWithFormat:@"sites/%@/posts/%@/delete", self.siteID, post.postID];
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:WordPressComRESTAPIVersion_1_1];
-    
+
     [self.wordPressComRESTAPI post:requestUrl
         parameters:nil
            success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
@@ -270,7 +269,7 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
     NSString *path = [NSString stringWithFormat:@"sites/%@/posts/%@/delete?context=edit", self.siteID, post.postID];
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:WordPressComRESTAPIVersion_1_1];
-    
+
     [self.wordPressComRESTAPI post:requestUrl
         parameters:nil
            success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
@@ -296,7 +295,7 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
     NSString *path = [NSString stringWithFormat:@"sites/%@/posts/%@/restore?context=edit", self.siteID, post.postID];
     NSString *requestUrl = [self pathForEndpoint:path
                                      withVersion:WordPressComRESTAPIVersion_1_1];
-    
+
     [self.wordPressComRESTAPI post:requestUrl
         parameters:nil
            success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
@@ -329,13 +328,13 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
     if (count == 0) {
         count = @90;
     }
-    
+
     NSMutableDictionary *parameters = [NSMutableDictionary dictionaryWithDictionary:@{ @"number": count }];
-    
+
     if (before) {
         parameters[@"before"] = before;
     }
-    
+
     if (excludeUserIDs) {
         parameters[@"exclude"] = excludeUserIDs;
     }
@@ -365,7 +364,7 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
     if (options.offset) {
         [remoteParams setObject:options.offset forKey:RemoteOptionKeyOffset];
     }
-    
+
     NSString *statusesStr = nil;
     if (options.statuses.count) {
         statusesStr = [options.statuses componentsJoinedByString:@","];
@@ -382,7 +381,7 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
         }
         [remoteParams setObject:orderStr forKey:RemoteOptionKeyOrder];
     }
-    
+
     NSString *orderByStr = nil;
     if (options.orderBy) {
         switch (options.orderBy) {
@@ -403,7 +402,7 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
                 break;
         }
     }
-    
+
     if (statusesStr.length) {
         [remoteParams setObject:statusesStr forKey:RemoteOptionKeyStatus];
     }
@@ -477,7 +476,7 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
     post.likeCount = [jsonPost numberForKeyPath:@"like_count"] ?: @0;
 
     post.isStickyPost = [jsonPost numberForKeyPath:@"sticky"];
-    
+
     // FIXME: remove conversion once API is fixed #38-io
     // metadata should always be an array but it's returning false when there are no custom fields
     post.metadata = [jsonPost arrayForKey:@"metadata"];
@@ -529,13 +528,13 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
     NSParameterAssert(post.content != nil);
     BOOL existingPost = ([post.postID longLongValue] > 0);
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
-    
+
     if (post.title) {
         parameters[@"title"] = post.title;
     } else {
         parameters[@"title"] = @"";
     }
-    
+
     parameters[@"content"] = post.content;
     parameters[@"password"] = post.password ? post.password : @"";
     parameters[@"type"] = post.type;
@@ -577,7 +576,7 @@ static NSString * const RemoteOptionValueOrderByPostID = @"ID";
     if (metadata.count > 0) {
         parameters[@"metadata"] = metadata;
     }
-    
+
     if (post.isStickyPost != nil) {
         parameters[@"sticky"] = post.isStickyPost.boolValue ? @"true" : @"false";
     }

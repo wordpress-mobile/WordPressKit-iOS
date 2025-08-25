@@ -1,5 +1,4 @@
 #import "ReaderTopicServiceRemote.h"
-#import "WPKit-Swift.h"
 @import NSObject_SafeExpectations;
 
 static NSString * const TopicMenuSectionDefaultKey = @"default";
@@ -192,7 +191,7 @@ static NSString * const TopicNotFoundMarker = @"-notfound-";
         requestUrl = [self pathForEndpoint:path
                                withVersion:WordPressComRESTAPIVersion_1_2];
     }
-    
+
     [self.wordPressComRESTAPI get:requestUrl parameters:nil success:^(id responseObject, NSHTTPURLResponse *httpResponse) {
         if (!success) {
             return;
@@ -227,7 +226,7 @@ static NSString * const TopicNotFoundMarker = @"-notfound-";
     }
 
     siteInfo.postsEndpoint = [self endpointUrlForPath:siteInfo.endpointPath];
-    
+
     return siteInfo;
 }
 

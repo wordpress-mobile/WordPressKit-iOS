@@ -1,5 +1,4 @@
 #import "WordPressComServiceRemote.h"
-#import "WPKit-Swift.h"
 @import NSObject_SafeExpectations;
 
 @implementation WordPressComServiceRemote
@@ -15,7 +14,7 @@
     NSParameterAssert([email isKindOfClass:[NSString class]]);
     NSParameterAssert([username isKindOfClass:[NSString class]]);
     NSParameterAssert([password isKindOfClass:[NSString class]]);
-    
+
     [self createWPComAccountWithEmail:email
                           andUsername:username
                           andPassword:password
@@ -38,16 +37,16 @@
     NSParameterAssert([email isKindOfClass:[NSString class]]);
     NSParameterAssert([username isKindOfClass:[NSString class]]);
     NSParameterAssert([password isKindOfClass:[NSString class]]);
-    
+
     void (^successBlock)(id, NSHTTPURLResponse *) = ^(id responseObject, NSHTTPURLResponse *httpResponse) {
         success(responseObject);
     };
-    
+
     void (^failureBlock)(NSError *, NSHTTPURLResponse *) = ^(NSError *error, NSHTTPURLResponse *httpResponse){
         NSError *errorWithLocalizedMessage = [self errorWithLocalizedMessage:error];
         failure(errorWithLocalizedMessage);
     };
-    
+
     NSDictionary *params = @{
                              @"email": email,
                              @"username": username,
@@ -56,10 +55,10 @@
                              @"client_id": clientID,
                              @"client_secret": clientSecret
                              };
-    
+
     NSString *requestUrl = [self pathForEndpoint:@"users/new"
                                      withVersion:WordPressComRESTAPIVersion_1_1];
-    
+
     [self.wordPressComRESTAPI post:requestUrl parameters:params success:successBlock failure:failureBlock];
 }
 
@@ -169,7 +168,7 @@
 {
     NSParameterAssert([blogUrl isKindOfClass:[NSString class]]);
     NSParameterAssert([languageId isKindOfClass:[NSString class]]);
-    
+
     void (^successBlock)(id, NSHTTPURLResponse *) = ^(id responseObject, NSHTTPURLResponse *httpResponse) {
         NSDictionary *response = responseObject;
         if ([response count] == 0) {
@@ -186,16 +185,16 @@
             success(responseObject);
         }
     };
-    
+
     void (^failureBlock)(NSError *, NSHTTPURLResponse *) = ^(NSError *error, NSHTTPURLResponse *httpResponse){
         NSError *errorWithLocalizedMessage = [self errorWithLocalizedMessage:error];
         failure(errorWithLocalizedMessage);
     };
-    
+
     if (blogTitle == nil) {
         blogTitle = @"";
     }
-    
+
     int blogVisibility = 1;
     if (visibility == WordPressComServiceBlogVisibilityPublic) {
         blogVisibility = 1;
@@ -205,7 +204,7 @@
         // Hidden
         blogVisibility = 0;
     }
-    
+
     NSDictionary *params = @{
                              @"blog_name": blogUrl,
                              @"blog_title": blogTitle,
@@ -215,11 +214,11 @@
                              @"client_id": clientID,
                              @"client_secret": clientSecret
                              };
-    
-    
+
+
     NSString *requestUrl = [self pathForEndpoint:@"sites/new"
                                      withVersion:WordPressComRESTAPIVersion_1_1];
-    
+
     [self.wordPressComRESTAPI post:requestUrl parameters:params success:successBlock failure:failureBlock];
 }
 
@@ -245,7 +244,7 @@
 {
     NSString *errorCode = [error.userInfo stringForKey:WordPressComRestApi.ErrorKeyErrorCode];
     NSString *errorMessage = [[error.userInfo stringForKey:NSLocalizedDescriptionKey] wpkit_stringByStrippingHTML];
-    
+
     if ([errorCode isEqualToString:@"username_only_lowercase_letters_and_numbers"]) {
         return NSLocalizedString(@"Sorry, usernames can only contain lowercase letters (a-z) and numbers.", nil);
     } else if ([errorCode isEqualToString:@"username_required"]) {
@@ -310,10 +309,10 @@
             NSRange invalidTextRange = [result rangeAtIndex:1];
             invalidPhrase = [NSString stringWithFormat:@" (\"%@\")", [errorMessage substringWithRange:invalidTextRange]];
         }
-        
+
         return [NSString stringWithFormat:NSLocalizedString(@"Sorry, but your username contains an invalid phrase%@.", @"This error message occurs when a user tries to create a username that contains an invalid phrase for WordPress.com. The %@ may include the phrase in question if it was sent down by the API"), invalidPhrase];
     }
-    
+
     // We have a few ambiguous errors that come back from the api, they sometimes have error messages included so
     // attempt to return that if possible. If not fall back to a generic error.
     NSDictionary *ambiguousErrors = @{
@@ -325,15 +324,15 @@
         if (errorMessage != nil) {
             return errorMessage;
         }
-        
+
         return [ambiguousErrors objectForKey:errorCode];
     }
-    
+
     // Return an error message if there's one included rather than the unhelpful "Unknown Error"
     if (errorMessage != nil) {
         return errorMessage;
     }
-    
+
     return NSLocalizedString(@"Unknown error", nil);
 }
 
