@@ -23,7 +23,7 @@ public class UsersServiceRemoteXMLRPC: ServiceRemoteWordPressXMLRPC {
             success(profile)
 
         }, failure: { (error, _) in
-            failure(error)
+            failure(error as NSError)
         })
     }
 

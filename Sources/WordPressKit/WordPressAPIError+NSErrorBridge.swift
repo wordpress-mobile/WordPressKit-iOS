@@ -1,7 +1,4 @@
 import Foundation
-#if SWIFT_PACKAGE
-import APIInterface
-#endif
 
 /// Custom `NSError` bridge implementation.
 ///

@@ -76,7 +76,7 @@ extension Date {
 
     /// Returns a NSDate Instance, given it's ISO8601 String Representation with milliseconds
     ///
-    static func dateWithISO8601WithMillisecondsString(_ string: String) -> Date? {
+    package static func dateWithISO8601WithMillisecondsString(_ string: String) -> Date? {
         return DateFormatters.iso8601WithMilliseconds.date(from: string)
     }
 
