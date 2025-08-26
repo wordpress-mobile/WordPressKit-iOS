@@ -50,7 +50,6 @@ FOUNDATION_EXPORT const unsigned char WordPressKitVersionString[];
 #import "RemoteSourcePostAttribution.h"
 #import "RemoteTaxonomyPaging.h"
 #import "RemoteTheme.h"
-#import "RemoteUser.h"
 
 #import "NSString+MD5.h"
 
