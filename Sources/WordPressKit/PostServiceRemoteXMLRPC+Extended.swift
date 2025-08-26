@@ -1,5 +1,5 @@
 import Foundation
-@_implementationOnly import wpxmlrpc
+import wpxmlrpc
 import WordPressKitObjC
 
 extension PostServiceRemoteXMLRPC: PostServiceRemoteExtended {
