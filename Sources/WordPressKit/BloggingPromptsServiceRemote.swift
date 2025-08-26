@@ -1,3 +1,6 @@
+import Foundation
+import WordPressKitObjC
+
 /// Encapsulates logic to fetch blogging prompts from the remote endpoint.
 ///
 open class BloggingPromptsServiceRemote: ServiceRemoteWordPressComREST {

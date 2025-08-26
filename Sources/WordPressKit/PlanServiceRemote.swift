@@ -1,4 +1,5 @@
 import Foundation
+import WordPressKitObjC
 
 open class PlanServiceRemote: ServiceRemoteWordPressComREST {
     public typealias AvailablePlans = (plans: [RemoteWpcomPlan], groups: [RemotePlanGroup], features: [RemotePlanFeature])

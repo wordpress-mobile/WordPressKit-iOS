@@ -1,3 +1,6 @@
+import Foundation
+import WordPressKitObjC
+
 /// Encapsulates Jetpack Proxy requests.
 public class JetpackProxyServiceRemote: ServiceRemoteWordPressComREST {
 

@@ -1,4 +1,7 @@
 #import "ReaderSiteServiceRemote.h"
+#import "WPKitLogging.h"
+
+@import WordPressKitModels;
 @import NSObject_SafeExpectations;
 
 static NSString* const ReaderSiteServiceRemoteURLKey = @"url";

@@ -1,3 +1,4 @@
+import Foundation
 public struct StatsTopReferrersTimeIntervalData {
     public let period: StatsPeriodUnit
     public let periodEndDate: Date

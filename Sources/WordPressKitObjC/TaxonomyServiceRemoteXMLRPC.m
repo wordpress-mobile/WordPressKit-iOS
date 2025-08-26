@@ -1,6 +1,10 @@
 #import "TaxonomyServiceRemoteXMLRPC.h"
+#import "RemotePostCategory.h"
 #import "RemotePostTag.h"
 #import "RemoteTaxonomyPaging.h"
+#import "NSString+Helpers.h"
+#import "WPMapFilterReduce.h"
+#import "WPKitLogging.h"
 
 @import NSObject_SafeExpectations;
 

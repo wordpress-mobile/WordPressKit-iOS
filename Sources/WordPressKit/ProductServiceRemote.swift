@@ -1,4 +1,5 @@
 import Foundation
+import WordPressKitObjC
 
 /// Provides information about available products for user purchases, such as plans, domains, etc.
 ///

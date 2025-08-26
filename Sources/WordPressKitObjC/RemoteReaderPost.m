@@ -1,6 +1,12 @@
 #import "RemoteReaderPost.h"
 #import "RemoteSourcePostAttribution.h"
+#import "NSString+Helpers.h"
+#import "NSString+XMLExtensions.h"
+#import "WPKitDateUtils.h"
+#import "WPMapFilterReduce.h"
+#import "DisplayableImageHelper.h"
 
+@import WordPressKitModels;
 @import NSObject_SafeExpectations;
 
 // REST Post dictionary keys

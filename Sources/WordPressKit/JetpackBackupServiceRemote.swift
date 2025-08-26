@@ -1,4 +1,5 @@
 import Foundation
+import WordPressKitObjC
 
 open class JetpackBackupServiceRemote: ServiceRemoteWordPressComREST {
 

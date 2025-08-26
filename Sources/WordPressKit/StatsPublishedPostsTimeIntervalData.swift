@@ -1,3 +1,4 @@
+import Foundation
 public struct StatsPublishedPostsTimeIntervalData {
     public let periodEndDate: Date
     public let period: StatsPeriodUnit

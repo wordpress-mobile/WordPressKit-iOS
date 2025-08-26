@@ -1,3 +1,4 @@
+import Foundation
 public struct ZendeskSiteContainer: Decodable {
     public let sites: [ZendeskSite]
 }

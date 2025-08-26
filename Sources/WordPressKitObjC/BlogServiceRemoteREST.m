@@ -2,6 +2,10 @@
 #import "BlogServiceRemoteREST.h"
 #import "NSMutableDictionary+Helpers.h"
 #import "RemotePostType.h"
+#import "WPMapFilterReduce.h"
+#import "WPKitLogging.h"
+
+@import WordPressKitModels;
 @import NSObject_SafeExpectations;
 
 #pragma mark - Parsing Keys

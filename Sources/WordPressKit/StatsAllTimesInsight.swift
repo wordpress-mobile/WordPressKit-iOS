@@ -1,3 +1,4 @@
+import Foundation
 public struct StatsAllTimesInsight: Codable {
     public let postsCount: Int
     public let viewsCount: Int

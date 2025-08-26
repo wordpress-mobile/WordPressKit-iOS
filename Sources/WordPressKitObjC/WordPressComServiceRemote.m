@@ -1,4 +1,7 @@
 #import "WordPressComServiceRemote.h"
+#import "NSString+Helpers.h"
+#import "WordPressComRestApiErrorDomain.h"
+
 @import NSObject_SafeExpectations;
 
 @implementation WordPressComServiceRemote

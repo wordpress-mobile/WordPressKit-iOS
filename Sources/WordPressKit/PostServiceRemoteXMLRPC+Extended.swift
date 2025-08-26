@@ -1,5 +1,6 @@
 import Foundation
 @_implementationOnly import wpxmlrpc
+import WordPressKitObjC
 
 extension PostServiceRemoteXMLRPC: PostServiceRemoteExtended {
     public func post(withID postID: Int) async throws -> RemotePost {

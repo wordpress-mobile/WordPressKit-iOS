@@ -1,3 +1,4 @@
+import Foundation
 public struct RemoteBloggingPromptsSettings: Codable {
     public var promptCardEnabled: Bool
     public var promptRemindersEnabled: Bool

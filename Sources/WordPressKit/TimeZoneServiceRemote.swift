@@ -1,4 +1,5 @@
 import Foundation
+import WordPressKitObjC
 
 public class TimeZoneServiceRemote: ServiceRemoteWordPressComREST {
     public enum ResponseError: Error {

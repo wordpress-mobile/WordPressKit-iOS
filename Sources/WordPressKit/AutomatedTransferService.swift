@@ -1,4 +1,5 @@
 import Foundation
+import WordPressKitObjC
 
 /// Class encapsualting all requests related to performing Automated Transfer operations.
 public class AutomatedTransferService: ServiceRemoteWordPressComREST {

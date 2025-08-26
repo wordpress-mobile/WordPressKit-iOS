@@ -1,4 +1,7 @@
 #import "ReaderTopicServiceRemote.h"
+#import "WPMapFilterReduce.h"
+
+@import WordPressKitModels;
 @import NSObject_SafeExpectations;
 
 static NSString * const TopicMenuSectionDefaultKey = @"default";

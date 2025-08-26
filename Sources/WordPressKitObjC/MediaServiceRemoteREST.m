@@ -1,6 +1,11 @@
 #import "MediaServiceRemoteREST.h"
 #import "RemoteMedia.h"
+#import "FilePart.h"
+#import "WPKitLogging.h"
+#import "WPMapFilterReduce.h"
+#import "WordPressComRestApiErrorDomain.h"
 
+@import WordPressKitModels;
 @import NSObject_SafeExpectations;
 
 const NSInteger WPRestErrorCodeMediaNew = 10;

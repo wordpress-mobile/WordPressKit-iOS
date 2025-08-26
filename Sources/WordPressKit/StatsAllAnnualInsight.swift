@@ -1,3 +1,4 @@
+import Foundation
 public struct StatsAllAnnualInsight: Codable {
     public let allAnnualInsights: [StatsAnnualInsight]
 

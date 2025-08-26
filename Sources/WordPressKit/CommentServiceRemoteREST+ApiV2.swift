@@ -1,3 +1,4 @@
+import Foundation
 public extension CommentServiceRemoteREST {
     /// Lists the available keys for the request parameter.
     enum RequestKeys: String {

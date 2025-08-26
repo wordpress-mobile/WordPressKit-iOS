@@ -1,3 +1,4 @@
+import Foundation
 /// Encapsulates logic for fetching content to be shared by the user.
 ///
 open class ShareAppContentServiceRemote: ServiceRemoteWordPressComREST {

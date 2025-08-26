@@ -1,3 +1,6 @@
+import Foundation
+import WordPressKitObjC
+
 @objc public class ActivityServiceRemote_ApiVersion1_0: ServiceRemoteWordPressComREST {
 
     public enum ResponseError: Error {

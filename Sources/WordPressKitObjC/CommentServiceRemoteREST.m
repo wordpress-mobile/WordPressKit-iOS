@@ -1,7 +1,8 @@
 #import "CommentServiceRemoteREST.h"
 #import "RemoteComment.h"
-#import "RemoteUser.h"
+#import "WPMapFilterReduce.h"
 
+@import WordPressKitModels;
 @import NSObject_SafeExpectations;
 
 @implementation CommentServiceRemoteREST

@@ -1,3 +1,4 @@
+import Foundation
 public struct StatsDotComFollowersInsight: Codable {
     public let dotComFollowersCount: Int
     public let topDotComFollowers: [StatsFollower]

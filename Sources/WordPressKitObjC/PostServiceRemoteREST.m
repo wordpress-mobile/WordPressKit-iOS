@@ -1,8 +1,12 @@
 #import "PostServiceRemoteREST.h"
 #import "RemotePost.h"
 #import "RemotePostCategory.h"
-#import "RemoteUser.h"
+#import "FilePart.h"
+#import "WPMapFilterReduce.h"
+#import "DisplayableImageHelper.h"
+#import "NSString+Helpers.h"
 
+@import WordPressKitModels;
 @import NSObject_SafeExpectations;
 
 NSString * const PostRemoteStatusPublish = @"publish";

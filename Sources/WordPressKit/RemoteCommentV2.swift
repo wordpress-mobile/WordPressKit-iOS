@@ -1,3 +1,4 @@
+import Foundation
 /// Captures the JSON structure for Comments returned from API v2 endpoint.
 public struct RemoteCommentV2 {
     public var commentID: Int

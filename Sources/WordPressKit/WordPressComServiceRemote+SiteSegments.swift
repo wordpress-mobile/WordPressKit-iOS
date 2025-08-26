@@ -1,3 +1,4 @@
+import Foundation
 /// Models a type of site.
 public struct SiteSegment {
     public let identifier: Int64   // we use a numeric ID for segments; see p9wMUP-bH-612-p2 for discussion

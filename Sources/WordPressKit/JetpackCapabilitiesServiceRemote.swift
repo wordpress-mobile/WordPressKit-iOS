@@ -1,4 +1,5 @@
 import Foundation
+import WordPressKitObjC
 
 /// A service that returns the Jetpack Capabilities for a set of blogs
 open class JetpackCapabilitiesServiceRemote: ServiceRemoteWordPressComREST {

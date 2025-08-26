@@ -1,4 +1,5 @@
 import Foundation
+import WordPressKitObjC
 
 // This name isn't great! After finishing the work on StatsRefresh we'll get rid of the "old"
 // one and rename this to not have "V2" in it, but we want to keep the old one around

@@ -1,4 +1,5 @@
 import Foundation
+import WordPressKitObjC
 
 public class PluginServiceRemote: ServiceRemoteWordPressComREST {
     public enum ResponseError: Error {

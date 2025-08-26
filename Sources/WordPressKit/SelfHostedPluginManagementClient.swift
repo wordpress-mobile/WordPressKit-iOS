@@ -1,3 +1,4 @@
+import Foundation
 public class SelfHostedPluginManagementClient: PluginManagementClient {
     private let remote: WordPressOrgRestApi
 

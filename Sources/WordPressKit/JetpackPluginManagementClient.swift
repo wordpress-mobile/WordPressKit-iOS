@@ -1,3 +1,4 @@
+import Foundation
 public class JetpackPluginManagementClient: PluginManagementClient {
     private let siteID: Int
     private let remote: PluginServiceRemote

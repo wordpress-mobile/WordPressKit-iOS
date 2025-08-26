@@ -1,6 +1,10 @@
 #import "BlogServiceRemoteXMLRPC.h"
 #import "NSMutableDictionary+Helpers.h"
 #import "RemotePostType.h"
+#import "WPMapFilterReduce.h"
+#import "WPKitLogging.h"
+
+@import WordPressKitModels;
 @import NSObject_SafeExpectations;
 
 static NSString * const RemotePostTypeNameKey = @"name";

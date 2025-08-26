@@ -1,5 +1,6 @@
 #import "MediaServiceRemoteXMLRPC.h"
 #import "RemoteMedia.h"
+#import "WPMapFilterReduce.h"
 
 @import NSObject_SafeExpectations;
 

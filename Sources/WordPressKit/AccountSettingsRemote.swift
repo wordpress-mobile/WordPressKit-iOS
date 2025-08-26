@@ -1,4 +1,5 @@
 import Foundation
+import WordPressKitObjC
 
 public class AccountSettingsRemote: ServiceRemoteWordPressComREST {
     @objc public static let remotes = NSMapTable<AnyObject, AnyObject>(keyOptions: NSPointerFunctions.Options(), valueOptions: NSPointerFunctions.Options.weakMemory)

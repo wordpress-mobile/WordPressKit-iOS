@@ -1,5 +1,6 @@
 #import "CommentServiceRemoteXMLRPC.h"
 #import "RemoteComment.h"
+#import "WPMapFilterReduce.h"
 
 @import wpxmlrpc;
 @import NSObject_SafeExpectations;

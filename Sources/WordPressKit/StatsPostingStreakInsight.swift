@@ -1,3 +1,4 @@
+import Foundation
 public struct StatsPostingStreakInsight: Equatable, Codable {
     public let streaks: PostingStreaks
     public let postingEvents: [PostingStreakEvent]

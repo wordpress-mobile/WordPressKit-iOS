@@ -1,4 +1,5 @@
 import Foundation
+import WordPressKitObjC
 
 /// Allows the construction of a request for domain suggestions.
 ///

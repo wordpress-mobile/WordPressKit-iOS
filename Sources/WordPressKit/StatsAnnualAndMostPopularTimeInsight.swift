@@ -1,3 +1,4 @@
+import Foundation
 public struct StatsAnnualAndMostPopularTimeInsight: Codable {
     /// - A `DateComponents` object with one field populated: `weekday`.
     public let mostPopularDayOfWeek: DateComponents

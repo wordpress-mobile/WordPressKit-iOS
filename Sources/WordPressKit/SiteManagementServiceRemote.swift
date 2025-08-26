@@ -1,4 +1,5 @@
 import Foundation
+import WordPressKitObjC
 
 /// SiteManagementServiceRemote handles REST API calls for managing a WordPress.com site.
 ///

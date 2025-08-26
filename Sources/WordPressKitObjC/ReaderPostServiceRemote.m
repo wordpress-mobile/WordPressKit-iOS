@@ -2,6 +2,10 @@
 #import "RemoteReaderPost.h"
 #import "RemoteSourcePostAttribution.h"
 #import "ReaderTopicServiceRemote.h"
+#import "WPKitDateUtils.h"
+#import "NSString+Helpers.h"
+#import "WPMapFilterReduce.h"
+
 @import NSObject_SafeExpectations;
 
 NSString * const PostRESTKeyPosts = @"posts";

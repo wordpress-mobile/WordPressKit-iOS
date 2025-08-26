@@ -1,3 +1,4 @@
+import Foundation
 public struct SessionDetails {
     let deviceId: String
     let platform: String

@@ -1,3 +1,4 @@
+import Foundation
 /// Defines the information structure used for recommending the app to others.
 ///
 public struct RemoteShareAppContent: Codable {

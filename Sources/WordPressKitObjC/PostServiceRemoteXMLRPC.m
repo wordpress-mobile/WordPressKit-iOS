@@ -2,6 +2,10 @@
 #import "RemotePost.h"
 #import "RemotePostCategory.h"
 #import "NSMutableDictionary+Helpers.h"
+#import "NSString+Helpers.h"
+#import "WPMapFilterReduce.h"
+#import "DisplayableImageHelper.h"
+
 @import NSObject_SafeExpectations;
 
 const NSInteger HTTP404ErrorCode = 404;

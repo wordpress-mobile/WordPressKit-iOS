@@ -1,4 +1,5 @@
 import Foundation
+import WordPressKitObjC
 
 public struct JetpackInstallError: LocalizedError, Equatable {
     public enum ErrorType: String {

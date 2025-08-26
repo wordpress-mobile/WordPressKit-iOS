@@ -1,4 +1,5 @@
 import Foundation
+import WordPressKitObjC
 
 /// Retrieves feature announcements from the related endpoint
 open class AnnouncementServiceRemote: ServiceRemoteWordPressComREST {

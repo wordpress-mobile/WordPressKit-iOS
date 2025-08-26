@@ -1,3 +1,4 @@
+import Foundation
 private struct RemoteEditorSettings: Codable {
     let editorMobile: String
     let editorWeb: String

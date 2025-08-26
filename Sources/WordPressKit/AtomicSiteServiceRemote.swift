@@ -1,4 +1,5 @@
 import Foundation
+import WordPressKitObjC
 
 public final class AtomicSiteServiceRemote: ServiceRemoteWordPressComREST {
     /// - parameter scrollID: Pass the scroll ID from the previous response to

@@ -1,4 +1,5 @@
 import Foundation
+import WordPressKitObjC
 
 @objc public class TransactionsServiceRemote: ServiceRemoteWordPressComREST {
 

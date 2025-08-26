@@ -1,5 +1,8 @@
 #import "MenusServiceRemote.h"
+#import "WPMapFilterReduce.h"
+#import "WPKitLogging.h"
 
+@import WordPressKitModels;
 @import NSObject_SafeExpectations;
 
 NS_ASSUME_NONNULL_BEGIN

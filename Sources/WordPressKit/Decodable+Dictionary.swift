@@ -1,3 +1,4 @@
+import Foundation
 struct JSONCodingKeys: CodingKey {
     var stringValue: String
 

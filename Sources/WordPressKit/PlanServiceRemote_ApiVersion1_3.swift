@@ -1,4 +1,5 @@
 import Foundation
+import WordPressKitObjC
 
 @objc public class PlanServiceRemote_ApiVersion1_3: ServiceRemoteWordPressComREST {
 

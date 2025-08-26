@@ -1,3 +1,4 @@
+import Foundation
 public struct StatsCommentsInsight: Codable {
     public let topPosts: [StatsTopCommentsPost]
     public let topAuthors: [StatsTopCommentsAuthor]

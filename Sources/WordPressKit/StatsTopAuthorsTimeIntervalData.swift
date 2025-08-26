@@ -1,3 +1,4 @@
+import Foundation
 public struct StatsTopAuthorsTimeIntervalData {
     public let period: StatsPeriodUnit
     public let periodEndDate: Date

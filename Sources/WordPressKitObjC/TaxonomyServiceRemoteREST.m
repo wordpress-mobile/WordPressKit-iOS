@@ -2,6 +2,8 @@
 #import "RemotePostTag.h"
 #import "RemoteTaxonomyPaging.h"
 #import "RemotePostCategory.h"
+#import "WPMapFilterReduce.h"
+#import "WPKitLogging.h"
 @import NSObject_SafeExpectations;
 
 NS_ASSUME_NONNULL_BEGIN
