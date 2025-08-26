@@ -682,4 +682,27 @@ extension WordPressComRestApi: WordPressComRESTAPIInterfacing {
             failure: failure as FailureReponseBlock
         )
     }
+
+    @objc public func unknownResponseError() -> any Error {
+        NSError(
+            domain: WordPressComRestApiEndpointError.errorDomain,
+            code: WordPressComRestApiErrorCode.unknown.rawValue,
+            userInfo: [
+                WordPressComRestApi.ErrorKeyErrorMessage: NSLocalizedString("Unknown error", comment: "Unknown error"),
+                NSLocalizedDescriptionKey: NSLocalizedString("Unknown error", comment: "Unknown error")
+            ]
+        )
+    }
+
+    @objc public func uploadFailedErrorCode() -> Int {
+        WordPressComRestApiErrorCode.uploadFailed.rawValue
+    }
+
+    @objc public func errorCodeKey() -> String {
+        Self.ErrorKeyErrorCode
+    }
+
+    @objc public func errorMessageKey() -> String {
+        Self.ErrorKeyErrorMessage
+    }
 }

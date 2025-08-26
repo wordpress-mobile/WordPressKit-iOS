@@ -230,7 +230,7 @@ open class WordPressOrgXMLRPCValidator: NSObject {
             }, failure: { (error, httpResponse) in
                 if httpResponse?.url != url {
                     // we where redirected, let's check the answer content
-                    if let data = error.userInfo[WordPressOrgXMLRPCApi.WordPressOrgXMLRPCApiErrorKeyData as String] as? Data,
+                    if let data = (error as NSError).userInfo[WordPressOrgXMLRPCApi.WordPressOrgXMLRPCApiErrorKeyData as String] as? Data,
                         let responseString = String(data: data, encoding: String.Encoding.utf8), responseString.range(of: "<meta name=\"GENERATOR\" content=\"www.dudamobile.com\">") != nil
                             || responseString.range(of: "dm404Container") != nil {
                         failure(WordPressOrgXMLRPCValidatorError.mobilePluginRedirectedError as NSError)
@@ -255,7 +255,7 @@ open class WordPressOrgXMLRPCValidator: NSObject {
                 case .some(WordPressOrgXMLRPCValidatorError.blocked.rawValue):
                     failure(WordPressOrgXMLRPCValidatorError.blocked as NSError)
                 default:
-                    failure(error)
+                    failure(error as NSError)
                 }
             })
     }

@@ -27,4 +27,9 @@
                                 success:(void (^ _Nonnull)(id _Nonnull, NSHTTPURLResponse * _Nullable))success
                                 failure:(void (^ _Nonnull)(NSError * _Nonnull, NSHTTPURLResponse * _Nullable))failure;
 
+- (NSError * _Nonnull)unknownResponseError;
+- (NSInteger)uploadFailedErrorCode;
+- (NSString * _Nonnull)errorCodeKey;
+- (NSString * _Nonnull)errorMessageKey;
+
 @end

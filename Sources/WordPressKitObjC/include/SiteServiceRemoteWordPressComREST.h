@@ -7,8 +7,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, readonly) NSNumber *siteID;
 
-- (instancetype)initWithWordPressComRestApi:(WordPressComRestApi *)api __unavailable;
-- (instancetype)initWithWordPressComRestApi:(WordPressComRestApi *)api siteID:(NSNumber *)siteID;
+- (instancetype)initWithWordPressComRestApi:(id<WordPressComRESTAPIInterfacing>)api __unavailable;
+- (instancetype)initWithWordPressComRestApi:(id<WordPressComRESTAPIInterfacing>)api siteID:(NSNumber *)siteID;
 
 @end
 

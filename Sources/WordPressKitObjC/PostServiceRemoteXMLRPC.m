@@ -6,6 +6,7 @@
 #import "WPMapFilterReduce.h"
 #import "DisplayableImageHelper.h"
 
+@import WordPressKitModels;
 @import NSObject_SafeExpectations;
 
 const NSInteger HTTP404ErrorCode = 404;

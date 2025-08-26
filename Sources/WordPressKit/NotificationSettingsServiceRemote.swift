@@ -5,14 +5,6 @@ import WordPressKitObjC
 /// Here we'll deal mostly with the Settings / Push Notifications API.
 ///
 open class NotificationSettingsServiceRemote: ServiceRemoteWordPressComREST {
-    /// Designated Initializer. Fails if the remoteApi is nil.
-    ///
-    /// - Parameter wordPressComRestApi: A Reference to the WordPressComRestApi that should be used to interact with WordPress.com
-    ///
-    public override init(wordPressComRestApi: WordPressComRestApi) {
-        super.init(wordPressComRestApi: wordPressComRestApi)
-    }
-
     /// Retrieves all of the Notification Settings
     ///
     /// - Parameters:

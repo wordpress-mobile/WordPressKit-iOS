@@ -2,7 +2,7 @@
 
 @interface ServiceRemoteWordPressXMLRPC()
 
-@property (nonatomic, strong, readwrite) WordPressOrgXMLRPCApi *api;
+@property (nonatomic, strong, readwrite) id<WordPressOrgXMLRPCApiInterfacing> api;
 @property (nonatomic, copy) NSString *username;
 @property (nonatomic, copy) NSString *password;
 
@@ -10,7 +10,7 @@
 
 @implementation ServiceRemoteWordPressXMLRPC
 
-- (id)initWithApi:(WordPressOrgXMLRPCApi *)api username:(NSString *)username password:(NSString *)password
+- (id)initWithApi:(id<WordPressOrgXMLRPCApiInterfacing>)api username:(NSString *)username password:(NSString *)password
 {
     NSParameterAssert(api != nil);
     NSParameterAssert(username != nil);

@@ -249,7 +249,7 @@ const NSInteger WPRestErrorCodeMediaNew = 10;
         }
         NSDictionary *errorDictionary = @{NSLocalizedDescriptionKey: errorMessage};
         error = [[NSError alloc] initWithDomain:WordPressComRestApiErrorDomain
-                                           code:WordPressComRestApiErrorCodeUploadFailed
+                                           code:self.wordPressComRESTAPI.uploadFailedErrorCode
                                        userInfo:errorDictionary];
     }
     return error;
@@ -302,10 +302,7 @@ const NSInteger WPRestErrorCodeMediaNew = 10;
                                    }
                                } else {
                                    if (failure) {
-                                       NSError *error = [[NSError alloc] initWithDomain:WordPressComRestApiErrorDomain
-                                                                                   code:WordPressComRestApiErrorCodeUnknown
-                                                                               userInfo:nil];
-                                       failure(error);
+                                       failure(self.wordPressComRESTAPI.unknownResponseError);
                                    }
                                }
                            } failure:^(NSError *error, NSHTTPURLResponse *response) {
@@ -375,10 +372,7 @@ const NSInteger WPRestErrorCodeMediaNew = 10;
                                    }
                                } else {
                                    if (failure) {
-                                       NSError *error = [[NSError alloc] initWithDomain:WordPressComRestApiErrorDomain
-                                                                                   code:WordPressComRestApiErrorCodeUnknown
-                                                                               userInfo:nil];
-                                       failure(error);
+                                       failure(self.wordPressComRESTAPI.unknownResponseError);
                                    }
                                }
                            } failure:^(NSError *error, NSHTTPURLResponse *response) {

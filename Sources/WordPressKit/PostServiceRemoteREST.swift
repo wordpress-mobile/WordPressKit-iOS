@@ -38,7 +38,7 @@ extension PostServiceRemoteREST {
             parameters["exclude"] = excludeUserIDs
         }
 
-        wordPressComRestAPI.get(requestUrl,
+        wordPressComRESTAPI.get(requestUrl,
                                parameters: parameters,
                                success: { (responseObject, httpResponse) in
             if let success {

@@ -175,15 +175,7 @@
     void (^successBlock)(id, NSHTTPURLResponse *) = ^(id responseObject, NSHTTPURLResponse *httpResponse) {
         NSDictionary *response = responseObject;
         if ([response count] == 0) {
-            // There was an error creating the blog as a successful call yields a dictionary back.
-            NSString *localizedErrorMessage = NSLocalizedString(@"Unknown error", nil);
-            NSMutableDictionary *userInfo = [[NSMutableDictionary alloc] init];
-            userInfo[WordPressComRestApi.ErrorKeyErrorMessage] = localizedErrorMessage;
-            userInfo[NSLocalizedDescriptionKey] = localizedErrorMessage;
-            NSError *errorWithLocalizedMessage = [[NSError alloc] initWithDomain:WordPressComRestApiErrorDomain
-                                                                            code:WordPressComRestApiErrorCodeUnknown
-                                                                        userInfo:userInfo];
-            failure(errorWithLocalizedMessage);
+            failure([self.wordPressComRESTAPI unknownResponseError]);
         } else {
             success(responseObject);
         }
@@ -230,13 +222,13 @@
 - (NSError *)errorWithLocalizedMessage:(NSError *)error {
     NSError *errorWithLocalizedMessage = error;
     if ([error.domain isEqual:WordPressComRestApiErrorDomain] &&
-        [error.userInfo objectForKey:WordPressComRestApi.ErrorKeyErrorCode] != nil) {
+        [error.userInfo objectForKey:self.wordPressComRESTAPI.errorCodeKey] != nil) {
 
         NSString *localizedErrorMessage = [self errorMessageForError:error];
-        NSString *errorCode = [error.userInfo objectForKey:WordPressComRestApi.ErrorKeyErrorCode];
+        NSString *errorCode = [error.userInfo objectForKey:self.wordPressComRESTAPI.errorCodeKey];
         NSMutableDictionary *userInfo = [[NSMutableDictionary alloc] initWithDictionary:error.userInfo];
-        userInfo[WordPressComRestApi.ErrorKeyErrorCode] = errorCode;
-        userInfo[WordPressComRestApi.ErrorKeyErrorMessage] = localizedErrorMessage;
+        userInfo[self.wordPressComRESTAPI.errorCodeKey] = errorCode;
+        userInfo[self.wordPressComRESTAPI.errorMessageKey] = localizedErrorMessage;
         userInfo[NSLocalizedDescriptionKey] = localizedErrorMessage;
         errorWithLocalizedMessage = [[NSError alloc] initWithDomain:error.domain code:error.code userInfo:userInfo];
     }
@@ -245,7 +237,7 @@
 
 - (NSString *)errorMessageForError:(NSError *)error
 {
-    NSString *errorCode = [error.userInfo stringForKey:WordPressComRestApi.ErrorKeyErrorCode];
+    NSString *errorCode = [error.userInfo stringForKey:self.wordPressComRESTAPI.errorCodeKey];
     NSString *errorMessage = [[error.userInfo stringForKey:NSLocalizedDescriptionKey] wpkit_stringByStrippingHTML];
 
     if ([errorCode isEqualToString:@"username_only_lowercase_letters_and_numbers"]) {

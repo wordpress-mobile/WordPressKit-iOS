@@ -5,7 +5,7 @@ import WordPressKitObjC
 extension PostServiceRemoteXMLRPC: PostServiceRemoteExtended {
     public func post(withID postID: Int) async throws -> RemotePost {
         let parameters = xmlrpcArguments(withExtra: postID) as [AnyObject]
-        let result = await api.call(method: "wp.getPost", parameters: parameters)
+        let result = await xmlrpcApi.call(method: "wp.getPost", parameters: parameters)
         switch result {
         case .success(let response):
             return try await decodePost(from: response.body)
@@ -20,7 +20,7 @@ extension PostServiceRemoteXMLRPC: PostServiceRemoteExtended {
     public func createPost(with parameters: RemotePostCreateParameters) async throws -> RemotePost {
         let dictionary = try makeParameters(from: RemotePostCreateParametersXMLRPCEncoder(parameters: parameters))
         let parameters = xmlrpcArguments(withExtra: dictionary) as [AnyObject]
-        let response = try await api.call(method: "wp.newPost", parameters: parameters).get()
+        let response = try await xmlrpcApi.call(method: "wp.newPost", parameters: parameters).get()
         guard let postID = (response.body as? NSObject)?.wpkit_numericValue() else {
             throw URLError(.unknown) // Should never happen
         }
@@ -30,7 +30,7 @@ extension PostServiceRemoteXMLRPC: PostServiceRemoteExtended {
     public func patchPost(withID postID: Int, parameters: RemotePostUpdateParameters) async throws -> RemotePost {
         let dictionary = try makeParameters(from: RemotePostUpdateParametersXMLRPCEncoder(parameters: parameters))
         let parameters = xmlrpcArguments(withExtraDefaults: [postID as NSNumber], andExtra: dictionary) as [AnyObject]
-        let result = await api.call(method: "wp.editPost", parameters: parameters)
+        let result = await xmlrpcApi.call(method: "wp.editPost", parameters: parameters)
         switch result {
         case .success:
             return try await post(withID: postID)
@@ -48,7 +48,7 @@ extension PostServiceRemoteXMLRPC: PostServiceRemoteExtended {
 
     public func deletePost(withID postID: Int) async throws {
         let parameters = xmlrpcArguments(withExtra: postID) as [AnyObject]
-        let result = await api.call(method: "wp.deletePost", parameters: parameters)
+        let result = await xmlrpcApi.call(method: "wp.deletePost", parameters: parameters)
         switch result {
         case .success:
             return

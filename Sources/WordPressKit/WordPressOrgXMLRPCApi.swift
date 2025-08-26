@@ -2,9 +2,9 @@ import Foundation
 import wpxmlrpc
 
 /// Class to connect to the XMLRPC API on self hosted sites.
-open class WordPressOrgXMLRPCApi: NSObject {
-    public typealias SuccessResponseBlock = (AnyObject, HTTPURLResponse?) -> Void
-    public typealias FailureReponseBlock = (_ error: NSError, _ httpResponse: HTTPURLResponse?) -> Void
+open class WordPressOrgXMLRPCApi: NSObject, WordPressOrgXMLRPCApiInterfacing {
+    public typealias SuccessResponseBlock = (Any, HTTPURLResponse?) -> Void
+    public typealias FailureReponseBlock = (_ error: any Error, _ httpResponse: HTTPURLResponse?) -> Void
 
     @available(*, deprecated, message: "This property is no longer being used because WordPressKit now sends all HTTP requests using `URLSession` directly.")
     public static var useURLSession = true
@@ -126,10 +126,12 @@ open class WordPressOrgXMLRPCApi: NSObject {
      returns nil it's because something happened on the request serialization and the network request was not started, but the failure callback
      will be invoked with the error specificing the serialization issues.
      */
-    @objc @discardableResult open func callMethod(_ method: String,
-                           parameters: [AnyObject]?,
-                           success: @escaping SuccessResponseBlock,
-                           failure: @escaping FailureReponseBlock) -> Progress? {
+    @objc @discardableResult open func callMethod(
+        _ method: String,
+        parameters: [Any]?,
+        success: @escaping (Any, HTTPURLResponse?) -> Void,
+        failure: @escaping (any Error, HTTPURLResponse?) -> Void
+    ) -> Progress {
         let progress = Progress.discreteProgress(totalUnitCount: 100)
         Task { @MainActor in
             let result = await self.call(method: method, parameters: parameters, fulfilling: progress, streaming: false)
@@ -156,10 +158,11 @@ open class WordPressOrgXMLRPCApi: NSObject {
      returns nil it's because something happened on the request serialization and the network request was not started, but the failure callback
      will be invoked with the error specificing the serialization issues.
      */
-    @objc @discardableResult open func streamCallMethod(_ method: String,
-                                 parameters: [AnyObject]?,
-                                 success: @escaping SuccessResponseBlock,
-                                 failure: @escaping FailureReponseBlock) -> Progress? {
+    @objc @discardableResult open func streamCallMethod(
+        _ method: String, parameters: [Any]?,
+        success: @escaping (Any, HTTPURLResponse?) -> Void,
+        failure: @escaping (any Error, HTTPURLResponse?) -> Void
+    ) -> Progress {
         let progress = Progress.discreteProgress(totalUnitCount: 100)
         Task { @MainActor in
             let result = await self.call(method: method, parameters: parameters, fulfilling: progress, streaming: true)
@@ -184,7 +187,7 @@ open class WordPressOrgXMLRPCApi: NSObject {
     /// - Parameters:
     ///   - streaming: set to `true` if there are large data (i.e. uploading files) in given `parameters`. `false` by default.
     /// - Returns: A `Result` type that contains the XMLRPC success or failure result.
-    func call(method: String, parameters: [AnyObject]?, fulfilling progress: Progress? = nil, streaming: Bool = false) async -> WordPressAPIResult<HTTPAPIResponse<AnyObject>, WordPressOrgXMLRPCApiFault> {
+    func call(method: String, parameters: [Any]?, fulfilling progress: Progress? = nil, streaming: Bool = false) async -> WordPressAPIResult<HTTPAPIResponse<AnyObject>, WordPressOrgXMLRPCApiFault> {
         let session = streaming ? uploadURLSession : urlSession
         let builder = HTTPRequestBuilder(url: endpoint)
             .method(.post)

@@ -2,8 +2,6 @@
 #import "WordPressComRESTAPIInterfacing.h"
 #import "WordPressComRESTAPIVersion.h"
 
-@class WordPressComRestApi;
-
 NS_ASSUME_NONNULL_BEGIN
 
 /**
@@ -11,12 +9,6 @@ NS_ASSUME_NONNULL_BEGIN
  *  @brief  Parent class for all REST service classes.
  */
 @interface ServiceRemoteWordPressComREST : NSObject
-
-/**
- *  @brief      The API object to use for communications.
- */
-// TODO: This needs to go before being able to put this ObjC in a package.
-@property (nonatomic, strong, readonly) WordPressComRestApi *wordPressComRestApi;
 
 /**
  *  @brief      The interface to the WordPress.com API to use for performing REST requests.
@@ -31,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @returns    The initialized object.
  */
-- (instancetype)initWithWordPressComRestApi:(WordPressComRestApi *)api;
+- (instancetype)initWithWordPressComRestApi:(id<WordPressComRESTAPIInterfacing>)api;
 
 #pragma mark - Request URL construction
 

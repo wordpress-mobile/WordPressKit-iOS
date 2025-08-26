@@ -1,14 +1,11 @@
 #import "ServiceRemoteWordPressComREST.h"
+#import "WordPressComRESTAPIVersionedPathBuilder.h"
 
 @implementation ServiceRemoteWordPressComREST
 
-- (instancetype)initWithWordPressComRestApi:(WordPressComRestApi *)wordPressComRestApi {
-
-    NSParameterAssert([wordPressComRestApi isKindOfClass:[WordPressComRestApi class]]);
-
+- (instancetype)initWithWordPressComRestApi:(id<WordPressComRESTAPIInterfacing>)wordPressComRestApi {
     self = [super init];
     if (self) {
-        _wordPressComRestApi = wordPressComRestApi;
         _wordPressComRESTAPI = wordPressComRestApi;
     }
     return self;
