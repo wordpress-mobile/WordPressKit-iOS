@@ -79,5 +79,4 @@ import Foundation
         }
         return remoteSettings
     }
-
 }

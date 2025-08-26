@@ -1,4 +1,5 @@
 import Foundation
+import NSObject_SafeExpectations
 
 @objcMembers public class RemoteReaderTopic: NSObject {
 

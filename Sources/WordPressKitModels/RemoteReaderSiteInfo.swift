@@ -1,5 +1,5 @@
 import Foundation
-@_implementationOnly import NSObject_SafeExpectations
+import NSObject_SafeExpectations
 
 // Site Topic Keys
 private let SiteDictionaryFeedIDKey = "feed_ID"

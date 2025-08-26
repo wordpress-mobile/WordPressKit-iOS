@@ -1,5 +1,4 @@
 import Foundation
-@_implementationOnly import NSObject_SafeExpectations
 
 /// This class encapsulates all of the *remote* Blog properties
 @objcMembers public class RemoteBlog: NSObject {

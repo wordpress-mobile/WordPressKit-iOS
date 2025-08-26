@@ -1,4 +1,5 @@
 import Foundation
+import WordPressKitObjCUtils
 
 /// This is an extension to NSString that provides logic to summarize HTML content,
 /// and convert HTML into plain text.
