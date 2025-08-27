@@ -1,4 +1,4 @@
-// swift-tools-version: 5.10
+// swift-tools-version: 6.1
 
 import PackageDescription
 
@@ -8,11 +8,41 @@ let package = Package(
     products: [
         .library(name: "WordPressKit", targets: ["WordPressKit"]),
     ],
+    dependencies: [
+        .package(url: "https://github.com/wordpress-mobile/NSObject-SafeExpectations", from: "0.0.6"),
+        .package(url: "https://github.com/wordpress-mobile/wpxmlrpc", from: "0.9.0"),
+    ],
     targets: [
-        .binaryTarget(
+        .target(
+            name: "WordPressKitObjCUtils",
+        ),
+        .target(
+            name: "WordPressKitModels",
+            dependencies: [
+                "NSObject-SafeExpectations",
+                "WordPressKitObjCUtils",
+            ]
+        ),
+        .target(
+            name: "WordPressKitObjC",
+            dependencies: [
+                "NSObject-SafeExpectations",
+                "wpxmlrpc",
+                "WordPressKitModels",
+                "WordPressKitObjCUtils",
+            ],
+            publicHeadersPath: "include"
+        ),
+        .target(
             name: "WordPressKit",
-            url: "https://github.com/user-attachments/files/21582269/WordPressKit.zip",
-            checksum: "cbfe79d7a4244302d308027ff329f1ccdfd1c604d990871359764eca567ea86f"
+            dependencies: [
+                "WordPressKitObjC",
+                "WordPressKitModels",
+                "WordPressKitObjCUtils",
+                "NSObject-SafeExpectations",
+                "wpxmlrpc",
+            ],
+            swiftSettings: [.swiftLanguageMode(.v5)]
         ),
     ]
 )
